@@ -9,6 +9,16 @@
 	)
 )
 
+(defun verbp (x)
+	(and
+		(symbolp x)
+		(equal
+			".v"
+			(subseq (string x) (- 2 (length (string x))) (length (string x)))
+		)
+	)
+)
+
 (defun print-ht (ht)
 (cond
 	((not (hashtablep ht)) (format t "	value ~s~%" ht))

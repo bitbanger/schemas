@@ -273,16 +273,22 @@
 	'(I.pro eat.v (k ham.n))
 
 	; inference rule
-	'(
+	(list
 		; match pattern
-		(?x eat.v (k ?y))
+		'(?x ?y ?z)
+
+		; variable constraints
+		(mk-hashtable (list
+			; y must be a verb symbol
+			(list
+				'?y
+				#'verbp
+			)
+		))
 
 		; inferent
-		(?x do.v (ka (eat.v (k ?y))))
+		'(?x do.v (ka (?y ?z)))
 	)
-
-	; variable constraints
-	nil
 
 	; desired result
 	'(I.pro do.v (ka (eat.v (k ham.n))))

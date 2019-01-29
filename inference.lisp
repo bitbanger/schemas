@@ -156,11 +156,12 @@
 )
 )
 
-(defun apply-inference-rule (formula rule constraints)
+(defun apply-inference-rule (formula rule)
 (block outer
 
 	(setf pattern (car rule))
-	(setf target (second rule))
+	(setf constraints (second rule))
+	(setf target (third rule))
 
 	(setf air-match-result (match-formula formula pattern constraints))
 

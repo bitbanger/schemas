@@ -1,5 +1,3 @@
-(declaim (sb-ext:muffle-conditions cl:warning))
-
 ; Inference rules are two-element lists.
 ;
 ; Each element is a list structure whose elements are either
@@ -88,145 +86,54 @@
 )
 
 (defun match-formula (formula pattern)
-	(match-formula-helper formula pattern (make-hash-table :test #'equal))
-)
+(progn
+	(setf mf-bind (make-hash-table :test #'equal))
 
+	(setf mf-result (match-formula-helper formula pattern mf-bind))
 
-
-
-(defun ht-eq-oneway (ht1 ht2)
-	(loop for key being the hash-keys of ht1
-		always (equal (gethash key ht1) (gethash key ht2))
-	)
-)
-
-(defun ht-eq (ht1 ht2)
-(cond
-	((and (null ht1) (null ht2))
-		t)
-
-	((and (null ht1) (not (null ht2)))
-		nil)
-
-	((and (not (null ht1)) (null ht2))
-		nil)
-
-	((and
-		(ht-eq-oneway ht1 ht2)
-		(ht-eq-oneway ht2 ht1)
-	) t)
-
-	(t nil)
-)
-)
-
-(defun print-ht (ht)
-(cond
-	((null ht) (format t "	nil~%"))
-
-	(t (loop for key being the hash-keys of ht
-		do (format t "	~s: ~s~%" key (gethash key ht))
-	))
-)
-)
-
-(defun mk-want-bind (pairs)
-(cond
-	((null pairs) nil)
-
-	(t (progn
-		(setf want-bind (make-hash-table :test #'equal))
-		(loop for pair in pairs
-			do (setf (gethash (car pair) want-bind) (second pair))
-		)
-		want-bind
-	))
-)
-)
-
-(defun test-match (got want-pairs)
 	(cond
-		((ht-eq got (mk-want-bind want-pairs))
-			(format t "PASS~%")
+		((null mf-result)
+			nil
 		)
 
-		(t
-			(progn
-				(format t "FAIL: got~%")
+		((equal 0 (length (loop for key being the hash-keys of mf-bind collect key)))
+			; there are no bindings; return t
+			t
+		)
 
-				(print-ht got)
+		(t mf-bind)
+	)
+)
+)
 
-				(format t "~%but wanted~%")
-				
-				(print-ht (mk-want-bind want-pairs))
 
-				(format t "~%")
-			)
+; apply-bindings rewrites all occurrences of bound variables in a pattern
+; with their bound values. variables are re-written recursively, and
+; cycles are assumed to not be present.
+(defun apply-bindings (pattern bindings)
+(cond
+	((null bindings)
+		pattern
+	)
+
+	((varp pattern)
+		(if (not (null (gethash pattern bindings)))
+			; bind it if we can
+			(apply-bindings (gethash pattern bindings) bindings)
+			; leave it free if we can't
+			pattern
+		)
+	)
+
+	((not (listp pattern))
+		pattern
+	)
+
+	(t
+		(loop for e in pattern
+			collect (apply-bindings e bindings)
 		)
 	)
 )
-
-; tests
-(test-match
-	; got
-	(match-formula
-		'(1 2 3 4)
-		'(1 2 ?x 4)
-	)
-
-	; want
-	'(
-		(?x 3)
-	)
-
 )
 
-(test-match
-	; got
-	(match-formula
-		'(1 2 3 4)
-		'(1 2 ?x ?x)
-	)
-
-	; want
-	nil
-)
-
-(test-match
-	; got
-	(match-formula
-		'(1 2 3 3)
-		'(1 2 ?x ?x)
-	)
-
-	; want
-	'(
-		(?x 3)
-	)
-)
-
-(test-match
-	; got
-	(match-formula
-		'(1 2 (4 5 6) 4)
-		'(1 2 (?x ?y ?z) ?x)
-	)
-
-	; want
-	'(
-		(?x 4)
-		(?y 5)
-		(?z 6)
-	)
-)
-
-(test-match
-	; got
-	(match-formula
-		'(1 2 (4 5 6) 7)
-		'(1 2 (?x ?y ?z) ?x)
-	)
-
-	; want
-	nil
-)

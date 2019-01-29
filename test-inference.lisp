@@ -89,9 +89,9 @@
 )
 
 
-(defun test-apply-inference-rule (formula rule constraints want)
+(defun test-apply-inference-rule (formula rule want)
 (progn
-	(setf got (apply-inference-rule formula rule constraints))
+	(setf got (apply-inference-rule formula rule))
 
 	(cond
 		((equal got want)
@@ -282,7 +282,7 @@
 			; y must be a verb symbol
 			(list
 				'?y
-				#'verbp
+				(list #'verbp)
 			)
 		))
 
@@ -292,4 +292,30 @@
 
 	; desired result
 	'(I.pro do.v (ka (eat.v (k ham.n))))
+)
+
+(test-apply-inference-rule
+	; formula to base inference on
+	'(I.pro eat-noun.n (k ham.n))
+
+	; inference rule
+	(list
+		; match pattern
+		'(?x ?y ?z)
+
+		; variable constraints
+		(mk-hashtable (list
+			; y must be a verb symbol
+			(list
+				'?y
+				(list #'verbp)
+			)
+		))
+
+		; inferent
+		'(?x do.v (ka (?y ?z)))
+	)
+
+	; desired result
+	nil
 )

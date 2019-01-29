@@ -44,14 +44,7 @@
 		; prevent infinite transformations of "do"-stacking
 		(not (do-wff? wff))
 
-		(equal
-			".v"
-
-			(subseq (string (second wff))
-				(- 2 (length (string (second wff))))
-				(length (string (second wff)))
-			)
-		)
+		(verbp (second wff))
 	)
 )
 

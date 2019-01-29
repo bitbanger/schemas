@@ -13,8 +13,12 @@
 	(and
 		(symbolp x)
 		(equal
-			".v"
-			(subseq (string x) (- 2 (length (string x))) (length (string x)))
+			".V"
+			(subseq
+				(string x)
+				(- (length (string x)) 2)
+				(length (string x))
+			)
 		)
 	)
 )

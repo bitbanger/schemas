@@ -34,6 +34,7 @@
 (defun meets-constraint-preds (formula preds)
 (progn
 	(loop for pred in preds
+		; do (format t "(~s ~s): ~s~%" pred formula (funcall pred formula))
 		always (funcall pred formula)
 	)
 )

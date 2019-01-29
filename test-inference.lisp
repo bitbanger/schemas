@@ -99,9 +99,9 @@
 )
 
 
-(defun test-apply-inference-rule (formula rule want)
+(defun test-apply-inference-rule (formula rule predicates want)
 (progn
-	(setf got (apply-inference-rule formula rule))
+	(setf got (apply-inference-rule formula rule predicates))
 
 	(cond
 		((equal got want)
@@ -126,6 +126,7 @@
 	(match-formula
 		1
 		1
+		nil
 	)
 
 	t
@@ -136,6 +137,7 @@
 	(match-formula
 		'(1 2 3 4)
 		'(1 2 ?x 4)
+		nil
 	)
 
 	; want
@@ -150,6 +152,7 @@
 	(match-formula
 		'(1 2 3 4)
 		'(1 2 ?x ?x)
+		nil
 	)
 
 	; want
@@ -161,6 +164,7 @@
 	(match-formula
 		'(1 2 3 3)
 		'(1 2 ?x ?x)
+		nil
 	)
 
 	; want
@@ -174,6 +178,7 @@
 	(match-formula
 		'(1 2 (4 5 6) 4)
 		'(1 2 (?x ?y ?z) ?x)
+		nil
 	)
 
 	; want
@@ -189,6 +194,7 @@
 	(match-formula
 		'(1 2 (4 5 6) 7)
 		'(1 2 (?x ?y ?z) ?x)
+		nil
 	)
 
 	; want
@@ -236,6 +242,9 @@
 		; inferent
 		(?x do.v (ka (eat.v (k ?y))))
 	)
+
+	; variable predicates
+	nil
 
 	; desired result
 	'(I.pro do.v (ka (eat.v (k ham.n))))

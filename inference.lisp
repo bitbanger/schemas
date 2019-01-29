@@ -1,3 +1,5 @@
+(load "real_util.lisp")
+
 ; Inference rules are two-element lists.
 ;
 ; Each element is a list structure whose elements are either
@@ -29,6 +31,14 @@
 	)
 )
 
+(defun meets-constraint-preds (formula preds)
+(progn
+	(loop for pred in preds
+		always (funcall pred formula)
+	)
+)
+)
+
 (defun match-formula-helper (formula pattern bindings predicates)
 (block outer
 	(cond
@@ -37,10 +47,16 @@
 		((varp pattern)
 		(progn
 			(if (null (gethash pattern bindings))
-				; it's unbound
-				(progn
-					(setf (gethash pattern bindings) formula)
-					bindings
+				; it's unbound; bind it if the value meets any constraint
+				; predicates for the variable
+				(if (meets-constraint-preds formula (gethash pattern predicates))
+					; it meets the constraints; bind it
+					(progn
+						(setf (gethash pattern bindings) formula)
+						bindings
+					)
+					; doesn't meet constraints; don't bind it
+					nil
 				)
 				; it's bound; check if we're consistent
 				(if (equal formula (gethash pattern bindings))
@@ -87,8 +103,11 @@
 
 (defun match-formula (formula pattern predicates)
 (progn
-	(setf mf-bind (make-hash-table :test #'equal))
+	(if (not (hashtablep predicates))
+		(setf predicates (make-hash-table :test #'equal))
+	)
 
+	(setf mf-bind (make-hash-table :test #'equal))
 	(setf mf-result (match-formula-helper formula pattern mf-bind predicates))
 
 	(cond

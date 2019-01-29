@@ -30,17 +30,7 @@
 )
 )
 
-(defun print-ht (ht)
-(cond
-	((not (hashtablep ht)) (format t "	value ~s~%" ht))
-
-	(t (loop for key being the hash-keys of ht
-		do (format t "	~s: ~s~%" key (gethash key ht))
-	))
-)
-)
-
-(defun mk-want-bind (pairs)
+(defun mk-hashtable (pairs)
 (cond
 	((equal pairs t) t)
 
@@ -58,7 +48,7 @@
 
 (defun test-match (got want-pairs)
 	(cond
-		((ht-eq got (mk-want-bind want-pairs))
+		((ht-eq got (mk-hashtable want-pairs))
 			(format t "PASS~%")
 		)
 
@@ -70,7 +60,7 @@
 
 				(format t "~%but wanted~%")
 				
-				(print-ht (mk-want-bind want-pairs))
+				(print-ht (mk-hashtable want-pairs))
 
 				(format t "~%")
 			)
@@ -81,7 +71,7 @@
 
 (defun test-apply-bindings (pattern binding-pairs want)
 (progn
-	(setf got (apply-bindings pattern (mk-want-bind binding-pairs)))
+	(setf got (apply-bindings pattern (mk-hashtable binding-pairs)))
 
 	(cond
 		((equal got want)
@@ -195,6 +185,54 @@
 		'(1 2 (4 5 6) 7)
 		'(1 2 (?x ?y ?z) ?x)
 		nil
+	)
+
+	; want
+	nil
+)
+
+(test-match
+	; got
+	(match-formula
+		'(1 2 (4 5 ?a) 4)
+		'(1 2 (?x ?y ?z) ?x)
+
+		; constraints
+		(mk-hashtable (list
+			(list
+				'?x
+				; one constraint: x must be EVEN
+				(list
+					(lambda (x) (equal 0 (mod x 2)))
+				)
+			)
+		))
+	)
+
+	; want
+	'(
+		(?x 4)
+		(?y 5)
+		(?z ?a)
+	)
+)
+
+(test-match
+	; got
+	(match-formula
+		'(1 2 (4 5 ?a) 4)
+		'(1 2 (?x ?y ?z) ?x)
+
+		; constraints
+		(mk-hashtable (list
+			(list
+				'?x
+				(list
+					; one constraint: x must be ODD
+					(lambda (x) (equal 1 (mod x 2)))
+				)
+			)
+		))
 	)
 
 	; want

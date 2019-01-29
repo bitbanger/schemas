@@ -137,3 +137,25 @@
 )
 )
 
+(defun apply-inference-rule (formula rule)
+(block outer
+
+	(setf pattern (car rule))
+	(setf target (second rule))
+
+	(setf air-match-result (match-formula formula pattern))
+
+	(cond
+		((not (null air-match-result))
+			(apply-bindings
+				target
+				air-match-result
+			)
+		)
+
+		(t
+			nil
+		)
+	)
+)
+)

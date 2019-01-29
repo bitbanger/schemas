@@ -99,6 +99,25 @@
 )
 
 
+(defun test-apply-inference-rule (formula rule want)
+(progn
+	(setf got (apply-inference-rule formula rule))
+
+	(cond
+		((equal got want)
+			(format t "PASS~%")
+		)
+
+		(t
+			(format t "FAIL: got~%")
+			(format t "~s~%" got)
+			(format t "~%but wanted~%")
+			(format t "~s~%" want)
+		)
+	)
+)
+)
+
 
 
 (format t "match-formula tests:~%")
@@ -192,6 +211,7 @@
 
 	'(1 2 3 4)
 )
+
 (test-apply-bindings
 	'(1 2 (?x ?y ?z) ?x)
 	'(
@@ -200,4 +220,23 @@
 	)
 
 	'(1 2 (3 ?y (3 3 3)) 3)
+)
+
+
+(format t "apply-inference-rule tests:~%")
+(test-apply-inference-rule
+	; formula to base inference on
+	'(I.pro eat.v (k ham.n))
+
+	; inference rule
+	'(
+		; match pattern
+		(?x eat.v (k ?y))
+
+		; inferent
+		(?x do.v (ka (eat.v (k ?y))))
+	)
+
+	; desired result
+	'(I.pro do.v (ka (eat.v (k ham.n))))
 )

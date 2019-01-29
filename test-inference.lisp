@@ -89,9 +89,9 @@
 )
 
 
-(defun test-apply-inference-rule (formula rule predicates want)
+(defun test-apply-inference-rule (formula rule constraints want)
 (progn
-	(setf got (apply-inference-rule formula rule predicates))
+	(setf got (apply-inference-rule formula rule constraints))
 
 	(cond
 		((equal got want)
@@ -281,7 +281,7 @@
 		(?x do.v (ka (eat.v (k ?y))))
 	)
 
-	; variable predicates
+	; variable constraints
 	nil
 
 	; desired result

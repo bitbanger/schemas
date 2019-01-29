@@ -39,7 +39,7 @@
 )
 )
 
-(defun match-formula-helper (formula pattern bindings predicates)
+(defun match-formula-helper (formula pattern bindings constraints)
 (block outer
 	(cond
 		; If pattern is a variable, we'll bind it to the formula if we can.
@@ -49,7 +49,7 @@
 			(if (null (gethash pattern bindings))
 				; it's unbound; bind it if the value meets any constraint
 				; predicates for the variable
-				(if (meets-constraint-preds formula (gethash pattern predicates))
+				(if (meets-constraint-preds formula (gethash pattern constraints))
 					; it meets the constraints; bind it
 					(progn
 						(setf (gethash pattern bindings) formula)
@@ -85,7 +85,7 @@
 				(equal (length formula) (length pattern))
 				(loop for e1 in formula
 					for e2 in pattern
-						always (not (null (match-formula-helper e1 e2 bindings predicates)))
+						always (not (null (match-formula-helper e1 e2 bindings constraints)))
 					)
 				)
 				; the lists did match
@@ -101,14 +101,14 @@
 )
 )
 
-(defun match-formula (formula pattern predicates)
+(defun match-formula (formula pattern constraints)
 (progn
-	(if (not (hashtablep predicates))
-		(setf predicates (make-hash-table :test #'equal))
+	(if (not (hashtablep constraints))
+		(setf constraints (make-hash-table :test #'equal))
 	)
 
 	(setf mf-bind (make-hash-table :test #'equal))
-	(setf mf-result (match-formula-helper formula pattern mf-bind predicates))
+	(setf mf-result (match-formula-helper formula pattern mf-bind constraints))
 
 	(cond
 		((null mf-result)
@@ -156,13 +156,13 @@
 )
 )
 
-(defun apply-inference-rule (formula rule predicates)
+(defun apply-inference-rule (formula rule constraints)
 (block outer
 
 	(setf pattern (car rule))
 	(setf target (second rule))
 
-	(setf air-match-result (match-formula formula pattern predicates))
+	(setf air-match-result (match-formula formula pattern constraints))
 
 	(cond
 		((not (null air-match-result))

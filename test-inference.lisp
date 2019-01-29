@@ -268,6 +268,8 @@
 
 
 (format t "apply-inference-rule tests:~%")
+
+; the verb predicate should allow a verb binding
 (test-apply-inference-rule
 	; formula to base inference on
 	'(I.pro eat.v (k ham.n))
@@ -294,6 +296,7 @@
 	'(I.pro do.v (ka (eat.v (k ham.n))))
 )
 
+; the verb predicate should reject a noun binding
 (test-apply-inference-rule
 	; formula to base inference on
 	'(I.pro eat-noun.n (k ham.n))

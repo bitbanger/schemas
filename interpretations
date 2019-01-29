@@ -1,0 +1,81 @@
+Here is May with her kitten. Her mother gave the kitten to her. She is kind to the pretty kitten. She likes to see it jump and play. See it run with May's ball! It does not run far with it. If May can get the ball she will not take it. She will give it to the kitten to play with.
+
+"Here is May with her kitten"
+
+For this first sentence, I'll explain some of the issues that arise.
+The Charniak parse is
+
+  (S1
+    (SINV (ADVP (RB HERE)) (AUX IS)
+     (NP (NP (NNP MAY)) (PP (IN WITH) (NP (PRP$ HER) (NNS KITTEN)))))).
+
+  (AUX IS) is incorrect, and because auxiliary "be" is a VP modifier,
+  expecting a VP operand, this screws things up royally. So I substituted
+  "goes" for "is". In addition, my code interprets "May" as a temporal NP,
+  so I changed it to "Mary". Also, note that "kitten" is wrongly parsed as
+  plural by Charniak, so I changed "kitten" to "cat".
+
+    (HERE.ADV
+      (SOME E0 (E0 AT-ABOUT NOW0)
+            (SOME Y
+                  ((Y = MARY.NAME) AND
+                   (THE Z ((Z CAT.N) AND (Z PERTAIN-TO MARY.NAME))
+                        (Y WITH.P Z)))
+                  ((Y GO.V) ** E0)))))
+  This didn't get further canonicalized because adverbials like HERE.ADV
+  are not yet being deindexed, and so the canonicalization routines can't
+  assume this is transparent -- it could be a modal, like MAYBE.ADV, which
+  blocks canonicalization. We should get (for the original sentence, but
+  I'm omitting "ORIENTS" relations):
+
+  ((E1.SK AT-ABOUT NOW0) 
+   (KITTEN3.SK KITTEN.N)
+   (KITTEN3.SK PERTAIN-TO MAY.NAME) 
+   (MAY.NAME WITH.P KITTEN3.SK)
+   ((MAY.NAME BE.V) ** E1.SK))
+
+"Her mother gave the kitten to her."  
+                               [NB: Coreferences remain to be resolved.]
+    ((E4.SK BEFORE NOW1) 
+     (MOTHER5.SK MOTHER.N)
+     (MOTHER5.SK MOTHER-OF.N SHE.PRO) 
+     (KITTEN6.SK KITTEN.N)
+     ((MOTHER5.SK GIVE-TO.V SHE.PRO KITTEN6.SK) ** E4.SK))
+
+"She is kind to the pretty kitten."
+
+    ((E7.SK AT-ABOUT NOW2) 
+     (KITTEN9.SK (PRETTY.A KITTEN.N)) 
+     ((SHE.PRO ((ADV-A (TO.P KITTEN9.SK)) (BE.V KIND.A))) ** E7.SK))
+
+"She likes to see it jump and play."
+
+    ((E10.SK AT-ABOUT NOW3)
+     ((SHE.PRO (LIKE.V (KA (L X ((X SEE.V IT.PRO JUMP.V) AND.CC 
+                                 (X SEE.V IT.PRO PLAY.V)))))) ** E10.SK))
+
+"See it run with May's ball!"
+
+    ((BALL11.SK BALL.N)
+     (BALL11.SK PERTAIN-TO MAY.NAME)
+     ((({YOU}.PRO SEE.V IT.PRO ((ADV-A (WITH.P BALL11.SK)) RUN.V)) ** E12.SK) !))
+
+"It does not run far with it."
+
+   ((NOT (SOME E4 (E4 AT-ABOUT NOW5)
+                  ((IT.PRO (FAR.ADV (ADV-A (WITH.P IT.PRO)) RUN.V)) ** E4))))
+
+"If May can get the ball she will not take it."
+
+   ((E11.SK AT-ABOUT NOW6)
+    (BALL13.SK BALL.N)
+    (((IF.PS (MAY.NAME (CAN.MD (GET.V BALL13.SK))))
+      (NOT (WILL.MD (SHE.PRO TAKE.V IT.PRO)))) ** E11.SK))
+      
+"She will give it to the kitten to play with."
+
+  ((E13.SK AT-ABOUT NOW7)
+   (KITTEN14.SK KITTEN.N)
+   ((WILL.MD (SHE.PRO ((ADV-A (FOR.P (KA (PLAY-WITH.V IT.PRO))))
+                       (GIVE-TO.V KITTEN14.SK IT.PRO)))) ** E13.SK))
+  

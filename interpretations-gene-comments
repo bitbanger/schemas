@@ -1,0 +1,154 @@
+;; GK, top-level notes
+;; 
+;; So it seems we're not factoring out actions like full ELF would have, rather
+;;   keeping them in ULF-like form (e.g. ((adv-a (to.p kitten.sk)) (be.v kind.a))
+;;   rather than ([agent | (be.v kind.a)] (to.p kitten.sk))). 
+;;
+;; Some of the adverb extensions are also ambiguous, is that on purpose? (e.g.
+;;   far.adv).  It seems from your comment that here.adv is on purpose.
+;;
+;; I have reservations about how we handle be.v, see notes below in line.
+;;
+;; Most generally, I'm wondering exactly what parts of the interpretation
+;;   process are completed and what parts are not completed.  Here's what I see so far:
+;;  Completed: 
+;;    scoping
+;;      quantifier scoping (e.g. (some e4 ..))
+;;      auxiliary scoping (E.g. will.aux-s lifted and written as will.md)
+;;      adverb scoping? (e.g. (he.pro surprisingly.adv-s ..) -> (surprisingly.adv-s (he.pro ..)))
+;;    skolemization, 
+;;    canonicalization, 
+;;    event deindexing, 
+;;    [prepositional arguments to word-sense disambiguation? 
+;;        e.g. (give.v it.pro (to.p-arg her.pro)) -> (give-to.v her.pro it.pro)], 
+;;    conjunction expansion (this is a ULF post-processing step, e.g. 
+;;        (see.v it.pro (jump.v and.cc play.v)) 
+;;          -> (l x ((x see.v it.pro jump.v) and.cc (x see.v it.pro play.v))) 
+;;        * couldn't this also be (see.v it.pro (l x ((x jump.v) and.cc (x play.v))))? 
+;;
+;;  Not complete:
+;;    explicit action pairs, 
+;;    entity coreference, 
+;;    event ordering/coreference, 
+;;    [implicit type shifters? e.g. (pretty.a kitten.n) -> ((attr pretty.a) kitten.n)
+;;      This is a ULF post-processing step so I think this should be completed already
+;;      for these interpretations.]
+;;
+
+
+
+Here is May with her kitten. Her mother gave the kitten to her. She is kind to
+the pretty kitten. She likes to see it jump and play. See it run with May's
+ball! It does not run far with it. If May can get the ball she will not take
+it. She will give it to the kitten to play with.
+
+"Here is May with her kitten"
+
+For this first sentence, I'll explain some of the issues that arise.
+The Charniak parse is
+
+  (S1
+    (SINV (ADVP (RB HERE)) (AUX IS)
+     (NP (NP (NNP MAY)) (PP (IN WITH) (NP (PRP$ HER) (NNS KITTEN)))))).
+
+  (AUX IS) is incorrect, and because auxiliary "be" is a VP modifier,
+  expecting a VP operand, this screws things up royally. So I substituted
+  "goes" for "is". In addition, my code interprets "May" as a temporal NP,
+  so I changed it to "Mary". Also, note that "kitten" is wrongly parsed as
+  plural by Charniak, so I changed "kitten" to "cat".
+
+    (HERE.ADV
+      (SOME E0 (E0 AT-ABOUT NOW0)
+            (SOME Y
+                  ((Y = MARY.NAME) AND
+                   (THE Z ((Z CAT.N) AND (Z PERTAIN-TO MARY.NAME))
+                        (Y WITH.P Z)))
+                  ((Y GO.V) ** E0)))))
+  This didn't get further canonicalized because adverbials like HERE.ADV
+  are not yet being deindexed, and so the canonicalization routines can't
+  assume this is transparent -- it could be a modal, like MAYBE.ADV, which
+  blocks canonicalization. We should get (for the original sentence, but
+  I'm omitting "ORIENTS" relations):
+
+  ((E1.SK AT-ABOUT NOW0) 
+   (KITTEN3.SK KITTEN.N)
+   (KITTEN3.SK PERTAIN-TO MAY.NAME) 
+   (MAY.NAME WITH.P KITTEN3.SK)
+   ((MAY.NAME BE.V) ** E1.SK))
+
+;; GK: Do we really want ((MAY.NAME BE.V) ** E1.SK)?
+;;     I've recently been thinking of "be" as a transparent predicate
+;;     applying operator except in cases really explicitly talking about existing (e.g. "I think therefore I am").
+;;     So I would rewrite this so that the event is written as ((MAY.NAME WITH.P KITTEN3.SK) ** E1.SK) and remove the
+;;     last predicate.  Unless, there's a reason why it is inappropriate to treat the preposition as the event.
+;;     To make my issue with this clearer is that "**" means that this event is characterized by "May being".  If
+;;     that's the case, when does this event end characterized by "being" end?  It seems the "with" needs to be part 
+;;     of the characterizing sentence, at least in some way.  For example, consider these two sentences:
+;;       May was with her kitten.  May is not with her kitten.
+;;     We're going to want to say something like:
+;;       [[May was with her kitten]] ** E1.sk
+;;       [[May is not with her kitten]] ** E2.sk
+;;       (E1.sk before E2.sk)
+;;     But if both events are characterized by "May being", and the "with" or "not with" relation is just supplementary
+;;     then it's not obvious that we can distinguish these two events properly.  Presumably May exists for the entire 
+;;     timespan from the beginning of E1.sk to the end of E2.sk.  Maybe there are some other mechanisms that handle
+;;     this issue?
+
+"Her mother gave the kitten to her."  
+                               [NB: Coreferences remain to be resolved.]
+    ((E4.SK BEFORE NOW1) 
+     (MOTHER5.SK MOTHER.N)
+     (MOTHER5.SK MOTHER-OF.N SHE.PRO) 
+     (KITTEN6.SK KITTEN.N)
+     ((MOTHER5.SK GIVE-TO.V SHE.PRO KITTEN6.SK) ** E4.SK))
+
+"She is kind to the pretty kitten."
+
+    ((E7.SK AT-ABOUT NOW2) 
+     (KITTEN9.SK (PRETTY.A KITTEN.N)) 
+     ((SHE.PRO ((ADV-A (TO.P KITTEN9.SK)) (BE.V KIND.A))) ** E7.SK))
+
+;; Maybe write this as the following since this is after ULF post-processing?
+;; ((E7.SK AT-ABOUT NOW2) 
+;;  (KITTEN9.SK ((ATTR PRETTY.A) KITTEN.N)) 
+;;  ((SHE.PRO ((ADV-A (TO.P KITTEN9.SK)) (BE.V KIND.A))) ** E7.SK))
+;;
+;; Wait, actually, if this is post-ULF, then shouldn't ((ADV-A (TO.P KITTEN9.SK)) (BE.V KIND.A))
+;; be written in terms of an action?  ((SHE.PRO | (BE.V KIND.A)) (TO.P KITTEN9.SK))
+
+
+"She likes to see it jump and play."
+
+    ((E10.SK AT-ABOUT NOW3)
+     ((SHE.PRO (LIKE.V (KA (L X ((X SEE.V IT.PRO JUMP.V) AND.CC 
+                                 (X SEE.V IT.PRO PLAY.V)))))) ** E10.SK))
+
+"See it run with May's ball!"
+
+    ((BALL11.SK BALL.N)
+     (BALL11.SK PERTAIN-TO MAY.NAME)
+     ((({YOU}.PRO SEE.V IT.PRO ((ADV-A (WITH.P BALL11.SK)) RUN.V)) ** E12.SK) !))
+
+"It does not run far with it."
+
+   ((NOT (SOME E4 (E4 AT-ABOUT NOW5)
+                  ((IT.PRO (FAR.ADV (ADV-A (WITH.P IT.PRO)) RUN.V)) ** E4))))
+   ;; Ambiguous FAR.ADV?  
+   ;; Shouldn't it be FAR.ADV-A?
+
+"If May can get the ball she will not take it."
+
+   ((E11.SK AT-ABOUT NOW6)
+    (BALL13.SK BALL.N)
+    (((IF.PS (MAY.NAME (CAN.MD (GET.V BALL13.SK))))
+      (NOT (WILL.MD (SHE.PRO TAKE.V IT.PRO)))) ** E11.SK))
+      
+"She will give it to the kitten to play with."
+
+  ((E13.SK AT-ABOUT NOW7)
+   (KITTEN14.SK KITTEN.N)
+   ((WILL.MD (SHE.PRO ((ADV-A (FOR.P (KA (PLAY-WITH.V IT.PRO))))
+                       (GIVE-TO.V KITTEN14.SK IT.PRO)))) ** E13.SK))
+ 
+;; GK: FOR.P -> {FOR}.P since it's not in the surface text?
+

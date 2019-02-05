@@ -2,6 +2,85 @@
 	(make-hash-table :test #'equal)
 )
 
+(defun varp (v)
+	(cond
+		((not (symbolp v)) nil)
+		((not (> (length (string v)) 1)) nil)
+		((not (equal "?" (subseq (string v) 0 1))) nil)
+		(t t)
+	)
+)
+
+(defun ht-copy (ht)
+(block outer
+	(if (not (hashtablep ht))
+		nil
+	)
+
+	(setf new-ht (make-hash-table :test #'equal))
+
+	(loop for key being the hash-keys of ht
+		do (setf (gethash key new-ht) (gethash key ht))
+	)
+
+	(return-from outer new-ht)
+)
+)
+
+(defun ht-eq-oneway (ht1 ht2)
+	(loop for key being the hash-keys of ht1
+		always (equal (gethash key ht1) (gethash key ht2))
+	)
+)
+
+(defun ht-eq (ht1 ht2)
+(cond
+
+	((and (hashtablep ht1) (not (hashtablep ht2)))
+		nil)
+	((and (hashtablep ht2) (not (hashtablep ht1)))
+		nil)
+
+	((and (not (hashtablep ht1)) (not (hashtablep ht2)))
+		(equal ht1 ht2)
+	)
+
+	((and
+		(ht-eq-oneway ht1 ht2)
+		(ht-eq-oneway ht2 ht1)
+	) t)
+
+	(t nil)
+)
+)
+
+(defun mk-hashtable (pairs)
+(cond
+	((equal pairs t) t)
+
+	((null pairs) nil)
+
+	(t (progn
+		(setf want-bind (make-hash-table :test #'equal))
+		(loop for pair in pairs
+			do (setf (gethash (car pair) want-bind) (second pair))
+		)
+		want-bind
+	))
+)
+)
+
+(defun same-list-unordered (l1 l2)
+	(and
+		(listp l1)
+		(listp l2)
+		(equal (length l1) (length l2))
+		(loop for e in l1
+			always (member e l2)
+		)
+	)
+)
+
 (defun hashtablep (o)
 	(equal
 		(type-of o)

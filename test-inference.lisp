@@ -3,49 +3,6 @@
 (load "real_util.lisp")
 (load "inference.lisp")
 
-(defun ht-eq-oneway (ht1 ht2)
-	(loop for key being the hash-keys of ht1
-		always (equal (gethash key ht1) (gethash key ht2))
-	)
-)
-
-(defun ht-eq (ht1 ht2)
-(cond
-
-	((and (hashtablep ht1) (not (hashtablep ht2)))
-		nil)
-	((and (hashtablep ht2) (not (hashtablep ht1)))
-		nil)
-
-	((and (not (hashtablep ht1)) (not (hashtablep ht2)))
-		(equal ht1 ht2)
-	)
-
-	((and
-		(ht-eq-oneway ht1 ht2)
-		(ht-eq-oneway ht2 ht1)
-	) t)
-
-	(t nil)
-)
-)
-
-(defun mk-hashtable (pairs)
-(cond
-	((equal pairs t) t)
-
-	((null pairs) nil)
-
-	(t (progn
-		(setf want-bind (make-hash-table :test #'equal))
-		(loop for pair in pairs
-			do (setf (gethash (car pair) want-bind) (second pair))
-		)
-		want-bind
-	))
-)
-)
-
 (defun test-match (got want-pairs)
 	(cond
 		((ht-eq got (mk-hashtable want-pairs))
@@ -213,7 +170,7 @@
 	'(
 		(?x 4)
 		(?y 5)
-		(?z ?a)
+		(?a ?z)
 	)
 )
 
@@ -233,6 +190,41 @@
 				)
 			)
 		))
+	)
+
+	; want
+	nil
+)
+
+; this tries to unify 1 and 1, which is fine
+(test-match
+	; got
+	(match-formula
+		'(1 2 ?x ?y ?a)
+		'(?a ?b 1 4 ?x)
+
+		; constraints
+		(mk-hashtable nil)
+	)
+
+	; want
+	'(
+		(?a 1)
+		(?b 2)
+		(?x 1)
+		(?y 4)
+	)
+)
+
+; this one tries to unify 1 and 3 after the substitution
+(test-match
+	; got
+	(match-formula
+		'(1 2 ?x ?y ?a)
+		'(?a ?b 3 4 ?x)
+
+		; constraints
+		(mk-hashtable nil)
 	)
 
 	; want

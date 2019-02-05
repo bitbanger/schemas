@@ -14,10 +14,61 @@
 ; The inferent is the second element of the list, where all variables are replaced
 ; with what they were bound to during the matching. All variables are recursively
 ; rewritten out.
+
+; TODO: variables can only match a defined
+; number of args for now. Would be nice to have
+; something like ?y... for an unknown number of
+; args in series.
 (defparameter *INF-RULES*
-	'(
-		
+(list
+	; IDENTITY RULE
+	(list
+	; match pattern
+	'?x
+	; variable constraints
+	nil
+	; inferent
+	'?x
 	)
+
+
+
+	; VERB-TO-"DO" TRANSFORMATION RULE
+	; (no args)
+	(list
+	; match pattern
+	'(?x ?a)
+	; variable constraints
+	(mk-hashtable (list
+		; a must be a verb symbol
+		(list
+			'?a
+			(list #'verbp)
+		)
+	))
+	; inferent
+	'(?x do2.v (ka ?a))
+	)
+
+
+
+	; VERB-TO-"DO" TRANSFORMATION RULE
+	; (one arg)
+	(list
+	; match pattern
+	'(?x ?a ?z)
+	; variable constraints
+	(mk-hashtable (list
+		; a must be a verb symbol
+		(list
+			'?a
+			(list #'verbp)
+		)
+	))
+	; inferent
+	'(?x do2.v (ka (?a ?z)))
+	)
+)
 )
 
 ; varp reports whether v is a variable (i.e. a symbol name
@@ -40,31 +91,82 @@
 )
 )
 
-(defun match-formula-helper (formula pattern bindings constraints)
+; resolve recursively resolves variables a WFF
+; until it no longer contains bound variables.
+(defun resolve (wff bindings)
+	(cond
+		; If WFF is a variable, try to resolve it.
+		((varp wff)
+			(if (not (null (gethash wff bindings)))
+				(resolve (gethash wff bindings) bindings)
+				wff
+			)
+		)
+
+		; If WFF is a list, recursively resolve its elements.
+		((listp wff)
+			(loop for e in wff
+				collect (resolve e bindings)
+			)
+		)
+
+		; If it's anything else, it doesn't need resolution.
+		(t wff)
+	)
+)
+
+(defun match-formula-helper (form pat bindings constraints)
 (block outer
+
+	(if (null constraints)
+		(setf constraints (make-hash-table :test #'equal))
+	)
+
+	; Resolve out all bound variables (equivalent to having
+	; made substitutions going forward in MGU algorithm).
+	(setf formula (resolve form bindings))
+	(setf pattern (resolve pat bindings))
+
+
 	(cond
 		; If pattern is a variable, we'll bind it to the formula if we can.
 		; If it's already bound to something else, we return nil.
-		((varp pattern)
+		((or (varp pattern) (varp formula))
 		(progn
-			(if (null (gethash pattern bindings))
+
+			(setf var-side pattern)
+			(setf bind-side formula)
+			(if (varp formula)
+				(progn
+					(setf var-side formula)
+					(setf bind-side pattern)
+				)
+			)
+
+			(if (null (gethash var-side bindings))
 				; it's unbound; bind it if the value meets any constraint
 				; predicates for the variable
-				(if (meets-constraint-preds formula (gethash pattern constraints))
+				(if (meets-constraint-preds bind-side (gethash var-side constraints))
 					; it meets the constraints; bind it
 					(progn
-						(setf (gethash pattern bindings) formula)
+						(setf (gethash var-side bindings) bind-side)
 						bindings
 					)
 					; doesn't meet constraints; don't bind it
+					(progn
+					(format t "var ~s doesn't meet constraints~%" var-side)
 					nil
+					)
 				)
 				; it's bound; check if we're consistent
-				(if (equal formula (gethash pattern bindings))
+				(if (equal bind-side (gethash var-side bindings))
 					; we're consistent
 					bindings
 					; it's bound to something else
+					(progn
+					(format t "var ~s was already bound to something else~%" pattern)
 					nil
+					)
 				)
 			)
 		)
@@ -76,7 +178,10 @@
 				; they were equal
 				bindings
 				; they weren't
+				(progn
+				(format t "~s didn't equal ~s~%" formula pattern)
 				nil
+				)
 			)
 		)
 
@@ -92,27 +197,45 @@
 				; the lists did match
 				bindings
 				; something didn't match
+				(progn
+				(format t "something didn't match~%")
 				nil
+				)
 			)
 		)
 
 		; Anything else doesn't match.
-		(t nil)
+		(t (progn
+		(format t "unknown bad match case for ~s and ~s~%" formula pattern)
+		nil
+		))
 )
 )
 )
 
 (defun match-formula (formula pattern constraints)
+	(match-formula-with-bindings formula pattern constraints (make-hash-table :test #'equal))
+)
+
+(defun match-formula-with-bindings (formula pattern constraints mf-bind)
 (progn
 	(if (not (hashtablep constraints))
 		(setf constraints (make-hash-table :test #'equal))
 	)
 
-	(setf mf-bind (make-hash-table :test #'equal))
+	(if (not (hashtablep mf-bind))
+		(setf mf-bind (make-hash-table :test #'equal))
+
+		; copy the hash table so we don't clobber the
+		; old one in a failed match
+		(setf mf-bind (ht-copy mf-bind))
+	)
+
 	(setf mf-result (match-formula-helper formula pattern mf-bind constraints))
 
 	(cond
 		((null mf-result)
+			(format t "helper returned nil~%")
 			nil
 		)
 
@@ -165,6 +288,7 @@
 	(setf target (third rule))
 
 	(setf air-match-result (match-formula formula pattern constraints))
+	(format t "result: ~s~%" air-match-result)
 
 	(cond
 		((not (null air-match-result))
@@ -179,4 +303,12 @@
 		)
 	)
 )
+)
+
+(defun apply-standard-rules (formula)
+	(loop for rule in *INF-RULES*
+		do (setf res (apply-inference-rule formula rule))
+		if (not (null res))
+		collect res
+	)
 )

@@ -67,6 +67,7 @@
 ; unifying two WFFs can be done using our match-formula function
 ; from the inference code, with a constraint predicate on every
 ; variable to ensure it wasn't bound already in the same schema.
+; TODO allow matches for synonyms, generalized predicates, etc. Allow that to affect match scores?
 (defun unify-wffs (wff1 wff2 bindings)
 (block outer
 	(match-formula-with-bindings wff1 wff2 nil bindings)
@@ -100,6 +101,8 @@
 	)
 )
 
+; TODO: "match scores". Matching a "do2.v (kind1-of.n activity1.n)" to some random verb proposition should be an extremely weak signal of a match. More specific predicate matches, or thesatisfaction of other conditions, could help.
+; For matching the "do for pleasure" protoschema, probably the strongest match you could get is if you had an explicit statement in the story of a kind of pleasure. But, in general, it's not an incredibly useful protoschema to try and match---you'll seldom rule it out or find explicit confirmation of it, and there aren't really enough propositions within to offer more granular levels of uncertainty.
 (defun match-story-with-schema (story schema)
 (block outer
 	(loop for schema-ep in (mapcar #'second (get-int-ep schema))

@@ -1,6 +1,8 @@
 ; This file specifies a context-free grammar for limited EL formulas
 ; in the form of recursive descent rules.
 
+(load "real_util.lisp")
+
 (defun has-ext? (x e)
 	(and
 		(symbolp x)
@@ -34,6 +36,10 @@
 	(has-ext? x ".V")
 )
 
+(defun lex-var? (x)
+	(varp x)
+)
+
 (defun lex-number? (x)
 	(numberp x)
 )
@@ -63,7 +69,10 @@
 )
 
 (defun lex-modal? (x)
+(or
+	(has-ext? x ".AUX-V")
 	(has-ext? x ".MD")
+)
 )
 
 (defun lex-adj? (x)
@@ -277,10 +286,22 @@
 )
 )
 
+(defun sent-reifier? (x)
+(or
+	(id? 'that)
+	(id? 'tht)
+	(id? 'whether)
+	(id? 'ans-to)
+	(id? 'KE)
+)
+)
+
 (defun no-ep-sent? (x)
 (or
 	(mp x (list 'term? 'verb?)) ; subject verb
+	(mp x (list 'term? 'lex-verb? 'term?)) ; special case for flatter sentences
 	(mp x (list 'adv-a? 'term? 'verb?)) ; action adverb, subject, verb
+	(mp x (list 'lex-modal? 'no-ep-sent?)) ; a modal elevated to the sentence level
 
 	;(mp x (list 'term? (id? '=) 'term?)) ; equality
 	; (mp x (list 'sent? 'lex-coord? 'sent?+))
@@ -418,10 +439,11 @@
 	(lex-name? x)
 	(lex-number? x)
 	(lex-skolem? x)
+	(lex-var? x)
 	(mp x (list 'det? 'noun?))
 	(mp x (list (id? 'K) 'noun?))
 	(mp x (list (id? 'KA) 'verb?))
-	(mp x (list (id? 'KE) 'sent?))
+	(mp x (list 'sent-reifier? 'sent?))
 )
 )
 

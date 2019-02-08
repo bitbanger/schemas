@@ -54,7 +54,7 @@
 		(:Goals
 			?g1 (?x want1.v
 				(that (?x ((adv-a (by-means.p (ka (do2.v ?a))))
-						(?x experience4.v ?p)))))
+						(experience4.v ?p)))))
 		)
 
 		(:Intended-episodes

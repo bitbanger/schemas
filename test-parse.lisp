@@ -75,6 +75,18 @@
 	'((SHE.PRO ((ADV-A (TO.P KITTEN9.SK)) (BE.V KIND.A))) ** E7.SK)
 	t
 )
+(test-parse-func
+	'sent?
+	'((WILL.MD (SHE.PRO ((ADV-A (FOR.P (KA (PLAY-WITH.V IT.PRO)))) (GIVE-TO.V KITTEN14.SK IT.PRO)))) ** E13.SK)
+	t
+)
+
+; Tests on schema sentences
+(test-parse-func
+	'sent?
+	'(?x want1.v (that (?x ((adv-a (by-means.p (ka (do2.v ?a)))) (experience4.v ?p)))))
+	t
+)
 
 
 (format t "~d tests, ~d failures~%" tests failures)

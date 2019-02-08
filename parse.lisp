@@ -279,10 +279,11 @@
 
 (defun no-ep-sent? (x)
 (or
-	(mp x (list 'term? 'verb?))
-	(mp x (list 'sent? 'lex-coord? 'sent?+))
-	(mp x (list 'adv-a? 'term? 'verb?))
-	(mp x (list 'term? (id? '=) 'term?))
+	(mp x (list 'term? 'verb?)) ; subject verb
+	(mp x (list 'adv-a? 'term? 'verb?)) ; action adverb, subject, verb
+
+	;(mp x (list 'term? (id? '=) 'term?)) ; equality
+	; (mp x (list 'sent? 'lex-coord? 'sent?+))
 )
 )
 
@@ -291,6 +292,24 @@
 	(no-ep-sent? x)
 	(mp x (list 'no-ep-sent? (id? '**) 'any?)) ; allow characterization of a variable
 	(mp x (list 'sent? 'sent-punct?))
+)
+)
+
+(defun trim-sent (x)
+(block outer
+	(if (no-ep-sent? x)
+		(return-from outer x)
+	)
+
+	; trim off punctuation/episode characterization
+	(if (or
+		(mp x (list 'no-ep-sent? (id? '**) 'any?))
+		(mp x (list 'sent? 'sent-punct?)))
+			(return-from outer (car x))
+	)
+
+	; it's not a valid sentence
+	(return-from outer nil)
 )
 )
 

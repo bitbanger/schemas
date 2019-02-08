@@ -90,3 +90,10 @@
 
 
 (format t "~d tests, ~d failures~%" tests failures)
+
+(setf original1 '(?x want1.v (that (?x ((adv-a (by-means.p (ka (do2.v ?a)))) (experience4.v ?p))))))
+(format t "original sentence: ~s~%" original1)
+(setf normal1 (normalize-sent original1))
+(format t "	normalized sentence subject: ~s~%" (first normal1))
+(format t "	normalized sentence verb: ~s~%" (second normal1))
+

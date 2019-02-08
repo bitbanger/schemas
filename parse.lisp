@@ -186,6 +186,20 @@
 
 ; Phrasal parse rules
 
+(setf pred-cache (make-hash-table :test #'equal))
+
+(defun cached-funcall (cache func args)
+(block outer
+	(if (null (gethash (list func args) cache))
+		(setf (gethash (list func args) cache)
+			(funcall func args))
+	)
+
+	(return-from outer (gethash (list func args) cache))
+)
+)
+
+; recursive multi-predicate application
 (defun mp (x preds)
 (block outer
 	(if (and (null x) (null preds))
@@ -213,17 +227,26 @@
 
 	(if (not (listp preds))
 		; this really shouldn't happen; it's probably the programmer's fault
+		; haha, never mind, it can happen legitimately now that there's tree recursion
 		(progn
-		(format t "why did you pass non-list pred ~s with pattern ~s into mp?~%" preds x)
+		; (format t "why did you pass non-list pred ~s with pattern ~s into mp?~%" preds x)
 		(return-from outer nil)
 		)
+	)
+
+	; check to see if we have a nested list of predicates; if we do, we'll try to tree-recurse
+	(if (listp (car preds))
+		; tree-recurse with the head token.
+		; if it's not also a list, the recursive case will handle that
+		; (as well as consuming any stars from this list, on the offchance)
+		(return-from outer (mp (car x) (car preds)))
 	)
 
 	; (format t "checking tok list ~s~%against pred list ~s~%" x preds)
 
 	; if the first pred is plussed, test the head token as always
 	(if (plussed? (car preds))
-		(if (funcall (unplus (car preds)) (car x))
+		(if (cached-funcall pred-cache (unplus (car preds)) (car x))
 			; the head token passes, so star the pred and recurse
 			(progn ;(format t "passes~%")
 			(return-from outer
@@ -246,7 +269,7 @@
 
 	; if the first pred is starred, test the head token as always
 	(if (starred? (car preds))
-		(if (funcall (unstar (car preds)) (car x))
+		(if (cached-funcall pred-cache (unstar (car preds)) (car x))
 			; the head token passes, so leave the star pred and recurse
 			(return-from outer (mp (cdr x) preds))
 
@@ -256,7 +279,7 @@
 	)
 
 	; if the first pred isn't plussed or starred, just do what comes naturally
-	(if (funcall (car preds) (car x))
+	(if (cached-funcall pred-cache (car preds) (car x))
 		; the head token passes; recurse
 		(return-from outer (mp (cdr x) (cdr preds)))
 
@@ -308,29 +331,65 @@
 )
 )
 
+; parse-normalized-sent moves all adverbials into the verb clause, re-curries flattened term<->verb predicate chains, and rejects modal sentences (for now)
+; the first element is the subject
+; the second element is the verb clause
+; no exceptions
+(defun normalize-no-ep-sent (x)
+(block outer
+	(if (mp x (list 'term? 'verb?))
+		(return-from outer (list (first x) (second x)))
+	)
+	(if (mp x (list 'term? 'lex-verb? 'term?))
+		(return-from outer (list (first x) (list (second x) (third x))))
+	)
+	(if (mp x (list 'adv-a? 'term? 'verb?))
+		(return-from outer (list (second x)
+			(append (list (first x))
+				(if (listp (third x)) (third x) (list (third x))))))
+	)
+	(if (mp x (list 'lex-modal? 'no-ep-sent?))
+		(return-from outer nil)
+	)
+
+	;(mp x (list 'term? (id? '=) 'term?)) ; equality
+	; (mp x (list 'sent? 'lex-coord? 'sent?+))
+)
+)
+
+; TODO: recursive normalization? might just be able to normalize extracted sub-sentences as an inference step once they get added to KB
+; TODO: named groups and general transductions would be good, instead of just this hardcoded normalization nonsense
+; TODO: honestly, just integrate TTT
+(defun normalize-sent (x)
+(let ((noep nil))
+(block outer
+	(setf noep (normalize-no-ep-sent x))
+	(if (not (null noep))
+		(return-from outer noep)
+	)
+
+	; TODO: optimize this so it doesn't parse twice
+	; TODO: or, instead, just figure out how to get mp to do transductions
+	(if (mp x (list 'no-ep-sent? (id? '**) 'any?))
+		(return-from outer (normalize-sent (first x)))
+	)
+
+	(if (mp x (list 'sent? 'sent-punct?))
+		(return-from outer (normalize-sent 'sent?))
+	)
+
+	; just return the input here; if it wasn't
+	; a sentence, it doesn't need normalizing
+	(return-from outer x)
+)
+)
+)
+
 (defun sent? (x)
 (or
 	(no-ep-sent? x)
 	(mp x (list 'no-ep-sent? (id? '**) 'any?)) ; allow characterization of a variable
 	(mp x (list 'sent? 'sent-punct?))
-)
-)
-
-(defun trim-sent (x)
-(block outer
-	(if (no-ep-sent? x)
-		(return-from outer x)
-	)
-
-	; trim off punctuation/episode characterization
-	(if (or
-		(mp x (list 'no-ep-sent? (id? '**) 'any?))
-		(mp x (list 'sent? 'sent-punct?)))
-			(return-from outer (car x))
-	)
-
-	; it's not a valid sentence
-	(return-from outer nil)
 )
 )
 
@@ -446,9 +505,6 @@
 	(mp x (list 'sent-reifier? 'sent?))
 )
 )
-
-
-
 
 
 

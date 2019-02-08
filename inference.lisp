@@ -1,4 +1,5 @@
 (load "real_util.lisp")
+(load "parse.lisp")
 
 ; Inference rules are two-element lists.
 ;
@@ -15,58 +16,42 @@
 ; with what they were bound to during the matching. All variables are recursively
 ; rewritten out.
 
-; TODO: variables can only match a defined
-; number of args for now. Would be nice to have
-; something like ?y... for an unknown number of
-; args in series.
+; In general, it's nice to be able to have the variables
+; co-refer in the matching process (stateful schema matching).
+; But for inference rules, you kind of want all of the variables in the rule to be "meta", and to never make it into the schema.
+; For now, we'll hack around that by binding the non-formula-side first when both are vars down in match-formula, and using uncommon variable names here.
+; TODO: something better than that
 (defparameter *INF-RULES*
 (list
 	; IDENTITY RULE
 	(list
 	; match pattern
-	'?x
+	'?x11
 	; variable constraints
 	nil
 	; inferent
-	'?x
+	'?x11
 	)
 
-
-
 	; VERB-TO-"DO" TRANSFORMATION RULE
-	; (no args)
 	(list
-	; match pattern
-	'(?x ?a)
+	;match pattern
+	'(?t12 ?v13)
 	; variable constraints
 	(mk-hashtable (list
-		; a must be a verb symbol
 		(list
-			'?a
-			(list #'verbp)
+			; t must be a term
+			'?t12
+			(list #'term?)
+		)
+		(list
+			; v must be a verb phrase
+			'?v13
+			(list #'verb?)
 		)
 	))
 	; inferent
-	'(?x do2.v (ka ?a))
-	)
-
-
-
-	; VERB-TO-"DO" TRANSFORMATION RULE
-	; (one arg)
-	(list
-	; match pattern
-	'(?x ?a ?z)
-	; variable constraints
-	(mk-hashtable (list
-		; a must be a verb symbol
-		(list
-			'?a
-			(list #'verbp)
-		)
-	))
-	; inferent
-	'(?x do2.v (ka (?a ?z)))
+	'(?t12 (do2.v (ka ?v13)))
 	)
 )
 )
@@ -133,10 +118,9 @@
 		; If it's already bound to something else, we return nil.
 		((or (varp pattern) (varp formula))
 		(progn
-
 			(setf var-side pattern)
 			(setf bind-side formula)
-			(if (varp formula)
+			(if (and (varp formula) (not (varp pattern)))
 				(progn
 					(setf var-side formula)
 					(setf bind-side pattern)
@@ -262,7 +246,11 @@
 	((varp pattern)
 		(if (not (null (gethash pattern bindings)))
 			; bind it if we can
+			(progn
+			(format t "pattern is ~s~%" pattern)
+			; (format t "binding ~s to ~s~%" pattern (gethash pattern bindings))
 			(apply-bindings (gethash pattern bindings) bindings)
+			)
 			; leave it free if we can't
 			pattern
 		)

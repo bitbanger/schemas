@@ -2,6 +2,7 @@
 
 (load "matcher.lisp")
 (load "real_util.lisp")
+(load "protoschemas.lisp")
 
 (defun test-extract-vars (wffs want)
 (block outer
@@ -122,3 +123,15 @@
 	; want bindings
 	nil
 )
+
+
+
+
+
+(setf story1
+(list
+	'((SHE.PRO ((ADV-A (TO.P KITTEN9.SK)) (BE.V KIND.A))) ** E7.SK)
+)
+)
+
+(match-story-with-schema story1 do_for-pleasure.v)

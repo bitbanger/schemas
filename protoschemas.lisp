@@ -1,9 +1,9 @@
-(defun schema-name (schema)
-	(car schema)
-)
-
 (defun schema-header (schema)
 	(second schema)
+)
+
+(defun schema-name (schema)
+	(second (car (schema-header schema)))
 )
 
 (defun schema-sections (schema)
@@ -72,6 +72,90 @@
 	)
 )
 
+; TODO: out of order arg matching using types?
+(defparameter give_object
+	'(epi-schema ((?x give_object ?y ?o) ** ?e)
+		(:Fixed-roles
+			?x agent6.n
+			?y agent6.n
+			?o (kind1-of.n object.n)
+		)
 
+		(:Init-conds
+			?i1 (?x (can.aux-v (give-to.v ?y ?o)))
+			?i2 (?x (be.v (adv-e (near.p ?y))))
+		)
 
+		(:Goals
+			?g1 (?x want1.v
+				(that (?y (have.v ?o))))
+		)
 
+		(:Intended-episodes
+			?e1 (?x (give-to.v ?y ?o))
+			?e2 (?y (have.v ?o))
+		)
+
+		(:Episode-relations
+			!w2 (?e = ?e1)
+			!w3 (?e1 before.p ?e2)
+			!w4 (?e1 cause-of.n ?e2)
+			!w5 (?e1 during.p ?e2)
+		)
+	)
+)
+
+(defparameter possession
+	'(epi-schema ((?x possess ?o) ** ?e)
+		(:Fixed-roles
+			?x agent6.n
+			?o (kind1-of.n object.n)
+		)
+
+		(:Init-conds
+		)
+
+		(:Nonfluent-conds
+			!w1 (?o1 realize3.v ?o)
+			!w2 (?x want1.v (ka (have.v ?o1)))
+			!w3 (forall ?y (if.ps (?x (have.v ?o1))
+				(not (?y (can.aux-v (have.v ?o1))))))
+		)
+
+		(:Goals
+			?g1 (?x want1.v
+				(that (?y (have.v ?o))))
+		)
+
+		(:Intended-episodes
+			?e1 (?x (have.v ?o1))
+		)
+
+		(:Episode-relations
+			!w2 (?e = ?e1)
+			!w3 (?e1 during.p ?g1)
+		)
+	)
+)
+
+(defparameter *PROTOSCHEMAS* (list
+	do_for-pleasure.v
+	give_object
+	possession
+))
+
+(defun print-schema (schema)
+(block outer
+	(format t "(epi-schema ~s~%" (schema-header schema))
+	(loop for section in (schema-sections schema)
+		do (block inner
+			(format t "	(~s~%" (car section))
+			(loop for pair in (get-pairs (cdr section))
+				do (format t "		~s	~s~%" (first pair) (second pair))
+			)
+			(format t "	)~%")
+		)
+	)
+	(format t ")~%")
+)
+)

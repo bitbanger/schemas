@@ -1,4 +1,5 @@
 ; story 1
+(defparameter may_story
 ; The Ballad of Kittenball May
 '(
 
@@ -62,4 +63,5 @@
 
 
 
+)
 )

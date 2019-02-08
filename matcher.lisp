@@ -18,7 +18,7 @@
 ; we apply a variety of inference rules. For example, if the story says (MOTHER5.SK GIVE-TO.V SHE.PRO KITTEN6.SK), but the schema says (?x do2.v (kind1-of.n activity1.n)), we have an inference rule that any (<individual> <verb>.v <args...>) story episode can be matched to the schema as the semantically equivalent (<individual> do2.v (ka <verb>.v <args...>)).
 (defun match-story-with-schema (story schema)
 	(loop for ep in (get-int-ep schema) do
-		(format t "episode: ~s~%" ep)
+		; (format t "episode: ~s~%" ep)
 		(setf ep_name (car ep))
 		(setf episode (second ep))
 	)
@@ -86,7 +86,7 @@
 	; general inference procedure for match-candidate WFFs.
 	; (loop for alt-wff in (apply-standard-rules (normalize-sent wff)) do
 		(loop for ep in eps
-			do (format t "unifying ~s and ~s~%" (normalize-sent wff) (normalize-sent ep))
+			; do (format t "unifying ~s and ~s~%" (normalize-sent wff) (normalize-sent ep))
 			do (setf unify-res (unify-wffs alt-wff (normalize-sent ep) bindings))
 			if (not (null unify-res))
 			do (return-from outer unify-res)
@@ -103,7 +103,7 @@
 	)
 )
 
-; TODO: "match scores". Matching a "do2.v (kind1-of.n activity1.n)" to some random verb proposition should be an extremely weak signal of a match. More specific predicate matches, or thesatisfaction of other conditions, could help.
+; TODO: "match scores". Matching a "do2.v (kind1-of.n activity1.n)" to some random verb proposition should be an extremely weak signal of a match. More specific predicate matches, or the satisfaction of other conditions, could help.
 ; For matching the "do for pleasure" protoschema, probably the strongest match you could get is if you had an explicit statement in the story of a kind of pleasure. But, in general, it's not an incredibly useful protoschema to try and match---you'll seldom rule it out or find explicit confirmation of it, and there aren't really enough propositions within to offer more granular levels of uncertainty.
 (defun match-story-with-schema (story schema)
 (let ((match-binds nil) (unify-res nil))
@@ -112,11 +112,11 @@
 		do (block story-loop
 			(loop for story-ep in story
 				do (loop for alt-story-ep in (apply-standard-rules (normalize-sent story-ep))
-					do (format t "matching schema WFF ~s against alt story ep ~s~%" (normalize-sent schema-ep) alt-story-ep)
+					; do (format t "matching schema WFF ~s against alt story ep ~s~%" (normalize-sent schema-ep) alt-story-ep)
 					do (setf unify-res (unify-wffs (normalize-sent schema-ep) alt-story-ep match-binds))
 					if (not (null unify-res))
 					do (block innermore
-					(format t "we matched! updating bindings~%")
+					; (format t "we matched! updating bindings~%")
 					; we've bound a schema ep to a story ep; update the match bindings and try the next schema ep
 						(setf match-binds unify-res)
 						(return-from story-loop unify-res)
@@ -137,10 +137,10 @@
 			;(print-ht match-binds)
 		;)
 	;)
-	(print-ht match-binds)
-	(format t "final schema:~%~%~s~%~%" (apply-bindings schema match-binds))
+	; (print-ht match-binds)
+	(format t "final ~s schema match on story:~%~%" (schema-name schema))
+	(print-schema (apply-bindings schema match-binds)))
 	; (format t "final schema:~%~%~s~%~%" match-binds)
-)
 )
 )
 

@@ -138,7 +138,7 @@
 					)
 					; doesn't meet constraints; don't bind it
 					(progn
-					(format t "var ~s doesn't meet constraints~%" var-side)
+					; (format t "var ~s doesn't meet constraints~%" var-side)
 					nil
 					)
 				)
@@ -148,7 +148,7 @@
 					bindings
 					; it's bound to something else
 					(progn
-					(format t "var ~s was already bound to something else~%" pattern)
+					; (format t "var ~s was already bound to something else~%" pattern)
 					nil
 					)
 				)
@@ -163,7 +163,7 @@
 				bindings
 				; they weren't
 				(progn
-				(format t "~s didn't equal ~s~%" formula pattern)
+				; (format t "~s didn't equal ~s~%" formula pattern)
 				nil
 				)
 			)
@@ -182,7 +182,7 @@
 				bindings
 				; something didn't match
 				(progn
-				(format t "something didn't match~%")
+				; (format t "something didn't match~%")
 				nil
 				)
 			)
@@ -190,7 +190,7 @@
 
 		; Anything else doesn't match.
 		(t (progn
-		(format t "unknown bad match case for ~s and ~s~%" formula pattern)
+		; (format t "unknown bad match case for ~s and ~s~%" formula pattern)
 		nil
 		))
 )
@@ -219,7 +219,7 @@
 
 	(cond
 		((null mf-result)
-			(format t "helper returned nil~%")
+			; (format t "helper returned nil~%")
 			nil
 		)
 
@@ -247,7 +247,7 @@
 		(if (not (null (gethash pattern bindings)))
 			; bind it if we can
 			(progn
-			(format t "pattern is ~s~%" pattern)
+			; (format t "pattern is ~s~%" pattern)
 			; (format t "binding ~s to ~s~%" pattern (gethash pattern bindings))
 			(apply-bindings (gethash pattern bindings) bindings)
 			)
@@ -276,7 +276,7 @@
 	(setf target (third rule))
 
 	(setf air-match-result (match-formula formula pattern constraints))
-	(format t "result: ~s~%" air-match-result)
+	; (format t "result: ~s~%" air-match-result)
 
 	(cond
 		((not (null air-match-result))

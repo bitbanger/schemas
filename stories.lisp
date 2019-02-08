@@ -15,7 +15,7 @@
      (MOTHER5.SK MOTHER.N)
      (MOTHER5.SK MOTHER-OF.N SHE.PRO) 
      (KITTEN6.SK KITTEN.N)
-     ((MOTHER5.SK GIVE-TO.V SHE.PRO KITTEN6.SK) ** E4.SK))
+     ((MOTHER5.SK (GIVE-TO.V SHE.PRO KITTEN6.SK)) ** E4.SK))
 
     ; She is kind to the pretty kitten.
     ((E7.SK AT-ABOUT NOW2) 
@@ -28,11 +28,13 @@
      ((SHE.PRO (LIKE.V (KA (L X ((X SEE.V IT.PRO JUMP.V) AND.CC 
                                  (X SEE.V IT.PRO PLAY.V)))))) ** E10.SK))
 
+	; TODO: are "it jump" / "it play" valid arguments for "see"? I guess predicate args are OK, but it really feels like they should be reified to me...
+
 
     ; See it run with May's ball!
     ((BALL11.SK BALL.N)
      (BALL11.SK PERTAIN-TO MAY.NAME)
-     ((({YOU}.PRO SEE.V IT.PRO ((ADV-A (WITH.P BALL11.SK)) RUN.V)) ** E12.SK) !))
+     ((({YOU}.PRO SEE.V (IT.PRO ((ADV-A (WITH.P BALL11.SK)) RUN.V))) ** E12.SK) !))
 
 
 
@@ -46,7 +48,7 @@
    ((E11.SK AT-ABOUT NOW6)
     (BALL13.SK BALL.N)
     (((IF.PS (MAY.NAME (CAN.MD (GET.V BALL13.SK))))
-      (NOT (WILL.MD (SHE.PRO TAKE.V IT.PRO)))) ** E11.SK))
+      (NOT (WILL.MD (SHE.PRO (TAKE.V IT.PRO))))) ** E11.SK))
 
 
 

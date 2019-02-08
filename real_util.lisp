@@ -81,13 +81,6 @@
 	)
 )
 
-(defun hashtablep (o)
-	(equal
-		(type-of o)
-		(type-of *CANONICAL-HT*)
-	)
-)
-
 (defun verbp (x)
 	(and
 		(symbolp x)
@@ -99,6 +92,13 @@
 				(length (string x))
 			)
 		)
+	)
+)
+
+(defun hashtablep (o)
+	(equal
+		(type-of o)
+		(type-of *CANONICAL-HT*)
 	)
 )
 

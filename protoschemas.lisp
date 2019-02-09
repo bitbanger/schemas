@@ -30,8 +30,8 @@
 (setf (fdefinition 'gs) #'get-section)
 
 ; do_for-pleasure protoschema
-(defparameter do_for-pleasure.v
-	'(epi-schema ((?x do_for-pleasure.v ?a) ** ?e)
+(defparameter do_for-pleasure.sch
+	'(epi-schema ((?x do_for-pleasure.sch ?a) ** ?e)
 		(:Fixed-roles
 			?x agent6.n
 			?a (kind1-of.n activity1.n)
@@ -73,12 +73,16 @@
 )
 
 ; TODO: out of order arg matching using types?
-(defparameter give_object
-	'(epi-schema ((?x give_object ?y ?o) ** ?e)
+(defparameter give_object.sch
+	'(epi-schema ((?x give_object.sch ?y ?o) ** ?e)
 		(:Fixed-roles
 			?x agent6.n
 			?y agent6.n
 			?o (kind1-of.n object.n)
+		)
+
+		(:Var-roles
+			?l location.n
 		)
 
 		(:Init-conds
@@ -105,8 +109,85 @@
 	)
 )
 
-(defparameter possession
-	'(epi-schema ((?x possess ?o) ** ?e)
+(defparameter be_friendly_with.sch
+	'(epi-schema ((?x be_friendly_with.sch ?y) ** ?e)
+		(:Fixed-roles
+			?x agent6.n
+			?y agent6.n
+			?p (kind1-of.n pleasure.n)
+			?a (kind1-of.n activity.n)
+		)
+
+		(:Init-conds
+		)
+
+		(:Nonfluent-conds
+			; this is symmetric
+			!w1 (?y (be_friendly_with.sch ?x))
+
+			; TODO: bind inline kinds to variables instead of pulling them out manually?
+			!w2 (?x want1.v
+				(that (?y (experience1.v ?p))))
+
+			; should these have episode quantifiers/frequencies?
+			!w3 (?x want1.v
+				(that (?x (do_activity_with_other.sch ?a))))
+
+			!w4 (?x (like.v ?y))
+
+			!w5 (?x (know.v (some.d (information.n (about.p-arg ?y)))))
+		)
+
+		(:Goals
+		)
+
+		(:Intended-episodes
+			?e1 (?x (be.v (friend.n (of.p ?y))))
+		)
+
+		(:Episode-relations
+			!w6 (?e = ?e1)
+		)
+	)
+)
+
+(defparameter do_activity_with_other.sch
+	'(epi-schema ((?x do_activity_with_other.sch ?a ?y) ** ?e)
+		(:Fixed-roles
+			?x agent6.n
+			?a (kind1-of.n activity1.n)
+			?y agent6.n
+		)
+
+		(:Init-conds
+			?i1 (?x (can.aux-v (do2.v ?a)))
+			?i2 (?y (can.aux-v (do2.v ?a)))
+			?i3 (?x (be.v (at.p ?l)))
+			?i4 (?y (be.v (at.p ?l)))
+		)
+
+		(:Nonfluent-conds
+			!w1 (if.ps (?x (do_for-pleasure.sch ?a))
+				(?x (be_friendly_with.sch ?y)))
+		)
+
+		(:Goals
+		)
+
+		(:Intended-episodes
+			?e1 (?x (do2.v ?a (adv-a (with.p ?y))))
+		)
+
+		(:Episode-relations
+			!w2 (?e = ?e1)
+			!w3 (?i3 during.p ?e1)
+			!w4 (?i4 during.p ?e1)
+		)
+	)
+)
+
+(defparameter possess.sch
+	'(epi-schema ((?x possess.sch ?o) ** ?e)
 		(:Fixed-roles
 			?x agent6.n
 			?o (kind1-of.n object.n)
@@ -139,9 +220,11 @@
 )
 
 (defparameter *PROTOSCHEMAS* (list
-	do_for-pleasure.v
-	give_object
-	possession
+	do_for-pleasure.sch
+	give_object.sch
+	possess.sch
+	do_activity_with_other.sch
+	be_friendly_with.sch
 ))
 
 (defun print-schema (schema)

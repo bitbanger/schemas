@@ -48,7 +48,7 @@
 		)
 
 		(:Init-conds
-			?i1 (x (can.aux-v (do2.v a)))
+			?i1 (?x (can.aux-v (do2.v a)))
 		)
 
 		(:Goals

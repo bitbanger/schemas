@@ -1,0 +1,19 @@
+For multiple schema inference, you'll need to make sure that vars from different schemas have unique names.
+
+If you've matched all of the events that "characterize" a schema episode, you have a guaranteed match; you can infer, at the least, all "cause-of" episodes leading back to the characterizing episodes. (Real characterization equality statements like this are probably only going to be "certain" in protoschemas at first, since humans wrote them.)
+
+Really, we should interpret intended episodes not as variable names bound to formulas, but as episodes characterized by the formulas given. In fact, we should be able to specify non-characterizing WFFs, in canonicalized form, as part of intended episodes; this will let us scope variables that only make sense in that episode without declaring them as "schema-global" roles. For example, ?e1 (((?x do2.v ?a) ** e1) (?a (kind1-of.n activity.n))) should be a valid intended episode.
+
+
+
+
+Matching walkthrough: (MOTHER.SK GIVE-TO.V SHE.PRO KITTEN.SK)
+	This should match (trivially) to the sole characterizing episode of give_object.sch. Now we can infer ?e2 of that schema, which is that (SHE.PRO HAVE.V KITTEN.SK), and ?g1 of that schema, which is (MOTHER.SK WANT1.V (THAT (SHE.PRO HAVE.V KITTEN.SK))), because we've matched all characterizing WFFs of the entire schema episode.
+
+	Next, (SHE.PRO HAVE.V KITTEN.SK) should trigger the sole characterizing episode of possess.sch, so we'll infer ?e2 of that episode, which gives ((SHE.PRO EXPERIENCE4.V pleasure1.sk) (pleasure1.sk (kind1-of.n pleasure1.n))) as an inferred episode.
+
+	In parallel, we can assume that the mother knows these protoschemas, so she knows that ((?x (have.v ?o1)) cause-of.n (?x experience4.v ?p1)). Some inference rule should map positive verb predications with reified event arguments to that same verb predicate, but with inferred episodes from schemas characterized by the reified event. So, basically, if X knows that Y, then X also knows that Z, iff Y is a cause of Z, and X knows that Y is a cause of Z. Same with wanting, etc. This is limited metareasoning; in general, it might be useful to do this as part of our normal reasoning engine, but "tag" things as known by entities in the story. Anyway, what we end up with here is that ((MOTHER.SK WANT.V (THAT (SHE.PRO EXPERIENCE4.V ?p1))) (?p1 pleasure.n)) as an inferred episode, because the mother would have reasoned through possess.sch. (This should have some probability/confidence score, as people are imperfect reasoners.)
+
+	That generated episode then matches to !w2 in be_friendly_with.sch. This isn't a characterizing episode, so it shouldn't have full confidence, but that's expected; all it saw was that the mother gave her something nice!
+
+	So what we need here is canonicalized WFF list episodes as schema intended episodes, inference of cause-of relationships, identification of fully characterized episode matches...

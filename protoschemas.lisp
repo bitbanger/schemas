@@ -17,14 +17,14 @@
 	)
 )
 
-(defun get-int-ep (schema)
-	(get-pairs (cdr (get-section schema ':Intended-episodes)))
-)
-
 (defun get-pairs (l)
 	(loop for (a b) on l by #'cddr
 		collect (list a b)
 	)
+)
+
+(defun get-int-ep (schema)
+	(get-pairs (cdr (get-section schema ':Intended-episodes)))
 )
 
 (setf (fdefinition 'gs) #'get-section)
@@ -63,7 +63,7 @@
 		)
 
 		(:Episode-relations
-			!w2 ((join.f ?e1 ?e2) = ?e)
+			!w2 (?g1 = ?e)
 			!w3 (?e1 during.p ?i1)
 			!w4 (?e2 during.p ?e1)
 			!w5 (?e1 cause-of.n ?e2)
@@ -193,6 +193,11 @@
 			?o (kind1-of.n object.n)
 		)
 
+		(:Var-roles
+			?p (kind1-of.n pleasure1.n)
+			?p1 pleasure1.n
+		)
+
 		(:Init-conds
 		)
 
@@ -201,20 +206,20 @@
 			!w2 (?x want1.v (ka (have.v ?o1)))
 			!w3 (forall ?y (if.ps (?x (have.v ?o1))
 				(not (?y (can.aux-v (have.v ?o1))))))
+			!w4 (?p1 realize3.v ?p)
 		)
 
 		(:Goals
-			?g1 (?x want1.v
-				(that (?y (have.v ?o))))
 		)
 
 		(:Intended-episodes
 			?e1 (?x (have.v ?o1))
+			?e2 (?x experience4.v ?p1)
 		)
 
 		(:Episode-relations
-			!w2 (?e = ?e1)
-			!w3 (?e1 during.p ?g1)
+			!w5 (?e = ?e1)
+			!w6 (?e1 cause-of.n ?e2)
 		)
 	)
 )

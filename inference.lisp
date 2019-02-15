@@ -22,6 +22,7 @@
 ; For now, we'll hack around that by binding the non-formula-side first when both are vars down in match-formula, and using uncommon variable names here.
 ; TODO: something better than that
 (defparameter *INF-RULES*
+; These are basically all syntactic.
 (list
 	; IDENTITY RULE
 	(list
@@ -53,6 +54,8 @@
 	; inferent
 	'(?t12 (do2.v (ka ?v13)))
 	)
+
+	; "X with Y" -> "X 
 )
 )
 

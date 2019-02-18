@@ -72,10 +72,10 @@
 		)
 
 		(:Episode-relations
-			!w2 (?e = ?e1)
-			!w3 (?e1 before.p ?e2)
-			!w4 (?e1 cause-of.n ?e2)
-			!w5 (?e1 during.p ?e2)
+			!w1 (?e = ?e1)
+			!w2 (?e1 before.p ?e2)
+			!w3 (?e1 cause-of.n ?e2)
+			!w4 (?e1 during.p ?e2)
 		)
 	)
 )

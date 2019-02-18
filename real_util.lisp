@@ -1,3 +1,12 @@
+(defparameter *DBG-TAGS* (list
+	; put debug tags you want here
+	;'matched-wffs
+	;'process-story
+	'cur1
+))
+
+(defparameter *DBG-ALL* nil)
+
 (defparameter *CANONICAL-HT*
 	(make-hash-table :test #'equal)
 )
@@ -30,6 +39,12 @@
 (defun ht-eq-oneway (ht1 ht2)
 	(loop for key being the hash-keys of ht1
 		always (equal (gethash key ht1) (gethash key ht2))
+	)
+)
+
+(defun dbg (tag fmt-str &rest args)
+	(if (or *DBG-ALL* (member tag *DBG-TAGS*))
+		(apply #'format (append (list t fmt-str) args))
 	)
 )
 
@@ -100,6 +115,22 @@
 		(type-of o)
 		(type-of *CANONICAL-HT*)
 	)
+)
+
+(defun print-ht (ht)
+	(format t "~s" (ht-to-str ht))
+)
+
+(defun ht-to-str (ht)
+(format nil "~{~A~^~%, ~}"
+		(cond
+			((not (hashtablep ht)) (list (format nil "	value ~s~%" ht)))
+
+			(t (loop for key being the hash-keys of ht
+				collect (format nil "	~s: ~s~%" key (gethash key ht))
+			))
+		)
+)
 )
 
 (defun print-ht (ht)

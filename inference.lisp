@@ -55,7 +55,25 @@
 	'(?t12 (do2.v (ka ?v13)))
 	)
 
-	; "X with Y" -> "X 
+	; strip out episode characterization syntax
+	(list
+	; match pattern
+	'(?s ** ?e)
+	; variable constraints
+	(mk-hashtable (list
+		(list
+			; s must be a sentence
+			'?s
+			(list #'sent?)
+		)
+		(list
+			; v must be an entity.
+			; Maybe "term" is sufficient for now?
+			; TODO: determine whether "entity" is a more nuanced concept
+			(list #'term?)
+		)
+	))
+	)
 )
 )
 
@@ -141,7 +159,7 @@
 					)
 					; doesn't meet constraints; don't bind it
 					(progn
-					; (format t "var ~s doesn't meet constraints~%" var-side)
+					(dbg 'unify-wffs "var ~s doesn't meet constraints~%" var-side)
 					nil
 					)
 				)
@@ -151,7 +169,7 @@
 					bindings
 					; it's bound to something else
 					(progn
-					; (format t "var ~s was already bound to something else~%" pattern)
+					(dbg 'unify-wffs "var ~s was already bound to something else~%" pattern)
 					nil
 					)
 				)
@@ -166,7 +184,7 @@
 				bindings
 				; they weren't
 				(progn
-				; (format t "~s didn't equal ~s~%" formula pattern)
+				(dbg 'unify-wffs "~s didn't equal ~s~%" formula pattern)
 				nil
 				)
 			)
@@ -185,7 +203,7 @@
 				bindings
 				; something didn't match
 				(progn
-				; (format t "something didn't match~%")
+				(dbg 'unify-wffs "something didn't match~%")
 				nil
 				)
 			)
@@ -193,7 +211,7 @@
 
 		; Anything else doesn't match.
 		(t (progn
-		; (format t "unknown bad match case for ~s and ~s~%" formula pattern)
+		(dbg 'unify-wffs "unknown bad match case for ~s and ~s~%" formula pattern)
 		nil
 		))
 )
@@ -236,6 +254,53 @@
 )
 )
 
+; matched-wffs returns a map from section name
+; to all WFFs in that section affected by the
+; given bindings (with the bindings applied).
+; The schema passed in should not have the
+; bindings applied.
+(defun matched-wffs (schema bindings)
+(let (
+(wffs-by-sec (make-hash-table :test #'equal))
+(bound-pair nil)
+)
+(block outer
+	(dbg 'matched-wffs "extracting matches for schema ~s~%" (schema-name schema))
+	; (dbg 'matched-wffs "sections: ~s~%" (schema-sections schema))
+	(loop for section in (schema-section-names schema)
+	; do (dbg 'matched-wffs "pairs for section ~s: ~s~%" section (get-section-pairs schema section))
+	do (loop for pair in (get-section-pairs schema section)
+		do (block inner
+			(setf bound-pair (apply-bindings pair bindings))
+			(if (not (equal bound-pair pair))
+				(block innermore
+
+				(dbg 'matched-wffs "bound-pair is ~s, pair is ~s~%" bound-pair pair)
+				(dbg 'matched-wffs "adding ~s~%" (append (gethash section wffs-by-sec) bound-pair))
+				(setf (gethash section wffs-by-sec)
+					(append (gethash section wffs-by-sec)
+						(list bound-pair)))
+
+				(dbg 'matched-wffs "added ~s~%" (gethash section wffs-by-sec))
+				(dbg 'matched-wffs "ht is ~s~%" (ht-to-str wffs-by-sec))
+				)
+
+				; else
+				(dbg 'matched-wffs "bound-pair is ~s, pair is ~s~%" bound-pair pair)
+
+			)
+
+			)
+		)
+	)
+
+	(dbg 'matched-wffs "final ht count: ~d~%" (hash-table-count wffs-by-sec))
+
+	(dbg 'matched-wffs "returning ~s~%" (if (> (hash-table-count wffs-by-sec) 0) wffs-by-sec nil))
+	(return-from outer (if (> (hash-table-count wffs-by-sec) 0) wffs-by-sec nil))
+)
+)
+)
 
 ; apply-bindings rewrites all occurrences of bound variables in a pattern
 ; with their bound values. variables are re-written recursively, and

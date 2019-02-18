@@ -84,20 +84,24 @@
 	; first match.
 	; TODO: consider whether this should be baked into a more
 	; general inference procedure for match-candidate WFFs.
-	; (loop for alt-wff in (apply-standard-rules (normalize-sent wff)) do
+	(loop for alt-wff in (apply-standard-rules (normalize-sent wff)) do
 		(loop for ep in eps
-			; do (format t "unifying ~s and ~s~%" (normalize-sent wff) (normalize-sent ep))
+			do (dbg 'match-wff "unifying ~s and ~s~%" (normalize-sent wff) (normalize-sent ep))
 			do (setf unify-res (unify-wffs alt-wff (normalize-sent ep) bindings))
 			if (not (null unify-res))
-			do (return-from outer unify-res)
+				do (return-from outer unify-res)
+			else
+				do (dbg 'match-wff "couldn't unify~%~%")
 		)
-	; )
+	)
 )
 )
 
 (defun match-wff-with-schema (wff schema bindings)
 	(match-wff-with-episodes
 		wff
+		; TODO: match things other than intended episodes
+		; TODO: check condition violations?
 		(mapcar #'second (get-int-ep schema))
 		bindings
 	)

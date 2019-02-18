@@ -10,6 +10,10 @@
 	(cddr schema)
 )
 
+(defun schema-section-names (schema)
+	(mapcar #'car (schema-sections schema))
+)
+
 (defun get-section (schema section-name)
 	(loop for section in (schema-sections schema)
 		if (equal (car section) section-name)
@@ -21,6 +25,37 @@
 	(loop for (a b) on l by #'cddr
 		collect (list a b)
 	)
+)
+
+(defparameter *SECTION-SHORTNAMES*
+	(mk-hashtable (list
+		(list ':Fixed-roles 'fixed-roles)
+		(list ':Var-roles 'var-roles)
+		(list ':Init-conds 'init-conds)
+		(list ':Nonfluent-conds 'nonfluent-conds)
+		(list ':Fluent-conds 'fluent-conds)
+		(list ':Goals 'goals)
+		(list ':Intended-episodes 'int-eps)
+		(list ':Episode-relations 'ep-rels)
+	))
+)
+
+
+; make a bunch of accessor functions with those
+; shortnames
+(loop for key being the hash-keys of *SECTION-SHORTNAMES*
+	do (setf (fdefinition (intern (format nil "GET-~s" (string (gethash key *SECTION-SHORTNAMES*)))))
+			(lambda (schema)
+				(get-section-pairs schema key)
+			)
+		)
+)
+
+
+
+
+(defun get-section-pairs (schema section-name)
+	(get-pairs (cdr (get-section schema section-name)))
 )
 
 (defun get-int-ep (schema)
@@ -231,6 +266,9 @@
 	do_activity_with_other.sch
 	be_friendly_with.sch
 ))
+
+
+
 
 (defun print-schema (schema)
 (block outer

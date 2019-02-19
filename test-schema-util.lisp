@@ -23,4 +23,7 @@
 (format t "instance 1:~%~d~%" (tab-all-lines 1 (instance-to-str instance1)))
 (format t "instance 2:~%~d~%" (tab-all-lines 1 (instance-to-str instance2)))
 (format t "instance 1 fulfilled: ~s~%" (instance-fulfilled? instance1))
+(format t "instance 1 inferences: ~s~%" (inferred-wffs instance1))
+(format t "~%~%")
 (format t "instance 2 fulfilled: ~s~%" (instance-fulfilled? instance2))
+(format t "instance 2 inferences: ~s~%" (inferred-wffs instance2))

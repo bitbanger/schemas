@@ -119,8 +119,27 @@
 (defun lex-ep-var? (x)
 (and
 	(has-prefix? (string x) "E")
-	(> (length (string x)) 2)
+	(> (length (string x)) 1)
 	(is-num-str? (subseq (string x) 1 (length (string x))))
+)
+)
+
+(defun lex-schema-ep-var? (x)
+(and
+	(has-prefix? (string x) "?E")
+	(if (> (length (string x)) 2)
+		; then
+		(is-num-str? (subseq (string x) 2 (length (string x))))
+		; else
+		t)
+)
+)
+
+(defun lex-goal-var? (x)
+(and
+	(has-prefix? (string x) "?G")
+	(> (length (string x)) 2)
+	(is-num-str? (subseq (string x) 2 (length (string x))))
 )
 )
 

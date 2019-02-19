@@ -273,6 +273,37 @@ characterizer-ep-ids
 )
 )
 
+
+
+; gives the full list of inferred WFFs from a schema instance
+; (only WFFs with all variables filled)
+(defun inferred-wffs (instance)
+(let (
+(schema-name (instance-schema-name instance))
+(instance-bindings (instance-bindings instance))
+(matched-wffs (instance-matched-wffs instance))
+bound-schema
+)
+
+(block outer
+	(setf bound-schema (apply-bindings (eval schema-name) instance-bindings))
+	(loop for sec-name in (schema-section-names bound-schema)
+		if (not (equal sec-name ':Episode-relations))
+		append (loop for pair in (get-section-pairs bound-schema sec-name)
+			; do (format t "candidate: ~s~%" (second pair))
+			if (has-no-elements-pred pair
+					(lambda (x) (and (varp x) (not (or (lex-schema-ep-var? x) (lex-goal-var? x))))))
+				collect pair
+			; else do (format t "	(failed)~%")
+		)
+	)
+)
+
+)
+)
+
+
+
 (defparameter *SCHEMA-SEC-ALIASES*
 	(mk-hashtable (list
 		(list ':Fixed-roles 'fixed-roles)

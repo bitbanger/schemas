@@ -20,6 +20,29 @@
 	)
 )
 
+(defun neg-pred (pred)
+	(lambda (x) (not (funcall pred x)))
+)
+
+; DFS for an element matching a predicate in
+; a(n assumed-to-be-acyclic) list structure.
+(defun has-element-pred (lst pred)
+	(cond
+		((not (listp lst))
+			(funcall pred lst))
+
+		(t (loop for e in lst thereis (has-element-pred e pred)))
+	)
+)
+
+(defun has-all-elements-pred (lst pred)
+	(not (has-element-pred lst (neg-pred pred)))
+)
+
+(defun has-no-elements-pred (lst pred)
+	(not (has-element-pred lst pred))
+)
+
 (defun has-prefix? (s pre)
 (and
 	(stringp s)
@@ -56,16 +79,23 @@
 )
 )
 
-(defun is-digit? (c)
+(defun is-letter? (c)
 	(or
 		(and
-			(<= (char-code c) (char-code #\z))
 			(>= (char-code c) (char-code #\a))
+			(<= (char-code c) (char-code #\z))
 		)
 		(and
-			(<= (char-code c) (char-code #\Z))
 			(>= (char-code c) (char-code #\A))
+			(<= (char-code c) (char-code #\Z))
 		)
+	)
+)
+
+(defun is-digit? (c)
+	(and
+		(>= (char-code c) (char-code #\0))
+		(<= (char-code c) (char-code #\9))
 	)
 )
 

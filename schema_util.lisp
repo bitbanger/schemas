@@ -46,14 +46,12 @@
 	(second schema)
 )
 
-(defun schema-name (schema)
-	(second (car (schema-header schema)))
+(defun schema-ep-name (schema)
+	(car (last (schema-header schema)))
 )
 
-; reports whether something is an "episode"
-; (a collection of WFFs)
-(defun episode? (ep)
-	t
+(defun schema-name (schema)
+	(second (car (schema-header schema)))
 )
 
 (defun print-schema (schema)
@@ -105,12 +103,10 @@
 )
 )
 
-; reports whether an episode relation defines a schema's
-; characteristic episode ?e
-; TODO: figure out a better way than assuming it's called ?e
-(defun characteristic-ep? (ep-rel)
+; returns the characteristic episode constituents of the schema
+(defun extract-characterizers-for-ep (schema ep-rel)
 (let (
-(uncoupled nil) (equality nil) (to-uncouple nil)
+(uncoupled nil) (equality nil) (to-uncouple nil) (seen-eps nil) (seen-ep-ids nil)
 )
 
 (block outer
@@ -129,10 +125,10 @@
 		(return-from outer nil))
 
 	(cond
-		((equal '?e (car equality))
+		((equal (schema-ep-name schema) (car equality))
 			(setf to-uncouple (third equality)))
 
-		((equal '?e (third equality))
+		((equal (schema-ep-name name) (third equality))
 			(setf to-uncouple (car equality)))
 
 		(t (return-from outer nil))
@@ -143,9 +139,53 @@
 	(if (null uncoupled)
 		(return-from outer nil))
 
-	; Make sure the characteristic episodes are all in the schema
+	(setf seen-eps '())
+
+	; Make sure all of the characteristic episode constituents
+	; are in the schema
+	; OPT: too many loops! :)
+	; TODO: dedupe or something (but probably the same episode won't be listed
+	; in a schema twice?)
+	(loop for sec in (get-sections schema)
+			do (if (not (member (car sec) '(:Episode-relations)))
+					(loop for ep in uncoupled
+						;do (if (member ep (mapcar #'car (get-section-pairs sec)))
+						;		(setf seen-eps (append seen-eps (list ep)))
+						;	)
+						do (loop for sec-ep-pair in (get-section-pairs sec)
+							do (if (equal ep (car sec-ep-pair))
+								(setf seen-eps (append seen-eps (list sec-ep-pair)))
+							)
+						)
+					)
+			)
+	)
+
+	(setf seen-ep-ids (mapcar #'car seen-eps))
+
+	(if (loop for ep in uncoupled thereis (not (member ep seen-ep-ids)))
+		(return-from outer nil)
+	)
+
+	(return-from outer seen-eps)
 )
 
+)
+)
+
+(defun extract-characterizers (schema)
+(let (
+(maybe-characterizers nil)
+)
+(block outer
+	(loop for ep-rel in (get-ep-rels schema instance)
+		do (block inner
+			(setf maybe-characterizers (extract-characterizers-for-ep ep-rel))
+			(if (not (null maybe-characterizers))
+				(return-from outer maybe-characterizers))
+		)
+	)
+)
 )
 )
 
@@ -155,14 +195,15 @@
 ; We allow partial matches of each episode, but inferred
 ; WFFs won't be added to the KB (for now) until they are
 ; fully instantiated (i.e. no variables unbound).
-(defun instance-fulfilled? (schema-instance)
+(defun instance-fulfilled? (schema bindings)
 (let (
-(char-ep nil)
+(characterizers nil)
 )
 
 (block outer
-	(loop for ep-rel in (get-ep-rels schema-instance)
-		; if 
+	(loop for char-ep in characterizers
+		always (not (equal char-ep (apply-bindings char-ep bindings)))
+		; TODOING: you've written all the code for identifying "fulfilled" schemas, now, you think---so test it!
 	)
 )
 

@@ -75,37 +75,104 @@
 )
 )
 
-
-(defun match-wff-with-episodes (wff eps bindings)
+; TODO: consider whether this should be baked into a more
+; general inference procedure for match-candidate WFFs.
+(defun match-wff-with-named-episodes (wff eps bindings)
+(let (
+	ep-name
+	ep-wff
+	(norm-wff (normalize-sent wff))
+	norm-ep-wff
+	unify-res
+)
 (block outer
 	; A single WFF could mean essentially the same thing
 	; as several WFFs; we encode these transformations in
 	; a set of "standard" inference rules, and we try each
 	; form of the WFF when matching. We're happy with the
 	; first match.
-	; TODO: consider whether this should be baked into a more
-	; general inference procedure for match-candidate WFFs.
-	(loop for alt-wff in (apply-standard-rules (normalize-sent wff)) do
+	(loop for alt-wff in (apply-standard-rules norm-wff) do
 		(loop for ep in eps
-			do (dbg 'match-wff "unifying ~s and ~s~%" (normalize-sent wff) (normalize-sent ep))
-			do (setf unify-res (unify-wffs alt-wff (normalize-sent ep) bindings))
+			do (setf ep-name (car ep))
+			do (setf ep-wff (second ep))
+			do (setf norm-ep-wff (normalize-sent ep-wff))
+			do (dbg 'match-wff "attempting to unify ~s and ~s~%" norm-wff norm-ep-wff)
+			do (setf unify-res (unify-wffs alt-wff norm-ep-wff bindings))
 			if (not (null unify-res))
-				do (return-from outer unify-res)
+				; TODO: instead of returning here, try,
+				; and return, ALL of the matches (or use some heuristic?)
+				do (return-from outer (list unify-res ep-name))
 			else
 				do (dbg 'match-wff "couldn't unify~%~%")
 		)
 	)
 )
 )
+)
+
+(defun match-wff-with-episodes (wff eps bindings)
+	; strip the matched episode name out of the answer;
+	; we only want the bindings
+	(car
+	(match-wff-with-named-episodes
+		wff
+		; attach a dummy name to each episode
+		(loop for ep in eps
+			for i from 0 to (length eps)
+				collect (list (intern (format nil "dummy-name-~d" i)) ep))
+		bindings)
+	)
+)
 
 (defun match-wff-with-schema (wff schema bindings)
-	(match-wff-with-episodes
+	(match-wff-with-named-episodes
 		wff
 		; TODO: match things other than intended episodes
 		; TODO: check condition violations?
-		(mapcar #'second (get-int-ep schema))
+		(get-int-eps schema)
 		bindings
 	)
+)
+
+; An instance is a 4-element list.
+; The first element is 'SCHEMA-INSTANCE. The second element
+; is a schema name, the third element is a hash map of bound
+; variables in the instance, and the fourth element is a list
+; of 2-element lists of WFFs, where the first element of the
+; each of those lists is a story WFF that was matched to the
+; instance, and the second element is the NAME of the schema
+; episode (e.g. ?e1) to which it was bound.
+; TODO: distinguish between matching WFFs and matching episodes.
+(defun match-wff-with-schema-instance (wff instance)
+		; TODO: when we apply-bindings to the schema later, we may fail
+		; due to some condition conflicts. This may be OK, or it may not
+		; be; we don't have a good model of when/how to allow condition
+		; violations right now. So we need to think of one.
+(let (
+	(schema-name (instance-schema-name instance))
+	(bindings (instance-bindings instance))
+	(matched-eps (instance-matched-wffs instance))
+	match-res
+	new-bindings
+	matched-ep
+)
+(block outer
+	(setf match-res
+		(match-wff-with-named-episodes
+			wff
+			(get-int-eps (eval schema-name))
+			bindings))
+	(setf new-bindings (car match-res))
+	(setf matched-ep (second match-res))
+
+	(if (not (null new-bindings))
+		(return-from outer
+			(mk-schema-instance
+				schema-name
+				new-bindings
+				(append matched-eps (list (list wff matched-ep))))))
+)
+)
 )
 
 ; TODO: "match scores". Matching a "do2.v (kind1-of.n activity1.n)" to some random verb proposition should be an extremely weak signal of a match. More specific predicate matches, or the satisfaction of other conditions, could help.

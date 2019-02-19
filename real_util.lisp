@@ -184,13 +184,81 @@
 	(format t "~s" (ht-to-str ht))
 )
 
+(defun explain-nil (str &rest args)
+	(progn
+		(apply #'format (append (list t str) args))
+		nil
+	)
+)
+
+; replace-all taken from https://lispcookbook.github.io/cl-cookbook/strings.html
+(defun replace-all (str part replacement &key (test #'equal))
+"Returns a new string in which all the occurences of the part
+is replaced with replacement."
+    (with-output-to-string (out)
+      (loop with part-length = (length part)
+            for old-pos = 0 then (+ pos part-length)
+            for pos = (search part str
+                              :start2 old-pos
+                              :test test)
+            do (write-string str out
+                             :start old-pos
+                             :end (or pos (length str)))
+            when pos do (write-string replacement out)
+            while pos)))
+
+(defun concat-two-strs (str1 str2)
+	(format nil "~d~d" str1 str2)
+)
+
+(defun concat-strs (&rest strs)
+(cond
+	((null strs) nil)
+	((equal 1 (length strs)) (car strs))
+	(t (concat-two-strs
+			(car strs)
+			(apply #'concat-strs (cdr strs))))
+)
+)
+
+(defun join-str-list (sep strs)
+(cond
+	((null strs) "")
+
+	((equal (length strs) 1)
+		(car strs))
+
+	(t (concat-strs
+		(car strs)
+		sep
+		(join-str-list sep (cdr strs))))
+)
+)
+
+(defun repeat-str (str n)
+	(format nil "~v@{~A~:*~}" n str)
+)
+
+(defparameter *NEWLINE* (string #\Newline))
+(defparameter *TAB* (string #\Tab))
+
+(defun tab-all-lines (n str)
+	(concat-two-strs *TAB*
+		(replace-all str
+			*NEWLINE*
+			(concat-two-strs
+				*NEWLINE*
+				(repeat-str *TAB* n))))
+)
+
 (defun ht-to-str (ht)
-(format nil "~{~A~^~%, ~}"
+(join-str-list *NEWLINE*
 		(cond
-			((not (hashtablep ht)) (list (format nil "	value ~s~%" ht)))
+			((not (hashtablep ht)) (list (format nil "value ~s" ht)))
 
 			(t (loop for key being the hash-keys of ht
-				collect (format nil "	~s: ~s~%" key (gethash key ht))
+				; do (format t "GOT ~s~%" (gethash key ht))
+				collect (format nil "~d: ~d" key (gethash key ht))
 			))
 		)
 )

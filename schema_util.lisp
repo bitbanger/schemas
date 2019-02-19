@@ -1,16 +1,3 @@
-(defparameter *SCHEMA-SEC-ALIASES*
-	(mk-hashtable (list
-		(list ':Fixed-roles 'fixed-roles)
-		(list ':Var-roles 'var-roles)
-		(list ':Init-conds 'init-conds)
-		(list ':Nonfluent-conds 'nonfluent-conds)
-		(list ':Fluent-conds 'fluent-conds)
-		(list ':Goals 'goals)
-		(list ':Intended-episodes 'int-eps)
-		(list ':Episode-relations 'ep-rels)
-	))
-)
-
 (defun get-pairs (l)
 	(loop for (a b) on l by #'cddr
 		collect (list a b)
@@ -54,6 +41,67 @@
 	(second (car (schema-header schema)))
 )
 
+(defun new-schema-instance (schema-name)
+	(mk-schema-instance schema-name nil nil)
+)
+
+(defun mk-schema-instance (schema-name bindings matched-eps)
+	(list 'SCHEMA-INSTANCE schema-name bindings matched-eps)
+)
+
+(defun instance-to-str (instance)
+	(if (not (instance? instance))
+		; then
+		(explain-nil "~s is not a schema instance" instance)
+		; else
+		(format nil
+			"(SCHEMA-INSTANCE~%	SCHEMA NAME:~%		~s~%	BINDINGS:~%	~d~%	MATCHED WFFS:~%	~d~%)"
+			(instance-schema-name instance)
+			(tab-all-lines 2
+				(ht-to-str (instance-bindings instance)))
+			(tab-all-lines 2 (join-str-list *NEWLINE*
+				(mapcar
+					(lambda (match)
+						(format nil "~d: ~d" (second match) (car match)))
+					(instance-matched-wffs instance))))
+		)
+	)
+)
+
+(defun instance? (x)
+	(and
+		(equal 4 (length x))
+		(equal 'SCHEMA-INSTANCE (car x))
+	)
+)
+
+(defun instance-schema-name (instance)
+(cond
+	((not (instance? instance))
+		(explain-nil "~s was not a schema instance"))
+
+	(t (second instance))
+)
+)
+
+(defun instance-bindings (instance)
+(cond
+	((not (instance? instance))
+		(explain-nil "~s was not a schema instance"))
+
+	(t (third instance))
+)
+)
+
+(defun instance-matched-wffs (instance)
+(cond
+	((not (instance? instance))
+		(explain-nil "~s was not a schema instance"))
+
+	(t (fourth instance))
+)
+)
+
 (defun print-schema (schema)
 (block outer
 	(format t "(epi-schema ~s~%" (schema-header schema))
@@ -76,9 +124,10 @@
 )
 (block outer
 		(cond
-			((not (or
-					(listp joined-ep)
-					(varp joined-ep)))
+			((varp joined-ep)
+				(return-from outer (list joined-ep)))
+
+			((not (listp joined-ep))
 				(return-from outer nil))
 
 			((not (equal 3 (length joined-ep)))
@@ -86,9 +135,6 @@
 
 			((not (equal 'join.f (car joined-ep)))
 				(return-from outer nil))
-
-			((varp joined-ep)
-				(list joined-ep))
 		)
 
 		(setf rec-e1 (uncouple-joins (second joined-ep)))
@@ -110,6 +156,8 @@
 )
 
 (block outer
+	(dbg 'extract-characterizers-for-ep "got input schema ~s, ep-rel ~s~%" schema ep-rel)
+
 	; Make sure everything's in the right format
 	; e.g.:
 	;	(!w1 ((join.f ?e1 (join.f ?e2 ?e3)) = ?e))
@@ -146,13 +194,13 @@
 	; OPT: too many loops! :)
 	; TODO: dedupe or something (but probably the same episode won't be listed
 	; in a schema twice?)
-	(loop for sec in (get-sections schema)
-			do (if (not (member (car sec) '(:Episode-relations)))
+	(loop for sec-name in (schema-section-names schema)
+			do (if (not (member sec-name '(:Episode-relations)))
 					(loop for ep in uncoupled
 						;do (if (member ep (mapcar #'car (get-section-pairs sec)))
 						;		(setf seen-eps (append seen-eps (list ep)))
 						;	)
-						do (loop for sec-ep-pair in (get-section-pairs sec)
+						do (loop for sec-ep-pair in (get-section-pairs schema sec-name)
 							do (if (equal ep (car sec-ep-pair))
 								(setf seen-eps (append seen-eps (list sec-ep-pair)))
 							)
@@ -178,9 +226,13 @@
 (maybe-characterizers nil)
 )
 (block outer
-	(loop for ep-rel in (get-ep-rels schema instance)
+	(dbg 'extract-characterizers "in extract-characterizers~%")
+	(dbg 'extract-characterizers "ep-rels is ~s~%" (get-ep-rels schema))
+	(dbg 'extract-characterizers "ep-rels is ~s~%" (get-section-pairs schema ':Episode-relations))
+	(loop for ep-rel in (get-ep-rels schema)
+		do (dbg 'extract-characterizers "looping on ep-rel ~s~%" ep-rel)
 		do (block inner
-			(setf maybe-characterizers (extract-characterizers-for-ep ep-rel))
+			(setf maybe-characterizers (extract-characterizers-for-ep schema ep-rel))
 			(if (not (null maybe-characterizers))
 				(return-from outer maybe-characterizers))
 		)
@@ -195,33 +247,60 @@
 ; We allow partial matches of each episode, but inferred
 ; WFFs won't be added to the KB (for now) until they are
 ; fully instantiated (i.e. no variables unbound).
-(defun instance-fulfilled? (schema bindings)
+(defun instance-fulfilled? (instance)
 (let (
-(characterizers nil)
+(schema-name (instance-schema-name instance))
+(schema (eval (instance-schema-name instance)))
+(instance-bindings (instance-bindings instance))
+(matched-wffs (instance-matched-wffs instance))
+characterizers
+matched-ep-ids
+characterizer-ep-ids
 )
 
 (block outer
-	(loop for char-ep in characterizers
-		always (not (equal char-ep (apply-bindings char-ep bindings)))
-		; TODOING: you've written all the code for identifying "fulfilled" schemas, now, you think---so test it!
+	(setf characterizers (extract-characterizers schema))
+	(setf matched-ep-ids (mapcar #'second matched-wffs))
+	(setf characterizer-ep-ids (mapcar #'car characterizers))
+
+	(loop for char-ep-id in characterizer-ep-ids
+		; do (format t "unbound: ~s~%bound: ~s~%" char-ep (apply-bindings char-ep bindings))
+		; always (not (equal char-ep (apply-bindings char-ep bindings)))
+		always (member char-ep-id matched-ep-ids)
 	)
 )
 
 )
+)
+
+(defparameter *SCHEMA-SEC-ALIASES*
+	(mk-hashtable (list
+		(list ':Fixed-roles 'fixed-roles)
+		(list ':Var-roles 'var-roles)
+		(list ':Init-conds 'init-conds)
+		(list ':Nonfluent-conds 'nonfluent-conds)
+		(list ':Fluent-conds 'fluent-conds)
+		(list ':Goals 'goals)
+		(list ':Intended-episodes 'int-eps)
+		(list ':Episode-relations 'ep-rels)
+	))
 )
 
 ; INIT: define a bunch of new functions for the schema
 ; section aliases so I won't have to keep typing
 ; get-section-pairs calls
-(loop for key being the hash-keys of *SCHEMA-SEC-ALIASES*
-	do (setf
-		; LHS
-		(fdefinition (intern (format nil "GET-~s"
-			(string (gethash key *SCHEMA-SEC-ALIASES*)))))
+(mapcar
+	; Map function
+	(lambda (key)
+		(setf
+			; LHS
+			(fdefinition (intern (format nil "GET-~s" (gethash key *SCHEMA-SEC-ALIASES*))))
 
-		; RHS
-		(lambda (schema)
-			(get-section-pairs schema key)
-		)
+			; RHS
+			(lambda (schema) 
+				(get-section-pairs schema key)))
 	)
+
+	; List
+	(loop for key being the hash-keys of *SCHEMA-SEC-ALIASES* collect key)
 )

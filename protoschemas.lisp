@@ -27,7 +27,7 @@
 	)
 )
 
-(defparameter *SECTION-SHORTNAMES*
+(defparameter *SCHEMA-SEC-ALIASES*
 	(mk-hashtable (list
 		(list ':Fixed-roles 'fixed-roles)
 		(list ':Var-roles 'var-roles)
@@ -40,15 +40,20 @@
 	))
 )
 
+; INIT: define a bunch of new functions for the schema
+; section aliases so I won't have to keep typing
+; get-section-pairs calls
+(loop for key being the hash-keys of *SCHEMA-SEC-ALIASES*
+	do (setf
+		; LHS
+		(fdefinition (intern (format nil "GET-~s"
+			(string (gethash key *SCHEMA-SEC-ALIASES*)))))
 
-; make a bunch of accessor functions with those
-; shortnames
-(loop for key being the hash-keys of *SECTION-SHORTNAMES*
-	do (setf (fdefinition (intern (format nil "GET-~s" (string (gethash key *SECTION-SHORTNAMES*)))))
-			(lambda (schema)
-				(get-section-pairs schema key)
-			)
+		; RHS
+		(lambda (schema)
+			(get-section-pairs schema key)
 		)
+	)
 )
 
 

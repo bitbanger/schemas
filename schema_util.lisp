@@ -274,10 +274,29 @@ characterizer-ep-ids
 )
 
 
+(defun unbindable-var? (v)
+	(or (has-prefix? (string v) "!")
+	(and
+		(varp v)
+		(or
+				(lex-schema-ep-var? v)
+				(lex-goal-var? v)
+		)
+	)
+	)
+)
+
+(defun unbound-var? (v)
+	(and
+		(varp v)
+		(not (unbindable-var? v))
+	)
+)
+
 
 ; gives the full list of inferred WFFs from a schema instance
 ; (only WFFs with all variables filled)
-(defun inferred-wffs (instance)
+(defun inferred-wffs (instance definite?)
 (let (
 (schema-name (instance-schema-name instance))
 (instance-bindings (instance-bindings instance))
@@ -290,10 +309,12 @@ bound-schema
 	(loop for sec-name in (schema-section-names bound-schema)
 		if (not (equal sec-name ':Episode-relations))
 		append (loop for pair in (get-section-pairs bound-schema sec-name)
-			; do (format t "candidate: ~s~%" (second pair))
-			if (has-no-elements-pred pair
-					(lambda (x) (and (varp x) (not (or (lex-schema-ep-var? x) (lex-goal-var? x))))))
-				collect pair
+			if (if (not definite?) (has-element-pred pair #'unbound-var?) (has-no-elements-pred pair #'unbound-var?))
+				collect (cond
+					((unbindable-var? (car pair))
+						(second pair))
+
+					(t pair))
 			; else do (format t "	(failed)~%")
 		)
 	)

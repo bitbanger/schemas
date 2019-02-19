@@ -138,8 +138,11 @@
 (defun lex-goal-var? (x)
 (and
 	(has-prefix? (string x) "?G")
-	(> (length (string x)) 2)
-	(is-num-str? (subseq (string x) 2 (length (string x))))
+	(if (> (length (string x)) 2)
+		; then
+		(is-num-str? (subseq (string x) 2 (length (string x))))
+		; else
+		t)
 )
 )
 

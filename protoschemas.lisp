@@ -19,7 +19,7 @@
 		)
 
 		(:Init-conds
-			?i1 (?x (can.aux-v (do2.v a)))
+			!i1 (?x (can.aux-v (do2.v a)))
 		)
 
 		(:Goals
@@ -57,8 +57,8 @@
 		)
 
 		(:Init-conds
-			?i1 (?x (can.aux-v (give-to.v ?y ?o)))
-			?i2 (?x (be.v (adv-e (near.p ?y))))
+			!i1 (?x (can.aux-v (give-to.v ?y ?o)))
+			!i2 (?x (be.v (adv-e (near.p ?y))))
 		)
 
 		(:Goals
@@ -131,10 +131,10 @@
 		)
 
 		(:Init-conds
-			?i1 (?x (can.aux-v (do2.v ?a)))
-			?i2 (?y (can.aux-v (do2.v ?a)))
-			?i3 (?x (be.v (at.p ?l)))
-			?i4 (?y (be.v (at.p ?l)))
+			!i1 (?x (can.aux-v (do2.v ?a)))
+			!i2 (?y (can.aux-v (do2.v ?a)))
+			!i3 (?x (be.v (at.p ?l)))
+			!i4 (?y (be.v (at.p ?l)))
 		)
 
 		(:Nonfluent-conds

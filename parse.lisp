@@ -1,6 +1,8 @@
 ; This file specifies a context-free grammar for limited EL formulas
 ; in the form of recursive descent rules.
 
+; OPT: a cache for all preds, similar to the cache in (defun mp)
+
 (load "real_util.lisp")
 
 (defun has-ext? (x e)
@@ -105,6 +107,31 @@
 
 (defun lex-adv-f? (x)
 	(has-ext? x ".ADV-F")
+)
+
+(defun lex-ent? (x)
+	(and
+		(symbolp x)
+		(alphanum-str? (string x))
+	)
+)
+
+(defun lex-ep-var? (x)
+(and
+	(has-prefix? (string x) "E")
+	(> (length (string x)) 2)
+	(is-num-str? (subseq (string x) 1 (length (string x))))
+)
+)
+
+(defun lex-ep-ref? (x)
+(or
+	(lex-ep-var? x)
+	(and
+		(has-suffix? (string x) ".SK")
+		(lex-ep-var? (intern (remove-suffix (string x) ".SK")))
+	)
+)
 )
 
 ; Equal-to-value predicate generator
@@ -370,7 +397,7 @@
 
 	; TODO: optimize this so it doesn't parse twice
 	; TODO: or, instead, just figure out how to get mp to do transductions
-	(if (mp x (list 'no-ep-sent? (id? '**) 'any?))
+	(if (mp x (list 'no-ep-sent? (id? '**) 'ep?))
 		(return-from outer (normalize-sent (first x)))
 	)
 
@@ -382,6 +409,92 @@
 	; a sentence, it doesn't need normalizing
 	(return-from outer x)
 )
+)
+)
+
+(defun char-wff? (x)
+(or
+	(mp x (list 'unchar-wff? (id? '**) 'lex-ep-ref?))
+)
+)
+
+(defun uncharred-ep? (x)
+(or
+	(lex-ep-ref? x)
+
+	(and
+		(listp x)
+		; OPT: the double loop
+		(loop for e in x always (wff? e))
+		(loop for wff in x never (char-wff? wff))
+	)
+)
+)
+
+(defun ep? (x)
+(or
+	(uncharred-ep? x)
+	(charred-ep? x)
+)
+)
+
+(defun charred-ep? (x)
+(or
+	; An episode can be a single WFF with a ** operator.
+	(char-wff? x)
+
+	; An episode can be a list of WFFs with one
+	; characterizing it.
+	(and
+		; OPT: the double loop
+		(listp x)
+		(loop for e in x always (wff? e))
+		(loop for wff in x thereis (char-wff? wff))
+	)
+)
+)
+
+(defun ep-rel? (x)
+(or
+	(equal 'BEFORE.P x)
+	(equal 'AFTER.P x)
+	(equal 'AT-ABOUT.P x)
+	(equal 'DURING.P x)
+	(equal 'SAME-TIME.P x)
+	(equal 'CAUSE-OF.N x)
+	(equal '= x)
+)
+)
+
+; TODO: ask Len whether PERTAIN-TO, etc. are special, or, if not, what types they are
+(defun ent-rel? (x)
+(or
+	(equal 'PERTAIN-TO x)
+	(noun? x)
+)
+)
+
+(defun unchar-wff? (x)
+(or
+	; any sentence is a WFF
+	(sent? x)
+
+	; e.g. (E1.SK AT-ABOUT NOW0)
+	(mp x (list 'ep? 'ep-rel? 'ep?)
+
+	; e.g. (KITTEN9.SK (PRETTY.A KITTEN.N))
+	(mp x (list 'ent? 'pred?)) ; TODO: should this be "term pred"?
+
+	; e.g. (KITTEN3.SK PERTAIN-TO MAY.NAME), (MOTHER5.SK MOTHER-OF.N SHE.PRO)
+	(mp x (list 'ent? 'ent-rel? 'ent?))
+)
+)
+)
+
+(defun wff? (x)
+(or
+	(unchar-wff? x)
+	(char-wff? x)
 )
 )
 
@@ -452,6 +565,7 @@
 
 (defun pp? (x)
 (or
+	(lambda? x)
 	(mp x (list 'lex-p? 'term?))
 	(mp x (list 'pp? 'lex-coord? 'pp?+))
 	(mp x (list 'adv-a? 'pp?))
@@ -459,9 +573,27 @@
 )
 )
 
+(defun ent-list? (x)
+(or
+	(lex-ent? x)
+
+	(and
+		(listp x)
+		(loop for e in x always (lex-ent? x))
+	)
+)
+)
+
+(defun lambda? (x)
+(or
+	(mp x (list (id? 'L) 'ent-list? 'pred?))
+)
+)
+
 (defun verb? (x)
 (or
 	(lex-verb? x)
+	(lambda? x)
 	(mp x (list 'lex-modal? 'verb?))
 	(mp x (list 'verb? 'verb-arg?+))
 	(mp x (list 'adv-a? 'verb?))
@@ -472,6 +604,7 @@
 (defun noun? (x)
 (or
 	(lex-noun? x)
+	(lambda? x)
 	(mp x (list (id? 'plur) 'noun?))
 	(mp x (list 'adj? 'noun?))
 	(mp x (list 'noun? 'lex-coord? 'noun?+))
@@ -482,6 +615,7 @@
 
 (defun adj? (x)
 (or
+	(lambda? x)
 	(lex-adj? x)
 )
 )
@@ -503,6 +637,7 @@
 	(mp x (list (id? 'K) 'noun?))
 	(mp x (list (id? 'KA) 'verb?))
 	(mp x (list 'sent-reifier? 'sent?))
+	(lex-ent? x) ; TODO: not sure about this, but we need to handle e.g. quantified variables
 )
 )
 

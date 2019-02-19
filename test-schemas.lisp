@@ -3,6 +3,7 @@
 (load "matcher.lisp")
 (load "real_util.lisp")
 (load "protoschemas.lisp")
+(load "schema_util.lisp")
 (load "stories.lisp")
 
 (defun filter-for-sentences (story)

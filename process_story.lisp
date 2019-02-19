@@ -2,8 +2,6 @@
 (load "matcher.lisp")
 (load "protoschemas.lisp")
 
-
-
 ; TODO:
 ;	- figure out when an episode is "fulfilled"
 ;	- write a function filled-schema-to-episode

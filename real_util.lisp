@@ -20,6 +20,69 @@
 	)
 )
 
+(defun has-prefix? (s pre)
+(and
+	(stringp s)
+	(>= (length s) (length pre))
+	(equal pre (subseq s 0 (length pre)))
+)
+)
+
+(defun has-suffix? (s suf)
+(and
+	(stringp s)
+	(>= (length s) (length suf))
+	(equal suf (subseq s
+				(- (length s) (length suf))
+				(length s)))
+)
+)
+
+(defun remove-prefix (s pre)
+(if (has-prefix? s pre)
+	;then
+	(subseq s (length pre) (length s))
+	; else
+	s
+)
+)
+
+(defun remove-suffix (s suf)
+(if (has-suffix? s suf)
+	;then
+	(subseq s 0 (- (length s) (length suf)))
+	; else
+	s
+)
+)
+
+(defun is-digit? (c)
+	(or
+		(and
+			(<= (char-code c) (char-code #\z))
+			(>= (char-code c) (char-code #\a))
+		)
+		(and
+			(<= (char-code c) (char-code #\Z))
+			(>= (char-code c) (char-code #\A))
+		)
+	)
+)
+
+(defun is-num-str? (s)
+	(and
+		(stringp s)
+		(loop for c across s always (is-digit? c))
+	)
+)
+
+(defun alphanum-str? (s)
+	(and
+		(stringp s)
+		(loop for c across s always (alphanumericp c))
+	)
+)
+
 (defun ht-copy (ht)
 (block outer
 	(if (not (hashtablep ht))

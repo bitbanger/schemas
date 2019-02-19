@@ -1,5 +1,6 @@
 (load "real_util.lisp")
 (load "protoschemas.lisp")
+(load "schema_util.lisp")
 (load "inference.lisp")
 
 ; CURRENT ASSUMPTIONS:

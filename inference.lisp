@@ -1,5 +1,6 @@
 (load "real_util.lisp")
 (load "parse.lisp")
+(load "schema_util.lisp")
 
 ; Inference rules are two-element lists.
 ;

@@ -46,7 +46,13 @@
 			do (setf (gethash wff kb) t)
 		)
 
-		do (loop for wff being the hash-keys of kb do (block continue
+
+		do (block inf-loop (loop do (block inf-loop-inner
+			; set up a temp HT of new facts to add to the KB after
+			(setf tmp-kb (make-hash-table :test #'equal))
+
+			; begin a round of KB reasoning
+			(loop for wff being the hash-keys of kb do (block continue
 			; don't reason about things we've seen
 			(if (not (null (gethash wff already-matched-wffs)))
 				(return-from continue))
@@ -93,7 +99,18 @@
 							; (if (null match-bindings) (return-from try-schema))
 							(if (not (null (instance-matched-wffs new-inst)))
 								; then
-								(progn (setf tmp-new-instances (append tmp-new-instances (list new-inst))) (dbg 'process-story "appending new instance to tmp~%"))
+								(block new-match
+									(setf tmp-new-instances (append tmp-new-instances (list new-inst)))
+									(dbg 'process-story "appending new instance to tmp~%")
+									; if the instance was fulfilled, then it definitely happened,
+									; so we'll add its inferences to the tmp-kb
+									(if (instance-fulfilled? new-inst)
+										; then
+										(loop for inf-fact in (inferred-wffs new-inst t)
+											do (setf (gethash inf-fact tmp-kb) t)
+										)
+									)
+								)
 							)
 							(dbg 'process-story "matched schema WFFs: ~s~%" (matched-wffs ps match-bindings))
 							(dbg 'process-story "matched schema WFFs: ~s~%" (ht-to-str (matched-wffs ps match-bindings)))
@@ -106,9 +123,29 @@
 			)
 		))
 
+		; if we added any new facts, put them in the KB
+		; otherwise, we're done for this episode
+		(if (> (hash-table-count tmp-kb) 0)
+			; then
+			(loop for new-fact being the hash-keys of tmp-kb
+				do (setf (gethash new-fact kb) t)
+			)
+			; else
+			(return-from inf-loop)
+		)
+
+
+		)))
+
 		(loop for inst in instances for i from 0 do (block print-inst-loop
-			(format t "instance ~d: ~d~%~%" i (instance-to-str inst))
+			(format t "instance ~d: ~d (fulfilled? ~s)~%~%" i (instance-to-str inst) (instance-fulfilled? inst))
 		))
+		do (format t "~%~%")
+		do (format t "~%~%")
+		(format t "FINAL INFERRED FACTS:~%")
+		(loop for fact being the hash-keys of kb
+			do (format t "	~s~%~%" fact)
+		)
 		do (format t "~%~%")
 	)
 

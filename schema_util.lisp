@@ -176,7 +176,7 @@
 		((equal (schema-ep-name schema) (car equality))
 			(setf to-uncouple (third equality)))
 
-		((equal (schema-ep-name name) (third equality))
+		((equal (schema-ep-name schema) (third equality))
 			(setf to-uncouple (car equality)))
 
 		(t (return-from outer nil))

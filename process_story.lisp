@@ -34,15 +34,28 @@
 	; OPT: make sure schema instances are being hashed
 	; uniquely, but efficiently. How does :test work?
 	(setf instances (list))
+	(setf kb (make-hash-table :test #'equal))
+	(setf already-matched-wffs (make-hash-table :test #'equal))
 
 	(loop for ep in story
 			for i upto (length story)
 		do (format t "episode ~d:~%" i)
 
+		; Add this episode's WFFs into our KB.
 		do (loop for wff in ep
+			do (setf (gethash wff kb) t)
+		)
+
+		do (loop for wff being the hash-keys of kb do (block continue
+			; don't reason about things we've seen
+			(if (not (null (gethash wff already-matched-wffs)))
+				(return-from continue))
+
+			; mark this as seen
+			(setf (gethash wff already-matched-wffs) t)
 
 			; find candidate schemas
-			do (block schema-loop
+			(block schema-loop
 				; Try to match the WFF to each of the
 				; current schema instances.
 				(setf tmp-new-instances (list))
@@ -91,7 +104,7 @@
 				(setf instances (append instances tmp-new-instances))
 				(dbg 'process-story "instances is now ~s~%" instances)
 			)
-		)
+		))
 
 		(loop for inst in instances for i from 0 do (block print-inst-loop
 			(format t "instance ~d: ~d~%~%" i (instance-to-str inst))

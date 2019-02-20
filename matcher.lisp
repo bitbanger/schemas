@@ -84,8 +84,10 @@
 	(norm-wff (normalize-sent wff))
 	norm-ep-wff
 	unify-res
+	results
 )
 (block outer
+	(dbg 'match-wff "here~%")
 	; A single WFF could mean essentially the same thing
 	; as several WFFs; we encode these transformations in
 	; a set of "standard" inference rules, and we try each
@@ -96,24 +98,27 @@
 			do (setf ep-name (car ep))
 			do (setf ep-wff (second ep))
 			do (setf norm-ep-wff (normalize-sent ep-wff))
-			do (dbg 'match-wff "attempting to unify ~s and ~s~%" norm-wff norm-ep-wff)
+			do (dbg 'match-wff "attempting to unify ~s and ~s~%" alt-wff norm-ep-wff)
 			do (setf unify-res (unify-wffs alt-wff norm-ep-wff bindings))
 			if (not (null unify-res))
 				; TODO: instead of returning here, try,
 				; and return, ALL of the matches (or use some heuristic?)
-				do (return-from outer (list unify-res ep-name))
+				do (setf results (append results (list (list unify-res ep-name))))
 			else
 				do (dbg 'match-wff "couldn't unify~%~%")
 		)
 	)
+
+	(dbg 'match-wff "returning results: ~s~%" results)
+	(return-from outer results)
 )
 )
 )
 
 (defun match-wff-with-episodes (wff eps bindings)
-	; strip the matched episode name out of the answer;
+	; strip the matched episode name out of each answer;
 	; we only want the bindings
-	(car
+	(mapcar #'car
 	(match-wff-with-named-episodes
 		wff
 		; attach a dummy name to each episode
@@ -152,25 +157,39 @@
 	(schema-name (instance-schema-name instance))
 	(bindings (instance-bindings instance))
 	(matched-eps (instance-matched-wffs instance))
-	match-res
+	match-results
 	new-bindings
 	matched-ep
+	; result-instance
+	result-instances
 )
 (block outer
-	(setf match-res
+	(dbg 'match-inst "here1~%")
+	(setf match-results
 		(match-wff-with-named-episodes
 			wff
 			(get-int-eps (eval schema-name))
 			bindings))
-	(setf new-bindings (car match-res))
-	(setf matched-ep (second match-res))
 
-	(if (not (null new-bindings))
-		(return-from outer
-			(mk-schema-instance
-				schema-name
-				new-bindings
-				(append matched-eps (list (list wff matched-ep))))))
+	(loop for result in match-results do (block result-loop
+		(setf new-bindings (car result))
+		(setf matched-ep (second result))
+	
+		(if (not (null new-bindings)) (block if-got-match
+			(dbg 'match-inst "got a match for ep ~s~%" matched-ep)
+			(setf result-instances (append result-instances (list
+				(mk-schema-instance
+					schema-name
+					new-bindings
+					(append matched-eps (list (list wff matched-ep)))))))
+			(dbg 'match-inst "result instances now ~s~%" result-instances)
+		))
+		)
+	)
+
+	(dbg 'match-inst "returning instances ~s~%" result-instances)
+	(dbg 'process-story "returning instances ~s~%" result-instances)
+	(return-from outer result-instances)
 )
 )
 )

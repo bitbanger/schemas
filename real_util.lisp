@@ -1,8 +1,11 @@
 (defparameter *DBG-TAGS* (list
 	; put debug tags you want here
 	;'matched-wffs
-	;'process-story
-	'cur1
+	;'match-wff
+	; 'process-story
+	;'match-inst
+	;'unify-wffs
+	;'cur1
 ))
 
 (defparameter *DBG-ALL* nil)

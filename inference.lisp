@@ -156,6 +156,7 @@
 					; it meets the constraints; bind it
 					(progn
 						(setf (gethash var-side bindings) bind-side)
+						(dbg 'unify-wffs "binding ~s to ~s~%" var-side bind-side)
 						bindings
 					)
 					; doesn't meet constraints; don't bind it
@@ -197,6 +198,8 @@
 				(equal (length formula) (length pattern))
 				(loop for e1 in formula
 					for e2 in pattern
+						do (if (null (match-formula-helper e1 e2 bindings constraints)) (dbg 'unify-wffs "~s and ~s didn't match~%" e1 e2))
+							
 						always (not (null (match-formula-helper e1 e2 bindings constraints)))
 					)
 				)

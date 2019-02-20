@@ -31,34 +31,78 @@
 
 (block outer
 
+	; OPT: make sure schema instances are being hashed
+	; uniquely, but efficiently. How does :test work?
+	(setf instances (list))
+
 	(loop for ep in story
 			for i upto (length story)
 		do (format t "episode ~d:~%" i)
 
 		do (loop for wff in ep
 
-
 			; find candidate schemas
 			do (block schema-loop
+				; Try to match the WFF to each of the
+				; current schema instances.
+				(setf tmp-new-instances (list))
+				(loop for instance in instances
+					do (block try-instance
+						(setf new-insts (match-wff-with-schema-instance wff instance))
+						(dbg 'process-story "got new-insts ~s~%" new-insts)
+						(loop for new-inst in new-insts
+							do (if (not (null (instance-matched-wffs new-inst)))
+								; then
+								; we'll keep the old instances for now, in case filling these
+								; WFFs in is erroneous
+								(setf tmp-new-instances (append tmp-new-instances (list new-inst)))
+								; else
+							)
+						)
+					)
+				)
+
+				(setf instances (append instances tmp-new-instances))
+				(setf tmp-new-instances (list))
+				
+
+				; Try to instantiate a new version of
+				; each protoschema as well.
 				(setf cand-schemas nil)
 				(loop for ps in *PROTOSCHEMAS*
 					do (block try-schema
 						(dbg 'process-story "wff: ~s~%" wff)
-						(setf match-bindings (match-wff-with-schema wff ps nil))
-						(dbg 'process-story "got ~s~%" match-bindings)
-						(if (null match-bindings) (return-from try-schema))
-						(dbg 'process-story "matched schema WFFs: ~s~%" (matched-wffs ps match-bindings))
-						(dbg 'cur1 "matched schema WFFs: ~s~%" (ht-to-str (matched-wffs ps match-bindings)))
+						(dbg 'process-story "matching with instance of ~s~%" (schema-name ps))
+						(setf new-insts (match-wff-with-schema-instance wff (new-schema-instance (schema-name ps))))
+						(dbg 'process-story "got new-insts ~s~%" new-insts)
+						(loop for new-inst in new-insts do (block try-new-inst
+							(dbg 'process-story "got ~s~%" (instance-to-str new-inst))
+							; (if (null match-bindings) (return-from try-schema))
+							(if (not (null (instance-matched-wffs new-inst)))
+								; then
+								(progn (setf tmp-new-instances (append tmp-new-instances (list new-inst))) (dbg 'process-story "appending new instance to tmp~%"))
+							)
+							(dbg 'process-story "matched schema WFFs: ~s~%" (matched-wffs ps match-bindings))
+							(dbg 'process-story "matched schema WFFs: ~s~%" (ht-to-str (matched-wffs ps match-bindings)))
+						))
 					)
 				)
+
+				(setf instances (append instances tmp-new-instances))
+				(dbg 'process-story "instances is now ~s~%" instances)
 			)
 		)
 
+		(loop for inst in instances for i from 0 do (block print-inst-loop
+			(format t "instance ~d: ~d~%~%" i (instance-to-str inst))
+		))
 		do (format t "~%~%")
 	)
 
+
 )
 )
 )
 
-(process-story may_story)
+
+(process-story may-story)

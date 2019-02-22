@@ -188,7 +188,6 @@
 	)
 
 	(dbg 'match-inst "returning instances ~s~%" result-instances)
-	(dbg 'process-story "returning instances ~s~%" result-instances)
 	(return-from outer result-instances)
 )
 )

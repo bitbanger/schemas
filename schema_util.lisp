@@ -84,6 +84,14 @@
 )
 )
 
+(defun instance-id (instance)
+	(concat-strs
+		(instance-schema-name instance)
+		"-"
+		(b10tob64 (sxhash instance))
+	)
+)
+
 (defun instance-bindings (instance)
 (cond
 	((not (instance? instance))
@@ -221,6 +229,7 @@
 )
 )
 
+; OPT: extract-characterizers(-for-ep) could be cached.
 (defun extract-characterizers (schema)
 (let (
 (maybe-characterizers nil)
@@ -260,6 +269,7 @@ characterizer-ep-ids
 
 (block outer
 	(setf characterizers (extract-characterizers schema))
+
 	(setf matched-ep-ids (mapcar #'second matched-wffs))
 	(setf characterizer-ep-ids (mapcar #'car characterizers))
 
@@ -311,8 +321,8 @@ bound-schema
 		append (loop for pair in (get-section-pairs bound-schema sec-name)
 			if (if (not definite?) (has-element-pred pair #'unbound-var?) (has-no-elements-pred pair #'unbound-var?))
 				collect (cond
-					((unbindable-var? (car pair))
-						(second pair))
+					;((unbindable-var? (car pair))
+						; (second pair))
 
 					(t pair))
 			; else do (format t "	(failed)~%")

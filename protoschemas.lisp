@@ -4,14 +4,14 @@
 (defparameter do_for-pleasure.sch
 	'(epi-schema ((?x do_for-pleasure.sch ?a) ** ?e)
 		(:Fixed-roles
-			?x agent6.n
-			?a (kind1-of.n activity1.n)
+			!r1 (?x agent6.n)
+			!r2 (?a (kind1-of.n activity1.n))
 		)
 
 		(:Var-roles
-			?p (kind1-of.n pleasure1.n)
-			?p1 pleasure1.n
-			?v subjective-value1.n
+			!r3 (?p (kind1-of.n pleasure1.n))
+			!r4 (?p1 pleasure1.n)
+			!r5 (?v subjective-value1.n)
 		)
 
 		(:Nonfluent-conds
@@ -47,13 +47,13 @@
 (defparameter give_object.sch
 	'(epi-schema ((?x give_object.sch ?y ?o) ** ?e)
 		(:Fixed-roles
-			?x agent6.n
-			?y agent6.n
-			?o (kind1-of.n object.n)
+			!r1 (?x agent6.n)
+			!r2 (?y agent6.n)
+			!r3 (?o (kind1-of.n object.n))
 		)
 
 		(:Var-roles
-			?l location.n
+			!r4 (?l location.n)
 		)
 
 		(:Init-conds
@@ -83,10 +83,10 @@
 (defparameter be_friendly_with.sch
 	'(epi-schema ((?x be_friendly_with.sch ?y) ** ?e)
 		(:Fixed-roles
-			?x agent6.n
-			?y agent6.n
-			?p (kind1-of.n pleasure.n)
-			?a (kind1-of.n activity.n)
+			!r1 (?x agent6.n)
+			!r2 (?y agent6.n)
+			!r3 (?p (kind1-of.n pleasure.n))
+			!r4 (?a (kind1-of.n activity.n))
 		)
 
 		(:Init-conds
@@ -125,9 +125,9 @@
 (defparameter do_activity_with_other.sch
 	'(epi-schema ((?x do_activity_with_other.sch ?a ?y) ** ?e)
 		(:Fixed-roles
-			?x agent6.n
-			?a (kind1-of.n activity1.n)
-			?y agent6.n
+			!r1 (?x agent6.n)
+			!r2 (?a (kind1-of.n activity1.n))
+			!r3 (?y agent6.n)
 		)
 
 		(:Init-conds
@@ -160,13 +160,13 @@
 (defparameter possess.sch
 	'(epi-schema ((?x possess.sch ?o) ** ?e)
 		(:Fixed-roles
-			?x agent6.n
-			?o (kind1-of.n object.n)
+			!r1 (?x agent6.n)
+			!r2 (?o (kind1-of.n object.n))
 		)
 
 		(:Var-roles
-			?p (kind1-of.n pleasure1.n)
-			?p1 pleasure1.n
+			!r3 (?p (kind1-of.n pleasure1.n))
+			!r4 (?p1 pleasure1.n)
 		)
 
 		(:Init-conds

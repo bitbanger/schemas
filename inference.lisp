@@ -57,6 +57,8 @@
 	)
 
 	; strip out episode characterization syntax
+	; TODO: this syntactic nicety should really be distinguished
+	; from actual inference rules.
 	(list
 	; match pattern
 	'(?s ** ?e)
@@ -74,6 +76,8 @@
 			(list #'term?)
 		)
 	))
+	; inferent
+	'?s
 	)
 )
 )

@@ -2,7 +2,7 @@
 	; put debug tags you want here
 	;'matched-wffs
 	;'match-wff
-	; 'process-story
+	'process-story
 	;'match-inst
 	;'unify-wffs
 	;'cur1
@@ -252,6 +252,23 @@ is replaced with replacement."
 			(car strs)
 			(apply #'concat-strs (cdr strs))))
 )
+)
+
+(defparameter *B64-STR* "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
+
+(defun b10tob64 (num)
+(let (b8str b64lst val) (block outer
+	(setf b8str (write-to-string num :base 8))
+	(setf b64lst (list))
+	(loop for i from 0 to (- (length b8str) 2)
+			if (equal 0 (mod i 2)) do (block inner
+				(setf val (- (* (+ 1 (parse-integer (subseq b8str i (+ i 1))))
+								(+ 1 (parse-integer (subseq b8str (+ i 1) (+ i 2))))) 1))
+				(setf b64lst (append b64lst (list (subseq *B64-STR* val (+ val 1)))))
+			)
+	)
+	(return-from outer (apply #'concat-strs b64lst))
+))
 )
 
 (defun join-str-list (sep strs)

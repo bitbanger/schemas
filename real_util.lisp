@@ -2,7 +2,7 @@
 	; put debug tags you want here
 	;'matched-wffs
 	;'match-wff
-	'process-story
+	; 'process-story
 	;'match-inst
 	;'unify-wffs
 	;'cur1
@@ -114,6 +114,17 @@
 		(stringp s)
 		(loop for c across s always (alphanumericp c))
 	)
+)
+
+(defun rechash (data)
+(cond
+	((not (listp data))
+		(sxhash data))
+
+	(t (sxhash (loop for e in data
+		if (listp e) collect (rechash e)
+		else collect e)))
+)
 )
 
 (defun ht-copy (ht)

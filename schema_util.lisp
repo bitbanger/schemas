@@ -88,7 +88,7 @@
 	(concat-strs
 		(instance-schema-name instance)
 		"-"
-		(b10tob64 (sxhash instance))
+		(b10tob64 (rechash instance))
 	)
 )
 

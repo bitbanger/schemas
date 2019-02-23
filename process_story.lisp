@@ -38,7 +38,7 @@
 (block outer
 
 	; use an instance hash table to dedupe
-	; TODO: verify that (equals (sxhash ht1) (sxhash ht2)) for all pairs,
+	; TODO: verify that (equals (rechash ht1) (rechash ht2)) for all pairs,
 	; even when (not (equals ht1 ht2)) [this seems to be true in the REPL]
 	(setf instances (make-hash-table :test #'equal))
 
@@ -47,12 +47,12 @@
 
 	(loop for ep in story
 			for i upto (length story)
-		do (format t "episode ~d:~%" i)
+		; do (format t "episode ~d:~%" i)
 
 		; Add this episode's WFFs into our KB
 		; (Use dummy IDs for them; they won't be rewritten)
 		do (loop for wff in ep
-			do (setf (gethash (sxhash (list (sxhash ep) (sxhash wff))) kb)
+			do (setf (gethash (rechash (list (rechash ep) (rechash wff))) kb)
 				; Also use dummy triples, since they don't have instance
 				; or episode IDs.
 				(list nil nil wff))
@@ -89,13 +89,13 @@
 							; if (not (null (instance-matched-wffs new-inst)))
 							if (not (same-list-unordered (instance-matched-wffs new-inst) (instance-matched-wffs instance)))
 							do (block inner
-									(format t "got new-inst ~s for wff ~s~%" (sxhash (instance-matched-wffs new-inst)) (sxhash (instance-matched-wffs instance)))
+									; (format t "got new-inst ~s for wff ~s~%" (rechash (instance-matched-wffs new-inst)) (rechash (instance-matched-wffs instance)))
 									; we'll keep the old instances for now, in case filling these
 									; WFFs in is erroneous
 									; (setf tmp-new-instances (append tmp-new-instances (list new-inst)))
 	
-									; we use the sxhash of the instance as the key because
-									; the instance itself contains a hash table, and sxhash
+									; we use the rechash of the instance as the key because
+									; the instance itself contains a hash table, and rechash
 									; seems to handle hash table equality better than whatever
 									; hash function the built-in hash table with :test #'equal
 									; does
@@ -155,14 +155,14 @@
 					do (block infer-loop
 						(setf new-inst (gethash instid instances))
 
-						(format t "new inst: ~s~%" new-inst)
+						; (format t "new inst: ~s~%" new-inst)
 
 						(if (instance-fulfilled? new-inst)
 						; then
 						(loop for inf-fact in (inferred-wffs new-inst t)
 							do (setf (gethash
 								; hash key (combo of instance ID + fact ID)
-								(sxhash (list (instance-id new-inst) (car inf-fact)))
+								(rechash (list (instance-id new-inst) (car inf-fact)))
 								; hash table (the temporary knowledge base)
 								tmp-kb)
 									; val to insert (instance ID + fact ID + fact)
@@ -189,13 +189,14 @@
 
 		)))
 
+
 		(loop for instid being the hash-keys of instances do (block print-inst-loop
 			(setf inst (gethash instid instances))
-			(format t "instance ~d: ~d (fulfilled? ~s)~%~%" instid (instance-to-str inst) (instance-fulfilled? inst))
+			; (format t "instance ~d: ~d (fulfilled? ~s)~%~%" instid (instance-to-str inst) (instance-fulfilled? inst))
 		))
-		do (format t "~%~%")
-		do (format t "~%~%")
-		(format t "FINAL INFERRED FACTS:~%")
+		; do (format t "~%~%")
+		; do (format t "~%~%")
+		; (format t "FINAL INFERRED FACTS:~%")
 		(loop for factid being the hash-keys of kb
 			do (block kbloop
 				(setf fact (gethash factid kb))
@@ -206,20 +207,47 @@
 					(return-from kbloop))
 
 				(setf wff (third fact))
-				(format t "	~s ~s ~s~%~%" instid epid wff)
+				; (format t "	~s ~s ~s~%~%" instid epid wff)
 			)
 		)
-		do (format t "~%~%")
+		; do (format t "~%~%")
 
 
-		; Print the instance tree
+	)
+
+	(block output-graph
+		; Output the instances and facts into Graphviz format.
+		(format t "digraph {~%")
+		(loop for instid being the hash-keys of instances do
+		(format t "	~s [label=< <B>SCHEMA INSTANCE: ~s</B> <br /> <br /> ~d >];"
+			instid
+			instid
+			(join-str-list "<br /><br />" (mapcar (lambda (x) (format nil "~d" x)) (instance-matched-wffs (gethash instid instances))))
+		)
+		)
+
 		(loop for instid being the hash-keys of instance-tree
 			do (block treeloop
 				(loop for child being the hash-keys of (gethash instid instance-tree) do (block treeloop-inner
-					(format t "~s -> ~s~%" instid child)
+					(format t "	~s -> ~s;~%" instid child)
 				))
 			)
 		)
+
+		(loop for factid being the hash-keys of kb do (block factloop2
+			(setf fact (gethash factid kb))
+			(setf instid (if (car fact) (car fact) "STORY"))
+			(setf epid (if (second fact) (second fact) "N/A")) ; TODO: actually extract the ep ID here
+
+			(if (equal instid "STORY")
+				(return-from factloop2))
+
+			(setf wff (third fact))
+			; (format t "	~s ~s ~s~%~%" instid epid wff)
+			(format t "	~s -> ~s;~%" instid (format nil "~s" wff))
+		))
+
+		(format t "}~%")
 	)
 
 

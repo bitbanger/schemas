@@ -181,7 +181,7 @@
 				(mk-schema-instance
 					schema-name
 					new-bindings
-					(append matched-eps (list (list wff matched-ep)))))))
+					(remove-duplicates (append matched-eps (list (list wff matched-ep))) :test #'equal)))))
 			(dbg 'match-inst "result instances now ~s~%" result-instances)
 		))
 		)

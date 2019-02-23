@@ -187,7 +187,7 @@
 		(listp l2)
 		(equal (length l1) (length l2))
 		(loop for e in l1
-			always (member e l2)
+			always (member e l2 :test #'equal)
 		)
 	)
 )

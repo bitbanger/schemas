@@ -27,6 +27,7 @@
 (let (
 	(cand-schemas nil)
 	(match-bindings nil)
+	(instance-tree (make-hash-table :test #'equal))
 )
 
 ; NOTE: right now, we're keeping all schema instances, and all
@@ -83,21 +84,30 @@
 					do (block try-instance
 						(setf instance (gethash instid instances))
 						(setf new-insts (match-wff-with-schema-instance wff instance))
-						(dbg 'process-story "got new-insts ~s for wff ~s~%" new-insts wff)
+						; (dbg 'process-story "got new-insts ~s for wff ~s~%" new-insts wff)
 						(loop for new-inst in new-insts
-							do (if (not (null (instance-matched-wffs new-inst)))
-								; then
-								; we'll keep the old instances for now, in case filling these
-								; WFFs in is erroneous
-								; (setf tmp-new-instances (append tmp-new-instances (list new-inst)))
+							; if (not (null (instance-matched-wffs new-inst)))
+							if (not (same-list-unordered (instance-matched-wffs new-inst) (instance-matched-wffs instance)))
+							do (block inner
+									(format t "got new-inst ~s for wff ~s~%" (sxhash (instance-matched-wffs new-inst)) (sxhash (instance-matched-wffs instance)))
+									; we'll keep the old instances for now, in case filling these
+									; WFFs in is erroneous
+									; (setf tmp-new-instances (append tmp-new-instances (list new-inst)))
+	
+									; we use the sxhash of the instance as the key because
+									; the instance itself contains a hash table, and sxhash
+									; seems to handle hash table equality better than whatever
+									; hash function the built-in hash table with :test #'equal
+									; does
+									(setf (gethash (instance-id new-inst) tmp-new-instances) new-inst)
 
-								; we use the sxhash of the instance as the key because
-								; the instance itself contains a hash table, and sxhash
-								; seems to handle hash table equality better than whatever
-								; hash function the built-in hash table with :test #'equal
-								; does
-								(setf (gethash (instance-id new-inst) tmp-new-instances) new-inst)
-								; else
+									; Log the fact that the new instance came from the old instance
+
+									; (We might have to create the nested HT first)
+									(if (null (gethash instid instance-tree))
+										(setf (gethash instid instance-tree) (make-hash-table :test #'equal)))
+
+									(setf (gethash (instance-id new-inst) (gethash instid instance-tree)) t)
 							)
 						)
 					)
@@ -112,7 +122,7 @@
 						(dbg 'process-story "wff: ~s~%" wff)
 						(dbg 'process-story "matching with instance of ~s~%" (schema-name ps))
 						(setf new-insts (match-wff-with-schema-instance wff (new-schema-instance (schema-name ps))))
-						(dbg 'process-story "got new-insts ~s for wff ~s~%" new-insts wff)
+						; (dbg 'process-story "got new-insts ~s for wff ~s~%" new-insts wff)
 						(loop for new-inst in new-insts do (block try-new-inst
 							(dbg 'process-story "got ~s~%" (instance-to-str new-inst))
 							; (if (null match-bindings) (return-from try-schema))
@@ -200,6 +210,16 @@
 			)
 		)
 		do (format t "~%~%")
+
+
+		; Print the instance tree
+		(loop for instid being the hash-keys of instance-tree
+			do (block treeloop
+				(loop for child being the hash-keys of (gethash instid instance-tree) do (block treeloop-inner
+					(format t "~s -> ~s~%" instid child)
+				))
+			)
+		)
 	)
 
 

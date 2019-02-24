@@ -268,6 +268,13 @@
 		)
 	)
 
+	; But if we're not out of tokens and the top pred isn't
+	; starred, we're toast.
+	(if (null x)
+		; (return-from outer (explain-nil "~s ~s~%" x preds))
+		(return-from outer nil)
+	)
+
 	(if (not (listp x))
 		; someone passed a naked atom into an MP in a desperate
 		; attempt to find a match; nothing to see here

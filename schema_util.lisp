@@ -322,15 +322,21 @@ bound-schema
 	(setf bound-schema (apply-bindings (eval schema-name) instance-bindings))
 	(loop for sec-name in (schema-section-names bound-schema)
 		if (not (equal sec-name ':Episode-relations))
-		append (loop for pair in (get-section-pairs bound-schema sec-name)
+		append (remove nil (loop for pair in (get-section-pairs bound-schema sec-name)
 			if (if (not definite?) (has-element-pred pair #'unbound-var?) (has-no-elements-pred pair #'unbound-var?))
 				collect (cond
 					;((unbindable-var? (car pair))
 						; (second pair))
 
+					; Don't generate inferences that were matched to us; if we
+					; matched it, it's already known.
+
+					((member (list (second pair) (car pair)) matched-wffs :test #'equal)
+						nil)
+
 					(t pair))
 			; else do (format t "	(failed)~%")
-		)
+		))
 	)
 )
 

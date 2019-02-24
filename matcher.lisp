@@ -180,6 +180,13 @@
 	(loop for result in match-results do (block result-loop
 		(setf new-bindings (car result))
 		(setf matched-ep (second result))
+
+		; If we didn't bind anything new, it's not really a match;
+		; this WFF would have been generated as an inference by
+		; applying the existing bindings.
+		(if (ht-eq new-bindings bindings)
+			(return-from result-loop)
+		)
 	
 		(if (not (null new-bindings)) (block if-got-match
 			(dbg 'match-inst "got a match for ep ~s with wff ~s~%" matched-ep wff)

@@ -67,19 +67,21 @@
 			(loop for wff-key being the hash-keys of kb do (block continue
 			(setf wff-triple (gethash wff-key kb))
 			(setf wff (third wff-triple))
+			(setf inst-that-gave-wff (car wff-triple))
 			; don't reason about things we've seen
 			(if (not (null (gethash wff-triple already-matched-wffs)))
 				(return-from continue))
 
+
 			; mark this as seen
 			(setf (gethash wff-triple already-matched-wffs) t)
+
 
 			; find candidate schemas
 			(block schema-loop
 				; Try to match the WFF to each of the
 				; current schema instances.
 				(setf tmp-new-instances (make-hash-table :test #'equal))
-				; (loop for instance in instances
 				(loop for instid being the hash-keys of instances
 					do (block try-instance
 						(setf instance (gethash instid instances))
@@ -111,7 +113,10 @@
 							)
 						)
 					)
+
+					
 				)
+
 				
 
 				; Try to instantiate a new version of
@@ -145,6 +150,8 @@
 				(loop for instid being the hash-keys of tmp-new-instances
 					do (setf (gethash instid instances) (gethash instid tmp-new-instances))
 				)
+
+
 				(setf tmp-new-instances (make-hash-table :test #'equal))
 				(dbg 'process-story "instances is now ~s~%" instances)
 
@@ -171,9 +178,12 @@
 					)
 				)
 
+
 				; (setf instances (append instances tmp-new-instances))
 			)
+
 		))
+
 
 		; if we added any new facts, put them in the KB;
 		; otherwise, we're done for this episode

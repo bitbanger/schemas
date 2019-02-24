@@ -52,10 +52,10 @@
 		; Add this episode's WFFs into our KB
 		; (Use dummy IDs for them; they won't be rewritten)
 		do (loop for wff in ep
-			do (setf (gethash (rechash (list (rechash ep) (rechash wff))) kb)
+			do (setf (gethash (rechash (list (rechash ep) (rechash (normalize-sent wff)))) kb)
 				; Also use dummy triples, since they don't have instance
 				; or episode IDs.
-				(list nil nil wff))
+				(list nil nil (normalize-sent wff)))
 		)
 
 
@@ -219,10 +219,12 @@
 		; Output the instances and facts into Graphviz format.
 		(format t "digraph {~%")
 		(loop for instid being the hash-keys of instances do
-		(format t "	~s [label=< <B>SCHEMA INSTANCE: ~s</B> <br /> <br /> ~d >];"
+		(format t "	~s [label=< <B>~d: ~s</B> <br /> <br /> ~d >,fillcolor=~d,style=filled];"
 			instid
+			(if (instance-fulfilled? (gethash instid instances)) "FULFILLED" "unfulfilled")
 			instid
-			(join-str-list "<br /><br />" (mapcar (lambda (x) (format nil "~d" x)) (instance-matched-wffs (gethash instid instances))))
+			(join-str-list "<br /><br />" (mapcar (lambda (x) (format nil "<B>~d</B>     ~d" (second x) (car x))) (instance-matched-wffs (gethash instid instances))))
+			(if (instance-fulfilled? (gethash instid instances)) "green" "red")
 		)
 		)
 

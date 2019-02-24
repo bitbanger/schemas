@@ -88,25 +88,31 @@
 )
 (block outer
 	(dbg 'match-wff "here~%")
+	
 	; A single WFF could mean essentially the same thing
 	; as several WFFs; we encode these transformations in
 	; a set of "standard" inference rules, and we try each
 	; form of the WFF when matching. We're happy with the
 	; first match.
-	(loop for alt-wff in (apply-standard-rules norm-wff) do
-		(loop for ep in eps
+	(loop for ep in eps do (block alt-loop
+		(loop for alt-wff in (apply-standard-rules norm-wff)
 			do (setf ep-name (car ep))
 			do (setf ep-wff (second ep))
 			do (setf norm-ep-wff (normalize-sent ep-wff))
 			do (dbg 'match-wff "attempting to unify ~s and ~s~%" alt-wff norm-ep-wff)
 			do (setf unify-res (unify-wffs alt-wff norm-ep-wff bindings))
 			if (not (null unify-res))
-				; TODO: instead of returning here, try,
-				; and return, ALL of the matches (or use some heuristic?)
-				do (setf results (append results (list (list unify-res ep-name))))
+				do (block matched-block
+					(setf results (append results (list (list unify-res ep-name))))
+					; we don't mind trying to match to multiple
+					; episodes, but we don't want to match to
+					; multiple syntactic versions of the same
+					; WFF
+					(return-from alt-loop)
+				)
 			else
 				do (dbg 'match-wff "couldn't unify~%~%")
-		)
+		))
 	)
 
 	(dbg 'match-wff "returning results: ~s~%" results)
@@ -176,7 +182,13 @@
 		(setf matched-ep (second result))
 	
 		(if (not (null new-bindings)) (block if-got-match
-			(dbg 'match-inst "got a match for ep ~s~%" matched-ep)
+			(dbg 'match-inst "got a match for ep ~s with wff ~s~%" matched-ep wff)
+
+			; We won't take it if we've already matched something
+			; to this WFF in this instance
+			(if (member matched-ep (mapcar #'second matched-eps) :test #'equal)
+				(return-from if-got-match))
+
 			(setf result-instances (append result-instances (list
 				(mk-schema-instance
 					schema-name
@@ -201,9 +213,9 @@
 	(loop for schema-ep in (mapcar #'second (get-int-ep schema))
 		do (block story-loop
 			(loop for story-ep in story
-				do (loop for alt-story-ep in (apply-standard-rules (normalize-sent story-ep))
-					; do (format t "matching schema WFF ~s against alt story ep ~s~%" (normalize-sent schema-ep) alt-story-ep)
-					do (setf unify-res (unify-wffs (normalize-sent schema-ep) alt-story-ep match-binds))
+				do (loop for alt-story-ep in (apply-standard-rules story-ep)
+					; do (format t "matching schema WFF ~s against alt story ep ~s~%" schema-ep alt-story-ep)
+					do (setf unify-res (unify-wffs schema-ep alt-story-ep match-binds))
 					if (not (null unify-res))
 					do (block innermore
 					; (format t "we matched! updating bindings~%")
@@ -219,7 +231,7 @@
 
 
 		; do (format t "on schema ep ~s~%" schema-ep)
-		;do (setf match-binds (match-wff-with-episodes (normalize-sent schema-ep) story match-binds))
+		;do (setf match-binds (match-wff-with-episodes schema-ep story match-binds))
 		;if (null match-binds)
 		; do (format t "couldn't bind schema WFF ~s~% to story" schema-ep)
 		; else do (block inner

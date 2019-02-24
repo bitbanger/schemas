@@ -84,14 +84,6 @@
 )
 )
 
-(defun instance-id (instance)
-	(concat-strs
-		(instance-schema-name instance)
-		"-"
-		(b10tob64 (rechash instance))
-	)
-)
-
 (defun instance-bindings (instance)
 (cond
 	((not (instance? instance))
@@ -108,6 +100,18 @@
 
 	(t (fourth instance))
 )
+)
+
+(defun instance-id (instance)
+	(concat-strs
+		(instance-schema-name instance)
+		"-"
+		(b10tob64 (rechash (mk-schema-instance
+			(instance-schema-name instance)
+			(instance-bindings instance)
+			(unordered-rechash (instance-matched-wffs instance))
+		)))
+	)
 )
 
 (defun print-schema (schema)

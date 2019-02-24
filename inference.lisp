@@ -59,26 +59,26 @@
 	; strip out episode characterization syntax
 	; TODO: this syntactic nicety should really be distinguished
 	; from actual inference rules.
-	(list
+	;(list
 	; match pattern
-	'(?s ** ?e)
+	;'(?s ** ?e)
 	; variable constraints
-	(mk-hashtable (list
-		(list
+	;(mk-hashtable (list
+	;	(list
 			; s must be a sentence
-			'?s
-			(list #'sent?)
-		)
-		(list
+	;		'?s
+	;		(list #'sent?)
+	;	)
+	;	(list
 			; v must be an entity.
 			; Maybe "term" is sufficient for now?
 			; TODO: determine whether "entity" is a more nuanced concept
-			(list #'term?)
-		)
-	))
+	;		(list #'term?)
+	;	)
+	;))
 	; inferent
-	'?s
-	)
+	;'?s
+	;)
 )
 )
 

@@ -3,7 +3,7 @@
 	;'matched-wffs
 	;'match-wff
 	; 'process-story
-	;'match-inst
+	; 'match-inst
 	;'unify-wffs
 	;'cur1
 ))
@@ -124,6 +124,17 @@
 	(t (sxhash (loop for e in data
 		if (listp e) collect (rechash e)
 		else collect e)))
+)
+)
+
+(defun unordered-rechash (data)
+(cond
+	((not (listp data))
+		(sxhash data))
+
+	(t (sxhash (sort (loop for e in data
+		if (listp e) collect (unordered-rechash e)
+		else collect (sxhash e)) #'<)))
 )
 )
 

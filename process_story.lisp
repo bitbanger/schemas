@@ -238,14 +238,27 @@
 		)
 		)
 
+		; Draw instance parent->child edges.
 		(loop for instid being the hash-keys of instance-tree
-			do (block treeloop
-				(loop for child being the hash-keys of (gethash instid instance-tree) do (block treeloop-inner
-					(format t "	~s -> ~s;~%" instid child)
+			do (block drawtreeloop
+				(loop for child being the hash-keys of (gethash instid instance-tree) do (block drawtreeloop-inner
+					(format t "	~s -> ~s [label=< <B>became instance</B> >];~%" instid child)
+				))
+
+			)
+		)
+
+		(loop for instid being the hash-keys of instances
+			do (block drawmatchloop
+				; Draw matched WFF->instance edges.
+				(loop for matched-wff in (instance-matched-wffs (gethash instid instances)) do (block drawmatchloop-inner
+					; (format "~s LOL ~s;~%" (second matched-wff) instid)
+					(format t "	~s -> ~s [label=< <B>matched to</B> >];~%" (format nil "~s" (car matched-wff)) instid)
 				))
 			)
 		)
 
+		; Draw schema -> inference lines.
 		(loop for factid being the hash-keys of kb do (block factloop2
 			(setf fact (gethash factid kb))
 			(setf instid (if (car fact) (car fact) "STORY"))
@@ -256,7 +269,7 @@
 
 			(setf wff (third fact))
 			; (format t "	~s ~s ~s~%~%" instid epid wff)
-			(format t "	~s -> ~s;~%" instid (format nil "~s" wff))
+			(format t "	~s -> ~s [label=< <B>generated inference</B> >];~%" instid (format nil "~s" wff))
 		))
 
 		(format t "}~%")

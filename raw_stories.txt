@@ -1,0 +1,1498 @@
+Complexity=0.4243902873460134
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I see a girl. I see a boy. I see a boy and a girl. The boy can see the girl. I can see the girl and the boy. I can see the girl. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+A parrot can talk. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The boy and the dog run. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The hen will run at the cat. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The dog and hen run at the cat. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+I see one dog and two cats. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+She saw Rover run off with the hat. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Here come Jack and Jill on a red sled. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The Hare runs from the Dog. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The Fox will eat the Hen. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The Man breaks the Ice. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+That man is shooting partridges. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The rat ran from the box. 
+
+Complexity=0.4268884728454127
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The man with the big hat has a cow. 
+
+Complexity=0.4314272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The baby can not have the bird. She can not fly and catch it. 
+
+Complexity=0.4394870615395618
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I have four apples on this plate. If I put two apples on the box, I shall leave two apples on the plate. Four apples are two apples and two apples. If I put three apples on the box, I shall leave one apple on the plate. Four apples are three apples and one apple. If I put one on the box, I shall leave on the plate. 
+
+Complexity=0.4405181546137066
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The bear was small then, so he was not afraid of him. He cut the tree down, and as soon as it fell, the dogs caught the bear. 
+
+Complexity=0.44254067365740535
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The cat saw the rat. Off ran the rat, and off ran the cat. But the rat got to the hole all safe. 
+
+Complexity=0.4449937555924609
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+It is not a dog, but it has legs. It is not a bird, but it has wings. It says buz, buz, buz. It is busy all the day. 
+
+Complexity=0.4461605831596679
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I like to see John run with his kite. He can run as fast as the other boys, but he can not jump far. He does not like to look at books and pictures, but he can play on a drum. 
+
+Complexity=0.45077596777505247
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Ada has a fan in her hand. These fans are May's. Ada has May's white fan. 
+
+Complexity=0.45142724552279745
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The boy has a big dog. You may see the dog play ball. 
+
+Complexity=0.4518991264364507
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+I have a doll. I can see my doll. My doll has a hat. The girl has a doll and a hat. 
+
+Complexity=0.4523902873460134
+Length=VeryShort
+Questions=True
+DirectSpeech=False
+Content=
+A dog runs. The dog is black. It is a large, black dog. Is it Tom's black dog? It is my black dog. My large, black dog runs. 
+
+Complexity=0.4814272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+One day Ned went out to walk. He looked up and saw a green bird. 
+
+Complexity=0.4814272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Baby sits on the soft mat. You may play near her a while. 
+
+Complexity=0.4814272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Little Jack has a funny horse. He rides the spade. 
+
+Complexity=0.4814272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The puppies are full of fun. I like to see them play with each other. 
+
+Complexity=0.4814272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+This cat was in a nest. A hen ran at her. 
+
+Complexity=0.4814272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The cat is on the box. She saw a big rat and ran to catch it. 
+
+Complexity=0.4814272455227975
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+I love little Lucy. But now she has gone far away to her home. 
+
+Complexity=0.4854285382011566
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Here is Jean with her hoop. Jean can roll the hoop very fast. The hoop has bells on it. The bells tinkle, tinkle, tinkle. 
+
+Complexity=0.4879188249179096
+Length=VeryShort
+Questions=True
+DirectSpeech=False
+Content=
+I see a nest, Rosy! Can you see it? It is in this big green tree.        
+
+Complexity=0.48971425248687084
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Did Cora go to the hill? We did not see her there. When we saw Cora this morning, she was dressing her doll. She said she was going to see Elsie. 
+
+Complexity=0.49083185473418156
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+The bird can fly. The baby can not have the bird. She can not fly. She may play with my doll. She may have my big hat. 
+
+Complexity=0.49721787355291
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+The cats are on the steps. One cat is sitting on the steps. One cat is lying on the steps. Is the black cat lying on the mat? No; it is the white one. The black one is sitting near the white one. 
+
+Complexity=0.5021954910978179
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Kate has left her doll in its little bed, and has gone to play with Mary and James. They are all in the shade, now, by the brook. James digs in the soft sand with his spade, and Mary picks up little stones and puts them in her lap. James and Mary are glad to see Kate. She will help them pick up stones and dig, by the little brook.  
+
+Complexity=0.5034285382011566
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+My papa gave me two pretty rabbits. My rabbits eat from my hand. I shall keep them in a little house. I love my dear papa. 
+
+Complexity=0.5129285382011566
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+I have three good apples. One is red, and two are yellow. I will give you the red one. I see a big red apple in the tree. 
+
+Complexity=0.5129285382011566
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+I have three good apples. One is red, and two are yellow. I will give you the red one. I see a big red apple in the tree. 
+
+Complexity=0.5154285382011565
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Come with me, and see the boys. One little boy has a drum. Two boys have big hats. One boy has a ball. 
+
+Complexity=0.5174697251179449
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+A top spins. The tops spin. Tom spins the tops. He spins the tops on a box. Tom spins my large top. He spins my small top. Spin, tops, spin. 
+
+Complexity=0.5174697251179449
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Here are two dogs. One dog is black. One dog is white. A dog runs. The dogs run. Run, dogs, run. One dog and one dog are two dogs. 
+
+Complexity=0.5187730312047697
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Do you see the man and the woman in this large boat? They have no house; they live in the boat. What have they in the boat? They have corn and cocoanuts. They are taking them to Manila.  
+
+Complexity=0.5274285382011565
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The girl is good to the little baby. The baby may have my big doll. She can not catch the bird. She may come with me and see the bird fly. 
+
+Complexity=0.5350626239649507
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+It is raining. It rains on the cows and the calf. It rains on the man and the horses. One of the horses is drinking from the brook. The rain makes the grass and the flowers grow. 
+
+Complexity=0.535317116614306
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The little boy has a red wagon. The boy will let little May ride in it. Come, May, come and see my wagon. You may get in it, and have a ride. I will take you with me to the fields. You may have a good ride. 
+
+Complexity=0.5395237791719989
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Here is John with his ball. He and Tyke are playing ball. John likes to play ball with Tyke. John can catch the ball. Tyke can catch it, too. John rolls the ball to Tyke. Tyke takes the ball to John. 
+
+Complexity=0.5426341897850377
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+The old cat can catch a mouse. She has a mouse in her mouth. What will she do with it? She will give it to her little kittens. They will play with the mouse. They are not afraid of it; but the mouse is afraid of the kittens. 
+
+Complexity=0.5431045820069088
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Ann gave Ned three cakes of paint. She told him to paint just what you see here. She gave him red and yellow. Here is a new color: It is purple. Red and blue make purple. 
+
+Complexity=0.5454285382011566
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+A little bird can not eat nuts. He likes crumbs. Squirrels have sharp teeth. It is easy for them to eat nuts.  
+
+Complexity=0.5470818547341815
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Little Henry went to school this morning. All the children were glad to see him as he came down the street. He is a funny little boy, and I am sure you would like him. He says he will grow very fast and soon be a man. He likes to go to school. 
+
+Complexity=0.5472194199997624
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Frank has gone to the field with his kite. He likes to play with it. It is the kite his father gave him. He will run and the kite will fly. He can run very fast, and the kite can fly very high. John does not like to run with a kite. He likes to play on his drum. He will play on his drum, and Frank will run with his kite. 
+
+Complexity=0.5489420114839445
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I have a large mango. This mango is larger than mine. That is the largest mango in the basket. This tree is tall. That tree is taller than this one. The cocoanut tree is the tallest tree in the yard. 
+
+Complexity=0.5495331444888705
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I can see a swan. A swan can swim well. A swan can not walk well, but she can swim very fast. The swan has a nest by the side of the pond. She lays eggs in her nest. She is a white swan. 
+
+Complexity=0.5540671488518285
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+We live on the round earth. There is land and water on all sides of it. Men have sailed all around it in ships. All sails are set. Men can sail it over the wide, wide sea. 
+
+Complexity=0.5545642003894916
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I see a fox on a box, and a fox in front of a box. Frank has two foxes and two boxes. He gave each fox a box in which to sleep. He put hay in the boxes. The boxes are good houses for them. Frank feeds his foxes and gives them water. 
+
+Complexity=0.5579697251179448
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The girls have come to play with the baby. Two girls have little dolls. One girl has a red dress. The baby is glad to see the girls. The girl with the red dress is May. May is glad to see the good baby. She will take the baby to see the bird. 
+
+Complexity=0.5579697251179448
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The girls have come to play with the baby. Two girls have little dolls. One girl has a red dress. The baby is glad to see the girls. The girl with the red dress is May. May is glad to see the good baby. She will take the baby to see the bird. 
+
+Complexity=0.5592868390701513
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I have a pet hen. She has a nest in a box. Two eggs are in the nest. One day when she went away to get her dinner, a big rat came to get an egg; but he did not get the egg. My hen saw him and did not let him get the egg. A rat will eat an egg if he can get it. 
+
+Complexity=0.5593768176189053
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The cat has the rat. I had the cat. I can see. I can see a cat. And I see a black rat. The cat can see and the rat can see. A rat can see my cat. The black rat ran. My black cat ran. My cat has the rat. I can see a cat and a rat. 
+
+Complexity=0.5595331444888705
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Frank and little May are in the field with the wagon. They have come to find flowers. May has a red flower. Frank has three yellow flowers. He will let May have them. She will take them to the wagon She is glad to get the pretty flowers. 
+
+Complexity=0.559639064516946
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+James is kind to Fanny. She is his little sister. He has a nice wagon. He plays horse, and gives her a ride.  
+
+Complexity=0.5605686968394447
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Frank has a pretty boat. It is white, with a black line near the water. He keeps it in the pond, near his home. He always takes good care of it. Frank has been at work in the garden, and will now row a while. 
+
+Complexity=0.5618242496101643
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+My mother gave me a new book. I took it to school one morning, to let the girls see the pictures. Soon after this I found my pet kitten and took her home with me. I like to play with my pet kitten. I will do as mother says. I will take good care of the kitten. 
+
+Complexity=0.5621121926308565
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This boy has a hat. His hat is black. The bat is in his hand. He has his bat. This is a black hat. The boy had a black hat. This black hat is his. I had a black bat. The black bat is my bat. The boy has his bat in his hand.  
+
+Complexity=0.562260426162753
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Has Charley seen the nest in the big apple tree? Oh, yes! and he has seen the sweet apples, too. A big apple is on the green grass. Charley will get it for Rosy. 
+
+Complexity=0.5628906782635933
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This is a schoolhouse in America. We can see some boys and girls in the street. The boys and girls are going to school. Last night they studied their lessons. This is a large, fine schoolhouse; it is made of stone. 
+
+Complexity=0.5635013984571245
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+A sail-boat is on the pond. The man holds the sail. The wind blows on the sail, and the boat moves fast. There is a row-boat too. I like a row-boat. It is fun to row. 
+
+Complexity=0.5655481820828555
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Here is our fine new tent. There is room for all of us. Here is a fine flag for you, boys. It is red, white and blue. We have made it for the top of your tent. We will take our flag and drum. 
+
+Complexity=0.5692473920277344
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+This is my dog Jip. Jip is a black-and-white dog. He sits and looks at me. He has a hat on his head. Has Jip a hat? No; he has my hat. Jip, Jip, that is my hat. Jip, give me my hat. 
+
+Complexity=0.5695606342088539
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Mother gave them to me. She gave them to me this morning. My father gave me two red ones. I will keep the red flower. I will give all my yellow flowers to Lucy. She will like them. She will take them home with her. 
+
+Complexity=0.5700851097333295
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+These women came to the river to wash clothes. They brought them in large baskets on their heads. They dip the clothes in the water. Then they put soap on them. They lay the clothes on a large stone and pound them with a stick. Then they dip them in the water again. Now the clothes are white and clean. 
+
+Complexity=0.5705721055278316
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The sun has set, and the pond is still. John, Ned, Ben, Tom, and Nell stand on the bank, and look at the duck. The dog with a black spot on his back, is with Tom. See! Tom has his hat in his hand. He has left his big top on the box. 
+
+Complexity=0.5707583810387235
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Here is May with her kitten. Her mother gave the kitten to her. She is kind to the pretty kitten. She likes to see it jump and play. See it run with May's ball! It does not run far with it. If May can get the ball she will not take it. She will give it to the kitten to play with. 
+
+Complexity=0.5711402873460134
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Will you let me ride home with you, Frank? Yes, May, you may sit by me in the wagon if you like. Get in, and give me the whip. I will not whip the good horse. Now, here we go! Here is the apple tree, but we can not see the nest in it. 
+
+Complexity=0.5716766216696689
+Length=Short
+Questions=False
+DirectSpeech=True
+Content=
+See Baby try to catch the hoop! Baby can not catch it. The hoop rolls away from Baby. Look, Baby! See the hoop roll! Hear the bells, Baby! The bells say, "Tinkle, tinkle, tinkle." 
+
+Complexity=0.5729747118770386
+Length=VeryShort
+Questions=True
+DirectSpeech=False
+Content=
+Is this May? No; this is Ada. May is not here. Ada is sitting in May's chair. She is looking at a fan which lies on a box. 
+
+Complexity=0.5734429189249608
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Here is a fisherman. He is ready to put his net into the water. He stands on two long poles over the water. He has a basket for his fish. His net is larger than Simeon's net. The men in the boats use a larger net than this. 
+
+Complexity=0.5740411536893735
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+These boys are Ned and Roy. The large boy is Roy. The boy who has a bun is Ned. The boys are sitting on the floor. Roy's dog, Carlo, lies near Ned. Is he lying near Roy? Ned and Roy are good boys. 
+
+Complexity=0.5744921472724897
+Length=Short
+Questions=True
+DirectSpeech=True
+Content=
+Did the boys swing their hats and cheer? This morning there were many boys and girls on the hill. They had their sleds with them. The snow on the hill was just right, and they had fine sport. How the boys did swing their hats and cheer! They did this when the little girls were ahead. When the boys were ahead, the girls said,— "Ho, ho! There they go; Over the ice and over the snow." 
+
+Complexity=0.5763788160270358
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The man has a little dog. The boy has a big dog. See the little dog run! He has my ball. The little dog may have the ball. He may run and play with it. She can not take it. 
+
+Complexity=0.5763788160270358
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+These men fish in the sea. They have a large net. They carry the net in a boat and drip it into the water. Soon they pull it to the shore. Sometimes they find many fish in it. The women put the fish in the basket and take them home. Pedro and Simeon like to watch the men in the boats and help pull in the net. 
+
+Complexity=0.5782583810387234
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The boy can run and play. The boy can play ball. The man may see the boy play. The boy may take the ball. The baby has a big doll. The little girl has a ball. I can see the baby. The baby may have my ball. 
+
+Complexity=0.578930539918807
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This is Fred and his sled. It is a red sled. It is a red sled, and it has black letters on it. Fred let Frank stand on his sled, and Frank fell into the snow. I am Fred and this is Frank. This is my red sled. My sled is a pretty sled. I let frank have my sled, and he fell into the snow. Frank can not stand on my sled. I can stand on it. 
+
+Complexity=0.5790376018179442
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Ned has a nice boat on the pond. He can row the boat. Ned has an oar in his right hand, and an oar in his left hand. He can row with two oars. I can row a boat. I can row with two oars. No one is in the boat with Ned. He must take care not to fall out. 
+
+Complexity=0.5796869524672948
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Yes, Fred, I see it. Can you see eggs in the nest? Yes, Rosy, I can. Oh, Fred, can I get a peep at them? I will get the nest, Rosy, and let you see it. No! no! I beg you not to get it. 
+
+Complexity=0.5811907118657911
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The cherry is red. The buttercup is yellow. I can paint a buttercup or a cherry. The buttercup is a flower, but the cherry is a fruit. The color of the orange is not red and it is not yellow. We call this color orange. I can make orange. Red and yellow make orange. 
+
+Complexity=0.5820192749009205
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+This is Tom and May. Tom and May can play ball. Tom has a little bat and a little ball. Tom has hit the ball. See it fly! See May run! Will she get the ball? O, yes, she will get the ball. Run, May, run, and get the ball! 
+
+Complexity=0.5831595181152442
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+There are fish in their pond. They are very nice fish. We will come and catch them. We will take the long rod, and the hook and line. We must have a bag, too. It must be strong, to keep the fish safe. 
+
+Complexity=0.5836939211084098
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+I see May and her dolls. May is in her little chair. She has a doll in her lap. One doll is sitting on a bed. The doll on the bed is wax. The doll in her lap is not wax. May's dolls have blue eyes. Has May blue eyes? 
+
+Complexity=0.5846483518621424
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+It is night. The moon and stars are shining. I see many stars. At night the boys and girls are asleep. In the day they play or work. When night comes they are very tired. 
+
+Complexity=0.5869901386179803
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This girl has a fan. The fan is in her hand. She can fan the cat. I see a girl. And I see a cat and a fan. This girl has the cat. And the girl has the fan. The fan is in her hand. I can fan the girl. She can fan her cat. This is my black fan. 
+
+Complexity=0.5873928020410217
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Do you see that tree on the hill? Well, a nest is in that tree. Charley, Fred and I went to see the nest. It had eggs in it. Charley went up the tree and got the nest for us to see. As he held it in his hand, an egg fell on the grass. Was not that too bad? 
+
+Complexity=0.5893142816598415
+Length=Short
+Questions=False
+DirectSpeech=True
+Content=
+Nell has a new sled. Nell says, "I must take baby May for a ride, then I must go to school." Here you can see Nell with baby May on the sled. Baby likes to ride on the new sled. She likes to play in the white snow. If Nell runs too fast, May calls, "Stop, stop!" Baby can not tell Nell that she is going too fast. Soon baby May can say, "too fast!" 
+
+Complexity=0.5917197251179449
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+See! John is rolling the ball to Tyke. Run! Tyke! Get the ball. Good dog! Take the ball to John. 
+
+Complexity=0.5926125822608019
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Frank and little May are in the field with the wagon. They have come to find flowers. May has a red flower. Frank has three yellow flowers. He will let May have them. She will take them to the wagon. She is glad to get the pretty flowers. 
+
+Complexity=0.5926125822608019
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Frank and little May are in the field with the wagon. They have come to find flowers. May has a red flower. Frank has three yellow flowers. He will let May have them. She will take them to the wagon. She is glad to get the pretty flowers. 
+
+Complexity=0.5926739654543078
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Here is a large tree. The leaves grow on the branches of the tree. The branches grow from the trunk of the tree. What is the trunk of the tree? The large part of the tree is called the trunk. Do you know what the roots are? The roots grow in the ground. They get water and food for the tree from the ground. 
+
+Complexity=0.5940569540126801
+Length=Short
+Questions=False
+DirectSpeech=True
+Content=
+The boys and girls are having fine sport. The snow on the hill is just right, and their sleds run well. O, look at them! Elsie and Roy are ahead. "Ho, ho! There they go; Over the ice and over the snow." 
+
+Complexity=0.5941246424368998
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Three birds are in the tree. One is a pretty red bird. You can not catch it. It is high in the tree. The red bird can see the boys with the drum. It can see the little girl with the red dress. It can see the good baby and the pretty doll. It can see the man in the field. 
+
+Complexity=0.5954012381815805
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I see a man and a dog and a cow. The cow is with the man. The dog has a big hat. He is a good little dog. He may take the hat to the man. The man is good to the dog. The cow can run. She can not play. 
+
+Complexity=0.5965333136532787
+Length=Short
+Questions=False
+DirectSpeech=True
+Content=
+Koy is teaching Carlo to beg. He stands and says, "Beg, Carlo, beg. It is a bun. Beg, and you may have it." Carlo stands on his hind feet. He looks at the bun which Roy has in his hand and says, "Bowwow, bow-wow." Ned sits and looks at Carlo. Roy will give the bun to Carlo. 
+
+Complexity=0.5988188587745849
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The man is showing the horse. He holds the horse's foot. The shoes are made of iron. The man nails them on to the horse's hoofs. It does not hurt the horse. His hoofs are hard. 
+
+Complexity=0.6002163743025352
+Length=VeryShort
+Questions=False
+DirectSpeech=False
+Content=
+Hal has a red drum. The drum is yellow. Ned has a gun. Max has a big flag. It is red white and blue. All three boys have caps. 
+
+Complexity=0.6029012381815806
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I can see a bird on the tree. It has two legs. It has a small bill, and a long tail. It has wings, and can fly. It can fly over a tall tree. It can fly so high that we can not see it. It's nest is up in the tree. It will sing. 
+
+Complexity=0.6056422859168324
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The boys like to go to the woods. Here they are now. Here are the horse and the wagon. And here is the boy with the drum. They like to play in the woods. They like to find pretty flowers. If they find little birds in a nest, they will not take them. By and by they will go home. They will ride home in the wagon. 
+
+Complexity=0.6056422859168324
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The boys like to go to the woods. Here they are now. Here are the horse and the wagon. And here is the boy with the drum. They like to play in the woods. They like to find pretty flowers. If they find little birds in a nest, they will not take them. By and by they will go home. They will ride home in the wagon. 
+
+Complexity=0.6091512381815806
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+My horse is strong and kind. He will let me ride on his back. He draws me in a wagon. He can trot, and run. He can run as fast as Tom's horse. I call him Dan. He will come if I call him. He will eat from my hand.  
+
+Complexity=0.6104697251179448
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+An old hen sat on eight eggs. Soon she had in her nest six little chickens and two ducks. Every day the hen took them into the yard. She was very proud of them. She scratched the ground and found worms for them to eat. Every night she took them back to the nest.They slept all night under her wings. 
+
+Complexity=0.6106393334196758
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This is little Lucy. Her home is far away. She has come to see  Frank and May. All the little girls love Lucy. They are kind and good to her, and she loves them. Frank will let her ride with him in the big wagon. He will give her the whip, and the horse will go fast. The horse will go fast and far, but he will not run away. 
+
+Complexity=0.6131285109088533
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Here are four little girls who live near the sea. They have gone down to the beach with their father. They like to play in the sand. Sometimes their mother goes with them, and they stay there all day. They like to look at the ships as they sail far away on the blue sea. Do you think you would like to sail far away on a ship? Sometimes these little girls find pretty shells in the sand. I think all children like to play on the beach when the sun is warm, and the wind does not blow. 
+
+Complexity=0.6134697251179448
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+What is in this monkey's hands? The monkey has a cocoanut. He likes the cocoanut. He will eat it. The monkey is brown. It has a large tail. His eyes are large. 
+
+Complexity=0.6177268195769294
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+The monkey can climb a tree. He climbs the tree and gets a cocoanut. He drops the cocoanut to the ground. He comes down and eats it. The monkey likes to run and play. Is Simeon afraid of the monkey? Luisa is afraid of large monkeys. She is not afraid of this little monkey. 
+
+Complexity=0.6188030584512783
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The sun is up. The man has fed the black hen and the fat duck. Now the duck will swim in the pond. The hen has run to her nest. Let us not stop at the pond now, for it is hot. See how still it is! We will go to see Tom and his top. 
+
+Complexity=0.6202621689577681
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Three birds are in the tree. One is a pretty red bird. You can not catch it. It is high in the tree. The red bird can see the boys with the drum. It can see the little girl with the red dress. It can see the good baby and the pretty doll. It can see the man in the field. Pretty birds, will you fly to me? 
+
+Complexity=0.6216399378839023
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+O John! the sun has just set. It is not hot, now. Let us run and jump. I think it is fun to run, and skip, and jump. See the duck on the pond! Her nest is up on the bank, under the rock. We must not touch the nest, but we may look at it 
+
+Complexity=0.6220679048482473
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Hall and Ann have come to the brook. Dash is with them. The brook is wide, but the water is not deep. Dash has Ann on his back. He will take her to the other side. She will not wet her feet. He holds her on her. She will not fall off. 
+
+Complexity=0.6226790274435262
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+The sun is hot and the carabao likes to stand in the water. Simeon rode him here. Soo Simeon will ride him home. Where is Simeon? He likes to sit under a tree. Simeon's father has five carabaos. Three of them are old, and two of them are young. 
+
+Complexity=0.6234367721323713
+Length=Medium
+Questions=False
+DirectSpeech=True
+Content=
+A little play does not harm anyone, but does much good. After play, we should be glad to work. I knew a boy who liked a good game very much. He could run, swim, jump, and play ball; and was always merry when out of school. But he knew that time is not all for play; that our minutes, hours, and days are very precious. At the end of his play, he would go home. After he had washed his face and hands, and brushed his hair, he would help his mother, or read in his book, or write upon his slate. He used to say, "One thing at a time." When he had done with work, he would play; but he did not try to play and to work at the same time. 
+
+Complexity=0.6237343911799903
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I see a nest. Little birds are in it. The little birds can not fly. They are not pretty. They will get pretty by and by. The big bird is not here now. She is high in the apple tree. She will come to them by and by. She will come and feed them. 
+
+Complexity=0.6239312635794834
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Grace is running after the butterfly. Can she catch it? I think not. It can fly faster than Grace can run. Grace has many flowers in her garden. The butterflies come there because they like the flowers. They fly among them all day. 
+
+Complexity=0.6265123492926917
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+When Gracia goes to church she carries a black parasol. It is small and is made of silk. Pepita carries an umbrella. This is a picture of it. It comes from Japan. It is made of paper but it is a good umbrella. Do you like a black parasol better than a Japanese umbrella? Petita likes the Japanese umbrella because it is so gay and pretty. 
+
+Complexity=0.628065963021689
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Nan has two black hens. They lay nice white eggs. You can find them in the hay. My hen lays eggs, too. She has her nest up on the beam. She will fly off, and say “cluck, cluck!” 
+
+Complexity=0.6296869524672949
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Simeon and Pedro like to fish. Sometimes they sit on the bridge. Sometimes they sit on the bank of the river. They have poles, long lines, and little iron hooks. This morning Simeon caught a large fish. Pedro caught many small ones. The boys caught some crabs, too. They use a net to catch the crabs. 
+
+Complexity=0.6299843911799903
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This is red clover. The bees like it. They find sweet nectar in the clover flowers. They take the nectar home to make honey. Here is white clover. It is sweet. It has nectar, and bees like it, too. It grows in the fields with red clover and yellow buttercups. Horses and cows eat clover. 
+
+Complexity=0.6302392680980183
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I can get into bed, and then you can not get me. I am not in bed. I have my dress on yet. This is my red dress. I am Nell. I see you, Nell. I can not get you. You can get into bed. Nell, you have a pretty dress. I have a black dress. My black dress is not pretty. I shall get me a red dress. Then I shall have a pretty dress. 
+
+Complexity=0.6336402873460134
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This large animal is an elephant. His ears look like fans. The two long teeth are called tusks. The elephant eats grass and green corn. He likes oranges bananas and peanuts. Elephants live in India. 
+
+Complexity=0.6346373002348737
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Here are five pretty blue flowers. They look like little bells, and so we can call them blue bells. The stems and the leaves are green. Ned has no flowers. Tom says, “Here is my box of paints.” Ned paints the flowers blue. But he has no green paint for the stems and leaves. He can make green paint. He can mix blue paint and yellow paint. Blue and yellow make green. 
+
+Complexity=0.6350440953244377
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Ellen opened the door of the cage to give her bird some water. The little bird flew out. It flew into a tree in the yard. Can you see it sitting in the tree? Ellen sees it, but she cannot get it. The bird did not like to live in the cage. It likes to fly among the trees.Now it is singing and very happy. 
+
+Complexity=0.6353415340371331
+Length=Medium
+Questions=True
+DirectSpeech=True
+Content=
+A little girl went in search of flowers for her mother. It was early in the day, and the grass was wet. Sweet little birds were singing all around her. And what do you think she found besides flowers? A nest with young birds in it. While she was looking at them, she heard the mother bird chirp, as if she said, "Do not touch my children, little girl, for I love them dearly." The little girl now thought how dearly her own mother loved her. So she left the birds. Then picking some flowers, she went home, and told her mother what she had seen and heard. 
+
+Complexity=0.6361559551627126
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Jane, Joe and Harry will have a fine time today. There is no school, they have a play-day. They have come to the fields and woods. They see the birds fly from tree to tree. They hear their sweet songs. They are down by the pond. They have had a long walk. They can sit down now and rest. 
+
+Complexity=0.6384188128399158
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+One, two, three mice! One mouse is on a table. Two mice are near the table. The mouse on the table is eating a bun. The mice near the table hear a cat, I think. Run, mice, run; a cat is near. Do you hear her? She wants a mouse. A mouse has a long body, and a long tail. A mouse has two round ears. 
+
+Complexity=0.6430771979330834
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+The cocoanut tree is tall. It is very pretty. Many cocoanuts grow on the tree. Simeon can climb the tree. He gets the cocoanuts for his mother. His mother likes cocoanuts. Luisa likes cocoanuts, too. She cannot climb the tree. She is too little to climb a tall tree. She likes to play with Simeon. 
+
+Complexity=0.6466512381815805
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+This man is not a Filipino. He comes from China. His hair is long and black. What is in his large basket? There are many things in it. There are handkerchiefs and slippers for the girls, and hats and coats  for the boys. He has also knives, pencils, paper, and combs. He is called a peddler. 
+
+Complexity=0.6476593026977095
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+What a bright June day! The air is pure. The sky is as blue as it can be. Lucy and her mamma are in the woods. They have found a nice spot, where there is some grass. They sit in the shade of the trees, and Lucy is singing. The trees are not large, but they make a good shade. Lucy's kind mamma says that they will have a picnic when her papa can get a tent. 
+
+Complexity=0.6476593026977095
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+All the boys and girls are going to school this morning. You can see them as they go. Little Lucy is not with them. She has gone to her home, far away. But I see May and some other girls. John has his new book. Some of the other boys have books, too. I do not see Frank, but I think he will come soon. 
+
+Complexity=0.6482828270141308
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This is my pet hen. She is a black hen, and she has ten eggs in her nest. She left her nest, and now a rat is in it. The boy has a pet. Dash is his pet. The black hen is my pet. My pet hen has a nest. She has ten eggs in it. The black hen left her nest. A rat ran to the nest. My pet hen ran. Dash ran and the rat ran. The rat is not in the nest now. The black hen is in the nest. She has her ten eggs. 
+
+Complexity=0.648734571514914
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Bluejays do not sing well. A little quail has a sweet song. He is a shy bird. He runs away and hides in the grass. I see an owl in the tree. But he can not see me. In the night he says ”Whoo, whoo, whoo!” This is all the song he sings. 
+
+Complexity=0.6505085894765846
+Length=Medium
+Questions=False
+DirectSpeech=True
+Content=
+John and his cat Dick do not like rats. They catch all they can. One time, John set a trap to catch some, and then went away and hid with Dick. Pretty soon a big rat came out of its hole and went to the trap. Dick saw the rat, and made a start to get away from John. But John said, "Hold on, Dick, let us see if it will go into the trap." But the rat did not go in, and as it was going to run away, John let Dick go, and said, "Catch it, Dick. Run quick, quick!" and they ran very fast to catch the rat. But the rat was too quick for them. It went into its hole just as Dick was very near it. 
+
+Complexity=0.6528897167071771
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+I have a pet cat, and a pet dog. The cat is Tab, and the dog is Tip. Tip is on the rug. He sleeps on the rug at night. Tab sleeps on a mat. A good dog, and a good cat. Tab sits up and rubs her ear. She puts her paw up to her ear. She rubs her eye, too. Tab and Tip are on the rug now. Tab pats Tip with her paw. Tab mews, and runs to her own mat. 
+
+Complexity=0.6558177245133237
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This is Simeon's knife. His father bought it for him. It has two blades. They are sharp. Simeon carries a knife in his pocket. Luisa likes her fan very much. It is a pretty fan. She carries it in her hand. She puts it in her desk at school. 
+
+Complexity=0.6567701054657046
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Here comes the band! Shall we call mamma and Fanny to see it? Let us stand still, and hear the men play as they pass. I hope they will stop here and play for us. See the large man in front of the band, with his big hat. What has he in his hand? How fine he looks! Look, too, at the man on that fine horse. If the men do not stop, let us go with them and see where they go. 
+
+Complexity=0.6567861597786913
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+This man is John's father. The horse is Billy. Billy is a good old horse. He is a fine black horse. Where do you see John? John likes to ride on Billy. Billy will not go too fast with John. John will not fall off. Did you ever ride on a horse? Did you ever play horse? 
+
+Complexity=0.6582945892374312
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+John has a new boat. His father gave it to him. It is blue, with a bright red line near the water. He keeps it in the river, not far from the road. He has some good oars, too. He keeps the oars at the house. His home is near the river. The water is not deep, and the children will not fall out of the boat. John has a hook and line. They will get in the boat and row far out on the water. 
+
+Complexity=0.6614016579196694
+Length=Short
+Questions=False
+DirectSpeech=True
+Content=
+This is Fred and Nell. Fred has a little wagon. Nell likes to ride in the wagon. Fred says, "Come, Nell, and I will take you for a ride." Nell says, "Thank yon, Fred, I will come. I like to ride in your little wagon." Away they go! See how fast Fred can run! Nell says, "O, Fred, stop! stop! Do not run so fast. I do not like to ride so fast." 
+
+Complexity=0.6621689213467794
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Tom had two dogs. One dog was black. One dog was white. Tom's dogs were black and white. The large dog was black. The small one was white. Did Tom see the dogs run? Did the cats run? No; the cats were on the steps. The white cat was lying on the steps. Did a black cat sit on a mat? No; that was my white one. 
+
+Complexity=0.6624843911799904
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Boys like to catch fish. It is a good sport. Here is Tom with his rod and line. A hook is on the end of the line. He has a bag, too. The bag is to put the fish in. Here is the fish for Tom to catch. It swims with its tail. It can swim very fast. 
+
+Complexity=0.665415438261738
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+Mary and Lucy have come down to the beach with their grandpa. They live in a town near the sea. Their grandpa likes to sit on the large rock, and watch the big ships as they sail far away on the blue sea. Sometimes he sits there all day long. The little girls like to dig in the sand, and pick up pretty shells. They watch the waves as they roll up on the beach, and break into white foam. They sometimes make little houses of sand, and build walls around them; and they dig wells with their small wooden spades. They have been picking up shells for their little sister. She is too young to come to the beach. I think all children like to play by the seaside when the sun is bright, and the wind does not blow too hard. 
+
+Complexity=0.6674843911799904
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Six birds are on this tree. Birds sing in the trees. Birds make their nests in the trees. They lay pretty eggs in them. The old birds feel sad to lose their eggs. The swans have come. I see them on the pond. They will be nice pets for us. They swim as fast as we walk. 
+
+Complexity=0.6693998799655612
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+It is very cold to ay, but the snow is not deep. All the boys and girls are at school. The school room is warm and bright, and the children are happy. You can see them at their places in the school room. They look out of the window and see the snow falling. How soft and white it is! The teacher has been showing the children some pictures in her new book. Now she is telling them a story that is found in it. The children look and listen. They do not think how cold it is out of doors. 
+
+Complexity=0.6699859694696777
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+John has two pet rabbits. One day he drew them on his slate. Here they are as he drew them on his slate. He drew them on paper too. See their big, long ears. They have big, long ears and little, short tails. What are the rabbits playing? Did you ever play seesaw? They are white rabbits, and they have pink eyes. What do you think John feeds his rabbits? Can you draw the rabbits? 
+
+Complexity=0.6710558197514189
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Manuela and Carmen live near the sea. They find many pretty things on the seashore. Yesterday they found these shells. A shell is the house of an animal. Those we see on the seashore have no animals in them. But sometimes fishermen bring up shells in their nests. They you can see little animals in their houses. Some shells are large and very pretty.Some have a beautiful pink color. 
+
+Complexity=0.6711139527515505
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+James and Robert have gone into the shade of a high wall to play ball. Mary and Lucy have come up from the pond nearby, with brave old Ponto, to see them play. When they toss the ball up in the air, and try to catch it, Ponto runs to get it in his mouth. Now the ball is lost. They all look for it under the trees and in the grass; but they can not see it. Where can it be? See! Ponto has found it. Here he comes with it. He will lay it at little Lucy's feet, or put it in her hand. 
+
+Complexity=0.6718961558858727
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+What a bright day this is! The sky is as blue as it can be. Lucy and her mother are in the woods. They have found a good place under a green tree. They sit in the shade of the tree and listen to the birds that are singing above them. Robin Redbreast is in the tree. Lucy sees him as he jumps about among the leaves. By and by he will fly away to his nest. Lucy wonders where it is. 
+
+Complexity=0.6723219463983007
+Length=Medium
+Questions=True
+DirectSpeech=True
+Content=
+One day Henry took a pail with him and went up the hill. Do you think he went to get a pail of water? I do not think so. He went to find violets and wild flowers in the woods. After a little he came down; but he would not let me look in his pail. He would not tell me how many flowers were in it. "Who will buy my wild roses?" he said. "Who will buy my sweet violets? I came down the street to sell my flowers. But now I must say they do not sell very well." 
+
+Complexity=0.6723856396130332
+Length=Medium
+Questions=True
+DirectSpeech=True
+Content=
+Our mother says we may go and see little Lucy. We are going some day in June, soon after our school is out. We do not have school in June. Lucy's home is far away. We shall ride there in the big wagon with father and mother. Father says it will take all day to go so far. Mother says I must be sure to take Lucy some  of our good apples. I will take her a book, too. I am sure Lucy will be glad to see us. She will run out to the wagon and tell us so. What do you think she will say? She will say, "Oh, May, I am so glad you have come." 
+
+Complexity=0.674618597116004
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+We have bees in our garden. They live in a little house. This little house is called a hive. What is in the hive? Honey is in the hive. The bees get honey from the flowers and carry it to the hive. Honey is very sweet. Do you like it? All bees do not live in the hives. Some bees live in trees. They are wild bees. 
+
+Complexity=0.6759565044916473
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Come here, girls! I see a nest. Little birds are in it. One, two, three. The little birds cannot fly. They are not pretty. They will get pretty by and by. The big bird is not here now. She is high in the apple tree. She will come to them by and by. She will come and feed them. 
+
+Complexity=0.6769902414113443
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+This is Gracia. She is at home now. When she is ready for church she will have on her white veil. Gracia goes to church early in the morning. Then it is cool. She does not go alone. Her mother and her sister Pepita go with her. Pepita is a very little girl. She does not wear a veil. Sometimes she wears a large white handkerchief on her head. 
+
+Complexity=0.6793301771889274
+Length=Medium
+Questions=True
+DirectSpeech=True
+Content=
+One day Ann and Frank went to the lake with Rover. Rover can swim well, so Frank made him go into the water after a stick. "Jump, Rover! Jump in and get the stick," said Frank; and into the water he went with a big splash. Pretty soon he came out with the stick in his mouth. He did not like the fun so well as Frank, for the water was a little cold. They had a fine time for a while with Rover, and then set out for home, as it was late in the day, and they could not stay long. On the way home, Rover saw a rabbit, and away he went after it, as fast as he could go. Ann and Frank ran too, but could not keep up with Rover and the rabbit. When they got home, Rover was there, and Frank said--"Where is the rabbit, Rover?" Rover gave Frank a funny look and went away. "O I know!" said Frank, "the rabbit ran so fast you could not catch it." 
+
+Complexity=0.6798925284826507
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+Sheep are washed and sheared some time in the month of June. This should be done quite early in the month, before the hot days begin. It is fine sport for those who look on, hut not much fun for the sheep. It is best for the sheep to have the wool taken off; otherwise they would suffer in the summer time. When the time comes for washing the sheep, they are driven to a pond or a little river. Then they are thrown into the water, one at a time. The men who are in the water catch them, and squeeze the wet wool with their hands to get the dirt all out of it. Then the wool is thoroughly dried, the sheep are taken to the shearer; and he cuts off the wool with a large pair of shears. It is then dyed, spun, and woven into cloth. In a short time, before the cold winter comes, new wool grows out on the sheep. By the corning of spring there is so much, that it must be cut off again. 
+
+Complexity=0.6804517798728827
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Yesterday Ramon found this nest. Do you see it? The mother bird sits on the nest. She has five blue eggs. You cannot see the eggs. The bird is sitting on them. The mother and father birds made the nest. It is made of grass and sticks. It is a good home for them. Soon there will be little birds in it. 
+
+Complexity=0.6812759556970586
+Length=Short
+Questions=True
+DirectSpeech=True
+Content=
+Frank and Mary live on a farm. They have many pets. Here are their pretty white chickens. They feed the chickens three times a day. Water is in the pan. The chickens must have water to drink. When Mary says, "Come, come!" the chickens run to her. How many chickens have they? Count them and see. 
+
+Complexity=0.6901801258285721
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+These are the little birds. How many are there? Their mouths are open. They are hungry. The mother bird will feed them. She has a grasshopper in her mouth. Can the little birds fly? No they are too young. If they try to fly, they will fall. Soon they will be stronger. Then their mother will teach them to fly.She will teach them to sing, too. 
+
+Complexity=0.6913379647049368
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+It is evening, and the sun is about to set. The day will soon be gone. Let us sit here on the soft grass and look at the bright clouds in the west. Do you think there is any rain in those little clouds? Oh, no! Those are not rain clouds. See how pretty they are! Some of the clouds are red, and some are as yellow as gold. It is the light of the sun that makes them look so bright. Soon they will all fade away in the blue sky. Soon it will be night, and the moon and stars will shine for us. 
+
+Complexity=0.6936724374037412
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+See, Rosy, here is an apple tree. It stands on a big hill. See the apples on the tree. Are they sweet apples, Frank? I can not tell you, Rosy, but I think they are sweet. Will you please get me an apple? Yes, Rosy. Here is a big apple for you. Is it sweet? Yes, Frank, it is sweet. Oh, Rosy! Do you see that nest in the apple tree? Yes, yes, Frank; I do see it. Has the nest eggs in it, Frank? I think it has, Rosy. 
+
+Complexity=0.6938088878960992
+Length=Medium
+Questions=False
+DirectSpeech=True
+Content=
+A boy was once sent from home to take a basket of things to his grandmother. The basket was so full that it was very heavy. So his little brother went with him, to help carry the load. They put a pole under the handle of the basket, and each then took hold of an end of the pole. In this way they could carry the basket very nicely. Now the older boy thought, "My brother Tom does not know about this pole. "If I slip the basket near him, his side will be heavy, and mine light; but if the basket is in the middle of the pole, it will be as heavy for me as it is for him. "Tom does not know this as I do. But I will not do it. It would be wrong, and I will not do what is wrong." Then he slipped the basket quite near his own end of the pole. His load was now heavier than that of his little brother. Yet he was happy; for he felt that he had done right. Had he deceived his brother, he would not have felt at all happy. 
+
+Complexity=0.6941640516614586
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+A few years ago, some English officers went out to hunt. When coming home from their day's sport, they found a little tiger kitten. They took it with them and tied it, with a collar and chain, to the pole of their tent. It played about, to the delight of all who saw it. One evening, just as it was growing dark, they heard a sound that frightened them greatly. It was the roar of a tiger. The kitten pulled at the chain, and tried to break away. With a sharp cry, it answered the voice outside. All at once, a large tigress bounded into the middle of the tent. She caught her kitten by the neck, and broke the chain which bound it. Then turning to the door of the tent, she dashed away as suddenly as she had come. 
+
+Complexity=0.6960606033855965
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+It is spring. I am going to the field with papa. My papa has two nice horses. They can run fast. I like to ride in the wagon with my papa. I like the horses. Jack will let me ride him. I feed the horses every day. We plant wheat and corn. Wheat gives us flour and bread. In the spring we plant the grain. 
+
+Complexity=0.6962865684056029
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Tom was going to visit his cousin, Hall, who lived in the city. He took Pinky with him. Pinky was his pet dove. Hall was glad to see Tom. And he was glad to see the pretty white dove with pink eyes. Tom's letter to his papa was a very little one. In the morning he tied it to Pinky's neck. Then he let him fly away. Pinky did not get lost. He flew back to his own little house in the backyard. Papa took off the letter. He was glad to hear from his little boy. 
+
+Complexity=0.6977594721805751
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+This is a fine day. The sun shines bright. There is a good wind, and my kite flies high. I can just see it. The sun shines in my eyes; I will stand in the shade of this high fence. Why, here comes my dog! He was under the cart. Did you see him there? What a good time we have had! Are you not glad that we did not go to the woods with John? 
+
+Complexity=0.6978035401161605
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Today Manuela and Carmen cannot walk on the seashore. They must stay at home. There is a great storm. The sun does not shine. The clouds hide it. The wind blows very hard. See the big waves coming up on the shore. The fishermen cannot go out in their boats. They must stay at home, too. 
+
+Complexity=0.7015356959567989
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+May and Nan are at play. Nan will tell little May how to make a wall with blocks. May's blocks are not spheres. They have a name of their own. This name is cube. We call a block like May's a cube. A cube has six sides. It stands on one of its sides. It cannot roll. Cubes do not grow. 
+
+Complexity=0.702497384994792
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+Will Jones lived on a farm. His cousin Henry came from the city to see him. Will took him over to the farm. They saw the horses, and the cows. They hunted for hens' nests in the hay. They went to the pond to see the ducks. It was great fun to see them in the water, swimming and diving. In the barn-yard, ten baby pigs were running all about. The big fat pigs in the pen looked up. They were glad to see the boys. Henry had such a good time, all day, and he did not care to go back to the city. 
+
+Complexity=0.7027233736953569
+Length=Short
+Questions=False
+DirectSpeech=True
+Content=
+There are pretty butterflies and flowers in Grace's garden. There are spiders there, too. She is afraid of them. Yesterday when Grace was running after the butterfly she saw a big spider. She called her mother. "Come here! come here!" she said; "I see a big spider!" "The spider will not hurt you," her mother said. "It likes to stay in the garden. It catches ants." 
+
+Complexity=0.7033025587821751
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Frank has three pet pigs. The pigs are in a pen. Nell and Fred like to go with Frank to feed the pigs. They like to see the pigs eat. Frank likes to feed the pigs. He feeds the pigs three times a day. The pigs will drink for Frank. The pigs like Frank. When they see him they run. The pigs like the corn. They are big, fat pigs. One, two, three, four. A pig has four feet. A pig has two big ears, two eyes, four feet, and a little tail. 
+
+Complexity=0.7043494284366397
+Length=Long
+Questions=True
+DirectSpeech=False
+Content=
+Puss, with her three kittens, had lived in the coal cellar; but one day she thought she would carry them to the attic. The servant thought that was not the proper place for them; so she carried them back to the cellar. Puss was certain that she wanted them in the attic; so she carried them there again and again, five, six, seven, -- yes, a dozen times; for each time the servant took them back to the cellar. Poor puss was nearly tired out, and could carry them no longer. Suddenly she went away. Where do you think she went? She was gone a long time. When she returned, she had a strange cat with her that we had never seen before. She seemed to tell him all about her great trouble, and he listened to her story. Then the strange cat took the little kittens, one by one, and carried them to the attic. After this he went away, and we have never seen him since. The servant then left the kittens in the attic, for she saw how anxious puss was to have them stay there. Was not the strange cat kind to puss? This lesson should teach children to be ever ready to help one another. 
+
+Complexity=0.7091640516614586
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+These boys and girls live near the sea. They have been to the beach. It is now evening, and they are going home. John, who sits on the front seat, found some pretty shells. They are in the basket by his side. Ben White is driving. He holds the lines in one hand, and his whip in the other. Robert has his hat in his hand, and is looking at the horses. He thinks they are very lazy; they do not trot fast. The children are not far from home. In a little while the sun will set, and it will be bedtime. 
+
+Complexity=0.709625115895081
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+When winter comes, the days are short and the nights are long. Then the cold north wind blows over the fields and woods. It blows over the meadow and the river and the high hills. It brings snow and ice. It makes our hands and faces cold. We do not like the north wind. All children are happy when winter comes. They like to see the snow. They like to play on the ice. They do not care if the north wind does make them shiver. Those who are dressed warm do not feel the cold very much. Sometimes the snow is so deep they can not go to school. In the evening, they sit in the warm house and read and play. 
+
+Complexity=0.710216683240406
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Where do you think we are going? We are going to the woods. Father and Mother are going with us. It is the autumn time now. The nuts are ripe in the woods. We shall get many nuts. We have two big bags under the seat. John likes to hold the horse. Stand still, Billy! Good horse! Father and Mother will soon be here. 
+
+Complexity=0.7104182456139227
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+See May with her bird. Her bird is in a cage. May is near the cage. She is looking at her bird. Is the bird looking at May? I see three birds in a nest. One bird and two birds are three birds. Here are three birds. These birds are not in a nest. O, no; one bird is in a tree. Two birds are on a bench. The bench is near the tree. Is May's bird here? No; May's bird is in a cage. These are my little birds. The little birds are in a tree. They are singing in the tree. Sing, little birds, sing. 
+
+Complexity=0.7108277448761912
+Length=Medium
+Questions=False
+DirectSpeech=True
+Content=
+One day, Willie's father saw a boy at the market with four little white rabbits in a basket. He thought these would be nice pets for Willie; so he asked the lad how much he wanted for his rabbits. The boy said, "Only fifty cents, sir." Willie's father bought them, and carried them home. Here you see the rabbits and their little master. He has a pen for them, and always shuts them in it at night to keep them safe. He gives them bread and grass to eat. They like grass, and will take it from his hand. He has called in a little friend to see them. Willie is telling him about their funny ways. Harry and Kate read a story in a new book. The father reads his newspaper, and the mother mends Harry's stockings. 
+
+Complexity=0.7119907060779174
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Here is an apple. It rolls like a ball. We call it a sphere. It grows on a tree. Many spheres grow on trees. Five green peas are in this pod. Peas are little spheres. They grow on vines. Here are six little red spheres. We call them curants. They do not grow on a big tree, but on a bush. A bush is a little tree. These spheres are green. They grow on vines. 
+
+Complexity=0.7122299405276781
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+Here are three boys and two girls by the big apple tree. One boy has a yellow drum and one has a whip. The boy in the red wagon is Frank. The girls are glad to see Frank. He will give them a ride. They like to go with him to the fields and the woods. May we ride with you, Frank? Yes, girls, get in! And you, too, boys! Sit by me and see the good horse go. Now we will go to the woods to find flowers and see the pretty birds. In one tree you can see a nest, but you can not see the little birds. You may see the big bird if she comes to feed the little ones. She has a pretty home high in the tree. 
+
+Complexity=0.7124535513278041
+Length=Short
+Questions=False
+DirectSpeech=False
+Content=
+Kitty and Berty are sisters. They have been to the woods. It is the month of May. They have found some May flowers. May flowers grow in the woods. Here they come. Little lucy is with them. Their baskets are full. Some flowers are pink and some are white. These are apple blossoms. Three blossoms are on one twig and four on the other. There are eight bees. 
+
+Complexity=0.7138448511968446
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Here is Roy's dog, Carlo. Carlo is standing on his hind feet. Roy has a bun for his dog. Beg for it! Beg, Carlo, beg. See! It is a bun. Will you beg for it? Stand, Carlo! That is good. Beg, and you may have it. Carlo, you are a good dog. Is it fun to beg? It is fun for boys. It is not fun for dogs. 
+
+Complexity=0.7142634333506446
+Length=Long
+Questions=True
+DirectSpeech=True
+Content=
+Henry was a kind, good boy. His father was dead, and his mother was very poor. He had a little sister about two years old. He wanted to help his mother, for she could not always earn enough to buy food for her little family. One day, a man gave him a dollar for finding a pocketbook which he had lost. Henry might have kept all the money, for no one saw him when he found it. But his mother had taught him to be honest, and never to keep what did not belong, to him. With the dollar he bought a box, three brushes, and some blacking. He then went to the corner of the street, and said to every one whose boots did not look nice, "Black your boots, sir, please?" He was so polite that gentlemen soon began to notice him, and to let him black their boots. The first day he brought home fifty cents, which he gave to his mother to buy food with. When he gave her the money, she said, as she dropped a tear of joy, "You are a dear, good boy, Henry. I did not know how I could earn enough to buy bread with, but now I think we can manage to get along quite well," Henry worked all the day, and went to school in the evening. He earned almost enough to support his mother and his little sister.  
+
+Complexity=0.7183307183281252
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+Do you know these three boys? The tall boy in the wagon is Frank Brown. The little boy is Henry. He is Frank's brother. The boy on the horse is John Day. See how well he can ride! Frank is a good driver. He sits in the wagon, and the horse goes just as he is told. Frank has a whip in his hand, but he does not use it. Henry's little dog runs behind. Sometimes he has to run very fast to keep up with the wagon. 
+
+Complexity=0.7205656446528559
+Length=Long
+Questions=False
+DirectSpeech=False
+Content=
+The fishhawk, or osprey, is not so large as the eagle; but he has, like the eagle, a hooked bill and sharp claws. His color is a dark brown, with black and white spots, and his length is from twenty to twenty-two inches. His breast is mostly white. His tail and wings are long. The fishhawk is often found sitting upon a tree over a pond, or lake, or river. He is also found by the seaside. He watches the fish as they swim in the water beneath him; then he darts down suddenly and catches one of them. When he catches a fish in his sharp, rough claws, he carries it off to eat, and, as he flies away with it for his dinner, an eagle sometimes meets him. The eagle flies at him fiercely with his sharp bill and claws, and compels the hawk to drop the fish. Then the eagle catches the fish as it falls, before it reaches the ground, and carries it off. The poor fish hawk, with a loud cry, timidly flies away. He must go again to the water and catch another fish for his dinner. Thus you see, that the eagle is a robber. He robs fishhawks, whose only mode of getting a living is by catching fish. 
+
+Complexity=0.7219338878960991
+Length=Long
+Questions=True
+DirectSpeech=False
+Content=
+Little Patty lives in a log house near a great forest. She has no sisters, and her big brothers are away all day helping their father. But Patty is never lonely; for, though the nearest house is miles away, she has many little friends. Here are two of them that live in the woods. But how did Patty teach them to be so tame? Patty came to the woods often, and was always so quiet and gentle that the squirrels soon found they need not be afraid of her. She brought her bread and milk to eat under the trees, and was sure to leave crumbs for the squirrels. When they came near, she sat very still and watched them. So, little by little, she made them her friends, till, at last, they would sit on her shoulder, and eat from her hand. Squirrels build for themselves summer houses. Those are made of leaves, and sticks, and moss. They are nice and cool for summer, but would never do for the winter cold and snow. So these wise little people find a hollow in an old tree. They make it warm and snug with soft moss and leaves; and here the squirrels live all through the long winter. 
+
+Complexity=0.7223856396130333
+Length=Short
+Questions=True
+DirectSpeech=False
+Content=
+This is Christmas. It is the twenty-fifth of December. Elisabeth and Mary and their friends are very happy. They have a beautiful Christmas tree. On it are many candles and flags. The candles are lighted. Do you see the apples, oranges, and candy on the tree? There are presents for all the children. There are dolls, rings, books, knives, drums, and other pretty things for boys and girls. There is a bicycle for Mary from her father. Elisabeth has a doll house. These are behind the tree. 
+
+Complexity=0.7336724374037412
+Length=Medium
+Questions=False
+DirectSpeech=True
+Content=
+The ducks and chickens grew fast. The hen liked the ducks as well as she liked the chickens. Sometimes she took them into the street. Once she took them into a field. There they found many worms. In the field was a small river. The ducks saw the water and ran to it. The hen was afraid: "Come back! Come back!" she said. But the little ducks were not afraid. They were swimming in the water. They swam a long time. Then they went back to the old hen and she took them home again. "You may swim if you like," she said to them, "but I cannot go into the water with you." 
+
+Complexity=0.7343303321405833
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+Father, and Charles, and Lucy, and I went to the beach yesterday. We took our dinner, and stayed all day. Father and Charles went out a little way from the shore in a boat, and fished, while Lucy and I gathered sea mosses. We took off our shoes and stockings, and waded into the shallow water. We had a pail to put our seaweeds in. We found such beautiful ones. Some wore purple, some pink, and some brown. When they were spread out in the water, the purple ones looked like plumes, and the brown ones like little trees. Such a funny thing happened to Lucy. She slipped on a stone, and down she went into the water. How we both laughed! But the wind and sun soon dried Lucy's dress. Then father came and took us in the boat for a row. After that we had a picnic dinner in the woods. Then father spread his coat on the grass, and took a nap while we children played on the beach. 
+
+Complexity=0.7364950180489025
+Length=Long
+Questions=True
+DirectSpeech=True
+Content=
+On a summer day, a man sitting on the bank of a river, in the shade of some bushes, watched a flock of ducks on the stream. Soon a branch with leaves came drifting among them, and they all took wing. After circling in the air for a little time, they settled down again on their feeding ground. Soon another branch came drifting down among them, and again they took flight from the river; but when they found the branch had drifted by and done them no harm, they flew down to the water as before. After four or five branches had drifted by in this way, the ducks gave little heed to them. At length, they hardly tried to fly out of their way, even when the branches nearly touched them. The man who had been watching all this, now began to wonder who had set these branches adrift. He looked up the stream, and spied a fox slyly watching the ducks. "What will he do next?" thought the man. When the fox saw that the ducks were no longer afraid of the branches, he took a much larger branch than any he had yet used, and stretched himself upon it so as to be almost hidden. Then he set it afloat as he had the others. Right among the flock drifted the sly old fox, and, making quick snaps to right and left, he seized two fine young ducks, and floated off with them. The rest of the flock flew away in fright, and did not come back for a long time. The fox must have had a fine dinner to pay him for his cunning, patient work. 
+
+Complexity=0.7365167487809867
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+The kingbird is not bigger than a robin. He eats flies, and worms, and bugs, and berries. He builds his nest in a tree, near some house. When there are young ones in the nest, he sits on the top of a tree near them. He watches to see that no bird comes to hurt them or their mother. If a hawk, a crow, or even an eagle comes near, he makes a dash at it. Though he is so small, he is brave, and he is also very active. He never fails to drive off other birds from his nest. He flies around and around the eagle, and suddenly strikes him with his sharp bill. He strikes at his eye, and then darts away before the eagle can catch him. Or he strikes from behind, and is off again before the eagle can turn round. In a short time, the great eagle is tired of such hard blows, and flies away. He is very glad to get rid of his foe. Is not the little fellow a brave bird? Because he can drive off all other birds, he is called the KINGBIRD. 
+
+Complexity=0.7369863980279506
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+These four children have gone out to see the sun set. The sun is high in the sky now. By and by it will set behind the hills. The sun shines in the day time. It helps to keep us warm. It gives us light. When it goes down we have night. Then the stars come out and shine. The moon shines at night, too. But it is not so bright as the sun. On some nights the moon does not shine at all. Do you like to see the moon? Yes, I like to see it. I like to see its pretty light. We can look at the moon; but we can not look at the sun. It is too bright for us to look at. 
+
+Complexity=0.7484242725114838
+Length=Long
+Questions=False
+DirectSpeech=False
+Content=
+Last night, the cold north wind blew great snow clouds over the sky. Not a star, not a bit of blue sky could be seen. Soon the tiny flakes floated softly down, like flocks of little white birds. Faster and faster they came, till they filled the air. They made no noise, but they were busy all night long. They covered all the ground with a soft, white carpet. They hung beautiful plumes on the tall, green firs. The little bushes, they put to sleep in warm nightgowns and caps. They hid the paths so that the boys might have the fun of digging new ones. They turned the old picket fence into a row of soldiers, and the gate posts into captains, with tall white hats on. The old corn basket that was left out by the barn, upside down, they made into a cunning little snow house with a round roof. When the busy little flakes had done their work, the sun came up to see what they had been about. He must have been pleased with what he saw, for he smiled such a bright, sweet smile, that the whole white world sparkled as if it were made of little stars. Who would have thought that the black clouds could hide the little fairies that made the earth so beautiful! 
+
+Complexity=0.7495145627135852
+Length=VeryLong
+Questions=False
+DirectSpeech=True
+Content=
+I see a girl. I see a boy. I see a boy and a girl. The boy can see the girl. I can see the girl and the boy. I can see the girl. The man has a hat. The boy can run. The man can see the boy run. I have a hat. I have a doll. I can see my doll. My doll has a hat. The girl has a doll and a hat. The boy can run and play. The boy can play ball. The man may see the boy play. The boy may take the ball. The baby has a big doll. The little girl has a ball. I can see the baby. The baby may have my ball. The man has a little dog. The boy has a big dog. He has my ball. The little dog may have the ball. He may run and play with it. She can not take it. The bird can fly. The baby can not have the bird. She can not fly. She may play with my doll. She may have my big hat. I see a man and a dog and a cow. The cow is with the man. The dog has a big hat. He is a good little dog. He may take the hat to the man. The man is good to the dog. The cow can run. She can not play. The baby can not have the bird. She can not fly and catch it. You may have it to play with. The boy has a big dog. You may see the dog play ball. The man with the big hat has a cow. The girl is good to the little baby. The baby may have my big doll. She can not catch the bird. She may come with me and see the bird fly. Two boys have big hats. One boy has a ball. The girls have come to play with the baby. Two girls have little dolls. One girl has a red dress. The baby is glad to see the girls. The girl with the red dress is May. May is glad to see the good baby. She will take the baby to see the bird. We will go to the field. We will go and see the cows. The cows are in the field. My cow is red. Two cows are not red. One and two are three. We have three cows. Three birds are in the tree. One is a pretty red bird. You can not catch it. It is high in the tree. The red bird can see the boys with the drum. It can see the little girl with the red dress. It can see the good baby and the pretty doll. It can see the man in the field. The little boy has a red wagon. The boy will let little May ride in it. I will take you with me to the fields. You may have a good ride. The boys like to go to the woods. Here they are now. Here are the horse and the wagon. And here is the boy with the drum. They like to play in the woods. They like to find pretty flowers. By and by they will go home. They will ride home in the wagon. Here is the apple tree, but we can not see the nest in it. Here are three boys and two girls by the big apple tree. One boy has a yellow drum and one has a whip. The boy in the red wagon is Frank. The girls are glad to see Frank. He will give them a ride. They like to go with him to the fields and the woods. In one tree you can see a nest, but you can not see the little birds. She has a pretty home high in the tree. This is my kite. My father gave it to me. He gave me this drum, too. You may go with me and see me fly my kite. You may take the drum with you. Frank and John are in the field. They have come here to play. I can not jump high, John, but I can jump far. I can jump as far as to the big apple tree. Here is May with her kitten. Her mother gave the kitten to her. She is kind to the pretty kitten. She likes to see it jump and play. It does not run far with it. She will give it to the kitten to play with. Frank has gone to the field with his kite. He likes to play with it. It is the kite his father gave him. He will run and the kite will fly. He can run very fast, and the kite can fly very high. John does not like to run with a kite. He likes to play on his drum. He will play on his drum. Frank will run with his kite. I will give you some red roses. I will give her four red roses, and one yellow rose. John was a good boy this morning. His mother gave him a pretty book. I think it is very pretty. They like to look at pretty books." You can see them as they go. Little Lucy is not with them. She has gone to her home, far away. John has his new book. This is the picture of my pet kitten. I found this kitten. She was by a tree in the woods. I am kind to my kitten. I feed her and she loves me. My mother gave me a new book. I like to play with my pet kitten. I will do as mother says. I will take good care of the kitten. I love little Lucy. The name of this little girl is Rose. Rose goes to school. She can read and write. It was not in a nest. It will be a good pet. He is kind to it and feeds it. Some day it can fly well. Then Frank will let it go. She can not write at all. She can not tell her name. This is my little doll. Her name is Lucy. I am as tall as the table, now. I can see your big book, father. I see some pictures. Two pictures are by the book, and two are not by the book. Two and two are four. I see two children in the picture. I see a tall boy and little girl. They are going up hill, too. The boy has a pail. There must be good water in the well. Our mother says we may go and We do not have school in June. Lucy's home is far away. We shall ride there in the big wagon with father and mother. I will take her a book. It is not a tree, it is a vine.     It is not so tall as some trees. It looks like a wild rose vine. Wild roses come in June. Some of them are very sweet. My roses are not wild. They do not grow on a vine. They grow on a bush. A bush looks like a little tree. Little Henry went to school this morning. He is a funny little boy. It is a sunflower. It likes the sun. I like roses and sweet violets. I like to see big, yellow sunflowers. It is a picture of a little bird. The bird has a pretty nest in the woods. I see May and Rose and little Lucy. They took a little wagon with them, and went up the hill. I am in the garden. My name is Lucy. I see you far up in the sky. Rose found three little yellow flowers. They are not so pretty as the violets. The boys do not go out there to play. They go to the field to work. They help their father plant corn. They are now on their way home. It is very green and pretty. The sun is high in the sky now. It will set behind the hills. The sun shines in the day time. It helps to keep us warm. It gives us light. When it goes down we have night. Then the stars come out and shine. The moon shines at night, too. I like to see its pretty light. My name is Henry. Little Robin Redbreast sat on a tree. Here is Frank at the river, with his hook and line. The fish are far down in the water. The sky is as blue as it can be. Lucy and her mother are in the woods. Robin Redbreast is in the tree. Little Robin Redbreast has a nest in our garden. 
+
+Complexity=0.7514511421016332
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+Bees live in a house that is called a hive. They are of three kinds, -- workers, drones, and queens. Only one queen can live in each hive. If she is lost or dead, the other bees will stop their work. They are very wise and busy little creatures. They all join together to build cells of wax for their honey. Each bee takes its proper place, and does its own work. Some go out and gather honey from the flowers; others stay at home and work inside the hive. The cells which they build, are all of one shape and size, and no room is left between them. The cells are not round, but have six sides. Did you ever look into a glass hive to see the bees while at work? It is pleasant to see how busy they always are. But the drones do not work. Before winter comes, all the drones are driven from the hive or killed, that they may not eat the honey which they did not gather. It is not quite safe for children to handle bees. They have sharp stings that they know well how to use in their defense. 
+
+Complexity=0.7560554841272423
+Length=Long
+Questions=True
+DirectSpeech=True
+Content=
+Susie Sunbeam was not her real name; that was Susan Brown. But every one called her Susie Sunbeam, because she had such a sweet, smiling face, and always brought brightness with her when she came. Her grandfather first gave her this name, and it seemed to fit the little girl so nicely that soon it took the place of her own. Even when a baby, Susie laughed and crowed from morning till night. No one ever heard her cry unless she was sick or hurt. When she had learned to walk, she loved to go about the house and get things for her mother, and in this way save her as many steps as she could. She would sit by her mother's side for an hour at a time, and ask her ever so many questions, or she would take her new book and read. Susie was always pleasant in her play with other children. She never used an unkind word, but tried to do whatever would please her playmates best. One day, a poor little girl with a very ragged dress was going by and Susie heard some children teasing her and making fun of her. She at once ran out to the gate, and asked the poor little girl to come in. "What are you crying for?" Susie asked. "Because they all laugh at me," she said. Then Susie took the little girl into the house. She cheered her up with kind words, and gave her a nice dress and a pair of shoes. This brought real joy and gladness to the poor child, and she, too, thought that Susie was rightly called Sunbeam. 
+
+Complexity=0.7604377891463663
+Length=Medium
+Questions=True
+DirectSpeech=True
+Content=
+It is winter. We are glad, for winter gives us ice and snow. I like to go to school when snow is on the ground. To-day there is snow on the ground and ice on the pond. We have a good time. See how fast we ride down hill! See us fly away! Run Jack, run! Jack runs up hill and down hill. See how fast he runs. Jack thinks it fun to run up hill and down hill. Fred and Nell have come to play with us to-day. Tom will take Nell for a ride on his new sled. Nell says, "Oh, Fred, look, see how fast Tom and May can ride down hill! Do you think the sled will run away?" Fred says, "Oh, no, Nell, the sled will not run away. See the sled stop! Look, Nell, there it stops!" See the white snow on the trees. It makes the trees pretty. When the sun shines the snow will go away. 
+
+Complexity=0.7648902820439243
+Length=VeryLong
+Questions=False
+DirectSpeech=True
+Content=
+I see a fish. I can see it swim. I will let the fish see the tip of this stick, and it will think it is a fly. I have a pretty ship. My ship will not sink. This boy has a stick in his hand. He will not get it with a stick. You shall not get in. You hid my doll, and you let Belle spill the ink. I will not let you in, and i will tell that you hit Belle. I think you are a bad boy. Little Nell had the ink. Frank let her have it. And he let her spill the ink. Then he hit little Nell. You hid my pretty doll. Charley went to the mill. Rosy did not go. It is too far. She will play with her doll. Rosy can see the mill. She can not see him now. He is in the mill. Frank and Fred are little boys. Belle and Nell are little girls. Frank has a black dog. Fred has a pretty red sled. It has black letters on it. The girls have no dog and no sled. They have pretty dolls. Belle and Nell play with the dolls. Rosy has a pretty doll, too. Nell and Belle went to see Rosy. Frank and Fred went to the mill. The girls played with the dolls. A big apple is on the green grass. Charley will get it for Rosy. I see a nest, Rosy. It is in this big green tree. I will get the nest. I will let you see it. A nest is in that tree. Charley, Fred, and I went to see the nest. It had eggs in it. Charley went up the tree and got the nest for us to see. Here is an apple tree. It stands on a big hill. I will get into the tree. Then I can peep into the nest. Here i am, in the tree. Now i can see the eggs in the nest. Here is my hand. This is my lot, and I will dig a deep well in it. It is so hot, I have to keep on my big hat. I can not stop yet, I have to dig my well. My name is Tom. Mamma calls me little Tom. I think my papa is big Tom. This is my lot and my spade. I can dig with my spade. I shall dig a deep well in my lot. It is hot, but I keep my big hat on. Papa and mamma are not home. They went to the mill. I did not go with them. Here are two big frogs. They sit by a pond. A frog can jump and a frog can sing. And a frog can swim fast. A frog is not good to a fly. A big fish is not good to a frog. The little frog did not sing. The little frog did not hop. The little frog did not jump into the pond. The little frog hid in the mud. This is my big dog. I call him Don. Don is a good dog. I play with him. He can run very vast. And I can run fast, too. I run to a tree. Don runs fast to get to me. I can throw a stick into the pond and don will get it for me. He jumps into the pond. Then he swims to the stick and gets it out for me. I did not jump into the pond, for I can not swim. It is fun to see Don jump. I can jump, but not as well as Don can. This is my song. This is the mill. Fred has let his hat drop into the pond. One day Frank and Fred went to the mill-pond. Dash went with them. The boys did not go into the pond. They can not swim. Dash went into the pond. He can swim very fast. Fred let his hat drop off into the pond. Rosy and Frank got ten eggs. Nell had them in her basket. Eggs feel on the grass. I am hurt. I will brush off the dust and get the eggs. It was fun for Belle. He could run a little, and he could jump a little. Nat could not do as they did. The old hen is on the tub. There is such a pretty moon. It is so big and so round. It is almost like day tonight. I can see a boy and a girl. They are looking at the moon. I can't think why they say that. No I want to go into the house. I do not want the moon all night. Toots is at the door and can't get in. Tom is good to me. He calls me his good Toots. The black hen is not good to me. She has a brood of chicks. I like to play with her chicks. The old hen runs at me. I can not think why. I should not hurt her chicks. I do not peep and I do not cluck. There is a spool in Tom's room. I like to play with that spool. Here is charley driving the cows down to the lot. Charley lies all of the cows, but he likes that little brown one the best. That is his cow. My cow is the big red cow. She likes the sweet green grass in the lot by the pond. All the cows like grass. It is good for them. At night Charley and I go to the lot. We drive the cows home. Dash goes with us to the lot. He likes to drive the cows. Charley and I milk the cows when we get home. Three boys went up on the hill, to get nuts from a chestnut tree. A fox ran out of the brush by the tree, and the boys set the dogs on him. The dogs ran after the fox, but they did not catch him. A fly has two thin wings, two big eyes and six legs. A beetle has two thick wings, two thin wings, two eyes, and six legs. This beetle will inch me, if I let him. A bird has two wings, two eyes, and two legs. This bird has a long tail. My bird can sing a sweet song. Six little rabbits went out to run. I can see a cap. A girl has a fan. The boy can run. The cat is on a box. I see a man and a boy. The boy is Ned. The man has a dog. The dog can see the fox. The girl is Nan. Ned has a pig and a hen. I go up. I am up. Nan has a ball. Max has a top. The fox can run He can not fly. A man, a boy, a dog, a fox, and a cat can run. This cat is in my lap. She is a fat cat. She may get a nice nap. A dog bit the pig. This is a ram. He is an old ram. He ran at me. He is fat, and the pig is fat. Max has a big fat ox. He says he has a pet pig. Hed, the big dog, is my pet. The old ram ran at Ned. Ned bit the ram. This is a nice top. It is not a big top. Max has a big top. I can see a pup, and a dog. The dog looks at the pop. The old dog is Dash. The pup is not as big as Dash. This is my ball. It is a red ball. A ball will roll. Max has a blue ball. Ann made it. Max rolls it. The cat can roll it, too. This is Ned's ball. It is yellow. It will roll. All balls will roll. We call a ball a sphere. My ball is a sphere. Ned's ball is a sphere. All balls are spheres. Jack has a kite. He runs to fly it. He can fly it high up in the air. A fly is on the tin cup. The boys do not see us. It is fun to wade in the pond. Two are on the bank. The two on the bank are Ned and Hall. Tom is on the back of a horse. He will have a fine ride. He will not fall off. I have a black horse. The sly fox looks up at the hen. He can not get her. She is up on the high beam. She looks down at him and says '”cluck, cluck!” he will get her eggs, if he can find them. They are in the hen's nest. The hen has her nest in the hay. In can find the eggs in her nest. My white hen lays nice eggs. Her nest has an egg in it. Tom and hall have a nice horse. They can ride on his back as far as the hill. The pup is in the bank. He can not wade. 
+
+Complexity=0.7664287271075356
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+John has a new boat. His father gave it to him. It is blue, with a bright red line near the water. He keeps it in the river, not far from the road. He has some good oars, too. He keeps the oars at the house. His home is near the river. He likes to row up and down the river in his boat. Sometimes little May goes out in the boat with him. The water is not deep, and the children will not fall out of the boat. They like to row here and there on the river. John takes the oars, and May sits in her place and tells him where to go. Sometimes each takes an oar. Then the boat goes very fast. John has a hook and line. But when May is with him he does not try to catch any fish. Shall I tell you why? He knows that May does not like to see a fish on a hook. 
+
+Complexity=0.7779933447019218
+Length=Medium
+Questions=True
+DirectSpeech=True
+Content=
+Would you like to be with Guy, Fred, and Ray? I would. They have come to the pond to sail their boats. Their dog Jip is with them. Guy's boat is sailing on the pond now. What a fine boat it is! How fast it sails! Will it sail away? I think not. Guy holds it by a cord, so it can not sail away. Do you know why Guy stands in the pond to sail his boat? The boy who stands on the bank is Fred. Fred swings his hat and cheers. I think he says, "Hurra for the sail-boat! Come, Ray, hurra!" Ray sits at the left of Fred. He has a boat which he will sail by and by. Why does he not sail it now? Is it broken? Come, Ray; the boys and girls would like to see your boat sail. It is fun to sail boats. 
+
+Complexity=0.78880521505181
+Length=Long
+Questions=False
+DirectSpeech=True
+Content=
+Mary Armstrong was a pretty little girl, but she was heedless about some things. Her way of leaving her books and playthings just where she had used them last, gave her mother much trouble in picking them up and putting them in their proper places. She had often told Mary the evil effects of being so careless. Her books became spoiled, and her toys broken. But worse than this was the growing habit of carelessness, which would be of great harm to her all her life. It would make her unhappy, and would annoy her friends. One day Mary and her mother went out into their pleasant yard, to spend an hour in the open air. Mrs. Armstrong took her work with her. Mary ran about and played with Dash, her pet dog, and was having a happy time. But in a corner of the yard she found her nicest doll all torn and broken, and its dress covered with mud. She knew, at once, that Dash had done this, and she scolded him harshly. Carrying the broken doll to her mamma. she showed it to her, and could hardly keep from crying. Mrs. Armstrong asked Mary if she had not left the doll on the porch where Dash could easily get it; and Mary had to answer, "Yes, ma'am." "Then you must not blame the dog, Mary, for he does not know it is wrong for him to play with your doll. I hope this will be a lesson to you hereafter, to put your things away when you are through playing." "I will try," said Mary. And her mother promised to mend the doll as well as she could. 
+
+Complexity=0.7933468800554572
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+Do you know these three boys? The tall boy in the wagon is Frank Brown. The little boy is Henry. He is Frank's brother. The boy on the horse is John Day. See how well he can ride! Frank is a good driver. He sits in the wagon, and the horse goes just as he is told. Frank has a whip in his hand, but he does not use it. Henry's little dog runs behind. Sometimes he has to run very fast to keep up with the wagon. Do you know where the boys are going? I think they are going to town. I wonder what they will buy in town. Henry says he will buy a book with pretty pictures in it. He can not read very well, but he likes to look at books. John wants to ride down to the river and look at the boats. He would buy a new boat if he could. But he has only one cent, and what can he buy with that? Frank says they will not stay in town long. They must go home very soon. 
+
+Complexity=0.7943278017343711
+Length=Long
+Questions=False
+DirectSpeech=False
+Content=
+James White has two dogs. One is a Newfoundland dog, and the other is a Scotch terrier. The Newfoundland is a large, noble fellow. He is black, with a white spot, and with long, shaggy hair. His name is Sport. Sport is a good watchdog, and a kind playfellow. Every night he guards the house while James and his father are asleep. In the daytime, James often uses Sport for his horse. He has a little wagon, and a set of small harness which just fits the dog. He hitches Sport to this wagon, and drives over the country. In this way, he can go almost as fast as his father with the old family horse. The name of James's Scotch terrier is Dodger. He is called Dodger because he jumps about so friskily. He is up on a chair, under the table, behind the door, down cellar, and out in the yard, -- all in a minute. Dodger has very bright eyes, and he does many funny things. He likes to put his paws up on the crib, and watch the baby. The other day he took baby's red stocking, and had great fun with it; but he spoiled it in his play, and James had to scold him. Everyone likes to see James White with his two dogs. They always seem very happy together. 
+
+Complexity=0.7953209621091759
+Length=Long
+Questions=True
+DirectSpeech=True
+Content=
+One fine summer afternoon, Sam was walking home from school. He went along slowly, reading a book. Sam had spent all his money for the book, but he was a happy boy. At length he came into the highroad, where there was a gate. A blind man stood, holding it open. The poor man said, "Please give me a few cents to buy some bread!" But Sam gave him nothing. What! did Sam give the poor blind man nothing? Yes; for, as I told you, he had spent all his money. So Sam walked on, very sad. Soon after, a fine carriage came up, and in it were Harry and his mother. The blind man stood, and held out his hat. "Let us give the poor man something," said Harry to his mother. His mother gave him some cents. Harry took them, but did not put them into the man's hat. He threw them into the hedge as far as he could. The poor man could not find them, for, you know, ho was blind. Sam had turned back to look at the fine carriage. He saw Harry throw the cents into the hedge; so he came back at once, and looked for the money until he found it all for the blind man. This took so long a time, that he almost lost his supper. Which of the boys do you think was truly kind to the poor man? I know which he thanked most in his heart. 
+
+Complexity=0.8026151278289424
+Length=Long
+Questions=False
+DirectSpeech=False
+Content=
+There once lived an old man in a snug, little cottage. It had two rooms and only two windows. A small garden lay just behind it. Old as the poor man was, he used to work in the fields. Often he would come home very tired and weak, with his hoe or spade on his shoulder. And who do you think met him at the door! Mary and Jane, his two little grandchildren. They were too young to work, except to weed in the garden, or bring water from the spring. In winter, as they were too poor to buy much wood or coal, they had little fire; so they used to sit  lose together to keep warm. Mary would sit on one of the old man's knees, and Jane on the other. Sometimes their grandfather would tell them a droll story. Sometimes he would teach them a hymn. He would often talk to them of their father, who had gone to sea, or of their good, kind mother, who was in her grave. Every night he prayed God to bless them, and to bring back their father in safety. The old man grew weaker every year; but the little girls were glad to work for him, who had been so good to them. One cold, windy night, they heard a knock at the door. The little girls ran and opened it. Oh, joy to them! There stood their father. He had been at sea a long time. He had saved some money, and had now come home to stay. After this the old man did not have to work. His son worked for him, and his grandchildren took care of him. Many happy days they spent together. 
+
+Complexity=0.8143353727581425
+Length=Medium
+Questions=True
+DirectSpeech=False
+Content=
+Do you see that pretty nest? It is on a branch. There are many leaves around it. Of what is the nest made? It is made of hay, twigs, wool, and down. Did Fred see the bird make the nest? Where is the bird? O, see! there it is! It is flying to the nest. It has a leaf which it will put into the nest. Its mate sits on the branch near the nest. What do we see now? O, there are five little blue eggs in the nest. Where is the bird now? We do not see it. Will the bird come back? Let us sit on this log under the tree. The bird will be here soon. Look! There it is! The bird is sitting on its nest. Good by, dear birdie. We will come to see the little birds. 
+
+Complexity=0.8164974326974113
+Length=Medium
+Questions=False
+DirectSpeech=False
+Content=
+Here are our cows. Our sheep and lambs are near them. They are on the soft grass near the pond. Today little Tom came to the tree on his way to the pond. An old cow ran at him. He climbed on the big tree. The cow did not let him come down for some time. Our sheep have soft wool on their backs. The man cut it off. Wool is made into cloth. Our cows have smooth hair, but it is not wool and it is not made into cloth. They give us milk. My white sheep has a little lamb. It is a baby lamb. Its name is Pet. It is as white as snow and very gentle. My baby lamb runs and jumps. It will feed from my hand. Ned feeds the cows, the sheep and the little lambs. His work is hard, but he does it well. There is Ned now. His name for the boat is Pet. I would call it Birdie.  
+
+Complexity=0.8257850694810943
+Length=Long
+Questions=True
+DirectSpeech=False
+Content=
+The tiger is a giant cat. His body is nearly covered with black stripes. Unlike the lion, he runs so fast that the swiftest horse can not overtake him. He goes over the ground by making bounds or springs, one after another. By night, as well as by day, the tiger watches for his prey. With a frightful roar, he will seize a man, and carry him off. Have you ever thought what use whiskers are to cats? Lions have great whiskers, and so have tigers and all other animals of the cat kind. Whenever you find an animal with whiskers like the cat's, you may be sure that animal steals softly among branches and thick bushes. By the slightest touch on the tiger's whiskers, he knows when there is anything in his road. A few years ago, some English officers went out to hunt. When coming home from their day's sport, they found a little tiger kitten. They took it with them and tied it, with a collar and chain, to the pole of their tent. It played about, to the delight of all who saw it. One evening, just as it was growing dark, they heard a sound that frightened them greatly. It was the roar of a tiger. The kitten pulled at the chain, and tried to break away. With a sharp cry, it answered the voice outside. All at once, a large tigress bounded into the middle of the tent. She caught her kitten by the neck, and broke the chain which bound it. Then turning to the door of the tent, she dashed away as suddenly as she had come. 
+
+Complexity=0.8267964064537223
+Length=VeryLong
+Questions=False
+DirectSpeech=True
+Content=
+Two fast friends were Willie Brown and his little dog Bounce. Willie could never think of taking a walk without Bounce. Cake and play were equally shared between them. Willie taught his dog many cunning tricks, and often said that Bounce could do almost anything in the world but talk. There came a time, however, when Bounce really told Willie's father something, though he could not talk. Let me tell you how he did this. It was on a bright summer afternoon. Willie had strolled with Bounce down to the river, which was not more than two blocks from his father's store. Willie began to throw stones into the water, and to watch the ripples as they made one circle after another. Bounce lay on the grass, watching the flies that buzzed around his nose, and catching any that came too near. There were some logs floating in the river near the shore. Willie jumped upon one of them, to see if he could throw a stone across the river. He drew back, and sent the stone with all his might. Just as it left his hand, the log turned, and he fell into the water. He was very much frightened, for he did not know how to swim, and there was no one to hear, though he called as loud as he could for help. Poor little Bounce gave a great yelp of distress. If he had been a big water dog, he could have jumped in and brought his master out. He ran up and down the bank two or three times, barking, looking first at Willie and then around. Then he started, as fast as he could run, up the street to the store. When he got there the door was shut, but he scratched against it and barked loudly, until someone came and opened it. He caught hold of Mr. Brown's clothes, then ran to the door, then back again, catching at him, barking, and jumping. A friend who was in the store said to Mr. Brown, "Something must be wrong; I would put on my hat, and go with the dog." Bounce, seeing Mr. Brown take his hat, started for the river. Then Mr. Brown thought of Willie. As he came to the river, he saw Willie's hat floating on the water, and his small arm thrown up. He sprang in and caught him just as he was going down for the last time, and quickly carried him to the bank. "Willie soon got over his fright, and no one seemed to be more delighted than Bounce. 
+

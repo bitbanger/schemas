@@ -1,0 +1,9 @@
+General facts from more than one story:
+- X have rod
+- X have line
+- X have hook
+- X have bag
+- X have net
+- X catch (fish/crab)
+- X near (river/sea)
+- X put fish in (bag/basket)

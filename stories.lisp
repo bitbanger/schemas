@@ -131,8 +131,6 @@
 		(BAG2.SK BAG.N)
 		(FISH1.SK (PLUR FISH.N))
 
-		(((SUB BAG2.SK (((ADV-A (FOR.P (KA ((IN.P 
-
 		((BAG2.SK FOR.P (KA ((IN.P BAG2.SK) PUT.V FISH1.SK))) ** E6.SK)
 	)
 

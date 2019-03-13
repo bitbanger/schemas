@@ -5,7 +5,7 @@
 (load "schema_util.lisp")
 (load "protoschemas.lisp")
 
-(setf test-schema-name 'give_object.sch)
+(setf test-schema-name 'give_to.sch)
 
 (setf instance1 (match-wff-with-schema-instance
 	'(MOTHER5.SK (GIVE-TO.V SHE.PRO KITTEN6.SK))

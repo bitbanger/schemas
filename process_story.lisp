@@ -231,9 +231,11 @@
 		(loop for instid being the hash-keys of instances do
 		(format t "	~s [label=< <B>~d: ~s</B> <br /> <br /> ~d >,fillcolor=~d,style=filled];"
 			instid
-			(if (instance-fulfilled? (gethash instid instances)) "FULFILLED" "unfulfilled")
-			instid
-			(join-str-list "<br /><br />" (mapcar (lambda (x) (format nil "<B>~d</B>     ~d" (second x) (car x))) (instance-matched-wffs (gethash instid instances))))
+			; (if (instance-fulfilled? (gethash instid instances)) "FULFILLED" "unfulfilled")
+			""
+			; instid
+			(car (split-str instid "."))
+			(join-str-list "<br /><br />" (mapcar (lambda (x) (replace-all (format nil "<B>~d</B>     ~d" (second x) (car x)) "(" "<br />  (")) (instance-matched-wffs (gethash instid instances))))
 			(if (instance-fulfilled? (gethash instid instances)) "green" "red")
 		)
 		)
@@ -253,6 +255,7 @@
 				; Draw matched WFF->instance edges.
 				(loop for matched-wff in (instance-matched-wffs (gethash instid instances)) do (block drawmatchloop-inner
 					; (format "~s LOL ~s;~%" (second matched-wff) instid)
+					(format t "	~s [label=< ~d >];~%" (format nil "~s" (car matched-wff)) (remove-prefix (replace-all (format nil "~d" (car matched-wff)) "(" "<br />  (") "<br />"))
 					(format t "	~s -> ~s [label=< <B>matched to</B> >];~%" (format nil "~s" (car matched-wff)) instid)
 				))
 			)
@@ -269,6 +272,7 @@
 
 			(setf wff (third fact))
 			; (format t "	~s ~s ~s~%~%" instid epid wff)
+			(format t "	~s [label=< ~d >];~%" (format nil "~s" wff) (remove-prefix (replace-all (format nil "~d" wff) "(" "<br />  (") "<br />"))
 			(format t "	~s -> ~s [label=< <B>generated inference</B> >];~%" instid (format nil "~s" wff))
 		))
 

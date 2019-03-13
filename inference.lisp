@@ -376,3 +376,11 @@
 		collect res
 	)
 )
+
+
+
+
+
+
+
+; Some general EL inference rules

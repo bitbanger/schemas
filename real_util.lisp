@@ -307,6 +307,18 @@ is replaced with replacement."
 )
 )
 
+(defun split-str (str sep)
+(cond
+	((null (search sep str))
+		(list str))
+
+	(t (append
+		(list (subseq str 0 (search sep str)))
+		(split-str (subseq str (+ 1 (search sep str)) (length str)) sep)
+	))
+)
+)
+
 (defun repeat-str (str n)
 	(format nil "~v@{~A~:*~}" n str)
 )

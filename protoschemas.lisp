@@ -44,8 +44,8 @@
 )
 
 ; TODO: out of order arg matching using types?
-(defparameter give_object.sch
-	'(epi-schema ((?x give_object.sch ?y ?o) ** ?e)
+(defparameter give_to.sch
+	'(epi-schema ((?x give_to.sch ?y ?o) ** ?e)
 		(:Fixed-roles
 			!r1 (?x agent6.n)
 			!r2 (?y agent6.n)
@@ -175,8 +175,7 @@
 		(:Nonfluent-conds
 			!w1 (?o1 realize3.v ?o)
 			!w2 (?x want1.v (ka (have.v ?o1)))
-			!w3 (forall ?y (if.ps (?x (have.v ?o1))
-				(not (?y (can.aux-v (have.v ?o1))))))
+			!w3 (forall ?y (not (?y = ?x)) (not (?y (can.aux-v (possess.sch ?o1)))))
 			!w4 (?p1 realize3.v ?p)
 		)
 
@@ -196,8 +195,8 @@
 )
 
 (defparameter *PROTOSCHEMAS* (list
-	do_for-pleasure.sch
-	give_object.sch
+	; do_for-pleasure.sch
+	give_to.sch
 	possess.sch
 	do_activity_with_other.sch
 	be_friendly_with.sch

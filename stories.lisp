@@ -161,3 +161,21 @@
 	)
 )
 )
+
+
+
+(defparameter play-sand
+'(
+	; The monkey can climb a tree.
+	((E1.SK AT-ABOUT.P NOW0)
+		((MONKEY1.SK CAN.MD (CLIMB.V TREE1.SK)) ** E1.SK))
+
+	; He climbs the tree and gets a cocoanut. (1/2)
+	((E2.SK AT-ABOUT.P NOW1)
+		((HE.PRO CLIMB.V TREE2.SK) ** E2.SK))
+
+	; He climbs the tree and gets a cocoanut. (1/2)
+	((E3.SK AT-ABOUT.P NOW2)
+		((HE.PRO GET.V COCOANUT1.SK) ** E3.SK))
+)
+)

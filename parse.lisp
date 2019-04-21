@@ -54,6 +54,10 @@
 	(has-ext? x ".P")
 )
 
+(defun lex-pred? (x)
+	(has-ext? x ".PR")
+)
+
 (defun lex-p-arg? (x)
 	(has-ext? x ".P-ARG")
 )
@@ -107,6 +111,16 @@
 
 (defun lex-adv-f? (x)
 	(has-ext? x ".ADV-F")
+)
+
+(defun lex-const? (x)
+(or
+	(lex-skolem? x)
+	(and
+		(symbolp x)
+		(alphanum-str? (string x))
+	)
+)
 )
 
 (defun lex-ent? (x)
@@ -537,6 +551,7 @@
 
 (defun pred? (x)
 (or
+	(lex-pred? x)
 	(verb? x)
 	(noun? x)
 	(adj? x)
@@ -677,3 +692,18 @@
 
 
 
+
+
+
+
+; EL stuff (new)
+
+(defun el-pred? (x)
+(or
+	(lex-verb? x)
+	(lex-noun? x)
+	(lex-adj? x)
+	(lex-const? x) ; constants can be pred symbs
+	;(mp x (list ))
+)
+)

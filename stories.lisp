@@ -162,6 +162,20 @@
 )
 )
 
+(defparameter puppies '(
+	; The puppies are full of fun.
+	((E1.SK AT-ABOUT NOW0)
+		(PUPPIES1.SK (K (PLUR PUPPY.N)))
+		((PUPPIES1.SK (BE.V (ADV-A (F
+	)
+
+	; I like to see them play with each other.
+	((E2.SK AT-ABOUT NOW1)
+		(AGENTS1.SK (K (PLUR AGENT.N)))
+		((I.PRO LIKE.V (KA (SEE.V AGE
+	)
+))
+
 
 
 (defparameter play-sand

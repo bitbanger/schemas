@@ -187,6 +187,13 @@
 )
 )
 
+(defun xor (p q)
+	(or
+		(and p (not q))
+		(and q (not p))
+	)
+)
+
 (defun mk-hashtable (pairs)
 (cond
 	((equal pairs t) t)

@@ -1,0 +1,131 @@
+; file: /home/vax8/u22/llawley/Code/schemas/real_util.lisp
+; in: DEFUN GET-ELEMENTS-PRED
+;     (SETF TMP3 (GET-ELEMENTS-PRED E PRED))
+; ==>
+;   (SETQ TMP3 (GET-ELEMENTS-PRED E PRED))
+; 
+; caught WARNING:
+;   undefined variable: TMP3
+; 
+; compilation unit finished
+;   Undefined variable:
+;     TMP3
+;   caught 1 WARNING condition
+
+; file: /home/vax8/u22/llawley/Code/schemas/real_util.lisp
+; in: DEFUN HT-COPY
+;     (SETF NEW-HT (MAKE-HASH-TABLE :TEST #'EQUAL))
+; ==>
+;   (SETQ NEW-HT (MAKE-HASH-TABLE :TEST #'EQUAL))
+; 
+; caught WARNING:
+;   undefined variable: NEW-HT
+; 
+; compilation unit finished
+;   Undefined function:
+;     HASHTABLEP
+;   Undefined variable:
+;     NEW-HT
+;   caught 1 WARNING condition
+
+; file: /home/vax8/u22/llawley/Code/schemas/real_util.lisp
+; in: DEFUN MK-HASHTABLE
+;     (SETF WANT-BIND (MAKE-HASH-TABLE :TEST #'EQUAL))
+; ==>
+;   (SETQ WANT-BIND (MAKE-HASH-TABLE :TEST #'EQUAL))
+; 
+; caught WARNING:
+;   undefined variable: WANT-BIND
+; 
+; compilation unit finished
+;   Undefined variable:
+;     WANT-BIND
+;   caught 1 WARNING condition
+NIL was not a schema instanceNIL was not a schema instance
+
+story:
+(((E1.SK AT-ABOUT.P NOW0) (MONKEY1.SK MONKEY.N) (TREE1.SK TREE.N)
+  ((MONKEY1.SK (CAN.MD (CLIMB.V TREE1.SK))) ** E1.SK))
+ ((E2.SK AT-ABOUT.P NOW1) (TREE2.SK TREE.N)
+  ((HE.PRO (CLIMB.V TREE2.SK)) ** E2.SK))
+ ((E3.SK AT-ABOUT.P NOW2) (COCONUT1.SK COCONUT.N)
+  ((HE.PRO (GET.V COCONUT1.SK)) ** E3.SK))
+ ((E2.SK CONSEC E3.SK)))
+
+subject pronouns dereferenced to last concrete subject:
+(((E1.SK AT-ABOUT.P NOW0) (MONKEY1.SK MONKEY.N) (TREE1.SK TREE.N)
+  ((MONKEY1.SK (CAN.MD (CLIMB.V TREE1.SK))) ** E1.SK))
+ ((E2.SK AT-ABOUT.P NOW1) (TREE2.SK TREE.N)
+  ((MONKEY1.SK (CLIMB.V TREE2.SK)) ** E2.SK))
+ ((E3.SK AT-ABOUT.P NOW2) (COCONUT1.SK COCONUT.N)
+  ((MONKEY1.SK (GET.V COCONUT1.SK)) ** E3.SK))
+ ((E2.SK CONSEC E3.SK)))
+
+
+
+BEST SCHEMA MATCH:
+	(7 points; 2 from # of consistent temporal constraints, 5 from # of bound variables)
+
+(epi-schema ((MONKEY1.SK DO_TO_ENABLE_ACTION.V (KA (CLIMB.V TREE2.SK))
+              (KA (GET.V COCONUT1.SK)))
+             ** ?E)
+	(:NONFLUENT-CONDS
+		!R1	((KA (CLIMB.V TREE2.SK)) ACTION1.N)
+		!R2	((KA (GET.V COCONUT1.SK)) ACTION1.N)
+		!R3	(MONKEY1.SK AGENT6.N)
+	)
+	(:GOALS
+		?G1	(MONKEY1.SK WANT1.V
+       (THAT (MONKEY1.SK CAN.MD (DO2.V (KA (GET.V COCONUT1.SK))))))
+	)
+	(:INTENDED-EPISODES
+		E2.SK	(MONKEY1.SK DO2.V (KA (CLIMB.V TREE2.SK)))
+		E3.SK	(MONKEY1.SK (CAN.MD (DO2.V (KA (GET.V COCONUT1.SK)))))
+	)
+	(:EPISODE-RELATIONS
+		!W1	(E2.SK CONSEC E3.SK)
+		!W2	(E2.SK CAUSE-OF E3.SK)
+	)
+)
+
+BINDINGS:
+	?X: MONKEY1.SK
+	?A1: (KA (CLIMB.V TREE2.SK))
+	?E1: E2.SK
+	?A2: (KA (GET.V COCONUT1.SK))
+	?E2: E3.SK
+
+UNIQUE TERMS:
+	TREE2.SK
+		ATEMPORAL CONSTRAINTS ON TREE2.SK:
+			(TREE2.SK TREE.N)
+	MONKEY1.SK
+		ATEMPORAL CONSTRAINTS ON MONKEY1.SK:
+			(MONKEY1.SK MONKEY.N)
+	COCONUT1.SK
+		ATEMPORAL CONSTRAINTS ON COCONUT1.SK:
+			(COCONUT1.SK COCONUT.N)
+
+GENERALIZED SCHEMA:
+
+(epi-schema ((?SK1 DO_TO_ENABLE_ACTION.V (KA (CLIMB.V ?SK0)) (KA (GET.V ?SK2))) ** ?E)
+	(:NONFLUENT-CONDS
+		!R1	((KA (CLIMB.V ?SK0)) ACTION1.N)
+		!R2	((KA (GET.V ?SK2)) ACTION1.N)
+		!R3	(?SK1 AGENT6.N)
+		!SKR0	(?SK0 (GEN-HIERARCHY TREE.N PLANT2.N ORGANISM1.N NATURAL_OBJECT1.N OBJECT1.N))
+		!SKR1	(?SK1 (GEN-HIERARCHY MONKEY.N MAMMAL1.N VERTEBRATE1.N ANIMAL1.N ORGANISM1.N NATURAL_OBJECT1.N OBJECT1.N))
+		!SKR2	(?SK2 (GEN-HIERARCHY COCONUT.N INGREDIENT3.N FOOD2.N SUBSTANCE1.N MATERIAL1.N OBJECT1.N))
+	)
+	(:GOALS
+		?G1	(?SK1 WANT1.V (THAT (?SK1 CAN.MD (DO2.V (KA (GET.V ?SK2))))))
+	)
+	(:INTENDED-EPISODES
+		E2.SK	(?SK1 DO2.V (KA (CLIMB.V ?SK0)))
+		E3.SK	(?SK1 (CAN.MD (DO2.V (KA (GET.V ?SK2)))))
+	)
+	(:EPISODE-RELATIONS
+		!W1	(E2.SK CONSEC E3.SK)
+		!W2	(E2.SK CAUSE-OF E3.SK)
+	)
+)

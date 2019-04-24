@@ -87,8 +87,8 @@
 	results
 )
 (block outer
-	(dbg 'match-wff "here~%")
-	
+	;(dbg 'match-wff "here~%")
+
 	; A single WFF could mean essentially the same thing
 	; as several WFFs; we encode these transformations in
 	; a set of "standard" inference rules, and we try each
@@ -99,11 +99,22 @@
 			do (setf ep-name (car ep))
 			do (setf ep-wff (second ep))
 			do (setf norm-ep-wff (normalize-sent ep-wff))
+
+			; If this is a characterizing WFF, event individuation semantics say
+			; that the ep-name here can be bound to the episode it characterizes.
+			do (if (char-wff? alt-wff) (block bind-ep
+				(setf bind-ep (third alt-wff))
+				; Clear out the ** operator and just take the underlying WFF
+				(setf alt-wff (car alt-wff))
+			))
+
 			do (dbg 'match-wff "attempting to unify ~s and ~s~%" alt-wff norm-ep-wff)
 			do (setf unify-res (unify-wffs alt-wff norm-ep-wff bindings))
 			if (not (null unify-res))
 				do (block matched-block
 					(setf results (append results (list (list unify-res ep-name))))
+					; bind the ep-name variable to the bind-ep individual
+					(setf (gethash ep-name unify-res) bind-ep)
 					; we don't mind trying to match to multiple
 					; episodes, but we don't want to match to
 					; multiple syntactic versions of the same
@@ -170,7 +181,6 @@
 	result-instances
 )
 (block outer
-	(dbg 'match-inst "here1~%")
 	(setf match-results
 		(match-wff-with-named-episodes
 			wff

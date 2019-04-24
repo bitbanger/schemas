@@ -51,11 +51,13 @@
 
 		; Add this episode's WFFs into our KB
 		; (Use dummy IDs for them; they won't be rewritten)
-		do (loop for wff in ep
+		do (loop for orig-wff in ep
+			do (loop for wff in (apply-standard-rules orig-wff)
 			do (setf (gethash (rechash (list (rechash ep) (rechash (normalize-sent wff)))) kb)
 				; Also use dummy triples, since they don't have instance
 				; or episode IDs.
 				(list nil nil (normalize-sent wff)))
+			)
 		)
 
 
@@ -167,6 +169,7 @@
 						(if (instance-fulfilled? new-inst)
 						; then
 						(loop for inf-fact in (inferred-wffs new-inst t)
+							; do (format t "inf-fact: ~d~%" inf-fact)
 							do (setf (gethash
 								; hash key (combo of instance ID + fact ID)
 								(rechash (list (instance-id new-inst) (car inf-fact)))
@@ -190,7 +193,7 @@
 		(if (> (hash-table-count tmp-kb) 0)
 			; then
 			(loop for new-fact-id being the hash-keys of tmp-kb
-				do (setf (gethash new-fact-id kb) (gethash new-fact-id tmp-kb))
+				; do (setf (gethash new-fact-id kb) (gethash new-fact-id tmp-kb))
 			)
 			; else
 			(return-from inf-loop)
@@ -200,10 +203,12 @@
 		)))
 
 
-		(loop for instid being the hash-keys of instances do (block print-inst-loop
-			(setf inst (gethash instid instances))
-			; (format t "instance ~d: ~d (fulfilled? ~s)~%~%" instid (instance-to-str inst) (instance-fulfilled? inst))
-		))
+
+
+
+
+
+
 		; do (format t "~%~%")
 		; do (format t "~%~%")
 		; (format t "FINAL INFERRED FACTS:~%")
@@ -225,6 +230,165 @@
 
 	)
 
+
+		(setf best-match nil)
+		(setf best-points 0)
+		(setf best-ep-points 0)
+
+		(loop for instid being the hash-keys of instances do (block print-inst-loop
+			(setf inst (gethash instid instances))
+			(setf points 0)
+			;(format t "~%~%")
+			;(format t "bindings: ~s~%" (ht-to-str (instance-bindings inst)))
+
+			;(print-schema (apply-bindings (eval (instance-schema-name inst)) (instance-bindings inst)))
+			(setf rendered-best (apply-bindings (eval (instance-schema-name best-match)) (instance-bindings best-match)))
+			(setf rendered-inst (apply-bindings (eval (instance-schema-name inst)) (instance-bindings inst)))
+			
+			; You get a point for each binding you have.
+			(setf points (+ points (hash-table-count (instance-bindings inst))))
+
+			; You get a point for each consistent episode relation, and lose a point for each inconsistent episode relation.
+			; This gets normalized by the number of unique episodes being related.
+			(setf ep-points 0)
+			(setf unique-eps (list))
+			(loop for ep-rel in (mapcar #'second (get-ep-rels rendered-inst))
+				do (block erb
+					; neutral points for an unfilled relation
+					(if (has-element-pred ep-rel #'lex-schema-ep-var?) (return-from erb))
+
+					(push (car ep-rel) unique-eps)
+					(push (third ep-rel) unique-eps)
+
+					(if (consistent-ep-rel? ep-rel)
+						(progn
+							; (format t "~d is consistent~%" ep-rel)
+							(setf ep-points (+ ep-points 1))
+						)
+						; else
+						(progn
+							; (format t "~d is inconsistent~%" ep-rel)
+							(setf ep-points (- ep-points 1))
+						)
+					)
+				)
+			)
+
+			(setf unique-eps (remove-duplicates unique-eps :test #'equal))
+			; (format t "~d ep points~%" ep-points)
+			(if (> 0 (length unique-eps))
+				(setf ep-points (/ ep-points (length unique-eps)))
+			)
+			(setf points (+ points ep-points))
+
+
+			; TODO: other point contributors, like proved constraints?
+
+			(if (> points best-points)
+				(progn
+					(setf best-match inst)
+					(setf best-points points)
+					(setf best-ep-points ep-points)
+				)
+			)
+			
+
+			; (format t "instance ~d: ~d (fulfilled? ~s)~%~%" instid (instance-to-str inst) (instance-fulfilled? inst))
+		))
+
+
+		(format t "~%~%")
+
+
+		(format t "story:~%~d~%~%" play-sand)
+		(format t "subject pronouns dereferenced to last concrete subject:~%~d~%~%" (deref-subj-pronouns play-sand))
+
+
+		(format t "~%~%")
+		(format t "BEST SCHEMA MATCH:~%	(~d points; ~d from # of consistent temporal constraints, ~d from # of bound variables)~%~%" best-points best-ep-points (- best-points best-ep-points))
+
+		(setf rendered-best-match (apply-bindings (eval (instance-schema-name best-match)) (instance-bindings best-match)))
+
+		(print-schema rendered-best-match)
+
+		(format t "~%")
+
+		(format t "BINDINGS:~%~d~%" (tab-all-lines 1 (ht-to-str (instance-bindings best-match))))
+		(format t "~%")
+
+
+
+		; do generalizations here
+		; TODO: how safe to generalize constants if we include all constraints?
+		; TODO: and when can we ignore constraints? I guess that's part of generalizing
+		(format t "UNIQUE TERMS:~%")
+		(setf unique-term-facts (make-hash-table :test #'equal))
+		(loop for const in (extract-schema-consts rendered-best-match)
+			do (block constloop
+				(format t "	~d~%" const)
+				(setf (gethash const unique-term-facts) (list))
+
+				(format t "		ATEMPORAL CONSTRAINTS ON ~d:~%" const)
+				(loop for factid being the hash-keys of kb do (block factloop
+					(setf fact (gethash factid kb))
+					(setf fact-wff (third fact))
+
+					; TODO: temporal knowledge could be useful here, too, but
+					; determining its relation to the temporal events of the schema
+					; is beyond our current capabilities (need to implement AIA).
+					(if (not (atemporal fact-wff))
+						(return-from factloop))
+
+					(if (has-element fact-wff const)
+						(progn
+							(push fact-wff (gethash const unique-term-facts))
+							(format t "			~d~%" fact-wff)
+						)
+					)
+				))
+		))
+
+
+		; replace constants w/ vars
+		(setf sk-var-num 0)
+		(setf fact-num 0)
+		(loop for ut being the hash-keys of unique-term-facts do (block utblock
+			(setf ut-facts (gethash ut unique-term-facts))
+			(setf skvarname (intern (concat-strs "?SK" (format nil "~d" sk-var-num))))
+			(setf sk-var-num (+ 1 sk-var-num))
+
+			(setf rendered-best-match (replace-vals ut skvarname rendered-best-match))
+
+			(loop for ut-fact in ut-facts do (block utfactblock
+				(setf new-constr-id (intern (concat-strs "!SKR" (format nil "~d" fact-num))))
+				(setf fact-num (+ 1 fact-num))
+				(setf new-fact (replace-vals ut skvarname ut-fact))
+
+				(pusha new-constr-id (get-section rendered-best-match ':Nonfluent-conds))
+
+				(if (mp new-fact (list 'term? 'noun?))
+					(progn
+						(setf ont-anc-args (ont-ancestors (second new-fact)))
+						(push 'GEN-HIERARCHY ont-anc-args)
+						(setf new-fact (list (car new-fact) ont-anc-args))
+					)
+					; else
+				)
+				(pusha new-fact (get-section rendered-best-match ':Nonfluent-conds))
+
+			))
+
+		))
+
+
+		(format t "~%")
+
+		(format t "GENERALIZED SCHEMA:~%~%")
+		(setf *PRINT-PRETTY* NIL)
+		(print-schema rendered-best-match)
+
+
+	(if nil
 	(block output-graph
 		; Output the instances and facts into Graphviz format.
 		(format t "digraph {~%")
@@ -283,6 +447,11 @@
 )
 )
 )
+)
 
 
-(process-story may-story)
+;(process-story may-story)
+;(process-story play-sand)
+(process-story (deref-subj-pronouns play-sand))
+;(format t "~d~%" play-sand)
+;(format t "~d~%" (deref-subj-pronouns play-sand))

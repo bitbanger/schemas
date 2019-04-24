@@ -2,8 +2,8 @@
 	; put debug tags you want here
 	;'matched-wffs
 	;'match-wff
-	; 'process-story
-	; 'match-inst
+	;'process-story
+	;'match-inst
 	;'unify-wffs
 	;'cur1
 ))
@@ -27,6 +27,43 @@
 	(lambda (x) (not (funcall pred x)))
 )
 
+(defun list-of-pred (lst pred)
+	(cond
+		((not (listp lst)) nil)
+
+		(t (loop for e in lst
+			always (funcall pred e)))
+	)
+)
+
+(defun get-elements-pred (lst pred)
+	(cond
+		((funcall pred lst) lst)
+
+		((not (listp lst)) nil)
+
+		(t (loop for e in lst
+			do (setf tmp3 (get-elements-pred e pred))
+			if (and (not (null tmp3)) (not (list-of-pred tmp3 pred)))
+				do (setf tmp3 (list tmp3))
+			append tmp3
+		))
+	)
+)
+
+(defun replace-vals (old new lst)
+	(cond
+		((not (listp lst))
+			(if (equal lst old) new lst))
+
+		(t
+			(loop for e in lst
+				collect (replace-vals old new e)
+			)
+		)
+	)
+)
+
 ; DFS for an element matching a predicate in
 ; a(n assumed-to-be-acyclic) list structure.
 (defun has-element-pred (lst pred)
@@ -36,6 +73,10 @@
 
 		(t (loop for e in lst thereis (has-element-pred e pred)))
 	)
+)
+
+(defun has-element (lst elem)
+	(has-element-pred lst (lambda (x) (equal x elem)))
 )
 
 (defun has-all-elements-pred (lst pred)

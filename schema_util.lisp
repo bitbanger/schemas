@@ -1,3 +1,8 @@
+(declaim (sb-ext:muffle-conditions cl:warning))
+
+(load "real_util.lisp")
+(load "parse.lisp")
+
 (defun get-pairs (l)
 	(loop for (a b) on l by #'cddr
 		collect (list a b)
@@ -78,7 +83,7 @@
 (defun instance-schema-name (instance)
 (cond
 	((not (instance? instance))
-		(explain-nil "~s was not a schema instance"))
+		(explain-nil "~s was not a schema instance" instance))
 
 	(t (second instance))
 )
@@ -87,7 +92,7 @@
 (defun instance-bindings (instance)
 (cond
 	((not (instance? instance))
-		(explain-nil "~s was not a schema instance"))
+		(explain-nil "~s was not a schema instance" instance))
 
 	(t (third instance))
 )
@@ -96,7 +101,7 @@
 (defun instance-matched-wffs (instance)
 (cond
 	((not (instance? instance))
-		(explain-nil "~s was not a schema instance"))
+		(explain-nil "~s was not a schema instance" instance))
 
 	(t (fourth instance))
 )
@@ -308,6 +313,85 @@ characterizer-ep-ids
 )
 
 
+; Re-bind all variables in the instance to be unique.
+; They're essentially Skolem constants that we'll want
+; to refer to consistent individuals throughout the KB.
+; We denote them as vars, rather than Skolem constants,
+; so that we know the quantification happened in the
+; schema and not the story.
+(defun rebind-vars (instid cursor bindings)
+(block outer
+	(setf cp-bind (ht-copy bindings))
+	(rebind-vars-helper instid cursor cp-bind)
+	(return-from outer cp-bind)
+)
+)
+
+(defun rebind-vars-helper (instid cursor bindings)
+(block outer
+
+	(if (listp cursor)
+		(loop for el in cursor
+			do (rebind-vars instid el bindings)
+		)
+	)
+
+	(if (lex-schema-ep-var? cursor)
+		(if (null (gethash cursor bindings))
+			(setf (gethash cursor bindings)
+				(intern (concat-strs
+					(string cursor)
+					"_"
+					(string-upcase instid))))
+		)
+	)
+
+)
+)
+
+
+(defun new-inferred-wffs (instance)
+(let (
+(schema-name (instance-schema-name instance))
+(instance-id (instance-id instance))
+(instance-bindings (instance-bindings instance))
+(matched-wffs (instance-matched-wffs instance))
+bound-schema
+)
+
+(block outer
+
+
+	; Tie all vars to instance
+	(setf bound-schema (apply-bindings (eval schema-name) instance-bindings))
+	(setf new-bindings (rebind-vars instance-id bound-schema instance-bindings))
+	(setf bound-schema (apply-bindings (eval schema-name) new-bindings))
+
+	
+	; Generate the inferences
+	; (loop for sec-name in 
+
+
+)
+)
+)
+
+; TODO: write a real TRIPS ontology ancestor function.
+(defun ont-ancestors (word)
+	(cond
+		((equal word 'COCONUT.N)
+			'(COCONUT.N INGREDIENT3.N FOOD2.N SUBSTANCE1.N MATERIAL1.N OBJECT1.N))
+
+		((equal word 'MONKEY.N)
+			'(MONKEY.N MAMMAL1.N VERTEBRATE1.N ANIMAL1.N ORGANISM1.N NATURAL_OBJECT1.N OBJECT1.N))
+
+		((equal word 'TREE.N)
+			'(TREE.N PLANT2.N ORGANISM1.N NATURAL_OBJECT1.N OBJECT1.N))
+
+		(t (list word))
+	)
+)
+
 ; gives the full list of inferred WFFs from a schema instance
 ; (only WFFs with all variables filled)
 (defun inferred-wffs (instance definite?)
@@ -342,6 +426,131 @@ bound-schema
 
 )
 )
+
+(defmacro pusha (e l)
+	`(cond
+		((null ,l) (push ,e ,l))
+
+		(t (push ,e (cdr (last ,l))))
+	)
+)
+
+; deref-subj-pronouns replaces sentence subject pronouns
+; with the last non-pronoun sentence subject.
+(defun deref-subj-pronouns (story)
+(block outer
+	(setf cur-subj nil)
+	(setf new-story (list))
+
+	(loop for sent in story
+		do (setf new-sent (list))
+		do (loop for wff in sent
+			do (block inner
+				;(format t "wff: ~d~%subj:~d~%" wff (get-sent-subj wff))
+				;(format t "cur-subj: ~d~%" cur-subj)
+
+				(setf subj1 (get-sent-subj wff))
+				;(format t "subj1: ~d~%" subj1)
+				(cond
+					((null subj1) (pusha wff new-sent))
+					((and (lex-pronoun? subj1) (null cur-subj)) (pusha wff new-sent))
+					((lex-pronoun? subj1) (pusha (replace-sent-subj wff cur-subj) new-sent))
+					((null cur-subj) (progn (setf cur-subj subj1) (pusha wff new-sent)))
+				)
+				)
+			)
+		do (pusha new-sent new-story)
+	)
+
+	(return-from outer new-story)
+)
+)
+
+(defun disjoint-rel? (ep-rel)
+	(or
+		(equal ep-rel 'before.p)
+		(equal ep-rel 'consec)
+		(equal ep-rel 'after.p)
+		(equal ep-rel 'cause-of.n)
+		(equal ep-rel 'cause-of)
+	)
+)
+
+(defun consistent-ep-rel? (ep-rel)
+(block outer
+	; Relating an episode to itself in a disjoint way isn't temporally consistent
+	(if (and (disjoint-rel? (second ep-rel))
+			(equal (car ep-rel) (third ep-rel)))
+		(return-from outer nil))
+
+
+	; Now we want to make sure the episode relations actually hold, if possible.
+
+	(setf ep1 (car ep-rel))
+	(setf ep2 (third ep-rel))
+
+	; Conservatively, assume it's valid unless we can actually
+	; do checks on the ep ref numbers.
+	; TODO: actually implement interval overlap checking, etc.
+	(if (or (not (lex-ep-const? (car ep-rel))) (not (lex-ep-const? (third ep-rel))))
+		(return-from outer t))
+
+	; Just compare using the Skolem numbers, for now.
+	(setf ep1-num (parse-integer (remove-suffix (remove-prefix (string ep1) "E") ".SK")))
+	(setf ep2-num (parse-integer (remove-suffix (remove-prefix (string ep2) "E") ".SK")))
+
+	(cond
+		((equal (second ep-rel) 'before.p)
+			(return-from outer (<= ep1-num ep2-num)))
+
+		((equal (second ep-rel) 'consec)
+			(return-from outer (<= ep1-num ep2-num)))
+
+		((equal (second ep-rel) 'after.p)
+			(return-from outer (>= ep1-num ep2-num)))
+
+		((equal (second ep-rel) 'cause-of.n)
+			(return-from outer (<= ep1-num ep2-num)))
+	)
+
+	; We're being conservative; if we can't prove it's inconsistent,
+	; we'll assume it's consistent.
+	; TODO: also try to prove consistency, and alter point value.
+	(return-from outer t)
+)
+)
+
+
+(defun atemporal (wff)
+	; TODO: some WFFs might be temporal even if they don't have a ** (or *)?
+	(unchar-wff? wff)
+)
+
+(defun generalizable-const? (x)
+	(and (lex-const? x) (not (lex-ep-ref? x)))
+)
+
+(defun extract-schema-consts (schema)
+	(remove-duplicates (get-elements-pred schema #'generalizable-const?) :test #'equal)
+)
+
+(defun extract-instance-consts (instance)
+(let (
+(schema-name (instance-schema-name instance))
+(instance-id (instance-id instance))
+(instance-bindings (instance-bindings instance))
+(matched-wffs (instance-matched-wffs instance))
+bound-schema
+)
+
+(block outer
+	(setf bound-schema (apply-bindings (eval schema-name) instance-bindings))
+
+	(return-from outer (extract-schema-consts bound-schema))
+)
+)
+)
+
 
 
 

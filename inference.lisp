@@ -49,12 +49,41 @@
 		(list
 			; v must be a verb phrase
 			'?v13
-			(list #'verb?)
+			(list
+				#'nonmodal-verb?
+				(lambda (x) (not (equal (get-head-verb x) 'DO2.V)))
+			)
 		)
 	))
 	; inferent
 	'(?t12 (do2.v (ka ?v13)))
 	)
+
+	
+
+	; If you do it, you can do it
+	(list
+	;match pattern
+	'(?x12 ?a12)
+	; variable constraints
+	(mk-hashtable (list
+		(list
+			; x must be a term
+			'?x12
+			(list #'term?)
+		)
+		(list
+			; a must be a verb phrase
+			'?a12
+			(list #'nonmodal-verb?)
+		)
+	))
+	; inferent
+	'(?x12 (can.md ?a12))
+	)
+
+
+	
 
 	; strip out episode characterization syntax
 	; TODO: this syntactic nicety should really be distinguished
@@ -370,11 +399,23 @@
 )
 
 (defun apply-standard-rules (formula)
+(block outer
+
+	(setf asr-uncharred-wff formula)
+	(setf asr-ep-id nil)
+	(if (char-wff? formula) (block got-char
+		(setf asr-uncharred-wff (car formula))
+		(setf asr-ep-id (third formula))
+	))
+
 	(loop for rule in *INF-RULES*
-		do (setf res (apply-inference-rule formula rule))
+		for i from 0
+		; do (format t "applying standard rule ~d to formula ~d~%" i formula)
+		do (setf res (apply-inference-rule asr-uncharred-wff rule))
 		if (not (null res))
-		collect res
+		collect (if (not (null asr-ep-id)) (list res '** asr-ep-id) res)
 	)
+)
 )
 
 

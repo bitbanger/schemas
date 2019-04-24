@@ -162,34 +162,25 @@
 )
 )
 
-(defparameter puppies '(
-	; The puppies are full of fun.
-	((E1.SK AT-ABOUT NOW0)
-		(PUPPIES1.SK (K (PLUR PUPPY.N)))
-		((PUPPIES1.SK (BE.V (ADV-A (F
-	)
-
-	; I like to see them play with each other.
-	((E2.SK AT-ABOUT NOW1)
-		(AGENTS1.SK (K (PLUR AGENT.N)))
-		((I.PRO LIKE.V (KA (SEE.V AGE
-	)
-))
-
-
-
 (defparameter play-sand
 '(
 	; The monkey can climb a tree.
 	((E1.SK AT-ABOUT.P NOW0)
-		((MONKEY1.SK CAN.MD (CLIMB.V TREE1.SK)) ** E1.SK))
+		(MONKEY1.SK MONKEY.N)
+		(TREE1.SK TREE.N)
+		((MONKEY1.SK (CAN.MD (CLIMB.V TREE1.SK))) ** E1.SK))
 
-	; He climbs the tree and gets a cocoanut. (1/2)
+	; He climbs the tree and gets a cocoanut. (1/3)
 	((E2.SK AT-ABOUT.P NOW1)
-		((HE.PRO CLIMB.V TREE2.SK) ** E2.SK))
+		(TREE2.SK TREE.N)
+		((HE.PRO (CLIMB.V TREE2.SK)) ** E2.SK))
 
-	; He climbs the tree and gets a cocoanut. (1/2)
+	; He climbs the tree and gets a cocoanut. (2/3)
 	((E3.SK AT-ABOUT.P NOW2)
-		((HE.PRO GET.V COCOANUT1.SK) ** E3.SK))
+		(COCONUT1.SK COCONUT.N)
+		((HE.PRO (GET.V COCONUT1.SK)) ** E3.SK))
+
+	; He climbs the tree and gets a cocoanut.
+	((E2.SK CONSEC E3.SK))
 )
 )

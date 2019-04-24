@@ -5,7 +5,7 @@
 	'(epi-schema ((?x do_for-pleasure.sch ?a) ** ?e)
 		(:Fixed-roles
 			!r1 (?x agent6.n)
-			!r2 (?a (kind1-of.n activity1.n))
+			!r2 (?a action1.n)
 		)
 
 		(:Var-roles
@@ -220,21 +220,23 @@
 (defparameter do_to_enable_action.v
 	'(epi-schema ((?x do_to_enable_action.v ?a1 ?a2) ** ?e)
 		(:Nonfluent-conds
-			!r1 (?a1 (kind1-of.n action.n))
-			!r2 (?a2 (kind1-of.n ation.n))
+			!r1 (?a1 action1.n)
+			!r2 (?a2 action1.n)
+			!r3 (?x agent6.n)
 		)
 
 		(:Goals
 			?g1 (?x want1.v (that (?x can.md (do2.v ?a2))))
 		)
 
-		(:Trigger-conds
-			?t1 (?x ((adv-a (for.p (that (?x do2.v ?a2))))) do2.v ?a1)
-		)
-
-		(:Steps
+		(:Intended-episodes
 			?e1 (?x do2.v ?a1)
 			?e2 (?x (can.md (do2.v ?a2)))
+		)
+
+		(:Episode-relations
+			!w1 (?e1 consec ?e2)
+			!w2 (?e1 cause-of ?e2)
 		)
 	)
 )
@@ -354,9 +356,10 @@
 )
 
 (defparameter *PROTOSCHEMAS* (list
-	; do_for-pleasure.sch
+	do_for-pleasure.sch
 	give_to.sch
 	possess.sch
 	do_activity_with_other.sch
 	be_friendly_with.sch
+	do_to_enable_action.v
 ))

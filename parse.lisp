@@ -5,6 +5,16 @@
 
 (load "real_util.lisp")
 
+; TODO: give these extensions
+(defparameter *KEYWORDS* '(
+	K
+	KA
+	KE
+	THAT
+	CONSEC
+	CAUSE-OF
+))
+
 (defun has-ext? (x e)
 	(and
 		(symbolp x)
@@ -117,7 +127,9 @@
 (or
 	(lex-skolem? x)
 	(and
+		(not (member x *KEYWORDS* :test #'equal))
 		(symbolp x)
+		(not (keywordp x))
 		(alphanum-str? (string x))
 	)
 )
@@ -132,6 +144,7 @@
 
 (defun lex-ep-var? (x)
 (and
+	(symbolp x)
 	(has-prefix? (string x) "E")
 	(> (length (string x)) 1)
 	(is-num-str? (subseq (string x) 1 (length (string x))))
@@ -160,14 +173,34 @@
 )
 )
 
-(defun lex-ep-ref? (x)
+(defun lex-schema-ep-ref? (x)
 (or
-	(lex-ep-var? x)
+	(lex-schema-ep-var? x)
 	(and
+		(symbolp x)
 		(has-suffix? (string x) ".SK")
 		(lex-ep-var? (intern (remove-suffix (string x) ".SK")))
 	)
 )
+)
+
+(defun lex-ep-ref? (x)
+(or
+	(lex-ep-var? x)
+	(and
+		(symbolp x)
+		(has-suffix? (string x) ".SK")
+		(lex-ep-var? (intern (remove-suffix (string x) ".SK")))
+	)
+)
+)
+
+(defun lex-ep-const? (x)
+	(and
+		(symbolp x)
+		(has-suffix? (string x) ".SK")
+		(lex-ep-var? (intern (remove-suffix (string x) ".SK")))
+	)
 )
 
 ; Equal-to-value predicate generator
@@ -389,10 +422,36 @@
 )
 )
 
+(defun get-sent-subj (x)
+	(cond
+		((mp x (list 'no-ep-sent? (id? '**) 'lex-ep-ref?)) (get-sent-subj (car x)))
+		((mp x (list 'term? 'verb?)) (car x))
+		((mp x (list 'term? 'lex-verb? 'term?)) (car x))
+		((mp x (list 'term? 'lex-modal? 'verb?)) (car x))
+		((mp x (list 'adv-a? 'term? 'verb?)) (second x))
+		(t nil)
+	)
+)
+
+; TODO: come up with a better way to identify stuff like "subject"
+; in these rules and auto-generate getters/setters
+(defun replace-sent-subj (x new-subj)
+	(cond
+		((mp x (list 'no-ep-sent? (id? '**) 'lex-ep-ref?)) (list (replace-sent-subj (car x) new-subj) '** (third x)))
+		((mp x (list 'term? 'verb?)) (list new-subj (second x)))
+		((mp x (list 'term? 'lex-verb? 'term?)) (list new-subj (second x) (third x)))
+		((mp x (list 'term? 'lex-modal? 'verb?)) (list new-subj (second x) (third x)))
+		((mp x (list 'adv-a? 'term? 'verb?)) (list (car x) new-subj (third x)))
+		(t nil)
+	)
+)
+
 (defun no-ep-sent? (x)
 (or
 	(mp x (list 'term? 'verb?)) ; subject verb
 	(mp x (list 'term? 'lex-verb? 'term?)) ; special case for flatter sentences
+	; TODO: figure out why this next rule makes process-story run forever (it'll have to do with *INF-RULES*)
+	(mp x (list 'term? 'lex-modal? 'verb?)) ; special case for flatter modal sentences
 	(mp x (list 'adv-a? 'term? 'verb?)) ; action adverb, subject, verb
 	(mp x (list 'lex-modal? 'no-ep-sent?)) ; a modal elevated to the sentence level
 
@@ -440,9 +499,9 @@
 
 	; TODO: optimize this so it doesn't parse twice
 	; TODO: or, instead, just figure out how to get mp to do transductions
-	(if (mp x (list 'no-ep-sent? (id? '**) 'ep?))
-		(return-from outer (normalize-sent (first x)))
-	)
+	;(if (mp x (list 'no-ep-sent? (id? '**) 'ep?))
+	;	(return-from outer (normalize-sent (first x)))
+	;)
 
 	(if (mp x (list 'sent? 'sent-punct?))
 		(return-from outer (normalize-sent 'sent?))
@@ -523,16 +582,16 @@
 	(sent? x)
 
 	; e.g. (E1.SK AT-ABOUT NOW0)
-	(mp x (list 'ep? 'ep-rel? 'ep?)
+	(mp x (list 'ep? 'ep-rel? 'ep?))
 
 	; e.g. (KITTEN9.SK (PRETTY.A KITTEN.N))
-	(mp x (list 'ent? 'pred?)) ; TODO: should this be "term pred"?
+	(mp x (list 'term? 'pred?)) ; TODO: should this be "term pred"?
 
 	; e.g. (KITTEN3.SK PERTAIN-TO MAY.NAME), (MOTHER5.SK MOTHER-OF.N SHE.PRO)
-	(mp x (list 'ent? 'ent-rel? 'ent?))
+	(mp x (list 'term? 'ent-rel? 'term?))
 )
 )
-)
+
 
 (defun wff? (x)
 (or
@@ -544,7 +603,7 @@
 (defun sent? (x)
 (or
 	(no-ep-sent? x)
-	(mp x (list 'no-ep-sent? (id? '**) 'any?)) ; allow characterization of a variable
+	;(mp x (list 'no-ep-sent? (id? '**) 'any?)) ; allow characterization of a variable
 	(mp x (list 'sent? 'sent-punct?))
 )
 )
@@ -645,6 +704,30 @@
 )
 )
 
+(defun nonmodal-verb? (x)
+(or
+	(lex-verb? x)
+	(lambda? x)
+	(mp x (list 'nonmodal-verb? 'verb-arg?+))
+	(mp x (list 'adv-a? 'nonmodal-verb?))
+	(mp x (list 'nonmodal-verb? 'lex-coord? 'nonmodal-verb?+))
+)
+)
+
+
+
+(defun get-head-verb (x)
+(cond
+	((lex-verb? x) x)
+	((mp x (list 'lex-modal? 'verb?)) (second x))
+	((mp x (list 'verb? 'verb-arg?+)) (first x))
+	((mp x (list 'adv-a? 'verb?)) (second x))
+	((mp x (list 'verb? 'lex-coord? 'verb?+)) (first x))
+)
+)
+
+
+
 (defun noun? (x)
 (or
 	(lex-noun? x)
@@ -681,7 +764,7 @@
 	(mp x (list (id? 'K) 'noun?))
 	(mp x (list (id? 'KA) 'verb?))
 	(mp x (list 'sent-reifier? 'sent?))
-	(lex-ent? x) ; TODO: not sure about this, but we need to handle e.g. quantified variables
+	;(lex-ent? x) ; TODO: not sure about this, but we need to handle e.g. quantified variables
 )
 )
 

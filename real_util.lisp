@@ -157,6 +157,23 @@
 	)
 )
 
+(defun next-str (s)
+(block outer
+	(if (not (equal s (string-upcase s)))
+		(return-from outer (next-str (string-upcase s)))
+	)
+
+	(if (equal "Z" (subseq s (- (length s) 1) (length s)))
+		(return-from outer (concat-strs s "A"))
+	)
+
+	(return-from outer (concat-strs
+		(subseq s 0 (- (length s) 1))
+		(string (code-char (+ 1 (char-code (char s (- (length s) 1))))))
+	))
+)
+)
+
 (defun rechash (data)
 (cond
 	((not (listp data))

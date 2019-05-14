@@ -184,3 +184,109 @@
 	((E2.SK CONSEC E3.SK))
 )
 )
+
+(defparameter fishing_green
+'(
+
+	; Simeon and Pedro like to fish.
+	( (E0.SK AT-ABOUT.P NOW0)
+ 		((SIMEON.NAME LIKE.V (KA FISH.V)) ** E0.SK)
+
+		((PEDRO.NAME LIKE.V (KA FISH.V)) ** E0.SK)
+	)
+
+	; Sometimes they sit on the bridge.
+	( (E1.SK AT-ABOUT.P NOW1)
+		(BRIDGE1.SK BRIDGE.N)
+		((THEY.PRO (SOMETIMES.ADV-F (SIT_ON.V BRIDGE1.SK))) ** E1.SK)
+	)
+
+	; Sometimes they sit on the bank of the river.
+	( (E2.SK AT-ABOUT.P NOW2)
+		(BRIDGE1.SK BRIDGE.N)
+		(BANK1.SK BANK.N)
+		(RIVER1.SK RIVER.N)
+		(BANK1.SK PERTAIN-TO RIVER1.SK)
+		((THEY.PRO (SOMETIMES.ADV-F (SIT_ON.V BANK1.SK))) ** E2.SK)
+	)
+
+	; They have poles, long lines, and little iron hooks.
+	( (E3.SK AT-ABOUT.P NOW3)
+		((THEY.PRO (HAVE.V (K (PLUR POLE.N)))) ** E3.SK)
+		((THEY.PRO (HAVE.V (K (PLUR (LONG.A LINE.N))))) ** E3.SK)
+		((THEY.PRO (HAVE.V (K (PLUR (LITTLE.A (IRON.N HOOK.N)))))) ** E3.SK)
+	)
+
+	; This morning Simeon caught a large fish.
+	( (E4.SK DURING.P MORNING1.SK) (MORNING1.SK BEFORE.P NOW4) (MORNING1.SK MORNING.N)
+		(FISH1.SK FISH.N)
+		(FISH1.SK LARGE.A)
+		((SIMEON.NAME CATCH.V FISH1.SK) ** E4.SK)
+	)
+
+	; Pedro caught many small ones.
+	( (E5.SK BEFORE.P NOW5)
+		(PEDRO.NAME (CATCH.V (MANY.D (PLUR (SMALL.A ONE.PRO)))))
+	)
+
+	; The boys caught some crabs, too.
+	( (E6.SK BEFORE.P NOW6)
+		(BOYS1.SK (PLUR BOY.N))
+		(CRABS1.SK (PLUR CRAB.N))
+		((BOYS1.SK (CATCH.V CRABS1.SK)) ** E6.SK)
+	)
+
+	; They use a net to catch the crabs.
+	( (E7.SK AT-ABOUT.P NOW7)
+		(NET1.SK NET.N)
+		(CRABS2.SK (PLUR CRAB.N))
+		((THEY.PRO ((ADV-A (FOR.P (KA (CATCH.V CRABS2.SK)))) (USE.V NET1.SK))) ** E7.SK)
+	)
+)
+)
+
+(defparameter fishing_blue
+'(
+	; There are fish in their pond.
+	( (E0.SK AT-ABOUT.P NOW0)
+		(FISH1.SK (PLUR FISH.N))
+		(POND1.SK POND.N)
+		(POND1.SK PERTAIN-TO THEY.PRO)
+		((FISH1.SK (BE.V (IN.P-ARG POND1.SK))) ** E0.SK)
+	)
+
+	; They are very nice fish.
+	( (E1.SK AT-ABOUT.P NOW1)
+		((THEY.PRO (VERY.ADV-A NICE.A)) ** E1.SK)
+		((THEY.PRO (PLUR FISH.N)) ** E1.SK)
+	)
+
+	; We will come and catch them.
+	( (E2.SK AFTER.P NOW2) (E3.SK CONSEC E2.SK)
+		((WE.PRO COME.V) ** E2.SK)
+		((WE.PRO (CATCH.V THEY.PRO)) ** E3.SK)
+	)
+
+	; We will take the long rod, and the hook and line.
+	( (E4.SK AFTER.P NOW3)
+		(ROD1.SK ROD.N)
+		(ROD1.SK LONG.A)
+		(HOOK1.SK HOOK.N)
+		(LINE1.SK LINE.N)
+
+		((WE.PRO (TAKE.V ROD1.SK)) ** E4.SK)
+		((WE.PRO (TAKE.V HOOK1.SK)) ** E4.SK)
+		((WE.PRO (TAKE.V LINE1.SK)) ** E4.SK)
+	)
+
+	; We must have a bag, too.
+	( (E5.SK AT-ABOUT.P NOW4)
+		((WE.PRO (MUST.AUX-S (HAVE.V (K BAG.N)))) ** E5.SK)
+	)
+
+	; It must be strong, to keep the fish safe.
+	( (E6.SK AT-ABOUT.P NOW5)
+		((IT.PRO ((ADV-A (FOR.P (KA (KEEP.V FISH.N SAFE.A)))) (MUST.AUX_S (BE.V STRONG.A)))) ** E6.SK)
+	)
+)
+)

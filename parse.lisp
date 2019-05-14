@@ -436,6 +436,17 @@
 	)
 )
 
+(defun get-sent-verb (x)
+	(cond
+		((mp x (list 'no-ep-sent? (id? '**) 'lex-ep-ref?)) (get-sent-verb (car x)))
+		((mp x (list 'term? 'verb?)) (second x))
+		((mp x (list 'term? 'lex-verb? 'term?)) (second x))
+		((mp x (list 'term? 'lex-modal? 'verb?)) (third x))
+		((mp x (list 'adv? 'term? 'verb?)) (third x))
+		(t nil)
+	)
+)
+
 ; TODO: come up with a better way to identify stuff like "subject"
 ; in these rules and auto-generate getters/setters
 (defun replace-sent-subj (x new-subj)
@@ -742,8 +753,6 @@
 (defun noun? (x)
 (or
 	(lex-noun? x)
-	(lex-name? x)
-	(lex-pronoun? x)
 	(lambda? x)
 	(mp x (list (id? 'plur) 'noun?))
 	(mp x (list 'adj? 'noun?))

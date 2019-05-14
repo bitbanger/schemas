@@ -87,6 +87,7 @@
 (defun lex-modal? (x)
 (or
 	(has-ext? x ".AUX-V")
+	(has-ext? x ".AUX-S")
 	(has-ext? x ".MD")
 )
 )
@@ -125,6 +126,8 @@
 
 (defun lex-const? (x)
 (or
+	(lex-name? x)
+	(lex-pronoun? x)
 	(lex-skolem? x)
 	(and
 		(not (member x *KEYWORDS* :test #'equal))
@@ -407,18 +410,18 @@
 
 (defun sent-punct? (x)
 (or
-	(id? '?)
-	(id? '!)
+	(funcall (id? '?) x)
+	(funcall (id? '!) x)
 )
 )
 
 (defun sent-reifier? (x)
 (or
-	(id? 'that)
-	(id? 'tht)
-	(id? 'whether)
-	(id? 'ans-to)
-	(id? 'KE)
+	(funcall (id? 'that) x)
+	(funcall (id? 'tht) x)
+	(funcall (id? 'whether) x)
+	(funcall (id? 'ans-to) x)
+	(funcall (id? 'KE) x)
 )
 )
 
@@ -428,7 +431,7 @@
 		((mp x (list 'term? 'verb?)) (car x))
 		((mp x (list 'term? 'lex-verb? 'term?)) (car x))
 		((mp x (list 'term? 'lex-modal? 'verb?)) (car x))
-		((mp x (list 'adv-a? 'term? 'verb?)) (second x))
+		((mp x (list 'adv? 'term? 'verb?)) (second x))
 		(t nil)
 	)
 )
@@ -441,7 +444,7 @@
 		((mp x (list 'term? 'verb?)) (list new-subj (second x)))
 		((mp x (list 'term? 'lex-verb? 'term?)) (list new-subj (second x) (third x)))
 		((mp x (list 'term? 'lex-modal? 'verb?)) (list new-subj (second x) (third x)))
-		((mp x (list 'adv-a? 'term? 'verb?)) (list (car x) new-subj (third x)))
+		((mp x (list 'adv? 'term? 'verb?)) (list (car x) new-subj (third x)))
 		(t nil)
 	)
 )
@@ -657,6 +660,14 @@
 )
 )
 
+(defun adv? (x)
+(or
+	(adv-a? x)
+	(adv-s? x)
+	(adv-f? x)
+)
+)
+
 (defun verb-arg? (x)
 (or
 	(term? x)
@@ -699,7 +710,7 @@
 	(lambda? x)
 	(mp x (list 'lex-modal? 'verb?))
 	(mp x (list 'verb? 'verb-arg?+))
-	(mp x (list 'adv-a? 'verb?))
+	(mp x (list 'adv? 'verb?))
 	(mp x (list 'verb? 'lex-coord? 'verb?+))
 )
 )
@@ -709,7 +720,7 @@
 	(lex-verb? x)
 	(lambda? x)
 	(mp x (list 'nonmodal-verb? 'verb-arg?+))
-	(mp x (list 'adv-a? 'nonmodal-verb?))
+	(mp x (list 'adv? 'nonmodal-verb?))
 	(mp x (list 'nonmodal-verb? 'lex-coord? 'nonmodal-verb?+))
 )
 )
@@ -721,7 +732,7 @@
 	((lex-verb? x) x)
 	((mp x (list 'lex-modal? 'verb?)) (second x))
 	((mp x (list 'verb? 'verb-arg?+)) (first x))
-	((mp x (list 'adv-a? 'verb?)) (second x))
+	((mp x (list 'adv? 'verb?)) (second x))
 	((mp x (list 'verb? 'lex-coord? 'verb?+)) (first x))
 )
 )
@@ -731,6 +742,8 @@
 (defun noun? (x)
 (or
 	(lex-noun? x)
+	(lex-name? x)
+	(lex-pronoun? x)
 	(lambda? x)
 	(mp x (list (id? 'plur) 'noun?))
 	(mp x (list 'adj? 'noun?))
@@ -753,6 +766,14 @@
 )
 )
 
+(defun kind-of-noun? (x)
+	(mp x (list (id? 'K) 'noun?))
+)
+
+(defun kind-of-action? (x)
+	(mp x (list (id? 'KA) 'verb?))
+)
+
 (defun term? (x)
 (or
 	(lex-pronoun? x)
@@ -761,8 +782,8 @@
 	(lex-skolem? x)
 	(lex-var? x)
 	(mp x (list 'det? 'noun?))
-	(mp x (list (id? 'K) 'noun?))
-	(mp x (list (id? 'KA) 'verb?))
+	(kind-of-noun? x)
+	(kind-of-action? x)
 	(mp x (list 'sent-reifier? 'sent?))
 	;(lex-ent? x) ; TODO: not sure about this, but we need to handle e.g. quantified variables
 )

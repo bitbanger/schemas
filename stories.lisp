@@ -290,3 +290,87 @@
 	)
 )
 )
+
+(defparameter flowers_ulf
+'(
+	; Frank and little May are in the field with the wagon.
+	((FRANK.NAME AND.CC (LITTLE.A MAY.NAME)) ((PRES BE.V) (ADV-A (IN.P (THE.D FIELD.N))) (ADV-A (WITH.P (THE.D WAGON.N)))))
+
+	; They have come to find flowers.
+	(THEY.PRO ((PRES PERF) COME.V (ADV-A ({FOR}.P (KA (FIND.V (K (PLUR FLOWER.N))))))))
+
+	; May has a red flower.
+	(MAY.NAME ((PRES HAVE.V) (A.D (RED.A FLOWER.N))))
+
+	; Frank has three yellow flowers.
+	(FRANK.NAME ((PRES HAVE.V) (3.D (YELLOW.A FLOWER.N))))
+
+	; He will let May have them.
+	(HE.PRO ((PRES WILL.AUX-S) LET.V MAY.NAME (KA (HAVE.V THEY.PRO))))
+
+	; She will take them to the wagon.
+	(SHE.PRO ((PRES WILL.AUX-S) TAKE.V THEY.PRO (ADV-A (TO.P (THE.D WAGON.N)))))
+
+	; She is glad to get the pretty flowers.
+	(SHE.PRO ((PRES BE.V) GLAD.A (KA (GET.V (THE.D (PLUR (PRETTY.A FLOWER.N)))))))
+)
+)
+
+(defparameter flowers_el
+'(
+
+	; Frank and little May are in the field with the wagon.
+	( (E1.SK AT-ABOUT NOW0)
+		(MAY.NAME LITTLE.A)
+		(FIELD1.SK FIELD.N)
+		(WAGON1.SK WAGON.N)
+		(FIELD1.SK THE.A) ; these two are marked for coreference resolution with the.a...
+		(WAGON1.SK THE.A) ; ...but there won't be any match for them
+		((FRANK.NAME (BE.V (IN.P FIELD1.SK) (ADV-A (WITH.P WAGON1.SK)))) ** E1.SK)
+		((MAY.NAME (BE.V (IN.P FIELD1.SK) (ADV-A (WITH.P WAGON1.SK)))) ** E1.SK)
+	)
+
+	; They have come to find flowers.
+	( (E2.SK BEFORE NOW1)
+		((THEY.PRO COME.V (ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N))))))) ** E2.SK)
+	)
+
+	; May has a red flower.
+	( (E3.SK AT-ABOUT NOW2)
+		(FLOWER1.SK FLOWER.N)
+		(FLOWER1.SK RED.A)
+		((MAY.NAME (HAVE.V FLOWER1.SK)) ** E3.SK)
+	)
+
+	; Frank has three yellow flowers.
+	( (E4.SK AT-ABOUT NOW3)
+		(FLOWERS1.SK 3.A)
+		(FLOWERS1.SK YELLOW_SET.A)
+		(FLOWERS1.SK FLOWER_SET.N)
+
+		((FRANK.NAME (HAVE.V FLOWERS1.SK)) ** E4.SK)
+	)
+
+	; He will let May have them.
+	( (E5.SK AFTER NOW4)
+		((HE.PRO (LET.V MAY.NAME (KA (HAVE.V THEY.PRO)))) ** E5.SK)
+	)
+
+	; She will take them to the wagon.
+	( (E6.SK AFTER NOW5)
+		(WAGON2.SK WAGON.N)
+		(WAGON2.SK THE.A) ; the "the" determiner marks this for possible coreference resolution
+		((SHE.PRO (TAKE.V THEY.PRO (TO.P-ARG WAGON2.SK))) ** E6.SK)
+	)
+
+	; She is glad to get the pretty flowers.
+	( (E7.SK AT-ABOUT NOW6)
+		(FLOWERS2.SK PRETTY_SET.A)
+		(FLOWERS2.SK FLOWER_SET.N)
+		(FLOWERS2.SK THE.A) ; the "the" determiner marks this for possible coreference resolution
+
+		; TODO: paraphrasing :/
+		((SHE.PRO (BE.V GLAD.A (KA (GET.V FLOWERS2.SK)))) ** E7.SK)
+	)
+)
+)

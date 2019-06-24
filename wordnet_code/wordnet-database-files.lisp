@@ -31,7 +31,8 @@
 ;; (defparameter +wordnet-database-directory+
 ;;   (asdf:system-relative-pathname '#:wordnet "dict/"))
 (defparameter +wordnet-database-directory+
-  "/Users/bkane2/Repositories/wordnet/dict/")
+  ;"/Users/bkane2/Repositories/wordnet/dict/")
+  "/u/llawley/Code/schemas/wordnet_code/dict/")
 (defparameter +wordnet-data-files+
   (directory (make-pathname :name "data"
                             :type :wild

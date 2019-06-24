@@ -783,6 +783,18 @@
 	(mp x (list (id? 'KA) 'verb?))
 )
 
+(defun kind-of-event? (x)
+	(mp x (list (id? 'KE) 'verb?))
+)
+
+(defun kind? (x)
+(or
+	(kind-of-noun? x)
+	(kind-of-action? x)
+	(kind-of-event? x)
+)
+)
+
 (defun term? (x)
 (or
 	(lex-pronoun? x)
@@ -816,7 +828,7 @@
 	(lex-verb? x)
 	(lex-noun? x)
 	(lex-adj? x)
-	(lex-const? x) ; constants can be pred symbs
+	; (and (not (lex-skolem? x)) (lex-const? x)) ; constants can be pred symbs
 	;(mp x (list ))
 )
 )

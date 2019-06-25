@@ -77,6 +77,10 @@
 	)
 )
 
+; Add a proposition to the indexed knowledge base
+(defun add-to-kb (prop)
+)
+
 ; Evaluate whether a proposition is true in the knowledge base
 (defun eval-prop (prop)
 (block outer
@@ -132,6 +136,34 @@
 	(not (null (member pred *IRREGULAR-PREDS*)))
 )
 
+; Add a formula to the knowledge base, under all its various indices
+(defun add-to-kb (wff) (block add
+	; Normalize out episode characterizers
+	(setf effective-wff wff)
+	(if (char-wff? wff) (setf effective-wff (car wff)))
+
+	; Add the entire formula to the main KB
+	(setf (gethash wff *KB*) t)
+
+	(setf pred (get-pred effective-wff))
+
+
+	; Index the formula by its args in the indexed KB
+	; ...and the args by the pred
+	(loop for prop-arg in (prop-args effective-wff) do
+		(push wff (gethash prop-arg *KB-ARG-IND*))
+		(push prop-arg (gethash pred *KB-PRED-IND*))
+		
+	)
+))
+
+
+; Add some "basic world knowledge"
+(add-to-kb '(FRANK.NAME MALE.A))
+(add-to-kb '(MAY.NAME FEMALE.A))
+(add-to-kb '(HE.PRO MALE.A))
+(add-to-kb '(SHE.PRO FEMALE.A))
+
 
 ; Process the story one sentence at a time, so we can do
 ; coreference analysis in one pass.
@@ -141,23 +173,7 @@
 
 		; Add all propositions to the KB, indexed by their arguments
 		(loop for wff in conj do (block loop_inner
-			; Normalize out episode characterizers
-			(setf effective-wff wff)
-			(if (char-wff? wff) (setf effective-wff (car wff)))
-
-			; Add the entire formula to the main KB
-			(setf (gethash wff *KB*) t)
-
-			(setf pred (get-pred effective-wff))
-
-
-			; Index the formula by its args in the indexed KB
-			; ...and the args by the pred
-			(loop for prop-arg in (prop-args effective-wff) do
-				(push wff (gethash prop-arg *KB-ARG-IND*))
-				(push prop-arg (gethash pred *KB-PRED-IND*))
-				
-			)
+			(add-to-kb wff)
 		)))
 
 

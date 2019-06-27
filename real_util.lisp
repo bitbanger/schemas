@@ -286,6 +286,7 @@
 	(and
 		(stringp s)
 		(loop for c across s always (alphanumericp c))
+		(loop for c across s thereis (alpha-char-p c))
 	)
 )
 

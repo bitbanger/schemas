@@ -15,6 +15,7 @@
 )
 )
 )
+)
 
 (defun wordnet-hypernyms (word-sym)
 (block outer
@@ -25,7 +26,7 @@
 	((equal word-sym 'WAGON_1.N)
 		'(WHEELED_VEHICLE_1.N CONTAINER_1.N INSTRUMENTALITY_3.N ARTIFACT_1.N WHOLE_2.N OBJECT_1.N PHYSICAL_ENTITY_1.N ENTITY_1.N))
 
-	((equal word-sym 'FLOWER_1.N
+	((equal word-sym 'FLOWER_1.N)
 		'(ANGIOSPERM_1.N SPERMATOPHYTE_1.N VASCULAR_PLANT_1.N PLANT_2.N ORGANISM_1.N LIVING_THING_1.N WHOLE_2.N OBJECT_1.N PHYSICAL_ENTITY_1.N ENTITY_1.N))
 
 	;((equal word-sym 'SET_1.N
@@ -35,3 +36,4 @@
 )
 )
 )
+

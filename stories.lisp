@@ -324,8 +324,8 @@
 		(MAY.NAME LITTLE.A)
 		(FIELD1.SK FIELD.N)
 		(WAGON1.SK WAGON.N)
-		(FIELD1.SK THE.A) ; these two are marked for coreference resolution with the.a...
-		(WAGON1.SK THE.A) ; ...but there won't be any match for them
+		(FIELD1.SK INDEF.A) ; these two are marked for coreference resolution with the.a...
+		(WAGON1.SK INDEF.A) ; ...but there won't be any match for them
 		((FRANK.NAME (BE.V (IN.P FIELD1.SK) (ADV-A (WITH.P WAGON1.SK)))) ** E1.SK)
 		((MAY.NAME (BE.V (IN.P FIELD1.SK) (ADV-A (WITH.P WAGON1.SK)))) ** E1.SK)
 	)
@@ -358,14 +358,14 @@
 	; She will take them to the wagon.
 	( (E6.SK AFTER NOW5)
 		(WAGON2.SK WAGON.N)
-		(WAGON2.SK THE.A) ; the "the" determiner marks this for possible coreference resolution
+		(WAGON2.SK INDEF.A) ; the "the" determiner marks this for possible coreference resolution
 		((SHE.PRO (TAKE.V THEY.PRO (TO.P-ARG WAGON2.SK))) ** E6.SK)
 	)
 
 	; She is glad to get the pretty flowers.
 	( (E7.SK AT-ABOUT NOW6)
 		(FLOWERS2.SK SET_OF.PR (K (PRETTY.A FLOWER.N)))
-		(FLOWERS2.SK THE.A) ; the "the" determiner marks this for possible coreference resolution
+		(FLOWERS2.SK INDEF.A) ; the "the" determiner marks this for possible coreference resolution
 
 		; TODO: paraphrasing :/
 		((SHE.PRO (BE.V GLAD.A (KA (GET.V FLOWERS2.SK)))) ** E7.SK)

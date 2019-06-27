@@ -1,6 +1,7 @@
 (load "real_util.lisp")
 (load "stories.lisp")
 (load "parse.lisp")
+(load "wordnet.lisp")
 
 (defparameter *KB-EXPLICIT* (make-hash-table :test #'equal))
 (defparameter *KB-ARG-IND* (make-hash-table :test #'equal))
@@ -47,7 +48,7 @@
 (defun coref? (term kb)
 (or
 	(lex-pronoun? term)
-	(eval-prop (list term 'THE.A) kb)
+	(eval-prop (list term 'INDEF.A) kb)
 )
 )
 
@@ -67,6 +68,11 @@
 (defun curry (prop carg)
 (block cr
 	(setf args (all-prop-args prop))
+
+	; Don't curry a predicate that's already monadic
+	(if (equal 1 (length args))
+		(return-from cr (get-pred prop)))
+
 	(setf lmb (list 'LAMBDA.EL (list 'X)))
 	(setf lmb-args (list (get-pred prop)))
 	(loop for arg in args
@@ -81,26 +87,182 @@
 )
 )
 
+; Transform a proposition into an equivalent
+; one with a single argument curried out.
+(defun curry-prop (prop carg)
+(block cp
+	; Don't curry a predicate that's already monadic
+	(if (equal 1 (length (all-prop-args prop)))
+		(return-from cp prop))
+
+	(list carg (curry prop carg))
+)
+)
+
 ; Generate all possible monadic curry
 ; propositions from an n-adic one
 (defun all-curries (prop)
 	(loop for arg in (all-prop-args prop)
-		collect (list arg (curry prop arg))
+		collect (curry-prop prop arg)
 	)
+)
+
+; Get all terms to which predicates apply that can be
+; unified with a given predicate
+(defun get-pred-uni-terms (pred kb)
+(block gput
+	(setf terms (list))
+	(loop for cand-pred being the hash-keys of (kb-pred-ind kb)
+		do (block unil
+			(if (not (uni-preds? pred cand-pred))
+				(return-from unil)
+			)
+
+			(loop for term in (gethash cand-pred (kb-pred-ind kb))
+				do (push term terms)
+			)
+		)
+	)
+
+	(return-from gput (remove-duplicates terms :test #'equal))
+)
 )
 
 ; Get all predicates that apply to a term
 (defun get-term-preds (term kb)
+(remove-duplicates
 (append
 	(loop for prop in (gethash term (kb-arg-ind kb))
-		if (not (null (get-pred prop)))
-			collect (get-pred prop)
+		if (not (null (curry prop prop)))
+			collect (curry prop term)
 	)
 
+	; TODO: figure out a better way to enumerate implicitly-true preds?
+	; or maybe too hard in general?
 	(loop for pred in *IRREGULAR-PREDS*
 		if (eval-prop (list term pred) kb)
 			collect pred
 	)
+) :test #'equal)
+)
+
+(defun uni-preds? (p1 p2)
+(block unipr
+	(if (equal p1 p2)
+		(return-from unipr t))
+
+	(if (and (el-lambda? p1) (el-lambda? p2))
+		(return-from unipr (uni-props? (third p1) (third p2)))
+	)
+
+	(return-from unipr nil)
+)
+)
+
+(defun uni-props? (phi psi)
+(block unip
+	(if (equal phi psi)
+		(return-from unip t))
+
+	(if (not (equal (get-pred phi) (get-pred psi)))
+		(return-from unip nil))
+
+	(setf phi-args (all-prop-args phi))
+	(setf psi-args (all-prop-args psi))
+	(if (not (equal (length phi-args) (length psi-args)))
+		(return-from unip nil))
+
+	; TODO: actually rename the variables, dude ;)
+	(setf unifier (make-hash-table :test #'equal))
+
+	; Find the MGU
+	; TODO: actually implement the MGU algorithm, don't depend
+	; on equality
+	(loop for phi-arg in phi-args for psi-arg in psi-args
+		do (block uni-loop
+			; Args are the same; no unification needed
+			(if (equal phi-arg psi-arg)
+				(return-from uni-loop)
+			)
+
+			; Two vars are easily unified
+			(if (and (lex-ent? phi-arg) (lex-ent? psi-arg))
+				(progn
+					(setf (gethash phi-arg unifier) psi-arg)
+					(return-from uni-loop)
+				)
+			)
+
+			; A var can bind to anything once (skipping occurs check & subs...)
+			(if (lex-ent? phi-arg)
+				(if (null (gethash phi-arg unifier))
+					(progn
+						(setf (gethash phi-arg unifier) psi-arg)
+						(return-from uni-loop)
+					)
+				)
+			)
+			(if (lex-ent? psi-arg)
+				(if (null (gethash psi-arg unifier))
+					(progn
+						(setf (gethash psi-arg unifier) phi-arg)
+						(return-from uni-loop)
+					)
+				)
+			)
+
+
+			; Check whether the terms are unifiable
+			(if (uni-terms? phi-arg psi-arg)
+				(return-from uni-loop))
+
+
+			; Not unifiable
+			(return-from unip nil)
+		)
+	)
+
+	(return-from unip t)
+)
+)
+
+(defun uni-terms? (sub super)
+(block st
+	(if (equal sub super) (return-from st t))
+
+	(if (and (kind-of-noun? sub) (kind-of-noun? super))
+		; These will technically be predicates, not terms,
+		; but that's fine.
+		(return-from st (uni-terms? (second sub) (second super)))
+	)
+
+	;(if (and (lex-noun? sub) (lex-noun? super))
+	;	(return-from st (not (null (member super (wordnet-hypernyms sub) :test #'equal))))
+	;)
+
+	(if (and (noun? sub) (noun? super))
+		; We'll assume that the final nouns just need to be subterms.
+		; We'll ignore adjectives, etc. for now.
+		; But it's a big....
+		; TODO
+		(block two-nouns
+			(if (lex-noun? sub)
+				(setf n1 sub)
+				; else
+				(setf n1 (car (last (loop for e in sub if (lex-noun? e) collect e))))
+			)
+			(if (lex-noun? super)
+				(setf n2 super)
+				; else
+				(setf n2 (car (last (loop for e in super if (lex-noun? e) collect e))))
+			)
+
+
+			(return-from st (equal n1 n2))
+		)
+	)
+
+	(return-from st nil)
 )
 )
 
@@ -226,11 +388,38 @@
 
 
 	; Index the formula by its args in the indexed KB
-	; ...and the args by the pred
-	(loop for prop-arg in (prop-args effective-wff) do
+	; ...and the args by the curried proposition predicate,
+	; or just the predicate if it's monadic. Also the curried
+	; propositions by their respective arguments, for symmetry.
+	(setf args (all-prop-args effective-wff))
+	(loop for prop-arg in args do (block pal
 		(push wff (gethash prop-arg (kb-arg-ind kb)))
-		(push prop-arg (gethash pred (kb-pred-ind kb)))
-		
+
+		;(format t "got ~s args in ~s~%" (length args) effective-wff)
+
+		(if (equal 1 (length args))
+			(progn
+			;(format t "pushing ~s to gethash of pred ~s~%" prop-arg pred)
+			(push prop-arg (gethash pred (kb-pred-ind kb)))
+			)
+			; else
+			(progn
+				; (format t "pushing ~s to the gethash of ~s~%" prop-arg (curry effective-wff prop-arg))
+				(setf curried (curry effective-wff prop-arg))
+				(push prop-arg (gethash curried (kb-pred-ind kb)))
+
+				; duplicate-averse append prop-arg to curried in pred ind
+				(if (null (member prop-arg (gethash curried (kb-pred-ind kb)) :test #'equal))
+					(setf (gethash curried (kb-pred-ind kb)) (append (gethash curried (kb-pred-ind kb)) (list prop-arg))))
+
+				; duplicate-averse append curried prop to prop-arg in arg ind
+				(if (null (member (list prop-arg curried) (gethash prop-arg (kb-arg-ind kb)) :test #'equal))
+					(setf (gethash prop-arg (kb-arg-ind kb)) (append (gethash prop-arg (kb-arg-ind kb)) (list (list prop-arg curried)))))
+
+				; (format t "pushing ~s to the gethash of ~s~%" (list prop-arg curried) prop-arg)
+			)
+			)
+	)
 	)
 ))
 
@@ -297,10 +486,10 @@
 				(setf share-count (make-hash-table :test #'equal))
 
 				(loop for pred in (get-term-preds e kb)
-					if (not (equal pred 'THE.A))
+					if (not (equal pred 'INDEF.A))
 						; do (format t "~s: ~s~%" pred (gethash pred (kb-pred-ind kb)))
 						; do (format t "pred is ~s~%" pred)
-						append (loop for term in (get-pred-terms pred kb)
+						append (loop for term in (get-pred-uni-terms pred kb)
 							if (not (equal term e))
 								; collect term
 								do (setf (gethash term share-count) (safe-inc (gethash term share-count)))
@@ -340,7 +529,7 @@
 			do (setf new-sent (replace-element-idx-helper new-sent idx (gethash idx corefs)))
 			do (setf elem (clean-idcs (get-element-idx-helper old-idx-conj idx)))
 			;do (format t "new new sent: ~s~%" new-sent)
-			;do (format t "	~s -> ~s~%" elem (gethash idx corefs))
+			do (format t "	~s -> ~s~%" elem (gethash idx corefs))
 
 
 			; So, up till now, we've only replaced the original instances of a term
@@ -366,8 +555,8 @@
 )))
 
 
-;(format t "old story: ~s~%" *STORY*)
-;(format t "new story: ~s~%" (process-story-coref *STORY* *KB*))
+(format t "old story: ~s~%" *STORY*)
+(format t "new story: ~s~%" (process-story-coref *STORY* *KB*))
 
 
 

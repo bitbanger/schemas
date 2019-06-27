@@ -704,7 +704,7 @@
 
 	(and
 		(listp x)
-		(loop for e in x always (lex-ent? x))
+		(loop for e in x always (lex-ent? e))
 	)
 )
 )
@@ -806,7 +806,7 @@
 	(kind-of-noun? x)
 	(kind-of-action? x)
 	(mp x (list 'sent-reifier? 'sent?))
-	;(lex-ent? x) ; TODO: not sure about this, but we need to handle e.g. quantified variables
+	(lex-ent? x) ; TODO: not sure about this, but we need to handle e.g. quantified variables
 )
 )
 
@@ -823,16 +823,27 @@
 
 ; EL stuff (new)
 
+
 (defun el-pred? (x)
 (or
 	(lex-verb? x)
 	(lex-noun? x)
 	(lex-adj? x)
 	(lex-pred? x)
+	(el-lambda? x)
 	; (and (not (lex-skolem? x)) (lex-const? x)) ; constants can be pred symbs
 	;(mp x (list ))
 )
 )
 
+(defun el-prop? (x)
+(or
+	(mp x (list 'term?+ 'el-pred? 'term?+))
+	(mp x (list 'el-pred? 'term?+))
+	(mp x (list 'term?+ 'el-pred?))
+)
+)
 
-
+(defun el-lambda? (x)
+	(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'el-prop?))
+)

@@ -77,16 +77,12 @@
 )
 
 ; Get all terms to which a predicate applies
+; TODO: do this much more efficiently for complex predicates
+; (e.g. disjunctions)
 (defun get-pred-terms (pred kb)
-	; "Irregular" predicates aren't evaluated using the KB
-	(if (not (irregular-pred? pred))
-		(gethash pred (kb-pred-ind kb))
-
-		; else
-		(loop for term being the hash-keys of (kb-arg-ind kb)
-			if (eval-prop (list term pred) kb)
-				collect term
-		)
+	(loop for term being the hash-keys of (kb-arg-ind kb)
+		if (eval-prop (list term pred) kb)
+			collect term
 	)
 )
 
@@ -217,19 +213,57 @@
 (add-to-kb '(HE.PRO MALE.A) *KB*)
 (add-to-kb '(SHE.PRO FEMALE.A) *KB*)
 
+; TODO: "they" should also admit male or female
+; individuals, probably, but the subject/object
+; distinction will be a little subtle to intuit
+; which one is best. Also, that'll require a
+; lambda predicate for the disjunction, so
+; eval-prop will have to do that, and maybe even
+; some lexical scoping. Boo. :(
+
+; ALSO TODO: eval-prop needs to account for predicate
+; hierarchies. So, (FLOWERS1.SK SET-OF (K FLOWER.N))
+; should cause an evaluation of (FLOWERS1.SK SET-OF (K OBJECT.N))
+; to return true. Also, (FLOWERS1.SK SET-OF (K (YELLOW.A FLOWER.N)))
+; should return true. Tricky....
+(add-to-kb '(THEY.PRO SET.N) *KB*)
+
 
 ; Process the story one sentence at a time, so we can do
-; coreference analysis in one pass.
-(defun process-story-coref (story kb)
+; coreference analysis in one pass. Output the story with
+; all coreferences resolved.
+(defun process-story-coref (story kb) (let (corefs) (block outer
+
+(setf new-story (list))
+
+
 (loop for conj in story do (block loop_outer
+		; Make a coreference map for the sentence
+		(setf corefs (make-hash-table :test #'equal))
+
+
 		; Add all propositions to the KB, indexed by their arguments
 		(loop for wff in conj do (block loop_inner
 			(add-to-kb wff kb)
-		)))
+		))
+
+
+		; Store the indexed sentence with its old indices.
+		; That way, when we replace terms in it one by one,
+		; we can replace them with dummy indices and not have
+		; to re-index, which could break the indices in the
+		; index->referent map we'll make.
+		(setf old-idx-conj (el-idcs conj))
 
 
 		; Find story terms that need coreference
-		(loop for e in (get-elements-pred conj #'term?)
+		;(format t "conj is ~s~%" conj)
+		;(format t "idx conj is ~s~%" old-idx-conj)
+		;(format t "terms are ~s~%" (get-elements-pred-pairs conj #'term?))
+		(loop for e-pair in (get-elements-pred-pairs conj #'term?)
+			do (setf e (car e-pair))
+			do (setf e-idx (second e-pair))
+			; do (format t "e is ~s~%" e)
 			if (coref? e kb) do (block resolve-coref
 				; For each pred, find other terms w/ that pred
 				(setf share-count (make-hash-table :test #'equal))
@@ -237,6 +271,7 @@
 				(loop for pred in (get-term-preds e kb)
 					if (not (equal pred 'THE.A))
 						; do (format t "~s: ~s~%" pred (gethash pred (kb-pred-ind kb)))
+						; do (format t "pred is ~s~%" pred)
 						append (loop for term in (get-pred-terms pred kb)
 							if (not (equal term e))
 								; collect term
@@ -254,14 +289,57 @@
 						)
 				)
 
-				; (format t "best coreference for ~s: ~s (~s shared preds)~%" e max-coref max-count)
+				;(format t "best coreference for ~s: ~s (~s shared preds)~%" e max-coref max-count)
+				(if (not (null max-coref))
+					(setf (gethash e-idx corefs) max-coref))
 			)
 		)
 
+		;(format t "~%~%")
+
+		;(format t "old sentence: ~s~%" conj)
+
+		;(format t "resolutions:~%")
+		(setf new-sent old-idx-conj)
+		;(format t "new-sent: ~s~%" new-sent)
+		(loop for idx being the hash-keys of corefs
+			; We're using the helpers because we've already done
+			; the indexing ourselves; we want to use the old indices
+			; for replacement, remember? We're also going to use a
+			; dummy index (-1) for the substitutions so we don't
+			; consider them during replacements. All these indices
+			; get cleaned at the end, so it's fine.
+			do (setf new-sent (replace-element-idx-helper new-sent idx (gethash idx corefs)))
+			do (setf elem (clean-idcs (get-element-idx-helper old-idx-conj idx)))
+			;do (format t "new new sent: ~s~%" new-sent)
+			;do (format t "	~s -> ~s~%" elem (gethash idx corefs))
+
+
+			; So, up till now, we've only replaced the original instances of a term
+			; that triggered coreference resolution, i.e., pronouns & "the"-determined
+			; terms. But in the case of absolute names, like FLOWERS2.SK -> FLOWERS1.SK,
+			; we want to make *all* substitutions, because once they map somewhere,
+			; they map anywhere (unlike complex terms in general).
+			if (lex-const? elem)
+				do (setf new-sent (replace-vals elem (gethash idx corefs) new-sent))
+		)
+		(setf new-sent (clean-idcs new-sent))
+
+
+		;(format t "resolved sentence: ~s~%" new-sent)
+		; (push new-sent new-story)
+		(setf new-story (append new-story (list new-sent)))
+
 )
 )
 
-(process-story-coref *STORY* *KB*)
+(return-from outer new-story)
+
+)))
+
+
+(format t "old story: ~s~%" *STORY*)
+(format t "new story: ~s~%" (process-story-coref *STORY* *KB*))
 
 
 

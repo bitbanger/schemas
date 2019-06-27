@@ -32,34 +32,166 @@
 		((not (listp lst)) nil)
 
 		(t (loop for e in lst
-			always (funcall pred e)))
+			always (and (listp e) (equal 2 (length e)) (funcall pred (car e)))))
 	)
 )
 
-(defun get-elements-pred (lst pred)
-	(cond
-		((funcall pred lst) lst)
+(defun max-idx (lst)
+(cond
+	((and (equal 2 (length lst)) (integerp (second lst)))
+		(second lst))
+			
+	(t (apply #'max (mapcar #'second lst)))
+)
+)
 
-		((not (listp lst)) nil)
+(defun get-elements-pred-helper (lst pred)
+(block outer
+	; (format t "~s is index pair? ~s~%" lst (index-pair? lst))
+
+	(if (not (index-pair? lst))
+		(return-from outer nil))
+
+	(setf cur-elem (clean-idcs (car lst)))
+
+	; (format t "cur elem is: ~s~%" lst)
+
+	(if (funcall pred cur-elem)
+		(return-from outer (list (clean-idcs (car lst)) (second lst))))
+
+	(if (not (listp cur-elem))
+		(return-from outer nil))
+
+	;(format t "list is: ~s~%" cur-elem)
+
+	(loop for e in (car lst)
+		do (setf cur-elem (clean-idcs (car e)))
+		do (setf tmp-res (get-elements-pred-helper e pred))
+		if (and (index-pair? tmp-res) (not (null (car tmp-res))))
+			do (setf tmp-res (list tmp-res))
+		if (not (null (car tmp-res)))
+			append tmp-res
+	)
+)
+)
+
+(defun get-elements-pred-pairs (lst pred)
+	(get-elements-pred-helper (el-idcs lst) pred)
+)
+
+(defun get-elements-pred-idx (lst pred)
+	(mapcar #'second (get-elements-pred-helper (el-idcs lst) pred))
+)
+
+(defun get-elements-pred (lst pred)
+	(mapcar #'car (get-elements-pred-helper (el-idcs lst) pred))
+)
+
+(defun index-pair? (x)
+	(and
+		(listp x)
+		(equal 2 (length x))
+		(integerp (second x))
+	)
+)
+
+(defun clean-idcs (lst)
+	(cond
+		((not (listp lst)) lst)
+
+		((index-pair? lst)
+			(clean-idcs (car lst)))
 
 		(t (loop for e in lst
-			do (setf tmp3 (get-elements-pred e pred))
-			if (and (not (null tmp3)) (not (list-of-pred tmp3 pred)))
-				do (setf tmp3 (list tmp3))
-			append tmp3
+			collect (clean-idcs e)
 		))
 	)
 )
 
-(defun replace-vals (old new lst)
+(defun get-element-idx-helper (lst target)
+	(block outer
+		;(format t "lst is ~s~%" lst)
+		;(format t "target is ~s~%" target)
+		(if (equal (second lst) target)
+			(return-from outer lst))
+
+		(if (and (listp lst) (listp (car lst)))
+			(loop for e in (car lst)
+				;do (format t "e is ~s~%" e)
+				do (setf tmp5 (get-element-idx-helper e target))
+				if (not (null tmp5))
+					do (return-from outer tmp5)
+			))
+
+		(return-from outer nil)
+	)
+)
+
+(defun get-element-idx (lst target)
+(progn
+	;(format t "el-idcs is ~s~%" (el-idcs lst))
+	;(format t "target is ~s~%" target)
+	(clean-idcs (get-element-idx-helper (el-idcs lst) target))
+)
+)
+
+(defun replace-element-idx-helper (lst target new-val)
+(block outer
+	(if (not (index-pair? lst))
+		(return-from outer nil))
+
+	; NOTE: the dummy -1 in our return value here doesn't actually
+	; matter, since we're stripping the indices before we return.
+	; In fact, it may even be incorrect, if new-val is a composite
+	; list. But again, it doesn't matter either way.
+	(if (equal target (second lst))
+		(return-from outer (list new-val -1)))
+
+	(if (not (listp (clean-idcs (car lst))))
+		(return-from outer lst))
+
+	(return-from outer (list (loop for e in (car lst)
+		collect (replace-element-idx-helper e target new-val)
+	) (second lst)))
+)
+)
+
+(defun replace-element-idx (lst target new-val)
+	(clean-idcs (replace-element-idx-helper (el-idcs lst) target new-val))
+)
+
+(defun el-idcs-helper (lst counter)
+(let ((my-counter (eval counter)))
 	(cond
 		((not (listp lst))
-			(if (equal lst old) new lst))
+			(list lst my-counter))
 
-		(t
-			(loop for e in lst
-				collect (replace-vals old new e)
-			)
+		(t (list (loop for e in lst
+			do (set counter (+ 1 (eval counter)))
+			collect (el-idcs-helper e counter)
+		) my-counter))
+	)
+))
+
+(defun el-idcs (lst)
+(progn
+	(setf tmp-sym (gensym))
+	(set tmp-sym 0)
+	(el-idcs-helper lst tmp-sym)
+)
+)
+
+(defun replace-vals (old new lst)
+	(block outer
+
+		(if (equal lst old)
+			(return-from outer new))
+
+		(if (not (listp lst))
+			(return-from outer lst))
+
+		(loop for e in lst
+			collect (replace-vals old new e)
 		)
 	)
 )

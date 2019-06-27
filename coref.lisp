@@ -61,6 +61,34 @@
 )
 )
 
+; Curry an argument out of a proposition
+; to form a monadic lambda predicate that
+; holds for that argument
+(defun curry (prop carg)
+(block cr
+	(setf args (all-prop-args prop))
+	(setf lmb (list 'LAMBDA.EL (list 'X)))
+	(setf lmb-args (list (get-pred prop)))
+	(loop for arg in args
+		if (not (equal arg carg))
+			do (setf lmb-args (append lmb-args (list arg)))
+		else
+			do (setf lmb-args (append lmb-args (list 'X)))
+	)
+	(setf lmb (append lmb (list lmb-args)))
+
+	(return-from cr lmb)
+)
+)
+
+; Generate all possible monadic curry
+; propositions from an n-adic one
+(defun all-curries (prop)
+	(loop for arg in (all-prop-args prop)
+		collect (list arg (curry prop arg))
+	)
+)
+
 ; Get all predicates that apply to a term
 (defun get-term-preds (term kb)
 (append
@@ -338,9 +366,9 @@
 )))
 
 
-(format t "old story: ~s~%" *STORY*)
-(format t "new story: ~s~%" (process-story-coref *STORY* *KB*))
+;(format t "old story: ~s~%" *STORY*)
+;(format t "new story: ~s~%" (process-story-coref *STORY* *KB*))
 
 
 
-(eval-prop '(MAY.NAME EAT.V (K BALL.N) (ADV-A (WITH.P (K GUSTO.N)))) *KB*)
+;(eval-prop '(MAY.NAME EAT.V (K BALL.N) (ADV-A (WITH.P (K GUSTO.N)))) *KB*)

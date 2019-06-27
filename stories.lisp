@@ -345,9 +345,7 @@
 	; Frank has three yellow flowers.
 	( (E4.SK AT-ABOUT NOW3)
 		(FLOWERS1.SK 3.A)
-		(FLOWERS1.SK YELLOW_SET.A)
-		(FLOWERS1.SK FLOWER_SET.N)
-		(FLOWERS1.SK SET.N)
+		(FLOWERS1.SK SET_OF.PR (K (YELLOW.A FLOWER.N)))
 
 		((FRANK.NAME (HAVE.V FLOWERS1.SK)) ** E4.SK)
 	)
@@ -366,9 +364,7 @@
 
 	; She is glad to get the pretty flowers.
 	( (E7.SK AT-ABOUT NOW6)
-		(FLOWERS2.SK PRETTY_SET.A)
-		(FLOWERS2.SK FLOWER_SET.N)
-		(FLOWERS2.SK SET.N)
+		(FLOWERS2.SK SET_OF.PR (K (PRETTY.A FLOWER.N)))
 		(FLOWERS2.SK THE.A) ; the "the" determiner marks this for possible coreference resolution
 
 		; TODO: paraphrasing :/

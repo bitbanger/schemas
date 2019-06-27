@@ -828,6 +828,7 @@
 	(lex-verb? x)
 	(lex-noun? x)
 	(lex-adj? x)
+	(lex-pred? x)
 	; (and (not (lex-skolem? x)) (lex-const? x)) ; constants can be pred symbs
 	;(mp x (list ))
 )

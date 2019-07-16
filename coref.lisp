@@ -561,3 +561,144 @@
 
 
 ;(eval-prop '(MAY.NAME EAT.V (K BALL.N) (ADV-A (WITH.P (K GUSTO.N)))) *KB*)
+
+
+
+
+
+
+
+
+
+
+
+
+
+; MATCH FUNCTIONS
+
+(defun subsumes-verb? (v1 v2)
+	(check (lex-verb? v1))
+	(check (lex-verb? v1))
+	; TODO: make a subsumption hierarchy for
+	; verb preds, rather than just doing this
+	; equality check
+	(equal v1 v2)
+)
+
+; Unify two verb phrases, one from a schema
+; and one from a story. The schema VP should be
+; more general than the story one. Assume all
+; adverbials are intersective, but award points
+; for matching them explicitly. So, adverbials
+; in the schema are non-negotiable, but not vice
+; versa, as the schemas are more general.
+(defun unify-vps (story-vp schema-vp)
+(check (verb? story-vp))
+(check (verb? schema-vp))
+(let (
+	; We may have to bind variables to unify.
+	; We'll do so without regard for constraints;
+	; we can check constraints "outside" this function.
+	(bindings (make-hash-table :test #'equal))
+
+	(verbs-unify nil)
+	(do-ka-var nil)
+
+	; TODO: what if the "head verb" isn't the car?
+	; Also, can it ever not be a lex-verb?
+	(story-verb (car story-vp))
+	(schema-verb (car schema-vp))
+	; TODO: these aren't propositions, but the
+	; prop functions just treat them as lists.
+	; Maybe those should get renamed, or split into
+	; functions that actually check types?
+	(story-args (all-prop-args story-vp))
+	(schema-args (all-prop-args schema-vp))
+	(story-advs (prop-mods story-vp))
+	(schema-advs (prop-mods schema-vp))
+
+	(points 0)
+)
+(block outer
+	; First, make sure the story verb is equal to, or
+	; a specification of, the schema verb.
+
+	; Special case: the schema verb phrase may be of the
+	; form "do.v ?a <args...>", with constraint "(?a action1.n)".
+	; In this case, we allow unification with any VP of the form
+	; "!v <args...>" s.t. (!v action1.n).
+	(if (and
+			(equal schema-verb 'do.v)
+			(>= (length schema-args) 1)
+			(lex-var? (car schema-args))
+			(null (gethash (car schema-args) bindings))
+			)
+		; then
+		(block do-ka
+			(setf
+				(gethash (car schema-args) bindings)
+				story-verb
+			)
+
+			(setf verbs-unify t)
+			(setf do-ka-var (car schema-args))
+			; no points for this; super general
+		)
+	)
+
+	; General case: make sure the schema verb pred subsumes
+	; the story one.
+	(if (subsumes-verb? schema-verb story-verb)
+		(setf verbs-unify t)
+		; TODO: assign points based on "subsumption score"
+		; assign a point for matching a specific verb
+		(setf points (+ points 1))
+	)
+
+
+	(if (not verbs-unify)
+		(return-from outer nil)
+	)
+
+
+	; Next, try to unify the args. The story arg
+	; list should be a prefix of the schema arg
+	; list.
+
+	; Special case: if we had a "do.v ?a" form in
+	; the schema, we're only going to allow the
+	; schema to match adverbials, because those
+	; can be "tacked on" to the kind-of-action ?a
+	; that was "fixed" in the binding. Really, this
+	; is because argument semantics are highly verb-
+	; dependent, but modifier semantics aren't; the
+	; schema wouldn't *want* to think about the arg
+	; semantics of a verb it doesn't know!
+	(if (not (null do-ka-var))
+		; then
+		(block do-ka-match-advs
+			(loop for schema-adv in schema-advs do
+			(loop for story-adv in story-advs do
+			(block match-adv-pair
+				; TODO (CURRENT):
+				;	We need a general "match" function
+				;	that can take forms of any type and
+				;	match them recursively. So, verb phrases,
+				;	arbitrary adverbials (any type inside!),
+				;	nouns, preposition mods, kinds/KAs/KEs,
+				;	etc.
+			)))
+		)
+	)
+
+
+	(loop for story-arg in story-args
+		for schema-arg in schema-args
+		do (block unify-arg
+			
+		)
+	)
+
+)
+)
+)

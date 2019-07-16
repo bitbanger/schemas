@@ -555,3 +555,7 @@ is replaced with replacement."
 	))
 )
 )
+
+(defmacro check (pred)
+  `(when (not ,pred)
+	(error "Check failed: ~s~%" ',pred)))

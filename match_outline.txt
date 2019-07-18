@@ -1,0 +1,39 @@
+S1: (((THEY.PRO COME.V (ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N)))))))) ** E2.SK)
+
+S2: (?x (do.v ?a1 (adv-a (for.p (ka (do.v ?a2)))))
+
+Sentence match:
+	subj1 THEY.PRO
+	subj2 ?x
+		bind ?x <- THEY.PRO
+
+			bind sent VPs
+			VP1: (COME.V (ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N)))))))
+			VP2: (do.v ?a1 (adv-a (for.p (ka (do.v ?a2)))))
+			special case: do.v ?a binds to COME.V
+				bind ?a <- (ka COME.V)
+
+				bind VP args
+					no args to bind
+
+				bind VP modifiers
+					ADV1: (ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N))))))
+					ADV2: (adv-a (for.p (ka (do.v ?a2))))
+
+					adv-a matches, inside both is a prep phrase
+					bind prep phrases
+						PR1: (FOR.P (KA (FIND.V (K (PLUR FLOWER.N)))))
+						PR2: (for.p (ka (do.v ?a2)))
+
+						both start with same prep, bind args
+						arg1 (only arg) for each is type KA
+						bind KAs by matching VPs inside
+							VP1_2: (FIND.V (K (PLUR FLOWER.N)))
+							VP2_2: (do.v ?a2)
+							special case: do.v ?a2 binds to (FIND.V (K (PLUR FLOWER.N)))
+								bind ?a2 <- (ka (FIND.V (K (PLUR FLOWER.N))))
+
+
+Unified, bindings are ?x  <- THEY.PRO
+					  ?a1 <- (ka COME.V)
+					  ?a2 <- (ka (FIND.V (K (PLUR FLOWER.N))))

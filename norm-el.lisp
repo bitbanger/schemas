@@ -54,4 +54,64 @@
 
 
 ; TODO (CURRENT): rewrite parse functions to determine whether
-; something is a pred, proposition, modifier, term...
+; something is a pred, proposition, modifier, individual...
+
+(defun canon-kind? (x)
+(or
+	; TODO: restrictions on VP/non-VP preds for KA/K?
+	(mp x (list (id? 'K) 'canon-pred?))
+	(mp x (list (id? 'KA) 'canon-pred?))
+	(mp x (list (id? 'KE) 'canon-prop?))
+)
+)
+
+(defun canon-individual? (x)
+(or
+	(canon-kind? x)
+	(lex-skolem? x)
+	(varp x)
+	(lex-pronoun? x)
+	(lex-name? x)
+	;(mp x (list 'sent-reifier? '
+)
+)
+
+(defun canon-attr? (x)
+(or
+	(equal x 'PLUR)
+	(mp x (list (id? 'ATTR) 'canon-pred?))
+)
+)
+
+(defun canon-pred? (x)
+(or
+	(equal x '**)
+	(lex-verb? x)
+	(lex-noun? x)
+	(mp x (list 'canon-attr? 'canon-pred?))
+	(lex-adj? x)
+	(el-lambda? x)
+	(mp x (list 'lex-p? 'canon-individual?))
+	(mp x (list 'canon-mod? 'canon-pred?))
+	; TODO (CURRENT): when is a VP a VP pred, and when is it a proposition?
+)
+)
+
+(defun canon-mod? (x)
+(or
+	(lex-adv? x)
+	(mp x (list (id? 'ADV-A) 'canon-pred?))
+	(mp x (list (id? 'ADV-E) 'canon-pred?))
+	(mp x (list (id? 'ADV-S) 'canon-pred?))
+	(mp x (list (id? 'ADV-F) 'canon-pred?))
+	(mp x (list 'lex-p-arg? 'canon-individual?))
+)
+)
+
+(defun canon-prop? (x)
+(or
+	(mp x (list 'canon-pred? 'canon-individual?+))
+	(mp x (list 'canon-individual?+ 'canon-pred? 'canon-individual?+))
+	(mp x (list 'canon-individual?+ 'canon-pred?))
+)
+)

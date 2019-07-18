@@ -124,6 +124,15 @@
 	(has-ext? x ".ADV-F")
 )
 
+(defun lex-adv? (x)
+(or
+	(lex-adv-a? x)
+	(lex-adv-e? x)
+	(lex-adv-s? x)
+	(lex-adv-f? x)
+)
+)
+
 (defun lex-const? (x)
 (or
 	(lex-name? x)

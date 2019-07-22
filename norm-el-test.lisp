@@ -374,9 +374,25 @@
 (format t "pred-args tests:~%")
 (test-pred-args
 	; pred
+	'EAT.V
+	; want
+	'(
+	)
+)
+(test-pred-args
+	; pred
 	'(EAT.V (K APPLE.N))
 	; want
 	'(
 		(K APPLE.N)
+	)
+)
+(test-pred-args
+	; pred
+	'(((ADV-A (WITH.P SHE.PRO)) MOVE.V) (K APPLE.N) (TO.P-ARG HOUSE1.SK))
+	; want
+	'(
+		(K APPLE.N)
+		(TO.P-ARG HOUSE1.SK)
 	)
 )

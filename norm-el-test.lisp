@@ -69,27 +69,31 @@
 )
 )
 
-(defun test-prop-args-and-pred (prop want)
-	(check (equal 3 (length want)))
-(let (got got-pre-args got-pred got-post-args
-	want-pre-args want-pred want-post-args
-	pre-args-wrong pred-wrong post-args-wrong)
+(defun test-prop-args-pred-mods (prop want)
+	(check (equal 4 (length want)))
+
+(let (got got-pre-args got-pred got-post-args got-mods
+	want-pre-args want-pred want-post-args want-mods
+	pre-args-wrong pred-wrong post-args-wrong mods-wrong)
 (block outer
 	(setf want-pre-args (car want))
 	(setf want-pred (second want))
 	(setf want-post-args (third want))
+	(setf want-mods (fourth want))
 
-	(setf got (prop-args-and-pred prop))
+	(setf got (prop-args-pred-mods prop))
 	
 	(setf got-pre-args (car got))
 	(setf got-pred (second got))
 	(setf got-post-args (third got))
+	(setf got-mods (fourth got))
 
 	(setf pre-args-wrong (not (equal got-pre-args want-pre-args)))
 	(setf pred-wrong (not (equal got-pred want-pred)))
 	(setf post-args-wrong (not (equal got-post-args want-post-args)))
+	(setf mods-wrong (not (same-list-unordered want-mods got-mods)))
 
-	(if (or pre-args-wrong pred-wrong post-args-wrong)
+	(if (or pre-args-wrong pred-wrong post-args-wrong mods-wrong)
 		; then
 		(block fail
 			(format t "FAIL~%	prop: ~s~%" prop)
@@ -112,6 +116,13 @@
 				(progn
 				(format t "	got post-args ~s~%" got-post-args)
 				(format t " 	want post-args ~s~%" want-post-args)
+				)
+			)
+			(if mods-wrong
+				; then
+				(progn
+				(format t "	got mods ~s~%" got-mods)
+				(format t " 	want mods ~s~%" want-mods)
 				)
 			)
 
@@ -398,10 +409,10 @@
 )
 
 
-; prop-args-and-pred tests
+; prop-args-pred-mods tests
 (format t "~%~%")
-(format t "prop-args-and-pred tests:~%")
-(test-prop-args-and-pred
+(format t "prop-args-pred-mods tests:~%")
+(test-prop-args-pred-mods
 	; prop
 	'(I.PRO (EAT.V (K APPLE.N)))
 	; want
@@ -418,9 +429,13 @@
 		(
 			(K APPLE.N)
 		)
+
+		; want mods
+		(
+		)
 	)
 )
-(test-prop-args-and-pred
+(test-prop-args-pred-mods
 	; prop
 	'(I.PRO ((QUICKLY.ADV-A EAT.V) (K APPLE.N)))
 	; want
@@ -431,15 +446,20 @@
 		)
 
 		; want pred
-		(QUICKLY.ADV-A EAT.V)
+		EAT.V
 
 		; want postfix args
 		(
 			(K APPLE.N)
 		)
+
+		; want mods
+		(
+			QUICKLY.ADV-A
+		)
 	)
 )
-(test-prop-args-and-pred
+(test-prop-args-pred-mods
 	; prop
 	'(I.PRO (QUICKLY.ADV-A EAT.V) (K APPLE.N))
 	; want
@@ -450,11 +470,39 @@
 		)
 
 		; want pred
-		(QUICKLY.ADV-A EAT.V)
+		EAT.V
 
 		; want postfix args
 		(
 			(K APPLE.N)
+		)
+
+		; want mods
+		(
+			QUICKLY.ADV-A
+		)
+	)
+)
+(test-prop-args-pred-mods
+	; prop
+	'(THEY.PRO ((ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N)))))) COME.V))
+	; want
+	'(
+		; want prefix args
+		(
+			THEY.PRO
+		)
+
+		; want pred
+		COME.V
+
+		; want postfix args
+		(
+		)
+
+		; want mods
+		(
+			(ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N))))))
 		)
 	)
 )

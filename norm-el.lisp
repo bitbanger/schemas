@@ -263,9 +263,9 @@
 )
 )
 
-(defun prop-args-and-pred (prop)
+(defun prop-args-pred-mods (prop)
 	(check (canon-prop? prop))
-(let (pred-idx pre-args pred embedded-post-args flat-post-args post-args)
+(let (pred-idx pre-args pred embedded-post-args flat-post-args post-args mods)
 (block outer
 	; special case: handle * and ** operator preds
 	(if (and
@@ -313,19 +313,25 @@
 		)
 	)
 
-	(return-from outer (list pre-args pred post-args))
+	(setf mods (pred-mods pred))
+
+	(return-from outer (list pre-args (pred-base pred) post-args mods))
 )
 )
 )
 
 (defun prop-pre-args (prop)
-	(car (prop-args-and-pred prop))
+	(car (prop-args-pred-mods prop))
 )
 
 (defun prop-pred (prop)
-	(second (prop-args-and-pred prop))
+	(second (prop-args-pred-mods prop))
 )
 
 (defun prop-post-args (prop)
-	(third (prop-args-and-pred prop))
+	(third (prop-args-pred-mods prop))
+)
+
+(defun prop-mods (prop)
+	(fourth (prop-args-pred-mods prop))
 )

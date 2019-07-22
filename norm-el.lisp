@@ -197,6 +197,39 @@
 	)
 )
 
+(defun apply-mods (mods pred)
+	(if (null mods)
+		; then
+		pred
+		; else
+		(list (car mods) (apply-mods (cdr mods) pred))
+	)
+)
+
+; for preds without modifiers (helper)
+(defun naked-pred-without-post-args (naked-pred)
+	; TODO: handle or, and, not, etc.
+	(if (not (listp naked-pred))
+		; then
+		naked-pred
+		; else
+		(car naked-pred)
+	)
+)
+
+; for preds with modifiers
+(defun pred-without-post-args (pred)
+	(check (canon-pred? pred))
+(let (mods base-pred)
+(block outer
+	(setf mods (pred-mods pred))
+	(setf bp (naked-pred-without-post-args (pred-base pred)))
+	; (format t "bp: ~s~%" bp)
+	(return-from outer (apply-mods mods bp))
+)
+)
+)
+
 ; pred-args returns postfixed args that are "fixed"
 ; / "curried into" a predicate to form a new predicate;
 ; most commonly, these would be the objects of a verb,
@@ -232,7 +265,7 @@
 
 (defun prop-args-and-pred (prop)
 	(check (canon-prop? prop))
-(let (pred-idx pre-args pred post-args)
+(let (pred-idx pre-args pred embedded-post-args flat-post-args post-args)
 (block outer
 	; special case: handle * and ** operator preds
 	(if (and
@@ -250,9 +283,34 @@
 	(if (> pred-idx 0)
 		(setf pre-args (subseq prop 0 pred-idx))
 	)
-	(setf pred (nth pred-idx prop))
+	(setf arged-pred  (nth pred-idx prop))
+	(setf pred (pred-without-post-args (nth pred-idx prop)))
+	; (format t "pred without: ~s~%" pred)
+
+	; special case: if the pred has postfix args in it already, we won't allow
+	; "flat" postfix args
+	(if (not (null (pred-args arged-pred)))
+		; then
+		(progn
+		(setf embedded-post-args (pred-args arged-pred))
+		(setf post-args embedded-post-args)
+		)
+	)
+
 	(if (< pred-idx (- (length prop) 1))
-		(setf post-args (subseq prop (+ 1 pred-idx) (length prop)))
+		; then
+		(progn
+		(setf flat-post-args (subseq prop (+ 1 pred-idx) (length prop)))
+		(setf post-args flat-post-args)
+		)
+	)
+
+	(if (and (not (null embedded-post-args)) (not (null flat-post-args)))
+		; then
+		(progn
+		(format t "WEIRDNESS ERROR: prop ~s has both embedded postfix args and flat, serial ones!~%" prop)
+		(return-from outer nil)
+		)
 	)
 
 	(return-from outer (list pre-args pred post-args))

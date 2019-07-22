@@ -369,7 +369,7 @@
 )
 
 
-; prop-args-and-pred tests
+; pred-args tests
 (format t "~%~%")
 (format t "pred-args tests:~%")
 (test-pred-args
@@ -394,5 +394,67 @@
 	'(
 		(K APPLE.N)
 		(TO.P-ARG HOUSE1.SK)
+	)
+)
+
+
+; prop-args-and-pred tests
+(format t "~%~%")
+(format t "prop-args-and-pred tests:~%")
+(test-prop-args-and-pred
+	; prop
+	'(I.PRO (EAT.V (K APPLE.N)))
+	; want
+	'(
+		; want prefix args
+		(
+			I.PRO
+		)
+
+		; want pred
+		EAT.V
+
+		; want postfix args
+		(
+			(K APPLE.N)
+		)
+	)
+)
+(test-prop-args-and-pred
+	; prop
+	'(I.PRO ((QUICKLY.ADV-A EAT.V) (K APPLE.N)))
+	; want
+	'(
+		; want prefix args
+		(
+			I.PRO
+		)
+
+		; want pred
+		(QUICKLY.ADV-A EAT.V)
+
+		; want postfix args
+		(
+			(K APPLE.N)
+		)
+	)
+)
+(test-prop-args-and-pred
+	; prop
+	'(I.PRO (QUICKLY.ADV-A EAT.V) (K APPLE.N))
+	; want
+	'(
+		; want prefix args
+		(
+			I.PRO
+		)
+
+		; want pred
+		(QUICKLY.ADV-A EAT.V)
+
+		; want postfix args
+		(
+			(K APPLE.N)
+		)
 	)
 )

@@ -175,7 +175,7 @@
 (defun pred-base (pred)
 	(check (canon-pred? pred))
 
-	(if (listp pred)
+	(if (and (listp pred) (canon-mod? (car pred)))
 		; then
 		(pred-base (second pred))
 		; else
@@ -183,5 +183,77 @@
 	)
 )
 
+; pred-args returns postfixed args that are "fixed"
+; / "curried into" a predicate to form a new predicate;
+; most commonly, these would be the objects of a verb,
+; with the "prefix" argument being the subject.
+(defun pred-args (pred)
+	(check (canon-pred? pred))
+(block outer
+	; Strip all modifiers & recurse, if applicable
+	(if (not (null (pred-mods pred)))
+		; then
+		(return-from outer (pred-args (pred-base pred)))
+	)
 
+	; Non-lists have no postfix args
+	(if (not (listp pred))
+		(return-from outer nil))
 
+	; We'll assume lambdas have none, although we could
+	; tell in some cases by finding the variables of an
+	; underlying predicate that are "hardcoded" in the
+	; lambda body....
+	; TODO?
+
+	; Now loop to get all the args. We'll assume the base
+	; pred doesn't nest another set of them, because that'd
+	; be crazy.
+	(return-from outer (loop for e in pred
+		if (canon-individual? e)
+			collect e
+	))
+)
+)
+
+(defun prop-args-and-pred (prop)
+	(check (canon-prop? prop))
+(let (pred-idx pre-args pred post-args)
+(block outer
+	; special case: handle * and ** operator preds
+	(if (and
+			(equal 3 (length prop))
+			(or (equal '* (second prop)) (equal '** (second prop))))
+		; then
+		(return-from outer (list
+			('THAT (car prop)) ; prefix args (reified prop)
+			(second prop) ; predicate (* or **)
+			(third prop))) ; postfix args (char'd episode)
+	)
+
+	; default case: prefix args, pred, postfix args
+	(setf pred-idx (position-if #'canon-pred? prop))
+	(if (> pred-idx 0)
+		(setf pre-args (subseq prop 0 pred-idx))
+	)
+	(setf pred (nth pred-idx prop))
+	(if (< pred-idx (- (length prop) 1))
+		(setf post-args (subseq prop (+ 1 pred-idx) (length prop)))
+	)
+
+	(return-from outer (list pre-args pred post-args))
+)
+)
+)
+
+(defun prop-pre-args (prop)
+	(car (prop-args-and-pred prop))
+)
+
+(defun prop-pred (prop)
+	(second (prop-args-and-pred prop))
+)
+
+(defun prop-post-args (prop)
+	(third (prop-args-and-pred prop))
+)

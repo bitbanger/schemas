@@ -559,3 +559,12 @@ is replaced with replacement."
 (defmacro check (pred)
   `(when (not ,pred)
 	(error "Check failed: ~s~%" ',pred)))
+
+(defun flat-cdr (lst)
+	(if (and (equal 2 (length lst)) (listp (second lst)))
+		; then
+		(second lst)
+		; else
+		(cdr lst)
+	)
+)

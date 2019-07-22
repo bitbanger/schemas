@@ -159,6 +159,7 @@
 
 
 ; Manipulation/normalization functions
+
 (defun pred-mods (pred)
 	(check (canon-pred? pred))
 
@@ -171,7 +172,16 @@
 	)
 )
 
+(defun pred-base (pred)
+	(check (canon-pred? pred))
 
+	(if (listp pred)
+		; then
+		(pred-base (second pred))
+		; else
+		pred
+	)
+)
 
 
 

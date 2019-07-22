@@ -50,6 +50,25 @@
 )
 )
 
+(defun test-base (pred want)
+(let (got)
+(block outer
+	(setf got (pred-base pred))
+
+	(if (not (equal want got))
+		; then
+		(progn
+			(format t "FAIL~%	pred: ~s~%	wanted base pred: ~s~%	got base pred: ~s~%" pred want got)
+			(return-from outer nil)
+		)
+	)
+
+	(format t "PASS~%")
+	(return-from outer t)
+)
+)
+)
+
 
 
 ; typecheck tests
@@ -226,4 +245,30 @@
 		AGAIN.ADV-S
 		(ADV-A (TO.P PAYLESS.NAME))
 	)
+)
+
+
+; pred-base tests
+(format t "~%~%")
+(format t "pred-base tests:~%")
+
+(test-base
+	; pred
+	'EAT.V
+	; want
+	'EAT.V
+)
+
+(test-base
+	; pred
+	'((attr RED.A) FLOWER.N)
+	; want
+	'FLOWER.N
+)
+
+(test-base
+	; pred
+	'(AGAIN.ADV-S ((ADV-A (TO.P PAYLESS.NAME)) RUN.V))
+	; want
+	'RUN.V
 )

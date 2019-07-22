@@ -123,9 +123,10 @@
 	; Explicitly marked predicates are predicates
 	(lex-pred? x)
 
-	; Bare verbs, nouns, and adjectives are predicates
+	; Bare verbs/modals, nouns, and adjectives are predicates
 	(lex-verb? x)
 	(lex-noun? x)
+	(lex-modal? x)
 	(lex-adj? x)
 
 	; Allow attributes, like ((attr happy.a) boy.n)
@@ -157,13 +158,19 @@
 )
 )
 
+(defun canon-charstar? (x)
+(or
+	(mp x (list 'canon-prop? (id? '*) 'canon-individual?))
+	(mp x (list 'canon-prop? (id? '**) 'canon-individual?))
+)
+)
+
 (defun canon-prop? (x)
 (or
 	(mp x (list 'canon-individual?+ 'canon-pred?))
 
 	; Special case for * and **
-	(mp x (list 'canon-prop? (id? '*) 'canon-individual?))
-	(mp x (list 'canon-prop? (id? '**) 'canon-individual?))
+	(canon-charstar? x)
 
 	; This is like the similar serial argument rule in canon-pred?, but
 	; it allows the pred to be flattened with the subject (prefixed) and "curried" args (postfixed).

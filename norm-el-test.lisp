@@ -170,6 +170,24 @@
 )
 (test-types
 	; formula
+	'(ATTR RED.A)
+
+	; want types
+	'(
+		canon-mod?
+	)
+)
+(test-types
+	; formula
+	'(ATTR ((ATTR RED.A) FLOWER.N))
+
+	; want types
+	'(
+		canon-mod?
+	)
+)
+(test-types
+	; formula
 	'((ATTR RED.A) FLOWER.N)
 
 	; want types
@@ -338,7 +356,7 @@
 
 (test-base
 	; pred
-	'((attr RED.A) FLOWER.N)
+	'((ATTR RED.A) FLOWER.N)
 	; want
 	'FLOWER.N
 )

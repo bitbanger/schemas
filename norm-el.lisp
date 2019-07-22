@@ -59,11 +59,23 @@
 '(
 	canon-kind?
 	canon-individual?
-	canon-attr?
+	; canon-attr?
 	canon-pred?
 	canon-mod?
 	canon-prop?
 )
+)
+
+(defparameter *SPECIAL*
+'(
+	ATTR
+	PLUR
+	NOT
+)
+)
+
+(defun special-str (x)
+	(not (null (member x *SPECIAL* :test #'equal)))
 )
 
 (defun typecheck (x)
@@ -95,7 +107,7 @@
 	(lex-name? x)
 	(mp x (list 'lex-p-arg? 'canon-individual?))
 	(mp x (list (id? 'THAT) 'canon-prop?))
-	(alphanum-str? (format nil "~s" x))
+	(and (not (special-str x)) (alphanum-str? (format nil "~s" x)))
 )
 )
 
@@ -117,7 +129,7 @@
 	(lex-adj? x)
 
 	; Allow attributes, like ((attr happy.a) boy.n)
-	(mp x (list 'canon-attr? 'canon-pred?))
+	; (mp x (list 'canon-attr? 'canon-pred?))
 
 	; Allow serialized arguments for e.g. verb phrases
 	(mp x (list 'canon-pred? 'canon-individual?+))
@@ -136,10 +148,12 @@
 (defun canon-mod? (x)
 (or
 	(lex-adv? x)
+	(equal x 'PLUR)
 	(mp x (list (id? 'ADV-A) 'canon-pred?))
 	(mp x (list (id? 'ADV-E) 'canon-pred?))
 	(mp x (list (id? 'ADV-S) 'canon-pred?))
 	(mp x (list (id? 'ADV-F) 'canon-pred?))
+	(mp x (list (id? 'ATTR) 'canon-pred?))
 )
 )
 

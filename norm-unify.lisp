@@ -289,14 +289,15 @@
 	(setf tmp-bindings (ht-copy bindings))
 	(loop for schema-mod in schema-mods do (block umods-outer
 		(loop for story-mod in story-mods do (block umods-inner
-			(setf tmp-bindings (unify-mods schema-mod story-mod tmp-bindings))
+			(setf tmp-bindings2 (unify-mods schema-mod story-mod tmp-bindings))
 			; If we find a unification, move on to the next
 			; schema predicate modifier.
-			(if (not (null tmp-bindings))
+			(if (not (null tmp-bindings2))
 				; then
 				(progn
 				(setf bound (append bound (list story-mod)))
 				(setf unified-mods (+ 1 unified-mods))
+				(setf tmp-bindings tmp-bindings2)
 				(return-from umods-outer)
 				)
 			)

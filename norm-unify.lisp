@@ -3,7 +3,12 @@
 (defun bind-if-unbound (key val bindings)
 	(if (not (null (gethash key bindings)))
 		; then
-		nil
+		(if (equal (gethash key bindings) val)
+			; then
+			t
+			; else
+			nil
+		)
 		; else
 		(progn
 			(setf (gethash key bindings) val)
@@ -12,9 +17,13 @@
 	)
 )
 
-(defun unify-props (schema story bindings)
+(defun unify-props (schema story old-bindings)
+	(check (canon-prop? schema))
+	(check (canon-prop? story))
 (let
 	(
+		(bindings (ht-copy old-bindings))
+
 		schema-pre-args schema-pred schema-post-args schema-mods
 		story-pre-args story-pred story-post-args story-mods
 	)
@@ -58,16 +67,59 @@
 )
 
 
+(defun unify-mods (schema story old-bindings)
+	(check (canon-mod? schema))
+	(check (canon-mod? story))
+(let ((bindings (ht-copy old-bindings)))
+(block outer
+	(if (equal schema story)
+		; then
+		(return-from outer bindings)
+	)
 
-; This is technically O(N!), but there will likely be
-; very few necessary, or possible, backtracks.
-(defun unify-mod-lists (schema-mods story-mods)
-	; TODO (CURRENT): this
+	(if (or (not (listp schema)) (not (listp story)))
+		; then
+		(if (and (not (listp schema)) (not (listp story)))
+			; then
+			(if (equal schema story)
+				; then
+				(return-from outer bindings)
+				; else
+				(progn
+				(format t "predicate modifiers ~s and ~s cannot be unified~%" schema story)
+				(return-from outer nil)
+				)
+			)
+		)
+		; else
+		(progn
+		(format t "predicate modifiers ~s and ~s cannot be unified~%" schema story)
+		(return-from outer nil)
+		)
+	)
+
+	; At this point in the function, both mods are pairs of
+	; a modifier type-shifting operator and a predicate.
+	; Compare the type-shifting operators for equality, then
+	; try to unify the predicates.
+	(if (equal (car schema) (car story))
+		; then
+		(return-from outer (unify-preds (second schema) (second story)))
+		; else
+		(progn
+		(format t "predicate modifiers ~s and ~s cannot be unified~%" schema story)
+		(return-from outer nil)
+		)
+	)
+
+)
+)
 )
 
 
-
 (defun unify-individuals (schema story old-bindings)
+	(check (canon-individual? schema))
+	(check (canon-individual? story))
 (let ((bindings (ht-copy old-bindings)))
 (block outer
 	(if (equal schema story)
@@ -181,6 +233,8 @@
 
 
 (defun unify-preds (schema story old-bindings)
+	(check (canon-pred? schema))
+	(check (canon-pred? story))
 (let ((bindings (ht-copy old-bindings)))
 (block outer
 	(setf schema-pred (pred-base (pred-without-post-args schema)))

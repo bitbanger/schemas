@@ -231,11 +231,65 @@
 )
 
 
+(defun unify-mod-lists (schema-mods story-mods old-bindings)
+(let (
+	(bindings (ht-copy old-bindings))
+	(unified-mods 0)
+
+	tmp-bindings
+
+)
+(block outer
+	(if (< (length story-mods) (length schema-mods))
+		; then
+		(progn
+		(format t "modifier lists ~s and ~s cannot be unified (not enough predicate modifiers in the latter~%" schema-mods story-mods)
+		(return-from outer nil)
+		)
+	)
+
+	(setf tmp-bindings (ht-copy bindings))
+	(loop for schema-mod in schema-mods do (block umods-outer
+		(loop for story-mod in story-mods do (block umods-inner
+			(setf tmp-bindings (unify-mods schema-mod story-mod tmp-bindings))
+			; If we find a unification, move on to the next
+			; schema predicate modifier.
+			(if (not (null tmp-bindings))
+				; then
+				(progn
+				(setf unified-mods (+ 1 unified-mods))
+				(return-from umods-outer)
+				)
+			)
+		))
+	))
+
+	(if (< unified-mods (length schema-mods))
+		; then
+		(progn
+		(format "modifier lists ~s and ~s cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%" schema-mods story-mods)
+		(return-from outer nil)
+		)
+	)
+
+	(setf bindings tmp-bindings)
+	(return-from outer bindings)
+)
+)
+)
+
 
 (defun unify-preds (schema story old-bindings)
 	(check (canon-pred? schema))
 	(check (canon-pred? story))
-(let ((bindings (ht-copy old-bindings)))
+(let (
+
+(bindings (ht-copy old-bindings))
+
+tmp-bindings
+unified-mods
+
+)
 (block outer
 	(setf schema-pred (pred-base (pred-without-post-args schema)))
 	(setf schema-mods (pred-mods schema))
@@ -253,12 +307,90 @@
 		)
 		; then
 		(block bind-do-ka
-			(setf bind-mods (append schema-mods story-mods))
-			(setf bind-pred (apply-mods bind-mods story-pred))
+			(setf bind-pred (apply-mods story-mods story-pred))
 			(setf bind-ka (list 'KA (append (list bind-pred) story-args)))
-			(if (bind-if-unbound (car schema-args) bind-ka 
+			;(if (bind-if-unbound (car schema-args) bind-ka 
+			(setf mod-bindings (unify-mod-lists schema-mods story-mods bindings))
+			(if (null mod-bindings)
+				; then
+				(progn
+				(format t "predicates ~s and ~s cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%" schema story)
+				(return-from outer nil)
+				)
+			)
+
+			(if (not (bind-if-unbound (car schema-args) bind-ka mod-bindings))
+				; then
+				(if (not (equal (gethash (car schema-args) mod-bindings) bind-ka))
+					; then
+					(progn
+					(format t "predicates ~s and ~s cannot be unified (variable ~s is already bound to ~s)~%" (car schema-args) (gethash (car schema-args) mod-bindings))
+					(return-from outer nil)
+					)
+				)
+			)
+
+			; Success for the do.v ?a case!
+			(return-from outer mod-bindings)
 		)
 	)
+
+	; Otherwise, we've got two normal preds with normal arg/mod 
+	; lists. First, unify the two "head" predicates, which will
+	; be lexical (for now?).
+
+	(if (not (equal schema-pred story-pred))
+		; then
+		(progn
+		(format t "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
+		(return-from outer nil)
+		)
+	)
+
+
+	; Next, unify all the args in order, then find some matching
+	; modifier in the story pred for each one in the schema
+	; pred.
+
+	; Verify argument lists are parallel.
+	(if (not (equal (length schema-args) (length story-args)))
+		; then
+		(progn
+		(format t "predicates ~s and ~s cannot be unified (different #s of arguments)~%" schema story)
+		)
+	)
+
+	; Unify all arguments & accumulate bindings.
+	(setf tmp-bindings (ht-copy bindings))
+	(loop for schema-arg in schema-args
+		for story-arg in story-args
+			do (block uargs
+				(setf tmp-bindings (unify-individuals schema-arg story-arg tmp-bindings))
+				(if (null tmp-bindings)
+					; then
+					(progn
+					(format t "predicates ~s and ~s cannot be unified (cannot unify arguments)~%" schema story)
+					(return-from outer nil)
+					)
+				)
+			)
+	)
+	(setf bindings tmp-bindings)
+
+
+	; Unify all schema modifiers with some modifiers from the
+	; story predicate & accumulate bindings.
+	(setf tmp-bindings (unify-mod-lists schema-mods story-mods bindings))
+	(if (null tmp-bindings)
+		(progn
+		(format t "predicates ~s and ~s cannot be unified (cannot unify all modifiers in the former with any in the latter)~%" schema story)
+		(return-from outer nil)
+		)
+	)
+	(setf bindings tmp-bindings)
+
+	; Unified!
+	(return-from outer bindings)
 )
 )
 )

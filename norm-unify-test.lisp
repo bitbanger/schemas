@@ -161,3 +161,42 @@
 	; want bindings
 	nil
 )
+
+(test-unify
+	; unification function
+	#'unify-props
+
+	; schema arg
+	'(?x ((adv-a (for.p (ka (do.v ?a2)))) do.v) ?a1)
+
+	; story arg
+	'((THEY.PRO ((ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N)))))) COME.V)) ** E2.SK)
+
+	; prior bindings
+	*EMPTY-HT*
+
+	; want bindings
+	(mk-hashtable (list
+		(list
+			; key
+			'?x
+
+			; val
+			'THEY.PRO
+		)
+		(list
+			; key
+			'?a1
+
+			; val
+			'(KA COME.V)
+		)
+		(list
+			; key
+			'?a2
+
+			; val
+			'(KA (FIND.V (K (PLUR FLOWER.N))))
+		)
+	))
+)

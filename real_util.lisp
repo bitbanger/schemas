@@ -570,9 +570,42 @@ is replaced with replacement."
 )
 )
 
-(defmacro check (pred)
-  `(when (not ,pred)
-	(error "Check failed: ~s~%" ',pred)))
+;(defmacro check (pr)
+;  `(when (not ,pr)
+;	(error "Check failed: ~s~%" ',pr)))
+(defun check (pred phi)
+	(if (not (funcall pred phi))
+		; then
+		(progn
+		(error "Check failed: (~s ~s)~%" pred phi)
+		nil
+		)
+		; else
+		t
+	)
+)
+
+(defun norm-singletons (lst)
+	(if (and
+		(listp lst)
+		(equal 1 (length lst))
+		(listp (car lst))
+		)
+		; then
+		(norm-singletons (car lst))
+		; else
+		lst
+	)
+)
+
+(defun unwrap-singletons (lst)
+	(if (and (listp lst) (equal 1 (length lst)))
+		; then
+		(unwrap-singletons (car lst))
+		; else
+		lst
+	)
+)
 
 (defun flat-cdr (lst)
 	(if (and (equal 2 (length lst)) (listp (second lst)))

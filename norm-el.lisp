@@ -182,26 +182,54 @@
 ; Manipulation/normalization functions
 
 (defun pred-mods (pred)
-	(check (canon-pred? pred))
-
-	(if (listp pred)
-		; then
-		(if (canon-mod? (car pred))
-			; then
-			(append (list (car pred)) (pred-mods (second pred)))
-		)
+	(progn
+	;(format t "in the main way~%")
+	(helper-pred-mods pred)
 	)
 )
 
-(defun pred-base (pred)
-	(check (canon-pred? pred))
+(defun helper-pred-mods (pred)
+(block outer
+	(check #'canon-pred? pred)
 
-	(if (and (listp pred) (canon-mod? (car pred)))
+	(if (mp pred (list 'canon-pred? 'canon-individual?+))
 		; then
-		(pred-base (second pred))
-		; else
-		pred
+		(progn
+		; (format t "here1 ~s~%" pred)
+		(return-from outer (helper-pred-mods (car pred)))
+		)
 	)
+
+	(if (mp pred (list 'canon-mod? 'canon-pred?))
+		; then
+		(progn
+		;(format t "here2 ~s~%" pred)
+		;(format t "car pred is ~s~%" (car pred))
+		;(format t "pmsec is ~s~%" (pred-mods (second pred)))
+		;(format t "append is ~s~%" (append (list (car pred)) (helper-pred-mods (second pred))))
+		(return-from outer (append (list (car pred)) (helper-pred-mods (second pred))))
+		)
+	)
+
+	(return-from outer nil)
+)
+)
+
+(defun pred-base (pred)
+	(check #'canon-pred? pred)
+(block outer
+	(if (mp pred (list 'canon-pred? 'canon-individual?+))
+		; then
+		(return-from outer (pred-base (car pred)))
+	)
+
+	(if (mp pred (list 'canon-mod? 'canon-pred?))
+		; then
+		(return-from outer (pred-base (second pred)))
+	)
+
+	(return-from outer pred)
+)
 )
 
 (defun apply-mods (mods pred)
@@ -216,17 +244,23 @@
 ; for preds without modifiers (helper)
 (defun naked-pred-without-post-args (naked-pred)
 	; TODO: handle or, and, not, etc.
+(block outer
+	(if (mp naked-pred (list 'lex-p? 'canon-individual?))
+		(return-from outer naked-pred)
+	)
+
 	(if (not (listp naked-pred))
 		; then
-		naked-pred
+		(return-from outer naked-pred)
 		; else
-		(car naked-pred)
+		(return-from outer (car naked-pred))
 	)
+)
 )
 
 ; for preds with modifiers
 (defun pred-without-post-args (pred)
-	(check (canon-pred? pred))
+	(check #'canon-pred? pred)
 (let (mods base-pred)
 (block outer
 	(setf mods (pred-mods pred))
@@ -242,12 +276,12 @@
 ; most commonly, these would be the objects of a verb,
 ; with the "prefix" argument being the subject.
 (defun pred-args (pred)
-	(check (canon-pred? pred))
+	(check #'canon-pred? pred)
 (block outer
 	; Strip all modifiers & recurse, if applicable
-	(if (not (null (pred-mods pred)))
+	(if (mp pred (list 'canon-mod? 'canon-pred?))
 		; then
-		(return-from outer (pred-args (pred-base pred)))
+		(return-from outer (pred-args (second pred)))
 	)
 
 	; Non-lists have no postfix args
@@ -271,7 +305,7 @@
 )
 
 (defun prop-args-pred-mods (prop)
-	(check (canon-prop? prop))
+	(check #'canon-prop? prop)
 (let (pred-idx pre-args pred embedded-post-args flat-post-args post-args mods)
 (block outer
 	; special case: handle * and ** operator preds

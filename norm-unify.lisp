@@ -67,7 +67,121 @@
 
 
 
-(defun unify-preds (schema story bindings)
+(defun unify-individuals (schema story old-bindings)
+(let ((bindings (ht-copy old-bindings)))
+(block outer
+	(if (equal schema story)
+		; then
+		(return-from outer bindings)
+	)
+
+	(if (or (and (null schema) (not (null story)))
+			(and (not (null schema)) (null story)))
+		; then
+		(progn
+		(format t "individuals ~s and ~s cannot be unified~%" schema story)
+		(return-from outer nil)
+		)
+	)
+
+	(if (varp schema)
+		; then
+		(block schema-var
+			; NOTE: We're skipping the "occurs" check
+			; and story-side variable substitution because
+			; the story won't have any variables in it, for
+			; now.
+			; TODO: implement these when the story gets
+			; universally quantified variables/Skolem functions.
+
+			; Try to bind the variable to the story
+			; formula
+			(if (bind-if-unbound schema story bindings)
+				; then
+				(return-from outer bindings)
+				; else
+				(if (equal (gethash schema bindings) story)
+					; then
+					(return-from outer bindings)
+					; else
+					(progn
+					(format t "cannot bind var ~s to formula ~s; already bound to ~s~%" schema story (gethash schema bindings))
+					(return-from outer nil)
+					)
+				)
+			)
+		)
+	)
+
+	; Individuals can now both be kinds, Skolem constants,
+	; pronouns, names, p-args, reified propositions, and random
+	; alphanumeric symbols (although these should be avoided in
+	; practice). If they aren't lists, they should only be checked
+	; for equality.
+	(if (not (and (listp schema) (listp story)))
+		; then
+		(if (or (listp schema) (listp story))
+			; then
+			(progn
+			(format t "individuals ~s and ~s cannot be unified~%" schema story)
+			(return-from outer nil)
+			)
+			; else
+			(if (not (equal schema story))
+				; then
+				(progn
+				(format t "individuals ~s and ~s cannot be unified~%" schema story)
+				(return-from outer nil)
+				)
+				; else
+				; (we've now unified two constants)
+				(return-from outer bindings)
+			)
+		)
+	)
+
+
+	; At this point in the function, the individuals are each
+	; a kind, a reified proposition, or a p-arg. All of these
+	; start with unique symbol, so check that the heads of the
+	; lists are equal.
+
+	(cond
+		((and (equal 'K (car schema)) (equal 'K (car story)))
+			; K
+			(return-from outer (unify-preds (second schema) (second story)))
+		)
+		((and (equal 'KA (car schema)) (equal 'KA (car story)))
+			; KA
+			(return-from outer (unify-preds (second schema) (second story)))
+		)
+		((and (equal 'KE (car schema)) (equal 'KE (car story)))
+			; KE
+			(return-from outer (unify-props (second schema) (second story)))
+		)
+		((and (equal 'THAT (car schema)) (equal 'THAT (car story)))
+			; THAT 
+			(return-from outer (unify-props (second schema) (second story)))
+		)
+		((and (lex-p-arg? (car schema)) (lex-p-arg? (car story)))
+			; P-ARG 
+			(return-from outer (unify-individuals (second schema) (second story)))
+		)
+		(t
+			(progn
+			(format t "individuals ~s and ~s cannot be unified~%" schema story)
+			(return-from outer nil)
+			)
+		)
+	)
+)
+)
+)
+
+
+
+(defun unify-preds (schema story old-bindings)
+(let ((bindings (ht-copy old-bindings)))
 (block outer
 	(setf schema-pred (pred-base (pred-without-post-args schema)))
 	(setf schema-mods (pred-mods schema))
@@ -91,5 +205,6 @@
 			(if (bind-if-unbound (car schema-args) bind-ka 
 		)
 	)
+)
 )
 )

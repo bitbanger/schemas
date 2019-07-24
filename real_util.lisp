@@ -6,11 +6,16 @@
 	;'match-inst
 	;'unify-wffs
 	;'cur1
+	;'unify
 ))
 
 (defparameter *DBG-ALL* nil)
 
 (defparameter *CANONICAL-HT*
+	(make-hash-table :test #'equal)
+)
+
+(defparameter *EMPTY-HT*
 	(make-hash-table :test #'equal)
 )
 
@@ -435,6 +440,15 @@
 
 (defun print-ht (ht)
 	(format t "~s" (ht-to-str ht))
+)
+
+(defun wrap-nonlists (x)
+	(if (not (listp x))
+		; then
+		(list x)
+		; else
+		x
+	)
 )
 
 (defun explain-nil (str &rest args)

@@ -50,7 +50,7 @@
 	(if (not (equal (length schema-pre-args) (length story-pre-args)))
 		; then
 		(progn
-		(format t "cannot unify props ~s and ~s (mismatched #s of prefix args)~%" schema story)
+		(dbg 'unify "cannot unify props ~s and ~s (mismatched #s of prefix args)~%" schema story)
 		(return-from outer nil)
 		)
 	)
@@ -60,7 +60,7 @@
 			(if (null bindings)
 				; then
 				(progn
-				(format t "cannot unify props ~s and ~s (could not unify all prefix args)~%" schema story)
+				(dbg 'unify "cannot unify props ~s and ~s (could not unify all prefix args)~%" schema story)
 				(return-from outer nil)
 				)
 			)
@@ -72,14 +72,14 @@
 
 	; We need to "package" the preds up to curry all postfix args
 	; in, in case they were serialized into the proposition.
-	(setf packaged-schema-pred (append (apply-mods schema-mods schema-pred) schema-post-args))
-	(setf packaged-story-pred (append (apply-mods story-mods story-pred) story-post-args))
+	(setf packaged-schema-pred (append (wrap-nonlists (apply-mods schema-mods schema-pred)) schema-post-args))
+	(setf packaged-story-pred (append (wrap-nonlists (apply-mods story-mods story-pred)) story-post-args))
 	(setf bindings (unify-preds packaged-schema-pred packaged-story-pred bindings))
 	; (if (not (unify-preds packaged-schema-pred packaged-story-pred bindings))
 	(if (null bindings)
 		; then
 		(progn
-		(format t "props ~s and ~s: could not unify preds ~s and ~s~%" packaged-schema-pred packaged-story-pred)
+		(dbg 'unify "props ~s and ~s cannot be unified (preds cannot be unified)~%" schema story)
 		(return-from outer nil)
 		)
 	)
@@ -112,14 +112,14 @@
 				(return-from outer bindings)
 				; else
 				(progn
-				(format t "predicate modifiers ~s and ~s cannot be unified~%" schema story)
+				(dbg 'unify "predicate modifiers ~s and ~s cannot be unified~%" schema story)
 				(return-from outer nil)
 				)
 			)
 		)
 		; else
 		(progn
-		(format t "predicate modifiers ~s and ~s cannot be unified~%" schema story)
+		(dbg 'unify "predicate modifiers ~s and ~s cannot be unified~%" schema story)
 		(return-from outer nil)
 		)
 	)
@@ -130,10 +130,10 @@
 	; try to unify the predicates.
 	(if (equal (car schema) (car story))
 		; then
-		(return-from outer (unify-preds (second schema) (second story)))
+		(return-from outer (unify-preds (second schema) (second story) bindings))
 		; else
 		(progn
-		(format t "predicate modifiers ~s and ~s cannot be unified~%" schema story)
+		(dbg 'unify "predicate modifiers ~s and ~s cannot be unified~%" schema story)
 		(return-from outer nil)
 		)
 	)
@@ -157,7 +157,7 @@
 			(and (not (null schema)) (null story)))
 		; then
 		(progn
-		(format t "individuals ~s and ~s cannot be unified~%" schema story)
+		(dbg 'unify "individuals ~s and ~s cannot be unified~%" schema story)
 		(return-from outer nil)
 		)
 	)
@@ -183,7 +183,7 @@
 					(return-from outer bindings)
 					; else
 					(progn
-					(format t "cannot bind var ~s to formula ~s; already bound to ~s~%" schema story (gethash schema bindings))
+					(dbg 'unify "cannot bind var ~s to formula ~s; already bound to ~s~%" schema story (gethash schema bindings))
 					(return-from outer nil)
 					)
 				)
@@ -201,14 +201,14 @@
 		(if (or (listp schema) (listp story))
 			; then
 			(progn
-			(format t "individuals ~s and ~s cannot be unified~%" schema story)
+			(dbg 'unify "individuals ~s and ~s cannot be unified~%" schema story)
 			(return-from outer nil)
 			)
 			; else
 			(if (not (equal schema story))
 				; then
 				(progn
-				(format t "individuals ~s and ~s cannot be unified~%" schema story)
+				(dbg 'unify "individuals ~s and ~s cannot be unified~%" schema story)
 				(return-from outer nil)
 				)
 				; else
@@ -227,27 +227,27 @@
 	(cond
 		((and (equal 'K (car schema)) (equal 'K (car story)))
 			; K
-			(return-from outer (unify-preds (second schema) (second story)))
+			(return-from outer (unify-preds (second schema) (second story) bindings))
 		)
 		((and (equal 'KA (car schema)) (equal 'KA (car story)))
 			; KA
-			(return-from outer (unify-preds (second schema) (second story)))
+			(return-from outer (unify-preds (second schema) (second story) bindings))
 		)
 		((and (equal 'KE (car schema)) (equal 'KE (car story)))
 			; KE
-			(return-from outer (unify-props (second schema) (second story)))
+			(return-from outer (unify-props (second schema) (second story) bindings))
 		)
 		((and (equal 'THAT (car schema)) (equal 'THAT (car story)))
 			; THAT 
-			(return-from outer (unify-props (second schema) (second story)))
+			(return-from outer (unify-props (second schema) (second story) bindings))
 		)
 		((and (lex-p-arg? (car schema)) (lex-p-arg? (car story)))
 			; P-ARG 
-			(return-from outer (unify-individuals (second schema) (second story)))
+			(return-from outer (unify-individuals (second schema) (second story) bindings))
 		)
 		(t
 			(progn
-			(format t "individuals ~s and ~s cannot be unified~%" schema story)
+			(dbg 'unify "individuals ~s and ~s cannot be unified~%" schema story)
 			(return-from outer nil)
 			)
 		)
@@ -269,7 +269,7 @@
 	(if (< (length story-mods) (length schema-mods))
 		; then
 		(progn
-		(format t "modifier lists ~s and ~s cannot be unified (not enough predicate modifiers in the latter~%" schema-mods story-mods)
+		(dbg 'unify "modifier lists ~s and ~s cannot be unified (not enough predicate modifiers in the latter~%" schema-mods story-mods)
 		(return-from outer nil)
 		)
 	)
@@ -328,6 +328,7 @@ unified-mods
 	; of action of the story pred. But first, we'll need to unify any do.v
 	; modifiers with modifiers in the story pred.
 	(if (and
+			(equal schema-pred 'DO.V)
 			(equal 1 (length schema-args))
 			(varp (car schema-args))
 		)
@@ -340,7 +341,7 @@ unified-mods
 			(if (null mod-bindings)
 				; then
 				(progn
-				(format t "predicates ~s and ~s cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%" schema story)
+				(dbg 'unify "predicates ~s and ~s cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%" schema story)
 				(return-from outer nil)
 				)
 			)
@@ -350,7 +351,7 @@ unified-mods
 				(if (not (equal (gethash (car schema-args) mod-bindings) bind-ka))
 					; then
 					(progn
-					(format t "predicates ~s and ~s cannot be unified (variable ~s is already bound to ~s)~%" (car schema-args) (gethash (car schema-args) mod-bindings))
+					(dbg 'unify "predicates ~s and ~s cannot be unified (variable ~s is already bound to ~s)~%" (car schema-args) (gethash (car schema-args) mod-bindings))
 					(return-from outer nil)
 					)
 				)
@@ -368,7 +369,7 @@ unified-mods
 	(if (not (equal schema-pred story-pred))
 		; then
 		(progn
-		(format t "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
+		(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
 		(return-from outer nil)
 		)
 	)
@@ -382,7 +383,7 @@ unified-mods
 	(if (not (equal (length schema-args) (length story-args)))
 		; then
 		(progn
-		(format t "predicates ~s and ~s cannot be unified (different #s of arguments)~%" schema story)
+		(dbg 'unify "predicates ~s and ~s cannot be unified (different #s of arguments)~%" schema story)
 		)
 	)
 
@@ -395,7 +396,7 @@ unified-mods
 				(if (null tmp-bindings)
 					; then
 					(progn
-					(format t "predicates ~s and ~s cannot be unified (cannot unify arguments)~%" schema story)
+					(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify arguments)~%" schema story)
 					(return-from outer nil)
 					)
 				)
@@ -409,7 +410,7 @@ unified-mods
 	(setf tmp-bindings (unify-mod-lists schema-mods story-mods bindings))
 	(if (null tmp-bindings)
 		(progn
-		(format t "predicates ~s and ~s cannot be unified (cannot unify all modifiers in the former with any in the latter)~%" schema story)
+		(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify all modifiers in the former with any in the latter)~%" schema story)
 		(return-from outer nil)
 		)
 	)

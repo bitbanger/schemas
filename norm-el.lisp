@@ -280,7 +280,7 @@
 			(or (equal '* (second prop)) (equal '** (second prop))))
 		; then
 		(return-from outer (list
-			('THAT (car prop)) ; prefix args (reified prop)
+			(list 'THAT (car prop)) ; prefix args (reified prop)
 			(second prop) ; predicate (* or **)
 			(third prop))) ; postfix args (char'd episode)
 	)

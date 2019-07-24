@@ -30,10 +30,10 @@
 (block outer
 	; step 1: strip * and **
 	(if (canon-charstar? story)
-		(return-from outer (unify-props schema (car story)))
+		(return-from outer (unify-props schema (car story) bindings))
 	)
 	(if (canon-charstar? schema)
-		(return-from outer (unify-props (car schema) story))
+		(return-from outer (unify-props (car schema) story bindings))
 	)
 
 	; step 2: break the props down into their component parts
@@ -46,22 +46,48 @@
 	(setf schema-post-args (prop-post-args schema))
 	(setf schema-mods (prop-mods schema))
 
-	; step 3: compare the bare preds.
+	; step 3: compare the prefix args.
+	(if (not (equal (length schema-pre-args) (length story-pre-args)))
+		; then
+		(progn
+		(format t "cannot unify props ~s and ~s (mismatched #s of prefix args)~%" schema story)
+		(return-from outer nil)
+		)
+	)
+	(loop for schema-pre-arg in schema-pre-args
+		for story-pre-arg in story-pre-args do (block uargs
+			(setf bindings (unify-individuals schema-pre-arg story-pre-arg bindings))
+			(if (null bindings)
+				; then
+				(progn
+				(format t "cannot unify props ~s and ~s (could not unify all prefix args)~%" schema story)
+				(return-from outer nil)
+				)
+			)
+		)
+	)
+
+	; step 4: compare the preds (w/ postfix args).
 	; TODO: actual subsumption check w/ ontology? Synonyms? etc.
 
 	; We need to "package" the preds up to curry all postfix args
 	; in, in case they were serialized into the proposition.
 	(setf packaged-schema-pred (append (apply-mods schema-mods schema-pred) schema-post-args))
 	(setf packaged-story-pred (append (apply-mods story-mods story-pred) story-post-args))
-	(if (not (unify-preds packaged-schema-pred packaged-story-pred))
+	(setf bindings (unify-preds packaged-schema-pred packaged-story-pred bindings))
+	; (if (not (unify-preds packaged-schema-pred packaged-story-pred bindings))
+	(if (null bindings)
+		; then
 		(progn
 		(format t "props ~s and ~s: could not unify preds ~s and ~s~%" packaged-schema-pred packaged-story-pred)
 		(return-from outer nil)
 		)
 	)
 
-	; if the schema has do.v with a single variable argument, we'll just call
-	; it a match and bind the variable to a ka of the story pred
+
+	; Success!
+	(return-from outer bindings)
+
 )
 )
 )

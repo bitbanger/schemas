@@ -70,7 +70,7 @@
 )
 
 (defun test-prop-args-pred-mods (prop want)
-	(check (equal 4 (length want)))
+	(check (lambda (x) (equal x 4)) (length want))
 
 (let (got got-pre-args got-pred got-post-args got-mods
 	want-pre-args want-pred want-post-args want-mods

@@ -17,6 +17,17 @@
 	)
 )
 
+(defun unify (schema story old-bindings)
+(block outer
+	(if (null old-bindings)
+		; then
+		(return-from outer (unify-props schema story (make-hash-table :test #'equal)))
+	)
+
+	(return-from outer (unify-props schema story old-bindings))
+)
+)
+
 (defun unify-props (schema story old-bindings)
 	;(check (canon-prop? schema))
 	;(check (canon-prop? story))
@@ -34,6 +45,18 @@
 	)
 	(if (canon-charstar? schema)
 		(return-from outer (unify-props (car schema) story bindings))
+	)
+
+	; also strip nots
+	(if (and (equal (car story) 'NOT) (equal (car schema) 'NOT))
+		(return-from outer (unify-props (second schema) (second story)))
+	)
+
+	(if (or (equal (car story) 'NOT) (equal (car schema) 'NOT))
+		(progn
+		(dbg 'unify "cannot unify props ~s and ~s (mismatched polarities)~%" schema story)
+		(return-from outer nil)
+		)
 	)
 
 	; step 2: break the props down into their component parts
@@ -72,9 +95,9 @@
 
 	; We need to "package" the preds up to curry all postfix args
 	; in, in case they were serialized into the proposition.
-	(setf packaged-schema-pred (norm-singletons (append (list (apply-mods schema-mods schema-pred)) schema-post-args)))
-	(setf packaged-story-pred (norm-singletons (append (list (apply-mods story-mods story-pred)) story-post-args)))
-	 ;(dbg 'unify "packaged schema pred: ~s~%" packaged-schema-pred)
+	(setf packaged-schema-pred (unwrap-singletons (norm-singletons (append (list (apply-mods schema-mods schema-pred)) schema-post-args))))
+	(setf packaged-story-pred (unwrap-singletons (norm-singletons (append (list (apply-mods story-mods story-pred)) story-post-args))))
+	 (dbg 'unify "packaged schema pred: ~s~%" packaged-schema-pred)
 	 ;(dbg 'unify "is pred? ~s~%" (canon-pred? packaged-schema-pred))
 	 ;(dbg 'unify "packaged story pred: ~s~%" packaged-story-pred)
 	 ;(dbg 'unify "is pred? ~s~%" (canon-pred? packaged-story-pred))
@@ -91,6 +114,7 @@
 
 
 	; Success!
+	(dbg 'unify "success!~%")
 	(return-from outer bindings)
 
 )

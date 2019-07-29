@@ -1,0 +1,26 @@
+(defparameter do_action_to_enable_action.v
+	'(epi-schema ((?x do_action_to_enable_action.v ?a1 ?a2) ** ?e)
+		(:Roles
+			(!r1 (?x agent1.n))
+			(!r2 (?a1 action1.n))
+			(!r3 (?a2 action1.n))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ka (do.v ?a2)))))
+		)
+
+		(:Preconds
+			(!i1 (not (?x (can.md (ka (do.v ?a2))))))
+		)
+
+		(:Steps
+			(?e1 (?x ((adv-a (for.p (ka (do.v ?a2)))) do.v) ?a1))
+			(?e2 (?x (can.md (ka (do.v ?a2)))))
+		)
+
+		(:Episode-relations
+			(!w1 (?e1 cause.v ?e2))
+		)
+	)
+)

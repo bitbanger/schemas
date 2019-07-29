@@ -172,6 +172,12 @@
 	; Special case for * and **
 	(canon-charstar? x)
 
+	; Boolean combinations
+	(mp x (list (id? 'NOT) 'canon-prop?))
+	(mp x (list (id? 'OR) 'canon-prop?+))
+	(mp x (list (id? 'AND) 'canon-prop?+))
+	(mp x (list (id? 'IF) 'canon-prop? 'canon-prop?))
+
 	; This is like the similar serial argument rule in canon-pred?, but
 	; it allows the pred to be flattened with the subject (prefixed) and "curried" args (postfixed).
 	(mp x (list 'canon-individual?+ 'canon-pred? 'canon-individual?+))
@@ -317,6 +323,11 @@
 			(list 'THAT (car prop)) ; prefix args (reified prop)
 			(second prop) ; predicate (* or **)
 			(third prop))) ; postfix args (char'd episode)
+	)
+
+	; special case: strip nots
+	(if (equal (car prop) 'NOT)
+		(return-from outer (prop-args-pred-mods (second prop)))
 	)
 
 	; default case: prefix args, pred, postfix args

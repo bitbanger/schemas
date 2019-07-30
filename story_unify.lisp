@@ -144,7 +144,7 @@
 )
 )
 
-(defun norm-singletons (x)
+(defun norm-singleton (x)
 	(if (listp x)
 		x
 		; else
@@ -153,7 +153,7 @@
 )
 
 (defun last-of (x)
-	(car (last (norm-singletons x)))
+	(car (last (norm-singleton x)))
 )
 
 (defun safe-length (x)

@@ -680,7 +680,7 @@
 			(loop for schema-adv in schema-advs do
 			(loop for story-adv in story-advs do
 			(block match-adv-pair
-				; TODO (CURRENT):
+				; TODO
 				;	We need a general "match" function
 				;	that can take forms of any type and
 				;	match them recursively. So, verb phrases,
@@ -702,3 +702,74 @@
 )
 )
 )
+
+
+
+
+
+
+
+
+
+
+
+(defun match-sents (story-sent schema-sent)
+; (check ...)s here
+(let
+	(
+		(stripped? nil)
+		(norm-story-sent nil)
+		(norm-schema-sent nil)
+	)
+
+(block outer
+	; STEP 1: strip ** operators
+	(if (char-wff? story-sent)
+		(progn (setf norm-story-sent (car story-sent)) (setf stripped t))
+		; else
+		(setf norm-story-sent story-sent))
+	(if (char-wff? schema-sent)
+		(progn (setf norm-schema-sent (car schema-sent)) (setf stripped t))
+		; else
+		(setf norm-schema-sent schema-sent))
+	(if stripped?
+		(return-from outer (match-sents norm-story-sent norm-schema-sent)))
+
+
+	; TODO: do we ever want to match "(?x do.v)" to "(?x (can.md (do.v)))"? Maybe? Doesn't always seem proper...maybe best to leave it to an inference procedure to generate the latter from the former
+
+	; STEP 2: handle modals; compare them for equality
+	(if (and (lex-modal? (car story-sent)) (lex-modal? (car schema-sent)))
+		; then
+		(if (equal (car story-sent) (car schema-sent))
+			; then
+			(progn
+				(format t "stripping modal ~s~%" (car story-sent))
+				(return-from outer (match-sents (flat-cdr story-sent) (flat-cdr schema-sent)))
+			)
+			; else
+			(progn
+				(format t "~s and ~s NO MATCH: unequal modal heads~%" story-sent schema-sent)
+				(return-from outer nil)
+			)
+		)
+	)
+
+
+	; STEP 3: possible sentence formats now are:
+	;	- term verb
+	;	- term lex-verb term
+	;	- term lex-modal verb
+	;	- adv-a term verb
+	; We'll extract adverbials from each, then compare
+	; the first terms.
+
+	(setf story-advs (prop-mods story-sent))
+	(setf schema-advs (prop-mods schema-sent))
+	(setf clean-story-sent (loop for e in story-sent if (not (adv? e)) collect e))
+	(setf clean-schema-sent (loop for e in schema-sent if (not (adv? e)) collect e))
+	
+	; Compare the first terms
+	(setf match-term-binds-1 
+	
+)))

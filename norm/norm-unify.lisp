@@ -1,4 +1,5 @@
 (load "norm-el.lisp")
+(load "norm-subsumption.lisp")
 
 (defun bind-if-unbound (key val bindings)
 	(if (not (null (gethash key bindings)))
@@ -453,7 +454,8 @@ bind-pred
 	; lists. First, unify the two "head" predicates, which will
 	; be lexical (for now?).
 
-	(if (not (equal schema-pred story-pred))
+	;(if (not (equal schema-pred story-pred))
+	(if (not (subsumes schema-pred story-pred))
 		; then
 		(progn
 		(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)

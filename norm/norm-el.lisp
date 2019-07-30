@@ -89,6 +89,10 @@
 ; TODO (CURRENT): rewrite parse functions to determine whether
 ; something is a pred, proposition, modifier, individual...
 
+(defun canon-lambda? (x)
+	(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
+)
+
 (defun canon-kind? (x)
 (or
 	; TODO: restrictions on VP/non-VP preds for KA/K?
@@ -136,7 +140,7 @@
 	(mp x (list 'canon-pred? 'canon-individual?+))
 
 	; Lambda functions are predicates
-	(el-lambda? x)
+	(canon-lambda? x)
 
 	; Prepositions with individual complements are predicates
 	(mp x (list 'lex-p? 'canon-individual?))
@@ -224,6 +228,10 @@
 (defun pred-base (pred)
 	(check #'canon-pred? pred)
 (block outer
+	(if (canon-lambda? pred)
+		(return-from outer pred)
+	)
+
 	(if (mp pred (list 'canon-pred? 'canon-individual?+))
 		; then
 		(return-from outer (pred-base (car pred)))
@@ -251,6 +259,10 @@
 (defun naked-pred-without-post-args (naked-pred)
 	; TODO: handle or, and, not, etc.
 (block outer
+	(if (canon-lambda? naked-pred)
+		(return-from outer naked-pred)
+	)
+
 	(if (mp naked-pred (list 'lex-p? 'canon-individual?))
 		(return-from outer naked-pred)
 	)
@@ -269,6 +281,10 @@
 	(check #'canon-pred? pred)
 (let (mods base-pred)
 (block outer
+	(if (canon-lambda? pred)
+		(return-from outer pred)
+	)
+
 	(setf mods (pred-mods pred))
 	(setf bp (naked-pred-without-post-args (pred-base pred)))
 	; (format t "bp: ~s~%" bp)
@@ -284,6 +300,11 @@
 (defun pred-args (pred)
 	(check #'canon-pred? pred)
 (block outer
+	; Lambdas are atomic; ignore "args"?
+	(if (canon-lambda? pred)
+		(return-from outer nil)
+	)
+
 	; Strip all modifiers & recurse, if applicable
 	(if (mp pred (list 'canon-mod? 'canon-pred?))
 		; then
@@ -382,6 +403,10 @@
 
 (defun prop-post-args (prop)
 	(third (prop-args-pred-mods prop))
+)
+
+(defun prop-all-args (prop)
+	(append (listify-nonlists (prop-pre-args prop)) (listify-nonlists (prop-post-args prop)))
 )
 
 (defun prop-mods (prop)

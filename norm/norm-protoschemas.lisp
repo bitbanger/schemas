@@ -122,21 +122,20 @@
 
 		(:Preconds
 			(!i1 (?x (have.v ?t)))
-			(!i2 (?t (suitable_for.p ?a)))
+			(!i2 (?t (suitable_for.p ?a))) ; the "telic" preposition suitable_for.a
+											; will appear in prior object knowledge
 		)
 
 		(:Steps
-			(?e1 (or
-				; Lots of ways to paraphrase this...
-				(?x ((adv-a (with.p ?t)) (do.v ?a)))
-				(?x ((adv-a (using.p ?t)) (do.v ?a)))
-				(?x (use.v ?t (for.p-arg ?a)))
-			)
+			; Lots of ways to paraphrase this...
+			(?e1 (?x ((adv-a (with.p ?t)) (do.v ?a))))
+			(?e2 (?x ((adv-a (using.p ?t)) (do.v ?a))))
+			(?e3 (?x (use.v ?t (for.p-arg ?a))))
 		)
 
-		(:Postconds
-			(!p1 (not (?x have.v ?o)))
-			(!p2 (?y have.v ?o))
+		(:Episode-relations
+			(!w1 (?e1 same-time.a ?e2))
+			(!w2 (?e1 same-time.a ?e3))
 		)
 	)
 )

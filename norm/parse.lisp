@@ -13,6 +13,12 @@
 	THAT
 	CONSEC
 	CAUSE-OF
+	NOT
+	OR
+	AND
+	IF
+	ATTR
+	PLUR
 ))
 
 (defun has-ext? (x e)
@@ -804,7 +810,14 @@
 )
 )
 
+(defun special? (x)
+	(not (null (member x *KEYWORDS* :test #'equal)))
+)
+
 (defun term? (x)
+(and
+(not (special? x))
+
 (or
 	(lex-pronoun? x)
 	(lex-name? x)
@@ -816,6 +829,7 @@
 	(kind-of-action? x)
 	(mp x (list 'sent-reifier? 'sent?))
 	(lex-ent? x) ; TODO: not sure about this, but we need to handle e.g. quantified variables
+)
 )
 )
 

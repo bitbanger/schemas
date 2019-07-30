@@ -7,6 +7,7 @@
 	;'unify-wffs
 	;'cur1
 	;'unify
+	;'coref
 ))
 
 (defparameter *DBG-ALL* nil)
@@ -596,6 +597,14 @@ is replaced with replacement."
 		; else
 		lst
 	)
+)
+
+(defun listify-nonlists (e)
+	(if (listp e)
+		; then
+		e
+		; else
+		(list e))
 )
 
 (defun unwrap-singletons (lst)

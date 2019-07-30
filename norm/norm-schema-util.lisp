@@ -5,6 +5,8 @@
 	:Roles
 	:Goals
 	:Preconds
+	:Postconds
+	:Paraphrases
 	:Steps
 	:Episode-relations
 ))
@@ -92,3 +94,14 @@
 	(return-from outer nil)
 )
 )
+
+(defun apply-bindings (schema bindings)
+(let (val)
+(block outer
+	(setf cursor schema)
+	(loop for key being the hash-keys of bindings do (block inner
+		(setf val (gethash key bindings))
+		(setf cursor (replace-vals key val cursor))
+	))
+	(return-from outer cursor)
+)))

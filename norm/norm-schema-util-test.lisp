@@ -26,6 +26,7 @@
 					(format t "WITH~%")
 					(format t "	~s~%" phi)
 					(format t "bindings:~%~s~%" (ht-to-str bindings))
+					(format t "final schema:~%~s~%" (apply-bindings schema bindings))
 					)
 				)
 			)

@@ -94,11 +94,44 @@
 
 		(:Preconds
 			(!i1 (?x have.v ?o))
-			(!i1 (not (?y have.v ?o)))
+			(!i2 (not (?y have.v ?o)))
 		)
 
 		(:Steps
 			(?e1 (?x (give.v ?o (to.p-arg ?y))))
+		)
+
+		(:Postconds
+			(!p1 (not (?x have.v ?o)))
+			(!p2 (?y have.v ?o))
+		)
+	)
+)
+
+(defparameter use_tool.v
+	'(epi-schema ((?x use_tool.v ?t (for.p-arg ?a)) ** ?e)
+		(:Roles
+			(!r1 (?x agent1.n))
+			(!r2 (?t implement1.n))
+			(!r3 (?a action1.n))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ka (do.v ?a)))))
+		)
+
+		(:Preconds
+			(!i1 (?x (have.v ?t)))
+			(!i2 (?t (suitable_for.p ?a)))
+		)
+
+		(:Steps
+			(?e1 (or
+				; Lots of ways to paraphrase this...
+				(?x ((adv-a (with.p ?t)) (do.v ?a)))
+				(?x ((adv-a (using.p ?t)) (do.v ?a)))
+				(?x (use.v ?t (for.p-arg ?a)))
+			)
 		)
 
 		(:Postconds

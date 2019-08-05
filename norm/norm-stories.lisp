@@ -60,14 +60,52 @@
 	)
 
 	((E2.SK AT-ABOUT.PR NOW1)
-		(TREE2.SK TREE_1.N)
-		(TREE2.SK INDEF.A)
-		((HE.PRO (CLIMB.V TREE2.SK)) ** E2.SK)
+		((MONKEY1.SK (CLIMB.V TREE1.SK)) ** E2.SK)
 	)
 
 	((E2.SK CONSEC.PR E3.SK)
 		(COCOANUT1.SK COCOANUT_1.N)
-		((HE.PRO (GET.V COCOANUT1.SK)) ** E3.SK)
+		((MONKEY1.SK (GET.V COCOANUT1.SK)) ** E3.SK)
+	)
+
+	((E4.SK AT-ABOUT.PR NOW2)
+		(GROUND1.SK GROUND_1.N)
+		(GROUND1.SK INDEF.A)
+		((MONKEY1.SK (DROP.V COCOANUT1.SK (TO.P-ARG GROUND1.SK))) ** E4.SK)
+	)
+
+	((E5.SK AT-ABOUT.PR NOW3)
+		((MONKEY1.SK ((ADV-A DOWN.A) COME.V)) ** E5.SK)
+	)
+
+	((E5.SK CONSEC.PR E6.SK)
+		((MONKEY1.SK (EAT.V COCOANUT1.SK)) ** E6.SK)
+	)
+)
+)
+
+(defparameter *MONKEY-STORY-2*
+'(
+	; What is in this monkey's hands?
+	; (skipping for now)
+	; TODO: think about how to handle questions
+
+	; The monkey has a cocoanut.
+	((E1.SK AT-ABOUT.PR NOW0)
+		(MONKEY1.SK MONKEY.N)
+		(MONKEY1.SK INDEF.A)
+		(COCOANUT1.SK COCOANUT.N)
+		((MONKEY1.SK (HAVE.V COCOANUT1.SK)) ** E1.SK)
+	)
+
+	; He likes the cocoanut.
+	((E2.SK AT-ABOUT.PR NOW1)
+		((MONKEY1.SK (LIKE.V COCOANUT1.SK)) ** E2.SK)
+	)
+
+	; He will eat it.
+	((E3.SK AFTER.PR NOW2)
+		((MONKEY1.SK (EAT.V COCOANUT1.SK)) ** E3.SK)
 	)
 )
 )

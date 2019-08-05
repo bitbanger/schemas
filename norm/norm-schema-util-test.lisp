@@ -7,9 +7,10 @@
 
 (format t "~s~%" (schema? do_action_to_enable_action.v))
 
+; TODO: check constraints
 (defun unify-with-schema (phi schema)
 (let (bindings)
-	(loop for sec in (schema-sections do_action_to_enable_action.v)
+	(loop for sec in (schema-sections schema)
 		do (loop for formula in (section-formulas sec) do
 			(block uni
 				;(format t "~s~%" (car formula))
@@ -35,10 +36,13 @@
 	)
 )
 
-
-(loop for sent in *FLOWER-STORY* do
+; TODO: for each bound individual (& all its sub-individuals),
+; extract all relevant props from story. This code exists in
+; coref.lisp. Then figure out a way to add them to the schema
+; as additional constraints.
+(loop for sent in *MONKEY-STORY* do
 	(loop for phi in sent do
-		;(format t "~s~%" phi)
-		(unify-with-schema phi do_action_to_enable_action.v)
+		; (format t "~s~%" phi)
+		(unify-with-schema phi take_object.v)
 	)
 )

@@ -80,6 +80,38 @@
 	)
 )
 
+(defparameter use_tool.v
+	'(epi-schema ((?x use_tool.v ?t (for.p-arg ?a)) ** ?e)
+		(:Roles
+			(!r1 (?x agent1.n))
+			(!r2 (?t implement1.n))
+			(!r3 (?a action1.n))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ka (do.v ?a)))))
+		)
+
+		(:Preconds
+			(!i1 (?x (have.v ?t)))
+			(!i2 (?t (suitable_for.p ?a))) ; the "telic" preposition suitable_for.a
+											; will appear in prior object knowledge
+		)
+
+		(:Steps
+			; Lots of ways to paraphrase this...
+			(?e1 (?x ((adv-a (with.p ?t)) (do.v ?a))))
+			(?e2 (?x ((adv-a (using.p ?t)) (do.v ?a))))
+			(?e3 (?x (use.v ?t (for.p-arg ?a))))
+		)
+
+		(:Episode-relations
+			(!w1 (?e1 same-time.a ?e2))
+			(!w2 (?e1 same-time.a ?e3))
+		)
+	)
+)
+
 (defparameter give_object.v
 	'(epi-schema ((?x give_object.v ?o (to.p-arg ?y)) ** ?e)
 		(:Roles
@@ -108,29 +140,33 @@
 	)
 )
 
-(defparameter use_tool.v
-	'(epi-schema ((?x use_tool.v ?t (for.p-arg ?a)) ** ?e)
+(defparameter take_object.v
+	'(epi-schema ((?x take_object.v ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent1.n))
-			(!r2 (?t implement1.n))
-			(!r3 (?a action1.n))
+			(!r2 (?o object1.n))
 		)
 
 		(:Goals
-			(?g1 (?x (want.v (ka (do.v ?a)))))
+			(?g1 (?x (want.v (that (?x (have.v ?o))))))
 		)
 
 		(:Preconds
-			(!i1 (?x (have.v ?t)))
-			(!i2 (?t (suitable_for.p ?a))) ; the "telic" preposition suitable_for.a
-											; will appear in prior object knowledge
+			(!i1 (not (?x have.v ?o)))
 		)
 
 		(:Steps
 			; Lots of ways to paraphrase this...
-			(?e1 (?x ((adv-a (with.p ?t)) (do.v ?a))))
-			(?e2 (?x ((adv-a (using.p ?t)) (do.v ?a))))
-			(?e3 (?x (use.v ?t (for.p-arg ?a))))
+			; TODO: implement "optional" p-args like from
+			; TODO: automatic synonym detection
+			; TODO: separate active take vs. passive receive?
+			(?e1 (?x (take.v ?o)))
+			(?e2 (?x (get.v ?o)))
+			(?e3 (?x (receive.v ?o)))
+		)
+
+		(:Postconds
+			(!p1 (?x have.v ?o))
 		)
 
 		(:Episode-relations

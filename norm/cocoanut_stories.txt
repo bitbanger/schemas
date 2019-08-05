@@ -1,0 +1,26 @@
+What is in this monkey's hands? The monkey has a cocoanut. He likes the cocoanut. He will eat it. The monkey is brown. It has a large tail. His eyes are large.
+
+The monkey can climb a tree. He climbs the tree and gets a cocoanut. He drops the cocoanut to the ground. He comes down and eats it. The monkey likes to run and play. Is Simeon afraid of the monkey? Luisa is afraid of large monkeys. She is not afraid of this little monkey.
+
+
+
+
+- Story "Monkey has cocoanut, monkey likes cocoanut, monkey will eat cocoanut"
+- Story "Monkey climbs tree, monkey gets cocoanut"
+
+- "Get" triggers protoschema w/ postcond "have", so monkey has cocoanut
+- "Monkey has cocoanut" matches schema from before, so other events are inferred
+- "He comes down and eats it" also gives "monkey eat cocoanut" event, so we know that's a schema
+- We know "get" triggered "have", and thus "have -> like -> eat", so we know it belongs in the new "monkey eat cocoanut" schema
+- "He climbs the tree and gets a cocoanut" should couple those actions together, so those should go in the cocoanut schema
+- In summary, it's all centered around observing the "monkey eat cocoanut" event twice, and then including the actions connected to the cocoanut in the schema
+
+
+TASKS FOR ME:
+	- translate both stories into EL
+	- make "get" protoschema w/ "have" postcond
+	- do a temporal inference of "have" when "get" is spotted in the story, add to KB
+	- implement KB reasoner that progressively uses inferred facts from schemas
+	- implement inferential "certainty scores", so that some schemas can be "by lexical definition" and thus always inferrable in all worlds
+	- detect "X does a1 and X does a2" & couple them/infer causality
+	- detect when a precond/postcond is met by another action/schema (i.e. model causality)

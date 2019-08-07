@@ -66,16 +66,8 @@
 )
 )
 
-(defparameter *SPECIAL*
-'(
-	ATTR
-	PLUR
-	NOT
-)
-)
-
 (defun special-str (x)
-	(not (null (member x *SPECIAL* :test #'equal)))
+	(not (null (member x *KEYWORDS* :test #'equal)))
 )
 
 (defun typecheck (x)

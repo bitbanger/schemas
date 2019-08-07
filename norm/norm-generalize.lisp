@@ -63,5 +63,12 @@
 )
 )
 
+(defun extract-small-individuals (phi)
+(block outer
+	(format t "extracting from ~s~%" phi)
+	(return-from outer (get-elements-pred phi #'canon-small-individual?))
+)
+)
+
 ; print all term constraints
 (print-ht (story-select-term-constraints *COUSIN-STORY* '(HENRY.NAME CITY1.SK HE.PRO)))

@@ -93,7 +93,7 @@
 		; then
 		(progn
 		(setf curry-res (curry (car prop) carg))
-		(return-from cr (list (car curry-res) (second curry-res) (list (third curry-res) (second prop) (third prop))))
+		(return-from cp (list (car curry-res) (second curry-res) (list (third curry-res) (second prop) (third prop))))
 		;(return-from cr (curry (car prop) carg))
 		)
 	)

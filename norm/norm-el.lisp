@@ -102,16 +102,22 @@
 )
 )
 
-(defun canon-individual? (x)
+(defun canon-small-individual? (x)
 (or
-	(canon-kind? x)
 	(lex-skolem? x)
-	(varp x)
 	(lex-pronoun? x)
 	(lex-name? x)
+	(and (not (special-str x)) (alphanum-str? (format nil "~s" x)))
+)
+)
+
+(defun canon-individual? (x)
+(or
+	(canon-small-individual? x)
+	(canon-kind? x)
+	(varp x)
 	(mp x (list 'lex-p-arg? 'canon-individual?))
 	(mp x (list (id? 'THAT) 'canon-prop?))
-	(and (not (special-str x)) (alphanum-str? (format nil "~s" x)))
 )
 )
 

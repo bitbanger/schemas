@@ -109,3 +109,27 @@
 	)
 )
 )
+
+(defparameter *KITE-STORY*
+	'(
+		; Frank has gone to the field with his kite.
+		((E1.SK BEFORE.PR NOW0)
+			(KITE1.SK KITE_1.N)
+			(KITE1.SK PERTAIN-TO.PR FRANK.NAME)
+			(FIELD1.SK FIELD_1.N)
+			((FRANK.NAME ((ADV-A (WITH.P KITE1.SK)) GO.V (TO.P-ARG FIELD1.SK))) ** E1.SK)
+		)
+	)
+)
+
+(defparameter *COUSIN-STORY*
+	; His cousin Henry came from the city to see him.
+	'(
+
+		((E1.SK BEFORE.PR NOW0)
+			(HENRY.NAME COUSIN-OF.PR HE.PRO)
+			(CITY1.SK CITY_1.N)
+			((HENRY.NAME ((ADV-A (FOR.P (KA (SEE.V HE.PRO)))) (COME.V (FROM.P-ARG CITY1.SK)))) ** E1.SK)
+		)
+	)
+)

@@ -40,9 +40,10 @@
 ; extract all relevant props from story. This code exists in
 ; coref.lisp. Then figure out a way to add them to the schema
 ; as additional constraints.
-(loop for sent in *MONKEY-STORY* do
-	(loop for phi in sent do
+(loop for sent in *COUSIN-STORY* do
+	(loop for phi in sent
 		; (format t "~s~%" phi)
-		(unify-with-schema phi take_object.v)
+		do (unify-with-schema phi go_somewhere.v)
+		do (unify-with-schema phi do_action_to_enable_action.v)
 	)
 )

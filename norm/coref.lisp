@@ -40,7 +40,11 @@
 	; Strip charstars
 	(if (canon-charstar? prop)
 		; then
-		(return-from cr (curry (car prop) carg))
+		(progn
+		(setf curry-res (curry (car prop) carg))
+		(return-from cr (list (car curry-res) (second curry-res) (list (third curry-res) (second prop) (third prop))))
+		;(return-from cr (curry (car prop) carg))
+		)
 	)
 
 	(setf pre-args (listify-nonlists (prop-pre-args prop)))
@@ -87,7 +91,11 @@
 	; Strip charstars
 	(if (canon-charstar? prop)
 		; then
-		(return-from cp (curry (car prop) carg))
+		(progn
+		(setf curry-res (curry (car prop) carg))
+		(return-from cr (list (car curry-res) (second curry-res) (list (third curry-res) (second prop) (third prop))))
+		;(return-from cr (curry (car prop) carg))
+		)
 	)
 
 	; Don't curry a predicate that's already monadic
@@ -294,7 +302,8 @@
 			; else
 			(progn
 				; (format t "pushing ~s to the gethash of ~s~%" prop-arg (curry effective-wff prop-arg))
-				(setf curried (curry effective-wff prop-arg))
+				;(setf curried (curry effective-wff prop-arg))
+				(setf curried (curry wff prop-arg))
 				(push prop-arg (gethash curried (kb-pred-ind kb)))
 
 				; duplicate-averse append prop-arg to curried in pred ind
@@ -447,8 +456,8 @@
 )))
 
 
-(format t "old story: ~s~%" *STORY*)
-(format t "new story: ~s~%" (process-story-coref *STORY* *KB*))
+;(format t "old story: ~s~%" *STORY*)
+;(format t "new story: ~s~%" (process-story-coref *STORY* *KB*))
 
 
 

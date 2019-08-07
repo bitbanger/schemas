@@ -239,3 +239,36 @@
 		)
 	))
 )
+
+(test-unify
+	; unification function
+	#'unify-props
+
+	; schema arg
+	'(?x (movement_verb.v (to.p-arg ?l)))
+
+	; story arg
+	; '((THEY.PRO (QUICKLY.ADV-A ((ADV-A (FOR.P (KA (FIND.V (K (PLUR FLOWER.N)))))) COME.V))) ** E2.SK)
+	'(he.pro ((adv-a (with.p dog1.sk)) (go.v (to.p-arg house1.sk))))
+
+	; prior bindings
+	*EMPTY-HT*
+
+	; want bindings
+	(mk-hashtable (list
+		(list
+			; key
+			'?x
+
+			; val
+			'HE.PRO
+		)
+		(list
+			; key
+			'?l
+
+			; val
+			'HOUSE1.SK
+		)
+	))
+)

@@ -117,7 +117,32 @@
 			(KITE1.SK KITE_1.N)
 			(KITE1.SK PERTAIN-TO.PR FRANK.NAME)
 			(FIELD1.SK FIELD_1.N)
-			((FRANK.NAME ((ADV-A (WITH.P KITE1.SK)) GO.V (TO.P-ARG FIELD1.SK))) ** E1.SK)
+			((FRANK.NAME (((ADV-A (WITH.P KITE1.SK)) GO.V) (TO.P-ARG FIELD1.SK))) ** E1.SK)
+		)
+	)
+)
+
+(defparameter *KITE-STORY-2*
+	'(
+		; This is a fine day.
+		((E1.SK AT-ABOUT.PR NOW0)
+			(E1.SK DAY.N)
+			(E1.SK FINE.A)
+		)
+
+		; The sun shines bright.
+		((E2.SK AT-ABOUT.PR NOW1)
+			(SUN1.SK SUN.N)
+			((SUN1.SK ((ADV-A BRIGHT.A) SHINE.V)) ** E2.SK)
+		)
+
+		; There is a good wind, and my kite flies high.
+		((E3.SK AT-ABOUT.PR NOW2)
+			(WIND1.SK WIND.N)
+			(WIND1.SK GOOD.A)
+			(KITE1.SK KITE_1.N)
+			(KITE1.SK PERTAIN-TO.PR I.PRO)
+			((KITE1.SK ((ADV-A HIGH.A) FLY.V)) ** E3.SK)
 		)
 	)
 )

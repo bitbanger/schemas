@@ -138,3 +138,18 @@
 	))
 	(return-from outer cursor)
 )))
+
+(defun print-schema (schema)
+(block outer
+	(check #'schema? schema)
+
+	(format t "(~s ~s~%" (car schema) (second schema))
+	(loop for sec in (schema-sections schema)
+		do (format t "	(~s~%" (section-name sec))
+		do (loop for elem in (cdr sec)
+			do (format t "		~s~%" elem))
+		do (format t "	)~%")
+	)
+	(format t ")~%")
+)
+)

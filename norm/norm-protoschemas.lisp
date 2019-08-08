@@ -211,6 +211,7 @@
 		(:Episode-relations
 			(!w1 (?e1 same-time.a ?e2))
 			(!w2 (?e1 same-time.a ?e3))
+			(!w3 (?e1 same-time.a ?e4))
 		)
 	)
 )

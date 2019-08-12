@@ -7,6 +7,23 @@
 ;	- take a story ep, and unify its char formula w/ schema steps until match
 ;	- once it matches, fill in the schema and replace the matched step w/ the story ep, adding the extra modifiers, and adding all * formulas as atemporal constraints
 
+
+
+
+; unify-with-schema takes a story, a formula (phi) from that story, and
+; a schema. It attempts to unify phi with each formula in each section,
+; fluent or nonfluent, and stops as soon as it is able to, returning the
+; unifier as a map of variable bindings.
+;
+; Two predicates may be unified even if they are not equal; if the
+; schema-side predicate "subsumes" the story-side one, i.e. if the
+; schema-side predicate is a generalization of the story-side one,
+; then the unification still occurs.
+;
+; If phi is a temporal formula and it matches to a fluent condition, the
+; fluent condition's episode variable is bound to the episode that phi
+; characterizes; if this binding is impossible, the unification fails.
+;
 ; TODO: check constraints
 (defun unify-with-schema (phi schema story)
 (let (bindings)
@@ -29,7 +46,7 @@
 					(progn
 					(format t "bound to ~s~%" (second formula))
 					(format t "bindings are ~s~%" new-bindings)
-					(if (canon-charstar? phi)
+					(if (and (canon-charstar? phi) (equal (section-type sec 'FLUENT)))
 						; then
 						; (format t "temporal formula ~s <-> ~s~%" (third phi) (car formula))
 						(if (bind-if-unbound (car formula) (third phi) new-bindings)
@@ -64,10 +81,17 @@
 	)
 ))
 
-; TODO: for each bound individual (& all its sub-individuals),
-; extract all relevant props from story. This code exists in
-; coref.lisp. Then figure out a way to add them to the schema
-; as additional constraints.
+; match-story-to-schema loops over every formula phi in a story and attempts to
+; match phi to a given schema. When phi matches to any formula in the schema,
+; a cumulative map of variable bindings is updated according to the unifier.
+;
+; The function returns a version of the schema with variables replaced by
+; the individual constants from the story to which they were bound. All
+; nonfluent constraints on those individual constants are also added to the
+; list of nonfluent constraints in the schema.
+;
+; If the "generalize" argument is non-nil, all individual constants in the
+; schema are replaced by variables.
 (defun match-story-to-schema (test-story in-schema generalize)
 (block outer
 	(setf test-schema in-schema)
@@ -104,6 +128,7 @@
 					(loop for const in constraints do (block const-add
 						(setf go-match-schema (add-role-constraint go-match-schema const))
 					))
+
 					; Now replace terms by variables
 					(if generalize
 						(progn

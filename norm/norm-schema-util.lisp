@@ -12,6 +12,17 @@
 	:Episode-relations
 ))
 
+; schema-cond? reports whether phi is a well-formed
+; pair comprising a schema condition "tag" and an
+; EL formula. If fluent is non-nil, the "tag" will
+; be an individual (generally an episode) which is
+; characterized by the EL formula. If fluent is nil,
+; the tag will be an EL metavariable standing for the
+; EL formula.
+;
+; Fluent schema conditions represent temporally-bounded
+; constraints on the individuals in the schema. Nonfluent
+; conditions are atemporal, i.e. eternal.
 (defun schema-cond? (phi fluent)
 (and
 	(equal 2 (length phi))
@@ -37,13 +48,20 @@
 	(schema-cond? phi nil)
 )
 
+; schema-section? reports whether sec is a valid schema
+; section, properly named and populated with valid schema
+; conditions (fluent or nonfluent).
 (defun schema-section? (sec)
 (and
 	(> (length sec) 0)
 	(not (null (member (car sec) *SEC-NAMES*)))
-	(loop for phi in (cdr sec)
-		always (or (nonfluent-cond? phi) (fluent-cond? phi))
-)))
+	(or
+		(loop for phi in (cdr sec)
+			always (nonfluent-cond? phi))
+		(loop for phi in (cdr sec)
+			always (fluent-cond? phi))
+	)
+))
 
 (defun section-name (sec)
 (progn
@@ -52,6 +70,7 @@
 )
 )
 
+; section-formulas returns all conditions from a schema section.
 (defun section-formulas (sec)
 (progn
 	(check #'schema-section? sec)
@@ -59,6 +78,9 @@
 )
 )
 
+; section-type returns the symbol NONFLUENT if sec contains all
+; nonfluent conditions, or FLUENT if it contains all fluent
+; conditions.
 (defun section-type (sec)
 (progn
 	(check #'schema-section? sec)
@@ -71,6 +93,7 @@
 )
 )
 
+; schema? reports whether s is a valid schema.
 (defun schema? (s)
 (and
 	(> (length s) 2)
@@ -100,6 +123,8 @@
 )
 )
 
+; set-section returns a new schema, identical to the input schema,
+; except with the section "sec-name" having the new value "new-sec".
 (defun set-section (schema sec-name new-sec)
 (let (new-schema)
 (block outer
@@ -118,6 +143,8 @@
 )
 )
 
+; add-role-constraint adds a nonfluent condition to the schema with a unique
+; metavariable.
 (defun add-role-constraint (schema constraint)
 (let (new-roles role-num new-role)
 (block outer
@@ -129,6 +156,8 @@
 )
 )
 
+; apply-bindings returns a schema where all variables have been replaced with
+; their bound referents, given by the bindings map.
 (defun apply-bindings (schema bindings)
 (let (val)
 (block outer
@@ -140,6 +169,7 @@
 	(return-from outer cursor)
 )))
 
+; print-schema prints a schema with proper formatting, for readability purposes.
 (defun print-schema (schema)
 (block outer
 	(check #'schema? schema)
@@ -155,6 +185,7 @@
 )
 )
 
+; temporal propositions characterize episodes, generally.
 (defun temporal-prop? (prop)
 	; TODO: more nuanced temporal proposition identification
 	(has-element prop '**)
@@ -165,6 +196,9 @@
 	(has-element prop 'LAMBDA.EL)
 )
 
+; story-term-constraints takes an EL story, split into N "sentences",
+; and returns a hash map where the keys are individual constants and
+; the values are lists of atemporal story constraints on those constants.
 (defun story-term-constraints (story)
 (let (
 			(gen-kb (list (make-hash-table :test #'equal)
@@ -186,6 +220,9 @@
 			(loop for pred in (gethash arg (kb-arg-ind gen-kb))
 				if (and
 						(not (temporal-prop? pred))
+						; TODO: allow lambdas that were in
+						; the stories, but not the ones we
+						; created during indexing.
 						(not (lambda-prop? pred)))
 				; then
 				do (if (not (member pred (gethash arg constraints) :test #'equal))
@@ -202,6 +239,9 @@
 )
 )
 
+; story-select-term-constraints takes a story and a list of individual
+; constants and returns a list of all atemporal constraints on any
+; of those constants.
 (defun story-select-term-constraints (story terms)
 (let ((constraints (story-term-constraints story)))
 	(remove-duplicates (loop for term being the hash-keys of constraints
@@ -210,6 +250,8 @@
 )
 )
 
+; extract-small-individuals returns a list of the individual constants
+; in an EL formula.
 (defun extract-small-individuals (phi)
 (block outer
 	; (format t "extracting from ~s~%" phi)

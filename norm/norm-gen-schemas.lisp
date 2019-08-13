@@ -28,7 +28,7 @@
 		(:EPISODE-RELATIONS
 			(!W1 (?_D SAME-TIME.A ?E2))
 			(!W2 (?_D SAME-TIME.A ?E3))
-			(!W2 (?_D SAME-TIME.A ?E4))
+			(!W3 (?_D SAME-TIME.A ?E4))
 		)
 	)
 )

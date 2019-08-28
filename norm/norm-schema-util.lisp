@@ -12,6 +12,35 @@
 	:Episode-relations
 ))
 
+; sec-formula-prefix tells you the prefix for condition
+; formulas for a given section, e.g. !W for Episode-relations
+; to yield !W1, ?E for Steps to yield ?E1, etc.
+(defun sec-formula-prefix (sec-name)
+(block outer
+	(if (null (member sec-name *SEC-NAMES* :test #'equal))
+		(return-from outer nil))
+
+	(cond
+		((equal sec-name ':Roles)
+			(return-from outer "!R"))
+		((equal sec-name ':Goals)
+			(return-from outer "?G"))
+		((equal sec-name ':Preconds)
+			(return-from outer "!PRE"))
+		((equal sec-name ':Postconds)
+			(return-from outer "!POST"))
+		((equal sec-name ':Paraphrases)
+			(return-from outer "?PAR"))
+		((equal sec-name ':Steps)
+			(return-from outer "?E"))
+		((equal sec-name ':Episode-relations)
+			(return-from outer "!W"))
+		(t
+			(return-from outer nil))
+	)
+)
+)
+
 ; schema-cond? reports whether phi is a well-formed
 ; pair comprising a schema condition "tag" and an
 ; EL formula. If fluent is non-nil, the "tag" will
@@ -110,6 +139,20 @@
 	(check #'schema? schema)
 	(cddr schema)
 )
+)
+
+(defun nonfluent-sections (schema)
+	(loop for sec in (schema-sections schema)
+		if (equal (section-type sec) 'NONFLUENT)
+			collect sec
+	)
+)
+
+(defun fluent-sections (schema)
+	(loop for sec in (schema-sections schema)
+		if (equal (section-type sec) 'FLUENT)
+			collect sec
+	)
 )
 
 (defun get-section (schema sec-name)
@@ -256,5 +299,88 @@
 (block outer
 	; (format t "extracting from ~s~%" phi)
 	(return-from outer (get-elements-pred phi #'canon-small-individual?))
+)
+)
+
+(defun schema-vars (schema)
+	(remove-duplicates (get-elements-pred schema #'varp) :test #'equal)
+)
+
+(defun shared-vars (schema1 schema2)
+	(intersection (schema-vars schema1) (schema-vars schema2) :test #'equal)
+)
+
+; To merge two schemas, we'll:
+;	1. rename their variables to be unique
+;	2. concatenate all the formulas in each section
+;	3. 
+(defun merge-schemas (schema1 schema2)
+(block outer
+	; 1. rename their variables to be unique
+	(setf shared (shared-vars schema1 schema2))
+	(setf sc1 schema1)
+	(setf sc2 schema2)
+	(loop for var in shared
+		do (block rename
+			(setf var1 (intern (concat-strs (string var) "_1")))
+			(setf var2 (intern (concat-strs (string var) "_2")))
+			(setf sc1 (replace-vals var var1 sc1))
+			(setf sc2 (replace-vals var var2 sc2))
+		)
+	)
+
+	;(print-schema sc1)
+	;(format t "~%~%")
+	;(print-schema sc2)
+	;(format t "~%~%")
+
+	; 2. concatenate all the formulas in each section
+
+	; 2(a). nonfluent sections
+	(setf new-sections (make-hash-table :test #'equal))
+	(loop for sc in (list sc1 sc2)
+		do (loop for sec in (nonfluent-sections sc)
+			do (loop for formula in (section-formulas sec)
+				do (setf (gethash (section-name sec) new-sections) (append (gethash (section-name sec) new-sections) (list formula)))
+			)
+		)
+	)
+	(setf new-sections-fixed (make-hash-table :test #'equal))
+	(loop for k being the hash-keys of new-sections
+		do (block make-new-sec
+			(setf phi_count 1)
+			(setf prefix (sec-formula-prefix k))
+			(loop for phi in (gethash k new-sections)
+				do (block add-new-form
+					(setf new-cond-id (intern (format nil "~a~s" prefix phi_count)))
+					(setf (gethash k new-sections-fixed) (append (gethash k new-sections-fixed) (list (list new-cond-id (second phi)))))
+					(setf phi_count (+ phi_count 1))
+				)
+			)
+
+			; (format t "~s: ~s~%" k (gethash k new-sections-fixed))
+		)
+	)
+
+	; 2(b). fluent sections
+	; no need to "fix" these; their variable IDs have already been made unique
+	(loop for sc in (list sc1 sc2)
+		do (loop for sec in (fluent-sections sc)
+			do (loop for formula in (section-formulas sec)
+				do (setf (gethash (section-name sec) new-sections-fixed) (append (gethash (section-name sec) new-sections-fixed) (list formula)))
+			)
+
+			; do (format t "~s: ~s~%" (section-name sec) (gethash (section-name sec) new-sections-fixed))
+		)
+
+	)
+
+	; We'll use the first schema as the "outer" schema and take its header.
+	(setf final-schema sc1)
+	(loop for sec-name being the hash-keys of new-sections-fixed
+		do (setf final-schema (set-section final-schema sec-name (append (list sec-name) (gethash sec-name new-sections-fixed))))
+	)
+
+	(return-from outer final-schema)
 )
 )

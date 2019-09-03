@@ -45,8 +45,8 @@
 					; else
 					(progn
 					(format t "bound to ~s~%" (second formula))
-					(format t "bindings are ~s~%" new-bindings)
-					(if (and (canon-charstar? phi) (equal (section-type sec 'FLUENT)))
+					(format t "bindings are ~s~%" (ht-to-str new-bindings))
+					(if (and (canon-charstar? phi) (equal (section-type sec) 'FLUENT))
 						; then
 						; (format t "temporal formula ~s <-> ~s~%" (third phi) (car formula))
 						(if (bind-if-unbound (car formula) (third phi) new-bindings)
@@ -133,7 +133,15 @@
 					(if generalize
 						(progn
 						(format t "generalizing~%")
+
 						(setf gen-cursor "?_A")
+						; Advance the cursor until it's no longer in the schema.
+						; We'll assume all underscore-prefixed variable names will
+						; be added here and only here, and thus in order.
+						(loop while (has-element go-match-schema (intern gen-cursor))
+							do (format t "advancing cursor (~s is present)~%" gen-cursor)
+							do (setf gen-cursor (next-str gen-cursor)))
+
 						(loop for ind in small-inds do (block gen-ind-loop
 							(setf go-match-schema (replace-vals ind (intern gen-cursor) go-match-schema))
 							(setf gen-cursor (next-str gen-cursor))

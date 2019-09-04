@@ -307,7 +307,7 @@
 		; then
 		(progn
 		(dbg 'unify "modifier lists cannot be unified (not enough predicate modifiers in the latter~%")
-		(return-from outer (list nil nil))
+		(return-from outer (list nil (make-hash-table :test #'equal)))
 		)
 	)
 
@@ -333,7 +333,7 @@
 		; then
 		(progn
 		(dbg 'unify "modifier lists cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%")
-		(return-from outer (list nil nil))
+		(return-from outer (list nil (make-hash-table :test #'equal)))
 		)
 	)
 
@@ -380,6 +380,7 @@ bind-pred
 	(dbg 'unify "schema args are ~s~%" schema-args)
 	(if (and
 			(equal schema-pred 'DO.V)
+			(lex-verb? story-pred)
 			(equal 1 (length schema-args))
 			(varp (car schema-args))
 		)

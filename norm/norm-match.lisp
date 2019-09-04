@@ -92,28 +92,40 @@
 ;
 ; If the "generalize" argument is non-nil, all individual constants in the
 ; schema are replaced by variables.
-(defun match-story-to-schema (test-story in-schema generalize)
+(defun match-story-to-schema (story-formulas in-schema generalize)
 (block outer
 	(setf test-schema in-schema)
 
-	(loop for sent in test-story do
-		(loop for phi in sent do (block uni-loop
-	
+	(setf all-small-inds (list))
+
+	(setf all-bindings (make-hash-table :test #'equal))
+	(setf total-matches 0)
+
+	; (setf story-formulas (linearize-story story))
+
+	(loop for phi in story-formulas do (block uni-loop
 			(setf small-inds (extract-small-individuals phi))
-			(setf constraints (story-select-term-constraints test-story small-inds))
+			(setf all-small-inds (remove-duplicates (union small-inds all-small-inds) :test #'equal))
+			(setf constraints (story-select-term-constraints story-formulas small-inds))
 	
 			(format t "trying:~%")
 			(format t "	formula ~s~%" phi)
-			(setf go-match (unify-with-schema phi test-schema test-story))
+			(setf go-match (unify-with-schema phi test-schema story-formulas))
 	
 			(if (not (null go-match))
 				; then
 				(block print-go-match
 					(format t "bound to story formula ~s~%" phi)
+					(setf total-matches (+ total-matches 1))
 					; (format t "Extra constraints: ~s~%" constraints)
+
+					; Accumulate all bindings
+					(loop for key being the hash-keys of go-match
+						do (setf (gethash key all-bindings) (gethash key go-match))
+					)
 	
 					(setf go-match-schema (apply-bindings test-schema go-match))
-	
+
 					; Make sure the full matched sentence goes in the step slot
 					(setf new-steps (list ':Steps))
 					(loop for s in (cdr (get-section go-match-schema ':Steps)) do (block fix-steps
@@ -128,6 +140,14 @@
 					(loop for const in constraints do (block const-add
 						(setf go-match-schema (add-role-constraint go-match-schema const))
 					))
+					; (format t "test-schema match + generalization:~%~s~%" "")
+					; (print-schema go-match-schema)
+					; (return-from outer go-match-schema)
+					(setf test-schema go-match-schema)
+				)
+			)
+		))
+
 
 					; Now replace terms by variables
 					(if generalize
@@ -138,24 +158,19 @@
 						; Advance the cursor until it's no longer in the schema.
 						; We'll assume all underscore-prefixed variable names will
 						; be added here and only here, and thus in order.
-						(loop while (has-element go-match-schema (intern gen-cursor))
+						(loop while (has-element test-schema (intern gen-cursor))
 							do (format t "advancing cursor (~s is present)~%" gen-cursor)
 							do (setf gen-cursor (next-str gen-cursor)))
 
-						(loop for ind in small-inds do (block gen-ind-loop
-							(setf go-match-schema (replace-vals ind (intern gen-cursor) go-match-schema))
+						(loop for ind in all-small-inds do (block gen-ind-loop
+							(setf test-schema (replace-vals ind (intern gen-cursor) test-schema))
 							(setf gen-cursor (next-str gen-cursor))
 						))
 						)
 					)
-					; (format t "test-schema match + generalization:~%~s~%" "")
-					; (print-schema go-match-schema)
-					; (return-from outer go-match-schema)
-					(setf test-schema go-match-schema)
-				)
-			)
-		))
-	)
+
+	(format t "all bindings: ~s~%" (ht-to-str all-bindings))
+	(format t "total matches: ~s~%" total-matches)
 
 	(return-from outer test-schema)
 )

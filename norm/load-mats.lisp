@@ -1,0 +1,5 @@
+(load "bitcode")
+(load "fast-multiply")
+(load "allen-constraint-prop")
+(load "metric-constraint-prop")
+(initialize-allen-arrays)

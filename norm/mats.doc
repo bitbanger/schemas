@@ -1,0 +1,262 @@
+		       Metric/Allen Time System
+				 MATS
+				   
+			    Documentation
+				   
+			       7/13/91
+				   
+			     Henry Kautz
+			AT&T Bell Laboratories
+			Murray Hill, NJ 07974
+			kautz@research.att.com
+
+			 Copyright AT&T 1991
+
+				   
+				   
+MATS is a Common Lisp program which solves temporal constraint
+problems.  Input constraints are either difference inequalities (on
+the endpoints of named intervals) or Allen-style qualitative
+constraints (on named intervals).  The program then propagates the
+constraints and computes the range of permissible values for each
+variable; that is (1) numeric ranges on each endpoint and difference
+of endpoints, and (2) possible Allen relationships between each pair
+of intervals.  
+
+For a description of the theory behind the system see
+"Integrating Metric and Qualitative Temporal Constraints", by Henry
+Kautz and Peter Ladkin (in Proceedings of AAAI-91).
+
+1.  Installation
+
+The distribution of MATS contains 6 files:
+
+allen-constraint-prop.lisp	fast-multiply.lisp
+bitcode.lisp			load-mats.lisp
+compile-mats.lisp		metric-constraint-prop.lisp
+
+Compile the system by loading the file "compile-mats.lisp".
+Load the system by loading the file "load-mats.lisp".
+
+
+2.  Starting a Session
+
+The following function must be executed to initialized the system:
+
+(initialize-allen-arrays)			[function]
+
+IMPORTANT:  if this is not done, MATS will not return any error
+messages, but its output will be nonsense!  The file "load-mats.lisp"
+calls this function after loading the system.
+
+(clear)						[function]
+
+resets the system, erasing all constraints.  This function should be
+called before each new problem is entered (including the first).
+
+An interval name is simply a Lisp symbol.  The system creates a new
+interval whenever a new name is recognized.  The user, however, can
+explicitly declare a set of interval names before using them, in order
+to control the order in which information about the intervals is
+output.
+
+(intervals INTERVAL* )				[macro]
+
+For example: (intervals wake sleep run)
+
+The following variables control execution of the system:
+	
+amode						[variable]
+	If t (default) perform qualitative reasoning.
+	
+mmode						[variable]
+	If t (default) perform metric reasoning.
+
+noisy						[variable]
+	If t (default) print extensive tracing information.
+	If nil don't print tracing information.
+	If a list of symbols, print only tracing information
+		indexed by that symbol (see "noisy-values").
+
+noisy-values					[variable]
+	Set by the system to a list of symbols used to index
+	tracing information.  To update this list, first set
+	NOISY-VALUES to NIL, set NOISY to t, and then run the
+	system.
+
+
+3.  Entering Allen Constraints
+
+The following names are used for the 13 Allen relations:
+
+	=	equals 
+	d	during (proper)
+	di	contains (proper)
+	s	starts
+	si	started-by
+	f	finishes
+	fi	finished-by
+	p	precedes (before)
+	pi	preceded by (after)
+	m	meets
+	mi	met-by
+	o	overlaps
+	oi	overlapped-by
+
+The system also understands the following abbreviations:
+
+	any		= d di s si f fi p pi m mi o oi
+	during		d s f
+	contains 	di si fi
+	disjoint	p m mi pi
+	b		p
+	a		pi
+	c		di
+	e		=
+	<		p
+	>		pi
+	(not r1 ...)	every relation other than (r1 ...).
+			E.g., (not p m) = (= di s si f fi pi mi o oi)
+	(~ r1 ...)	same as (not r1 ...)
+
+Note: the symbols p, pi, and di are used by Ladkin; the symbols <, >, and
+c were used by Allen.  
+
+An Allen relation is either one of the symbols above or a list of such
+symbols (representing their disjunction).  Allen constraints are added
+by the following form:
+
+(asserta INTERVAL1 ALLEN-RELATION INTERVAL2)		[macro]
+
+For example, the following are all legal:
+	(asserta sleep p wake)
+	(asserta sleep (p) wake)
+	(asserta eat disjoint drink)
+	(asserta run (p m o) jump)
+
+There is also a functional form of this command:
+
+(allen-assert INTERVAL1 ALLEN-RELATION INTERVAL2)	[function]
+For example:
+	(allen-assert 'run '(p m o) 'jump)
+
+
+4.  Entering Metric Constraints
+
+Metric constraints take the form of difference inequalities on point
+forms.  A point form is the function LEFT or RIGHT followed by the
+name of an interval.  The following form adds metric constraints:
+
+(assertm &rest INEQUALITY-FORM)				[macro]
+
+There are 3 general form of an inequality, where M and N are fixnum
+integers, P1, P2 are point forms, I is an interval name, {} indicates
+an optional component, [] a mandatory component, and | choice:
+
+	{ M [ < | <= ] } P1 		{ [ < | <= ] N }
+	{ M [ < | <= ] } P1  - P2  	{ [ < | <= ] N }
+	{ M [ < | <= ] } duration I 	{ [ < | <= ] N }
+
+
+
+The following are all legal inequality forms:
+
+	-4 < left sleep - right wake < 8
+	left sleep <= 9
+	-1 <= left sleep - left dream <= -1
+	3 <= duration dream
+
+The following are all illegal:
+
+	8 > left sleep - right wake > -4
+	left sleep < right wake
+	right sleep <= 3.75
+	3 <= duration dream - duration snore
+
+Future releases of the system may include a more general parser for
+inequality forms, but all the legal forms above will always be
+supported.
+
+There is also a functional form of this command whose argument is
+evaluated to yield a list containing an inequality form:
+
+(metric-assert INEQUALITY-FORM)				[function]
+
+
+5.  Inference and Output
+
+As constraints are input they are entered into MATS's data structures,
+but no constraint propagation occurs until the following function is
+called:
+
+(allen-reduce)						[function]
+
+This command repeatedly performs the following operations, until 
+no more changes occur:
+	1.  Reduce the Allen network by path-consistency
+	2.  Pass constraints from the Allen to metric network
+	3.  Reduce the metric network by the shortest-paths algorithm
+	4.  Pass constraints from the metric to Allen network
+
+The following functions display the current state of the temporal data
+base.  Note that MATS does not have function to compute a particular
+model of the constraints; instead, it computes the "tightest"
+constraints on each interval which are implied by the input.
+
+(ahow &rest ARGUMENTS)					[macro]
+
+Display information about the Allen network.  The arguments can be of
+any of the following forms:
+
+	(ahow INTERVAL1 INTERVAL2) -- print the Allen constraint
+		between the two intervals.  For example, 
+		(ahow run jump) prints
+
+		RUN (P M O) JUMP
+	
+	(ahow INTERVAL) -- print the Allen constraint between INTERVAL
+		and every other interval, except for those constraints
+		which are simply ANY relation.
+
+	(ahow) -- print the Allen constraints between every pair of
+		intervals, except for those constraints which are 
+		simply ANY relation.
+
+
+(mhow &rest ARGUMENTS)					[macro]
+
+Display information about the metric network.  The arguments can be of
+any of the following forms:
+
+	(mhow POINT1 POINT2)  -- print the constraint on POINT1 - POINT2.
+		For example:  (ahow left sleep right wake) prints
+
+		-4 < left SLEEP - right WAKE < 8
+
+	(mhow POINT)  -- print the constraint on the absolute position
+		of POINT.  For example: (ahow right sleep) prints
+
+		? < right SLEEP <= 3
+
+	(mhow INTERVAL) -- print out the metric constraints on the
+		the duration of INTERVAL and on the absolute positions
+		of both endpoints.  For example: (mhow dream) prints
+
+		3 <= duration DREAM < ?
+		? < left DREAM <= 9
+		? < right DREAM < ?
+
+	(mhow INTERVAL1 INTERVAL2) -- print out the constraints on the
+		difference of each endpoint of INTERVAL1 with each
+		endpoint of INTERVAL2.
+
+	(mhow) -- print out a table describing all the metric
+		constraints between every pair of points.
+
+
+6.  Inconsistency
+
+When MATS determines that the input set of constraints is inconsistent
+it simply prints an error message and halts.  The user should (clear)
+the system before continuing.  The current version of MATS does not
+include any facility for withdrawing constraints.

@@ -624,3 +624,59 @@ is replaced with replacement."
 		(cdr lst)
 	)
 )
+
+(defun first-n (lst n)
+(cond
+	((< n 0) nil)
+	((equal n 0) nil)
+	((null lst) nil)
+	(t (append (list (car lst))
+			(first-n (cdr lst) (- n 1))))
+)
+)
+
+(defun last-n (lst n)
+(cond
+	((< n 0) nil)
+	((equal n 0) nil)
+	((null lst) nil)
+	((>= n (length lst)) lst)
+	(t (last-n (cdr lst) n))
+)
+)
+
+(defun remove-nth (lst n)
+	(append
+		(first-n lst n)
+		(last-n lst (- (- (length lst) n) 1))
+	)
+)
+
+(defun shuffle (lst)
+(let (old-lst new-lst)
+(block outer
+	(setf old-lst (copy-list lst))
+	(setf new-lst (list))
+
+	(loop while (> (length old-lst) 0)
+		do (block inner
+			(setf pick-n (random (length old-lst)))
+			(setf pick (nth pick-n old-lst))
+			(setf old-lst (remove-nth old-lst pick-n))
+			(setf new-lst (append new-lst (list pick)))
+		)
+	)
+
+	(return-from outer new-lst)
+)
+)
+)
+
+(defun subset (s1 s2)
+(and
+	(listp s1)
+	(listp s2)
+	(loop for e in s1
+		always (member e s2 :test #'equal))
+)
+)

@@ -252,9 +252,8 @@
 	)
 (block outer
 	; Index the story into the knowledge base
-	(loop for sent in story do
-		(loop for wff in sent
-			do (add-to-kb wff gen-kb)))
+	(loop for wff in story
+		do (add-to-kb wff gen-kb))
 
 	; Reindex only small individuals by only non-lambda,
 	; non-temporal constraints
@@ -383,4 +382,9 @@
 
 	(return-from outer final-schema)
 )
+)
+
+(defun linearize-story (story)
+	(loop for sent in story
+		append sent)
 )

@@ -388,3 +388,44 @@
 	(loop for sent in story
 		append sent)
 )
+
+; check-temporal-constraints takes a schema match and verifies
+; the consistency of each of its temporal constraints with the
+; temporal information extracted from the story.
+; NOTE: before calling check-temporal-constraints, make sure
+; you've called load-time-model with the story's temporal
+; model! See norm-time.lisp for more information on loading the
+; time model into the Allen Interval Algebra solver.
+(defun check-temporal-constraints (schema-match)
+(block outer
+	(setf trues 0)
+	(setf falses 0)
+
+	(loop for ep-rel in (section-formulas (get-section schema-match ':Episode-relations))
+		do (block ep-rel-loop
+			(setf allen-rel (convert-time-prop (second ep-rel)))
+	
+			(if (null allen-rel)
+				(return-from ep-rel-loop)
+			)
+	
+			; DEFINED-INTERVALS is a global variable defined by
+			; the Allen Interval Algebra solver.
+			(if (or (not (member (car allen-rel) DEFINED-INTERVALS :test #'equal))
+					(not (member (third allen-rel) DEFINED-INTERVALS :test #'equal)))
+				; then
+				(return-from ep-rel-loop)
+			)
+	
+			(if (eval-time-prop (second ep-rel))
+				; then
+				(setf trues (+ trues 1))
+				; else
+				(setf falses (+ falses 1))
+			)
+		)
+	)
+
+	(return-from outer (list trues falses))
+)
+)

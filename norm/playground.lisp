@@ -13,16 +13,6 @@
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema kite-gen-schema)
 
-(setf linear1 (linearize-story *MONKEY-STORY*))
-
-(format t "linearized: ~s~%" linear1)
-
-(setf linear1 (shuffle linear1))
-
-(setf monkey-match-1 (match-story-to-schema linear1 do_action_to_enable_action.v nil))
-
-(print-schema monkey-match-1)
-
 (load-time-model '(
 	(NOW0 STRICTLY-BEFORE.PR NOW1)
 	(NOW1 STRICTLY-BEFORE.PR NOW2)
@@ -35,24 +25,40 @@
 	(E5.SK CONSEC.PR E6.SK)
 ))
 
-(loop for ep-rel in (section-formulas (get-section monkey-match-1 ':Episode-relations))
-	do (block ep-rel-loop
-		(setf allen-rel (convert-time-prop (second ep-rel)))
+(setf linear1 (linearize-story *MONKEY-STORY*))
 
-		(if (null allen-rel)
-			(return-from ep-rel-loop)
+(setf scores (list))
+
+(setf best-score 0)
+(setf best-match nil)
+
+(loop for i from 1 to 20 do (block shuffle-block
+	
+	; (format t "linearized: ~s~%" linear1)
+		
+	(setf monkey-match-1 (match-story-to-schema linear1 do_action_to_enable_action.v nil))
+	
+	;(print-schema monkey-match-1)
+	
+	(setf score-pair (check-temporal-constraints monkey-match-1))
+	(setf score (- (car score-pair) (second score-pair)))
+	(format t "score: ~s~%" score)
+	(setf scores (append scores (list score)))
+
+	(if (or (null best-match) (> score best-score))
+		(progn
+			(setf best-score score)
+			(setf best-match monkey-match-1)
 		)
-
-		(if (or (not (member (car allen-rel) DEFINED-INTERVALS :test #'equal))
-				(not (member (third allen-rel) DEFINED-INTERVALS :test #'equal)))
-			; then
-			(return-from ep-rel-loop)
-		)
-
-		(format t "~s~%" (second ep-rel))
-		(format t "	~s~%" (eval-time-prop (second ep-rel)))
 	)
-)
+
+	(setf linear1 (shuffle linear1))
+))
+
+;(format t "scores:~%")
+;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
+(format t "best score: ~s~%" best-score)
+(print-schema best-match)
 
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))

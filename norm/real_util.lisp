@@ -8,6 +8,9 @@
 	;'cur1
 	;'unify
 	;'coref
+	'match
+	;'time
+	;'shuffle-match
 ))
 
 (defparameter *DBG-ALL* nil)

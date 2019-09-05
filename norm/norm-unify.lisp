@@ -380,7 +380,7 @@ bind-pred
 	(dbg 'unify "schema args are ~s~%" schema-args)
 	(if (and
 			(equal schema-pred 'DO.V)
-			(lex-verb? story-pred)
+			(and (lex-verb? story-pred) (not (lex-modal? story-pred)))
 			(equal 1 (length schema-args))
 			(varp (car schema-args))
 		)

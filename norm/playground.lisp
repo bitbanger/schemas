@@ -25,40 +25,12 @@
 	(E5.SK CONSEC.PR E6.SK)
 ))
 
-(setf linear1 (linearize-story *MONKEY-STORY*))
-
-(setf scores (list))
-
-(setf best-score 0)
-(setf best-match nil)
-
-(loop for i from 1 to 20 do (block shuffle-block
-	
-	; (format t "linearized: ~s~%" linear1)
-		
-	(setf monkey-match-1 (match-story-to-schema linear1 do_action_to_enable_action.v nil))
-	
-	;(print-schema monkey-match-1)
-	
-	(setf score-pair (check-temporal-constraints monkey-match-1))
-	(setf score (- (car score-pair) (second score-pair)))
-	(format t "score: ~s~%" score)
-	(setf scores (append scores (list score)))
-
-	(if (or (null best-match) (> score best-score))
-		(progn
-			(setf best-score score)
-			(setf best-match monkey-match-1)
-		)
-	)
-
-	(setf linear1 (shuffle linear1))
-))
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
-(format t "best score: ~s~%" best-score)
-(print-schema best-match)
+(setf best-match-res (best-story-schema-match *MONKEY-STORY* do_action_to_enable_action.v 100))
+(format t "best score: ~s~%" (car best-match-res))
+(print-schema (second best-match-res))
 
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))

@@ -74,7 +74,7 @@
 		(setf allen-rel (convert-time-prop rel))
 		(if (null allen-rel)
 			(progn
-				(format t "invalid temporal proposition ~s~%" rel)
+				(dbg 'time "invalid temporal proposition ~s~%" rel)
 				(return-from outer nil)
 			)
 		)
@@ -100,7 +100,7 @@
 
 	(if (not (time-pred? pred))
 		(progn
-			(format t "~s isn't a valid temporal predicate~%" pred)
+			(dbg 'time "~s isn't a valid temporal predicate~%" pred)
 			(return-from outer nil)
 		)
 	)
@@ -109,7 +109,7 @@
 
 	(if (not (equal 2 (length args)))
 		(progn
-			(format t "~s isn't a temporal predicate; has ~s args, but want 2" prop (length args))
+			(dbg 'time "~s isn't a temporal predicate; has ~s args, but want 2" prop (length args))
 			(return-from outer nil)
 		)
 	)
@@ -125,18 +125,18 @@
 	(setf allen-rel (convert-time-prop prop))
 	(if (null allen-rel)
 		(progn
-			(format t "invalid temporal proposition ~s~%" prop)
+			(dbg 'time "invalid temporal proposition ~s~%" prop)
 			(return-from outer nil)
 		)
 	)
 
 	; Evaluate the relationship in the time model.
-	; (format t "evaluating Allen rel ~s~%" allen-rel)
+	; (dbg 'time "evaluating Allen rel ~s~%" allen-rel)
 
 	(setf allen-result (second (allen-fhow (car args) (second args))))
 
-	(format t "allen result: ~s~%" allen-result)
-	(format t "allen rels: ~s~%" allen-rels)
+	(dbg 'time "allen result: ~s~%" allen-result)
+	(dbg 'time "allen rels: ~s~%" allen-rels)
 
 	(if (equal allen-result 'ANY)
 		; This doesn't confirm the proposition, but it doesn't

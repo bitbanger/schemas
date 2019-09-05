@@ -8,7 +8,7 @@
 	;'cur1
 	;'unify
 	;'coref
-	'match
+	;'match
 	;'time
 	;'shuffle-match
 ))

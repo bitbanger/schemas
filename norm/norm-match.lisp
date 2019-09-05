@@ -84,7 +84,7 @@
 ; apply-bindings-and-check applies the given bindings map
 ; to a schema, but checks that the schema's constraints are
 ; still satisfied when the substitutions are made.
-(defun apply-bindings-and-check (schema bindings)
+(defun apply-bindings-and-check (schema bindings story)
 	(apply-bindings schema bindings)
 )
 
@@ -131,7 +131,7 @@
 						do (setf (gethash key all-bindings) (gethash key go-match))
 					)
 	
-					(setf go-match-schema (apply-bindings-and-check test-schema go-match))
+					(setf go-match-schema (apply-bindings-and-check test-schema go-match story-formulas))
 
 					; Make sure the full matched sentence goes in the step slot
 					(setf new-steps (list ':Steps))

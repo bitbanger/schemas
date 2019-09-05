@@ -172,6 +172,71 @@
 )
 )
 
+; can-unify-episodes reports whether a schema episode variable, e.g.
+; ?E1, can be unified with a story episode constant, e.g. E1.SK.
+; It checks by finding the characterizing formulas for the story
+; and schema episodes and attempting to unify them with a list of
+; pre-existing bindings. If they can be unified, the new bindings
+; are returned; if they can't, nil is returned.
+(defun can-unify-episodes (schema-ep story-ep schema story bindings)
+(let (cur-bindings)
+(block outer
+
+	(setf schema-form nil)
+	(setf story-form nil)
+	(setf cur-bindings bindings)
+
+	(loop for var being the hash-keys of cur-bindings do (block const-loop
+		(dbg 'match "var is ~s~%" var)
+		(setf bindval (gethash var cur-bindings))
+		(dbg 'match "bind val is ~s~%" bindval)
+		(loop for phi in (linearize-story story) do (block story-loop
+			(if (and (canon-charstar? phi) (equal (third phi) bindval))
+				; then
+				(progn
+					(setf story-form (car phi))
+					(dbg 'match "	and story formula ~s characterizes it~%" (car phi))
+				)
+			)
+		))
+
+		(loop for form in (section-formulas (get-section schema ':Steps))
+			do (block schema-loop
+				(if (equal (car form) var)
+					; then
+					(progn
+						(setf schema-form (second form))
+						(dbg 'match "	and schema step ~s is getting bound~%" form)
+					)
+				)
+			)
+		)
+
+		(if (and (not (null schema-form)) (not (null story-form)))
+			; then
+			(progn
+			(dbg 'match "	can they unify?~%")
+			(setf new-bindings (unify schema-form story-form cur-bindings))
+			(if (not (null new-bindings))
+				; then
+				(progn
+				(dbg 'match "		YES!~%")
+				(setf cur-bindings new-bindings)
+				)
+				; else
+				(progn
+				(dbg 'match "		no :(~%")
+				(return-from outer nil)
+				)
+			)
+			)
+		)
+	))
+
+	(return-from outer cur-bindings)
+)
+)
+)
 
 (defun unify-individuals (schema story old-bindings)
 	;(check (canon-individual? schema))
@@ -182,6 +247,10 @@
 		; then
 		(return-from outer bindings)
 	)
+
+	; If the two individuals are episodes, we have to unify the
+	; characterizing formulas as well.
+	; (setf bindings (can-unify-episodes 
 
 	(if (or (and (null schema) (not (null story)))
 			(and (not (null schema)) (null story)))

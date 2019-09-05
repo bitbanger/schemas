@@ -34,7 +34,7 @@
 			(block uni
 				(dbg 'match "		schema ~s~%" (second formula))
 				;(dbg 'match "	~s~%" (second formula))
-				(setf new-bindings (unify (second formula) phi bindings))
+				(setf new-bindings (unify (second formula) phi bindings schema story))
 				; (dbg 'match "set bindings are ~s~%" (ht-to-str bindings))
 				; (setf (gethash bindings (car formula)) 
 				(if (null new-bindings)

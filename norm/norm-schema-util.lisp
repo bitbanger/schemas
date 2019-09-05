@@ -389,6 +389,20 @@
 		append sent)
 )
 
+(defun get-schema-ep-var-char (schema v)
+(block outer
+	(loop for sec in (fluent-sections schema)
+		do (loop for form in (section-formulas sec)
+			if (equal (car form) v) do (return-from outer (second form))
+		)
+	)
+)
+)
+
+(defun schema-ep-var? (schema v)
+	(not (null (get-schema-ep-var-char schema v)))
+)
+
 ; check-temporal-constraints takes a schema match and verifies
 ; the consistency of each of its temporal constraints with the
 ; temporal information extracted from the story.

@@ -18,18 +18,18 @@
 	)
 )
 
-(defun unify (schema story old-bindings)
+(defun unify (schema story old-bindings whole-schema whole-story)
 (block outer
 	(if (null old-bindings)
 		; then
-		(return-from outer (unify-props schema story (make-hash-table :test #'equal)))
+		(return-from outer (unify-props schema story (make-hash-table :test #'equal) whole-schema whole-story))
 	)
 
-	(return-from outer (unify-props schema story old-bindings))
+	(return-from outer (unify-props schema story old-bindings whole-schema whole-story))
 )
 )
 
-(defun unify-props (schema story old-bindings)
+(defun unify-props (schema story old-bindings whole-schema whole-story)
 	;(check (canon-prop? schema))
 	;(check (canon-prop? story))
 (let
@@ -42,15 +42,15 @@
 (block outer
 	; step 1: strip * and **
 	(if (canon-charstar? story)
-		(return-from outer (unify-props schema (car story) bindings))
+		(return-from outer (unify-props schema (car story) bindings whole-schema whole-story))
 	)
 	(if (canon-charstar? schema)
-		(return-from outer (unify-props (car schema) story bindings))
+		(return-from outer (unify-props (car schema) story bindings whole-schema whole-story))
 	)
 
 	; also strip nots
 	(if (and (equal (car story) 'NOT) (equal (car schema) 'NOT))
-		(return-from outer (unify-props (second schema) (second story)))
+		(return-from outer (unify-props (second schema) (second story) whole-schema whole-story))
 	)
 
 	(if (or (equal (car story) 'NOT) (equal (car schema) 'NOT))
@@ -80,7 +80,7 @@
 	)
 	(loop for schema-pre-arg in schema-pre-args
 		for story-pre-arg in story-pre-args do (block uargs
-			(setf bindings (unify-individuals schema-pre-arg story-pre-arg bindings))
+			(setf bindings (unify-individuals schema-pre-arg story-pre-arg bindings whole-schema whole-story))
 			(if (null bindings)
 				; then
 				(progn
@@ -102,7 +102,7 @@
 	 ;(dbg 'unify "is pred? ~s~%" (canon-pred? packaged-schema-pred))
 	 ;(dbg 'unify "packaged story pred: ~s~%" packaged-story-pred)
 	 ;(dbg 'unify "is pred? ~s~%" (canon-pred? packaged-story-pred))
-	(setf bindings (unify-preds packaged-schema-pred packaged-story-pred bindings))
+	(setf bindings (unify-preds packaged-schema-pred packaged-story-pred bindings whole-schema whole-story))
 	; (dbg 'unify "packaged schema pred: ~s~%" packaged-schema-pred)
 	; (if (not (unify-preds packaged-schema-pred packaged-story-pred bindings))
 	(if (null bindings)
@@ -123,7 +123,7 @@
 )
 
 
-(defun unify-mods (schema story old-bindings)
+(defun unify-mods (schema story old-bindings whole-schema whole-story)
 	;(check (canon-mod? schema))
 	;(check (canon-mod? story))
 (let ((bindings (ht-copy old-bindings)))
@@ -160,7 +160,7 @@
 	; try to unify the predicates.
 	(if (equal (car schema) (car story))
 		; then
-		(return-from outer (unify-preds (second schema) (second story) bindings))
+		(return-from outer (unify-preds (second schema) (second story) bindings whole-schema whole-story))
 		; else
 		(progn
 		(dbg 'unify "predicate modifiers ~s and ~s cannot be unified (type-shifters match, but not preds inside)~%" schema story)
@@ -186,59 +186,48 @@
 	(setf story-form nil)
 	(setf cur-bindings bindings)
 
-	(loop for var being the hash-keys of cur-bindings do (block const-loop
-		(dbg 'match "var is ~s~%" var)
-		(setf bindval (gethash var cur-bindings))
-		(dbg 'match "bind val is ~s~%" bindval)
-		(loop for phi in (linearize-story story) do (block story-loop
-			(if (and (canon-charstar? phi) (equal (third phi) bindval))
+		(dbg 'unify "var is ~s~%" schema-ep)
+		(setf schema-form (get-schema-ep-var-char schema schema-ep))
+		(dbg "	and schema formula ~s characterizes it~%" schema-form)
+
+		(dbg 'unify "story ep is ~s~%" story-ep)
+		(loop for phi in story do (block story-loop
+			; (dbg 'unify "phi is ~s~%" phi)
+			(if (and (canon-charstar? phi) (equal (third phi) story-ep))
 				; then
 				(progn
 					(setf story-form (car phi))
-					(dbg 'match "	and story formula ~s characterizes it~%" (car phi))
+					(dbg 'unify "	and story formula ~s characterizes it~%" (car phi))
 				)
 			)
 		))
 
-		(loop for form in (section-formulas (get-section schema ':Steps))
-			do (block schema-loop
-				(if (equal (car form) var)
-					; then
-					(progn
-						(setf schema-form (second form))
-						(dbg 'match "	and schema step ~s is getting bound~%" form)
-					)
-				)
-			)
-		)
-
 		(if (and (not (null schema-form)) (not (null story-form)))
 			; then
 			(progn
-			(dbg 'match "	can they unify?~%")
-			(setf new-bindings (unify schema-form story-form cur-bindings))
+			(dbg 'unify "	can they unify?~%")
+			(setf new-bindings (unify schema-form story-form cur-bindings schema story))
 			(if (not (null new-bindings))
 				; then
 				(progn
-				(dbg 'match "		YES!~%")
+				(dbg 'unify "		YES!~%")
 				(setf cur-bindings new-bindings)
 				)
 				; else
 				(progn
-				(dbg 'match "		no :(~%")
+				(dbg 'unify "		no :(~%")
 				(return-from outer nil)
 				)
 			)
 			)
 		)
-	))
 
 	(return-from outer cur-bindings)
 )
 )
 )
 
-(defun unify-individuals (schema story old-bindings)
+(defun unify-individuals (schema story old-bindings whole-schema whole-story)
 	;(check (canon-individual? schema))
 	;(check (canon-individual? story))
 (let ((bindings (ht-copy old-bindings)))
@@ -250,7 +239,20 @@
 
 	; If the two individuals are episodes, we have to unify the
 	; characterizing formulas as well.
-	; (setf bindings (can-unify-episodes 
+	(if (and (varp schema) (schema-ep-var? whole-schema schema) (canon-small-individual? story))
+		; then
+		(progn
+		(dbg 'unify "unifying eps ~s and ~s~%" schema story)
+		(setf bindings (can-unify-episodes schema story whole-schema whole-story bindings))
+		(if (null bindings)
+			; then
+			(progn
+			(dbg 'unify "individuals ~s and ~s cannot be unified~%" schema story)
+			(return-from outer nil)
+			)
+		)
+		)
+	)
 
 	(if (or (and (null schema) (not (null story)))
 			(and (not (null schema)) (null story)))
@@ -326,23 +328,23 @@
 	(cond
 		((and (equal 'K (car schema)) (equal 'K (car story)))
 			; K
-			(return-from outer (unify-preds (second schema) (second story) bindings))
+			(return-from outer (unify-preds (second schema) (second story) bindings whole-schema whole-story))
 		)
 		((and (equal 'KA (car schema)) (equal 'KA (car story)))
 			; KA
-			(return-from outer (unify-preds (second schema) (second story) bindings))
+			(return-from outer (unify-preds (second schema) (second story) bindings whole-schema whole-story))
 		)
 		((and (equal 'KE (car schema)) (equal 'KE (car story)))
 			; KE
-			(return-from outer (unify-props (second schema) (second story) bindings))
+			(return-from outer (unify-props (second schema) (second story) bindings whole-schema whole-story))
 		)
 		((and (equal 'THAT (car schema)) (equal 'THAT (car story)))
 			; THAT 
-			(return-from outer (unify-props (second schema) (second story) bindings))
+			(return-from outer (unify-props (second schema) (second story) bindings whole-schema whole-story))
 		)
 		((and (lex-p-arg? (car schema)) (lex-p-arg? (car story)))
 			; P-ARG 
-			(return-from outer (unify-individuals (second schema) (second story) bindings))
+			(return-from outer (unify-individuals (second schema) (second story) bindings whole-schema whole-story))
 		)
 		(t
 			(progn
@@ -355,11 +357,11 @@
 )
 )
 
-(defun unify-mod-lists (schema-mods story-mods old-bindings)
-	(second (expl-unify-mod-lists schema-mods story-mods old-bindings))
+(defun unify-mod-lists (schema-mods story-mods old-bindings whole-schema whole-story)
+	(second (expl-unify-mod-lists schema-mods story-mods old-bindings whole-schema whole-story))
 )
 
-(defun expl-unify-mod-lists (schema-mods story-mods old-bindings)
+(defun expl-unify-mod-lists (schema-mods story-mods old-bindings whole-schema whole-story)
 (let (
 	(bindings (ht-copy old-bindings))
 	(bound (list))
@@ -383,7 +385,7 @@
 	(setf tmp-bindings (ht-copy bindings))
 	(loop for schema-mod in schema-mods do (block umods-outer
 		(loop for story-mod in story-mods do (block umods-inner
-			(setf tmp-bindings2 (unify-mods schema-mod story-mod tmp-bindings))
+			(setf tmp-bindings2 (unify-mods schema-mod story-mod tmp-bindings whole-schema whole-story))
 			; If we find a unification, move on to the next
 			; schema predicate modifier.
 			(if (not (null tmp-bindings2))
@@ -413,7 +415,7 @@
 )
 
 
-(defun unify-preds (schema story old-bindings)
+(defun unify-preds (schema story old-bindings whole-schema whole-story)
 	;(check (canon-pred? schema))
 	;(check (canon-pred? story))
 (let (
@@ -458,7 +460,7 @@ bind-pred
 			(dbg 'unify "schema pred is ~s and story pred is ~s~%" schema story)
 			(dbg 'unify "schema mods are ~s and story mods are ~s~%" schema-mods story-mods)
 			(dbg 'unify "1 binding story pred ~s~%" story-pred)
-			(setf mod-bindings (expl-unify-mod-lists schema-mods story-mods bindings))
+			(setf mod-bindings (expl-unify-mod-lists schema-mods story-mods bindings whole-schema whole-story))
 			(setf mod-bound (car mod-bindings))
 			(setf mod-bindings (second mod-bindings))
 			(if (null mod-bindings)
@@ -506,7 +508,7 @@ bind-pred
 				)
 			)
 
-			(setf bindings (unify-individuals (second schema-pred) (second story-pred) bindings))
+			(setf bindings (unify-individuals (second schema-pred) (second story-pred) bindings whole-schema whole-story))
 			(if (null bindings)
 				; then
 				(progn
@@ -551,7 +553,7 @@ bind-pred
 	(loop for schema-arg in schema-args
 		for story-arg in story-args
 			do (block uargs
-				(setf tmp-bindings (unify-individuals schema-arg story-arg tmp-bindings))
+				(setf tmp-bindings (unify-individuals schema-arg story-arg tmp-bindings whole-schema whole-story))
 				(if (null tmp-bindings)
 					; then
 					(progn
@@ -566,7 +568,7 @@ bind-pred
 
 	; Unify all schema modifiers with some modifiers from the
 	; story predicate & accumulate bindings.
-	(setf tmp-bindings (unify-mod-lists schema-mods story-mods bindings))
+	(setf tmp-bindings (unify-mod-lists schema-mods story-mods bindings whole-schema whole-story))
 	(if (null tmp-bindings)
 		(progn
 		(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify all modifiers in the former with any in the latter)~%" schema story)

@@ -28,7 +28,7 @@
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
-(setf best-match-res (best-story-schema-match *MONKEY-STORY* do_action_to_enable_action.v 100))
+(setf best-match-res (best-story-schema-match *MONKEY-STORY* do_action_to_enable_action.v 20))
 (format t "best score: ~s~%" (car best-match-res))
 (print-schema (second best-match-res))
 

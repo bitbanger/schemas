@@ -13,17 +13,29 @@
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema (car kite-gen-schema))
 
-(load-time-model '(
+(format t "story:~%")
+(loop for sent in *MONKEY-STORY*
+	do (format t "	~s~%~%" sent))
+
+
+(setf story-time-props
+	(loop for phi in (linearize-story *MONKEY-STORY*)
+		if (time-prop? phi)
+			collect phi))
+
+; TODO: make these implicit somehow in AIA solver?
+(setf now-time-props '(
 	(NOW0 STRICTLY-BEFORE.PR NOW1)
 	(NOW1 STRICTLY-BEFORE.PR NOW2)
 	(NOW2 STRICTLY-BEFORE.PR NOW3)
-	(E1.SK AT-ABOUT.PR NOW0)
-	(E2.SK AT-ABOUT.PR NOW1)
-	(E2.SK CONSEC.PR E3.SK)
-	(E4.SK AT-ABOUT.PR NOW2)
-	(E5.SK AT-ABOUT.PR NOW3)
-	(E5.SK CONSEC.PR E6.SK)
+	(NOW3 STRICTLY-BEFORE.PR NOW4)
+	(NOW4 STRICTLY-BEFORE.PR NOW5)
+	(NOW5 STRICTLY-BEFORE.PR NOW6)
+	(NOW6 STRICTLY-BEFORE.PR NOW7)
+	(NOW7 STRICTLY-BEFORE.PR NOW8)
 ))
+
+(load-time-model (append story-time-props now-time-props))
 
 
 ;(format t "scores:~%")
@@ -35,9 +47,12 @@
 	(setf best-match (second best-match-res-pair))
 	(setf best-bindings (third best-match-res-pair))
 	(format t "best score for ~s: ~s~%" protoschema best-score)
-	(print-schema best-match)
+	; (print-schema best-match)
+	; (format t "deduped:~%")
+	(print-schema (dedupe-sections best-match))
+	(format t "~%")
 
-	(format t "bindings: ~s~%" (ht-to-str best-bindings))
+	; (format t "bindings: ~s~%" (ht-to-str best-bindings))
 
 	;(loop for var being the hash-keys of best-bindings do (block binding-loop
 	;	(format 

@@ -463,3 +463,22 @@
 	(return-from outer (list trues falses))
 )
 )
+
+(defun dedupe-sections (schema)
+(block outer
+	(setf deduped-schema schema)
+	(loop for sec in (nonfluent-sections schema) do (block sec-loop
+		(setf new-sec (list (section-name sec)))
+		(setf deduped-constrs (remove-duplicates (mapcar #'second (section-formulas sec)) :test #'equal))
+
+		; Blank out the section in the schema and
+		; add the constraints back in one by one
+		(setf deduped-schema (set-section deduped-schema (section-name sec) (list (section-name sec))))
+		(loop for constr in deduped-constrs
+			do (setf deduped-schema (add-constraint deduped-schema (section-name sec) constr))
+		)
+	))
+
+	(return-from outer deduped-schema)
+)
+)

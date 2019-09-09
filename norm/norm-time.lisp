@@ -120,6 +120,10 @@
 )
 )
 
+(defun time-prop? (p)
+	(not (null (convert-time-prop p)))
+)
+
 (defun eval-time-prop (prop)
 (block outer
 	(setf allen-rel (convert-time-prop prop))

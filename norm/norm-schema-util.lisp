@@ -188,17 +188,35 @@
 )
 )
 
+(defun add-constraint (schema sec-name constraint)
+(block outer
+	(if (null (member sec-name *SEC-NAMES* :test #'equal))
+		; then
+		(progn
+		(error "Cannot add constraint: invalid section name ~s~%" sec-name)
+		(return-from outer nil)
+		)
+	)
+
+	(setf const-num (- (length (get-section schema sec-name)) 1))
+	(setf new-const (list (intern (format nil "~a~d" (sec-formula-prefix sec-name) (+ const-num 1))) constraint))
+	(setf new-sec (append (get-section schema sec-name) (list new-const)))
+	(return-from outer (set-section schema sec-name new-sec))
+)
+)
+
 ; add-role-constraint adds a nonfluent condition to the schema with a unique
 ; metavariable.
 (defun add-role-constraint (schema constraint)
-(let (new-roles role-num new-role)
-(block outer
-	(setf role-num (- (length (get-section schema ':Roles)) 1))
-	(setf new-role (list (intern (format nil "!R~d" (+ role-num 1))) constraint))
-	(setf new-roles (append (get-section schema ':Roles) (list new-role)))
-	(return-from outer (set-section schema ':Roles new-roles))
-)
-)
+;(let (new-roles role-num new-role)
+;(block outer
+;	(setf role-num (- (length (get-section schema ':Roles)) 1))
+;	(setf new-role (list (intern (format nil "!R~d" (+ role-num 1))) constraint))
+;	(setf new-roles (append (get-section schema ':Roles) (list new-role)))
+;	(return-from outer (set-section schema ':Roles new-roles))
+;)
+;)
+	(add-constraint schema ':Roles constraint)
 )
 
 ; apply-bindings returns a schema where all variables have been replaced with

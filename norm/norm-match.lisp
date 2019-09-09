@@ -145,7 +145,12 @@
 					(setf go-match-schema (set-section go-match-schema ':Steps new-steps))
 	
 					(loop for const in constraints do (block const-add
-						(setf go-match-schema (add-role-constraint go-match-schema const))
+						(if (time-prop? const)
+							; then
+							(setf go-match-schema (add-constraint go-match-schema ':Episode-relations const))
+							; else
+							(setf go-match-schema (add-role-constraint go-match-schema const))
+						)
 					))
 					; (dbg 'match "test-schema match + generalization:~%~s~%" "")
 					; (print-schema go-match-schema)
@@ -179,7 +184,7 @@
 	(dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
 	(dbg 'match "total matches: ~s~%" total-matches)
 
-	(return-from outer test-schema)
+	(return-from outer (list test-schema all-bindings))
 )
 )
 
@@ -187,6 +192,7 @@
 (block outer
 	(setf best-score 0)
 	(setf best-match nil)
+	(setf best-bindings nil)
 
 	(setf linear-story (linearize-story story))
 
@@ -199,7 +205,10 @@
 			)
 		)
 			
-		(setf cur-match (match-story-to-schema linear-story schema nil))
+		(setf cur-match-pair (match-story-to-schema linear-story schema nil))
+		(setf cur-match (car cur-match-pair))
+		(setf cur-bindings (second cur-match-pair))
+		
 		
 		;(print-schema cur-match)
 		
@@ -211,12 +220,13 @@
 			(progn
 				(setf best-score score)
 				(setf best-match cur-match)
+				(setf best-bindings cur-bindings)
 			)
 		)
 	
 		(setf linear-story (shuffle linear-story))
 	))
 
-	(return-from outer (list best-score best-match))
+	(return-from outer (list best-score best-match best-bindings))
 )
 )

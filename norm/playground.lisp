@@ -11,7 +11,7 @@
 (load "norm-time.lisp")
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
-;(print-schema kite-gen-schema)
+;(print-schema (car kite-gen-schema))
 
 (load-time-model '(
 	(NOW0 STRICTLY-BEFORE.PR NOW1)
@@ -29,9 +29,19 @@
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
 (loop for protoschema in *PROTOSCHEMAS* do (block match-proto
-	(setf best-match-res (best-story-schema-match *MONKEY-STORY* (eval protoschema) 20))
-	(format t "best score for ~s: ~s~%" protoschema (car best-match-res))
-	(print-schema (second best-match-res))
+	(setf best-match-res-pair (best-story-schema-match *MONKEY-STORY* (eval protoschema) 20))
+	(setf best-match-res (car best-match-res-pair))
+	(setf best-score (car best-match-res-pair))
+	(setf best-match (second best-match-res-pair))
+	(setf best-bindings (third best-match-res-pair))
+	(format t "best score for ~s: ~s~%" protoschema best-score)
+	(print-schema best-match)
+
+	(format t "bindings: ~s~%" (ht-to-str best-bindings))
+
+	;(loop for var being the hash-keys of best-bindings do (block binding-loop
+	;	(format 
+	;))
 ))
 
 ; (ahow)

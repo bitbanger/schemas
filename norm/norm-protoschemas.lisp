@@ -1,3 +1,13 @@
+(defparameter *PROTOSCHEMAS* '(
+	do_action_for_pleasure.v
+	avoid_action_to_avoid_displeasure.v
+	do_action_to_enable_action.v
+	use_tool.v
+	give_object.v
+	take_object.v
+	go_somewhere.v
+))
+
 (defparameter do_action_for_pleasure.v
 	'(epi-schema ((?x do_action_for_pleasure.v ?a) ** ?e)
 		(:Roles
@@ -38,8 +48,7 @@
 		)
 
 		(:Preconds
-			(!i1 (if (?x (do.v ?a))
-						(?x (experience.v ?d))))
+			(!i1 ((ke (?x (do.v ?a))) cause.v (ke (?x (experience.v ?d)))))
 		)
 
 		(:Steps
@@ -112,8 +121,8 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time.a ?e2))
-			(!w2 (?e1 same-time.a ?e3))
+			(!w1 (?e1 same-time.pr ?e2))
+			(!w2 (?e1 same-time.pr ?e3))
 		)
 	)
 )
@@ -176,8 +185,8 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time.a ?e2))
-			(!w2 (?e1 same-time.a ?e3))
+			(!w1 (?e1 same-time.pr ?e2))
+			(!w2 (?e1 same-time.pr ?e3))
 		)
 	)
 )
@@ -215,9 +224,9 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time.a ?e2))
-			(!w2 (?e1 same-time.a ?e3))
-			(!w3 (?e1 same-time.a ?e4))
+			(!w1 (?e1 same-time.pr ?e2))
+			(!w2 (?e1 same-time.pr ?e3))
+			(!w3 (?e1 same-time.pr ?e4))
 		)
 	)
 )

@@ -28,9 +28,11 @@
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
-(setf best-match-res (best-story-schema-match *MONKEY-STORY* do_action_to_enable_action.v 20))
-(format t "best score: ~s~%" (car best-match-res))
-(print-schema (second best-match-res))
+(loop for protoschema in *PROTOSCHEMAS* do (block match-proto
+	(setf best-match-res (best-story-schema-match *MONKEY-STORY* (eval protoschema) 20))
+	(format t "best score for ~s: ~s~%" protoschema (car best-match-res))
+	(print-schema (second best-match-res))
+))
 
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))

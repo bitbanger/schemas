@@ -101,7 +101,9 @@
 
 ; section-formulas returns all conditions from a schema section.
 (defun section-formulas (sec)
-(progn
+(block outer
+	(if (null sec)
+		(return-from outer nil))
 	(check #'schema-section? sec)
 	(cdr sec)
 )

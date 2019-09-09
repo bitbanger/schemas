@@ -28,7 +28,7 @@
 (defun unify-with-schema (phi schema story)
 (let (bindings)
 (block outer
-	(loop for sec in (schema-sections schema)
+	(loop for sec in (nonmeta-sections schema)
 		do (dbg 'match "	schema sec ~s~%" (section-name sec))
 		do (loop for formula in (section-formulas sec) do
 			(block uni
@@ -233,7 +233,7 @@
 		(block gen-block
 			(setf story-formulas (linearize-story story))
 			(setf all-small-inds (list))
-			(loop for sec in (schema-sections best-match)
+			(loop for sec in (nonmeta-sections best-match)
 				do (block ll1
 					(loop for phi in (mapcar #'second (section-formulas sec))
 						do (block ll2

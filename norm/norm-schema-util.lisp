@@ -10,6 +10,8 @@
 	:Paraphrases
 	:Steps
 	:Episode-relations
+	:Certainties
+	:Necessities
 ))
 
 ; sec-formula-prefix tells you the prefix for condition
@@ -35,6 +37,10 @@
 			(return-from outer "?E"))
 		((equal sec-name ':Episode-relations)
 			(return-from outer "!W"))
+		((equal sec-name ':Certainties)
+			(return-from outer "!C"))
+		((equal sec-name ':Necessities)
+			(return-from outer "!N"))
 		(t
 			(return-from outer nil))
 	)
@@ -119,7 +125,12 @@
 		; then
 		'NONFLUENT
 		; else
-		'FLUENT
+		(if (fluent-cond? (car (section-formulas sec)))
+			; then
+			'FLUENT
+			; else
+			'META
+		)
 	)
 )
 )
@@ -141,6 +152,15 @@
 	(check #'schema? schema)
 	(cddr schema)
 )
+)
+
+(defun nonmeta-sections (schema)
+	(loop for sec in (schema-sections schema)
+		if (or (equal (section-type sec) 'NONFLUENT)
+			   (equal (section-type sec) 'FLUENT))
+			; then
+			collect sec
+	)
 )
 
 (defun nonfluent-sections (schema)

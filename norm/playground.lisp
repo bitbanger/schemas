@@ -13,13 +13,15 @@
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema (car kite-gen-schema))
 
+(setf story *MONKEY-STORY*)
+
 (format t "story:~%")
-(loop for sent in *MONKEY-STORY*
+(loop for sent in story
 	do (format t "	~s~%~%" sent))
 
 
 (setf story-time-props
-	(loop for phi in (linearize-story *MONKEY-STORY*)
+	(loop for phi in (linearize-story story)
 		if (time-prop? phi)
 			collect phi))
 
@@ -41,16 +43,16 @@
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
 (loop for protoschema in *PROTOSCHEMAS* do (block match-proto
-	(setf best-match-res-pair (best-story-schema-match *MONKEY-STORY* (eval protoschema) 20))
+	(setf best-match-res-pair (best-story-schema-match story (eval protoschema) 60 t))
 	(setf best-match-res (car best-match-res-pair))
 	(setf best-score (car best-match-res-pair))
 	(setf best-match (second best-match-res-pair))
 	(setf best-bindings (third best-match-res-pair))
-	(format t "best score for ~s: ~s~%" protoschema best-score)
+	(format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
 	; (print-schema best-match)
 	; (format t "deduped:~%")
 	(print-schema (dedupe-sections best-match))
-	(format t "~%")
+	(format t "~%~%~%")
 
 	; (format t "bindings: ~s~%" (ht-to-str best-bindings))
 

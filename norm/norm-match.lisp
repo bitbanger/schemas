@@ -188,7 +188,7 @@
 )
 )
 
-(defun best-story-schema-match (story schema num_shuffles)
+(defun best-story-schema-match (story schema num_shuffles generalize)
 (block outer
 	(setf best-score 0)
 	(setf best-match nil)
@@ -226,6 +226,39 @@
 	
 		(setf linear-story (shuffle linear-story))
 	))
+
+	; print all small inds in schema
+	(if generalize
+		; then
+		(block gen-block
+			(setf story-formulas (linearize-story story))
+			(setf all-small-inds (list))
+			(loop for sec in (schema-sections best-match)
+				do (block ll1
+					(loop for phi in (mapcar #'second (section-formulas sec))
+						do (block ll2
+							(setf small-inds (extract-small-individuals phi))
+							(setf all-small-inds (remove-duplicates (union small-inds all-small-inds)))
+						)
+					)
+				)
+			)
+
+			(setf gen-cursor "?A")
+			(loop for si in all-small-inds do (block gen-block-2
+				; (format t "small ind: ~s~%" si)
+				; Advance the cursor until it's no longer in the schema.
+				; We'll assume all underscore-prefixed variable names will
+				; be added here and only here, and thus in order.
+				(loop while (has-element best-match (intern gen-cursor))
+					do (setf gen-cursor (next-str gen-cursor))
+				)
+
+				(setf best-match (replace-vals si (intern gen-cursor) best-match))
+				(setf gen-cursor (next-str gen-cursor))
+			))
+		)
+	)
 
 	(return-from outer (list best-score best-match best-bindings))
 )

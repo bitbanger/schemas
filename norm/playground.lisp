@@ -153,4 +153,18 @@
 
 
 ; (print-schema (merge-schemas do_action_to_enable_action.v take_object.v))
-(print-schema (dedupe-sections (merge-schemas enable-match get-match)))
+(setf merged-schema (dedupe-sections (merge-schemas enable-match get-match)))
+(print-schema merged-schema)
+(format t "~%generalized:~%")
+(setf gen-merge (generalize-schema-constants merged-schema))
+(print-schema gen-merge)
+
+
+;(setf ep-ids (extract-section-vars gen-merge ':Episode-relations))
+; (print-ht time-graph)
+
+
+
+(format t "cleaned schema:~%")
+(print-schema (rename-constraints (sort-steps gen-merge)))
+

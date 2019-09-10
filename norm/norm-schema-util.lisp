@@ -350,6 +350,45 @@
 )
 )
 
+(defun extract-section-vars (schema sec-name)
+(block outer
+	(setf all-inds (list))
+	(loop for phi in (mapcar #'second (section-formulas (get-section schema sec-name)))
+		do (setf all-inds (remove-duplicates (append all-inds (get-elements-pred phi #'varp)) :test #'equal))
+	)
+	(return-from outer all-inds)
+)
+)
+
+(defun extract-schema-small-individuals (schema)
+(block outer
+	(setf all-inds (list))
+	(loop for sec in (nonmeta-sections schema)
+		do (loop for phi in (mapcar #'second (section-formulas sec))
+			do (setf all-inds (remove-duplicates (append all-inds (extract-small-individuals phi)) :test #'equal))
+		)
+	)
+	(return-from outer all-inds)
+)
+)
+
+(defun generalize-schema-constants (schema)
+(block outer
+	(setf gen-cursor "?X_A")
+	(setf gen-schema schema)
+	(loop for si in (extract-schema-small-individuals schema) do (block gen-block
+		(loop while (has-element gen-schema (intern gen-cursor))
+			do (setf gen-cursor (next-str gen-cursor))
+		)
+
+		(setf gen-schema (replace-vals si (intern gen-cursor) gen-schema))
+		(setf gen-cursor (next-str gen-cursor))
+	))
+
+	(return-from outer gen-schema)
+)
+)
+
 (defun schema-vars (schema)
 	(remove-duplicates (get-elements-pred schema #'varp) :test #'equal)
 )
@@ -520,4 +559,106 @@
 
 	(return-from outer deduped-schema)
 )
+)
+
+(defun topsort-steps-helper (time-graph ep-lst)
+(block outer
+	; base case
+	(if (equal 0 (hash-table-count time-graph))
+		; then
+		(return-from outer ep-lst)
+	)
+
+	(loop for ep being the hash-keys of time-graph do (block inner
+		; Look for episodes with no "before" entries
+		(if (null (gethash ep time-graph))
+			; then
+			(block found-beg
+				; Pull such episodes out of the time graph & move on
+				(setf new-ep-lst (append ep-lst (list ep)))
+				(setf new-time-graph (ht-copy time-graph))
+				(remhash ep new-time-graph)
+				(loop for k being the hash-keys of new-time-graph
+					do (setf (gethash k new-time-graph) (remove ep (gethash k new-time-graph) :test #'equal))
+				)
+				(return-from outer (topsort-steps-helper new-time-graph new-ep-lst))
+			)
+		)
+	))
+
+	; If we haven't found a beginning episode & recursed by now, there's a cycle
+	(return-from outer nil)
+)
+)
+
+(defun topsort-steps (schema)
+(block outer
+	(setf ep-ids (mapcar #'car (section-formulas (get-section schema ':Steps))))
+	; (format t "ep IDs: ~s~%" ep-ids)
+	(load-time-model (mapcar #'second (section-formulas (get-section schema ':Episode-relations))))
+
+	(setf time-graph (make-hash-table :test #'equal))
+	(loop for ep-id in ep-ids do (setf (gethash ep-id time-graph) (list)))
+	(loop for ep1 in ep-ids
+		do (loop for ep2 in ep-ids do (block ep-ep-loop
+			(setf arel (listify-nonlists (second (allen-fhow ep2 ep1))))
+			(if (and (not (null (intersection '(P M O) arel :test #'equal)))
+				 (null (intersection '(PI MI OI =) arel :test #'equal)))
+				; then
+				(setf (gethash ep1 time-graph) (remove-duplicates (append (gethash ep1 time-graph) (list ep2)) :test #'equal))
+			)
+		))
+	)
+
+	(return-from outer (topsort-steps-helper time-graph (list)))
+)
+)
+
+(defun sort-steps (schema)
+(block outer
+	(setf steps (section-formulas (get-section schema ':Steps)))
+	(setf sorted-step-ids (topsort-steps schema))
+	(setf sorted-steps (sort (copy-seq steps) (lambda (x y) (< (position x sorted-step-ids) (position y sorted-step-ids))) :key #'car))
+	(setf new-steps-sec (append (list ':Steps) sorted-steps))
+	(return-from outer (set-section schema ':Steps new-steps-sec))
+)
+)
+
+(defun rename-constraints-helper (schema tmp-pass)
+(block outer
+	(setf new-schema schema)
+
+	(loop for sec in (schema-sections schema) do (block sec-block
+		(setf new-sec (list (section-name sec)))
+		(setf cursor 1)
+		(setf prefix (sec-formula-prefix (section-name sec)))
+		(if tmp-pass (setf prefix (concat-strs prefix "--")))
+
+		(loop for constr in (section-formulas sec) do (block constr-block
+			(setf old-const-id (car constr))
+			(setf new-const-id (intern (format nil "~a~d" prefix cursor)))
+			(setf cursor (+ cursor 1))
+
+			; (setf (gethash old-const-id const-map) new-const-id)
+			; (format t "replacing ~s with ~s~%" old-const-id new-const-id)
+			(setf new-schema (replace-vals old-const-id new-const-id new-schema))
+		))
+
+		; (setf new-schema (set-section new-schema (section-name sec) new-sec))
+	))
+
+	(return-from outer new-schema)
+)
+)
+
+(defun rename-constraints (schema)
+	; We're going to do two passes. The first will rename
+	; constraint variables to have two dashes in them, which
+	; we assume won't happen anywhere else. This is because the
+	; old names and the new names may have some overlap, e.g. ?E3
+	; might already exist for what is called ?E5 in the rename, but
+	; the rename will have a different ?E3. With two passes, we can
+	; avoid that aliasing issue (just like using a temp variable for
+	; swaps).
+	(rename-constraints-helper (rename-constraints-helper schema t) nil)
 )

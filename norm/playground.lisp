@@ -39,12 +39,16 @@
 
 (load-time-model (append story-time-props now-time-props))
 
+(defparameter *NUM-SHUFFLES* 20)
+(defparameter *GENERALIZE* nil)
+(defparameter *RUN-MATCHER* nil)
+
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
-(if nil
+(if *RUN-MATCHER*
 (loop for protoschema in *PROTOSCHEMAS* do (block match-proto
-	(setf best-match-res-pair (best-story-schema-match story (eval protoschema) 60 t))
+	(setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
 	(setf best-match-res (car best-match-res-pair))
 	(setf best-score (car best-match-res-pair))
 	(setf best-match (second best-match-res-pair))
@@ -63,8 +67,80 @@
 ))
 )
 
-(print-schema (merge-schemas do_action_to_enable_action.v take_object.v))
-
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))
 ;(format t "~s~%" (eval-time-prop '(E3.SK BEFORE.PR E2.SK)))
+
+
+
+
+(setf enable-match '(EPI-SCHEMA ((MONKEY1.SK DO_ACTION_TO_ENABLE_ACTION.V
+              (KA ((ADV-A DOWN.A) COME.V)) (KA (EAT.V COCOANUT1.SK)))
+             ** ?E)
+	(:ROLES
+		(!R1 (MONKEY1.SK AGENT1.N))
+		(!R2 ((KA ((ADV-A DOWN.A) COME.V)) ACTION1.N))
+		(!R3 ((KA (EAT.V COCOANUT1.SK)) ACTION1.N))
+		(!R4 (MONKEY1.SK INDEF.A))
+		(!R5 (MONKEY1.SK MONKEY_1.N))
+	)
+	(:GOALS
+		(?G1 (MONKEY1.SK (WANT.V (KA (DO.V (KA (EAT.V COCOANUT1.SK)))))))
+	)
+	(:PRECONDS
+		(!PRE1 (NOT (MONKEY1.SK (CAN.MD (KA (DO.V (KA (EAT.V COCOANUT1.SK))))))))
+	)
+	(:STEPS
+		(E5.SK (MONKEY1.SK ((ADV-A DOWN.A) COME.V)))
+		(?E2 (MONKEY1.SK (CAN.MD (KA (DO.V (KA (EAT.V COCOANUT1.SK)))))))
+		(E6.SK (MONKEY1.SK (DO.V (KA (EAT.V COCOANUT1.SK)))))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (E5.SK CAUSE.V ?E2))
+		(!W2 (E5.SK CONSEC.PR ?E2))
+		(!W3 (E5.SK BEFORE.PR ?E2))
+		(!W4 (E5.SK BEFORE.PR E6.SK))
+		(!W5 (?E2 SAME-TIME.PR E6.SK))
+		(!W6 (?G1 CAUSE.V E5.SK))
+		(!W7 (E5.SK SAME-TIME.PR ?E))
+		(!W8 (E5.SK CONSEC.PR E6.SK))
+		(!W9 (E5.SK AT-ABOUT.PR NOW3))
+	)
+))
+
+(setf go-match '(EPI-SCHEMA ((MONKEY1.SK GO_SOMEWHERE.V ?L1 ?L2) ** ?E)
+	(:ROLES
+		(!R1 (MONKEY1.SK AGENT_1.N))
+		(!R2 (?O LOCATION_1.N))
+		(!R3 (MONKEY1.SK MONKEY_1.N))
+		(!R4 (MONKEY1.SK INDEF.A))
+	)
+	(:GOALS
+		(?G1 (MONKEY1.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+	)
+	(:PRECONDS
+		(!PRE1 (MONKEY1.SK ((ADV-A (AT.P ?L1)) BE.V)))
+		(!PRE2 (NOT (MONKEY1.SK ((ADV-A (AT.P ?L2)) BE.V))))
+	)
+	(:STEPS
+		(E5.SK (MONKEY1.SK ((ADV-A DOWN.A) COME.V)))
+		(?E2 (MONKEY1.SK (MOVEMENT_VERB.V (FROM.P-ARG ?L1) (TO.P-ARG ?L2))))
+		(?E3 (MONKEY1.SK (MOVEMENT_VERB.V (TO.P-ARG ?L2) (FROM.P-ARG ?L1))))
+		(?E4 (MONKEY1.SK (MOVEMENT_VERB.V (FROM.P-ARG ?L1))))
+	)
+	(:POSTCONDS
+		(!POST1 (NOT (MONKEY1.SK ((ADV-A (AT.P ?L1)) BE.V))))
+		(!POST2 (MONKEY1.SK ((ADV-A (AT.P ?L2)) BE.V)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (E5.SK SAME-TIME.PR ?E2))
+		(!W2 (E5.SK SAME-TIME.PR ?E3))
+		(!W3 (E5.SK SAME-TIME.PR ?E4))
+		(!W4 (E5.SK AT-ABOUT.PR NOW3))
+		(!W5 (E5.SK CONSEC.PR E6.SK))
+	)
+))
+
+
+; (print-schema (merge-schemas do_action_to_enable_action.v take_object.v))
+(print-schema (dedupe-sections (merge-schemas enable-match go-match)))

@@ -487,6 +487,8 @@
 (defun dedupe-sections (schema)
 (block outer
 	(setf deduped-schema schema)
+
+	; For nonfluent sections, dedupe with the formulas alone
 	(loop for sec in (nonfluent-sections schema) do (block sec-loop
 		(setf new-sec (list (section-name sec)))
 		(setf deduped-constrs (remove-duplicates (mapcar #'second (section-formulas sec)) :test #'equal))
@@ -497,6 +499,14 @@
 		(loop for constr in deduped-constrs
 			do (setf deduped-schema (add-constraint deduped-schema (section-name sec) constr))
 		)
+	))
+
+	; For fluent sections, not all episodes are fully characterized
+	; here (necessarily), so we'll just dedupe episode/characterizer
+	; pairs in their entireties.
+	(loop for sec in (fluent-sections schema) do (block sec-loop-2
+		(setf new-sec (append (list (section-name sec)) (remove-duplicates (section-formulas sec) :test #'equal)))
+		(setf deduped-schema (set-section deduped-schema (section-name sec) new-sec))
 	))
 
 	(return-from outer deduped-schema)

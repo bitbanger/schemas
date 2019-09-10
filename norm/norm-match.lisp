@@ -190,7 +190,7 @@
 
 (defun best-story-schema-match (story schema num_shuffles generalize)
 (block outer
-	(setf best-score 0)
+	(setf best-score '(0 0))
 	(setf best-match nil)
 	(setf best-bindings nil)
 
@@ -213,12 +213,24 @@
 		;(print-schema cur-match)
 		
 		(setf score-pair (check-temporal-constraints cur-match))
-		(setf score (- (car score-pair) (second score-pair)))
 		; (format t "score: ~s~%" score)
+		; (setf score (- (car score-pair) (second score-pair)))
+
+		; Always take one with fewer inconsistencies, but break ties with
+		; number of explicit consistencies.
+		(setf invalid-score (second score-pair))
+		(setf valid-score (car score-pair))
+		(setf better-than-best (< invalid-score (second best-score)))
+		(if (and (equal invalid-score (second best-score))
+			 (> valid-score (car best-score)))
+			; then
+			(setf better-than-best t)
+		)
 	
-		(if (or (null best-match) (> score best-score))
+		(if (or (null best-match) better-than-best)
+			; then
 			(progn
-				(setf best-score score)
+				(setf best-score score-pair)
 				(setf best-match cur-match)
 				(setf best-bindings cur-bindings)
 			)

@@ -25,7 +25,7 @@
 		)
 
 		(:Postconds
-			(!p1 (?x (experience.v ?p)))
+			(?p1 (?x (experience.v ?p)))
 		)
 
 		(:Episode-relations
@@ -48,7 +48,7 @@
 		)
 
 		(:Preconds
-			(!i1 ((ke (?x (do.v ?a))) cause.v (ke (?x (experience.v ?d)))))
+			(?i1 ((ke (?x (do.v ?a))) cause.v (ke (?x (experience.v ?d)))))
 		)
 
 		(:Steps
@@ -74,7 +74,7 @@
 		)
 
 		(:Preconds
-			(!i1 (not (?x (can.md (ka (do.v ?a2))))))
+			(?i1 (not (?x (can.md (ka (do.v ?a2))))))
 		)
 
 		(:Steps
@@ -89,9 +89,10 @@
 			(!w3 (?e1 consec.pr ?e3))
 			(!w4 (?e1 before.pr ?e2))
 			(!w5 (?e1 before.pr ?e3))
-			(!w6 (?e2 same-time.pr ?e3))
+			(!w6 (?e2 postcond-of.pr ?e1))
 			(!w7 (?g1 cause.v ?e1))
 			(!w8 (?e1 same-time.pr ?e))
+			(!w9 (?i1 precond-of.pr ?e))
 		)
 	)
 )
@@ -109,8 +110,8 @@
 		)
 
 		(:Preconds
-			(!i1 (?x (have.v ?t)))
-			(!i2 (?t (suitable_for.p ?a))) ; the "telic" preposition suitable_for.a
+			(?i1 (?x (have.v ?t)))
+			(?i2 (?t (suitable_for.p ?a))) ; the "telic" preposition suitable_for.a
 											; will appear in prior object knowledge
 		)
 
@@ -141,8 +142,8 @@
 		)
 
 		(:Preconds
-			(!i1 (?x have.v ?o))
-			(!i2 (not (?y have.v ?o)))
+			(?i1 (?x have.v ?o))
+			(?i2 (not (?y have.v ?o)))
 		)
 
 		(:Steps
@@ -150,8 +151,8 @@
 		)
 
 		(:Postconds
-			(!p1 (not (?x have.v ?o)))
-			(!p2 (?y have.v ?o))
+			(?p1 (not (?x have.v ?o)))
+			(?p2 (?y have.v ?o))
 		)
 	)
 )
@@ -168,7 +169,7 @@
 		)
 
 		(:Preconds
-			(!i1 (not (?x have.v ?o)))
+			(?i1 (not (?x have.v ?o)))
 		)
 
 		(:Steps
@@ -182,13 +183,15 @@
 		)
 
 		(:Postconds
-			(!p1 (?x have.v ?o))
+			(?p1 (?x have.v ?o))
 		)
 
 		(:Episode-relations
 			(!w1 (?e1 same-time.pr ?e2))
 			(!w2 (?e1 same-time.pr ?e3))
 			(!w3 (?e1 same-time.pr ?e))
+			(!w4 (?i1 precond-of.pr ?e))
+			(!w5 (?p1 postcond-of.pr ?e))
 		)
 	)
 )
@@ -205,8 +208,8 @@
 		)
 
 		(:Preconds
-			(!i1 (?x ((adv-a (at.p ?l1)) be.v)))
-			(!i2 (not (?x ((adv-a (at.p ?l2)) be.v))))
+			(?i1 (?x ((adv-a (at.p ?l1)) be.v)))
+			(?i2 (not (?x ((adv-a (at.p ?l2)) be.v))))
 		)
 
 		(:Steps
@@ -221,8 +224,8 @@
 		)
 
 		(:Postconds
-			(!p1 (not (?x ((adv-a (at.p ?l1)) be.v))))
-			(!p2 (?x ((adv-a (at.p ?l2)) be.v)))
+			(?p1 (not (?x ((adv-a (at.p ?l1)) be.v))))
+			(?p2 (?x ((adv-a (at.p ?l2)) be.v)))
 		)
 
 		(:Episode-relations

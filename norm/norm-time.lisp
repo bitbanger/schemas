@@ -60,6 +60,14 @@
 		during.pr
 		(s d f =)
 	)
+	(
+		precond-of.pr
+		(m o)
+	)
+	(
+		postcond-of.pr
+		(oi mi)
+	)
 ))
 )
 

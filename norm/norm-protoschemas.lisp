@@ -91,6 +91,7 @@
 			(!w5 (?e1 before.pr ?e3))
 			(!w6 (?e2 same-time.pr ?e3))
 			(!w7 (?g1 cause.v ?e1))
+			(!w8 (?e1 same-time.pr ?e))
 		)
 	)
 )
@@ -187,6 +188,7 @@
 		(:Episode-relations
 			(!w1 (?e1 same-time.pr ?e2))
 			(!w2 (?e1 same-time.pr ?e3))
+			(!w3 (?e1 same-time.pr ?e))
 		)
 	)
 )

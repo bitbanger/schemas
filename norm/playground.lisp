@@ -42,6 +42,7 @@
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
+(if nil
 (loop for protoschema in *PROTOSCHEMAS* do (block match-proto
 	(setf best-match-res-pair (best-story-schema-match story (eval protoschema) 60 t))
 	(setf best-match-res (car best-match-res-pair))
@@ -60,6 +61,9 @@
 	;	(format 
 	;))
 ))
+)
+
+(print-schema (merge-schemas do_action_to_enable_action.v take_object.v))
 
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))

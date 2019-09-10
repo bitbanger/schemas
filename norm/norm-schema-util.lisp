@@ -191,17 +191,26 @@
 ; set-section returns a new schema, identical to the input schema,
 ; except with the section "sec-name" having the new value "new-sec".
 (defun set-section (schema sec-name new-sec)
-(let (new-schema)
+(let (new-schema found)
 (block outer
 	(setf new-schema (list 'epi-schema (second schema)))
 	(loop for sec in (schema-sections schema) do (block inner
 		(if (equal (section-name sec) sec-name)
 			; then
+			(progn
+			(setf found t)
 			(setf new-schema (append new-schema (list new-sec)))
+			)
 			; else
 			(setf new-schema (append new-schema (list sec)))
 		)
 	))
+
+	; Add the section if it doesn't exist.
+	(if (not found)
+		; then
+		(setf new-schema (append new-schema (list new-sec)))
+	)
 
 	(return-from outer new-schema)
 )

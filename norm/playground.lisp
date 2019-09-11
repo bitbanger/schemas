@@ -43,6 +43,9 @@
 (defparameter *GENERALIZE* nil)
 (defparameter *RUN-MATCHER* t)
 
+; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
+(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v))
+
 
 (setf matches (make-hash-table :test #'equal))
 
@@ -50,7 +53,7 @@
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
 (if *RUN-MATCHER*
 ;(loop for i from 1 to 10 do 
-(loop for protoschema in *PROTOSCHEMAS* do (block match-proto
+(loop for protoschema in *ALL-SCHEMAS-PLAYGROUND* do (block match-proto
 	;(if (not (equal protoschema 'do_action_to_enable_action.v))
 		; then
 	;	(return-from match-proto)
@@ -104,5 +107,10 @@
 
 
 (format t "~%cleaning up constraint IDs:~%")
-(print-schema (rename-constraints (sort-steps gen-merge)))
+(setf cleaned-schema (rename-constraints (sort-steps gen-merge)))
+(print-schema cleaned-schema)
 
+(setf cleaner-schema (clean-do-kas cleaned-schema))
+
+(format t "~%even cleaner schema:~%")
+(print-schema cleaner-schema)

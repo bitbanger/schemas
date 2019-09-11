@@ -662,3 +662,32 @@
 	; swaps).
 	(rename-constraints-helper (rename-constraints-helper schema t) nil)
 )
+
+(defun do-ka-pred? (p)
+(and
+	(canon-pred? p)
+	(equal (pred-base p) 'do.v)
+	(equal (length (pred-args p)) 1)
+	(canon-kind? (car (pred-args p)))
+	(equal 'KA (car (car (pred-args p))))
+)
+)
+
+
+(defun clean-do-kas (schema)
+(let (cleaned-schema do-ka-idcs do-ka action)
+(block outer
+	(setf cleaned-schema schema)
+	(setf do-ka-idcs (get-elements-pred-idx cleaned-schema #'do-ka-pred?))
+	(loop while (not (null do-ka-idcs))
+		do (block replace-do-ka
+			(setf do-ka (get-element-idx cleaned-schema (car do-ka-idcs)))
+			(setf action (second (second do-ka)))
+			(setf cleaned-schema (replace-element-idx cleaned-schema (car do-ka-idcs) action))
+			(setf do-ka-idcs (get-elements-pred-idx cleaned-schema #'do-ka-pred?))
+			(return-from replace-do-ka)
+		)
+	)
+
+	(return-from outer cleaned-schema)
+)))

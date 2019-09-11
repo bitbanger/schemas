@@ -177,9 +177,7 @@
 			; TODO: implement "optional" p-args like from
 			; TODO: automatic synonym detection
 			; TODO: separate active take vs. passive receive?
-			(?e1 (?x (take.v ?o)))
-			(?e2 (?x (get.v ?o)))
-			(?e3 (?x (receive.v ?o)))
+			(?e1 (?x (receiving_verb.v ?o)))
 		)
 
 		(:Postconds
@@ -187,11 +185,9 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time.pr ?e2))
-			(!w2 (?e1 same-time.pr ?e3))
-			(!w3 (?e1 same-time.pr ?e))
-			(!w4 (?i1 precond-of.pr ?e))
-			(!w5 (?p1 postcond-of.pr ?e))
+			(!w1 (?e1 same-time.pr ?e))
+			(!w2 (?i1 precond-of.pr ?e))
+			(!w3 (?p1 postcond-of.pr ?e))
 		)
 	)
 )

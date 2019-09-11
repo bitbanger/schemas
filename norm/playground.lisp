@@ -39,10 +39,12 @@
 
 (load-time-model (append story-time-props now-time-props))
 
-(defparameter *NUM-SHUFFLES* 10)
+(defparameter *NUM-SHUFFLES* 40)
 (defparameter *GENERALIZE* nil)
-(defparameter *RUN-MATCHER* nil)
+(defparameter *RUN-MATCHER* t)
 
+
+(setf matches (make-hash-table :test #'equal))
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
@@ -62,8 +64,11 @@
 	(format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
 	; (print-schema best-match)
 	; (format t "deduped:~%")
-	(print-schema (dedupe-sections best-match))
+	(setf match (dedupe-sections best-match))
+	(print-schema match)
 	(format t "~%~%~%")
+
+	(setf (gethash protoschema matches) match)
 
 	; (format t "bindings: ~s~%" (ht-to-str best-bindings))
 
@@ -79,83 +84,16 @@
 ;(format t "~s~%" (eval-time-prop '(E3.SK BEFORE.PR E2.SK)))
 
 
+(setf enable-match (gethash 'do_action_to_enable_action.v matches))
+(setf get-match (gethash 'take_object.v matches))
 
 
-(setf enable-match '(EPI-SCHEMA ((MONKEY1.SK DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V TREE1.SK))
-              (KA (GET.V COCOANUT1.SK)))
-             ** ?E)
-	(:ROLES
-		(!R1 (MONKEY1.SK AGENT1.N))
-		(!R2 ((KA (CLIMB.V TREE1.SK)) ACTION1.N))
-		(!R3 ((KA (GET.V COCOANUT1.SK)) ACTION1.N))
-		(!R4 (TREE1.SK TREE_1.N))
-		(!R5 (COCOANUT1.SK COCOANUT_1.N))
-		(!R6 (MONKEY1.SK INDEF.A))
-		(!R7 (MONKEY1.SK MONKEY_1.N))
-	)
-	(:GOALS
-		(?G1 (MONKEY1.SK (WANT.V (KA (DO.V (KA (GET.V COCOANUT1.SK)))))))
-	)
-	(:PRECONDS
-		(?I1 (NOT (MONKEY1.SK (CAN.MD (KA (DO.V (KA (GET.V COCOANUT1.SK))))))))
-	)
-	(:STEPS
-		(E2.SK (MONKEY1.SK (CLIMB.V TREE1.SK)))
-		(?E2 (MONKEY1.SK (CAN.MD (KA (DO.V (KA (GET.V COCOANUT1.SK)))))))
-		(E3.SK (MONKEY1.SK (GET.V COCOANUT1.SK)))
-	)
-	(:EPISODE-RELATIONS
-		(!W1 (E2.SK CAUSE.V ?E2))
-		(!W2 (E2.SK CONSEC.PR ?E2))
-		(!W3 (E2.SK BEFORE.PR ?E2))
-		(!W4 (E2.SK BEFORE.PR E3.SK))
-		(!W5 (?E2 POSTCOND-OF.PR E2.SK))
-		(!W6 (?G1 CAUSE.V E2.SK))
-		(!W7 (E2.SK SAME-TIME.PR ?E))
-		(!W8 (?I1 PRECOND-OF.PR ?E))
-		(!W9 (E2.SK CONSEC.PR E3.SK))
-		(!W10 (E2.SK AT-ABOUT.PR NOW1))
-	)
-))
-
-(setf get-match '(EPI-SCHEMA ((MONKEY1.SK TAKE_OBJECT.V COCOANUT1.SK) ** ?E)
-	(:ROLES
-		(!R1 (MONKEY1.SK AGENT1.N))
-		(!R2 (COCOANUT1.SK OBJECT1.N))
-		(!R3 (MONKEY1.SK INDEF.A))
-		(!R4 (MONKEY1.SK MONKEY_1.N))
-		(!R5 (COCOANUT1.SK COCOANUT_1.N))
-	)
-	(:GOALS
-		(?G1 (MONKEY1.SK (WANT.V (THAT (MONKEY1.SK (HAVE.V COCOANUT1.SK))))))
-	)
-	(:PRECONDS
-		(?I1 (NOT (MONKEY1.SK HAVE.V COCOANUT1.SK)))
-	)
-	(:STEPS
-		(?E1 (MONKEY1.SK (TAKE.V COCOANUT1.SK)))
-		(E3.SK (MONKEY1.SK (GET.V COCOANUT1.SK)))
-		(?E3 (MONKEY1.SK (RECEIVE.V COCOANUT1.SK)))
-	)
-	(:POSTCONDS
-		(?P1 (MONKEY1.SK HAVE.V COCOANUT1.SK))
-	)
-	(:EPISODE-RELATIONS
-		(!W1 (?E1 SAME-TIME.PR E3.SK))
-		(!W2 (?E1 SAME-TIME.PR ?E3))
-		(!W3 (?E1 SAME-TIME.PR ?E))
-		(!W4 (?I1 PRECOND-OF.PR ?E))
-		(!W5 (?P1 POSTCOND-OF.PR ?E))
-		(!W6 (E2.SK CONSEC.PR E3.SK))
-		(!W7 (E2.SK AT-ABOUT.PR NOW1))
-	)
-))
-
-
+(format t "~%MERGING do_action_to_enable_action.v AND take_object.v~%")
+(format t "(do_action_to_enable_action.v as external header~%~%")
 ; (print-schema (merge-schemas do_action_to_enable_action.v take_object.v))
 (setf merged-schema (dedupe-sections (merge-schemas enable-match get-match)))
 (print-schema merged-schema)
-(format t "~%generalized:~%")
+(format t "~%generalizing constants to variables:~%")
 (setf gen-merge (generalize-schema-constants merged-schema))
 (print-schema gen-merge)
 
@@ -165,6 +103,6 @@
 
 
 
-(format t "cleaned schema:~%")
+(format t "~%cleaning up constraint IDs:~%")
 (print-schema (rename-constraints (sort-steps gen-merge)))
 

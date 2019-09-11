@@ -10,6 +10,12 @@
 	crawl.v
 ))
 
+(defparameter *RECEIVING-PREDS* '(
+	take.v
+	get.v
+	receive.v
+))
+
 (defun subsumes (schema-pred story-pred)
 (block outer
 	; If they're equal, schema subsumes story
@@ -19,6 +25,12 @@
 
 	(if (and (equal schema-pred 'movement_verb.v)
 			(not (null (member story-pred *MOVEMENT-PREDS* :test #'equal))))
+		; then
+		(return-from outer t)
+	)
+
+	(if (and (equal schema-pred 'receiving_verb.v)
+			(not (null (member story-pred *RECEIVING-PREDS* :test #'equal))))
 		; then
 		(return-from outer t)
 	)

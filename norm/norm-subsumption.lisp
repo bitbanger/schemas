@@ -16,6 +16,10 @@
 	receive.v
 ))
 
+(defparameter *SPECIAL-SUBSUMPTIONS* (mk-hashtable '(
+	((AGENT_1.N ANIMAL_1.N) t) ; animals are agents
+)))
+
 (defun subsumes (schema-pred story-pred)
 (block outer
 	; If they're equal, schema subsumes story
@@ -33,6 +37,25 @@
 			(not (null (member story-pred *RECEIVING-PREDS* :test #'equal))))
 		; then
 		(return-from outer t)
+	)
+
+	; Check explicit special cases
+	(if (gethash (list schema-pred story-pred) *SPECIAL-SUBSUMPTIONS*)
+		; then
+		(return-from outer t)
+	)
+
+	; We should also check to see if any of the special case
+	; specific predicates subsume our specific predicate, which
+	; would transitively imply the special case general predicate.
+	(loop for sc being the hash-keys of *SPECIAL-SUBSUMPTIONS*
+		do (block check-scs-transitive
+			(if (and (equal schema-pred (car sc))
+					 (subsumes (second sc) story-pred))
+				; then
+				(return-from outer t)
+			)
+		)
 	)
 
 	; Check WordNet hypernym hierarchy

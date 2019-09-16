@@ -20,24 +20,7 @@
 	do (format t "	~s~%~%" sent))
 
 
-(setf story-time-props
-	(loop for phi in (linearize-story story)
-		if (time-prop? phi)
-			collect phi))
-
-; TODO: make these implicit somehow in AIA solver?
-(setf now-time-props '(
-	(NOW0 STRICTLY-BEFORE.PR NOW1)
-	(NOW1 STRICTLY-BEFORE.PR NOW2)
-	(NOW2 STRICTLY-BEFORE.PR NOW3)
-	(NOW3 STRICTLY-BEFORE.PR NOW4)
-	(NOW4 STRICTLY-BEFORE.PR NOW5)
-	(NOW5 STRICTLY-BEFORE.PR NOW6)
-	(NOW6 STRICTLY-BEFORE.PR NOW7)
-	(NOW7 STRICTLY-BEFORE.PR NOW8)
-))
-
-(load-time-model (append story-time-props now-time-props))
+(load-story-time-model story)
 
 (defparameter *NUM-SHUFFLES* 40)
 (defparameter *GENERALIZE* nil)

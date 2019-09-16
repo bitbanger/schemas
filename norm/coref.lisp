@@ -3,6 +3,7 @@
 (load "norm-el.lisp")
 (load "norm-unify.lisp")
 (load "parse.lisp")
+(load "norm-time.lisp")
 
 (defparameter *KB-EXPLICIT* (make-hash-table :test #'equal))
 (defparameter *KB-ARG-IND* (make-hash-table :test #'equal))
@@ -167,6 +168,30 @@
 	)
 )
 
+(defun subsumes-prop? (gen-prop spec-prop)
+(block outer
+	(setf gen-papm (prop-args-pred-mods gen-prop))
+	(setf gen-pre (car gen-papm))
+	(setf gen-pred (second gen-papm))
+	(setf gen-post (third gen-papm))
+	(setf gen-mods (fourth gen-papm))
+	(setf spec-papm (prop-args-pred-mods spec-prop))
+	(setf spec-pre (car spec-papm))
+	(setf spec-pred (second spec-papm))
+	(setf spec-post (third spec-papm))
+	(setf spec-mods (fourth spec-papm))
+
+	; TODO: account for mods here. Can we ignore?
+	(if (and
+			(equal gen-pre spec-pre)
+			(equal gen-post spec-post)
+			(subsumes gen-pred spec-pred))
+		; then
+		(return-from outer t)
+	)
+)
+)
+
 ; Evaluate whether a proposition is true given a knowledge base
 (defun eval-prop (prop kb)
 (let (arg)
@@ -209,6 +234,29 @@
 	(if (gethash (list 'NOT prop) (kb-explicit kb))
 		(return-from outer nil)
 	)
+
+
+	; Handle temporal predicates.
+	(if (time-prop? prop)
+		; then
+		(block eval-time-prop
+			(load-time-model (loop for p being the hash-keys of (kb-explicit kb) if (time-prop? p) collect p))
+			(return-from outer (eval-time-prop prop))
+		)
+	)
+
+
+	; Check for subsuming predicates in the KB.
+	; TODO: optimize this somehow. Use kb-arg-ind, or
+	; change indexing to account for subsumptions?
+	(loop for kbp being the hash-keys of (kb-explicit kb)
+		; If the KB prop is more specific, the general
+		; test prop is implied
+		if (subsumes-prop? prop kbp)
+			do (return-from outer t)
+	)
+
+
 
 	; Special cases for implicitly evaluable monadic predicates
 	(if (and (equal 2 (length prop)) (equal 1 (length args))) (block monadic-special-cases

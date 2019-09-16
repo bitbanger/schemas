@@ -46,6 +46,26 @@
 					(progn
 					(dbg 'match "bound to ~s~%" (second formula))
 					(dbg 'match "bindings are ~s~%" (ht-to-str new-bindings))
+
+					(loop for k being the hash-keys of new-bindings
+						do (block resolve-cs
+							(setf schema-constraints (loop for c in (schema-term-constraints schema k)
+							; Extract all constraints with no unbound vars
+							if (not (has-element-pred c
+									(lambda (x) (and
+											(varp x) 
+											(not (nth-value 1 (gethash x new-bindings))) ))))
+								collect (second c)))
+
+							(setf story-constraints (story-select-term-constraints story (list (gethash k new-bindings))))
+
+							(format t "schema constraints for ~s:~%" k)
+							(loop for c in schema-constraints do (format t "	~s~%" (apply-bindings c new-bindings)))
+							(format t "story constraints for ~s:~%" (gethash k new-bindings))
+							(loop for c in story-constraints do (format t "	~s~%" c))
+						)
+					)
+
 					(if (and (canon-charstar? phi) (equal (section-type sec) 'FLUENT))
 						; then
 						; (dbg 'match "temporal formula ~s <-> ~s~%" (third phi) (car formula))

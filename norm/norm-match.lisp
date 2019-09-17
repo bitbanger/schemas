@@ -66,7 +66,7 @@
 					; (format t "bound to ~s~%" (second formula))
 					; (format t "bindings are ~s~%" (ht-to-str new-bindings))
 					; (print-schema (apply-bindings schema new-bindings))
-					(setf tcs (check-temporal-constraints (apply-bindings schema new-bindings)))
+					; (setf tcs (check-temporal-constraints (apply-bindings schema new-bindings)))
 					; (if (> (second tcs) 0) (format t "invalid temporal constraint score: ~s~%" tcs))
 
 					(loop for k being the hash-keys of new-bindings
@@ -104,10 +104,10 @@
 
 							; If the binding creates an inconsistency
 							; in the schema, we'll abandon this match.
-							(if (> untrue-count true-count)
+							;(if (> untrue-count true-count)
 								; then
-								(return-from uni)
-							)
+								;(return-from uni)
+							;)
 
 							; (format t "story constraints for ~s:~%" (gethash k new-bindings))
 							; (loop for c in story-constraints do (format t "	~s~%" c))

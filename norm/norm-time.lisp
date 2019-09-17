@@ -75,10 +75,21 @@
 ))
 )
 
+(setf *TIME-MODEL-HASH* nil)
+
 (defun load-time-model (tm)
 (block outer
 	; Clear the state of the AIA solver.
 	(clear)
+
+	; (format t "hash of time model: ~s~%" (rechash tm))
+	(setf model-hash (rechash tm))
+	(if (equal model-hash *TIME-MODEL-HASH*)
+		; then
+		(return-from outer)
+		; else
+		(setf *TIME-MODEL-HASH* model-hash)
+	)
 	
 	; Load the relationship triples into
 	; the AIA solver's internal data model.

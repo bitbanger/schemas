@@ -192,6 +192,18 @@
 )
 )
 
+(defun story-to-kb (story)
+(block outer
+	(setf skb-exp (make-hash-table :test #'equal))
+	(setf skb-arg (make-hash-table :test #'equal))
+	(setf skb-pred (make-hash-table :test #'equal))
+	(setf skb (list skb-exp skb-arg skb-pred))
+	(loop for wff in story do (add-to-kb wff skb))
+
+	(return-from outer skb)
+)
+)
+
 ; Evaluate whether a proposition is true given a knowledge base
 (defun eval-prop (prop kb)
 (let (arg)
@@ -264,15 +276,23 @@
 
 		; Names refer to agents.
 		(if (and (symbolp arg) (has-suffix? (string arg) ".NAME"))
-			(if (equal pred 'AGENT1.N)
+			(if (equal pred 'AGENT_1.N)
 				(return-from outer t))
 		)
 
 		; He and she pronouns refer to agents.
 		; TODO: handle "they"
 		(if (and (symbolp arg) (or (equal arg 'HE.PRO) (equal arg 'SHE.PRO)))
-			(if (equal pred 'AGENT1.N)
+			(if (equal pred 'AGENT_1.N)
 				(return-from outer t))
+		)
+
+		; KA-abstractions are actions.
+		(if (and (equal pred 'ACTION_1.N)
+				 (canon-kind? arg)
+				 (equal (car arg) 'KA))
+			; then
+			(return-from outer t)
 		)
 	))
 
@@ -312,7 +332,7 @@
 )
 
 (defparameter *IRREGULAR-PREDS* '(
-	AGENT1.N
+	AGENT_1.N
 ))
 
 (defun irregular-pred? (pred)

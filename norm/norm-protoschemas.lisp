@@ -64,9 +64,9 @@
 (defparameter do_action_to_enable_action.v
 	'(epi-schema ((?x do_action_to_enable_action.v ?a1 ?a2) ** ?e)
 		(:Roles
-			(!r1 (?x agent1.n))
-			(!r2 (?a1 action1.n))
-			(!r3 (?a2 action1.n))
+			(!r1 (?x agent_1.n))
+			(!r2 (?a1 action_1.n))
+			(!r3 (?a2 action_1.n))
 		)
 
 		(:Goals
@@ -100,9 +100,9 @@
 (defparameter use_tool.v
 	'(epi-schema ((?x use_tool.v ?t (for.p-arg ?a)) ** ?e)
 		(:Roles
-			(!r1 (?x agent1.n))
-			(!r2 (?t implement1.n))
-			(!r3 (?a action1.n))
+			(!r1 (?x agent_1.n))
+			(!r2 (?t implement_1.n))
+			(!r3 (?a action_1.n))
 		)
 
 		(:Goals
@@ -132,9 +132,9 @@
 (defparameter give_object.v
 	'(epi-schema ((?x give_object.v ?o (to.p-arg ?y)) ** ?e)
 		(:Roles
-			(!r1 (?x agent1.n))
-			(!r2 (?o object1.n))
-			(!r3 (?y agent1.n))
+			(!r1 (?x agent_1.n))
+			(!r2 (?o object_1.n))
+			(!r3 (?y agent_1.n))
 		)
 
 		(:Goals
@@ -160,8 +160,8 @@
 (defparameter take_object.v
 	'(epi-schema ((?x take_object.v ?o) ** ?e)
 		(:Roles
-			(!r1 (?x agent1.n))
-			(!r2 (?o object1.n))
+			(!r1 (?x agent_1.n))
+			(!r2 (?o object_1.n))
 		)
 
 		(:Goals

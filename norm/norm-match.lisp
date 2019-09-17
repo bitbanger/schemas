@@ -28,6 +28,10 @@
 (defun unify-with-schema (phi schema story)
 (let (bindings)
 (block outer
+	(setf story-kb (story-to-kb story))
+	; (format t "START~%")
+	; (print-ht (kb-explicit story-kb))
+	; (format t "END~%")
 	(loop for sec in (nonmeta-sections schema)
 		do (dbg 'match "	schema sec ~s~%" (section-name sec))
 		do (loop for formula in (section-formulas sec) do
@@ -35,6 +39,21 @@
 				(dbg 'match "		schema ~s~%" (second formula))
 				;(dbg 'match "	~s~%" (second formula))
 				(setf new-bindings (unify (second formula) phi bindings schema story))
+
+				; Bind episodes to formula IDs as well
+				(if (and (not (null new-bindings)) (canon-charstar? phi) (equal (section-type sec) 'FLUENT))
+					; then
+					; (dbg 'match "temporal formula ~s <-> ~s~%" (third phi) (car formula))
+					(if (not (bind-if-unbound (car formula) (third phi) new-bindings))
+						; then
+						(progn
+						(dbg 'match "~s already bound; cannot bind!~%" (car formula))
+						; (return-from outer bindings)
+						(return-from uni)
+						)
+					)
+				)
+
 				; (dbg 'match "set bindings are ~s~%" (ht-to-str bindings))
 				; (setf (gethash bindings (car formula)) 
 				(if (null new-bindings)
@@ -44,8 +63,11 @@
 					nil
 					; else
 					(progn
-					(dbg 'match "bound to ~s~%" (second formula))
-					(dbg 'match "bindings are ~s~%" (ht-to-str new-bindings))
+					; (format t "bound to ~s~%" (second formula))
+					; (format t "bindings are ~s~%" (ht-to-str new-bindings))
+					; (print-schema (apply-bindings schema new-bindings))
+					(setf tcs (check-temporal-constraints (apply-bindings schema new-bindings)))
+					; (if (> (second tcs) 0) (format t "invalid temporal constraint score: ~s~%" tcs))
 
 					(loop for k being the hash-keys of new-bindings
 						do (block resolve-cs
@@ -57,29 +79,41 @@
 											(not (nth-value 1 (gethash x new-bindings))) ))))
 								collect (second c)))
 
-							(setf story-constraints (story-select-term-constraints story (list (gethash k new-bindings))))
+							; (setf story-constraints (story-select-term-constraints story (list (gethash k new-bindings))))
 
-							(format t "schema constraints for ~s:~%" k)
-							(loop for c in schema-constraints do (format t "	~s~%" (apply-bindings c new-bindings)))
-							(format t "story constraints for ~s:~%" (gethash k new-bindings))
-							(loop for c in story-constraints do (format t "	~s~%" c))
+							; (format t "schema constraints for ~s:~%" k)
+							; (format t "~s~%" (apply-bindings (get-section schema ':Episode-relations) new-bindings))
+							(setf true-count 0)
+							(setf untrue-count 0)
+							(loop for c in schema-constraints
+								;if (not (time-prop? c)) ; we handle time props
+														; afterward, and they're slow
+								do (block check-constr
+									; (format t "	~s~%" (apply-bindings c new-bindings))
+									(if (eval-prop (apply-bindings c new-bindings) story-kb)
+										; then
+										; (format t "		true~%")
+										(setf true-count (+ 1 true-count))
+										; else
+										; (format t "		not true~%")
+										(setf untrue-count (+ 1 untrue-count))
+									)
+								)
+							)
+							; (format t "~s true, ~s untrue~%" true-count untrue-count)
+
+							; If the binding creates an inconsistency
+							; in the schema, we'll abandon this match.
+							(if (> untrue-count true-count)
+								; then
+								(return-from uni)
+							)
+
+							; (format t "story constraints for ~s:~%" (gethash k new-bindings))
+							; (loop for c in story-constraints do (format t "	~s~%" c))
 						)
 					)
 
-					(if (and (canon-charstar? phi) (equal (section-type sec) 'FLUENT))
-						; then
-						; (dbg 'match "temporal formula ~s <-> ~s~%" (third phi) (car formula))
-						(if (bind-if-unbound (car formula) (third phi) new-bindings)
-							; then
-							(return-from outer new-bindings)
-							; (setf bindings new-bindings)
-							; else
-							(dbg 'match "~s already bound; cannot bind!~%" (car formula))
-						)
-
-						; else
-						(return-from outer new-bindings)
-					)
 					;(dbg 'match "UNIFIED~%")
 					;(dbg 'match "	~s~%" formula)
 					; (dbg 'match "WITH~%")
@@ -90,7 +124,7 @@
 					;(dbg 'match "final schema:~%~s~%" (apply-bindings schema bindings))
 					;(dbg 'match "final schema with added constraint:~%~s~%" (add-role-constraint (apply-bindings schema bindings) 'TRUE))
 
-					(return-from outer bindings)
+					(return-from outer new-bindings)
 					)
 				)
 			)
@@ -239,6 +273,9 @@
 		; Always take one with fewer inconsistencies, but break ties with
 		; number of explicit consistencies.
 		(setf invalid-score (second score-pair))
+		(format t "tick~%")
+		; (format t "invalid temporal score: ~s~%" score-pair)
+		; (format t "~s~%" (get-section cur-match ':Episode-relations))
 		(setf valid-score (car score-pair))
 		(setf better-than-best (< invalid-score (second best-score)))
 		(if (and (equal invalid-score (second best-score))

@@ -1,4 +1,8 @@
-(load "load-mats.lisp")
+; Include guard for load-mats.lisp, which isn't nicely
+; reloadable due to constant symbol redefinitions.
+(if (not (boundp 'AIA-MATS-LOADED))
+	(progn (load "load-mats.lisp") (setf AIA-MATS-LOADED t)))
+
 (initialize-allen-arrays)
 
 ; A "time model" is a list of infix relation triples

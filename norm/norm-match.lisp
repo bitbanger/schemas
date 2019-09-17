@@ -28,7 +28,7 @@
 (defun unify-with-schema (phi schema story)
 (let (bindings)
 (block outer
-	(setf story-kb (story-to-kb story))
+	; (setf story-kb (story-to-kb story))
 	; (format t "START~%")
 	; (print-ht (kb-explicit story-kb))
 	; (format t "END~%")
@@ -69,37 +69,37 @@
 					; (setf tcs (check-temporal-constraints (apply-bindings schema new-bindings)))
 					; (if (> (second tcs) 0) (format t "invalid temporal constraint score: ~s~%" tcs))
 
-					(loop for k being the hash-keys of new-bindings
-						do (block resolve-cs
-							(setf schema-constraints (loop for c in (schema-term-constraints schema k)
+					;(loop for k being the hash-keys of new-bindings
+						;do (block resolve-cs
+							;(setf schema-constraints (loop for c in (schema-term-constraints schema k)
 							; Extract all constraints with no unbound vars
-							if (not (has-element-pred c
-									(lambda (x) (and
-											(varp x) 
-											(not (nth-value 1 (gethash x new-bindings))) ))))
-								collect (second c)))
+							;if (not (has-element-pred c
+									;(lambda (x) (and
+											;(varp x) 
+											;(not (nth-value 1 (gethash x new-bindings))) ))))
+								;collect (second c)))
 
 							; (setf story-constraints (story-select-term-constraints story (list (gethash k new-bindings))))
 
 							; (format t "schema constraints for ~s:~%" k)
 							; (format t "~s~%" (apply-bindings (get-section schema ':Episode-relations) new-bindings))
-							(setf true-count 0)
-							(setf untrue-count 0)
-							(loop for c in schema-constraints
+							;(setf true-count 0)
+							;(setf untrue-count 0)
+							;(loop for c in schema-constraints
 								;if (not (time-prop? c)) ; we handle time props
 														; afterward, and they're slow
-								do (block check-constr
+								;do (block check-constr
 									; (format t "	~s~%" (apply-bindings c new-bindings))
-									(if (eval-prop (apply-bindings c new-bindings) story-kb)
+									;(if (eval-prop (apply-bindings c new-bindings) story-kb)
 										; then
 										; (format t "		true~%")
-										(setf true-count (+ 1 true-count))
+										;(setf true-count (+ 1 true-count))
 										; else
 										; (format t "		not true~%")
-										(setf untrue-count (+ 1 untrue-count))
-									)
-								)
-							)
+										;(setf untrue-count (+ 1 untrue-count))
+									;)
+								;)
+							;)
 							; (format t "~s true, ~s untrue~%" true-count untrue-count)
 
 							; If the binding creates an inconsistency
@@ -111,8 +111,8 @@
 
 							; (format t "story constraints for ~s:~%" (gethash k new-bindings))
 							; (loop for c in story-constraints do (format t "	~s~%" c))
-						)
-					)
+						;)
+					;)
 
 					;(dbg 'match "UNIFIED~%")
 					;(dbg 'match "	~s~%" formula)
@@ -242,6 +242,43 @@
 )
 )
 
+(defun check-constraints (schema story)
+(block outer
+	(load-story-time-model story)
+	(setf story-kb (story-to-kb (linearize-story story)))
+
+	(setf true-count 0)
+	(setf untrue-count 0)
+
+	(loop for sec in (nonmeta-sections schema)
+		do (loop for phi in (mapcar #'second (section-formulas sec))
+			do (block check-constr
+				(if (has-element-pred phi #'varp)
+					; then
+					(return-from check-constr)
+				)
+
+				(if (eval-prop phi story-kb)
+					; then
+					(progn
+						(setf true-count (+ true-count 1))
+						; (format t "	true: ~s~%" phi)
+					)
+					; else
+					(progn
+						; (format t "time model: ~s~%" *TIME-MODEL*)
+						(setf untrue-count (+ untrue-count 1))
+						; (format t "	untrue: ~s~%" phi)
+					)
+				)
+			)
+		)
+	)
+
+	(return-from outer (list true-count untrue-count))
+)
+)
+
 (defun best-story-schema-match (story schema num_shuffles generalize)
 (block outer
 	(setf best-score '(0 0))
@@ -266,23 +303,30 @@
 		
 		;(print-schema cur-match)
 		
-		(setf score-pair (check-temporal-constraints cur-match))
+		;(setf score-pair (check-temporal-constraints cur-match))
 		; (format t "score: ~s~%" score)
 		; (setf score (- (car score-pair) (second score-pair)))
 
 		; Always take one with fewer inconsistencies, but break ties with
 		; number of explicit consistencies.
-		(setf invalid-score (second score-pair))
-		(format t "tick~%")
+		;(setf invalid-score (second score-pair))
+		; (format t "tick~%")
 		; (format t "invalid temporal score: ~s~%" score-pair)
 		; (format t "~s~%" (get-section cur-match ':Episode-relations))
+
+		(setf score-pair (check-constraints cur-match story))
+		; (format t "score pair is ~s~%" score-pair)
+
 		(setf valid-score (car score-pair))
+		(setf invalid-score (second score-pair))
 		(setf better-than-best (< invalid-score (second best-score)))
 		(if (and (equal invalid-score (second best-score))
 			 (> valid-score (car best-score)))
 			; then
 			(setf better-than-best t)
 		)
+
+		; (if better-than-best (format t "BEST~%"))
 	
 		(if (or (null best-match) better-than-best)
 			; then

@@ -26,6 +26,17 @@
 ;	(E1.SK (p m o) NOW1)
 ;	(E2.SK (p) E3.SK)
 
+(defparameter *NOW-TIME-PROPS* '(
+	(NOW0 STRICTLY-BEFORE.PR NOW1)
+	(NOW1 STRICTLY-BEFORE.PR NOW2)
+	(NOW2 STRICTLY-BEFORE.PR NOW3)
+	(NOW3 STRICTLY-BEFORE.PR NOW4)
+	(NOW4 STRICTLY-BEFORE.PR NOW5)
+	(NOW5 STRICTLY-BEFORE.PR NOW6)
+	(NOW6 STRICTLY-BEFORE.PR NOW7)
+	(NOW7 STRICTLY-BEFORE.PR NOW8)
+))
+
 (defparameter *TIME-PROP-ALLEN-RELS*
 (mk-hashtable '(
 	; TODO: cause.v implies (p m o), but not vice versa.
@@ -76,25 +87,31 @@
 )
 
 (setf *TIME-MODEL-HASH* nil)
+(setf *TIME-MODEL* nil)
 
 (defun load-time-model (tm)
 (block outer
-	; Clear the state of the AIA solver.
-	(clear)
-
 	; (format t "hash of time model: ~s~%" (rechash tm))
 	(setf model-hash (rechash tm))
 	(if (equal model-hash *TIME-MODEL-HASH*)
 		; then
-		(return-from outer)
+		(return-from outer nil)
+		; nil
 		; else
+		(progn
 		(setf *TIME-MODEL-HASH* model-hash)
+		(setf *TIME-MODEL* (append tm *NOW-TIME-PROPS*))
+		)
 	)
+
+	; Clear the state of the AIA solver.
+	(clear)
 	
 	; Load the relationship triples into
 	; the AIA solver's internal data model.
-	(loop for rel in tm do (block inner
+	(loop for rel in (append tm *NOW-TIME-PROPS*) do (block inner
 		(setf allen-rel (convert-time-prop rel))
+		(dbg 'time "asserting ~s~%" allen-rel)
 		(if (null allen-rel)
 			(progn
 				(dbg 'time "invalid temporal proposition ~s~%" rel)

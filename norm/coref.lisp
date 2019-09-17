@@ -192,13 +192,21 @@
 )
 )
 
+(defparameter *STORY-KB-MAP* (make-hash-table :test #'equal))
+
 (defun story-to-kb (story)
 (block outer
+	(if (not (null (gethash story *STORY-KB-MAP*)))
+		(return-from outer (gethash story *STORY-KB-MAP*))
+	)
+
 	(setf skb-exp (make-hash-table :test #'equal))
 	(setf skb-arg (make-hash-table :test #'equal))
 	(setf skb-pred (make-hash-table :test #'equal))
 	(setf skb (list skb-exp skb-arg skb-pred))
 	(loop for wff in story do (add-to-kb wff skb))
+
+	(setf (gethash story *STORY-KB-MAP*) skb)
 
 	(return-from outer skb)
 )
@@ -252,7 +260,10 @@
 	(if (time-prop? prop)
 		; then
 		(block eval-time-prop
-			(load-time-model (loop for p being the hash-keys of (kb-explicit kb) if (time-prop? p) collect p))
+			(setf story-time-props (loop for p being the hash-keys of (kb-explicit kb) if (time-prop? p) collect p))
+
+			(load-time-model story-time-props)
+
 			(return-from outer (eval-time-prop prop))
 		)
 	)

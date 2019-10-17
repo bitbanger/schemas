@@ -2,3 +2,6 @@
 EPILOG/
 .nfs*
 *.fasl
+norm/ttt/.svn
+norm/ttt/scripts
+norm/ttt/doc

@@ -19,6 +19,11 @@
 	IF
 	ATTR
 	PLUR
+	ORIENTS
+	IMPINGES-ON
+	BEFORE
+	AFTER
+	AT-ABOUT
 ))
 
 (defun has-ext? (x e)
@@ -132,6 +137,7 @@
 
 (defun lex-adv? (x)
 (or
+	(has-ext? x ".ADV")
 	(lex-adv-a? x)
 	(lex-adv-e? x)
 	(lex-adv-s? x)

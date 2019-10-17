@@ -125,6 +125,15 @@
 	; Explicitly marked predicates are predicates
 	(lex-pred? x)
 
+	; Some special symbols are predicates
+	(not (null (member x '(
+		BEFORE
+		AT-ABOUT
+		AFTER
+		IMPINGES-ON
+		ORIENTS
+	) :test #'equal)))
+
 	; Bare verbs/modals, nouns, and adjectives are predicates
 	(lex-verb? x)
 	(lex-noun? x)
@@ -156,6 +165,7 @@
 	(mp x (list (id? 'ADV-E) 'canon-pred?))
 	(mp x (list (id? 'ADV-S) 'canon-pred?))
 	(mp x (list (id? 'ADV-F) 'canon-pred?))
+	(mp x (list (id? ':R) 'canon-pred?))
 	(mp x (list (id? 'ATTR) 'canon-pred?))
 )
 )

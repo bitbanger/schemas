@@ -224,27 +224,20 @@
 
 ;(sp "My son is a little child.")
 
-(if t (block main
-
-(defparameter stories (list))
-
-(let ((sentences (list)))
-(loop while t do (let ((line (read-line)))
-	(if (> (length line) 0)
-		; then
-		; (format t "~s~%~%" (sp line))
-		(setf sentences (append sentences (list (schema-parse line))))
-		; else
-		(progn
-			;(loop for sent in sentences
-			;	do (format t "~s~%" sent)
-			;)
-			; (format t "~%~%~%~%~%")
-			(format t "~s~%~%~%" sentences)
-			(setf stories (append stories (list sentences)))
-			(setf sentences (list))
+(defun process-stdin-story (story-processor-fn)
+(block main
+	(let ((sentences (list)))
+	(loop while t do (let ((line (read-line)))
+		(if (> (length line) 0)
+			; then
+			(setf sentences (append sentences (list (schema-parse line))))
+			; else
+			(progn
+				(funcall story-processor-fn sentences)
+				(setf sentences (list))
+			)
 		)
-	)
-)))
-
+	)))
 ))
+
+; (process-stdin-story (lambda (x) (format t "~s~%~%~%" x)))

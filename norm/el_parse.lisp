@@ -92,7 +92,7 @@
   (with-output-to-string (out-stream)
     ;(let ((stream (excl:run-shell-command command :output :stream
     ;                                              :wait nil)))
-	(let ((stream (sb-ext:process-output (sb-ext:run-program (exec-from-command command) (args-from-command command) :output :stream :wait nil))))
+	(let ((stream (sb-ext:process-output (sb-ext:run-program (exec-from-command command) (args-from-command command) :output :stream :wait nil :directory *default-pathname-defaults*))))
       (loop for line = (read-line stream nil)
          while line
          do (write-line line out-stream)))))

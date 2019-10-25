@@ -535,6 +535,21 @@ is replaced with replacement."
 )
 )
 
+(defun split-lst (lst sep)
+(remove nil
+(mapcar #'unwrap-singletons
+(let ((pos (position sep lst :test #'equal)))
+(cond
+	((null pos)
+		(list lst))
+
+	(t (append
+		(list (subseq lst 0 pos))
+		(split-lst (subseq lst (+ 1 pos) (length lst)) sep)))
+)
+)
+)))
+
 (defun repeat-str (str n)
 	(format nil "~v@{~A~:*~}" n str)
 )

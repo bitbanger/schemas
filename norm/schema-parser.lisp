@@ -105,29 +105,56 @@
 )
 )
 
+(defparameter *EXISTENTIAL-SYMS* '(
+	A.DET
+	SOME
+))
+
 (defun skolemize-adets (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
-	(setf atemporals (list))
+	(setf skolem-placeholder-num 0)
 
 	(block adet-loop-outer
 		(setf adet-pairs nil)
 		(loop while t do (block adet-loop-inner
-			(setf adet-pairs (get-elements-pred-pairs phi-copy (lambda (x) (and (listp x) (equal (car x) 'A.DET)))))
+			(setf adet-pairs (get-elements-pred-pairs phi-copy (lambda (x) (and (listp x) (member (car x) *EXISTENTIAL-SYMS* :test #'equal)))))
+
 
 			(if (null adet-pairs)
 				(return-from adet-loop-outer)
 			)
 
+			;(loop for adet-pair in adet-pairs do (block proc-pair
+
 			(setf adet (car (car adet-pairs)))
 			(setf adet-idx (second (car adet-pairs)))
+			(setf atemporals (list))
+
+			(setf skolem-placeholder (intern (format nil "NEW-SKOLEM-~s" skolem-placeholder-num)))
+			(setf skolem-placeholder-num (+ 1 skolem-placeholder-num))
 
 			(setf adet-var (second adet))
-			(setf adet-formulas (replace-vals adet-var 'NEW-SKOLEM (cddr adet)))
+			(setf adet-formulas (replace-vals adet-var skolem-placeholder (cddr adet)))
+
+			; SOME quantifiers have restrictor matrices, which we can count as "adet formulas"
+			; for the later replacement. We'll split by ANDs and mark each split formula down,
+			; though, so that we can automatically determine that they should be added as
+			; atemporals.
+			(setf restrictors (list))
+			(if (equal (car adet) 'SOME)
+				; then
+				(block handle-some
+					(setf adet-formulas (replace-vals adet-var skolem-placeholder (cdddr adet)))
+					(setf restrictors (replace-vals adet-var skolem-placeholder (split-lst (third adet) 'AND)))
+					(setf adet-formulas (append adet-formulas restrictors))
+				)
+			)
+
 			(setf final-adet-formulas (list))
 			(loop for form in adet-formulas
 				; TODO: better if condition here to identify atemporals
-				do (if (and (equal 'NEW-SKOLEM (car form)))
+				do (if (or (and (equal skolem-placeholder (car form))) (member form restrictors :test #'equal) )
 					; then
 					(setf atemporals (append atemporals (list form)))
 					; else
@@ -137,26 +164,29 @@
 
 			; Replace the adet
 			(setf phi-copy (replace-element-idx phi-copy adet-idx (and-chain final-adet-formulas)))
-		)
-		)
-	)
 
-	; Add the atemporals
-	(setf phi-copy (append atemporals phi-copy))
 
-	; Make a new Skolem name based on the first atemporal.
-	; Probably there'll only ever be one (valid) one for this.
-	; If there isn't one at all, we'll just call it "OBJECT".
-	(setf new-skolem nil)
-	(loop for atemp in atemporals
-		if (and (equal 2 (length atemp)) (symbolp (second atemp)))
-			do (setf new-skolem (new-skolem! (intern (car (split-str (format nil "~s" (second atemp)) ".")))))
-	)
-	(if (null new-skolem)
-		(setf new-skolem (new-skolem! 'OBJECT))
-	)
 
-	(setf phi-copy (replace-vals 'NEW-SKOLEM new-skolem phi-copy))
+			; Add the atemporals
+			(setf phi-copy (append atemporals phi-copy))
+
+			; Make a new Skolem name based on the first atemporal.
+			; Probably there'll only ever be one (valid) one for this.
+			; If there isn't one at all, we'll just call it "OBJECT".
+			(setf new-skolem nil)
+			(loop for atemp in atemporals
+				if (and (equal 2 (length atemp)) (symbolp (second atemp)))
+					do (setf new-skolem (new-skolem! (intern (car (split-str (format nil "~s" (second atemp)) ".")))))
+			)
+			(if (null new-skolem)
+				(setf new-skolem (new-skolem! 'OBJECT))
+			)
+
+			(setf phi-copy (replace-vals skolem-placeholder new-skolem phi-copy))
+		
+				)
+				)
+			)
 
 	(return-from outer phi-copy)
 )
@@ -225,19 +255,23 @@
 ;(sp "My son is a little child.")
 
 (defun process-stdin-story (story-processor-fn)
-(block main
-	(let ((sentences (list)))
+(block outer
+	(let ((sentences (list)) (lines (list)))
 	(loop while t do (let ((line (read-line)))
 		(if (> (length line) 0)
 			; then
+			(progn
 			(setf sentences (append sentences (list (schema-parse line))))
+			(setf lines (append lines (list line)))
+			)
 			; else
 			(progn
-				(funcall story-processor-fn sentences)
+				(funcall story-processor-fn sentences lines)
 				(setf sentences (list))
+				(setf lines (list))
 			)
 		)
 	)))
 ))
 
-; (process-stdin-story (lambda (x) (format t "~s~%~%~%" x)))
+; (process-stdin-story (lambda (sents lines) (format t "~s~%~%~%" sents)))

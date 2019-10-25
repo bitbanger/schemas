@@ -5,6 +5,9 @@
 ;; of the workshop.  The room for the workshop must be reserved two
 ;; weeks in advance, and it's already the 7th.  When should you tell
 ;; Uncle Albert to expect you?
+(load "load-mats.lisp")
+
+(initialize-allen-arrays)
 
 (setq mmode t)
 (setq amode t)

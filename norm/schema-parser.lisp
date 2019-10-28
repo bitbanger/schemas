@@ -100,6 +100,7 @@
 	skolemize-adets
 	split-and-eps
 	norm-conjunctive-infixes
+	split-top-level-lambda-ands
 ))
 
 (defun and-chain (phis)
@@ -377,6 +378,51 @@
 			)
 		)
 		#'skolemize-adets-processor)
+)
+
+(defun apply-lambda (l args)
+(block outer
+	(if (not (canon-lambda? l))
+		(return-from outer nil))
+
+	(setf l-args (listify-nonlists (second l)))
+	(if (not (equal (length l-args) (length args)))
+		(return-from outer nil)
+	)
+
+	(setf l-form (third l))
+	(loop for arg in args
+		for l-arg in l-args
+			do (setf l-form (replace-vals l-arg arg l-form)))
+
+	(return-from outer l-form)
+)
+)
+
+(defun split-top-level-lambda-ands (phi)
+(let (phi-copy props)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for e in phi do (block loop-outer
+		(if (and
+				(listp e)
+				(equal 2 (length e))
+				(canon-lambda? (second e))
+				(equal (car (third (second e))) 'AND))
+			; then
+			(block loop-inner
+				(setf props (cdr (apply-lambda (second e) (list (car e)))))
+				(loop for prop in props do (block loop-add-constrs
+					(setf phi-copy (append (list prop) phi-copy))
+				))
+				(setf phi-copy (remove e phi-copy :test #'equal))
+			)
+		)
+	))
+
+	(return-from outer phi-copy)
+)
+)
 )
 
 ; TODO: do this for > 2 and-chained props

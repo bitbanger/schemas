@@ -84,6 +84,31 @@
 )
 )
 
+(defun idx-ancestors (lst idx)
+(block outer
+	(setf ancestors (list))
+
+	(setf idxified (el-idcs lst))
+	(setf cursor idxified)
+	(loop while (not (equal (second cursor) idx))
+		do (block loop-outer
+			(setf ancestors (append (list (list (get-element-idx lst (second cursor)) (second cursor))) ancestors))
+
+			(setf best '(nil -1))
+			(loop for e2 in (car cursor)
+				do (if (and (<= (second e2) idx) (> (second e2) (second best)))
+					; then
+					(setf best e2)
+				)
+			)
+			(setf cursor best)
+		)
+	)
+
+	(return-from outer ancestors)
+)
+)
+
 (defun get-elements-pred-pairs (lst pred)
 	(get-elements-pred-helper (el-idcs lst) pred)
 )

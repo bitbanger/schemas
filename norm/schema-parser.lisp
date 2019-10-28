@@ -243,6 +243,11 @@
 	(reduce #'max (append (list 0) (mapcar #'skolem-sym-num (remove-duplicates (get-elements-pred phi #'skolem-sym?)))))
 )
 
+; Reports whether the subtree rooted at the given
+; tree index are free of any scope dependencies.
+(defun free-scope? (idx phi)
+)
+
 (defun skolemize-adets-processor (pair phi)
 (block outer
 	(setf adet (car pair))
@@ -260,6 +265,27 @@
 	)
 
 	(setf adet-idx (second pair))
+
+	; Check whether the Skolemization would be
+	; free or relative to another quantifier.
+	(if (loop for anc in (idx-ancestors phi adet-idx)
+			; NOTE: can't use canon-lambda? here because
+			; there may be unrepaired syntax inside the lambda,
+			; which could lead to this Skolemization happening
+			; anyway before the lambda gets repaired. Rule
+			; application ordering could fix this, but we can
+			; also just assume that one of these headers is
+			; present iff the remainder will be accurately
+			; repaired into the appropriate structure.
+			thereis (or
+				(equal (caar anc) 'L)
+				(equal (caar anc) 'LAMBDA)
+				(equal (caar anc) 'LAMBDA.EL)
+				(equal (caar anc) 'ALL)))
+		; then
+		(return-from outer phi)
+	)
+
 	(setf atemporals (list))
 
 	(setf skolem-placeholder-num (get-highest-skolem-num phi))

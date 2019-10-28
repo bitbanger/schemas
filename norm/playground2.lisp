@@ -14,7 +14,7 @@
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema (car kite-gen-schema))
 
-(setf story *MONKEY-STORY*)
+(setf story *MONKEY-STORY-2*)
 ;(setf story *PARSED-STORY-1*)
 
 (format t "story:~%")
@@ -29,7 +29,54 @@
 (defparameter *RUN-MATCHER* t)
 
 ; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
-(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v))
+; (defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v))
+(defparameter learned_schema.v '(EPI-SCHEMA ((?X_E DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V ?X_A))
+              (KA (GET.V ?X_F)))
+             ** ?E_1)
+	(:ROLES
+		(!R1 ((KA (CLIMB.V ?X_A)) ACTION_1.N))
+		(!R2 ((KA (GET.V ?X_F)) ACTION_1.N))
+		(!R3 (?X_A TREE_1.N))
+		(!R4 (?X_E AGENT_1.N))
+		(!R5 (?X_F OBJECT_1.N))
+		(!R6 (?X_F COCOANUT_1.N))
+		(!R7 (?X_E MONKEY_1.N))
+		(!R8 (?X_E INDEF.A))
+	)
+	(:GOALS
+		(?G1 (?X_E (WANT.V (KA (GET.V ?X_F)))))
+		(?G2 (?X_E (WANT.V (THAT (?X_E (HAVE.V ?X_F))))))
+	)
+	(:PRECONDS
+		(?I1 (NOT (?X_E (CAN.MD (KA (GET.V ?X_F))))))
+		(?I2 (NOT (?X_E HAVE.V ?X_F)))
+	)
+	(:STEPS
+		(?E1 (?X_E (CLIMB.V ?X_A)))
+		(?E2 (?X_E (CAN.MD (KA (GET.V ?X_F)))))
+		(?E3 (?X_E (GET.V ?X_F)))
+		(?E3 (?X_E (GET.V ?X_F)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?E1 CAUSE.V ?E2))
+		(!W2 (?E1 CONSEC.PR ?E2))
+		(!W3 (?E1 BEFORE.PR ?E2))
+		(!W4 (?E1 BEFORE.PR ?E3))
+		(!W5 (?E2 POSTCOND-OF.PR ?E1))
+		(!W6 (?G1 CAUSE.V ?E1))
+		(!W7 (?E1 SAME-TIME.PR ?E_1))
+		(!W8 (?I1 PRECOND-OF.PR ?E_1))
+		(!W9 (?E3 SAME-TIME.PR ?E_2))
+		(!W10 (?I2 PRECOND-OF.PR ?E_2))
+		(!W11 (?P1 POSTCOND-OF.PR ?E_2))
+		(!W12 (?E1 CONSEC.PR ?E3))
+		(!W13 (?E1 AT-ABOUT.PR ?X_D))
+	)
+	(:POSTCONDS
+		(?P1 (?X_E HAVE.V ?X_F))
+	)
+))
+(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'learned_schema.v))
 
 
 (setf matches (make-hash-table :test #'equal))
@@ -71,7 +118,8 @@
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))
 ;(format t "~s~%" (eval-time-prop '(E3.SK BEFORE.PR E2.SK)))
 
-
+(if nil
+(block ifnil
 (setf enable-match (gethash 'do_action_to_enable_action.v matches))
 (setf get-match (gethash 'take_object.v matches))
 
@@ -98,4 +146,4 @@
 (setf cleaner-schema (clean-do-kas cleaned-schema))
 
 (format t "~%even cleaner schema:~%")
-(print-schema cleaner-schema)
+(print-schema cleaner-schema)))

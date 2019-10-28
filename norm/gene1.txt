@@ -1,0 +1,283 @@
+story:
+	((E1.SK AT-ABOUT.PR NOW0) (MONKEY1.SK MONKEY_1.N) (MONKEY1.SK INDEF.A)
+  (TREE1.SK TREE_1.N) ((MONKEY1.SK (CAN.MD (KA (CLIMB.V TREE1.SK)))) ** E1.SK))
+
+	((E2.SK AT-ABOUT.PR NOW1) ((MONKEY1.SK (CLIMB.V TREE1.SK)) ** E2.SK))
+
+	((E2.SK CONSEC.PR E3.SK) (COCOANUT1.SK COCOANUT_1.N)
+  ((MONKEY1.SK (GET.V COCOANUT1.SK)) ** E3.SK))
+
+	((E4.SK AT-ABOUT.PR NOW2) (GROUND1.SK GROUND_1.N) (GROUND1.SK INDEF.A)
+  ((MONKEY1.SK (DROP.V COCOANUT1.SK (TO.P-ARG GROUND1.SK))) ** E4.SK))
+
+	((E5.SK AT-ABOUT.PR NOW3) ((MONKEY1.SK ((ADV-A DOWN.A) COME.V)) ** E5.SK))
+
+	((E5.SK CONSEC.PR E6.SK) ((MONKEY1.SK (EAT.V COCOANUT1.SK)) ** E6.SK))
+
+best match for protoschema DO_ACTION_TO_ENABLE_ACTION.V (score (20 4)):
+
+(EPI-SCHEMA ((MONKEY1.SK DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V TREE1.SK))
+              (KA (GET.V COCOANUT1.SK)))
+             ** ?E)
+	(:ROLES
+		(!R1 (MONKEY1.SK AGENT_1.N))
+		(!R2 ((KA (CLIMB.V TREE1.SK)) ACTION_1.N))
+		(!R3 ((KA (GET.V COCOANUT1.SK)) ACTION_1.N))
+		(!R4 (MONKEY1.SK INDEF.A))
+		(!R5 (MONKEY1.SK MONKEY_1.N))
+		(!R6 (TREE1.SK TREE_1.N))
+	)
+	(:GOALS
+		(?G1 (MONKEY1.SK (WANT.V (KA (DO.V (KA (GET.V COCOANUT1.SK)))))))
+	)
+	(:PRECONDS
+		(?I1 (NOT (MONKEY1.SK (CAN.MD (KA (DO.V (KA (GET.V COCOANUT1.SK))))))))
+	)
+	(:STEPS
+		(E2.SK (MONKEY1.SK (CLIMB.V TREE1.SK)))
+		(?E2 (MONKEY1.SK (CAN.MD (KA (DO.V (KA (GET.V COCOANUT1.SK)))))))
+		(E3.SK (MONKEY1.SK (DO.V (KA (GET.V COCOANUT1.SK)))))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (E2.SK CAUSE.V ?E2))
+		(!W2 (E2.SK CONSEC.PR ?E2))
+		(!W3 (E2.SK BEFORE.PR ?E2))
+		(!W4 (E2.SK BEFORE.PR E3.SK))
+		(!W5 (?E2 POSTCOND-OF.PR E2.SK))
+		(!W6 (?G1 CAUSE.V E2.SK))
+		(!W7 (E2.SK SAME-TIME.PR ?E))
+		(!W8 (?I1 PRECOND-OF.PR ?E))
+		(!W9 (E2.SK CONSEC.PR E3.SK))
+		(!W10 (E2.SK AT-ABOUT.PR NOW1))
+	)
+)
+
+
+
+best match for protoschema TAKE_OBJECT.V (score (15 4)):
+
+(EPI-SCHEMA ((MONKEY1.SK TAKE_OBJECT.V COCOANUT1.SK) ** ?E)
+	(:ROLES
+		(!R1 (MONKEY1.SK AGENT_1.N))
+		(!R2 (COCOANUT1.SK OBJECT_1.N))
+		(!R3 (COCOANUT1.SK COCOANUT_1.N))
+		(!R4 (MONKEY1.SK MONKEY_1.N))
+		(!R5 (MONKEY1.SK INDEF.A))
+	)
+	(:GOALS
+		(?G1 (MONKEY1.SK (WANT.V (THAT (MONKEY1.SK (HAVE.V COCOANUT1.SK))))))
+	)
+	(:PRECONDS
+		(?I1 (NOT (MONKEY1.SK HAVE.V COCOANUT1.SK)))
+	)
+	(:STEPS
+		(E3.SK (MONKEY1.SK (GET.V COCOANUT1.SK)))
+	)
+	(:POSTCONDS
+		(?P1 (MONKEY1.SK HAVE.V COCOANUT1.SK))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (E3.SK SAME-TIME.PR ?E))
+		(!W2 (?I1 PRECOND-OF.PR ?E))
+		(!W3 (?P1 POSTCOND-OF.PR ?E))
+		(!W4 (E2.SK CONSEC.PR E3.SK))
+		(!W5 (E2.SK AT-ABOUT.PR NOW1))
+	)
+)
+
+
+
+
+MERGING do_action_to_enable_action.v AND take_object.v
+(do_action_to_enable_action.v as external header
+
+(EPI-SCHEMA ((MONKEY1.SK DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V TREE1.SK))
+              (KA (GET.V COCOANUT1.SK)))
+             ** ?E_1)
+	(:ROLES
+		(!R1 ((KA (CLIMB.V TREE1.SK)) ACTION_1.N))
+		(!R2 ((KA (GET.V COCOANUT1.SK)) ACTION_1.N))
+		(!R3 (TREE1.SK TREE_1.N))
+		(!R4 (MONKEY1.SK AGENT_1.N))
+		(!R5 (COCOANUT1.SK OBJECT_1.N))
+		(!R6 (COCOANUT1.SK COCOANUT_1.N))
+		(!R7 (MONKEY1.SK MONKEY_1.N))
+		(!R8 (MONKEY1.SK INDEF.A))
+	)
+	(:GOALS
+		(?G1_1 (MONKEY1.SK (WANT.V (KA (DO.V (KA (GET.V COCOANUT1.SK)))))))
+		(?G1_2 (MONKEY1.SK (WANT.V (THAT (MONKEY1.SK (HAVE.V COCOANUT1.SK))))))
+	)
+	(:PRECONDS
+		(?I1_1 (NOT (MONKEY1.SK (CAN.MD (KA (DO.V (KA (GET.V COCOANUT1.SK))))))))
+		(?I1_2 (NOT (MONKEY1.SK HAVE.V COCOANUT1.SK)))
+	)
+	(:STEPS
+		(E2.SK (MONKEY1.SK (CLIMB.V TREE1.SK)))
+		(?E2 (MONKEY1.SK (CAN.MD (KA (DO.V (KA (GET.V COCOANUT1.SK)))))))
+		(E3.SK (MONKEY1.SK (DO.V (KA (GET.V COCOANUT1.SK)))))
+		(E3.SK (MONKEY1.SK (GET.V COCOANUT1.SK)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (E2.SK CAUSE.V ?E2))
+		(!W2 (E2.SK CONSEC.PR ?E2))
+		(!W3 (E2.SK BEFORE.PR ?E2))
+		(!W4 (E2.SK BEFORE.PR E3.SK))
+		(!W5 (?E2 POSTCOND-OF.PR E2.SK))
+		(!W6 (?G1_1 CAUSE.V E2.SK))
+		(!W7 (E2.SK SAME-TIME.PR ?E_1))
+		(!W8 (?I1_1 PRECOND-OF.PR ?E_1))
+		(!W9 (E3.SK SAME-TIME.PR ?E_2))
+		(!W10 (?I1_2 PRECOND-OF.PR ?E_2))
+		(!W11 (?P1 POSTCOND-OF.PR ?E_2))
+		(!W12 (E2.SK CONSEC.PR E3.SK))
+		(!W13 (E2.SK AT-ABOUT.PR NOW1))
+	)
+	(:POSTCONDS
+		(?P1 (MONKEY1.SK HAVE.V COCOANUT1.SK))
+	)
+)
+
+generalizing constants to variables:
+(EPI-SCHEMA ((?X_E DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V ?X_A))
+              (KA (GET.V ?X_F)))
+             ** ?E_1)
+	(:ROLES
+		(!R1 ((KA (CLIMB.V ?X_A)) ACTION_1.N))
+		(!R2 ((KA (GET.V ?X_F)) ACTION_1.N))
+		(!R3 (?X_A TREE_1.N))
+		(!R4 (?X_E AGENT_1.N))
+		(!R5 (?X_F OBJECT_1.N))
+		(!R6 (?X_F COCOANUT_1.N))
+		(!R7 (?X_E MONKEY_1.N))
+		(!R8 (?X_E INDEF.A))
+	)
+	(:GOALS
+		(?G1_1 (?X_E (WANT.V (KA (DO.V (KA (GET.V ?X_F)))))))
+		(?G1_2 (?X_E (WANT.V (THAT (?X_E (HAVE.V ?X_F))))))
+	)
+	(:PRECONDS
+		(?I1_1 (NOT (?X_E (CAN.MD (KA (DO.V (KA (GET.V ?X_F))))))))
+		(?I1_2 (NOT (?X_E HAVE.V ?X_F)))
+	)
+	(:STEPS
+		(?X_C (?X_E (CLIMB.V ?X_A)))
+		(?E2 (?X_E (CAN.MD (KA (DO.V (KA (GET.V ?X_F)))))))
+		(?X_B (?X_E (DO.V (KA (GET.V ?X_F)))))
+		(?X_B (?X_E (GET.V ?X_F)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?X_C CAUSE.V ?E2))
+		(!W2 (?X_C CONSEC.PR ?E2))
+		(!W3 (?X_C BEFORE.PR ?E2))
+		(!W4 (?X_C BEFORE.PR ?X_B))
+		(!W5 (?E2 POSTCOND-OF.PR ?X_C))
+		(!W6 (?G1_1 CAUSE.V ?X_C))
+		(!W7 (?X_C SAME-TIME.PR ?E_1))
+		(!W8 (?I1_1 PRECOND-OF.PR ?E_1))
+		(!W9 (?X_B SAME-TIME.PR ?E_2))
+		(!W10 (?I1_2 PRECOND-OF.PR ?E_2))
+		(!W11 (?P1 POSTCOND-OF.PR ?E_2))
+		(!W12 (?X_C CONSEC.PR ?X_B))
+		(!W13 (?X_C AT-ABOUT.PR ?X_D))
+	)
+	(:POSTCONDS
+		(?P1 (?X_E HAVE.V ?X_F))
+	)
+)
+
+cleaning up constraint IDs:
+(EPI-SCHEMA ((?X_E DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V ?X_A))
+              (KA (GET.V ?X_F)))
+             ** ?E_1)
+	(:ROLES
+		(!R1 ((KA (CLIMB.V ?X_A)) ACTION_1.N))
+		(!R2 ((KA (GET.V ?X_F)) ACTION_1.N))
+		(!R3 (?X_A TREE_1.N))
+		(!R4 (?X_E AGENT_1.N))
+		(!R5 (?X_F OBJECT_1.N))
+		(!R6 (?X_F COCOANUT_1.N))
+		(!R7 (?X_E MONKEY_1.N))
+		(!R8 (?X_E INDEF.A))
+	)
+	(:GOALS
+		(?G1 (?X_E (WANT.V (KA (DO.V (KA (GET.V ?X_F)))))))
+		(?G2 (?X_E (WANT.V (THAT (?X_E (HAVE.V ?X_F))))))
+	)
+	(:PRECONDS
+		(?I1 (NOT (?X_E (CAN.MD (KA (DO.V (KA (GET.V ?X_F))))))))
+		(?I2 (NOT (?X_E HAVE.V ?X_F)))
+	)
+	(:STEPS
+		(?E1 (?X_E (CLIMB.V ?X_A)))
+		(?E2 (?X_E (CAN.MD (KA (DO.V (KA (GET.V ?X_F)))))))
+		(?E3 (?X_E (DO.V (KA (GET.V ?X_F)))))
+		(?E3 (?X_E (GET.V ?X_F)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?E1 CAUSE.V ?E2))
+		(!W2 (?E1 CONSEC.PR ?E2))
+		(!W3 (?E1 BEFORE.PR ?E2))
+		(!W4 (?E1 BEFORE.PR ?E3))
+		(!W5 (?E2 POSTCOND-OF.PR ?E1))
+		(!W6 (?G1 CAUSE.V ?E1))
+		(!W7 (?E1 SAME-TIME.PR ?E_1))
+		(!W8 (?I1 PRECOND-OF.PR ?E_1))
+		(!W9 (?E3 SAME-TIME.PR ?E_2))
+		(!W10 (?I2 PRECOND-OF.PR ?E_2))
+		(!W11 (?P1 POSTCOND-OF.PR ?E_2))
+		(!W12 (?E1 CONSEC.PR ?E3))
+		(!W13 (?E1 AT-ABOUT.PR ?X_D))
+	)
+	(:POSTCONDS
+		(?P1 (?X_E HAVE.V ?X_F))
+	)
+)
+
+even cleaner schema:
+(EPI-SCHEMA ((?X_E DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V ?X_A))
+              (KA (GET.V ?X_F)))
+             ** ?E_1)
+	(:ROLES
+		(!R1 ((KA (CLIMB.V ?X_A)) ACTION_1.N))
+		(!R2 ((KA (GET.V ?X_F)) ACTION_1.N))
+		(!R3 (?X_A TREE_1.N))
+		(!R4 (?X_E AGENT_1.N))
+		(!R5 (?X_F OBJECT_1.N))
+		(!R6 (?X_F COCOANUT_1.N))
+		(!R7 (?X_E MONKEY_1.N))
+		(!R8 (?X_E INDEF.A))
+	)
+	(:GOALS
+		(?G1 (?X_E (WANT.V (KA (GET.V ?X_F)))))
+		(?G2 (?X_E (WANT.V (THAT (?X_E (HAVE.V ?X_F))))))
+	)
+	(:PRECONDS
+		(?I1 (NOT (?X_E (CAN.MD (KA (GET.V ?X_F))))))
+		(?I2 (NOT (?X_E HAVE.V ?X_F)))
+	)
+	(:STEPS
+		(?E1 (?X_E (CLIMB.V ?X_A)))
+		(?E2 (?X_E (CAN.MD (KA (GET.V ?X_F)))))
+		(?E3 (?X_E (GET.V ?X_F)))
+		(?E3 (?X_E (GET.V ?X_F)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?E1 CAUSE.V ?E2))
+		(!W2 (?E1 CONSEC.PR ?E2))
+		(!W3 (?E1 BEFORE.PR ?E2))
+		(!W4 (?E1 BEFORE.PR ?E3))
+		(!W5 (?E2 POSTCOND-OF.PR ?E1))
+		(!W6 (?G1 CAUSE.V ?E1))
+		(!W7 (?E1 SAME-TIME.PR ?E_1))
+		(!W8 (?I1 PRECOND-OF.PR ?E_1))
+		(!W9 (?E3 SAME-TIME.PR ?E_2))
+		(!W10 (?I2 PRECOND-OF.PR ?E_2))
+		(!W11 (?P1 POSTCOND-OF.PR ?E_2))
+		(!W12 (?E1 CONSEC.PR ?E3))
+		(!W13 (?E1 AT-ABOUT.PR ?X_D))
+	)
+	(:POSTCONDS
+		(?P1 (?X_E HAVE.V ?X_F))
+	)
+)

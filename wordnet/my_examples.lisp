@@ -1,0 +1,8 @@
+(load "packages.lisp")
+(in-package "WORDNET")
+(load "parts-of-speech.lisp")
+(load "wordnet-database-files.lisp")
+(load "parse-wordnet-data.lisp")
+(load "representation.lisp")
+(load "relationship-algorithms.lisp")
+(in-package "COMMON-LISP-USER")

@@ -1,0 +1,8 @@
+Contributions to match score:
+
+	- # of bound variables
+
+	- # of story formulas "confirmed" by filled-in schema formulas
+		-- NOT counting schema formulas that were added as additional constraints, as those will always match themselves when encountered later in the story!
+
+	- actual truth/consistency of constraints (should at least check chronological order w/r/t NOW#s)

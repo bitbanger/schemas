@@ -1,0 +1,85 @@
+(
+	(E1.SK BEFORE NOW0)
+	(FOOD2.SK FOOD.N)
+    (
+		((K GENE.N) (NEED.V (KA (L Y (Y GET.V FOOD2.SK)))))
+
+	** E1.SK)
+)
+
+
+
+
+
+(
+	(E3.SK BEFORE NOW1)
+	(E0 ORIENTS E3.SK)
+	(CAR4.SK CAR.N)
+    (CAR4.SK PERTAIN-TO HE.PRO)
+
+    (
+		((K GENE.N) GO.V (:R (L V (V TO.P CAR4.SK))))
+
+	** E3.SK)
+)
+
+
+
+
+(
+	(E5.SK BEFORE NOW2)
+	(E1 ORIENTS E5.SK)
+    (STORE6.SK ((NN GROCERY.N) STORE.N))
+
+	(
+		(HE.PRO DRIVE.V (:R (L Z (Z TO.P STORE6.SK))))
+
+	** E5.SK)
+)
+
+
+
+
+(
+(E7.SK BEFORE NOW3)
+(E2 ORIENTS E7.SK)
+(E8.SK AT-OR-BEFORE NOW3)
+
+     (
+		(
+			(
+				((K GENE.N) (INSIDE.ADV GO.V))
+				AND.CC
+        		(THE Y            
+             		((Y (FAVORITE.A (PLUR FOOD.N))) AND (Y PERTAIN-TO HE.PRO))
+             		((K GENE.N) BUY.V Y)
+				)
+			)
+
+       	** E8.SK)
+
+      ** E7.SK)
+)
+
+
+
+
+
+(
+	(E9.SK BEFORE NOW4)
+	(E3 ORIENTS E9.SK)
+	(E10.SK AT-OR-BEFORE NOW4)
+    (E4 ORIENTS E10.SK)
+
+    (
+		(
+			(
+				(THE X (X FOOD.N) (HE.PRO BUY.V X))
+				AND.CC
+       			(HE.PRO ((MODIF98960.ADVP HOME.N) GO.V))
+			)
+
+      	** E10.SK)
+
+     ** E9.SK)
+)

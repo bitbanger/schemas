@@ -1,0 +1,241 @@
+story:
+	((E1.SK AT-ABOUT.PR NOW0) (MONKEY1.SK MONKEY_1.N) (MONKEY1.SK INDEF.A)
+  (TREE1.SK TREE_1.N) ((MONKEY1.SK (CAN.MD (KA (CLIMB.V TREE1.SK)))) ** E1.SK))
+
+	((E2.SK AT-ABOUT.PR NOW1) ((MONKEY1.SK (CLIMB.V TREE1.SK)) ** E2.SK))
+
+	((E2.SK CONSEC.PR E3.SK) (COCOANUT1.SK COCOANUT_1.N)
+  ((MONKEY1.SK (GET.V COCOANUT1.SK)) ** E3.SK))
+
+	((E4.SK AT-ABOUT.PR NOW2) (GROUND1.SK GROUND_1.N) (GROUND1.SK INDEF.A)
+  ((MONKEY1.SK (DROP.V COCOANUT1.SK (TO.P-ARG GROUND1.SK))) ** E4.SK))
+
+	((E5.SK AT-ABOUT.PR NOW3) ((MONKEY1.SK ((ADV-A DOWN.A) COME.V)) ** E5.SK))
+
+	((E5.SK CONSEC.PR E6.SK) ((MONKEY1.SK (EAT.V COCOANUT1.SK)) ** E6.SK))
+
+best match for protoschema DO_ACTION_FOR_PLEASURE.V (score 6):
+
+(EPI-SCHEMA ((?C DO_ACTION_FOR_PLEASURE.V (KA (CLIMB.V ?B))) ** ?E)
+	(:ROLES
+		(!R1 (?C AGENT1.N))
+		(!R2 ((KA (CLIMB.V ?B)) ACTION1.N))
+		(!R3 (?P PLEASURE.N))
+		(!R4 (?C MONKEY_1.N))
+		(!R5 (?C INDEF.A))
+		(!R6 (?B TREE_1.N))
+	)
+	(:GOALS
+		(?G1 (?C (WANT.V (KA (EXPERIENCE.V ?P)))))
+	)
+	(:STEPS
+		(?D (?C (CLIMB.V ?B)))
+	)
+	(:POSTCONDS
+		(!POST1 (?C (EXPERIENCE.V ?P)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?G1 CAUSE.V ?D))
+		(!W2 (?D CAUSE.V ?P1))
+		(!W3 (?D CONSEC.PR ?A))
+		(!W4 (?D AT-ABOUT.PR ?F))
+	)
+)
+
+
+
+best match for protoschema AVOID_ACTION_TO_AVOID_DISPLEASURE.V (score 0):
+
+(EPI-SCHEMA ((?X AVOID_ACTION_TO_AVOID_DISPLEASURE.V ?A) ** ?E)
+	(:ROLES
+		(!R1 (?X AGENT1.N))
+		(!R2 (?A ACTION1.N))
+		(!R3 (?D DISPLEASURE.N))
+	)
+	(:GOALS
+		(?G1 (?X (WANT.V (THAT (NOT (?X (EXPERIENCE.V ?D)))))))
+	)
+	(:PRECONDS
+		(!PRE1 ((KE (?X (DO.V ?A))) CAUSE.V (KE (?X (EXPERIENCE.V ?D)))))
+	)
+	(:STEPS
+		(?E1 (NOT (?X (DO.V ?A))))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?G1 CAUSE.V ?E1))
+	)
+)
+
+
+
+best match for protoschema DO_ACTION_TO_ENABLE_ACTION.V (score 12):
+
+(EPI-SCHEMA ((?C DO_ACTION_TO_ENABLE_ACTION.V (KA (CLIMB.V ?D))
+              (KA ((ADV-A DOWN.A) COME.V)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?C AGENT1.N))
+		(!R2 ((KA (CLIMB.V ?D)) ACTION1.N))
+		(!R3 ((KA ((ADV-A DOWN.A) COME.V)) ACTION1.N))
+		(!R4 (?D TREE_1.N))
+		(!R5 (?C INDEF.A))
+		(!R6 (?C MONKEY_1.N))
+	)
+	(:GOALS
+		(?G1 (?C (WANT.V (KA (DO.V (KA ((ADV-A DOWN.A) COME.V)))))))
+	)
+	(:PRECONDS
+		(!PRE1 (NOT (?C (CAN.MD (KA (DO.V (KA ((ADV-A DOWN.A) COME.V))))))))
+	)
+	(:STEPS
+		(?F (?C (CLIMB.V ?D)))
+		(?E2 (?C (CAN.MD (KA (DO.V (KA ((ADV-A DOWN.A) COME.V)))))))
+		(?H (?C ((ADV-A DOWN.A) COME.V)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?F CAUSE.V ?E2))
+		(!W2 (?F CONSEC.PR ?E2))
+		(!W3 (?F CONSEC.PR ?H))
+		(!W4 (?F BEFORE.PR ?E2))
+		(!W5 (?F BEFORE.PR ?H))
+		(!W6 (?E2 SAME-TIME.PR ?H))
+		(!W7 (?G1 CAUSE.V ?F))
+		(!W8 (?F AT-ABOUT.PR ?B))
+		(!W9 (?F CONSEC.PR ?G))
+		(!W10 (?H AT-ABOUT.PR ?A))
+		(!W11 (?H CONSEC.PR ?I))
+	)
+)
+
+
+
+best match for protoschema USE_TOOL.V (score 6):
+
+(EPI-SCHEMA ((?X USE_TOOL.V ?T (FOR.P-ARG (KA (CLIMB.V ?C)))) ** ?E)
+	(:ROLES
+		(!R1 (?X AGENT1.N))
+		(!R2 (?T IMPLEMENT1.N))
+		(!R3 ((KA (CLIMB.V ?C)) ACTION1.N))
+		(!R4 (?C TREE_1.N))
+		(!R5 (?B INDEF.A))
+		(!R6 (?B MONKEY_1.N))
+	)
+	(:GOALS
+		(?G1 (?X (WANT.V (KA (DO.V (KA (CLIMB.V ?C)))))))
+	)
+	(:PRECONDS
+		(!PRE1 (?X (HAVE.V ?T)))
+		(!PRE2 (?T (SUITABLE_FOR.P (KA (CLIMB.V ?C)))))
+	)
+	(:STEPS
+		(?D (?B (CLIMB.V ?C)))
+		(?E2 (?X ((ADV-A (USING.P ?T)) (DO.V (KA (CLIMB.V ?C))))))
+		(?E3 (?X (USE.V ?T (FOR.P-ARG (KA (CLIMB.V ?C))))))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?D SAME-TIME.PR ?E2))
+		(!W2 (?D SAME-TIME.PR ?E3))
+		(!W3 (?D AT-ABOUT.PR ?A))
+		(!W4 (?D CONSEC.PR ?F))
+	)
+)
+
+
+
+best match for protoschema GIVE_OBJECT.V (score 0):
+
+(EPI-SCHEMA ((?X GIVE_OBJECT.V ?O (TO.P-ARG ?Y)) ** ?E)
+	(:ROLES
+		(!R1 (?X AGENT1.N))
+		(!R2 (?O OBJECT1.N))
+		(!R3 (?Y AGENT1.N))
+	)
+	(:GOALS
+		(?G1 (?X (WANT.V (THAT (?Y (HAVE.V ?O))))))
+	)
+	(:PRECONDS
+		(!PRE1 (?X HAVE.V ?O))
+		(!PRE2 (NOT (?Y HAVE.V ?O)))
+	)
+	(:STEPS
+		(?E1 (?X (GIVE.V ?O (TO.P-ARG ?Y))))
+	)
+	(:POSTCONDS
+		(!POST1 (NOT (?X HAVE.V ?O)))
+		(!POST2 (?Y HAVE.V ?O))
+	)
+)
+
+
+
+best match for protoschema TAKE_OBJECT.V (score 5):
+
+(EPI-SCHEMA ((?B TAKE_OBJECT.V ?C) ** ?E)
+	(:ROLES
+		(!R1 (?B AGENT1.N))
+		(!R2 (?C OBJECT1.N))
+		(!R3 (?C COCOANUT_1.N))
+		(!R4 (?B INDEF.A))
+		(!R5 (?B MONKEY_1.N))
+	)
+	(:GOALS
+		(?G1 (?B (WANT.V (THAT (?B (HAVE.V ?C))))))
+	)
+	(:PRECONDS
+		(!PRE1 (NOT (?B HAVE.V ?C)))
+	)
+	(:STEPS
+		(?E1 (?B (TAKE.V ?C)))
+		(?A (?B (GET.V ?C)))
+		(?E3 (?B (RECEIVE.V ?C)))
+	)
+	(:POSTCONDS
+		(!POST1 (?B HAVE.V ?C))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?E1 SAME-TIME.PR ?A))
+		(!W2 (?E1 SAME-TIME.PR ?E3))
+		(!W3 (?D CONSEC.PR ?A))
+		(!W4 (?D AT-ABOUT.PR ?F))
+	)
+)
+
+
+
+best match for protoschema GO_SOMEWHERE.V (score 6):
+
+(EPI-SCHEMA ((?B GO_SOMEWHERE.V ?L1 ?L2) ** ?E)
+	(:ROLES
+		(!R1 (?B AGENT_1.N))
+		(!R2 (?O LOCATION_1.N))
+		(!R3 (?B MONKEY_1.N))
+		(!R4 (?B INDEF.A))
+	)
+	(:GOALS
+		(?G1 (?B (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+	)
+	(:PRECONDS
+		(!PRE1 (?B ((ADV-A (AT.P ?L1)) BE.V)))
+		(!PRE2 (NOT (?B ((ADV-A (AT.P ?L2)) BE.V))))
+	)
+	(:STEPS
+		(?C (?B ((ADV-A DOWN.A) COME.V)))
+		(?E2 (?B (MOVEMENT_VERB.V (FROM.P-ARG ?L1) (TO.P-ARG ?L2))))
+		(?E3 (?B (MOVEMENT_VERB.V (TO.P-ARG ?L2) (FROM.P-ARG ?L1))))
+		(?E4 (?B (MOVEMENT_VERB.V (FROM.P-ARG ?L1))))
+	)
+	(:POSTCONDS
+		(!POST1 (NOT (?B ((ADV-A (AT.P ?L1)) BE.V))))
+		(!POST2 (?B ((ADV-A (AT.P ?L2)) BE.V)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?C SAME-TIME.PR ?E2))
+		(!W2 (?C SAME-TIME.PR ?E3))
+		(!W3 (?C SAME-TIME.PR ?E4))
+		(!W4 (?C AT-ABOUT.PR ?A))
+		(!W5 (?C CONSEC.PR ?D))
+	)
+)
+
+
+

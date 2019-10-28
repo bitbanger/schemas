@@ -1,0 +1,151 @@
+Consider a very simple schema for someone playing with something:
+
+(epi-schema ((?x play-with-toy.v ?o) ** ?e)
+	:Roles
+		!r1 (?x agent6.n)
+		!r2 (??t toy.n)
+		!r3 (?tr realization-of.n ??t)
+		!r4 (?x possess.v ?tr)
+		!r5 (??p (kind-of pleasure.n))
+		!r6 (?pr realization-of.n ??p)
+
+	:Goals
+		?g1 (?x (want.v (ka (experience.v ??p))))
+
+	:Steps
+		?e1 (?x play.v (adv-a (with.p ?tr)))
+
+	:Postconds
+		?p1 (?x experience.v ?pr)
+
+	:Values
+		!v1 ((ka (play.v (adv-a (with.p ??t)))) valuable-to.p ?x)
+)
+
+
+Now consider the following stories:
+
+"Here is John with his ball. He and Tyke are playing ball. John likes to play ball with Tyke. John can catch the ball. Tyke can catch it, too. John rolls the ball to Tyke. Tyke takes the ball to John."
+
+
+The verb "play" here triggers a match to the play-with-object.v schema, although "playing ball" doesn't exactly fit the header. That's OK, though---the "with" adverb modifier won't be matched, but the "play" still is, perhaps at some penalty.
+
+The story contains a ball, which we would (hopefully) know from our object knowledge database is a toy. Given the specificity of the "toy" predicate, we'd tentatively match John's ball to that slot, and become more sure by the additional match of !r4 to the fact that it's "his ball" in the story.
+
+So now we have a match to John playing with his ball. If we abstracted John to "boy" or "child", we've already learned that a child might play with a ball. However, there's more to learn here.
+
+There's another person in the story. Tyke, presumably another child, should probably not match to ?tr, as he's not a toy. The negative weight against that match should be high. But we could still tentatively incorporate a "with another person" modifier to the schema.
+
+By taking all of the constraints on Tyke and the ball, we can essentially pull in every formula in the story to consider for schema incorporation. We can add the constraints that, if two children are playing with a ball, both of them can catch it. We can add sequential episodes for child A rolling the ball to child B, and child B then taking the ball to child A.
+
+So here's something like what we could reasonably learn, here, formalized a bit more:
+
+(epi-schema ((?x play-with-toy.v ?o) ** ?e)
+	:Roles
+		!r1 (?x child.n)
+		!r2 (?y child.n)
+		!r3 (??t ball.n)
+		!r4 (?tr realization-of.n ??t)
+		!r5 (?x possess.v ?tr)
+		!r6 (??p (kind-of pleasure.n))
+		!r7 (?pr realization-of.n ??p)
+		!r8 (?x can.md (ka (catch.v ?tr)))
+		!r9 (?y can.md (ka (catch.v ?tr)))
+		
+
+	:Goals
+		?g1 (?x (want.v (ka (experience.v ??p))))
+
+	:Steps
+		?e1 (?x play.v (adv-a (with.p ?tr)) (adv-a (with.p ?y)))
+		?e2 (?x roll.v ?tr (adv-a (to.p ?y)))
+		?e3 (?y take.v ?tr (adv-a (to.p ?x)))
+
+	:Postconds
+		?p1 (?x experience.v ?pr)
+
+	:Values
+		!v1 ((ka (play.v (adv-a (with.p ??t)))) valuable-to.p ?x)
+)
+
+This is a very nice story; the details are all relevant, and simply adding all of the temporal and eternal constraints on the individuals in the story results in a coherent, reasonable schema.
+
+Of course, we could "tune" our generalization a bit: we might opt not to learn ?e2 and ?e3, but be more sure that the (few) details we did learn are correct.
+
+
+
+
+Consider another story:
+
+"The man has a little dog. The boy has a big dog. See the little dog run! He has my ball. The little dog may have the ball. He may run and play with it. She can not take it."
+
+
+Assuming that "He" is properly resolved to the dog, and "it" to the ball, the dog playing with the ball should cause the matcher to consider the "child play ball with other child" schema. A dog, of course, is not a child, but that's OK; we need some contradictions to learn and generalize. We might temporarily hypothesize that ?x can be any animal.
+
+At any rate, filling the dog in for ?x and the ball in for ?tr generates some predictions: the dog may roll the ball to a child, and the child may take the ball back to the dog. It also infers, via !r5, that the dog possesses the ball. However, in the story, the narrator possesses the ball. Here, we'd have a choice: do we hypothesize that sometimes the ball can be owned by someone other than ?x, or do we "correct" the inconsistency by saying that the dog actually owns the ball, perhaps in addition to the narrator? Probably we should have an axiom that possession is generally not shared, or treat the "my ball" as an indication that it's definitely not shared.
+
+However, we still have ?y, still of type child.n, to fill in. Well, we could leave it unfilled, or we could tentatively fill it with the narrator, whom we may hypothesize is a child, but who is at least a human. So now we've predicted that the dog will roll the ball to the child, who will then take it back to the dog.
+
+This is not necessarily supported by the story, but it is an interesting prediction. Whether those things occur or not, though, we have learned that dogs can play with balls, and perhaps that someone can play with something not owned by them.
+
+
+
+
+Another story:
+
+"This is Tom and May. Tom and May can play ball. Tom has a little bat and a little ball. Tom has hit the  ball. See it fly! See May run! Will she get the ball? O, yes, she will get the ball. Run, May, run, and get the ball!"
+
+
+
+"Tom and May can play ball" should immediately fill out the "children playing ball" schema (and make us a little more certain that children play ball more often than dogs). The little ball that Tom has is a good candidate for the realization, ?tr. So, right off the bat (no pun intended), we get a prediction that Tom will roll the ball to May, and that May will take the ball to Tom.
+
+We get some new temporal predications with these children and their ball, too: Tom hit the ball, and May will get the ball (or run and get the ball). Getting has a postcondition of (physically) having, and taking the ball to Tom has a precondition of (physically) having, so it seems natural to link these two in an enablement protoschema: May will get the ball to enable taking the ball to Tom.
+
+Rolling the ball and hitting the ball are different, of course, and don't immediately seem to cancel each other out. Since the dog didn't roll the ball in its play-ball story, and Tom doesn't roll the ball in this one, we may become less certain in the "roll" predication in a play-ball schema. Similarly, we might become less certain about the "take the ball to ?x" part, too---though it would be nice if that were strengthened by this new story, as the "get the ball" seems to reinforce it via precondition/postcondition chaining.
+
+So we could end up with something like this:
+
+(epi-schema ((?x play-with-toy.v ?o) ** ?e)
+	:Roles
+		!r1 (?x child.n)
+		!r2 (?y child.n)
+		!r3 (??t ball.n)
+		!r4 (?tr realization-of.n ??t)
+		!r5 (?x possess.v ?tr)
+		!r6 (??p (kind-of pleasure.n))
+		!r7 (?pr realization-of.n ??p)
+		!r8 (?x can.md (ka (catch.v ?tr)))
+		!r9 (?y can.md (ka (catch.v ?tr)))
+		
+
+	:Goals
+		?g1 (?x (want.v (ka (experience.v ??p))))
+
+	:Steps
+		?e1 (?x play.v (adv-a (with.p ?tr)) (adv-a (with.p ?y)))
+		?e2 (?x roll.v ?tr (adv-a (to.p ?y)))
+		?e3 (?x hit.v ?tr)
+		?e4 (?y do_action_to_enable.v (ka (get.v ?tr)) (ka (take.v ?tr (adv-a (to.p ?x)))))
+
+	:Certainties
+		!e1 1.0
+		!e2 0.33
+		!e3 0.33
+		!e4 0.45
+		!r1 0.66
+		!r2 1.0
+		!r3 1.0
+
+	:Postconds
+		?p1 (?x experience.v ?pr)
+
+	:Values
+		!v1 ((ka (play.v (adv-a (with.p ??t)))) valuable-to.p ?x)
+)
+
+
+Here the certainties are roughly the proportion of stories this schema matches with such an event. ?e4 is strengthened a bit due to the matchup between the "get" and "take" actions in the enablement protoschema.
+
+We could also encode ?e2 and ?e3 as a (weighted) disjunction: we know someone can either hit or roll the ball, here, but we've never seen both. However, we don't really know that they "replace" each other, unless we know something about the postcondition of each being "no longer (physically) have ball".
+
+We could (with less certainty) start incorporating "peripheral details": the child who has a ball may also have a bat. The ball may fly. The person getting the ball may run to enable getting it.

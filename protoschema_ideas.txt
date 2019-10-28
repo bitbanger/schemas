@@ -1,0 +1,14 @@
+Epi schemas:
+
+- Playing a game with someone
+- Playing with a toy
+- Eating food for pleasure (due to its taste), and to alleviate hunger
+- Going to visit someone who lives somewhere else
+- Meeting someone somewhere to do an activity together
+- Asking a trusted figure (adult? parent?) how to do something you want to do
+- Asking someone to do something for you that you can't do
+- Asking someone to stop doing something you don't like
+- Allowing someone to do (or disallowing someone from doing) something they want to do
+- Transporting an object somewhere by carrying it
+- Transporting an object somewhere by putting it in a vehicle
+- 

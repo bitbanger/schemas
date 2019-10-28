@@ -82,7 +82,10 @@
 ; something is a pred, proposition, modifier, individual...
 
 (defun canon-lambda? (x)
+(or
 	(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
+	(mp x (list (id? 'L) 'ent-list? 'canon-prop?))
+)
 )
 
 (defun canon-kind? (x)
@@ -126,14 +129,7 @@
 	(lex-pred? x)
 
 	; Some special symbols are predicates
-	(not (null (member x '(
-		BEFORE
-		AT-ABOUT
-		AFTER
-		IMPINGES-ON
-		ORIENTS
-		DURING
-	) :test #'equal)))
+	(not (null (member x *KEYWORD-PREDS* :test #'equal)))
 
 	; Bare verbs/modals, nouns, and adjectives are predicates
 	(lex-verb? x)
@@ -166,7 +162,7 @@
 	(mp x (list (id? 'ADV-E) 'canon-pred?))
 	(mp x (list (id? 'ADV-S) 'canon-pred?))
 	(mp x (list (id? 'ADV-F) 'canon-pred?))
-	(mp x (list (id? ':R) 'canon-pred?))
+	; (mp x (list (id? ':R) 'canon-pred?))
 	(mp x (list (id? 'ATTR) 'canon-pred?))
 )
 )

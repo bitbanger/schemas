@@ -3,6 +3,8 @@
 (load "ttt/src/load")
 (load "init1.lisp")
 (load "real_util.lisp")
+(load "parse.lisp")
+(load "norm-el.lisp")
 
 ; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
@@ -97,6 +99,7 @@
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
 	skolemize-adets
 	split-and-eps
+	norm-conjunctive-infixes
 ))
 
 (defun and-chain (phis)
@@ -115,14 +118,26 @@
 (defparameter *EXISTENTIAL-SYMS* '(
 	A.DET
 	SOME
+	THE
+	THE.DET
 ))
 
 (defun process-construction (phi pred processor)
+(let (last-phi-copy phi-copy)
 (block outer
+	(setf last-phi-copy nil)
 	(setf phi-copy (copy-list phi))
 
 	(block loop-outer
 		(setf pairs nil)
+
+		; We want to avoid processing some things because we know they're
+		; unfixable (i.e. idempotent transformations on an unerasable error).
+		; Hopefully, they'll be repaired in due time by another rule, and then
+		; fed back here to be processed for real; we're only skipping them for
+		; this call to process-construction.
+		(setf skippable (make-hash-table :test #'equal))
+
 		(loop while t do (block loop-inner
 			(setf pairs (get-elements-pred-pairs phi-copy pred))
 
@@ -130,10 +145,79 @@
 				(return-from loop-outer)
 			)
 
+			; Advance through the list of pairs until an unskippable one
+			; is found
+			; (format t "pre pairs is ~s~%" pairs)
+			(block skip-loop (loop while t
+				do (if (and (> (length pairs) 0) (gethash (car pairs) skippable))
+					; then
+					(setf pairs (cdr pairs))
+					; else
+					(return-from skip-loop))
+			))
+			; (format t "post pairs is ~s~%" pairs)
+			; (format t "skippable was ~s~%" (ht-to-str skippable))
+
+			; Check again whether there's a valid pair
+			(if (null pairs)
+				(return-from loop-outer)
+			)
+
 			; The processor takes a pair and a formula and returns a new formula.
 			(setf phi-copy (funcall processor (car pairs) phi-copy))
+			(if (null phi-copy)
+				(format t "processor ~s gave value nil~%" processor)
+			)
+
+			(if (equal phi-copy last-phi-copy)
+				; then
+				(progn
+				; (format t "setting ~s as skippable~%" (car pairs))
+				(setf (gethash (car pairs) skippable) t)
+				)
+			)
+
+			(setf last-phi-copy (copy-list phi-copy))
 		))
 	)
+
+	(return-from outer phi-copy)
+)
+)
+)
+
+(defun norm-conjunctive-infixes (phi)
+	(process-construction phi
+		(mk-ttt-pred '(canon-prop? (+ (<> AND canon-prop?))))
+
+		#'norm-conjunctive-infixes-processor
+	)
+)
+
+(defun mk-ttt-pred (pattern)
+	(lambda (x) (matches-ttt x pattern))
+)
+
+(defun matches-ttt (phi pattern)
+(let ((new-sym (gensym)))
+	(equal new-sym (unhide-ttt-ops
+		(ttt:apply-rules
+			(list (list '/ pattern new-sym))
+			(hide-ttt-ops phi)
+			:rule-order :slow-forward)))
+)
+)
+
+(defun norm-conjunctive-infixes-processor (pair phi)
+(block outer
+	; (format t "infix processor called on ~s~%" (car pair))
+
+	(setf form (car pair))
+	(setf conj (second form))
+	(setf subforms (loop for e in form if (not (equal e conj)) collect e))
+	(setf new-form (append (list conj) subforms))
+
+	(setf phi-copy (replace-element-idx phi-copy (second pair) new-form))
 
 	(return-from outer phi-copy)
 )
@@ -161,6 +245,19 @@
 (defun skolemize-adets-processor (pair phi)
 (block outer
 	(setf adet (car pair))
+
+	(if (not (listp adet))
+		(return-from outer phi)
+	)
+
+	; Some quantifiers are tagged with this.
+	(if (equal (car adet) ':Q)
+		(progn
+		; (format t "got :Q in ~s~%" adet)
+		(setf adet (cdr adet))
+		)
+	)
+
 	(setf adet-idx (second pair))
 	(setf atemporals (list))
 
@@ -172,6 +269,43 @@
 
 	(setf adet-var (second adet))
 	(setf adet-formulas (replace-vals adet-var skolem-placeholder (cddr adet)))
+
+
+	; (format t "second adet is ~s~%" (second adet))
+	(if (and
+			(equal (length adet) 2)
+			(or (equal (car adet) 'THE) (equal (car adet) 'THE.DET))
+			(canon-pred? (second adet)))
+		; then
+		(block handle-the
+			; Skolemize the predicate (by its name, if possible)
+			(setf new-skolem nil)
+			(if (symbolp (second adet))
+				; then
+				(setf new-skolem (new-skolem! (intern (car (split-str (format nil "~s" (second adet)) ".")))))
+				; else
+				(setf new-skolem (new-skolem! 'OBJECT))
+			)
+			; (format t "new skolem name is ~s~%" new-skolem)
+
+			; Replace the THE-clause with the Skolem name
+			(setf phi-copy (replace-element-idx phi adet-idx new-skolem))
+
+			; Add the atemporal Skolem proposition to the conjunction
+			(setf phi-copy (append (list (list new-skolem (second adet))) phi-copy))
+
+			(return-from outer phi-copy)
+		)
+		; else
+		(if (or (equal (car adet) 'THE) (equal (car adet) 'THE.DET))
+			; then
+			(progn
+				; (format t "ERROR: invalid THE construction ~s~%" adet)
+				(return-from outer phi)
+			)
+		)
+	)
+			
 
 	; HANDLE (SOME E0 (E0 BEFORE NOW0) USE.V)
 
@@ -228,7 +362,20 @@
 (defun skolemize-adets (phi)
 	(process-construction
 		phi
-		(lambda (x) (and (listp x) (> (length x) 1) (member (car x) *EXISTENTIAL-SYMS* :test #'equal)   ))
+		(lambda (x)
+			(and
+				(listp x)
+				(> (length x) 1)
+				(or
+					(member (car x) *EXISTENTIAL-SYMS* :test #'equal)
+					(and
+						(> (length x) 2)
+						(equal (car x) ':Q)
+						(member (second x) *EXISTENTIAL-SYMS* :test #'equal)
+					)
+				)
+			)
+		)
 		#'skolemize-adets-processor)
 )
 
@@ -278,13 +425,19 @@
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for func in *SCHEMA-CLEANUP-FUNCS*
-		do (setf phi-copy (funcall func phi-copy))
+		do (block inner
+			(setf phi-copy (funcall func phi-copy))
+			(if (null phi-copy)
+				(format t "func ~s gave null phi~%" func)
+			)
+		)
 	)
 	(return-from outer phi-copy)
 )
 )
 
 (defun schema-cleanup (phi)
+(let (last-phi-copy phi-copy)
 (block outer
 	; until convergence
 	(setf last-phi-copy (copy-list phi))
@@ -296,9 +449,13 @@
 			; then
 			(return-from outer phi-copy)
 			; else
-			(setf last-phi-copy phi-copy)
+			(progn
+			; (format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
+			(setf last-phi-copy (copy-list phi-copy))
+			)
 		)
 	))
+)
 )
 )
 

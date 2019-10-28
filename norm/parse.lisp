@@ -5,8 +5,19 @@
 
 (load "real_util.lisp")
 
+(defparameter *KEYWORD-PREDS* '(
+	BEFORE
+	AT-ABOUT
+	AFTER
+	IMPINGES-ON
+	ORIENTS
+	DURING
+	PERTAIN-TO
+))
+
 ; TODO: give these extensions
-(defparameter *KEYWORDS* '(
+(defparameter *KEYWORDS* (append *KEYWORD-PREDS*
+'(
 	K
 	KA
 	KE
@@ -25,7 +36,7 @@
 	AFTER
 	AT-ABOUT
 	DURING
-))
+)))
 
 (defun has-ext? (x e)
 	(and

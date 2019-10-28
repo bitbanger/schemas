@@ -8,6 +8,8 @@ WORD_LST = [
 import sys
 from nltk.corpus import wordnet
 
+WORD_LST = sys.argv[1:]
+
 def lemma_to_el(lemma):
     spl = str(lemma)[7:][:-2].split('.')[:3]
     num = int(spl[2])

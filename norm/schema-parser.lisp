@@ -76,6 +76,12 @@
 		(_!1 EL_EQUAL.V _!2)
 	)
 
+	; Sometimes it tries to put preds in charstars.
+	(/
+		((!1 canon-pred?) [**] _!2)
+		!1
+	)
+
 	; Skolemize existential determiners.
 	; TODO: check that they aren't actually
 	; Skolem functions of universally quantified
@@ -90,6 +96,7 @@
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
 	skolemize-adets
+	split-and-eps
 ))
 
 (defun and-chain (phis)
@@ -110,83 +117,151 @@
 	SOME
 ))
 
-(defun skolemize-adets (phi)
+(defun process-construction (phi pred processor)
 (block outer
 	(setf phi-copy (copy-list phi))
-	(setf skolem-placeholder-num 0)
 
-	(block adet-loop-outer
-		(setf adet-pairs nil)
-		(loop while t do (block adet-loop-inner
-			(setf adet-pairs (get-elements-pred-pairs phi-copy (lambda (x) (and (listp x) (member (car x) *EXISTENTIAL-SYMS* :test #'equal)))))
+	(block loop-outer
+		(setf pairs nil)
+		(loop while t do (block loop-inner
+			(setf pairs (get-elements-pred-pairs phi-copy pred))
 
-
-			(if (null adet-pairs)
-				(return-from adet-loop-outer)
+			(if (null pairs)
+				(return-from loop-outer)
 			)
 
-			;(loop for adet-pair in adet-pairs do (block proc-pair
+			; The processor takes a pair and a formula and returns a new formula.
+			(setf phi-copy (funcall processor (car pairs) phi-copy))
+		))
+	)
 
-			(setf adet (car (car adet-pairs)))
-			(setf adet-idx (second (car adet-pairs)))
-			(setf atemporals (list))
+	(return-from outer phi-copy)
+)
+)
 
-			(setf skolem-placeholder (intern (format nil "NEW-SKOLEM-~s" skolem-placeholder-num)))
-			(setf skolem-placeholder-num (+ 1 skolem-placeholder-num))
+(defun skolem-sym-num (s)
+(if (and
+		(symbolp s)
+		(> (length (string s)) 11)
+		(equal "NEW-SKOLEM-" (subseq (string s) 0 11))
+		(num-str? (subseq (string s) 11 (length (string s)))))
+	; then
+	(parse-integer (subseq (string s) 11 (length (string s))))
+)
+)
 
-			(setf adet-var (second adet))
-			(setf adet-formulas (replace-vals adet-var skolem-placeholder (cddr adet)))
+(defun skolem-sym? (s)
+	(not (null (skolem-sym-num s)))
+)
 
-			; SOME quantifiers have restrictor matrices, which we can count as "adet formulas"
-			; for the later replacement. We'll split by ANDs and mark each split formula down,
-			; though, so that we can automatically determine that they should be added as
-			; atemporals.
-			(setf restrictors (list))
-			(if (equal (car adet) 'SOME)
-				; then
-				(block handle-some
-					(setf adet-formulas (replace-vals adet-var skolem-placeholder (cdddr adet)))
-					(setf restrictors (replace-vals adet-var skolem-placeholder (split-lst (third adet) 'AND)))
-					(setf adet-formulas (append adet-formulas restrictors))
-				)
+(defun get-highest-skolem-num (phi)
+	(reduce #'max (append (list 0) (mapcar #'skolem-sym-num (remove-duplicates (get-elements-pred phi #'skolem-sym?)))))
+)
+
+(defun skolemize-adets-processor (pair phi)
+(block outer
+	(setf adet (car pair))
+	(setf adet-idx (second pair))
+	(setf atemporals (list))
+
+	(setf skolem-placeholder-num (get-highest-skolem-num phi))
+
+	(setf skolem-placeholder (intern (format nil "NEW-SKOLEM-~s" skolem-placeholder-num)))
+
+	(setf skolem-placeholder-num (+ 1 skolem-placeholder-num))
+
+	(setf adet-var (second adet))
+	(setf adet-formulas (replace-vals adet-var skolem-placeholder (cddr adet)))
+
+	; HANDLE (SOME E0 (E0 BEFORE NOW0) USE.V)
+
+	; SOME quantifiers have restrictor matrices, which we can count as "adet formulas"
+	; for the later replacement. We'll split by ANDs and mark each split formula down,
+	; though, so that we can automatically determine that they should be added as
+	; atemporals.
+	(setf restrictors (list))
+	(if (equal (car adet) 'SOME)
+		; then
+		(block handle-some
+			(setf adet-formulas (replace-vals adet-var skolem-placeholder (cdddr adet)))
+			(setf restrictors (replace-vals adet-var skolem-placeholder (split-lst (third adet) 'AND)))
+			(setf adet-formulas (append adet-formulas restrictors))
+		)
+	)
+
+	(setf final-adet-formulas (list))
+	(loop for form in adet-formulas
+		; TODO: better if condition here to identify atemporals
+		do (if (or (and (listp form) (equal skolem-placeholder (car form))) (member form restrictors :test #'equal) )
+			; then
+			(setf atemporals (append atemporals (list form)))
+			; else
+			(setf final-adet-formulas (append final-adet-formulas (list form)))
+		)
+	)
+
+	; Replace the adet
+	(setf phi-copy (replace-element-idx phi adet-idx (and-chain final-adet-formulas)))
+
+
+
+	; Add the atemporals
+	(setf phi-copy (append atemporals phi-copy))
+
+	; Make a new Skolem name based on the first atemporal.
+	; Probably there'll only ever be one (valid) one for this.
+	; If there isn't one at all, we'll just call it "OBJECT".
+	(setf new-skolem nil)
+	(loop for atemp in atemporals
+		if (and (equal 2 (length atemp)) (symbolp (second atemp)))
+			do (setf new-skolem (new-skolem! (intern (car (split-str (format nil "~s" (second atemp)) ".")))))
+	)
+	(if (null new-skolem)
+		(setf new-skolem (new-skolem! 'OBJECT))
+	)
+
+	(setf phi-copy (replace-vals skolem-placeholder new-skolem phi-copy))
+	(return-from outer phi-copy)
+)
+)
+
+(defun skolemize-adets (phi)
+	(process-construction
+		phi
+		(lambda (x) (and (listp x) (> (length x) 1) (member (car x) *EXISTENTIAL-SYMS* :test #'equal)   ))
+		#'skolemize-adets-processor)
+)
+
+; TODO: do this for > 2 and-chained props
+(defun split-and-eps (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for e in phi do (block loop-outer
+		(if (and
+				(listp e)
+				(canon-charstar? e)
+				(lex-skolem? (third e))
+				(listp (car e))
+				(equal 3 (length (car e)))
+				(equal 'AND.CC (second (car e)))
+				(canon-prop? (car (car e)))
+				(canon-prop? (third (car e))))
+			; then
+			(block loop-inner
+				(setf ep (third e))
+				(setf prop1 (car (car e)))
+				(setf prop2 (third (car e)))
+				(setf subep1 (new-skolem! "E"))
+				(setf subep2 (new-skolem! "E"))
+				(setf phi-copy (append (list (list subep1 'DURING ep)) phi-copy))
+				(setf phi-copy (append (list (list subep2 'DURING ep)) phi-copy))
+				(setf phi-copy (append (list (list subep1 'CONSEC subep2)) phi-copy))
+				(setf phi-copy (remove e phi-copy :test #'equal))
+				(setf phi-copy (append phi-copy (list (list prop1 '** subep1))))
+				(setf phi-copy (append phi-copy (list (list prop2 '** subep2))))
 			)
-
-			(setf final-adet-formulas (list))
-			(loop for form in adet-formulas
-				; TODO: better if condition here to identify atemporals
-				do (if (or (and (equal skolem-placeholder (car form))) (member form restrictors :test #'equal) )
-					; then
-					(setf atemporals (append atemporals (list form)))
-					; else
-					(setf final-adet-formulas (append final-adet-formulas (list form)))
-				)
-			)
-
-			; Replace the adet
-			(setf phi-copy (replace-element-idx phi-copy adet-idx (and-chain final-adet-formulas)))
-
-
-
-			; Add the atemporals
-			(setf phi-copy (append atemporals phi-copy))
-
-			; Make a new Skolem name based on the first atemporal.
-			; Probably there'll only ever be one (valid) one for this.
-			; If there isn't one at all, we'll just call it "OBJECT".
-			(setf new-skolem nil)
-			(loop for atemp in atemporals
-				if (and (equal 2 (length atemp)) (symbolp (second atemp)))
-					do (setf new-skolem (new-skolem! (intern (car (split-str (format nil "~s" (second atemp)) ".")))))
-			)
-			(if (null new-skolem)
-				(setf new-skolem (new-skolem! 'OBJECT))
-			)
-
-			(setf phi-copy (replace-vals skolem-placeholder new-skolem phi-copy))
-		
-				)
-				)
-			)
+		)
+	))
 
 	(return-from outer phi-copy)
 )

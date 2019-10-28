@@ -24,6 +24,7 @@
 	BEFORE
 	AFTER
 	AT-ABOUT
+	DURING
 ))
 
 (defun has-ext? (x e)

@@ -132,6 +132,7 @@
 		AFTER
 		IMPINGES-ON
 		ORIENTS
+		DURING
 	) :test #'equal)))
 
 	; Bare verbs/modals, nouns, and adjectives are predicates

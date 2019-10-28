@@ -299,6 +299,13 @@
 	)
 )
 
+(defun num-str? (s)
+	(loop for c across s always (and
+		(alphanumericp c)
+		(not (alpha-char-p c))
+	))
+)
+
 (defun next-str (s)
 (block outer
 	(if (not (equal s (string-upcase s)))

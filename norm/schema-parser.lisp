@@ -141,6 +141,7 @@
 )
 
 (defparameter *EXISTENTIAL-SYMS* '(
+	ONE.DET
 	A.DET
 	AN.DET
 	SOME

@@ -122,6 +122,8 @@
 (or
 	(equal x 'PLUR)
 	(mp x (list (id? 'ATTR) 'canon-pred?))
+	(mp x (list (id? 'NN) 'canon-pred?))
+	(lex-attr-pred? x)
 )
 )
 
@@ -133,11 +135,12 @@
 	; Some special symbols are predicates
 	(not (null (member x *KEYWORD-PREDS* :test #'equal)))
 
-	; Bare verbs/modals, nouns, and adjectives are predicates
+	; Bare verbs/modals, nouns, adjectives, and prepositions are predicates
 	(lex-verb? x)
 	(lex-noun? x)
 	(lex-modal? x)
 	(lex-adj? x)
+	(lex-p? x)
 
 	; Allow attributes, like ((attr happy.a) boy.n)
 	; (mp x (list 'canon-attr? 'canon-pred?))
@@ -159,6 +162,7 @@
 (defun canon-mod? (x)
 (or
 	(lex-adv? x)
+	(lex-attr-pred? x)
 	(equal x 'PLUR)
 	(mp x (list (id? 'ADV-A) 'canon-pred?))
 	(mp x (list (id? 'ADV-E) 'canon-pred?))
@@ -166,6 +170,7 @@
 	(mp x (list (id? 'ADV-F) 'canon-pred?))
 	; (mp x (list (id? ':R) 'canon-pred?))
 	(mp x (list (id? 'ATTR) 'canon-pred?))
+	(mp x (list (id? 'NN) 'canon-pred?))
 )
 )
 

@@ -24,14 +24,6 @@
     )
 )
 
-(defun lex-attr-pred? (x)
-(or
-	(has-ext? x ".N")
-	(has-ext? x ".NN")
-	(has-ext? x ".A")
-)
-)
-
 (defun lex-noun? (x)
 	(has-ext? x ".N")
 )
@@ -62,7 +54,7 @@
 (defun lambdify-preds! (ps)
 (let ((tmp-sym (gensym)))
 	(list 'L tmp-sym
-		(list 'AND (mapcar (lambda (x) (list tmp-sym x)) ps)))
+		(append (list 'AND) (mapcar (lambda (x) (list tmp-sym x)) ps)))
 )
 )
 
@@ -88,17 +80,11 @@
 		(_*6 ((_!. _+2) ** _!5) ((_!. _+3) ** _!4) _*7)
 	)
 
-	; Apply attr modifiers to composite nouns.
-	(/
-		((!1 lex-attr-pred?) (!2 lex-noun?))
-		((ATTR !1) !2)
-	)
-
 	; Clean up this weird construction for now.
-	(/
-		(_!1 BE.V (= _!2))
-		(_!1 EL_EQUAL.V _!2)
-	)
+	;(/
+	;	(_!1 BE.V (= _!2))
+	;	(_!1 EL_EQUAL.V _!2)
+	;)
 
 	; Sometimes it tries to put preds in charstars.
 	(/
@@ -125,6 +111,7 @@
 	norm-conjunctive-infixes
 	split-top-level-lambda-ands
 	apply-mono-lambdas
+	split-top-level-ands
 ))
 
 (defun and-chain (phis)
@@ -215,7 +202,8 @@
 
 (defun norm-conjunctive-infixes (phi)
 	(process-construction phi
-		(mk-ttt-pred '(canon-prop? (+ (<> AND canon-prop?))))
+		; (mk-ttt-pred '(canon-prop? (+ (<> AND canon-prop?))))
+		(mk-ttt-pred '(_! (+ (<> AND _!))))
 
 		#'norm-conjunctive-infixes-processor
 	)
@@ -339,7 +327,8 @@
 	(if (and
 			(equal (length adet) 2)
 			;(or (equal (car adet) 'THE) (equal (car adet) 'THE.DET))
-			(canon-pred? (second adet)))
+			;(canon-pred? (second adet))
+		)
 		; then
 		(block handle-the
 			; Skolemize the predicate (by its name, if possible)
@@ -370,9 +359,12 @@
 			)
 		)
 	)
-			
 
-	; HANDLE (SOME E0 (E0 BEFORE NOW0) USE.V)
+	; If the second part of a length-2 thing isn't a predicate, we can't do anything.
+	;(if (equal (length adet) 2)
+	;	(return-from outer phi)
+	;)
+			
 
 	; SOME quantifiers have restrictor matrices, which we can count as "adet formulas"
 	; for the later replacement. We'll split by ANDs and mark each split formula down,
@@ -568,6 +560,49 @@
 	; (format t "~%~%~%")
 
 	(setf phi-copy (replace-element-idx phi (second pair) lam-body))
+
+	(return-from outer phi-copy)
+)
+)
+
+(defun anded-props? (l)
+	(and (listp l) (> (length l) 0) (equal (car l) 'AND)
+		(loop for e in (cdr l) always (canon-prop? e)))
+)
+
+(defun split-top-level-ands (phi)
+(block outer
+
+	(setf phi-copy (copy-list phi))
+	(loop for e in phi do (block loop-outer
+		; Ignore an AND at the beginning, so that we
+		; can use this same function to handle ones
+		; that are missing their ANDs.
+		(setf target e)
+		(if (and (listp e) (> (length e) 0) (equal (car e) 'AND))
+			; then
+			(setf target (cdr e))
+		)
+
+		; Ignore splitting infix ANDs, too.
+		;(if (matches-ttt target '(canon-prop? (+ (<> AND canon-prop?))))
+			; then
+			;(setf target (split-lst target 'AND))
+		;)
+
+		(if (and (listp target) (loop for form in target always (or (canon-prop? form) (anded-props? form))))
+		;(if (listp target)
+			; then
+			(block split-ands
+			(loop for form in target
+				if (canon-prop? form)
+				do (setf phi-copy (append (list form) phi-copy))
+				if (anded-props? form)
+				do (setf phi-copy (append (cdr form) phi-copy)))
+			(setf phi-copy (remove e phi-copy :test #'equal))
+			)
+		)
+	))
 
 	(return-from outer phi-copy)
 )

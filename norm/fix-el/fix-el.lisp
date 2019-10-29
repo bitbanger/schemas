@@ -16,17 +16,18 @@
 
 		(if (loop for wff in sent thereis (not (canon-prop? wff)))
 			; then
-			(format t "~s~%" line)
+			(format t "~%~%~s~%" line)
 			; (return-from inner)
 			; else
-			(format t "~s~%" line))
+			(format t "~%~%~s~%" line))
 		(loop for wff in sent
 			do (if (not (canon-prop? wff))
 				; then
 				;(+ 1 2)
-				 (format t "				~a~%~%~%" (tab-wff wff))
+				 ;(format t "				~a~%" (tab-wff wff))
+				(format t "~s~%~%" wff)
 				; else
-				(format t "~s~%~%~%" wff)
+				(format t "~s~%~%" wff)
 			)
 		)
 	))

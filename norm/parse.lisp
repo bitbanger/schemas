@@ -6,6 +6,7 @@
 (load "real_util.lisp")
 
 (defparameter *KEYWORD-PREDS* '(
+	=
 	BEFORE
 	AT-ABOUT
 	AFTER
@@ -61,6 +62,13 @@
 			(- (length (string x)) (length e))
 		))
 	)
+)
+
+(defun lex-attr-pred? (x)
+(or
+	(has-ext? x ".NN")
+	(has-ext? x ".ATTR")
+)
 )
 
 (defun lex-verb? (x)

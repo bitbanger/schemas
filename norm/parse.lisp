@@ -13,6 +13,9 @@
 	ORIENTS
 	DURING
 	PERTAIN-TO
+	AT-OR-BEFORE
+	CONSEC
+	CAUSE-OF
 ))
 
 ; TODO: give these extensions
@@ -22,20 +25,13 @@
 	KA
 	KE
 	THAT
-	CONSEC
-	CAUSE-OF
 	NOT
 	OR
 	AND
 	IF
 	ATTR
 	PLUR
-	ORIENTS
-	IMPINGES-ON
-	BEFORE
-	AFTER
-	AT-ABOUT
-	DURING
+	L
 )))
 
 (defun has-ext? (x e)

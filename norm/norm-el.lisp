@@ -83,8 +83,10 @@
 
 (defun canon-lambda? (x)
 (or
-	(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
-	(mp x (list (id? 'L) 'ent-list? 'canon-prop?))
+	;(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
+	;(mp x (list (id? 'L) 'ent-list? 'canon-prop?))
+	(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'any?))
+	(mp x (list (id? 'L) 'ent-list? 'any?))
 )
 )
 
@@ -174,22 +176,28 @@
 )
 )
 
-(defun canon-prop? (x)
+(defun canon-atomic-prop? (x)
 (or
 	(mp x (list 'canon-individual?+ 'canon-pred?))
 
 	; Special case for * and **
 	(canon-charstar? x)
 
+	; This is like the similar serial argument rule in canon-pred?, but
+	; it allows the pred to be flattened with the subject (prefixed) and "curried" args (postfixed).
+	(mp x (list 'canon-individual?+ 'canon-pred? 'canon-individual?+))
+)
+)
+
+(defun canon-prop? (x)
+(or
+	(canon-atomic-prop? x)
+
 	; Boolean combinations
 	(mp x (list (id? 'NOT) 'canon-prop?))
 	(mp x (list (id? 'OR) 'canon-prop?+))
 	(mp x (list (id? 'AND) 'canon-prop?+))
 	(mp x (list (id? 'IF) 'canon-prop? 'canon-prop?))
-
-	; This is like the similar serial argument rule in canon-pred?, but
-	; it allows the pred to be flattened with the subject (prefixed) and "curried" args (postfixed).
-	(mp x (list 'canon-individual?+ 'canon-pred? 'canon-individual?+))
 )
 )
 

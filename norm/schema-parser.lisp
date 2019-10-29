@@ -8,13 +8,6 @@
 
 ; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
-(defun undetermine! (x l)
-	(loop for el in (replace-vals x 'SKOLEMMMMM l)
-			for i from 0
-		append (if (equal i 0) (list el) (list 'AND.CC el))
-	)
-)
-
 (defun has-ext? (x e)
     (and
         (symbolp x)
@@ -43,6 +36,35 @@
 	(has-ext? x ".N")
 )
 
+(defun unflatten! (x)
+(let ((lst (reverse x)) (cursor nil) (modded-verbs (list)))
+(block outer
+	(setf nonverbs (loop for e in lst if (not (lex-verb? e)) collect e))
+	(setf verbs (loop for e in lst if (lex-verb? e) collect e))
+
+	
+	(loop for verb in verbs do (block vblock
+		(setf cursor verb)
+		(loop for el in nonverbs
+			do (setf cursor (list (list 'attr el) cursor)))
+		(setf modded-verbs (append modded-verbs (list cursor)))
+	))
+
+	(return-from outer (and-chain modded-verbs))
+)
+)
+)
+
+(defun nonverb-pred? (p)
+	(and (canon-pred? p) (not (lex-verb? (pred-base p))))
+)
+
+(defun lambdify-preds! (ps)
+(let ((tmp-sym (gensym)))
+	(list 'L tmp-sym
+		(list 'AND (mapcar (lambda (x) (list tmp-sym x)) ps)))
+)
+)
 
 (defparameter *SCHEMA-CLEANUP-RULES* '(
 	; The case with only one argument
@@ -84,16 +106,17 @@
 		!1
 	)
 
-	; Skolemize existential determiners.
-	; TODO: check that they aren't actually
-	; Skolem functions of universally quantified
-	; variables.
-	;(/ (A.DET _!.
-	;		(+ (^* _!.))
-	;	)
-	;
-	;	(undetermine! _!. (+))
-	;)
+	; Un-flatten stacked predicates.
+	(/
+		((* ~ AND.CC) ((+ nonverb-pred?)))
+		(* (lambdify-preds! (+)))
+	)
+
+	; To BE.V, or not to BE.V?
+	(/
+		(BE.V (!1 canon-pred?))
+		!1
+	)
 ))
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
@@ -101,6 +124,7 @@
 	split-and-eps
 	norm-conjunctive-infixes
 	split-top-level-lambda-ands
+	apply-mono-lambdas
 ))
 
 (defun and-chain (phis)
@@ -118,6 +142,7 @@
 
 (defparameter *EXISTENTIAL-SYMS* '(
 	A.DET
+	AN.DET
 	SOME
 	THE
 	THE.DET
@@ -209,6 +234,14 @@
 )
 )
 
+(defun ttt-replace (phi old new)
+	(unhide-ttt-ops
+		(ttt:apply-rules
+			(list (list '/ old new))
+			(hide-ttt-ops phi)
+			:rule-order :slow-forward))
+)
+
 (defun norm-conjunctive-infixes-processor (pair phi)
 (block outer
 	; (format t "infix processor called on ~s~%" (car pair))
@@ -295,13 +328,16 @@
 	(setf skolem-placeholder-num (+ 1 skolem-placeholder-num))
 
 	(setf adet-var (second adet))
-	(setf adet-formulas (replace-vals adet-var skolem-placeholder (cddr adet)))
+	; (setf adet-formulas (replace-vals adet-var skolem-placeholder (cddr adet)))
+	(setf adet-formulas (subst-for-free skolem-placeholder adet-var (cddr adet)))
+
+	; (format t "formulas are ~s~%" adet-formulas)
 
 
 	; (format t "second adet is ~s~%" (second adet))
 	(if (and
 			(equal (length adet) 2)
-			(or (equal (car adet) 'THE) (equal (car adet) 'THE.DET))
+			;(or (equal (car adet) 'THE) (equal (car adet) 'THE.DET))
 			(canon-pred? (second adet)))
 		; then
 		(block handle-the
@@ -314,6 +350,7 @@
 				(setf new-skolem (new-skolem! 'OBJECT))
 			)
 			; (format t "new skolem name is ~s~%" new-skolem)
+			; (format t "body is ~s~%" (second adet))
 
 			; Replace the THE-clause with the Skolem name
 			(setf phi-copy (replace-element-idx phi adet-idx new-skolem))
@@ -344,8 +381,10 @@
 	(if (equal (car adet) 'SOME)
 		; then
 		(block handle-some
-			(setf adet-formulas (replace-vals adet-var skolem-placeholder (cdddr adet)))
-			(setf restrictors (replace-vals adet-var skolem-placeholder (split-lst (third adet) 'AND)))
+			;(setf adet-formulas (replace-vals adet-var skolem-placeholder (cdddr adet)))
+			(setf adet-formulas (subst-for-free skolem-placeholder adet-var (cdddr adet)))
+			; (setf restrictors (replace-vals adet-var skolem-placeholder (split-lst (third adet) 'AND)))
+			(setf restrictors (subst-for-free skolem-placeholder adet-var (split-lst (third adet) 'AND)))
 			(setf adet-formulas (append adet-formulas restrictors))
 		)
 	)
@@ -419,7 +458,8 @@
 	(setf l-form (third l))
 	(loop for arg in args
 		for l-arg in l-args
-			do (setf l-form (replace-vals l-arg arg l-form)))
+			; do (setf l-form (replace-vals l-arg arg l-form)))
+			do (setf l-form (subst-for-free arg l-arg l-form)))
 
 	(return-from outer l-form)
 )
@@ -451,6 +491,87 @@
 )
 )
 
+(defun apply-mono-lambdas (phi)
+	(process-construction
+		phi
+		(lambda (x)
+			(and
+				(canon-atomic-prop? x)
+				(let ((pred (prop-pred x))) (and
+				(canon-lambda? pred)
+				(equal 1 (length (listify-nonlists (second pred)))))
+		)))
+
+		#'apply-mono-lambdas-processor
+	)
+)
+
+(defun apply-mono-lambdas-processor (pair phi)
+(block outer
+	; (format t "mono lambda processor got ~s~%" pair)
+
+	(setf lam-breakdown (prop-args-pred-mods (car pair)))
+
+	(setf l-pre-args (car lam-breakdown))
+	(setf lam (second lam-breakdown))
+	(setf l-post-args (third lam-breakdown))
+	(setf l-mods (fourth lam-breakdown))
+	(setf l-var (car (listify-nonlists (second lam))))
+
+	;(setf l-props (get-elements-pred-pairs (third lam)
+	;	(lambda (p) (and
+	;		(canon-atomic-prop? p)
+	;		(equal 1 (length (prop-pre-args p)))
+	;		(equal (car (prop-pre-args p)) l-var)))))
+	;(setf l-props (get-elements-pred-pairs (third lam)
+	;	(lambda (p) (and (listp p) (> (length p) 0) (equal (car p) l-var)))))
+	;(format t "enclosed props:~%")
+	;(loop for lp in l-props
+	;	do (format t "	~s~%" lp))
+	;(format t "and mods to apply:~%")
+	;(loop for lp in l-mods
+	;	do (format t "	~s~%" lp))
+
+	
+	(defun tmp-stack-mods! (lst)
+		(block outer
+			(setf tmp-sm-cursor (copy-list lst))
+			(loop for lm in l-mods
+				do (setf tmp-sm-cursor (list lm tmp-sm-cursor)))
+			(return-from outer tmp-sm-cursor)
+		)
+	)
+
+	(setf lam-body (copy-list (third lam)))
+
+	; We're going to use two temp symbols: one to
+	; only consider propositions over the lambda
+	; variable *before it gets re-bound*, and another
+	; to make sure we don't infinitely correct props
+	; with the first symbol, because the correction
+	; would otherwie still have it.
+
+	(setf tmp-sym1 (gensym))
+
+	(setf lam-body (subst-for-free tmp-sym1 l-var lam-body))
+
+	(setf tmp-sym2 (gensym))
+	(setf lam-body (ttt-replace lam-body
+		(list tmp-sym1 '_*)
+		(list 'tmp-stack-mods! (list tmp-sym2 '_*))))
+	; (setf lam-body (replace-vals tmp-sym (car l-pre-args) lam-body))
+	(setf lam-body (subst-for-free (car l-pre-args) tmp-sym2 lam-body))
+
+	; (format t "stacked mods on inner pred to get: ~s~%" lam-body)
+
+	; (format t "~%~%~%")
+
+	(setf phi-copy (replace-element-idx phi (second pair) lam-body))
+
+	(return-from outer phi-copy)
+)
+)
+
 ; TODO: do this for > 2 and-chained props
 (defun split-and-eps (phi)
 (block outer
@@ -458,20 +579,22 @@
 	(loop for e in phi do (block loop-outer
 		(if (and
 				(listp e)
-				(canon-charstar? e)
+				;(canon-charstar? e)
+				(equal (second e) '**)
 				(lex-skolem? (third e))
 				(listp (car e))
 				(equal 3 (length (car e)))
 				(equal 'AND.CC (second (car e)))
-				(canon-prop? (car (car e)))
-				(canon-prop? (third (car e))))
+				;(canon-prop? (car (car e)))
+				;(canon-prop? (third (car e)))
+				)
 			; then
 			(block loop-inner
 				(setf ep (third e))
 				(setf prop1 (car (car e)))
 				(setf prop2 (third (car e)))
-				(setf subep1 (new-skolem! "E"))
-				(setf subep2 (new-skolem! "E"))
+				(setf subep1 (new-skolem! 'E))
+				(setf subep2 (new-skolem! 'E))
 				(setf phi-copy (append (list (list subep1 'DURING ep)) phi-copy))
 				(setf phi-copy (append (list (list subep2 'DURING ep)) phi-copy))
 				(setf phi-copy (append (list (list subep1 'CONSEC subep2)) phi-copy))

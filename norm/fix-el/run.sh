@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "hello"
+cat ../simple_stories.txt | sbcl --script fix-el.lisp

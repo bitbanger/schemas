@@ -24,8 +24,8 @@
 			do (if (not (canon-prop? wff))
 				; then
 				;(+ 1 2)
-				 ;(format t "				~a~%" (tab-wff wff))
-				(format t "~s~%~%" wff)
+				(format t "				~a~%" (tab-wff wff))
+				; (format t "~s~%~%" wff)
 				; else
 				(format t "~s~%~%" wff)
 			)

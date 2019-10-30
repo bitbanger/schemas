@@ -110,7 +110,79 @@
 	split-double-charstars
 	split-and-preds
 	bubble-up-pred-charstars
+	sink-prop-mods
 ))
+
+(defun sink-prop-mods (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+
+	(loop for loop-form in phi do (block loop-outer
+		(setf form (copy-item loop-form))
+
+		; Strip charstars.
+		(setf char-eps (list))
+		(loop while (and (equal 3 (length form)) (equal (second form) '**))
+			do (progn
+			(setf char-eps (append (list (third form)) char-eps))
+			(setf form (car form))
+			)
+		)
+
+		; Strip prop mods and NOTs.
+		(setf pmods (list))
+		(loop while (and (equal 2 (length form)) (or (canon-mod? (car form)) (equal 'NOT (car form)))) do (block loop-inner
+			(progn
+			(setf pmods (append (list (car form)) pmods))
+			(setf form (second form))
+			)
+		))
+
+		(if (or (null pmods) (loop for e in pmods always (equal 'NOT e)))
+			(return-from loop-outer)
+		)
+
+		; We should have a fully fixed predicate by now,
+		; or else we probably shouldn't be doing this
+		; transformation.
+		(if (not (canon-pred? (second form)))
+			(return-from loop-outer)
+		)
+
+		; ...So we should also confirm no floating modifiers!
+		(if (loop for e in (cddr form) thereis (canon-mod? e))
+			(return-from loop-outer)
+		)
+
+		; Apply the prop mods to the predicate.
+		(setf new-pred (copy-item (second form)))
+		(loop for pmod in pmods
+			if (not (equal 'NOT pmod))
+			do (setf new-pred (list pmod new-pred))
+		)
+
+		; Replace the predicate.
+		(setf new-form (append (list (car form) new-pred) (cddr form)))
+
+		; Re-apply charstars.
+		(loop for char-ep in char-eps
+			do (setf new-form (list new-form '** char-ep))
+		)
+
+		; Re-apply NOTs.
+		(loop for pmod in pmods
+			if (equal 'NOT pmod)
+			do (setf new-form (list 'NOT new-form))
+		)
+
+		; Remove the old form and add the new one.
+		(setf phi-copy (remove loop-form phi-copy :test #'equal))
+		(setf phi-copy (append (list new-form) phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (defun charstar-triple? (x)
 	(and
@@ -954,8 +1026,8 @@
 	(setf last-phi-copy (copy-list phi))
 	(setf phi-copy (copy-list phi))
 	(loop while t do (block inner
-		(setf phi-copy (schema-cleanup-ttt phi-copy))
-		(setf phi-copy (schema-cleanup-lisp phi-copy))
+		(setf phi-copy (remove-duplicates (schema-cleanup-ttt phi-copy) :test #'equal))
+		(setf phi-copy (remove-duplicates (schema-cleanup-lisp phi-copy) :test #'equal))
 		(if (same-list-unordered phi-copy last-phi-copy)
 			; then
 			(return-from outer phi-copy)

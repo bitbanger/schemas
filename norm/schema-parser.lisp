@@ -28,6 +28,20 @@
 	(has-ext? x ".N")
 )
 
+(defun vp-shifter? (x)
+(and
+	(has-suffix? (format nil "~s" x) "VP")
+	(has-prefix? (format nil "~s" x) "PRED")
+)
+)
+
+(defun modif-advp? (x)
+(and
+	(has-suffix? (format nil "~s" x) "ADVP")
+	(has-prefix? (format nil "~s" x) "MODIF")
+)
+)
+
 (defun unflatten! (x)
 (let ((lst (reverse x)) (cursor nil) (modded-verbs (list)))
 (block outer
@@ -86,6 +100,20 @@
 		(_+)
 	)
 
+	; Strip narrative structures
+	(/
+		((SPEAKER TELL.V HEARER (THAT _!1)) [**] _!2)
+		(_!1 [**] _!2)
+	)
+
+	; Flatten lists of modifiers to float,
+	; so they can be unfloated by another
+	; rule.
+	(/
+		(_*1 ((!2 canon-mod?) (+ canon-mod?)) _*3)
+		(_*1 !2 + _*3)
+	)
+
 	; Un-flatten stacked predicates.
 	(/
 		((* ~ AND.CC) ((+ nonverb-pred?)))
@@ -96,6 +124,18 @@
 	(/
 		(BE.V (!1 canon-pred?))
 		!1
+	)
+
+	; Fix weird type-shifters
+	(/
+		(!1 modif-advp?)
+		ADV-A
+	)
+
+	; Kill PRED****.VP
+	(/
+		((!1 vp-shifter?) _+)
+		(_+)
 	)
 ))
 
@@ -344,6 +384,29 @@
 	THE.DET
 ))
 
+; probably-pred identifies things that
+; are either canon preds, or will be later,
+; once other fixes are applied. This helps
+; massage out some cyclical dependencies
+; between fix rules.
+(defun probably-pred? (p)
+(block outer
+	; Strip charstars
+	(if (charstar-triple? p)
+		(return-from outer (probably-pred? (car p)))
+	)
+
+	; BE.V is weird and can pass
+	(if (and (listp p) (equal (car p) 'BE.V))
+		(return-from outer t)
+	)
+
+	(if (canon-pred? p)
+		(return-from outer t)
+	)
+)
+)
+
 (defun unfloat-modifiers (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
@@ -398,7 +461,9 @@
 			; then
 			(if (listp (second form))
 				; then
+				(progn
 				(setf form (append (list (car form)) (second form)))
+				)
 				; else
 				(return-from loop-outer)
 			)
@@ -416,16 +481,7 @@
 			for i from 0 do (block loop-inner
 			(cond
 			; Only one pred allowed.
-			((or
-				(canon-pred? el)
-				; It may not yet be fixed up to remove
-				; illegal embedded charstars, so we'll
-				; allow that, too.
-				(and
-					(listp el)
-					(equal (length el) 3)
-					(equal (second el) '**)
-					(canon-pred? (car el))))
+			((probably-pred? el)
 				; then
 				(if (not (null uf-pred))
 					; then
@@ -886,7 +942,7 @@
 		)
 	)
 
-	(setf lam-body (copy-list (third lam)))
+	(setf lam-body (copy-item (third lam)))
 
 	; We're going to use two temp symbols: one to
 	; only consider propositions over the lambda

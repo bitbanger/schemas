@@ -408,9 +408,25 @@
 )
 
 (defun unfloat-modifiers (phi)
+	(process-construction phi
+		(lambda (x)
+			(or
+				(member x phi :test #'equal)
+				(and (listp x) (equal (car x) 'KA))
+			)
+		)
+
+		#'unfloat-modifiers-processor)
+)
+
+(defun unfloat-modifiers-processor (pair phi)
 (block outer
 	(setf phi-copy (copy-list phi))
-	(loop for loop-form in phi do (block loop-outer
+	;(loop for loop-form in phi do (block loop-outer
+
+	(setf loop-form (car pair))
+
+	(block loop-outer
 		(setf form (copy-item loop-form))
 		(setf char-ep nil)
 		(setf pr-mods (list))
@@ -536,8 +552,9 @@
 		)
 
 		; Replace the old formula.
-		(setf phi-copy (replace-vals loop-form uf-target phi-copy))
-	))
+		; (setf phi-copy (replace-vals loop-form uf-target phi-copy))
+		(setf phi-copy (replace-element-idx phi-copy (second pair) uf-target))
+	)
 
 	(return-from outer phi-copy)
 )

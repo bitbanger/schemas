@@ -215,6 +215,15 @@
 )
 )
 
+(defun copy-item (item)
+	(if (listp item)
+		; then
+		(copy-list item)
+		; else
+		item
+	)
+)
+
 (defun replace-vals (old new lst)
 	(block outer
 

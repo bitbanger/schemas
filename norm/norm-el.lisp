@@ -152,7 +152,7 @@
 	(canon-lambda? x)
 
 	; Prepositions with individual complements are predicates
-	(mp x (list 'lex-p? 'canon-individual?))
+	; (mp x (list 'lex-p? 'canon-individual?))
 
 	; Modified predicates are predicates (e.g. adverbialized VPs)
 	(mp x (list 'canon-mod? 'canon-pred?))
@@ -163,12 +163,13 @@
 (or
 	(lex-adv? x)
 	(lex-attr-pred? x)
+	(equal x 'BE.PASV)
 	(equal x 'PLUR)
 	(mp x (list (id? 'ADV-A) 'canon-pred?))
 	(mp x (list (id? 'ADV-E) 'canon-pred?))
 	(mp x (list (id? 'ADV-S) 'canon-pred?))
 	(mp x (list (id? 'ADV-F) 'canon-pred?))
-	; (mp x (list (id? ':R) 'canon-pred?))
+	(mp x (list (id? ':R) 'canon-pred?))
 	(mp x (list (id? 'ATTR) 'canon-pred?))
 	(mp x (list (id? 'NN) 'canon-pred?))
 )

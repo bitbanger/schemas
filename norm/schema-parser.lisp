@@ -80,16 +80,10 @@
 		(_*6 ((_!. _+2) ** _!5) ((_!. _+3) ** _!4) _*7)
 	)
 
-	; Clean up this weird construction for now.
-	;(/
-	;	(_!1 BE.V (= _!2))
-	;	(_!1 EL_EQUAL.V _!2)
-	;)
-
-	; Sometimes it tries to put preds in charstars.
+	; Kill :O
 	(/
-		((!1 canon-pred?) [**] _!2)
-		!1
+		(:O _+)
+		(_+)
 	)
 
 	; Un-flatten stacked predicates.
@@ -112,7 +106,149 @@
 	split-top-level-lambda-ands
 	apply-mono-lambdas
 	split-top-level-ands
+	unfloat-modifiers
+	split-double-charstars
+	split-and-preds
+	bubble-up-pred-charstars
 ))
+
+(defun charstar-triple? (x)
+	(and
+		(listp x)
+		(equal 3 (length x))
+		(equal (second x) '**)
+	)
+)
+
+(defun sk-charstar-triple? (x)
+	(and
+		(charstar-triple? x)
+		(lex-skolem? (third x))
+	)
+)
+
+(defun bubble-up-pred-charstars (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+
+	(loop for loop-form in phi do (block loop-outer
+		(setf form (copy-item loop-form))
+
+		; Strip existing charstars.
+		(setf char-eps (list))
+		(loop while (and (equal 3 (length form)) (equal (second form) '**))
+			do (progn
+			(setf char-eps (append (list (third form)) char-eps))
+			(setf form (car form))
+			)
+		)
+
+
+		; Find embedded charstars.
+		; (Only with Skolemized episodes---variables usually
+		; mean we still need to process out a lambda/quantifier.)
+		(setf embedded-eps (list))
+		(setf new-form (copy-list form))
+		(setf embedded (get-elements-pred-pairs new-form #'sk-charstar-triple?))
+		(loop while (not (null embedded)) do (block loop-inner
+			(setf embedded-form (car (car (car embedded))))
+			(setf embedded-ep (third (car (car embedded))))
+			(setf embedded-eps (append (list embedded-ep) embedded-eps))
+	
+			; Replace embedded charstars with the naked predicates.
+			; (format t "target is ~s~%" (second (car embedded)))
+			; (format t "new val is ~s~%" embedded-form)
+			(setf new-form (replace-element-idx new-form (second (car embedded)) embedded-form))
+	
+			(setf embedded (get-elements-pred-pairs new-form #'sk-charstar-triple?))
+		))
+
+		; Re-apply embedded charstars on the outside.
+		(loop for e in embedded-eps
+			do (setf new-form (list new-form '** e))
+		)
+
+		; Re-apply existing charstars.
+		(loop for char-ep in char-eps
+			do (setf new-form (list new-form '** char-ep))
+		)
+
+		; Remove the old form from the copy and add the new one.
+		(setf phi-copy (remove loop-form phi-copy :test #'equal))
+		(setf phi-copy (append (list new-form) phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
+
+(defun and-list? (l)
+(and
+	(listp l)
+	(> (length l) 1)
+	(or
+		(equal (car l) 'AND)
+		(equal (car l) 'AND.CC)
+	)
+)
+)
+
+(defun split-and-preds (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+
+	(loop for e in phi do (block loop-outer
+		(if (or
+				; (IND (AND P1 P2 ...))
+				(and
+				(equal 2 (length e))
+				(canon-individual? (car e))
+				(and-list? (second e)))
+
+				; (IND AND P1 P2 ...)
+				(and
+				(canon-individual? (car e))
+				(and-list? (cdr e)))
+			)
+			; then
+			(block loop-inner
+				(setf and-list (second e))
+				(if (and-list? (cdr e)) (setf and-list (cdr e)))
+				(setf new-forms (mapcar (lambda (x) (list (car e) x)) (cdr and-list)))
+				(setf phi-copy (append new-forms phi-copy))
+				(setf phi-copy (remove e phi-copy :test #'equal))
+			)
+		)
+	))
+
+	(return-from outer phi-copy)
+)
+)
+
+(defun split-double-charstars (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+
+	(loop for e in phi do (block loop-outer
+		(if (and
+				(equal 3 (length e))
+				(equal (second e) '**)
+				(equal 3 (length (car e)))
+				(equal (second (car e)) '**))
+			; then
+			(block loop-inner
+				(setf form (car (car e)))
+				(setf add1 (list form '** (third (car e))))
+				(setf add2 (list form '** (third e)))
+				(setf phi-copy (append (list add1 add2) phi-copy))
+				(setf phi-copy (remove e phi-copy :test #'equal))
+			)
+		)
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (defun and-chain (phis)
 ;(norm-singletons
@@ -135,6 +271,149 @@
 	THE
 	THE.DET
 ))
+
+(defun unfloat-modifiers (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for loop-form in phi do (block loop-outer
+		(setf form (copy-item loop-form))
+		(setf char-ep nil)
+		(setf pr-mods (list))
+
+		; Strip charstars.
+		(if (and (equal 3 (length form)) (equal (second form) '**))
+			; then
+			(progn
+			(setf char-ep (third form))
+			(setf form (car form))
+			)
+		)
+
+		; Strip propositional modifiers and NOT.
+		(loop while (and (equal (length form) 2) (or (equal (car form) 'NOT) (canon-mod? (car form))))
+			do (progn
+			(setf pr-mods (append (list (car form)) pr-mods))
+			(setf form (second form))
+			)
+		)
+
+		; If the second element is an illegal pred charstar,
+		; strip it now.
+		(setf embedded-char-ep nil)
+		(if (and
+			(equal (length form) 2)
+			(listp (second form))
+			(equal (length (second form)) 3)
+			(equal (second (second form)) '**))
+			; then
+			(progn
+			(setf embedded-char-ep (third (second form)))
+			(setf form (list (car form) (car (second form))))
+			)
+		)
+
+		; Modifiers can't float in lists of size 2
+		; unless they're the second element. But,
+		; the second element is a predicate, so
+		; we can try flattening it in and continuing,
+		; if it has modifiers floating in its top level.
+		(if (and
+				(equal (length form) 2)
+				(not (canon-mod? (second form)))
+				(listp (second form))
+				(loop for e in (second form) thereis (canon-mod? e))
+			)
+			; then
+			(if (listp (second form))
+				; then
+				(setf form (append (list (car form)) (second form)))
+				; else
+				(return-from loop-outer)
+			)
+		)
+
+		; Loop through and collect all modifiers.
+		; Apply them to the predicate, and leave the
+		; individuals alone. If there's a third type,
+		; this isn't a valid predicate and we should
+		; leave it alone.
+		(setf uf-target (copy-item form))
+		(setf uf-pred nil)
+		(setf uf-mods (list))
+		(loop for el in form
+			for i from 0 do (block loop-inner
+			(cond
+			; Only one pred allowed.
+			((or
+				(canon-pred? el)
+				; It may not yet be fixed up to remove
+				; illegal embedded charstars, so we'll
+				; allow that, too.
+				(and
+					(listp el)
+					(equal (length el) 3)
+					(equal (second el) '**)
+					(canon-pred? (car el))))
+				; then
+				(if (not (null uf-pred))
+					; then
+					(return-from loop-outer)
+					; else
+					(setf uf-pred el)
+				)
+			)
+
+			((canon-individual? el)
+				(return-from loop-inner))
+
+			; Mods are allowed in the first slot
+			; of a (mod pred) pair, but nowhere
+			; else.
+			((canon-mod? el)
+				(if (not (equal i 0))
+					; then
+					(progn
+					(setf uf-mods (append uf-mods (list el)))
+					(setf uf-target (remove el uf-target :test #'equal))
+					)
+				)
+			)
+
+			; Only mods, preds, and individuals allowed.
+			;(t (return-from loop-outer))
+		)))
+
+		; Stack the floating mods on the predicate.
+		(setf new-uf-pred (copy-item uf-pred))
+		(loop for m in uf-mods
+			do (setf new-uf-pred (list m new-uf-pred))
+		)
+
+		; Replace the old predicate.
+		(setf uf-target (replace-vals uf-pred new-uf-pred uf-target))
+
+		; Re-apply any stripped propositional modifiers.
+		(loop for pm in pr-mods
+			do (setf uf-target (list pm uf-target))
+		)
+
+		; Replace any stripped charstars.
+		(if (not (null char-ep))
+			; then
+			(setf uf-target (list uf-target '** char-ep))
+		)
+		(if (not (null embedded-char-ep))
+			; then
+			(setf uf-target (list uf-target '** embedded-char-ep))
+		)
+
+		; Replace the old formula.
+		(setf phi-copy (replace-vals loop-form uf-target phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (defun process-construction (phi pred processor)
 (let (last-phi-copy phi-copy)
@@ -183,7 +462,7 @@
 				(format t "processor ~s gave value nil~%" processor)
 			)
 
-			(if (equal phi-copy last-phi-copy)
+			(if (same-list-unordered phi-copy last-phi-copy)
 				; then
 				(progn
 				; (format t "setting ~s as skippable~%" (car pairs))
@@ -612,7 +891,8 @@
 (defun split-and-eps (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
-	(loop for e in phi do (block loop-outer
+	(loop for phi-e in phi do (block loop-outer
+		(setf e phi-e)
 		(if (and
 				(listp e)
 				;(canon-charstar? e)
@@ -676,7 +956,7 @@
 	(loop while t do (block inner
 		(setf phi-copy (schema-cleanup-ttt phi-copy))
 		(setf phi-copy (schema-cleanup-lisp phi-copy))
-		(if (equal phi-copy last-phi-copy)
+		(if (same-list-unordered phi-copy last-phi-copy)
 			; then
 			(return-from outer phi-copy)
 			; else

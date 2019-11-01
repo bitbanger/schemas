@@ -48,39 +48,39 @@
 		(p m o)
 	)
 	(
-		consec.pr
+		consec
 		(m)
 	)
 	(
-		same-time.pr
+		same-time
 		(=)
 	)
 	(
-		at-about.pr
+		at-about
 		(s =)
 	)
 	(
-		before.pr
+		before
 		(p m o)
 	)
 	(
-		strictly-before.pr
+		strictly-before
 		(p)
 	)
 	(
-		after.pr
+		after
 		(pi mi oi)
 	)
 	(
-		during.pr
+		during
 		(s d f =)
 	)
 	(
-		precond-of.pr
+		precond-of
 		(m o)
 	)
 	(
-		postcond-of.pr
+		postcond-of
 		(oi mi)
 	)
 ))

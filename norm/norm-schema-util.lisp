@@ -1,3 +1,4 @@
+(load "ttt/src/load")
 (load "norm-el.lisp")
 (load "real_util.lisp")
 (load "coref.lisp")
@@ -684,8 +685,14 @@
 )
 )
 
-
 (defun clean-do-kas (schema)
+	(ttt-replace schema
+		'(DO.V (KA _!))
+		'_!
+	)
+)
+
+(defun old-clean-do-kas (schema)
 (let (cleaned-schema do-ka-idcs do-ka action)
 (block outer
 	(setf cleaned-schema schema)

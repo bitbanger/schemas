@@ -74,25 +74,25 @@
 		)
 
 		(:Preconds
-			(?i1 (not (?x (can.md (ka (do.v ?a2))))))
+			(?i1 (not (?x (can.md (do.v ?a2)))))
 		)
 
 		(:Steps
 			(?e1 (?x ((adv-a (for.p (ka (do.v ?a2)))) do.v) ?a1))
-			(?e2 (?x (can.md (ka (do.v ?a2)))))
+			(?e2 (?x (can.md (do.v ?a2))))
 			(?e3 (?x (do.v ?a2)))
 		)
 
 		(:Episode-relations
 			(!w1 (?e1 cause.v ?e2))
-			(!w2 (?e1 consec.pr ?e2))
-			(!w3 (?e1 consec.pr ?e3))
-			(!w4 (?e1 before.pr ?e2))
-			(!w5 (?e1 before.pr ?e3))
-			(!w6 (?e2 postcond-of.pr ?e1))
+			(!w2 (?e1 consec ?e2))
+			(!w3 (?e1 consec ?e3))
+			(!w4 (?e1 before ?e2))
+			(!w5 (?e1 before ?e3))
+			(!w6 (?e2 postcond-of ?e1))
 			(!w7 (?g1 cause.v ?e1))
-			(!w8 (?e1 same-time.pr ?e))
-			(!w9 (?i1 precond-of.pr ?e))
+			(!w8 (?e1 same-time ?e))
+			(!w9 (?i1 precond-of ?e))
 		)
 	)
 )
@@ -123,8 +123,8 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time.pr ?e2))
-			(!w2 (?e1 same-time.pr ?e3))
+			(!w1 (?e1 same-time ?e2))
+			(!w2 (?e1 same-time ?e3))
 		)
 	)
 )
@@ -185,9 +185,9 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time.pr ?e))
-			(!w2 (?i1 precond-of.pr ?e))
-			(!w3 (?p1 postcond-of.pr ?e))
+			(!w1 (?e1 same-time ?e))
+			(!w2 (?i1 precond-of ?e))
+			(!w3 (?p1 postcond-of ?e))
 		)
 	)
 )
@@ -225,9 +225,9 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time.pr ?e2))
-			(!w2 (?e1 same-time.pr ?e3))
-			(!w3 (?e1 same-time.pr ?e4))
+			(!w1 (?e1 same-time ?e2))
+			(!w2 (?e1 same-time ?e3))
+			(!w3 (?e1 same-time ?e4))
 		)
 	)
 )

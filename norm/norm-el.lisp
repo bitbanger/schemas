@@ -138,9 +138,11 @@
 	; Bare verbs/modals, nouns, adjectives, and prepositions are predicates
 	(lex-verb? x)
 	(lex-noun? x)
-	(lex-modal? x)
+	; (lex-modal? x)
 	(lex-adj? x)
 	(lex-p? x)
+
+	; (mp x (list 'lex-modal? 'canon-pred?))
 
 	; Allow attributes, like ((attr happy.a) boy.n)
 	; (mp x (list 'canon-attr? 'canon-pred?))
@@ -163,6 +165,7 @@
 (or
 	(lex-adv? x)
 	(lex-attr-pred? x)
+	(lex-modal? x)
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
 	(mp x (list (id? 'ADV-A) 'canon-pred?+))

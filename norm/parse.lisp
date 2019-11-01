@@ -17,6 +17,9 @@
 	AT-OR-BEFORE
 	CONSEC
 	CAUSE-OF
+	POSTCOND-OF
+	PRECOND-OF
+	SAME-TIME
 ))
 
 ; TODO: give these extensions

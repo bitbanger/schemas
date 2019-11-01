@@ -14,7 +14,8 @@
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema (car kite-gen-schema))
 
-(setf story *MONKEY-STORY*)
+(setf story *PARSED-MONKEY-STORY*)
+; (setf story *MONKEY-STORY*)
 ;(setf story *PARSED-STORY-1*)
 
 (format t "story:~%")

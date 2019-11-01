@@ -1,3 +1,6 @@
+(load "ttt/src/load")
+(load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
+
 (defparameter *DBG-TAGS* (list
 	; put debug tags you want here
 	;'matched-wffs
@@ -673,6 +676,28 @@ is replaced with replacement."
 		; else
 		lst
 	)
+)
+
+(defun matches-ttt (phi pattern)
+(let ((new-sym (gensym)))
+	(equal new-sym (unhide-ttt-ops
+		(ttt:apply-rules
+			(list (list '/ pattern new-sym))
+			(hide-ttt-ops phi)
+			:rule-order :slow-forward)))
+)
+)
+
+(defun mk-ttt-pred (pattern)
+	(lambda (x) (matches-ttt x pattern))
+)
+
+(defun ttt-replace (phi old new)
+	(unhide-ttt-ops
+		(ttt:apply-rules
+			(list (list '/ old new))
+			(hide-ttt-ops phi)
+			:rule-order :slow-forward))
 )
 
 (defun flat-cdr (lst)

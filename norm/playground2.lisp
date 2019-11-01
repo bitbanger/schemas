@@ -59,7 +59,7 @@
 	)
 	(:EPISODE-RELATIONS
 		(!W1 (?E1 CAUSE.V ?E2))
-		(!W2 (?E1 CONSEC.PR ?E2))
+		(!W2 (?E1 CONSEC ?E2))
 		(!W3 (?E1 BEFORE.PR ?E2))
 		(!W4 (?E1 BEFORE.PR ?E3))
 		(!W5 (?E2 POSTCOND-OF.PR ?E1))
@@ -69,7 +69,7 @@
 		(!W9 (?E3 SAME-TIME.PR ?E_2))
 		(!W10 (?I2 PRECOND-OF.PR ?E_2))
 		(!W11 (?P1 POSTCOND-OF.PR ?E_2))
-		(!W12 (?E1 CONSEC.PR ?E3))
+		(!W12 (?E1 CONSEC ?E3))
 		(!W13 (?E1 AT-ABOUT.PR ?X_D))
 	)
 	(:POSTCONDS

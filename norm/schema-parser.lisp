@@ -143,6 +143,12 @@
 		((!1 vp-shifter?) _+)
 		(_+)
 	)
+
+	; Unflatten post-args
+	(/
+		((!1 canon-individual?) (!2 canon-pred?) (+ canon-individual?))
+		(!1 (!2 +))
+	)
 ))
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
@@ -635,23 +641,14 @@
 					(progn
 						(setf uf-mods (append uf-mods inner-pred-mods))
 						(setf new-uf-pred (unwrap-singletons (loop for e in uf-pred if (not (canon-mod? e)) collect e)))
-						(format t "post-strip uf-pred is ~s~%" new-uf-pred)
 					)
 				)
 			)
 		)
 
-		(if (not (null uf-mods))
-			(format t "form ~s~%got mods ~s~%~%" form uf-mods)
-		)
-
 		; Stack the floating mods on the predicate.
 		(loop for m in uf-mods
 			do (setf new-uf-pred (list m new-uf-pred))
-		)
-
-		(if (not (null uf-mods))
-			(format t "new pred is ~s~%" new-uf-pred)
 		)
 
 		; Replace the old predicate.
@@ -752,20 +749,6 @@
 
 		#'norm-conjunctive-infixes-processor
 	)
-)
-
-(defun mk-ttt-pred (pattern)
-	(lambda (x) (matches-ttt x pattern))
-)
-
-(defun matches-ttt (phi pattern)
-(let ((new-sym (gensym)))
-	(equal new-sym (unhide-ttt-ops
-		(ttt:apply-rules
-			(list (list '/ pattern new-sym))
-			(hide-ttt-ops phi)
-			:rule-order :slow-forward)))
-)
 )
 
 (defun ttt-replace (phi old new)

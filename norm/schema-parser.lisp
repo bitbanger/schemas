@@ -122,8 +122,14 @@
 
 	; To BE.V, or not to BE.V?
 	(/
-		(BE.V (!1 canon-pred?))
-		!1
+		((!1 (~ THERE.PRO)) (BE.V (!2 probably-pred?)))
+		(!1 !2)
+	)
+
+	; "There is X" => "X is"
+	(/
+		(THERE.PRO (BE.V (= _!1)))
+		(_!1 BE.V)
 	)
 
 	; Fix weird type-shifters
@@ -162,21 +168,29 @@
 
 		; Strip charstars.
 		(setf char-eps (list))
-		(loop while (and (equal 3 (length form)) (equal (second form) '**))
+		(loop while (and (listp form) (equal 3 (length form)) (equal (second form) '**))
 			do (progn
 			(setf char-eps (append (list (third form)) char-eps))
 			(setf form (car form))
 			)
 		)
 
+		(if (not (listp form))
+			(return-from loop-outer)
+		)
+
 		; Strip prop mods and NOTs.
 		(setf pmods (list))
-		(loop while (and (equal 2 (length form)) (or (canon-mod? (car form)) (equal 'NOT (car form)))) do (block loop-inner
+		(loop while (and (listp form) (equal 2 (length form)) (or (canon-mod? (car form)) (equal 'NOT (car form)))) do (block loop-inner
 			(progn
 			(setf pmods (append (list (car form)) pmods))
 			(setf form (second form))
 			)
 		))
+
+		(if (not (listp form))
+			(return-from loop-outer)
+		)
 
 		(if (or (null pmods) (loop for e in pmods always (equal 'NOT e)))
 			(return-from loop-outer)
@@ -248,11 +262,15 @@
 
 		; Strip existing charstars.
 		(setf char-eps (list))
-		(loop while (and (equal 3 (length form)) (equal (second form) '**))
+		(loop while (and (listp form) (equal 3 (length form)) (equal (second form) '**))
 			do (progn
 			(setf char-eps (append (list (third form)) char-eps))
 			(setf form (car form))
 			)
+		)
+
+		(if (not (listp form))
+			(return-from loop-outer)
 		)
 
 
@@ -324,9 +342,37 @@
 			)
 			; then
 			(block loop-inner
+				; (format t "split-and-preds got ~s~%" e)
 				(setf and-list (second e))
 				(if (and-list? (cdr e)) (setf and-list (cdr e)))
 				(setf new-forms (mapcar (lambda (x) (list (car e) x)) (cdr and-list)))
+
+
+				; (format t "got and-list ~s~%" (cdr and-list))
+				; If the predicates have associated episodes,
+				; we'll infer here that they're consecutive.
+				(setf pred-eps (loop for e in (cdr and-list) if (and (listp e) (charstar-triple? (strip-pred-mods-individuals e))) collect (strip-pred-mods-individuals e)))
+				(setf consec-forms (list))
+				(if (> (length pred-eps) 1)
+					; then
+					(progn
+					(setf last-pred-ep nil)
+					(loop for pred-ep in pred-eps
+							for i from 0 do (block consec-eps-block
+						(if (> i 0)
+							; then
+							(setf consec-forms (append consec-forms (list (list (third last-pred-ep) 'CONSEC (third pred-ep)))))
+						)
+
+						(setf last-pred-ep pred-ep)
+					))
+					)
+				)
+				(if (not (null consec-forms))
+					; then
+					(setf phi-copy (append consec-forms phi-copy))
+				)
+
 				(setf phi-copy (append new-forms phi-copy))
 				(setf phi-copy (remove e phi-copy :test #'equal))
 			)
@@ -343,6 +389,8 @@
 
 	(loop for e in phi do (block loop-outer
 		(if (and
+				(listp e)
+				(listp (car e))
 				(equal 3 (length e))
 				(equal (second e) '**)
 				(equal 3 (length (car e)))
@@ -391,6 +439,31 @@
 ; between fix rules.
 (defun probably-pred? (p)
 (block outer
+	; If it's a pred with floating mods,
+	; it can pass---those will get fixed
+	; later, so we'll strip them out now.
+	(setf stripped-p (copy-item p))
+	(setf did-strip-mods nil)
+	(if (listp stripped-p)
+		; then
+		(loop for el in p
+			do (if (canon-mod? el)
+				; then
+				(progn
+				(setf stripped-p (remove el stripped-p :test #'equal))
+				(setf did-strip-mods t)
+				)
+			)
+		)
+	)
+	(if did-strip-mods
+		; then
+		(progn
+		; (format t "recursing on stripped ~s~%" stripped-p)
+		(return-from outer (probably-pred? (unwrap-singletons stripped-p)))
+		)
+	)
+
 	; Strip charstars
 	(if (charstar-triple? p)
 		(return-from outer (probably-pred? (car p)))
@@ -404,6 +477,12 @@
 	(if (canon-pred? p)
 		(return-from outer t)
 	)
+)
+)
+
+(defun strip-pred-mods-individuals (p)
+(block outer
+	(return-from outer (unwrap-singletons (loop for e in p if (not (or (canon-mod? e) (canon-individual? e))) collect e)))
 )
 )
 
@@ -440,12 +519,20 @@
 			)
 		)
 
+		(if (not (listp form))
+			(return-from loop-outer)
+		)
+
 		; Strip propositional modifiers and NOT.
 		(loop while (and (equal (length form) 2) (or (equal (car form) 'NOT) (canon-mod? (car form))))
 			do (progn
 			(setf pr-mods (append (list (car form)) pr-mods))
 			(setf form (second form))
 			)
+		)
+
+		(if (not (listp form))
+			(return-from loop-outer)
 		)
 
 		; If the second element is an illegal pred charstar,
@@ -527,10 +614,44 @@
 			;(t (return-from loop-outer))
 		)))
 
-		; Stack the floating mods on the predicate.
 		(setf new-uf-pred (copy-item uf-pred))
+
+		; If the predicate also wraps up floating mods,
+		; e.g. (I.PRO REALLY.ADV-A (GO.V (ADV-A TO.P SCHOOL1.SK))),
+		; we'll bubble them up, too.
+		(if (and
+				(not (null uf-pred))
+				(listp uf-pred))
+			; then
+			(progn
+				(setf inner-pred-mods (loop for e in uf-pred if (canon-mod? e) collect e))
+				(if (and
+						(not (null inner-pred-mods))
+						; A mod's not floating if the length is 2
+						; and the mod is the first element.
+						(not (and (equal (length uf-pred) 2) (canon-mod? (car uf-pred))))
+					)
+					; then
+					(progn
+						(setf uf-mods (append uf-mods inner-pred-mods))
+						(setf new-uf-pred (unwrap-singletons (loop for e in uf-pred if (not (canon-mod? e)) collect e)))
+						(format t "post-strip uf-pred is ~s~%" new-uf-pred)
+					)
+				)
+			)
+		)
+
+		(if (not (null uf-mods))
+			(format t "form ~s~%got mods ~s~%~%" form uf-mods)
+		)
+
+		; Stack the floating mods on the predicate.
 		(loop for m in uf-mods
 			do (setf new-uf-pred (list m new-uf-pred))
+		)
+
+		(if (not (null uf-mods))
+			(format t "new pred is ~s~%" new-uf-pred)
 		)
 
 		; Replace the old predicate.
@@ -1082,7 +1203,9 @@
 	(setf phi-copy (copy-list phi))
 	(loop for func in *SCHEMA-CLEANUP-FUNCS*
 		do (block inner
-			(setf phi-copy (funcall func phi-copy))
+			(setf old-phi-copy (copy-list phi-copy))
+			(setf new-phi-copy (funcall func phi-copy))
+			(setf phi-copy new-phi-copy)
 			(if (null phi-copy)
 				(format t "func ~s gave null phi~%" func)
 			)

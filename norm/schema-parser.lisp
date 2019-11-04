@@ -612,6 +612,8 @@
 			)
 		)
 
+		(setf uf-mods (list))
+
 		; Loop through and collect all modifiers.
 		; Apply them to the predicate, and leave the
 		; individuals alone. If there's a third type,
@@ -619,7 +621,6 @@
 		; leave it alone.
 		(setf uf-target (copy-item form))
 		(setf uf-pred nil)
-		(setf uf-mods (list))
 		(loop for el in form
 			for i from 0 do (block loop-inner
 			(cond
@@ -656,25 +657,39 @@
 
 		(setf new-uf-pred (copy-item uf-pred))
 
+		; Strip off all legal modifiers that were already
+		; applied to the predicate.
+		(setf existing-mods (list))
+		(loop while (and
+						(listp new-uf-pred)
+						(equal (length new-uf-pred) 2)
+						(canon-mod? (car new-uf-pred)))
+			do (progn
+				(setf existing-mods (append (list (car new-uf-pred)) existing-mods))
+				(setf new-uf-pred (second new-uf-pred))
+			)
+		)
+		(setf uf-mods (append existing-mods uf-mods))
+
 		; If the predicate also wraps up floating mods,
 		; e.g. (I.PRO REALLY.ADV-A (GO.V (ADV-A TO.P SCHOOL1.SK))),
 		; we'll bubble them up, too.
 		(if (and
-				(not (null uf-pred))
-				(listp uf-pred))
+				(not (null new-uf-pred))
+				(listp new-uf-pred))
 			; then
 			(progn
-				(setf inner-pred-mods (loop for e in uf-pred if (canon-mod? e) collect e))
+				(setf inner-pred-mods (loop for e in new-uf-pred if (canon-mod? e) collect e))
 				(if (and
 						(not (null inner-pred-mods))
 						; A mod's not floating if the length is 2
 						; and the mod is the first element.
-						(not (and (equal (length uf-pred) 2) (canon-mod? (car uf-pred))))
+						(not (and (equal (length new-uf-pred) 2) (canon-mod? (car new-uf-pred))))
 					)
 					; then
 					(progn
-						(setf uf-mods (append uf-mods inner-pred-mods))
-						(setf new-uf-pred (unwrap-singletons (loop for e in uf-pred if (not (canon-mod? e)) collect e)))
+						(setf uf-mods (append inner-pred-mods uf-mods))
+						(setf new-uf-pred (unwrap-singletons (loop for e in new-uf-pred if (not (canon-mod? e)) collect e)))
 					)
 				)
 			)

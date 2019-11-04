@@ -161,6 +161,13 @@
 )
 )
 
+(defun canon-pred-or-mod? (x)
+(or
+	(canon-pred? x)
+	(canon-mod? x)
+)
+)
+
 (defun canon-mod? (x)
 (or
 	(lex-adv? x)
@@ -168,13 +175,13 @@
 	(lex-modal? x)
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
-	(mp x (list (id? 'ADV-A) 'canon-pred?+))
-	(mp x (list (id? 'ADV-E) 'canon-pred?+))
-	(mp x (list (id? 'ADV-S) 'canon-pred?+))
-	(mp x (list (id? 'ADV-F) 'canon-pred?+))
-	(mp x (list (id? ':R) 'canon-pred?+))
-	(mp x (list (id? 'ATTR) 'canon-pred?))
-	(mp x (list (id? 'NN) 'canon-pred?))
+	(mp x (list (id? 'ADV-A) 'canon-pred-or-mod?+))
+	(mp x (list (id? 'ADV-E) 'canon-pred-or-mod?+))
+	(mp x (list (id? 'ADV-S) 'canon-pred-or-mod?+))
+	(mp x (list (id? 'ADV-F) 'canon-pred-or-mod?+))
+	(mp x (list (id? ':R) 'canon-pred-or-mod?+))
+	(mp x (list (id? 'ATTR) 'canon-pred-or-mod?))
+	(mp x (list (id? 'NN) 'canon-pred-or-mod?))
 )
 )
 

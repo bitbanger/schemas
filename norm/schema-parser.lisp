@@ -122,7 +122,7 @@
 
 	; To BE.V, or not to BE.V?
 	(/
-		((!1 (~ THERE.PRO)) (BE.V (!2 probably-pred?)))
+		((!1 ~ THERE.PRO) (BE.V (!2 probably-pred?)))
 		(!1 !2)
 	)
 
@@ -163,7 +163,41 @@
 	split-and-preds
 	bubble-up-pred-charstars
 	sink-prop-mods
+	name-skolems
 ))
+
+; Ideally, this wouldn't be necessary, but sometimes
+; Skolemized things still get the OBJECT name, e.g. if
+; a lambda-and predicate was Skolemized and couldn't be
+; parsed for a name until it was split later.
+(defun name-skolems (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for form in phi do (block loop-outer
+		(if (and
+				(listp form)
+				(equal 2 (length form))
+				(lex-skolem? (car form))
+				(symbolp (second form))
+				(has-prefix? (format nil "~s" (car form)) "OBJECT")
+				)
+			; then
+			(block loop-inner
+				(setf sym-prefix (car (split-str (format nil "~s" (second form)) ".")))
+				(if (equal sym-prefix "OBJECT")
+					; then
+					(return-from loop-outer)
+				)
+
+				(setf new-skolem (new-skolem! (intern sym-prefix)))
+				(setf phi-copy (replace-vals (car form) new-skolem phi))
+			)
+		)
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (defun sink-prop-mods (phi)
 (block outer
@@ -751,14 +785,6 @@
 	)
 )
 
-(defun ttt-replace (phi old new)
-	(unhide-ttt-ops
-		(ttt:apply-rules
-			(list (list '/ old new))
-			(hide-ttt-ops phi)
-			:rule-order :slow-forward))
-)
-
 (defun norm-conjunctive-infixes-processor (pair phi)
 (block outer
 	; (format t "infix processor called on ~s~%" (car pair))
@@ -865,7 +891,9 @@
 				; then
 				(setf new-skolem (new-skolem! (intern (car (split-str (format nil "~s" (second adet)) ".")))))
 				; else
+				(progn
 				(setf new-skolem (new-skolem! 'OBJECT))
+				)
 			)
 			; (format t "new skolem name is ~s~%" new-skolem)
 			; (format t "body is ~s~%" (second adet))
@@ -1248,14 +1276,21 @@
 
 ;(sp "My son is a little child.")
 
-(defun process-stdin-story (story-processor-fn)
+(defun process-stdin-story (story-processor-fn should-fix)
 (block outer
 	(let ((sentences (list)) (lines (list)))
 	(loop while t do (let ((line (read-line)))
 		(if (> (length line) 0)
 			; then
 			(progn
-			(setf sentences (append sentences (list (schema-parse line))))
+			(setf sentences (append sentences (list
+				(if should-fix
+					; then
+					(schema-parse line)
+					; else
+					(interpret line)
+				)
+			)))
 			(setf lines (append lines (list line)))
 			)
 			; else

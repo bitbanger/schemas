@@ -680,11 +680,7 @@ is replaced with replacement."
 
 (defun matches-ttt (phi pattern)
 (let ((new-sym (gensym)))
-	(equal new-sym (unhide-ttt-ops
-		(ttt:apply-rules
-			(list (list '/ pattern new-sym))
-			(hide-ttt-ops phi)
-			:rule-order :slow-forward)))
+	(equal new-sym (ttt-replace phi pattern new-sym))
 )
 )
 

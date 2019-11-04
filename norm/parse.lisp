@@ -20,6 +20,7 @@
 	POSTCOND-OF
 	PRECOND-OF
 	SAME-TIME
+	RIGHT-AFTER
 ))
 
 ; TODO: give these extensions

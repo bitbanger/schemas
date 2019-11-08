@@ -1301,7 +1301,8 @@
 
 (defun process-stdin-story (story-processor-fn should-fix)
 (block outer
-	(let ((sentences (list)) (lines (list)))
+	(let ((sentences (list)) (lines (list)) (story-count 0))
+	(progn
 	(loop while t do (let ((line (read-line)))
 		(if (> (length line) 0)
 			; then
@@ -1318,12 +1319,14 @@
 			)
 			; else
 			(progn
+				(format t "~%~%~%STORY ~d:~%" story-count)
+				(setf story-count (+ 1 story-count))
 				(funcall story-processor-fn sentences lines)
 				(setf sentences (list))
 				(setf lines (list))
 			)
 		)
-	)))
+	))))
 ))
 
 ; (process-stdin-story (lambda (sents lines) (format t "~s~%~%~%" sents)))

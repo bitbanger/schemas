@@ -94,7 +94,9 @@
 (or
 	; TODO: restrictions on VP/non-VP preds for KA/K?
 	(mp x (list (id? 'K) 'canon-pred?))
+	(mp x (list (id? 'K) 'canon-pred? 'canon-individual?+))
 	(mp x (list (id? 'KA) 'canon-pred?))
+	(mp x (list (id? 'KA) 'canon-pred? 'canon-individual?+))
 	(mp x (list (id? 'KE) 'canon-prop?))
 )
 )

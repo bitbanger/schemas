@@ -10,28 +10,59 @@
 
 (defun fix-story (sents lines)
 (block outer
+	(setf ok-sents (list))
+	(setf ok-lines (list))
 	(loop for sent in sents
 			for line in lines
 		do (block inner
 
-		(if (loop for wff in sent thereis (not (canon-prop? wff)))
-			; then
-			(format t "~%~%~s~%" line)
-			; (return-from inner)
-			; else
-			(format t "~%~%~s~%" line))
+		(setf ok-wffs (list))
+		(setf not-ok nil)
+
+		; (format t "~%~%~s~%" line)
 		(loop for wff in sent
-			do (if (not (canon-prop? wff))
+			do (if (canon-prop? wff)
 				; then
+				(setf ok-wffs (append ok-wffs (list wff)))
+				; else
+				(setf not-ok t)
+
 				;(+ 1 2)
-				(format t "				~a~%" (tab-wff wff))
+				; (format t "				~a~%" (tab-wff wff))
 				; (format t "~s~%~%" wff)
 				; else
-				(format t "~s~%~%" wff)
+				; (format t "			~s~%" wff)
 			)
 		)
-	))
+
+		(if (not not-ok)
+			; then
+			(progn
+			(setf ok-sents (append ok-sents (list ok-wffs)))
+			(setf ok-lines (append ok-lines (list line)))
+			)
+		)
+	)
+	)
+
+	(if (not (null ok-sents))
+		; then
+		(block print-story
+			(format t "	(~%")
+			(loop for sent in ok-sents
+					for line in ok-lines
+				do (format t "		( ; ~s~%" line)
+				do (loop for wff in sent
+					do (format t "			~s~%" wff)
+				)
+				do (format t "		)~%")
+			)
+			(format t "	)~%~%")
+		)
+	)
 )
 )
 
+(format t "(defparameter PARSED-FR-STORIES '(~%")
 (process-stdin-story #'fix-story t)
+(format t ")~%")

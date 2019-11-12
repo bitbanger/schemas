@@ -8,6 +8,7 @@
 	run.v
 	walk.v
 	crawl.v
+	fly.v
 ))
 
 (defparameter *RECEIVING-PREDS* '(

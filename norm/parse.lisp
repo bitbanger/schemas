@@ -37,6 +37,7 @@
 	ATTR
 	PLUR
 	L
+	SET-OF
 )))
 
 (defun has-ext? (x e)

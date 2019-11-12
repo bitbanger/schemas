@@ -368,6 +368,10 @@
 	(setf phi-copy (copy-list phi))
 
 	(loop for e in phi do (block loop-outer
+		(if (not (listp e))
+			(return-from loop-outer)
+		)
+
 		(if (or
 				; (IND (AND P1 P2 ...))
 				(and
@@ -549,10 +553,16 @@
 
 	(setf loop-form (car pair))
 
+
 	(block loop-outer
 		(setf form (copy-item loop-form))
 		(setf char-ep nil)
 		(setf pr-mods (list))
+
+		; Nonlists don't have modifiers
+		(if (not (listp form))
+			(return-from outer phi-copy)
+		)
 
 		; Strip charstars.
 		(if (and (equal 3 (length form)) (equal (second form) '**))
@@ -1319,7 +1329,7 @@
 			)
 			; else
 			(progn
-				(format t "~%~%~%STORY ~d:~%" story-count)
+				; (format t "~%~%~%STORY ~d:~%" story-count)
 				(setf story-count (+ 1 story-count))
 				(funcall story-processor-fn sentences lines)
 				(setf sentences (list))

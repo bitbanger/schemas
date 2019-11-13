@@ -86,7 +86,7 @@
 
 		(:Steps
 			(?e1 (?x ((adv-a (for.p (ka (do.v ?a2)))) do.v) ?a1))
-			(?e2 (?x (can.md (do.v ?a2))))
+			(?e2 (?x (can.md do.v) ?a2)))
 			(?e3 (?x (do.v ?a2)))
 		)
 
@@ -323,7 +323,7 @@
 			(?e2 (?x (movement_verb.v (from.p-arg ?l1) (to.p-arg ?l2))))
 			(?e3 (?x (movement_verb.v (to.p-arg ?l2) (from.p-arg ?l1))))
 			(?e4 (?x (movement_verb.v (from.p-arg ?l1))))
-			(?e5 (?x (movement_verb.v)))
+			(?e5 (?x movement_verb.v))
 		)
 
 		(:Postconds

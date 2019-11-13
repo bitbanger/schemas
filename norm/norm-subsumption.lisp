@@ -1,6 +1,7 @@
 (load "parse.lisp")
 (load "norm-el.lisp")
 (load "real_util.lisp")
+(load "norm-wordnet.lisp")
 
 (defparameter *MOVEMENT-PREDS* '(
 	go.v
@@ -25,6 +26,7 @@
 
 (defparameter *SPECIAL-SUBSUMPTIONS* (mk-hashtable '(
 	((AGENT.N ANIMAL.N) t) ; animals are agents
+	((FOOD.N FRUIT.N) t) ; fruit is food
 )))
 
 (defun subsumes (schema-pred story-pred)
@@ -94,32 +96,6 @@
 
 	(return-from outer (list word num pos))
 )
-)
-)
-)
-
-(defun wordnet-hypernyms (word-sym)
-(block outer
-(cond
-	((equal word-sym 'FIELD.N)
-		'(TRACT.N GEOGRAPHICAL_AREA.N REGION.N LOCATION.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
-
-	((equal word-sym 'WAGON.N)
-		'(WHEELED_VEHICLE.N CONTAINER.N INSTRUMENTALITY.N ARTIFACT.N WHOLE.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
-
-	((equal word-sym 'FLOWER.N)
-		'(ANGIOSPERM.N SPERMATOPHYTE.N VASCULAR_PLANT.N PLANT.N ORGANISM.N LIVING_THING.N WHOLE.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
-
-	((equal word-sym 'MONKEY.N)
-		'(PRIMATE.N PLACENTAL.N MAMMAL.N VERTEBRATE.N CHORDATE.N ANIMAL.N ORGANISM.N LIVING_THING.N WHOLE.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
-
-	((equal word-sym 'COCOANUT.N)
-		'(FOOD.N SOLID.N MATTER.N PHYSICAL_ENTITY.N ENTITY.N))
-
-	;((equal word-sym 'SET.N
-		;'(COLLECTION.N GROUP.N ABSTRACTION.N ENTITY.N)))
-
-	(t '(ENTITY.N))
 )
 )
 )

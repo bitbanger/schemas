@@ -1,8 +1,8 @@
 WORD_LST = [
-    "FIELD_1.N",
-    "WAGON_1.N",
-    "FLOWER_1.N",
-    "SET_1.N",
+    "FIELD.N",
+    "WAGON.N",
+    "FLOWER.N",
+    "SET.N",
 ]
 
 import sys
@@ -13,14 +13,16 @@ WORD_LST = sys.argv[1:]
 def lemma_to_el(lemma):
     spl = str(lemma)[7:][:-2].split('.')[:3]
     num = int(spl[2])
-    return ("%s_%d.%s" % (spl[0], num, spl[1])).upper()
+    # return ("%s_%d.%s" % (spl[0], num, spl[1])).upper()
+    return ("%s.%s" % (spl[0], spl[1])).upper()
 
 def el_to_lemma(el):
     spl = el.split('.')
     wspl = spl[0].split('_')
 
-    sense = int(wspl[-1])
-    word = '_'.join(wspl[:-1]).lower()
+    # sense = int(wspl[-1])
+    sense = 1
+    word = '_'.join(wspl).lower()
     pos = spl[1].lower()
 
     return '%s.%s.%02d' % (word, pos, sense)

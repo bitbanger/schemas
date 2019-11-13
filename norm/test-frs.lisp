@@ -1,4 +1,4 @@
-(defparameter "*TEST-FRS*" '(
+(defparameter *TEST-FRS* '(
 	(
 		( ; "the sun has just set."
 			((SUN1852.SK (JUST.ADV SET.V)) ** E1851.SK)

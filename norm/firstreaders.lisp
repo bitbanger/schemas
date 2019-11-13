@@ -1,38 +1,38 @@
 (defparameter PARSED-FR-STORIES '(
 	(
-		( ; "I see a girl."
+		( "I see a girl."
 			((ME.PRO (SEE.V GIRL2.SK)) ** OBJECT1.SK)
 			(OBJECT1.SK (AT-ABOUT NOW0))
 			(GIRL2.SK GIRL.N)
 		)
-		( ; "I see a boy."
+		( "I see a boy."
 			((ME.PRO (SEE.V BOY4.SK)) ** OBJECT3.SK)
 			(E0 (ORIENTS OBJECT3.SK))
 			(OBJECT3.SK (AT-ABOUT NOW1))
 			(BOY4.SK BOY.N)
 		)
-		( ; "I see a boy and a girl."
+		( "I see a boy and a girl."
 			((ME.PRO (SEE.V (SET-OF BOY6.SK GIRL7.SK))) ** OBJECT5.SK)
 			(E1 (ORIENTS OBJECT5.SK))
 			(OBJECT5.SK (AT-ABOUT NOW2))
 			(BOY6.SK BOY.N)
 			(GIRL7.SK GIRL.N)
 		)
-		( ; "The boy can see the girl."
+		( "The boy can see the girl."
 			((BOY9.SK ((CAN.MD SEE.V) GIRL10.SK)) ** E8.SK)
 			(E2 (ORIENTS E8.SK))
 			(E8.SK (AT-ABOUT NOW3))
 			(BOY9.SK BOY.N)
 			(GIRL10.SK GIRL.N)
 		)
-		( ; "I can see the girl and the boy."
+		( "I can see the girl and the boy."
 			((ME.PRO ((CAN.MD SEE.V) (SET-OF GIRL12.SK BOY13.SK))) ** E11.SK)
 			(E3 (ORIENTS E11.SK))
 			(E11.SK (AT-ABOUT NOW4))
 			(GIRL12.SK GIRL.N)
 			(BOY13.SK BOY.N)
 		)
-		( ; "I can see the girl."
+		( "I can see the girl."
 			((ME.PRO ((CAN.MD SEE.V) GIRL15.SK)) ** E14.SK)
 			(E4 (ORIENTS E14.SK))
 			(E14.SK (AT-ABOUT NOW5))
@@ -41,7 +41,7 @@
 	)
 
 	(
-		( ; "A parrot can talk."
+		( "A parrot can talk."
 			(PARROT17.SK PARROT.N)
 			(E16.SK (AT-ABOUT NOW6))
 			(E5 (ORIENTS E16.SK))
@@ -50,7 +50,7 @@
 	)
 
 	(
-		( ; "The boy and the dog run."
+		( "The boy and the dog run."
 			(E18.SK (SAME-TIME NOW7))
 			(E18.SK (RIGHT-AFTER U6))
 			(BOY19.SK BOY.N)
@@ -60,7 +60,7 @@
 	)
 
 	(
-		( ; "The hen will run at the cat."
+		( "The hen will run at the cat."
 			(CAT23.SK CAT.N)
 			(HEN22.SK HEN.N)
 			(E21.SK (AT-ABOUT NOW8))
@@ -70,7 +70,7 @@
 	)
 
 	(
-		( ; "Here come Jack and Jill on a red sled."
+		( "Here come Jack and Jill on a red sled."
 			(OBJECT33.SK (= (SET-OF JACK.NAME JILL.NAME)))
 			(OBJECT33.SK (ON.P SLED37.SK))
 			(SLED37.SK SLED.N)
@@ -82,7 +82,7 @@
 	)
 
 	(
-		( ; "The rat ran from the box."
+		( "The rat ran from the box."
 			((RAT48.SK ((:R (FROM.P BOX50.SK)) RUN.V)) ** OBJECT49.SK)
 			((RAT48.SK ((:R (FROM.P BOX50.SK)) RUN.V)) ** E47.SK)
 			(RAT48.SK RAT.N)
@@ -95,7 +95,7 @@
 	)
 
 	(
-		( ; "The man with the big hat has a cow."
+		( "The man with the big hat has a cow."
 			((T52.SK (HAVE.V COW55.SK)) ** OBJECT54.SK)
 			((T52.SK (HAVE.V COW55.SK)) ** E51.SK)
 			(T52.SK (WITH.P HAT53.SK))
@@ -111,14 +111,14 @@
 	)
 
 	(
-		( ; "If I put three apples on the box, I shall leave one apple on the plate."
+		( "If I put three apples on the box, I shall leave one apple on the plate."
 			((ME.PRO ((SHALL.MD ((:R (ON.P PLATE67.SK)) LEAVE.V)) APPLE66.SK)) ** E65.SK)
 			(E25 (ORIENTS E65.SK))
 			(E65.SK (AT-ABOUT NOW24))
 			(APPLE66.SK APPLE.N)
 			(PLATE67.SK PLATE.N)
 		)
-		( ; "If I put one on the box, I shall leave on the plate."
+		( "If I put one on the box, I shall leave on the plate."
 			(PLATE72.SK PLATE.N)
 			(E71.SK (AT-ABOUT NOW26))
 			(E27 (ORIENTS E71.SK))
@@ -127,7 +127,7 @@
 	)
 
 	(
-		( ; "The cat saw the rat."
+		( "The cat saw the rat."
 			((CAT84.SK (SEE.V RAT86.SK)) ** OBJECT85.SK)
 			((CAT84.SK (SEE.V RAT86.SK)) ** E83.SK)
 			(CAT84.SK CAT.N)
@@ -137,7 +137,7 @@
 			(OBJECT85.SK (BEFORE NOW29))
 			(RAT86.SK RAT.N)
 		)
-		( ; "But the rat got to the hole all safe."
+		( "But the rat got to the hole all safe."
 			((RAT90.SK ((:R (TO.P HOLE93.SK)) GET.V)) ** OBJECT91.SK)
 			((RAT90.SK ((:R (TO.P HOLE93.SK)) GET.V)) ** E89.SK)
 			(RAT90.SK RAT.N)
@@ -151,7 +151,7 @@
 	)
 
 	(
-		( ; "Ada has a fan in her hand."
+		( "Ada has a fan in her hand."
 			(FAN112.SK (IN.P HAND114.SK))
 			(FAN112.SK FAN.N)
 			(OBJECT110.SK (AT-ABOUT NOW39))
@@ -160,7 +160,7 @@
 			(HAND114.SK HAND.N)
 			(HAND114.SK (PERTAIN-TO ADA.NAME))
 		)
-		( ; "Ada has May's white fan."
+		( "Ada has May's white fan."
 			((ADA.NAME (HAVE.V FAN121.SK)) ** OBJECT118.SK)
 			(E50 (ORIENTS OBJECT118.SK))
 			(OBJECT118.SK (AT-ABOUT NOW41))
@@ -171,7 +171,7 @@
 	)
 
 	(
-		( ; "The boy has a big dog."
+		( "The boy has a big dog."
 			((BOY123.SK (HAVE.V DOG127.SK)) ** OBJECT124.SK)
 			((BOY123.SK (HAVE.V DOG127.SK)) ** E122.SK)
 			(BOY123.SK BOY.N)
@@ -185,20 +185,20 @@
 	)
 
 	(
-		( ; "I have a doll."
+		( "I have a doll."
 			((ME.PRO (HAVE.V DOLL131.SK)) ** OBJECT130.SK)
 			(E53 (ORIENTS OBJECT130.SK))
 			(OBJECT130.SK (AT-ABOUT NOW44))
 			(DOLL131.SK DOLL.N)
 		)
-		( ; "I can see my doll."
+		( "I can see my doll."
 			((ME.PRO ((CAN.MD SEE.V) DOLL134.SK)) ** E132.SK)
 			(E54 (ORIENTS E132.SK))
 			(E132.SK (AT-ABOUT NOW45))
 			(DOLL134.SK DOLL.N)
 			(DOLL134.SK (PERTAIN-TO ME.PRO))
 		)
-		( ; "My doll has a hat."
+		( "My doll has a hat."
 			((DOLL136.SK (HAVE.V HAT138.SK)) ** OBJECT137.SK)
 			((DOLL136.SK (HAVE.V HAT138.SK)) ** E135.SK)
 			(DOLL136.SK (PERTAIN-TO ME.PRO))
@@ -209,7 +209,7 @@
 			(OBJECT137.SK (AT-ABOUT NOW46))
 			(HAT138.SK HAT.N)
 		)
-		( ; "The girl has a doll and a hat."
+		( "The girl has a doll and a hat."
 			((GIRL140.SK (HAVE.V (SET-OF DOLL142.SK HAT143.SK))) ** OBJECT141.SK)
 			((GIRL140.SK (HAVE.V (SET-OF DOLL142.SK HAT143.SK))) ** E139.SK)
 			(GIRL140.SK GIRL.N)
@@ -223,13 +223,13 @@
 	)
 
 	(
-		( ; "A dog runs."
+		( "A dog runs."
 			(E144.SK (AT-ABOUT NOW48))
 			(E57 (ORIENTS E144.SK))
 			(DOG145.SK DOG.N)
 			((DOG145.SK RUN.V) ** E144.SK)
 		)
-		( ; "The dog is black."
+		( "The dog is black."
 			(DOG147.SK DOG.N)
 			(E146.SK (RIGHT-AFTER U48))
 			(E146.SK (SAME-TIME NOW49))
@@ -238,7 +238,7 @@
 			((DOG147.SK BLACK.A) ** OBJECT148.SK)
 			((DOG147.SK BLACK.A) ** E146.SK)
 		)
-		( ; "It is a large, black dog."
+		( "It is a large, black dog."
 			((IT.PRO (= DOG153.SK)) ** OBJECT149.SK)
 			(E59 (ORIENTS OBJECT149.SK))
 			(OBJECT149.SK (AT-ABOUT NOW50))
@@ -246,7 +246,7 @@
 			(DOG153.SK BLACK.A)
 			(DOG153.SK DOG.N)
 		)
-		( ; "It is my black dog."
+		( "It is my black dog."
 			((IT.PRO (= DOG159.SK)) ** OBJECT156.SK)
 			(E61 (ORIENTS OBJECT156.SK))
 			(OBJECT156.SK (AT-ABOUT NOW52))
@@ -254,7 +254,7 @@
 			(DOG159.SK BLACK.A)
 			(DOG159.SK DOG.N)
 		)
-		( ; "My large, black dog runs."
+		( "My large, black dog runs."
 			(DOG161.SK DOG.N)
 			(DOG161.SK BLACK.A)
 			(DOG161.SK LARGE.A)
@@ -266,14 +266,14 @@
 	)
 
 	(
-		( ; "One day Ned went out to walk."
+		( "One day Ned went out to walk."
 			(DAY164.SK (= NED.NAME))
 			(DAY164.SK DAY.N)
 			(OBJECT163.SK (BEFORE NOW54))
 			(E37 (ORIENTS OBJECT163.SK))
 			((DAY164.SK (GO_OUT.V (KA WALK.V))) ** OBJECT163.SK)
 		)
-		( ; "He looked up and saw a green bird."
+		( "He looked up and saw a green bird."
 			((HE.PRO (SEE.V BIRD171.SK)) ** OBJECT166.SK)
 			((HE.PRO (SEE.V BIRD171.SK)) ** E169.SK)
 			((HE.PRO LOOK_UP.V) ** E168.SK)
@@ -290,7 +290,7 @@
 	)
 
 	(
-		( ; "Baby sits on the soft mat."
+		( "Baby sits on the soft mat."
 			(MAT175.SK MAT.N)
 			(MAT175.SK SOFT.A)
 			(OBJECT172.SK (AT-ABOUT NOW56))
@@ -300,14 +300,14 @@
 	)
 
 	(
-		( ; "Little Jack has a funny horse."
+		( "Little Jack has a funny horse."
 			((LITTLE_JACK.NAME (HAVE.V HORSE181.SK)) ** OBJECT178.SK)
 			(E68 (ORIENTS OBJECT178.SK))
 			(OBJECT178.SK (AT-ABOUT NOW58))
 			(HORSE181.SK FUNNY.A)
 			(HORSE181.SK HORSE.N)
 		)
-		( ; "He rides the spade."
+		( "He rides the spade."
 			(E182.SK (SAME-TIME NOW59))
 			(E182.SK (RIGHT-AFTER U58))
 			(SPADE183.SK SPADE.N)
@@ -316,7 +316,7 @@
 	)
 
 	(
-		( ; "The puppies are full of fun."
+		( "The puppies are full of fun."
 			(PUPPYS185.SK (PLUR PUPPY.N))
 			(E184.SK (RIGHT-AFTER U59))
 			(E184.SK (SAME-TIME NOW60))
@@ -328,7 +328,7 @@
 	)
 
 	(
-		( ; "This cat was in a nest."
+		( "This cat was in a nest."
 			(CAT189.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(CAT189.SK CAT.N)
 			(E188.SK (RIGHT-AFTER U61))
@@ -339,7 +339,7 @@
 			((CAT189.SK (IN.P NEST191.SK)) ** OBJECT190.SK)
 			((CAT189.SK (IN.P NEST191.SK)) ** E188.SK)
 		)
-		( ; "A hen ran at her."
+		( "A hen ran at her."
 			(OBJECT193.SK (BEFORE NOW63))
 			(E72 (ORIENTS OBJECT193.SK))
 			(HEN192.SK HEN.N)
@@ -348,7 +348,7 @@
 	)
 
 	(
-		( ; "The cat is on the box."
+		( "The cat is on the box."
 			(CAT195.SK CAT.N)
 			(E194.SK (RIGHT-AFTER U63))
 			(E194.SK (SAME-TIME NOW64))
@@ -358,7 +358,7 @@
 			((CAT195.SK (ON.P BOX197.SK)) ** OBJECT196.SK)
 			((CAT195.SK (ON.P BOX197.SK)) ** E194.SK)
 		)
-		( ; "She saw a big rat and ran to catch it."
+		( "She saw a big rat and ran to catch it."
 			(E73 (ORIENTS OBJECT198.SK))
 			(OBJECT198.SK (BEFORE NOW65))
 			(E75 (ORIENTS OBJECT200.SK))
@@ -372,14 +372,14 @@
 	)
 
 	(
-		( ; "Jean can roll the hoop very fast."
+		( "Jean can roll the hoop very fast."
 			((JEAN.NAME ((CAN.MD ROLL.V) HOOP210.SK)) ** E208.SK)
 			(E80 (ORIENTS E208.SK))
 			(E208.SK (AT-ABOUT NOW69))
 			(HOOP210.SK HOOP.N)
 			(HOOP210.SK (VERY.ADV FAST.A))
 		)
-		( ; "The hoop has bells on it."
+		( "The hoop has bells on it."
 			((HOOP212.SK (HAVE.V OBJECT214.SK)) ** OBJECT213.SK)
 			((HOOP212.SK (HAVE.V OBJECT214.SK)) ** E211.SK)
 			(HOOP212.SK HOOP.N)
@@ -393,14 +393,14 @@
 	)
 
 	(
-		( ; "I see a nest, Rosy!"
+		( "I see a nest, Rosy!"
 			((ME.PRO (SEE.V ROSY219.SK)) ** OBJECT216.SK)
 			(E82 (ORIENTS OBJECT216.SK))
 			(OBJECT216.SK (AT-ABOUT NOW72))
 			(ROSY219.SK NEST.N)
 			(ROSY219.SK ROSY.A)
 		)
-		( ; "It is in this big green tree."
+		( "It is in this big green tree."
 			((IT.PRO (IN.P BIG224.SK)) ** OBJECT222.SK)
 			(E84 (ORIENTS OBJECT222.SK))
 			(OBJECT222.SK (AT-ABOUT NOW74))
@@ -411,7 +411,7 @@
 	)
 
 	(
-		( ; "We did not see her there."
+		( "We did not see her there."
 			(OBJECT228.SK (BEFORE NOW76))
 			(E86 (ORIENTS OBJECT228.SK))
 			((NOT (WE.PRO (THERE.ADV (SEE.V SHE.PRO)))) ** OBJECT228.SK)
@@ -419,18 +419,18 @@
 	)
 
 	(
-		( ; "The bird can fly."
+		( "The bird can fly."
 			(BIRD236.SK BIRD.N)
 			(E235.SK (AT-ABOUT NOW79))
 			(E85 (ORIENTS E235.SK))
 			((BIRD236.SK (CAN.MD FLY.V)) ** E235.SK)
 		)
-		( ; "She can not fly."
+		( "She can not fly."
 			((NOT (SHE.PRO (CAN.MD FLY.V))) ** OBJECT240.SK)
 			(E93 (ORIENTS OBJECT240.SK))
 			(OBJECT240.SK (AT-ABOUT NOW81))
 		)
-		( ; "She may play with my doll."
+		( "She may play with my doll."
 			(DOLL243.SK (PERTAIN-TO ME.PRO))
 			(DOLL243.SK DOLL.N)
 			(E241.SK (AT-ABOUT NOW82))
@@ -440,7 +440,7 @@
 	)
 
 	(
-		( ; "The cats are on the steps."
+		( "The cats are on the steps."
 			(CATS248.SK (PLUR CAT.N))
 			(E247.SK (RIGHT-AFTER U83))
 			(E247.SK (SAME-TIME NOW84))
@@ -450,21 +450,21 @@
 			((CATS248.SK (ON.P OBJECT250.SK)) ** OBJECT249.SK)
 			((CATS248.SK (ON.P OBJECT250.SK)) ** E247.SK)
 		)
-		( ; "One cat is sitting on the steps."
+		( "One cat is sitting on the steps."
 			(OBJECT253.SK (PLUR STEP.N))
 			(CAT252.SK CAT.N)
 			(E251.SK (AT-ABOUT NOW85))
 			(E99 (ORIENTS E251.SK))
 			((PROG CAT252.SK ((:R (ON.P OBJECT253.SK)) SIT.V)) ** E251.SK)
 		)
-		( ; "One cat is lying on the steps."
+		( "One cat is lying on the steps."
 			(OBJECT256.SK (PLUR STEP.N))
 			(CAT255.SK CAT.N)
 			(E254.SK (AT-ABOUT NOW86))
 			(E100 (ORIENTS E254.SK))
 			((PROG CAT255.SK ((:R (ON.P OBJECT256.SK)) LIE.V)) ** E254.SK)
 		)
-		( ; "No; it is the white one."
+		( "No; it is the white one."
 			((IT.PRO (= PRED?267.SK)) ** OBJECT263.SK)
 			(E102 (ORIENTS OBJECT263.SK))
 			(OBJECT263.SK (AT-ABOUT NOW88))
@@ -472,7 +472,7 @@
 			(PRED?267.SK ONE.A)
 			(PRED?267.SK PRED?.N)
 		)
-		( ; "The black one is sitting near the white one."
+		( "The black one is sitting near the white one."
 			((PROG BLACK279.SK ((:R (NEAR.P PRED?276.SK)) SIT.V)) ** E268.SK)
 			(E103 (ORIENTS E268.SK))
 			(E268.SK (AT-ABOUT NOW89))
@@ -486,7 +486,7 @@
 	)
 
 	(
-		( ; "Kate has left her doll in its little bed, and has gone to play with Mary and James."
+		( "Kate has left her doll in its little bed, and has gone to play with Mary and James."
 			((KATE.NAME
      (GO.V (KA ((:R (WITH.P (SET-OF MARY.NAME JAMES.NAME))) PLAY.V))))
     ** E282.SK)
@@ -512,7 +512,7 @@
 	)
 
 	(
-		( ; "My rabbits eat from my hand."
+		( "My rabbits eat from my hand."
 			((RABBITS312.SK ((:R (FROM.P HAND315.SK)) EAT.V)) ** OBJECT313.SK)
 			((RABBITS312.SK ((:R (FROM.P HAND315.SK)) EAT.V)) ** E311.SK)
 			(RABBITS312.SK (PERTAIN-TO ME.PRO))
@@ -524,14 +524,14 @@
 			(HAND315.SK HAND.N)
 			(HAND315.SK (PERTAIN-TO ME.PRO))
 		)
-		( ; "I shall keep them in a little house."
+		( "I shall keep them in a little house."
 			((ME.PRO ((SHALL.MD ((:R (IN.P HOUSE319.SK)) KEEP.V)) THEY.PRO)) ** E316.SK)
 			(E116 (ORIENTS E316.SK))
 			(E316.SK (AT-ABOUT NOW97))
 			(HOUSE319.SK LITTLE.A)
 			(HOUSE319.SK HOUSE.N)
 		)
-		( ; "I love my dear papa."
+		( "I love my dear papa."
 			((ME.PRO (LOVE.V OBJECT321.SK)) ** OBJECT320.SK)
 			(E117 (ORIENTS OBJECT320.SK))
 			(OBJECT320.SK (AT-ABOUT NOW98))
@@ -541,7 +541,7 @@
 	)
 
 	(
-		( ; "One is red, and two are yellow."
+		( "One is red, and two are yellow."
 			((PRED?323.SK YELLOW.A) ** OBJECT326.SK)
 			(PRED?323.SK TWO.A)
 			(PRED?323.SK PRED?.N)
@@ -552,14 +552,14 @@
 			(E120 (ORIENTS OBJECT326.SK))
 			(OBJECT326.SK (AT-ABOUT NOW100))
 		)
-		( ; "I will give you the red one."
+		( "I will give you the red one."
 			((ME.PRO ((WILL.MD GIVE.V) YOU.PRO ONE330.SK)) ** E327.SK)
 			(E121 (ORIENTS E327.SK))
 			(E327.SK (AT-ABOUT NOW101))
 			(ONE330.SK RED.A)
 			(ONE330.SK ONE.N)
 		)
-		( ; "I see a big red apple in the tree."
+		( "I see a big red apple in the tree."
 			((ME.PRO (((:R (IN.P TREE333.SK)) SEE.V) APPLE336.SK)) ** OBJECT331.SK)
 			(E122 (ORIENTS OBJECT331.SK))
 			(OBJECT331.SK (AT-ABOUT NOW102))
@@ -571,7 +571,7 @@
 	)
 
 	(
-		( ; "One is red, and two are yellow."
+		( "One is red, and two are yellow."
 			((PRED?338.SK YELLOW.A) ** OBJECT341.SK)
 			(PRED?338.SK TWO.A)
 			(PRED?338.SK PRED?.N)
@@ -582,14 +582,14 @@
 			(E125 (ORIENTS OBJECT341.SK))
 			(OBJECT341.SK (AT-ABOUT NOW104))
 		)
-		( ; "I will give you the red one."
+		( "I will give you the red one."
 			((ME.PRO ((WILL.MD GIVE.V) YOU.PRO ONE345.SK)) ** E342.SK)
 			(E126 (ORIENTS E342.SK))
 			(E342.SK (AT-ABOUT NOW105))
 			(ONE345.SK RED.A)
 			(ONE345.SK ONE.N)
 		)
-		( ; "I see a big red apple in the tree."
+		( "I see a big red apple in the tree."
 			((ME.PRO (((:R (IN.P TREE348.SK)) SEE.V) APPLE351.SK)) ** OBJECT346.SK)
 			(E127 (ORIENTS OBJECT346.SK))
 			(OBJECT346.SK (AT-ABOUT NOW106))
@@ -601,7 +601,7 @@
 	)
 
 	(
-		( ; "Two boys have big hats."
+		( "Two boys have big hats."
 			((BOYS357.SK
      (HAVE.V (K (L #:G22522 (AND (#:G22522 BIG.A) (#:G22522 (PLUR HAT.N)))))))
     ** OBJECT358.SK)
@@ -610,7 +610,7 @@
 			(E129 (ORIENTS OBJECT358.SK))
 			(OBJECT358.SK (AT-ABOUT NOW109))
 		)
-		( ; "One boy has a ball."
+		( "One boy has a ball."
 			((BOY359.SK (HAVE.V BALL361.SK)) ** OBJECT360.SK)
 			(BOY359.SK BOY.N)
 			(E130 (ORIENTS OBJECT360.SK))
@@ -620,25 +620,25 @@
 	)
 
 	(
-		( ; "A top spins."
+		( "A top spins."
 			(E362.SK (AT-ABOUT NOW111))
 			(E131 (ORIENTS E362.SK))
 			(TOP363.SK TOP.N)
 			((TOP363.SK SPIN.V) ** E362.SK)
 		)
-		( ; "The tops spin."
+		( "The tops spin."
 			(E364.SK (SAME-TIME NOW112))
 			(E364.SK (RIGHT-AFTER U111))
 			(TOPS365.SK (PLUR TOP.N))
 			((TOPS365.SK SPIN.V) ** E364.SK)
 		)
-		( ; "Tom spins the tops."
+		( "Tom spins the tops."
 			((TOM.NAME (SPIN.V OBJECT367.SK)) ** OBJECT366.SK)
 			(E132 (ORIENTS OBJECT366.SK))
 			(OBJECT366.SK (AT-ABOUT NOW113))
 			(OBJECT367.SK (PLUR TOP.N))
 		)
-		( ; "He spins the tops on a box."
+		( "He spins the tops on a box."
 			(OBJECT369.SK (ON.P BOX370.SK))
 			(OBJECT369.SK (PLUR TOP.N))
 			(OBJECT368.SK (AT-ABOUT NOW114))
@@ -646,7 +646,7 @@
 			((HE.PRO (SPIN.V OBJECT369.SK)) ** OBJECT368.SK)
 			(BOX370.SK BOX.N)
 		)
-		( ; "Tom spins my large top."
+		( "Tom spins my large top."
 			((TOM.NAME (SPIN.V TOP374.SK)) ** OBJECT371.SK)
 			(E134 (ORIENTS OBJECT371.SK))
 			(OBJECT371.SK (AT-ABOUT NOW115))
@@ -654,7 +654,7 @@
 			(TOP374.SK LARGE.A)
 			(TOP374.SK TOP.N)
 		)
-		( ; "He spins my small top."
+		( "He spins my small top."
 			((HE.PRO (SPIN.V TOP378.SK)) ** OBJECT375.SK)
 			(E135 (ORIENTS OBJECT375.SK))
 			(OBJECT375.SK (AT-ABOUT NOW116))
@@ -662,49 +662,49 @@
 			(TOP378.SK SMALL.A)
 			(TOP378.SK TOP.N)
 		)
-		( ; "Spin, tops, spin."
+		( "Spin, tops, spin."
 			((K (PLUR TOP.N)) SPIN.V)
 		)
 	)
 
 	(
-		( ; "One dog is black."
+		( "One dog is black."
 			((DOG381.SK BLACK.A) ** OBJECT382.SK)
 			(DOG381.SK DOG.N)
 			(E137 (ORIENTS OBJECT382.SK))
 			(OBJECT382.SK (AT-ABOUT NOW119))
 		)
-		( ; "One dog is white."
+		( "One dog is white."
 			((DOG383.SK WHITE.A) ** OBJECT384.SK)
 			(DOG383.SK DOG.N)
 			(E138 (ORIENTS OBJECT384.SK))
 			(OBJECT384.SK (AT-ABOUT NOW120))
 		)
-		( ; "A dog runs."
+		( "A dog runs."
 			(E385.SK (AT-ABOUT NOW121))
 			(E139 (ORIENTS E385.SK))
 			(DOG386.SK DOG.N)
 			((DOG386.SK RUN.V) ** E385.SK)
 		)
-		( ; "The dogs run."
+		( "The dogs run."
 			(E387.SK (AT-ABOUT NOW122))
 			(E140 (ORIENTS E387.SK))
 			(DOGS388.SK (PLUR DOG.N))
 			((DOGS388.SK RUN.V) ** E387.SK)
 		)
-		( ; "Run, dogs, run."
+		( "Run, dogs, run."
 			((K (PLUR DOG.N)) RUN.V)
 		)
 	)
 
 	(
-		( ; "They have corn and cocoanuts."
+		( "They have corn and cocoanuts."
 			((THEY.PRO (HAVE.V (SET-OF (K CORN.N) (K (PLUR COCOANUT.N))))) **
     OBJECT405.SK)
 			(E145 (ORIENTS OBJECT405.SK))
 			(OBJECT405.SK (AT-ABOUT NOW128))
 		)
-		( ; "They are taking them to Manila."
+		( "They are taking them to Manila."
 			(E406.SK (AT-ABOUT NOW129))
 			(E147 (ORIENTS E406.SK))
 			((PROG THEY.PRO ((:R (TO.P MANILA.NAME)) TAKE.V) THEY.PRO) ** E406.SK)
@@ -712,7 +712,7 @@
 	)
 
 	(
-		( ; "The girl is good to the little baby."
+		( "The girl is good to the little baby."
 			((GIRL408.SK ((:R (TO.P BABY412.SK)) GOOD.A)) ** OBJECT409.SK)
 			((GIRL408.SK ((:R (TO.P BABY412.SK)) GOOD.A)) ** E407.SK)
 			(GIRL408.SK GIRL.N)
@@ -723,7 +723,7 @@
 			(BABY412.SK LITTLE.A)
 			(BABY412.SK BABY.N)
 		)
-		( ; "She can not catch the bird."
+		( "She can not catch the bird."
 			((NOT (SHE.PRO ((CAN.MD CATCH.V) BIRD418.SK))) ** OBJECT417.SK)
 			(E150 (ORIENTS OBJECT417.SK))
 			(OBJECT417.SK (AT-ABOUT NOW132))
@@ -732,7 +732,7 @@
 	)
 
 	(
-		( ; "It rains on the cows and the calf."
+		( "It rains on the cows and the calf."
 			(PRED?424.SK PRED?.N)
 			(PRED?424.SK CALF.A)
 			(E422.SK (SAME-TIME NOW135))
@@ -742,7 +742,7 @@
          (IT.PRO (ON.P (SET-OF COWS423.SK PRED?424.SK))))
     ** E422.SK)
 		)
-		( ; "It rains on the man and the horses."
+		( "It rains on the man and the horses."
 			(E425.SK (SAME-TIME NOW136))
 			(E425.SK (RIGHT-AFTER U135))
 			(MAN426.SK MAN.N)
@@ -751,7 +751,7 @@
          (IT.PRO (ON.P (SET-OF MAN426.SK HORSES427.SK))))
     ** E425.SK)
 		)
-		( ; "The rain makes the grass and the flowers grow."
+		( "The rain makes the grass and the flowers grow."
 			((FLOWERS434.SK GROW.V) ** E432.SK)
 			(FLOWERS434.SK (PLUR FLOWER.N))
 			(E156 (ORIENTS E432.SK))
@@ -765,7 +765,7 @@
 	)
 
 	(
-		( ; "The little boy has a red wagon."
+		( "The little boy has a red wagon."
 			((BOY438.SK (HAVE.V WAGON442.SK)) ** OBJECT439.SK)
 			((BOY438.SK (HAVE.V WAGON442.SK)) ** E437.SK)
 			(E437.SK (RIGHT-AFTER U138))
@@ -777,7 +777,7 @@
 			(BOY438.SK LITTLE.A)
 			(BOY438.SK BOY.N)
 		)
-		( ; "I will take you with me to the fields."
+		( "I will take you with me to the fields."
 			((ME.PRO
      ((WILL.MD ((:R (TO.P OBJECT454.SK)) ((:R (WITH.P ME.PRO)) TAKE.V)))
       YOU.PRO))
@@ -789,26 +789,26 @@
 	)
 
 	(
-		( ; "John likes to play ball with Tyke."
+		( "John likes to play ball with Tyke."
 			(OBJECT461.SK (AT-ABOUT NOW147))
 			(E168 (ORIENTS OBJECT461.SK))
 			((JOHN.NAME (LIKE.V (KA ((:R (WITH.P (K TYKE.N))) PLAY.V) (K BALL.N)))) **
     OBJECT461.SK)
 		)
-		( ; "John can catch the ball."
+		( "John can catch the ball."
 			((JOHN.NAME ((CAN.MD CATCH.V) BALL463.SK)) ** E462.SK)
 			(E169 (ORIENTS E462.SK))
 			(E462.SK (AT-ABOUT NOW148))
 			(BALL463.SK BALL.N)
 		)
-		( ; "John rolls the ball to Tyke."
+		( "John rolls the ball to Tyke."
 			((JOHN.NAME (ROLL.V BALL467.SK)) ** OBJECT465.SK)
 			(E171 (ORIENTS OBJECT465.SK))
 			(OBJECT465.SK (AT-ABOUT NOW150))
 			(BALL467.SK BALL.N)
 			(BALL467.SK (TO.P (K TYKE.N)))
 		)
-		( ; "Tyke takes the ball to John."
+		( "Tyke takes the ball to John."
 			(((K TYKE.N) (TAKE.V BALL470.SK)) ** OBJECT468.SK)
 			(E172 (ORIENTS OBJECT468.SK))
 			(OBJECT468.SK (AT-ABOUT NOW151))
@@ -818,7 +818,7 @@
 	)
 
 	(
-		( ; "The old cat can catch a mouse."
+		( "The old cat can catch a mouse."
 			((CAT475.SK ((CAN.MD CATCH.V) MOUSE473.SK)) ** E471.SK)
 			(E173 (ORIENTS E471.SK))
 			(E471.SK (AT-ABOUT NOW152))
@@ -826,7 +826,7 @@
 			(CAT475.SK OLD.A)
 			(CAT475.SK CAT.N)
 		)
-		( ; "She has a mouse in her mouth."
+		( "She has a mouse in her mouth."
 			(MOUSE478.SK (IN.P MOUTH480.SK))
 			(MOUSE478.SK MOUSE.N)
 			(OBJECT476.SK (AT-ABOUT NOW153))
@@ -835,7 +835,7 @@
 			(MOUTH480.SK MOUTH.N)
 			(MOUTH480.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "She will give it to her little kittens."
+		( "She will give it to her little kittens."
 			((SHE.PRO ((WILL.MD ((:R (TO.P LITTLE485.SK)) GIVE.V)) IT.PRO)) ** E483.SK)
 			(E176 (ORIENTS E483.SK))
 			(E483.SK (AT-ABOUT NOW155))
@@ -843,7 +843,7 @@
 			(LITTLE485.SK LITTLE.A)
 			(LITTLE485.SK (PLUR KITTEN.N))
 		)
-		( ; "They will play with the mouse."
+		( "They will play with the mouse."
 			(MOUSE487.SK MOUSE.N)
 			(E486.SK (AT-ABOUT NOW156))
 			(E177 (ORIENTS E486.SK))
@@ -852,19 +852,19 @@
 	)
 
 	(
-		( ; "A little bird can not eat nuts."
+		( "A little bird can not eat nuts."
 			((NOT (BIRD504.SK ((CAN.MD EAT.V) (K (PLUR NUT.N))))) ** OBJECT501.SK)
 			(E186 (ORIENTS OBJECT501.SK))
 			(OBJECT501.SK (AT-ABOUT NOW163))
 			(BIRD504.SK LITTLE.A)
 			(BIRD504.SK BIRD.N)
 		)
-		( ; "He likes crumbs."
+		( "He likes crumbs."
 			((HE.PRO (LIKE.V (K (PLUR CRUMB.N)))) ** OBJECT505.SK)
 			(E187 (ORIENTS OBJECT505.SK))
 			(OBJECT505.SK (AT-ABOUT NOW164))
 		)
-		( ; "Squirrels have sharp teeth."
+		( "Squirrels have sharp teeth."
 			(((K (PLUR SQUIRREL.N))
      (HAVE.V
       (K (L #:G32081 (AND (#:G32081 SHARP.A) (#:G32081 (PLUR TOOTH.N)))))))
@@ -875,7 +875,7 @@
 	)
 
 	(
-		( ; "He likes to go to school."
+		( "He likes to go to school."
 			(OBJECT531.SK (AT-ABOUT NOW171))
 			(E197 (ORIENTS OBJECT531.SK))
 			((HE.PRO (LIKE.V (KA ((:R (TO.P (K SCHOOL.N))) GO.V)))) ** OBJECT531.SK)
@@ -883,7 +883,7 @@
 	)
 
 	(
-		( ; "Frank has gone to the field with his kite."
+		( "Frank has gone to the field with his kite."
 			(E166 (ORIENTS E533.SK))
 			(E533.SK (IMPINGES-ON E532.SK))
 			(E198 (ORIENTS E532.SK))
@@ -896,12 +896,12 @@
 			((FRANK.NAME ((:R (WITH.P KITE536.SK)) ((:R (TO.P FIELD534.SK)) GO.V))) **
     E533.SK)
 		)
-		( ; "He likes to play with it."
+		( "He likes to play with it."
 			(OBJECT537.SK (AT-ABOUT NOW173))
 			(E199 (ORIENTS OBJECT537.SK))
 			((HE.PRO (LIKE.V (KA ((:R (WITH.P IT.PRO)) PLAY.V)))) ** OBJECT537.SK)
 		)
-		( ; "He will run and the kite will fly."
+		( "He will run and the kite will fly."
 			(KITE546.SK KITE.N)
 			(E545.SK (AT-ABOUT NOW175))
 			(E202 (ORIENTS E545.SK))
@@ -910,7 +910,7 @@
 			((KITE546.SK (WILL.MD FLY.V)) ** E544.SK)
 			((HE.PRO (WILL.MD RUN.V)) ** E545.SK)
 		)
-		( ; "John does not like to run with a kite."
+		( "John does not like to run with a kite."
 			(KITE553.SK KITE.N)
 			(OBJECT552.SK (AT-ABOUT NOW177))
 			(E207 (ORIENTS OBJECT552.SK))
@@ -920,14 +920,14 @@
 	)
 
 	(
-		( ; "I have a large mango."
+		( "I have a large mango."
 			((ME.PRO (HAVE.V MANGO562.SK)) ** OBJECT559.SK)
 			(E211 (ORIENTS OBJECT559.SK))
 			(OBJECT559.SK (AT-ABOUT NOW180))
 			(MANGO562.SK LARGE.A)
 			(MANGO562.SK MANGO.N)
 		)
-		( ; "That is the largest mango in the basket."
+		( "That is the largest mango in the basket."
 			((PRED?567.SK (= MANGO571.SK)) ** E566.SK)
 			((PRED?567.SK (= MANGO571.SK)) ** OBJECT568.SK)
 			(MANGO571.SK MANGO.N)
@@ -941,7 +941,7 @@
 			(PRED?567.SK NEW-SALIENT-ENTITY*.N)
 			(BASKET572.SK BASKET.N)
 		)
-		( ; "This tree is tall."
+		( "This tree is tall."
 			(TREE574.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(TREE574.SK TREE.N)
 			(E573.SK (RIGHT-AFTER U182))
@@ -951,7 +951,7 @@
 			((TREE574.SK TALL.A) ** OBJECT575.SK)
 			((TREE574.SK TALL.A) ** E573.SK)
 		)
-		( ; "The cocoanut tree is the tallest tree in the yard."
+		( "The cocoanut tree is the tallest tree in the yard."
 			((TREE582.SK (= TREE586.SK)) ** E581.SK)
 			((TREE582.SK (= TREE586.SK)) ** OBJECT583.SK)
 			(TREE586.SK TREE.N)
@@ -967,13 +967,13 @@
 	)
 
 	(
-		( ; "I can see a swan."
+		( "I can see a swan."
 			((ME.PRO ((CAN.MD SEE.V) SWAN589.SK)) ** E588.SK)
 			(E217 (ORIENTS E588.SK))
 			(E588.SK (AT-ABOUT NOW186))
 			(SWAN589.SK SWAN.N)
 		)
-		( ; "A swan can swim well."
+		( "A swan can swim well."
 			((SWAN591.SK (CAN.MD (WELL.ADV SWIM.V))) ** OBJECT592.SK)
 			((SWAN591.SK (CAN.MD (WELL.ADV SWIM.V))) ** E590.SK)
 			(E218 (ORIENTS E590.SK))
@@ -982,14 +982,14 @@
 			(E590.SK (ORIENTS OBJECT592.SK))
 			(OBJECT592.SK (AT-ABOUT NOW187))
 		)
-		( ; "She lays eggs in her nest."
+		( "She lays eggs in her nest."
 			((SHE.PRO (((:R (IN.P NEST606.SK)) LAY.V) (K (PLUR EGG.N)))) ** OBJECT604.SK)
 			(E224 (ORIENTS OBJECT604.SK))
 			(OBJECT604.SK (AT-ABOUT NOW190))
 			(NEST606.SK NEST.N)
 			(NEST606.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "She is a white swan."
+		( "She is a white swan."
 			((SHE.PRO (= SWAN610.SK)) ** OBJECT607.SK)
 			(E225 (ORIENTS OBJECT607.SK))
 			(OBJECT607.SK (AT-ABOUT NOW191))
@@ -999,14 +999,14 @@
 	)
 
 	(
-		( ; "We live on the round earth."
+		( "We live on the round earth."
 			(EARTH614.SK EARTH.N)
 			(EARTH614.SK ROUND.A)
 			(OBJECT611.SK (AT-ABOUT NOW192))
 			(E226 (ORIENTS OBJECT611.SK))
 			((WE.PRO ((:R (ON.P EARTH614.SK)) LIVE.V)) ** OBJECT611.SK)
 		)
-		( ; "Men can sail it over the wide, wide sea."
+		( "Men can sail it over the wide, wide sea."
 			(((K (PLUR MAN.N)) ((CAN.MD ((:R (OVER.P SEA623.SK)) SAIL.V)) IT.PRO)) **
     E620.SK)
 			(E231 (ORIENTS E620.SK))
@@ -1017,7 +1017,7 @@
 	)
 
 	(
-		( ; "I see a fox on a box, and a fox in front of a box."
+		( "I see a fox on a box, and a fox in front of a box."
 			(FOX628.SK (ON.P BOX629.SK))
 			(FOX628.SK FOX.N)
 			(BOX627.SK BOX.N)
@@ -1029,13 +1029,13 @@
     ** OBJECT624.SK)
 			(BOX629.SK BOX.N)
 		)
-		( ; "He put hay in the boxes."
+		( "He put hay in the boxes."
 			((HE.PRO (((:R (IN.P OBJECT635.SK)) PUT.V) (K HAY.N))) ** OBJECT634.SK)
 			(E235 (ORIENTS OBJECT634.SK))
 			(OBJECT634.SK (BEFORE NOW200))
 			(OBJECT635.SK (PLUR BOX.N))
 		)
-		( ; "The boxes are good houses for them."
+		( "The boxes are good houses for them."
 			(BOXS637.SK (PLUR BOX.N))
 			(E636.SK (RIGHT-AFTER U200))
 			(E636.SK (SAME-TIME NOW201))
@@ -1047,7 +1047,7 @@
 			(OBJECT639.SK
     (= (K (L #:G41024 (AND (#:G41024 GOOD.A) (#:G41024 (PLUR HOUSE.N)))))))
 		)
-		( ; "Frank feeds his foxes and gives them water."
+		( "Frank feeds his foxes and gives them water."
 			(E237 (ORIENTS OBJECT640.SK))
 			(OBJECT640.SK (AT-ABOUT NOW202))
 			(E238 (ORIENTS OBJECT642.SK))
@@ -1061,14 +1061,14 @@
 	)
 
 	(
-		( ; "The girls have come to play with the baby."
+		( "The girls have come to play with the baby."
 			(BABY645.SK BABY.N)
 			(OBJECT644.SK (PLUR GIRL.N))
 			(E643.SK (IMPINGES-ON E239))
 			(E229 (ORIENTS E643.SK))
 			((OBJECT644.SK (COME.V (KA ((:R (WITH.P BABY645.SK)) PLAY.V)))) ** E643.SK)
 		)
-		( ; "One girl has a red dress."
+		( "One girl has a red dress."
 			((GIRL648.SK (HAVE.V DRESS652.SK)) ** OBJECT649.SK)
 			(GIRL648.SK GIRL.N)
 			(E241 (ORIENTS OBJECT649.SK))
@@ -1079,14 +1079,14 @@
 	)
 
 	(
-		( ; "The girls have come to play with the baby."
+		( "The girls have come to play with the baby."
 			(BABY671.SK BABY.N)
 			(OBJECT670.SK (PLUR GIRL.N))
 			(E669.SK (IMPINGES-ON E246))
 			(E240 (ORIENTS E669.SK))
 			((OBJECT670.SK (COME.V (KA ((:R (WITH.P BABY671.SK)) PLAY.V)))) ** E669.SK)
 		)
-		( ; "One girl has a red dress."
+		( "One girl has a red dress."
 			((GIRL674.SK (HAVE.V DRESS678.SK)) ** OBJECT675.SK)
 			(GIRL674.SK GIRL.N)
 			(E248 (ORIENTS OBJECT675.SK))
@@ -1097,14 +1097,14 @@
 	)
 
 	(
-		( ; "I have a pet hen."
+		( "I have a pet hen."
 			((ME.PRO (HAVE.V HEN698.SK)) ** OBJECT695.SK)
 			(E253 (ORIENTS OBJECT695.SK))
 			(OBJECT695.SK (AT-ABOUT NOW217))
 			(HEN698.SK PET.A)
 			(HEN698.SK HEN.N)
 		)
-		( ; "She has a nest in a box."
+		( "She has a nest in a box."
 			(NEST701.SK (IN.P BOX702.SK))
 			(NEST701.SK NEST.N)
 			(OBJECT699.SK (AT-ABOUT NOW218))
@@ -1112,7 +1112,7 @@
 			((SHE.PRO (HAVE.V NEST701.SK)) ** OBJECT699.SK)
 			(BOX702.SK BOX.N)
 		)
-		( ; "Two eggs are in the nest."
+		( "Two eggs are in the nest."
 			((EGGS703.SK (IN.P NEST705.SK)) ** OBJECT704.SK)
 			(EGGS703.SK TWO.A)
 			(EGGS703.SK (PLUR EGG.N))
@@ -1123,7 +1123,7 @@
 	)
 
 	(
-		( ; "The cat has the rat."
+		( "The cat has the rat."
 			((CAT717.SK (HAVE.V RAT719.SK)) ** OBJECT718.SK)
 			((CAT717.SK (HAVE.V RAT719.SK)) ** E716.SK)
 			(CAT717.SK CAT.N)
@@ -1133,31 +1133,31 @@
 			(OBJECT718.SK (AT-ABOUT NOW223))
 			(RAT719.SK RAT.N)
 		)
-		( ; "I had the cat."
+		( "I had the cat."
 			((ME.PRO (HAVE.V CAT721.SK)) ** OBJECT720.SK)
 			(E261 (ORIENTS OBJECT720.SK))
 			(OBJECT720.SK (BEFORE NOW224))
 			(CAT721.SK CAT.N)
 		)
-		( ; "I can see."
+		( "I can see."
 			(E722.SK (AT-ABOUT NOW225))
 			(E264 (ORIENTS E722.SK))
 			((ME.PRO (CAN.MD SEE.V)) ** E722.SK)
 		)
-		( ; "I can see a cat."
+		( "I can see a cat."
 			((ME.PRO ((CAN.MD SEE.V) CAT724.SK)) ** E723.SK)
 			(E266 (ORIENTS E723.SK))
 			(E723.SK (AT-ABOUT NOW226))
 			(CAT724.SK CAT.N)
 		)
-		( ; "And I see a black rat."
+		( "And I see a black rat."
 			((ME.PRO (SEE.V RAT728.SK)) ** OBJECT725.SK)
 			(E267 (ORIENTS OBJECT725.SK))
 			(OBJECT725.SK (AT-ABOUT NOW227))
 			(RAT728.SK BLACK.A)
 			(RAT728.SK RAT.N)
 		)
-		( ; "The cat can see and the rat can see."
+		( "The cat can see and the rat can see."
 			(RAT732.SK RAT.N)
 			(CAT731.SK CAT.N)
 			(E730.SK (AT-ABOUT NOW228))
@@ -1167,7 +1167,7 @@
 			((RAT732.SK (CAN.MD SEE.V)) ** E729.SK)
 			((CAT731.SK (CAN.MD SEE.V)) ** E730.SK)
 		)
-		( ; "A rat can see my cat."
+		( "A rat can see my cat."
 			((RAT734.SK ((CAN.MD SEE.V) CAT736.SK)) ** E733.SK)
 			(E270 (ORIENTS E733.SK))
 			(E733.SK (AT-ABOUT NOW229))
@@ -1175,14 +1175,14 @@
 			(CAT736.SK CAT.N)
 			(CAT736.SK (PERTAIN-TO ME.PRO))
 		)
-		( ; "The black rat ran."
+		( "The black rat ran."
 			(RAT738.SK RAT.N)
 			(RAT738.SK BLACK.A)
 			(E737.SK (BEFORE NOW230))
 			(E265 (ORIENTS E737.SK))
 			((RAT738.SK RUN.V) ** E737.SK)
 		)
-		( ; "My black cat ran."
+		( "My black cat ran."
 			(CAT740.SK CAT.N)
 			(CAT740.SK BLACK.A)
 			(E739.SK (BEFORE NOW231))
@@ -1190,7 +1190,7 @@
 			(CAT740.SK (PERTAIN-TO ME.PRO))
 			((CAT740.SK RUN.V) ** E739.SK)
 		)
-		( ; "My cat has the rat."
+		( "My cat has the rat."
 			((CAT742.SK (HAVE.V RAT744.SK)) ** OBJECT743.SK)
 			((CAT742.SK (HAVE.V RAT744.SK)) ** E741.SK)
 			(CAT742.SK (PERTAIN-TO ME.PRO))
@@ -1201,7 +1201,7 @@
 			(OBJECT743.SK (AT-ABOUT NOW232))
 			(RAT744.SK RAT.N)
 		)
-		( ; "I can see a cat and a rat."
+		( "I can see a cat and a rat."
 			((ME.PRO ((CAN.MD SEE.V) (SET-OF CAT746.SK RAT747.SK))) ** E745.SK)
 			(E274 (ORIENTS E745.SK))
 			(E745.SK (AT-ABOUT NOW233))
@@ -1211,7 +1211,7 @@
 	)
 
 	(
-		( ; "They have come to find flowers."
+		( "They have come to find flowers."
 			(E751.SK (IMPINGES-ON E276))
 			(E247 (ORIENTS E751.SK))
 			((THEY.PRO (COME.V (KA (FIND.V (K (PLUR FLOWER.N)))))) ** E751.SK)
@@ -1219,14 +1219,14 @@
 	)
 
 	(
-		( ; "James is kind to Fanny."
+		( "James is kind to Fanny."
 			((JAMES.NAME (= OBJECT766.SK)) ** OBJECT765.SK)
 			(E283 (ORIENTS OBJECT765.SK))
 			(OBJECT765.SK (AT-ABOUT NOW240))
 			(OBJECT766.SK (TO.P (K FANNY.N)))
 			(OBJECT766.SK (= (K KIND.N)))
 		)
-		( ; "She is his little sister."
+		( "She is his little sister."
 			((SHE.PRO (= SISTER770.SK)) ** OBJECT767.SK)
 			(E284 (ORIENTS OBJECT767.SK))
 			(OBJECT767.SK (AT-ABOUT NOW241))
@@ -1234,14 +1234,14 @@
 			(SISTER770.SK LITTLE.A)
 			(SISTER770.SK SISTER.N)
 		)
-		( ; "He has a nice wagon."
+		( "He has a nice wagon."
 			((HE.PRO (HAVE.V WAGON774.SK)) ** OBJECT771.SK)
 			(E285 (ORIENTS OBJECT771.SK))
 			(OBJECT771.SK (AT-ABOUT NOW242))
 			(WAGON774.SK NICE.A)
 			(WAGON774.SK WAGON.N)
 		)
-		( ; "He plays horse, and gives her a ride."
+		( "He plays horse, and gives her a ride."
 			(E286 (ORIENTS OBJECT775.SK))
 			(OBJECT775.SK (AT-ABOUT NOW243))
 			(E287 (ORIENTS OBJECT776.SK))
@@ -1254,14 +1254,14 @@
 	)
 
 	(
-		( ; "Frank has a pretty boat."
+		( "Frank has a pretty boat."
 			((FRANK.NAME (HAVE.V BOAT781.SK)) ** OBJECT778.SK)
 			(E288 (ORIENTS OBJECT778.SK))
 			(OBJECT778.SK (AT-ABOUT NOW244))
 			(BOAT781.SK PRETTY.A)
 			(BOAT781.SK BOAT.N)
 		)
-		( ; "It is white, with a black line near the water."
+		( "It is white, with a black line near the water."
 			((IT.PRO ((:R (NEAR.P WATER784.SK)) ((:R (WITH.P LINE786.SK)) WHITE.A))) **
     OBJECT782.SK)
 			(E289 (ORIENTS OBJECT782.SK))
@@ -1270,14 +1270,14 @@
 			(LINE786.SK BLACK.A)
 			(LINE786.SK LINE.N)
 		)
-		( ; "He always takes good care of it."
+		( "He always takes good care of it."
 			(OBJECT792.SK (= (K (L #:G49527 (AND (#:G49527 GOOD.A) (#:G49527 CARE.N))))))
 			(OBJECT792.SK (OF.P IT.PRO))
 			(OBJECT791.SK (AT-ABOUT NOW247))
 			(E291 (ORIENTS OBJECT791.SK))
 			((HE.PRO (TAKE.V OBJECT792.SK)) ** OBJECT791.SK)
 		)
-		( ; "Frank has been at work in the garden, and will now row a while."
+		( "Frank has been at work in the garden, and will now row a while."
 			((FRANK.NAME ((WILL.MD (NOW.ADV ROW.V)) WHILE797.SK)) ** OBJECT796.SK)
 			((FRANK.NAME ((:R (IN.P GARDEN795.SK)) (AT.P (K WORK.N)))) ** E794.SK)
 			((FRANK.NAME ((:R (IN.P GARDEN795.SK)) (AT.P (K WORK.N)))) ** E793.SK)
@@ -1293,7 +1293,7 @@
 	)
 
 	(
-		( ; "My mother gave me a new book."
+		( "My mother gave me a new book."
 			((MOTHER799.SK (GIVE.V ME.PRO BOOK803.SK)) ** OBJECT800.SK)
 			((MOTHER799.SK (GIVE.V ME.PRO BOOK803.SK)) ** E798.SK)
 			(MOTHER799.SK (MOTHER-OF.N ME.PRO))
@@ -1305,7 +1305,7 @@
 			(BOOK803.SK NEW.A)
 			(BOOK803.SK BOOK.N)
 		)
-		( ; "I like to play with my pet kitten."
+		( "I like to play with my pet kitten."
 			(PET818.SK (PLUR KITTEN.N))
 			(PET818.SK PET.A)
 			(PET818.SK (PERTAIN-TO ME.PRO))
@@ -1313,7 +1313,7 @@
 			(E295 (ORIENTS OBJECT816.SK))
 			((ME.PRO (LIKE.V (KA ((:R (WITH.P PET818.SK)) PLAY.V)))) ** OBJECT816.SK)
 		)
-		( ; "I will take good care of the kitten."
+		( "I will take good care of the kitten."
 			((ME.PRO ((WILL.MD TAKE.V) OBJECT822.SK)) ** E821.SK)
 			(E301 (ORIENTS E821.SK))
 			(E821.SK (AT-ABOUT NOW254))
@@ -1324,7 +1324,7 @@
 	)
 
 	(
-		( ; "This boy has a hat."
+		( "This boy has a hat."
 			((BOY825.SK (HAVE.V HAT827.SK)) ** OBJECT826.SK)
 			((BOY825.SK (HAVE.V HAT827.SK)) ** E824.SK)
 			(BOY825.SK (ATTENDED-TO-BY*.A SPEAKER))
@@ -1335,7 +1335,7 @@
 			(OBJECT826.SK (AT-ABOUT NOW255))
 			(HAT827.SK HAT.N)
 		)
-		( ; "His hat is black."
+		( "His hat is black."
 			(HAT829.SK (PERTAIN-TO HE.PRO))
 			(HAT829.SK HAT.N)
 			(E828.SK (RIGHT-AFTER U255))
@@ -1345,7 +1345,7 @@
 			((HAT829.SK BLACK.A) ** OBJECT830.SK)
 			((HAT829.SK BLACK.A) ** E828.SK)
 		)
-		( ; "The bat is in his hand."
+		( "The bat is in his hand."
 			(BAT832.SK BAT.N)
 			(E831.SK (RIGHT-AFTER U256))
 			(E831.SK (SAME-TIME NOW257))
@@ -1356,14 +1356,14 @@
 			((BAT832.SK (IN.P HAND835.SK)) ** OBJECT833.SK)
 			((BAT832.SK (IN.P HAND835.SK)) ** E831.SK)
 		)
-		( ; "He has his bat."
+		( "He has his bat."
 			((HE.PRO (HAVE.V BAT838.SK)) ** OBJECT836.SK)
 			(E305 (ORIENTS OBJECT836.SK))
 			(OBJECT836.SK (AT-ABOUT NOW258))
 			(BAT838.SK BAT.N)
 			(BAT838.SK (PERTAIN-TO HE.PRO))
 		)
-		( ; "This is a black hat."
+		( "This is a black hat."
 			(PRED?840.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?840.SK PRED?.N)
 			(E839.SK (RIGHT-AFTER U258))
@@ -1375,7 +1375,7 @@
 			((PRED?840.SK (= HAT844.SK)) ** OBJECT841.SK)
 			((PRED?840.SK (= HAT844.SK)) ** E839.SK)
 		)
-		( ; "The boy had a black hat."
+		( "The boy had a black hat."
 			((BOY846.SK (HAVE.V HAT850.SK)) ** OBJECT847.SK)
 			((BOY846.SK (HAVE.V HAT850.SK)) ** E845.SK)
 			(BOY846.SK BOY.N)
@@ -1386,7 +1386,7 @@
 			(HAT850.SK BLACK.A)
 			(HAT850.SK HAT.N)
 		)
-		( ; "This black hat is his."
+		( "This black hat is his."
 			(HAT852.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(E851.SK (RIGHT-AFTER U260))
 			(E851.SK (SAME-TIME NOW261))
@@ -1399,14 +1399,14 @@
 			((HAT852.SK (= PRED?855.SK)) ** OBJECT853.SK)
 			((HAT852.SK (= PRED?855.SK)) ** E851.SK)
 		)
-		( ; "I had a black bat."
+		( "I had a black bat."
 			((ME.PRO (HAVE.V BAT859.SK)) ** OBJECT856.SK)
 			(E308 (ORIENTS OBJECT856.SK))
 			(OBJECT856.SK (BEFORE NOW262))
 			(BAT859.SK BLACK.A)
 			(BAT859.SK BAT.N)
 		)
-		( ; "The black bat is my bat."
+		( "The black bat is my bat."
 			(E860.SK (RIGHT-AFTER U262))
 			(E860.SK (SAME-TIME NOW263))
 			(E309 (ORIENTS OBJECT862.SK))
@@ -1418,7 +1418,7 @@
 			((BAT861.SK (= BAT864.SK)) ** OBJECT862.SK)
 			((BAT861.SK (= BAT864.SK)) ** E860.SK)
 		)
-		( ; "The boy has his bat in his hand."
+		( "The boy has his bat in his hand."
 			(BAT869.SK (PERTAIN-TO HE.PRO))
 			(BAT869.SK BAT.N)
 			(BAT869.SK (IN.P HAND871.SK))
@@ -1435,7 +1435,7 @@
 	)
 
 	(
-		( ; "A big apple is on the green grass."
+		( "A big apple is on the green grass."
 			((APPLE881.SK (ON.P GRASS885.SK)) ** OBJECT882.SK)
 			(E315 (ORIENTS OBJECT882.SK))
 			(OBJECT882.SK (AT-ABOUT NOW268))
@@ -1447,7 +1447,7 @@
 	)
 
 	(
-		( ; "This is a schoolhouse in America."
+		( "This is a schoolhouse in America."
 			(PRED?888.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?888.SK PRED?.N)
 			(E887.SK (RIGHT-AFTER U269))
@@ -1459,7 +1459,7 @@
 			((PRED?888.SK (= SCHOOLHOUSE891.SK)) ** OBJECT889.SK)
 			((PRED?888.SK (= SCHOOLHOUSE891.SK)) ** E887.SK)
 		)
-		( ; "Last night they studied their lessons."
+		( "Last night they studied their lessons."
 			((THEY.PRO (STUDY.V OBJECT896.SK)) ** OBJECT895.SK)
 			(E310 (ORIENTS OBJECT895.SK))
 			(OBJECT895.SK (BEFORE NOW273))
@@ -1469,7 +1469,7 @@
 	)
 
 	(
-		( ; "The man holds the sail."
+		( "The man holds the sail."
 			((MAN909.SK (HOLD.V SAIL911.SK)) ** OBJECT910.SK)
 			((MAN909.SK (HOLD.V SAIL911.SK)) ** E908.SK)
 			(MAN909.SK MAN.N)
@@ -1479,7 +1479,7 @@
 			(OBJECT910.SK (AT-ABOUT NOW276))
 			(SAIL911.SK SAIL.N)
 		)
-		( ; "The wind blows on the sail, and the boat moves fast."
+		( "The wind blows on the sail, and the boat moves fast."
 			(WIND913.SK (ON.P SAIL915.SK))
 			(WIND913.SK (PLUR BLOW.N))
 			(WIND913.SK WIND.N)
@@ -1489,7 +1489,7 @@
 			(BOAT914.SK BOAT.N)
 			((BOAT914.SK (FAST.ADV MOVE.V)) ** E912.SK)
 		)
-		( ; "I like a row-boat."
+		( "I like a row-boat."
 			((ME.PRO (LIKE.V ROW-BOAT919.SK)) ** OBJECT918.SK)
 			(E328 (ORIENTS OBJECT918.SK))
 			(OBJECT918.SK (AT-ABOUT NOW279))
@@ -1498,7 +1498,7 @@
 	)
 
 	(
-		( ; "We have made it for the top of your tent."
+		( "We have made it for the top of your tent."
 			(TOP935.SK (OF.P TENT937.SK))
 			(TOP935.SK TOP.N)
 			(E933.SK (IMPINGES-ON E334))
@@ -1510,7 +1510,7 @@
 	)
 
 	(
-		( ; "This is my dog Jip."
+		( "This is my dog Jip."
 			(PRED?942.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?942.SK PRED?.N)
 			(E941.SK (RIGHT-AFTER U286))
@@ -1522,14 +1522,14 @@
 			((PRED?942.SK (= OBJECT944.SK)) ** OBJECT943.SK)
 			((PRED?942.SK (= OBJECT944.SK)) ** E941.SK)
 		)
-		( ; "Jip is a black-and-white dog."
+		( "Jip is a black-and-white dog."
 			(((K JIP.N) (= DOG948.SK)) ** OBJECT945.SK)
 			(E337 (ORIENTS OBJECT945.SK))
 			(OBJECT945.SK (AT-ABOUT NOW288))
 			(DOG948.SK BLACK-AND-WHITE.A)
 			(DOG948.SK DOG.N)
 		)
-		( ; "He sits and looks at me."
+		( "He sits and looks at me."
 			((HE.PRO ((:R (AT.P ME.PRO)) LOOK.V)) ** OBJECT950.SK)
 			((HE.PRO ((:R (AT.P ME.PRO)) LOOK.V)) ** E952.SK)
 			((HE.PRO SIT.V) ** E951.SK)
@@ -1541,7 +1541,7 @@
 			(E952.SK (DURING E949.SK))
 			(E951.SK (CONSEC E952.SK))
 		)
-		( ; "He has a hat on his head."
+		( "He has a hat on his head."
 			(HAT955.SK (ON.P HEAD957.SK))
 			(HAT955.SK HAT.N)
 			(OBJECT953.SK (AT-ABOUT NOW290))
@@ -1550,7 +1550,7 @@
 			(HEAD957.SK HEAD.N)
 			(HEAD957.SK (PERTAIN-TO HE.PRO))
 		)
-		( ; "Jip, Jip, that is my hat."
+		( "Jip, Jip, that is my hat."
 			((JIP.NAME (= HAT967.SK)) ** OBJECT965.SK)
 			(JIP.NAME (= JIP.NAME))
 			(E344 (ORIENTS OBJECT965.SK))
@@ -1561,26 +1561,26 @@
 	)
 
 	(
-		( ; "Mother gave them to me."
+		( "Mother gave them to me."
 			((MOTHER.NAME (((:R (TO.P ME.PRO)) GIVE.V) THEY.PRO)) ** OBJECT971.SK)
 			(E322 (ORIENTS OBJECT971.SK))
 			(OBJECT971.SK (BEFORE NOW295))
 		)
-		( ; "She gave them to me this morning."
+		( "She gave them to me this morning."
 			((SHE.PRO (GIVE.V THEY.PRO MORNING974.SK)) ** OBJECT972.SK)
 			(E348 (ORIENTS OBJECT972.SK))
 			(OBJECT972.SK (BEFORE NOW296))
 			(MORNING974.SK MORNING.N)
 			(MORNING974.SK (ATTENDED-TO-BY*.A SPEAKER))
 		)
-		( ; "I will keep the red flower."
+		( "I will keep the red flower."
 			((ME.PRO ((WILL.MD KEEP.V) FLOWER981.SK)) ** E978.SK)
 			(E347 (ORIENTS E978.SK))
 			(E978.SK (AT-ABOUT NOW298))
 			(FLOWER981.SK RED.A)
 			(FLOWER981.SK FLOWER.N)
 		)
-		( ; "I will give all my yellow flowers to Lucy."
+		( "I will give all my yellow flowers to Lucy."
 			((ME.PRO ((WILL.MD ((:R (TO.P LUCY.NAME)) GIVE.V)) YELLOW984.SK)) ** E982.SK)
 			(E351 (ORIENTS E982.SK))
 			(E982.SK (AT-ABOUT NOW299))
@@ -1588,12 +1588,12 @@
 			(YELLOW984.SK YELLOW.A)
 			(YELLOW984.SK (PLUR FLOWER.N))
 		)
-		( ; "She will like them."
+		( "She will like them."
 			(E985.SK (AT-ABOUT NOW300))
 			(E352 (ORIENTS E985.SK))
 			((SHE.PRO (WILL.MD (LIKE.V THEY.PRO))) ** E985.SK)
 		)
-		( ; "She will take them home with her."
+		( "She will take them home with her."
 			(E986.SK (AT-ABOUT NOW301))
 			(E353 (ORIENTS E986.SK))
 			((SHE.PRO (WILL.MD (HOME.ADV ((:R (WITH.P SHE.PRO)) (TAKE.V THEY.PRO))))) **
@@ -1602,7 +1602,7 @@
 	)
 
 	(
-		( ; "They brought them in large baskets on their heads."
+		( "They brought them in large baskets on their heads."
 			((THEY.PRO
      (((:R (ON.P OBJECT991.SK))
        ((:R
@@ -1617,18 +1617,18 @@
 			(OBJECT991.SK (PLUR HEAD.N))
 			(OBJECT991.SK (PERTAIN-TO THEY.PRO))
 		)
-		( ; "They dip the clothes in the water."
+		( "They dip the clothes in the water."
 			(OBJECT992.SK (IN.P WATER993.SK))
 			(OBJECT992.SK (PLUR CLOTHE.N))
 			(THEY.PRO (DIP.V OBJECT992.SK))
 			(WATER993.SK WATER.N)
 		)
-		( ; "Then they put soap on them."
+		( "Then they put soap on them."
 			(OBJECT994.SK (BEFORE NOW305))
 			(E356 (ORIENTS OBJECT994.SK))
 			((THEY.PRO (((:R (ON.P THEY.PRO)) PUT.V) (K SOAP.N))) ** OBJECT994.SK)
 		)
-		( ; "They lay the clothes on a large stone and pound them with a stick."
+		( "They lay the clothes on a large stone and pound them with a stick."
 			(THEY.PRO (((:R (ON.P STONE999.SK)) LAY.V) OBJECT995.SK))
 			(THEY.PRO (((:R (WITH.P STICK997.SK)) POUND.V) THEY.PRO))
 			(STONE999.SK STONE.N)
@@ -1636,14 +1636,14 @@
 			(STICK997.SK STICK.N)
 			(OBJECT995.SK (PLUR CLOTHE.N))
 		)
-		( ; "Then they dip them in the water again."
+		( "Then they dip them in the water again."
 			(WATER1000.SK WATER.N)
 			(THEY.PRO (AGAIN.ADV ((:R (IN.P WATER1000.SK)) (DIP.V THEY.PRO))))
 		)
 	)
 
 	(
-		( ; "John, Ned, Ben, Tom, and Nell stand on the bank, and look at the duck."
+		( "John, Ned, Ben, Tom, and Nell stand on the bank, and look at the duck."
 			(E361 (ORIENTS OBJECT1008.SK))
 			(OBJECT1008.SK (AT-ABOUT NOW310))
 			(BANK1009.SK BANK.N)
@@ -1658,7 +1658,7 @@
      ((:R (ON.P BANK1009.SK)) STAND.V))
     ** OBJECT1008.SK)
 		)
-		( ; "The dog with a black spot on his back, is with Tom."
+		( "The dog with a black spot on his back, is with Tom."
 			(DOG1013.SK DOG.N)
 			(E1012.SK (RIGHT-AFTER U310))
 			(E1012.SK (SAME-TIME NOW311))
@@ -1667,7 +1667,7 @@
 			((DOG1013.SK (WITH.P TOM.NAME)) ** OBJECT1014.SK)
 			((DOG1013.SK (WITH.P TOM.NAME)) ** E1012.SK)
 		)
-		( ; "Tom has his hat in his hand."
+		( "Tom has his hat in his hand."
 			((TOM.NAME (((:R (IN.P HAND1020.SK)) HAVE.V) HAT1019.SK)) ** OBJECT1015.SK)
 			(E364 (ORIENTS OBJECT1015.SK))
 			(OBJECT1015.SK (AT-ABOUT NOW313))
@@ -1676,7 +1676,7 @@
 			(HAT1019.SK HAT.N)
 			(HAT1019.SK (PERTAIN-TO TOM.NAME))
 		)
-		( ; "He has left his big top on the box."
+		( "He has left his big top on the box."
 			((HE.PRO (((:R (ON.P BOX1024.SK)) LEAVE.V) TOP1026.SK)) ** E1022.SK)
 			((HE.PRO (((:R (ON.P BOX1024.SK)) LEAVE.V) TOP1026.SK)) ** E1021.SK)
 			(TOP1026.SK TOP.N)
@@ -1691,7 +1691,7 @@
 	)
 
 	(
-		( ; "Her mother gave the kitten to her."
+		( "Her mother gave the kitten to her."
 			((MOTHER1030.SK (((:R (TO.P SHE.PRO)) GIVE.V) KITTEN1032.SK)) **
     OBJECT1031.SK)
 			((MOTHER1030.SK (((:R (TO.P SHE.PRO)) GIVE.V) KITTEN1032.SK)) ** E1029.SK)
@@ -1703,7 +1703,7 @@
 			(OBJECT1031.SK (BEFORE NOW316))
 			(KITTEN1032.SK KITTEN.N)
 		)
-		( ; "She is kind to the pretty kitten."
+		( "She is kind to the pretty kitten."
 			((SHE.PRO (= OBJECT1034.SK)) ** OBJECT1033.SK)
 			(E368 (ORIENTS OBJECT1033.SK))
 			(OBJECT1033.SK (AT-ABOUT NOW317))
@@ -1712,7 +1712,7 @@
 			(OBJECT1034.SK (TO.P KITTEN1037.SK))
 			(OBJECT1034.SK (= (K KIND.N)))
 		)
-		( ; "If May can get the ball she will not take it."
+		( "If May can get the ball she will not take it."
 			((NOT (SHE.PRO (WILL.MD (TAKE.V IT.PRO)))) ** OBJECT1042.SK)
 			(E372 (ORIENTS OBJECT1042.SK))
 			(OBJECT1042.SK (AT-ABOUT NOW321))
@@ -1720,7 +1720,7 @@
 	)
 
 	(
-		( ; "I will not whip the good horse."
+		( "I will not whip the good horse."
 			((NOT (ME.PRO ((WILL.MD WHIP.V) HORSE1056.SK))) ** OBJECT1053.SK)
 			(E377 (ORIENTS OBJECT1053.SK))
 			(OBJECT1053.SK (AT-ABOUT NOW326))
@@ -1730,7 +1730,7 @@
 	)
 
 	(
-		( ; "No; this is Ada."
+		( "No; this is Ada."
 			(PRED?1065.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1065.SK PRED?.N)
 			(E1064.SK (RIGHT-AFTER U329))
@@ -1740,7 +1740,7 @@
 			((PRED?1065.SK (= ADA.NAME)) ** OBJECT1066.SK)
 			((PRED?1065.SK (= ADA.NAME)) ** E1064.SK)
 		)
-		( ; "Ada is sitting in May's chair."
+		( "Ada is sitting in May's chair."
 			(CHAIR1069.SK (PERTAIN-TO MAY.NAME))
 			(CHAIR1069.SK CHAIR.N)
 			(E1067.SK (AT-ABOUT NOW332))
@@ -1750,7 +1750,7 @@
 	)
 
 	(
-		( ; "He has a basket for his fish."
+		( "He has a basket for his fish."
 			(BASKET1084.SK (FOR.P FISH1086.SK))
 			(BASKET1084.SK BASKET.N)
 			(OBJECT1082.SK (AT-ABOUT NOW337))
@@ -1762,7 +1762,7 @@
 	)
 
 	(
-		( ; "These boys are Ned and Roy."
+		( "These boys are Ned and Roy."
 			(BOYS1103.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(BOYS1103.SK (PLUR BOY.N))
 			(E1102.SK (RIGHT-AFTER U339))
@@ -1772,7 +1772,7 @@
 			((BOYS1103.SK (= (SET-OF NED.NAME ROY.NAME))) ** OBJECT1104.SK)
 			((BOYS1103.SK (= (SET-OF NED.NAME ROY.NAME))) ** E1102.SK)
 		)
-		( ; "The large boy is Roy."
+		( "The large boy is Roy."
 			(E1105.SK (RIGHT-AFTER U340))
 			(E1105.SK (SAME-TIME NOW341))
 			(E394 (ORIENTS OBJECT1107.SK))
@@ -1782,14 +1782,14 @@
 			((BOY1106.SK (= ROY.NAME)) ** OBJECT1107.SK)
 			((BOY1106.SK (= ROY.NAME)) ** E1105.SK)
 		)
-		( ; "The boys are sitting on the floor."
+		( "The boys are sitting on the floor."
 			(FLOOR1114.SK FLOOR.N)
 			(OBJECT1113.SK (PLUR BOY.N))
 			(E1112.SK (AT-ABOUT NOW343))
 			(E398 (ORIENTS E1112.SK))
 			((PROG OBJECT1113.SK ((:R (ON.P FLOOR1114.SK)) SIT.V)) ** E1112.SK)
 		)
-		( ; "Roy's dog, Carlo, lies near Ned."
+		( "Roy's dog, Carlo, lies near Ned."
 			((CARLO.NAME ((:R (NEAR.P NED.NAME)) LIE.V)) ** OBJECT1117.SK)
 			((CARLO.NAME ((:R (NEAR.P NED.NAME)) LIE.V)) ** E1115.SK)
 			(CARLO.NAME (PERTAIN-TO ROY.NAME))
@@ -1799,7 +1799,7 @@
 			(E399 (ORIENTS OBJECT1117.SK))
 			(OBJECT1117.SK (AT-ABOUT NOW344))
 		)
-		( ; "Ned and Roy are good boys."
+		( "Ned and Roy are good boys."
 			(((SET-OF NED.NAME ROY.NAME)
      (= (K (L #:G71783 (AND (#:G71783 GOOD.A) (#:G71783 (PLUR BOY.N)))))))
     ** OBJECT1120.SK)
@@ -1809,7 +1809,7 @@
 	)
 
 	(
-		( ; "The man has a little dog."
+		( "The man has a little dog."
 			((MAN1122.SK (HAVE.V DOG1126.SK)) ** OBJECT1123.SK)
 			((MAN1122.SK (HAVE.V DOG1126.SK)) ** E1121.SK)
 			(MAN1122.SK MAN.N)
@@ -1820,7 +1820,7 @@
 			(DOG1126.SK LITTLE.A)
 			(DOG1126.SK DOG.N)
 		)
-		( ; "The boy has a big dog."
+		( "The boy has a big dog."
 			((BOY1128.SK (HAVE.V DOG1132.SK)) ** OBJECT1129.SK)
 			((BOY1128.SK (HAVE.V DOG1132.SK)) ** E1127.SK)
 			(BOY1128.SK BOY.N)
@@ -1831,14 +1831,14 @@
 			(DOG1132.SK BIG.A)
 			(DOG1132.SK DOG.N)
 		)
-		( ; "He has my ball."
+		( "He has my ball."
 			((HE.PRO (HAVE.V BALL1135.SK)) ** OBJECT1133.SK)
 			(E404 (ORIENTS OBJECT1133.SK))
 			(OBJECT1133.SK (AT-ABOUT NOW350))
 			(BALL1135.SK BALL.N)
 			(BALL1135.SK (PERTAIN-TO ME.PRO))
 		)
-		( ; "She can not take it."
+		( "She can not take it."
 			((NOT (SHE.PRO (CAN.MD (TAKE.V IT.PRO)))) ** OBJECT1141.SK)
 			(E408 (ORIENTS OBJECT1141.SK))
 			(OBJECT1141.SK (AT-ABOUT NOW353))
@@ -1846,7 +1846,7 @@
 	)
 
 	(
-		( ; "These men fish in the sea."
+		( "These men fish in the sea."
 			(E1142.SK (SAME-TIME NOW354))
 			(E1142.SK (RIGHT-AFTER U353))
 			(MANS1143.SK (PLUR MAN.N))
@@ -1854,14 +1854,14 @@
 			(SEA1144.SK SEA.N)
 			((AND (MANS1143.SK FISH.N) (MANS1143.SK (IN.P SEA1144.SK))) ** E1142.SK)
 		)
-		( ; "They have a large net."
+		( "They have a large net."
 			((THEY.PRO (HAVE.V NET1148.SK)) ** OBJECT1145.SK)
 			(E409 (ORIENTS OBJECT1145.SK))
 			(OBJECT1145.SK (AT-ABOUT NOW355))
 			(NET1148.SK LARGE.A)
 			(NET1148.SK NET.N)
 		)
-		( ; "They carry the net in a boat and drip it into the water."
+		( "They carry the net in a boat and drip it into the water."
 			((THEY.PRO (CARRY.V NET1152.SK)) ** OBJECT1149.SK)
 			(THEY.PRO (((:R (INTO.P WATER1151.SK)) DRIP.V) IT.PRO))
 			(NET1152.SK (IN.P BOAT1153.SK))
@@ -1871,7 +1871,7 @@
 			(E410 (ORIENTS OBJECT1149.SK))
 			(BOAT1153.SK BOAT.N)
 		)
-		( ; "Soon they pull it to the shore."
+		( "Soon they pull it to the shore."
 			(SHORE1155.SK SHORE.N)
 			(OBJECT1154.SK (AT-ABOUT NOW357))
 			(E411 (ORIENTS OBJECT1154.SK))
@@ -1880,27 +1880,27 @@
 	)
 
 	(
-		( ; "The boy can play ball."
+		( "The boy can play ball."
 			((BOY1168.SK ((CAN.MD PLAY.V) (K BALL.N))) ** E1167.SK)
 			(E415 (ORIENTS E1167.SK))
 			(E1167.SK (AT-ABOUT NOW362))
 			(BOY1168.SK BOY.N)
 		)
-		( ; "The man may see the boy play."
+		( "The man may see the boy play."
 			((MAN1170.SK ((MAY.MD SEE.V) OBJECT1171.SK)) ** E1169.SK)
 			(E416 (ORIENTS E1169.SK))
 			(E1169.SK (AT-ABOUT NOW363))
 			(MAN1170.SK MAN.N)
 			(OBJECT1171.SK ((NN BOY.N) PLAY.N))
 		)
-		( ; "The boy may take the ball."
+		( "The boy may take the ball."
 			((BOY1173.SK ((MAY.MD TAKE.V) BALL1174.SK)) ** E1172.SK)
 			(E417 (ORIENTS E1172.SK))
 			(E1172.SK (AT-ABOUT NOW364))
 			(BOY1173.SK BOY.N)
 			(BALL1174.SK BALL.N)
 		)
-		( ; "The baby has a big doll."
+		( "The baby has a big doll."
 			((BABY1176.SK (HAVE.V DOLL1180.SK)) ** OBJECT1177.SK)
 			((BABY1176.SK (HAVE.V DOLL1180.SK)) ** E1175.SK)
 			(BABY1176.SK BABY.N)
@@ -1911,7 +1911,7 @@
 			(DOLL1180.SK BIG.A)
 			(DOLL1180.SK DOLL.N)
 		)
-		( ; "The little girl has a ball."
+		( "The little girl has a ball."
 			((GIRL1182.SK (HAVE.V BALL1184.SK)) ** OBJECT1183.SK)
 			((GIRL1182.SK (HAVE.V BALL1184.SK)) ** E1181.SK)
 			(E1181.SK (RIGHT-AFTER U365))
@@ -1922,7 +1922,7 @@
 			(GIRL1182.SK LITTLE.A)
 			(GIRL1182.SK GIRL.N)
 		)
-		( ; "I can see the baby."
+		( "I can see the baby."
 			((ME.PRO ((CAN.MD SEE.V) BABY1186.SK)) ** E1185.SK)
 			(E420 (ORIENTS E1185.SK))
 			(E1185.SK (AT-ABOUT NOW367))
@@ -1931,7 +1931,7 @@
 	)
 
 	(
-		( ; "This is Fred and his sled."
+		( "This is Fred and his sled."
 			(PRED?1192.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1192.SK PRED?.N)
 			(E1191.SK (RIGHT-AFTER U368))
@@ -1944,14 +1944,14 @@
 			((PRED?1192.SK (= (SET-OF FRED.NAME PRED?1196.SK))) ** OBJECT1193.SK)
 			((PRED?1192.SK (= (SET-OF FRED.NAME PRED?1196.SK))) ** E1191.SK)
 		)
-		( ; "It is a red sled."
+		( "It is a red sled."
 			((IT.PRO (= RED1199.SK)) ** OBJECT1197.SK)
 			(E424 (ORIENTS OBJECT1197.SK))
 			(OBJECT1197.SK (AT-ABOUT NOW370))
 			(RED1199.SK RED.N)
 			(RED1199.SK (BE.PASV SLED.V))
 		)
-		( ; "It is a red sled, and it has black letters on it."
+		( "It is a red sled, and it has black letters on it."
 			((IT.PRO (HAVE.V OBJECT1203.SK)) ** OBJECT1202.SK)
 			((IT.PRO (= SLED1205.SK)) ** OBJECT1200.SK)
 			(E425 (ORIENTS OBJECT1200.SK))
@@ -1964,7 +1964,7 @@
 			(OBJECT1203.SK
     (= (K (L #:G76543 (AND (#:G76543 BLACK.A) (#:G76543 (PLUR LETTER.N)))))))
 		)
-		( ; "I am Fred and this is Frank."
+		( "I am Fred and this is Frank."
 			((PRED?1214.SK FRANK.A) ** OBJECT1216.SK)
 			(PRED?1214.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1214.SK PRED?.N)
@@ -1974,7 +1974,7 @@
 			(E430 (ORIENTS OBJECT1216.SK))
 			(OBJECT1216.SK (AT-ABOUT NOW373))
 		)
-		( ; "This is my red sled."
+		( "This is my red sled."
 			(PRED?1218.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1218.SK PRED?.N)
 			(E1217.SK (RIGHT-AFTER U373))
@@ -1987,7 +1987,7 @@
 			((PRED?1218.SK (= SLED1222.SK)) ** OBJECT1219.SK)
 			((PRED?1218.SK (= SLED1222.SK)) ** E1217.SK)
 		)
-		( ; "My sled is a pretty sled."
+		( "My sled is a pretty sled."
 			(SLED1224.SK (PERTAIN-TO ME.PRO))
 			(SLED1224.SK SLED.N)
 			(E1223.SK (RIGHT-AFTER U374))
@@ -1999,7 +1999,7 @@
 			((SLED1224.SK (= PRED?1227.SK)) ** OBJECT1225.SK)
 			((SLED1224.SK (= PRED?1227.SK)) ** E1223.SK)
 		)
-		( ; "Frank can not stand on my sled."
+		( "Frank can not stand on my sled."
 			((NOT (FRANK.NAME (CAN.MD ((:R (ON.P PRED?1236.SK)) STAND.V)))) **
     OBJECT1233.SK)
 			(PRED?1236.SK PRED?.N)
@@ -2008,7 +2008,7 @@
 			(OBJECT1233.SK (AT-ABOUT NOW377))
 			(E433 (ORIENTS OBJECT1233.SK))
 		)
-		( ; "I can stand on it."
+		( "I can stand on it."
 			(E1237.SK (AT-ABOUT NOW378))
 			(E437 (ORIENTS E1237.SK))
 			((ME.PRO (CAN.MD ((:R (ON.P IT.PRO)) STAND.V))) ** E1237.SK)
@@ -2016,13 +2016,13 @@
 	)
 
 	(
-		( ; "He can row the boat."
+		( "He can row the boat."
 			((HE.PRO ((CAN.MD ROW.V) BOAT1243.SK)) ** E1242.SK)
 			(E439 (ORIENTS E1242.SK))
 			(E1242.SK (AT-ABOUT NOW380))
 			(BOAT1243.SK BOAT.N)
 		)
-		( ; "Ned has an oar in his right hand, and an oar in his left hand."
+		( "Ned has an oar in his right hand, and an oar in his left hand."
 			(HAND1250.SK HAND.N)
 			(HAND1250.SK LEFT.A)
 			(OAR1255.SK (IN.P HAND1254.SK))
@@ -2038,7 +2038,7 @@
 			(HAND1254.SK RIGHT.A)
 			(HAND1254.SK HAND.N)
 		)
-		( ; "I can row a boat."
+		( "I can row a boat."
 			((ME.PRO ((CAN.MD ROW.V) BOAT1258.SK)) ** E1257.SK)
 			(E442 (ORIENTS E1257.SK))
 			(E1257.SK (AT-ABOUT NOW383))
@@ -2047,7 +2047,7 @@
 	)
 
 	(
-		( ; "The cherry is red."
+		( "The cherry is red."
 			(CHERRY1274.SK CHERRY.N)
 			(E1273.SK (RIGHT-AFTER U394))
 			(E1273.SK (SAME-TIME NOW395))
@@ -2056,7 +2056,7 @@
 			((CHERRY1274.SK RED.A) ** OBJECT1275.SK)
 			((CHERRY1274.SK RED.A) ** E1273.SK)
 		)
-		( ; "The buttercup is yellow."
+		( "The buttercup is yellow."
 			(BUTTERCUP1277.SK BUTTERCUP.N)
 			(E1276.SK (RIGHT-AFTER U395))
 			(E1276.SK (SAME-TIME NOW396))
@@ -2065,14 +2065,14 @@
 			((BUTTERCUP1277.SK YELLOW.A) ** OBJECT1278.SK)
 			((BUTTERCUP1277.SK YELLOW.A) ** E1276.SK)
 		)
-		( ; "We call this color orange."
+		( "We call this color orange."
 			((WE.PRO (CALL.V OBJECT1288.SK)) ** OBJECT1287.SK)
 			(E458 (ORIENTS OBJECT1287.SK))
 			(OBJECT1287.SK (AT-ABOUT NOW400))
 			(OBJECT1288.SK ((NN COLOR.N) ORANGE.N))
 			(OBJECT1288.SK (ATTENDED-TO-BY*.A SPEAKER))
 		)
-		( ; "I can make orange."
+		( "I can make orange."
 			(E1289.SK (AT-ABOUT NOW401))
 			(E459 (ORIENTS E1289.SK))
 			((ME.PRO (CAN.MD (MAKE.V (K ORANGE.N)))) ** E1289.SK)
@@ -2080,7 +2080,7 @@
 	)
 
 	(
-		( ; "This is Tom and May."
+		( "This is Tom and May."
 			(PRED?1293.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1293.SK PRED?.N)
 			(E1292.SK (RIGHT-AFTER U402))
@@ -2090,12 +2090,12 @@
 			((PRED?1293.SK (= (SET-OF TOM.NAME MAY.NAME))) ** OBJECT1294.SK)
 			((PRED?1293.SK (= (SET-OF TOM.NAME MAY.NAME))) ** E1292.SK)
 		)
-		( ; "Tom and May can play ball."
+		( "Tom and May can play ball."
 			(E1295.SK (AT-ABOUT NOW404))
 			(E463 (ORIENTS E1295.SK))
 			(((SET-OF TOM.NAME MAY.NAME) (CAN.MD (PLAY.V (K BALL.N)))) ** E1295.SK)
 		)
-		( ; "Tom has a little bat and a little ball."
+		( "Tom has a little bat and a little ball."
 			((TOM.NAME (HAVE.V (SET-OF BAT1302.SK LITTLE1304.SK))) ** OBJECT1296.SK)
 			(E464 (ORIENTS OBJECT1296.SK))
 			(OBJECT1296.SK (AT-ABOUT NOW405))
@@ -2104,7 +2104,7 @@
 			(BAT1302.SK LITTLE.A)
 			(BAT1302.SK BAT.N)
 		)
-		( ; "Tom has hit the ball."
+		( "Tom has hit the ball."
 			(E435 (ORIENTS E1306.SK))
 			(E1306.SK (IMPINGES-ON E1305.SK))
 			(E465 (ORIENTS E1305.SK))
@@ -2113,13 +2113,13 @@
 			((TOM.NAME (HIT.V BALL1307.SK)) ** E1305.SK)
 			((TOM.NAME (HIT.V BALL1307.SK)) ** E1306.SK)
 		)
-		( ; "O, yes, she will get the ball."
+		( "O, yes, she will get the ball."
 			((SHE.PRO ((WILL.MD GET.V) BALL1312.SK)) ** E1311.SK)
 			(E468 (ORIENTS E1311.SK))
 			(E1311.SK (AT-ABOUT NOW410))
 			(BALL1312.SK BALL.N)
 		)
-		( ; "Run, May, run, and get the ball!"
+		( "Run, May, run, and get the ball!"
 			(E1313.SK (GET.V BALL1314.SK))
 			(E1313.SK RUN.V)
 			(E1313.SK (IN.P MAY.NAME))
@@ -2129,7 +2129,7 @@
 	)
 
 	(
-		( ; "They are very nice fish."
+		( "They are very nice fish."
 			((THEY.PRO (FISH.ADV (VERY.ADV NICE.A))) ** OBJECT1316.SK)
 			(E470 (ORIENTS OBJECT1316.SK))
 			(OBJECT1316.SK (AT-ABOUT NOW413))
@@ -2137,14 +2137,14 @@
 	)
 
 	(
-		( ; "I see May and her dolls."
+		( "I see May and her dolls."
 			((ME.PRO (SEE.V (SET-OF MAY.NAME OBJECT1325.SK))) ** OBJECT1324.SK)
 			(E473 (ORIENTS OBJECT1324.SK))
 			(OBJECT1324.SK (AT-ABOUT NOW418))
 			(OBJECT1325.SK (PLUR DOLL.N))
 			(OBJECT1325.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "She has a doll in her lap."
+		( "She has a doll in her lap."
 			(DOLL1332.SK (IN.P LAP1334.SK))
 			(DOLL1332.SK DOLL.N)
 			(OBJECT1330.SK (AT-ABOUT NOW420))
@@ -2153,14 +2153,14 @@
 			(LAP1334.SK LAP.N)
 			(LAP1334.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "One doll is sitting on a bed."
+		( "One doll is sitting on a bed."
 			(BED1337.SK BED.N)
 			(DOLL1336.SK DOLL.N)
 			(E1335.SK (AT-ABOUT NOW421))
 			(E477 (ORIENTS E1335.SK))
 			((PROG DOLL1336.SK ((:R (ON.P BED1337.SK)) SIT.V)) ** E1335.SK)
 		)
-		( ; "The doll on the bed is wax."
+		( "The doll on the bed is wax."
 			(T1339.SK (ON.P BED1340.SK))
 			(T1339.SK DOLL.N)
 			(BED1340.SK BED.N)
@@ -2171,7 +2171,7 @@
 			((T1339.SK WAX.A) ** OBJECT1341.SK)
 			((T1339.SK WAX.A) ** E1338.SK)
 		)
-		( ; "May's dolls have blue eyes."
+		( "May's dolls have blue eyes."
 			((DOLLS1348.SK
      (HAVE.V (K (L #:G86425 (AND (#:G86425 BLUE.A) (#:G86425 (PLUR EYE.N)))))))
     ** OBJECT1349.SK)
@@ -2188,7 +2188,7 @@
 	)
 
 	(
-		( ; "This girl has a fan."
+		( "This girl has a fan."
 			((GIRL1362.SK (HAVE.V FAN1364.SK)) ** OBJECT1363.SK)
 			((GIRL1362.SK (HAVE.V FAN1364.SK)) ** E1361.SK)
 			(GIRL1362.SK (ATTENDED-TO-BY*.A SPEAKER))
@@ -2199,7 +2199,7 @@
 			(OBJECT1363.SK (AT-ABOUT NOW432))
 			(FAN1364.SK FAN.N)
 		)
-		( ; "The fan is in her hand."
+		( "The fan is in her hand."
 			(FAN1366.SK FAN.N)
 			(E1365.SK (RIGHT-AFTER U432))
 			(E1365.SK (SAME-TIME NOW433))
@@ -2210,7 +2210,7 @@
 			((FAN1366.SK (IN.P HAND1369.SK)) ** OBJECT1367.SK)
 			((FAN1366.SK (IN.P HAND1369.SK)) ** E1365.SK)
 		)
-		( ; "She can fan the cat."
+		( "She can fan the cat."
 			(OBJECT1372.SK (AT-ABOUT NOW434))
 			(E493 (ORIENTS OBJECT1372.SK))
 			(E1370.SK (SAME-TIME NOW434))
@@ -2219,20 +2219,20 @@
 			((SHE.PRO (CAN.MD (FAN.N CAT1371.SK))) ** E1370.SK)
 			((SHE.PRO (CAN.MD (FAN.N CAT1371.SK))) ** OBJECT1372.SK)
 		)
-		( ; "I see a girl."
+		( "I see a girl."
 			((ME.PRO (SEE.V GIRL1374.SK)) ** OBJECT1373.SK)
 			(E494 (ORIENTS OBJECT1373.SK))
 			(OBJECT1373.SK (AT-ABOUT NOW435))
 			(GIRL1374.SK GIRL.N)
 		)
-		( ; "And I see a cat and a fan."
+		( "And I see a cat and a fan."
 			((ME.PRO (SEE.V (SET-OF CAT1376.SK FAN1377.SK))) ** OBJECT1375.SK)
 			(E495 (ORIENTS OBJECT1375.SK))
 			(OBJECT1375.SK (AT-ABOUT NOW436))
 			(CAT1376.SK CAT.N)
 			(FAN1377.SK FAN.N)
 		)
-		( ; "This girl has the cat."
+		( "This girl has the cat."
 			((GIRL1379.SK (HAVE.V CAT1381.SK)) ** OBJECT1380.SK)
 			((GIRL1379.SK (HAVE.V CAT1381.SK)) ** E1378.SK)
 			(GIRL1379.SK (ATTENDED-TO-BY*.A SPEAKER))
@@ -2243,7 +2243,7 @@
 			(OBJECT1380.SK (AT-ABOUT NOW437))
 			(CAT1381.SK CAT.N)
 		)
-		( ; "The fan is in her hand."
+		( "The fan is in her hand."
 			(FAN1386.SK FAN.N)
 			(E1385.SK (RIGHT-AFTER U438))
 			(E1385.SK (SAME-TIME NOW439))
@@ -2254,7 +2254,7 @@
 			((FAN1386.SK (IN.P HAND1389.SK)) ** OBJECT1387.SK)
 			((FAN1386.SK (IN.P HAND1389.SK)) ** E1385.SK)
 		)
-		( ; "I can fan the girl."
+		( "I can fan the girl."
 			(OBJECT1392.SK (AT-ABOUT NOW440))
 			(E500 (ORIENTS OBJECT1392.SK))
 			(E1390.SK (SAME-TIME NOW440))
@@ -2263,7 +2263,7 @@
 			((ME.PRO (CAN.MD (FAN.N GIRL1391.SK))) ** E1390.SK)
 			((ME.PRO (CAN.MD (FAN.N GIRL1391.SK))) ** OBJECT1392.SK)
 		)
-		( ; "She can fan her cat."
+		( "She can fan her cat."
 			(OBJECT1395.SK (AT-ABOUT NOW441))
 			(E501 (ORIENTS OBJECT1395.SK))
 			(E1393.SK (SAME-TIME NOW441))
@@ -2273,7 +2273,7 @@
 			((SHE.PRO (CAN.MD (FAN.N CAT1394.SK))) ** E1393.SK)
 			((SHE.PRO (CAN.MD (FAN.N CAT1394.SK))) ** OBJECT1395.SK)
 		)
-		( ; "This is my black fan."
+		( "This is my black fan."
 			(PRED?1397.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1397.SK PRED?.N)
 			(E1396.SK (RIGHT-AFTER U441))
@@ -2289,7 +2289,7 @@
 	)
 
 	(
-		( ; "Well, a nest is in that tree."
+		( "Well, a nest is in that tree."
 			((NEST1407.SK (WELL.ADV (IN.P NEW-SALIENT-ENTITY*1411.SK))) ** OBJECT1408.SK)
 			(NEST1407.SK NEST.N)
 			(E503 (ORIENTS OBJECT1408.SK))
@@ -2297,7 +2297,7 @@
 			(NEW-SALIENT-ENTITY*1411.SK TREE.N)
 			(NEW-SALIENT-ENTITY*1411.SK NEW-SALIENT-ENTITY*.N)
 		)
-		( ; "Charley, Fred and I went to see the nest."
+		( "Charley, Fred and I went to see the nest."
 			(NEST1415.SK NEST.N)
 			(OBJECT1414.SK (BEFORE NOW445))
 			(E505 (ORIENTS OBJECT1414.SK))
@@ -2308,7 +2308,7 @@
     OBJECT1412.SK)
 			((ME.PRO (GO.V (KA (SEE.V NEST1415.SK)))) ** OBJECT1414.SK)
 		)
-		( ; "It had eggs in it."
+		( "It had eggs in it."
 			((IT.PRO (((:R (IN.P IT.PRO)) HAVE.V) (K (PLUR EGG.N)))) ** OBJECT1416.SK)
 			(E506 (ORIENTS OBJECT1416.SK))
 			(OBJECT1416.SK (BEFORE NOW446))
@@ -2316,7 +2316,7 @@
 	)
 
 	(
-		( ; "John is rolling the ball to Tyke."
+		( "John is rolling the ball to Tyke."
 			(BALL1430.SK BALL.N)
 			(E1429.SK (AT-ABOUT NOW451))
 			(E504 (ORIENTS E1429.SK))
@@ -2325,12 +2325,12 @@
 	)
 
 	(
-		( ; "They have come to find flowers."
+		( "They have come to find flowers."
 			(E1434.SK (IMPINGES-ON E514))
 			(E499 (ORIENTS E1434.SK))
 			((THEY.PRO (COME.V (KA (FIND.V (K (PLUR FLOWER.N)))))) ** E1434.SK)
 		)
-		( ; "She will take them to the wagon."
+		( "She will take them to the wagon."
 			((SHE.PRO ((WILL.MD ((:R (TO.P WAGON1443.SK)) TAKE.V)) THEY.PRO)) **
     E1442.SK)
 			(E519 (ORIENTS E1442.SK))
@@ -2340,12 +2340,12 @@
 	)
 
 	(
-		( ; "They have come to find flowers."
+		( "They have come to find flowers."
 			(E1450.SK (IMPINGES-ON E522))
 			(E515 (ORIENTS E1450.SK))
 			((THEY.PRO (COME.V (KA (FIND.V (K (PLUR FLOWER.N)))))) ** E1450.SK)
 		)
-		( ; "She will take them to the wagon."
+		( "She will take them to the wagon."
 			((SHE.PRO ((WILL.MD ((:R (TO.P WAGON1459.SK)) TAKE.V)) THEY.PRO)) **
     E1458.SK)
 			(E527 (ORIENTS E1458.SK))
@@ -2355,7 +2355,7 @@
 	)
 
 	(
-		( ; "The leaves grow on the branches of the tree."
+		( "The leaves grow on the branches of the tree."
 			(OBJECT1468.SK (OF.P TREE1469.SK))
 			(OBJECT1468.SK (PLUR BRANCH.N))
 			(OBJECT1467.SK (AT-ABOUT NOW472))
@@ -2367,7 +2367,7 @@
 			((LEAFS1466.SK ((:R (ON.P OBJECT1468.SK)) GROW.V)) ** E1465.SK)
 			((LEAFS1466.SK ((:R (ON.P OBJECT1468.SK)) GROW.V)) ** OBJECT1467.SK)
 		)
-		( ; "The branches grow from the trunk of the tree."
+		( "The branches grow from the trunk of the tree."
 			(TRUNK1474.SK (OF.P TREE1475.SK))
 			(TRUNK1474.SK TRUNK.N)
 			(OBJECT1472.SK (AT-ABOUT NOW473))
@@ -2379,7 +2379,7 @@
 			((BRANCHS1471.SK ((:R (FROM.P TRUNK1474.SK)) GROW.V)) ** E1470.SK)
 			((BRANCHS1471.SK ((:R (FROM.P TRUNK1474.SK)) GROW.V)) ** OBJECT1472.SK)
 		)
-		( ; "The roots grow in the ground."
+		( "The roots grow in the ground."
 			((ROOTS1489.SK ((:R (IN.P GROUND1491.SK)) GROW.V)) ** OBJECT1490.SK)
 			((ROOTS1489.SK ((:R (IN.P GROUND1491.SK)) GROW.V)) ** E1488.SK)
 			(ROOTS1489.SK (PLUR ROOT.N))
@@ -2392,7 +2392,7 @@
 	)
 
 	(
-		( ; "Three birds are in the tree."
+		( "Three birds are in the tree."
 			((BIRDS1496.SK (IN.P TREE1498.SK)) ** OBJECT1497.SK)
 			(BIRDS1496.SK THREE.A)
 			(BIRDS1496.SK (PLUR BIRD.N))
@@ -2400,7 +2400,7 @@
 			(OBJECT1497.SK (AT-ABOUT NOW479))
 			(TREE1498.SK TREE.N)
 		)
-		( ; "One is a pretty red bird."
+		( "One is a pretty red bird."
 			((PRED?1499.SK (= BIRD1502.SK)) ** OBJECT1500.SK)
 			(PRED?1499.SK PRED?.N)
 			(E538 (ORIENTS OBJECT1500.SK))
@@ -2408,18 +2408,18 @@
 			(BIRD1502.SK (PRETTY.ADV RED.A))
 			(BIRD1502.SK BIRD.N)
 		)
-		( ; "You can not catch it."
+		( "You can not catch it."
 			((NOT (YOU.PRO (CAN.MD (CATCH.V IT.PRO)))) ** OBJECT1503.SK)
 			(E539 (ORIENTS OBJECT1503.SK))
 			(OBJECT1503.SK (AT-ABOUT NOW481))
 		)
-		( ; "It is high in the tree."
+		( "It is high in the tree."
 			((IT.PRO ((:R (IN.P TREE1505.SK)) HIGH.A)) ** OBJECT1504.SK)
 			(E540 (ORIENTS OBJECT1504.SK))
 			(OBJECT1504.SK (AT-ABOUT NOW482))
 			(TREE1505.SK TREE.N)
 		)
-		( ; "It can see the little girl with the red dress."
+		( "It can see the little girl with the red dress."
 			(GIRL1514.SK GIRL.N)
 			(GIRL1514.SK LITTLE.A)
 			(GIRL1514.SK (WITH.P DRESS1517.SK))
@@ -2429,7 +2429,7 @@
 			(DRESS1517.SK RED.A)
 			(DRESS1517.SK DRESS.N)
 		)
-		( ; "It can see the good baby and the pretty doll."
+		( "It can see the good baby and the pretty doll."
 			((IT.PRO ((CAN.MD SEE.V) (SET-OF BABY1524.SK PRETTY1526.SK))) ** E1518.SK)
 			(E543 (ORIENTS E1518.SK))
 			(E1518.SK (AT-ABOUT NOW485))
@@ -2438,7 +2438,7 @@
 			(BABY1524.SK GOOD.A)
 			(BABY1524.SK BABY.N)
 		)
-		( ; "It can see the man in the field."
+		( "It can see the man in the field."
 			(MAN1529.SK (IN.P FIELD1530.SK))
 			(MAN1529.SK MAN.N)
 			(E1527.SK (AT-ABOUT NOW486))
@@ -2449,7 +2449,7 @@
 	)
 
 	(
-		( ; "I see a man and a dog and a cow."
+		( "I see a man and a dog and a cow."
 			((ME.PRO (SEE.V (SET-OF MAN1532.SK (SET-OF DOG1533.SK COW1534.SK)))) **
     OBJECT1531.SK)
 			(E545 (ORIENTS OBJECT1531.SK))
@@ -2458,7 +2458,7 @@
 			(DOG1533.SK DOG.N)
 			(COW1534.SK COW.N)
 		)
-		( ; "The cow is with the man."
+		( "The cow is with the man."
 			(COW1536.SK COW.N)
 			(E1535.SK (RIGHT-AFTER U487))
 			(E1535.SK (SAME-TIME NOW488))
@@ -2468,7 +2468,7 @@
 			((COW1536.SK (WITH.P MAN1538.SK)) ** OBJECT1537.SK)
 			((COW1536.SK (WITH.P MAN1538.SK)) ** E1535.SK)
 		)
-		( ; "The dog has a big hat."
+		( "The dog has a big hat."
 			((DOG1540.SK (HAVE.V HAT1544.SK)) ** OBJECT1541.SK)
 			((DOG1540.SK (HAVE.V HAT1544.SK)) ** E1539.SK)
 			(DOG1540.SK DOG.N)
@@ -2479,7 +2479,7 @@
 			(HAT1544.SK BIG.A)
 			(HAT1544.SK HAT.N)
 		)
-		( ; "He is a good little dog."
+		( "He is a good little dog."
 			((HE.PRO (= DOG1549.SK)) ** OBJECT1545.SK)
 			(E548 (ORIENTS OBJECT1545.SK))
 			(OBJECT1545.SK (AT-ABOUT NOW490))
@@ -2487,14 +2487,14 @@
 			(DOG1549.SK LITTLE.A)
 			(DOG1549.SK DOG.N)
 		)
-		( ; "He may take the hat to the man."
+		( "He may take the hat to the man."
 			((HE.PRO ((MAY.MD ((:R (TO.P MAN1552.SK)) TAKE.V)) HAT1551.SK)) ** E1550.SK)
 			(E549 (ORIENTS E1550.SK))
 			(E1550.SK (AT-ABOUT NOW491))
 			(HAT1551.SK HAT.N)
 			(MAN1552.SK MAN.N)
 		)
-		( ; "The man is good to the dog."
+		( "The man is good to the dog."
 			((MAN1554.SK ((:R (TO.P DOG1556.SK)) GOOD.A)) ** OBJECT1555.SK)
 			((MAN1554.SK ((:R (TO.P DOG1556.SK)) GOOD.A)) ** E1553.SK)
 			(MAN1554.SK MAN.N)
@@ -2504,13 +2504,13 @@
 			(OBJECT1555.SK (AT-ABOUT NOW492))
 			(DOG1556.SK DOG.N)
 		)
-		( ; "The cow can run."
+		( "The cow can run."
 			(COW1558.SK COW.N)
 			(E1557.SK (AT-ABOUT NOW493))
 			(E551 (ORIENTS E1557.SK))
 			((COW1558.SK (CAN.MD RUN.V)) ** E1557.SK)
 		)
-		( ; "She can not play."
+		( "She can not play."
 			((NOT (SHE.PRO (CAN.MD PLAY.V))) ** OBJECT1559.SK)
 			(E552 (ORIENTS OBJECT1559.SK))
 			(OBJECT1559.SK (AT-ABOUT NOW494))
@@ -2518,7 +2518,7 @@
 	)
 
 	(
-		( ; "He holds the horse's foot."
+		( "He holds the horse's foot."
 			(FOOT1565.SK (PERTAIN-TO HORSE1566.SK))
 			(FOOT1565.SK FOOT.N)
 			(OBJECT1563.SK (AT-ABOUT NOW496))
@@ -2526,19 +2526,19 @@
 			((HE.PRO (HOLD.V FOOT1565.SK)) ** OBJECT1563.SK)
 			(HORSE1566.SK HORSE.N)
 		)
-		( ; "The shoes are made of iron."
+		( "The shoes are made of iron."
 			(OBJECT1568.SK (PLUR SHOE.N))
 			(E1567.SK (AT-ABOUT NOW497))
 			(E555 (ORIENTS E1567.SK))
 			((OBJECT1568.SK ((:R (OF.P (K IRON.N))) (BE.PASV MAKE.V))) ** E1567.SK)
 		)
-		( ; "It does not hurt the horse."
+		( "It does not hurt the horse."
 			((NOT (IT.PRO (HURT.V HORSE1575.SK))) ** OBJECT1574.SK)
 			(E557 (ORIENTS OBJECT1574.SK))
 			(OBJECT1574.SK (AT-ABOUT NOW499))
 			(HORSE1575.SK HORSE.N)
 		)
-		( ; "His hoofs are hard."
+		( "His hoofs are hard."
 			(HOOFS1577.SK (PERTAIN-TO HE.PRO))
 			(HOOFS1577.SK (PLUR HOOF.N))
 			(E1576.SK (RIGHT-AFTER U499))
@@ -2551,20 +2551,20 @@
 	)
 
 	(
-		( ; "Ned has a gun."
+		( "Ned has a gun."
 			((NED.NAME (HAVE.V GUN1582.SK)) ** OBJECT1581.SK)
 			(E561 (ORIENTS OBJECT1581.SK))
 			(OBJECT1581.SK (AT-ABOUT NOW503))
 			(GUN1582.SK GUN.N)
 		)
-		( ; "Max has a big flag."
+		( "Max has a big flag."
 			((MAX.NAME (HAVE.V FLAG1586.SK)) ** OBJECT1583.SK)
 			(E562 (ORIENTS OBJECT1583.SK))
 			(OBJECT1583.SK (AT-ABOUT NOW504))
 			(FLAG1586.SK BIG.A)
 			(FLAG1586.SK FLAG.N)
 		)
-		( ; "All three boys have caps."
+		( "All three boys have caps."
 			(((SET-OF BOY1591.SK BOY1590.SK BOY1589.SK) (HAVE.V (K (PLUR CAP.N)))) **
     OBJECT1592.SK)
 			(BOY1589.SK BOY.N)
@@ -2576,7 +2576,7 @@
 	)
 
 	(
-		( ; "I can see a bird on the tree."
+		( "I can see a bird on the tree."
 			(BIRD1595.SK (ON.P TREE1596.SK))
 			(BIRD1595.SK BIRD.N)
 			(E1593.SK (AT-ABOUT NOW507))
@@ -2584,7 +2584,7 @@
 			((ME.PRO ((CAN.MD SEE.V) BIRD1595.SK)) ** E1593.SK)
 			(TREE1596.SK TREE.N)
 		)
-		( ; "It has a small bill, and a long tail."
+		( "It has a small bill, and a long tail."
 			((IT.PRO (HAVE.V (SET-OF BILL1604.SK LONG1606.SK))) ** OBJECT1598.SK)
 			(E567 (ORIENTS OBJECT1598.SK))
 			(OBJECT1598.SK (AT-ABOUT NOW509))
@@ -2593,14 +2593,14 @@
 			(BILL1604.SK SMALL.A)
 			(BILL1604.SK BILL.N)
 		)
-		( ; "It can fly over a tall tree."
+		( "It can fly over a tall tree."
 			(TREE1614.SK TREE.N)
 			(TREE1614.SK TALL.A)
 			(E1611.SK (AT-ABOUT NOW511))
 			(E571 (ORIENTS E1611.SK))
 			((IT.PRO (CAN.MD ((:R (OVER.P TREE1614.SK)) FLY.V))) ** E1611.SK)
 		)
-		( ; "It will sing."
+		( "It will sing."
 			(E1620.SK (AT-ABOUT NOW514))
 			(E576 (ORIENTS E1620.SK))
 			((IT.PRO (WILL.MD SING.V)) ** E1620.SK)
@@ -2608,7 +2608,7 @@
 	)
 
 	(
-		( ; "The boys like to go to the woods."
+		( "The boys like to go to the woods."
 			((BOYS1622.SK (LIKE.V (KA ((:R (TO.P OBJECT1624.SK)) GO.V)))) **
     OBJECT1623.SK)
 			((BOYS1622.SK (LIKE.V (KA ((:R (TO.P OBJECT1624.SK)) GO.V)))) ** E1621.SK)
@@ -2619,19 +2619,19 @@
 			(OBJECT1623.SK (AT-ABOUT NOW515))
 			(OBJECT1624.SK (PLUR WOOD.N))
 		)
-		( ; "Here they are now."
+		( "Here they are now."
 			((THEY.PRO (HERE.ADV NOW.A)) ** OBJECT1625.SK)
 			(E578 (ORIENTS OBJECT1625.SK))
 			(OBJECT1625.SK (AT-ABOUT NOW516))
 		)
-		( ; "They like to play in the woods."
+		( "They like to play in the woods."
 			(OBJECT1632.SK (PLUR WOOD.N))
 			(OBJECT1631.SK (AT-ABOUT NOW519))
 			(E581 (ORIENTS OBJECT1631.SK))
 			((THEY.PRO (LIKE.V (KA ((:R (IN.P OBJECT1632.SK)) PLAY.V)))) **
     OBJECT1631.SK)
 		)
-		( ; "They like to find pretty flowers."
+		( "They like to find pretty flowers."
 			(OBJECT1633.SK (AT-ABOUT NOW520))
 			(E582 (ORIENTS OBJECT1633.SK))
 			((THEY.PRO
@@ -2643,12 +2643,12 @@
           (AND (#:G103854 PRETTY.A) (#:G103854 (PLUR FLOWER.N)))))))))
     ** OBJECT1633.SK)
 		)
-		( ; "If they find little birds in a nest, they will not take them."
+		( "If they find little birds in a nest, they will not take them."
 			((NOT (THEY.PRO (WILL.MD (TAKE.V THEY.PRO)))) ** OBJECT1634.SK)
 			(E583 (ORIENTS OBJECT1634.SK))
 			(OBJECT1634.SK (AT-ABOUT NOW521))
 		)
-		( ; "They will ride home in the wagon."
+		( "They will ride home in the wagon."
 			(WAGON1639.SK WAGON.N)
 			(E1638.SK (AT-ABOUT NOW523))
 			(E585 (ORIENTS E1638.SK))
@@ -2658,7 +2658,7 @@
 	)
 
 	(
-		( ; "The boys like to go to the woods."
+		( "The boys like to go to the woods."
 			((BOYS1641.SK (LIKE.V (KA ((:R (TO.P OBJECT1643.SK)) GO.V)))) **
     OBJECT1642.SK)
 			((BOYS1641.SK (LIKE.V (KA ((:R (TO.P OBJECT1643.SK)) GO.V)))) ** E1640.SK)
@@ -2669,19 +2669,19 @@
 			(OBJECT1642.SK (AT-ABOUT NOW524))
 			(OBJECT1643.SK (PLUR WOOD.N))
 		)
-		( ; "Here they are now."
+		( "Here they are now."
 			((THEY.PRO (HERE.ADV NOW.A)) ** OBJECT1644.SK)
 			(E587 (ORIENTS OBJECT1644.SK))
 			(OBJECT1644.SK (AT-ABOUT NOW525))
 		)
-		( ; "They like to play in the woods."
+		( "They like to play in the woods."
 			(OBJECT1651.SK (PLUR WOOD.N))
 			(OBJECT1650.SK (AT-ABOUT NOW528))
 			(E590 (ORIENTS OBJECT1650.SK))
 			((THEY.PRO (LIKE.V (KA ((:R (IN.P OBJECT1651.SK)) PLAY.V)))) **
     OBJECT1650.SK)
 		)
-		( ; "They like to find pretty flowers."
+		( "They like to find pretty flowers."
 			(OBJECT1652.SK (AT-ABOUT NOW529))
 			(E591 (ORIENTS OBJECT1652.SK))
 			((THEY.PRO
@@ -2693,12 +2693,12 @@
           (AND (#:G105193 PRETTY.A) (#:G105193 (PLUR FLOWER.N)))))))))
     ** OBJECT1652.SK)
 		)
-		( ; "If they find little birds in a nest, they will not take them."
+		( "If they find little birds in a nest, they will not take them."
 			((NOT (THEY.PRO (WILL.MD (TAKE.V THEY.PRO)))) ** OBJECT1653.SK)
 			(E592 (ORIENTS OBJECT1653.SK))
 			(OBJECT1653.SK (AT-ABOUT NOW530))
 		)
-		( ; "They will ride home in the wagon."
+		( "They will ride home in the wagon."
 			(WAGON1658.SK WAGON.N)
 			(E1657.SK (AT-ABOUT NOW532))
 			(E594 (ORIENTS E1657.SK))
@@ -2708,13 +2708,13 @@
 	)
 
 	(
-		( ; "He draws me in a wagon."
+		( "He draws me in a wagon."
 			((HE.PRO (((:R (IN.P WAGON1666.SK)) DRAW.V) ME.PRO)) ** OBJECT1665.SK)
 			(E597 (ORIENTS OBJECT1665.SK))
 			(OBJECT1665.SK (AT-ABOUT NOW535))
 			(WAGON1666.SK WAGON.N)
 		)
-		( ; "He can run as fast as Tom's horse."
+		( "He can run as fast as Tom's horse."
 			(OBJECT1671.SK (AT-ABOUT NOW537))
 			(E600 (ORIENTS OBJECT1671.SK))
 			(E1669.SK (SAME-TIME NOW537))
@@ -2726,12 +2726,12 @@
 			((HE.PRO (CAN.MD ((ADV-A AS.ADV FAST.ADV (AS.P HORSE1670.SK)) RUN.V))) **
     OBJECT1671.SK)
 		)
-		( ; "I call him Dan."
+		( "I call him Dan."
 			((ME.PRO (CALL.V HE.PRO DAN.NAME)) ** OBJECT1672.SK)
 			(E601 (ORIENTS OBJECT1672.SK))
 			(OBJECT1672.SK (AT-ABOUT NOW538))
 		)
-		( ; "He will eat from my hand."
+		( "He will eat from my hand."
 			(HAND1677.SK (PERTAIN-TO ME.PRO))
 			(HAND1677.SK HAND.N)
 			(E1675.SK (AT-ABOUT NOW540))
@@ -2741,7 +2741,7 @@
 	)
 
 	(
-		( ; "Her home is far away."
+		( "Her home is far away."
 			(HOME1688.SK (PERTAIN-TO SHE.PRO))
 			(HOME1688.SK HOME.N)
 			(E1687.SK (RIGHT-AFTER U547))
@@ -2751,7 +2751,7 @@
 			((HOME1688.SK (FAR.ADV AWAY.A)) ** OBJECT1689.SK)
 			((HOME1688.SK (FAR.ADV AWAY.A)) ** E1687.SK)
 		)
-		( ; "She has come to see  Frank and May."
+		( "She has come to see  Frank and May."
 			((SHE.PRO (COME.V (KA (SEE.V (SET-OF FRANK.NAME MAY.NAME))))) ** E1691.SK)
 			((SHE.PRO (COME.V (KA (SEE.V (SET-OF FRANK.NAME MAY.NAME))))) ** E1690.SK)
 			(E1690.SK (AT-ABOUT NOW549))
@@ -2759,7 +2759,7 @@
 			(E1691.SK (IMPINGES-ON E1690.SK))
 			(E570 (ORIENTS E1691.SK))
 		)
-		( ; "All the little girls love Lucy."
+		( "All the little girls love Lucy."
 			((GIRLS1693.SK (LOVE.V LUCY.NAME)) ** OBJECT1694.SK)
 			((GIRLS1693.SK (LOVE.V LUCY.NAME)) ** E1692.SK)
 			(E1692.SK (RIGHT-AFTER U549))
@@ -2769,7 +2769,7 @@
 			(GIRLS1693.SK LITTLE.A)
 			(GIRLS1693.SK (PLUR GIRL.N))
 		)
-		( ; "He will give her the whip, and the horse will go fast."
+		( "He will give her the whip, and the horse will go fast."
 			((HE.PRO ((WILL.MD GIVE.V) SHE.PRO WHIP1703.SK)) ** E1702.SK)
 			((HORSE1704.SK (WILL.MD (FAST.ADV GO.V))) ** E1701.SK)
 			(E622 (ORIENTS E1701.SK))
@@ -2782,13 +2782,13 @@
 	)
 
 	(
-		( ; "They like to play in the sand."
+		( "They like to play in the sand."
 			(SAND1717.SK SAND.N)
 			(OBJECT1716.SK (AT-ABOUT NOW557))
 			(E627 (ORIENTS OBJECT1716.SK))
 			((THEY.PRO (LIKE.V (KA ((:R (IN.P SAND1717.SK)) PLAY.V)))) ** OBJECT1716.SK)
 		)
-		( ; "Sometimes these little girls find pretty shells in the sand."
+		( "Sometimes these little girls find pretty shells in the sand."
 			((LITTLE1733.SK
      ((SOMETIMES.ADV ((:R (IN.P SAND1732.SK)) FIND.V))
       (K (L #:G111314 (AND (#:G111314 PRETTY.A) (#:G111314 (PLUR SHELL.N)))))))
@@ -2803,7 +2803,7 @@
 	)
 
 	(
-		( ; "The monkey has a cocoanut."
+		( "The monkey has a cocoanut."
 			((MONKEY1747.SK (HAVE.V COCOANUT1749.SK)) ** OBJECT1748.SK)
 			((MONKEY1747.SK (HAVE.V COCOANUT1749.SK)) ** E1746.SK)
 			(MONKEY1747.SK MONKEY.N)
@@ -2813,18 +2813,18 @@
 			(OBJECT1748.SK (AT-ABOUT NOW564))
 			(COCOANUT1749.SK COCOANUT.N)
 		)
-		( ; "He likes the cocoanut."
+		( "He likes the cocoanut."
 			((HE.PRO (LIKE.V COCOANUT1751.SK)) ** OBJECT1750.SK)
 			(E640 (ORIENTS OBJECT1750.SK))
 			(OBJECT1750.SK (AT-ABOUT NOW565))
 			(COCOANUT1751.SK COCOANUT.N)
 		)
-		( ; "He will eat it."
+		( "He will eat it."
 			(E1752.SK (AT-ABOUT NOW566))
 			(E641 (ORIENTS E1752.SK))
 			((HE.PRO (WILL.MD (EAT.V IT.PRO))) ** E1752.SK)
 		)
-		( ; "The monkey is brown."
+		( "The monkey is brown."
 			(MONKEY1754.SK MONKEY.N)
 			(E1753.SK (RIGHT-AFTER U566))
 			(E1753.SK (SAME-TIME NOW567))
@@ -2833,14 +2833,14 @@
 			((MONKEY1754.SK BROWN.A) ** OBJECT1755.SK)
 			((MONKEY1754.SK BROWN.A) ** E1753.SK)
 		)
-		( ; "It has a large tail."
+		( "It has a large tail."
 			((IT.PRO (HAVE.V TAIL1759.SK)) ** OBJECT1756.SK)
 			(E643 (ORIENTS OBJECT1756.SK))
 			(OBJECT1756.SK (AT-ABOUT NOW568))
 			(TAIL1759.SK LARGE.A)
 			(TAIL1759.SK TAIL.N)
 		)
-		( ; "His eyes are large."
+		( "His eyes are large."
 			(EYES1761.SK (PERTAIN-TO HE.PRO))
 			(EYES1761.SK (PLUR EYE.N))
 			(E1760.SK (RIGHT-AFTER U568))
@@ -2853,14 +2853,14 @@
 	)
 
 	(
-		( ; "The monkey can climb a tree."
+		( "The monkey can climb a tree."
 			((MONKEY1764.SK ((CAN.MD CLIMB.V) TREE1765.SK)) ** E1763.SK)
 			(E645 (ORIENTS E1763.SK))
 			(E1763.SK (AT-ABOUT NOW570))
 			(MONKEY1764.SK MONKEY.N)
 			(TREE1765.SK TREE.N)
 		)
-		( ; "He climbs the tree and gets a cocoanut."
+		( "He climbs the tree and gets a cocoanut."
 			(E646 (ORIENTS OBJECT1766.SK))
 			(OBJECT1766.SK (AT-ABOUT NOW571))
 			(TREE1767.SK TREE.N)
@@ -2871,7 +2871,7 @@
 			((HE.PRO (GET.V COCOANUT1769.SK)) ** OBJECT1768.SK)
 			((HE.PRO (CLIMB.V TREE1767.SK)) ** OBJECT1766.SK)
 		)
-		( ; "He drops the cocoanut to the ground."
+		( "He drops the cocoanut to the ground."
 			(COCOANUT1772.SK (TO.P GROUND1773.SK))
 			(COCOANUT1772.SK COCOANUT.N)
 			(OBJECT1770.SK (AT-ABOUT NOW572))
@@ -2879,7 +2879,7 @@
 			((HE.PRO (DROP.V COCOANUT1772.SK)) ** OBJECT1770.SK)
 			(GROUND1773.SK GROUND.N)
 		)
-		( ; "He comes down and eats it."
+		( "He comes down and eats it."
 			((HE.PRO (EAT.V IT.PRO)) ** OBJECT1775.SK)
 			((HE.PRO (EAT.V IT.PRO)) ** E1777.SK)
 			((HE.PRO (DOWN.ADV COME.V)) ** E1776.SK)
@@ -2891,7 +2891,7 @@
 			(E1777.SK (DURING E1774.SK))
 			(E1776.SK (CONSEC E1777.SK))
 		)
-		( ; "Luisa is afraid of large monkeys."
+		( "Luisa is afraid of large monkeys."
 			((AND (LUISA.NAME AFRAID.A)
          (LUISA.NAME
           (OF.P
@@ -2905,7 +2905,7 @@
 	)
 
 	(
-		( ; "The sun is up."
+		( "The sun is up."
 			(SUN1789.SK SUN.N)
 			(E1788.SK (RIGHT-AFTER U577))
 			(E1788.SK (SAME-TIME NOW578))
@@ -2914,7 +2914,7 @@
 			((SUN1789.SK UP.A) ** OBJECT1790.SK)
 			((SUN1789.SK UP.A) ** E1788.SK)
 		)
-		( ; "The man has fed the black hen and the fat duck."
+		( "The man has fed the black hen and the fat duck."
 			(E628 (ORIENTS E1792.SK))
 			(E1792.SK (IMPINGES-ON E1791.SK))
 			(E656 (ORIENTS E1791.SK))
@@ -2927,7 +2927,7 @@
 			((MAN1793.SK (FED.V (SET-OF HEN1799.SK FAT1801.SK))) ** E1791.SK)
 			((MAN1793.SK (FED.V (SET-OF HEN1799.SK FAT1801.SK))) ** E1792.SK)
 		)
-		( ; "The hen has run to her nest."
+		( "The hen has run to her nest."
 			(E658 (ORIENTS E1807.SK))
 			(E1807.SK (IMPINGES-ON E1806.SK))
 			(E660 (ORIENTS E1806.SK))
@@ -2938,7 +2938,7 @@
 			((HEN1808.SK ((:R (TO.P NEST1810.SK)) RUN.V)) ** E1806.SK)
 			((HEN1808.SK ((:R (TO.P NEST1810.SK)) RUN.V)) ** E1807.SK)
 		)
-		( ; "We will go to see Tom and his top."
+		( "We will go to see Tom and his top."
 			(TOP1814.SK (TOP-OF.N TOM.NAME))
 			(TOP1814.SK TOP.N)
 			(E1812.SK (AT-ABOUT NOW584))
@@ -2949,7 +2949,7 @@
 	)
 
 	(
-		( ; "Three birds are in the tree."
+		( "Three birds are in the tree."
 			((BIRDS1815.SK (IN.P TREE1817.SK)) ** OBJECT1816.SK)
 			(BIRDS1815.SK THREE.A)
 			(BIRDS1815.SK (PLUR BIRD.N))
@@ -2957,7 +2957,7 @@
 			(OBJECT1816.SK (AT-ABOUT NOW585))
 			(TREE1817.SK TREE.N)
 		)
-		( ; "One is a pretty red bird."
+		( "One is a pretty red bird."
 			((PRED?1818.SK (= BIRD1821.SK)) ** OBJECT1819.SK)
 			(PRED?1818.SK PRED?.N)
 			(E665 (ORIENTS OBJECT1819.SK))
@@ -2965,18 +2965,18 @@
 			(BIRD1821.SK (PRETTY.ADV RED.A))
 			(BIRD1821.SK BIRD.N)
 		)
-		( ; "You can not catch it."
+		( "You can not catch it."
 			((NOT (YOU.PRO (CAN.MD (CATCH.V IT.PRO)))) ** OBJECT1822.SK)
 			(E666 (ORIENTS OBJECT1822.SK))
 			(OBJECT1822.SK (AT-ABOUT NOW587))
 		)
-		( ; "It is high in the tree."
+		( "It is high in the tree."
 			((IT.PRO ((:R (IN.P TREE1824.SK)) HIGH.A)) ** OBJECT1823.SK)
 			(E667 (ORIENTS OBJECT1823.SK))
 			(OBJECT1823.SK (AT-ABOUT NOW588))
 			(TREE1824.SK TREE.N)
 		)
-		( ; "It can see the little girl with the red dress."
+		( "It can see the little girl with the red dress."
 			(GIRL1833.SK GIRL.N)
 			(GIRL1833.SK LITTLE.A)
 			(GIRL1833.SK (WITH.P DRESS1836.SK))
@@ -2986,7 +2986,7 @@
 			(DRESS1836.SK RED.A)
 			(DRESS1836.SK DRESS.N)
 		)
-		( ; "It can see the good baby and the pretty doll."
+		( "It can see the good baby and the pretty doll."
 			((IT.PRO ((CAN.MD SEE.V) (SET-OF BABY1843.SK PRETTY1845.SK))) ** E1837.SK)
 			(E670 (ORIENTS E1837.SK))
 			(E1837.SK (AT-ABOUT NOW591))
@@ -2995,7 +2995,7 @@
 			(BABY1843.SK GOOD.A)
 			(BABY1843.SK BABY.N)
 		)
-		( ; "It can see the man in the field."
+		( "It can see the man in the field."
 			(MAN1848.SK (IN.P FIELD1849.SK))
 			(MAN1848.SK MAN.N)
 			(E1846.SK (AT-ABOUT NOW592))
@@ -3006,7 +3006,7 @@
 	)
 
 	(
-		( ; "the sun has just set."
+		( "the sun has just set."
 			((SUN1852.SK (JUST.ADV SET.V)) ** E1851.SK)
 			((SUN1852.SK (JUST.ADV SET.V)) ** OBJECT1854.SK)
 			((SUN1852.SK (JUST.ADV SET.V)) ** OBJECT1853.SK)
@@ -3018,7 +3018,7 @@
 			(OBJECT1853.SK (AT-ABOUT NOW595))
 			(E673 (ORIENTS OBJECT1853.SK))
 		)
-		( ; "It is not hot, now."
+		( "It is not hot, now."
 			((NOT (IT.PRO (NOW.ADV HOT.A))) ** OBJECT1855.SK)
 			(E674 (ORIENTS OBJECT1855.SK))
 			(OBJECT1855.SK (AT-ABOUT NOW596))
@@ -3026,31 +3026,31 @@
 	)
 
 	(
-		( ; "Dash is with them."
+		( "Dash is with them."
 			(((K DASH.N) (WITH.P THEY.PRO)) ** OBJECT1867.SK)
 			(E680 (ORIENTS OBJECT1867.SK))
 			(OBJECT1867.SK (AT-ABOUT NOW603))
 		)
-		( ; "He will take her to the other side."
+		( "He will take her to the other side."
 			((HE.PRO ((WILL.MD ((:R (TO.P SIDE1878.SK)) TAKE.V)) SHE.PRO)) ** E1875.SK)
 			(E685 (ORIENTS E1875.SK))
 			(E1875.SK (AT-ABOUT NOW606))
 			(SIDE1878.SK OTHER.A)
 			(SIDE1878.SK SIDE.N)
 		)
-		( ; "She will not wet her feet."
+		( "She will not wet her feet."
 			((NOT (SHE.PRO (WILL.MD (WET.A FOOTS1880.SK)))) ** E1879.SK)
 			(FOOTS1880.SK (PERTAIN-TO SHE.PRO))
 			(FOOTS1880.SK (PLUR FOOT.N))
 			(E687 (ORIENTS E1879.SK))
 			(E1879.SK (AT-ABOUT NOW607))
 		)
-		( ; "He holds her on her."
+		( "He holds her on her."
 			((HE.PRO (((:R (ON.P SHE.PRO)) HOLD.V) SHE.PRO)) ** OBJECT1881.SK)
 			(E688 (ORIENTS OBJECT1881.SK))
 			(OBJECT1881.SK (AT-ABOUT NOW608))
 		)
-		( ; "She will not fall off."
+		( "She will not fall off."
 			((NOT (SHE.PRO (WILL.MD FALL_OFF.V))) ** OBJECT1882.SK)
 			(E689 (ORIENTS OBJECT1882.SK))
 			(OBJECT1882.SK (AT-ABOUT NOW609))
@@ -3058,7 +3058,7 @@
 	)
 
 	(
-		( ; "The sun is hot and the carabao likes to stand in the water."
+		( "The sun is hot and the carabao likes to stand in the water."
 			((CARABAO1883.SK (LIKE.V (KA ((:R (IN.P WATER1887.SK)) STAND.V)))) **
     OBJECT1886.SK)
 			(CARABAO1883.SK CARABAO.N)
@@ -3070,23 +3070,23 @@
 			(OBJECT1886.SK (AT-ABOUT NOW610))
 			(WATER1887.SK WATER.N)
 		)
-		( ; "Simeon rode him here."
+		( "Simeon rode him here."
 			(OBJECT1888.SK (BEFORE NOW611))
 			(E613 (ORIENTS OBJECT1888.SK))
 			((SIMEON.NAME (RIDE.V HE.PRO)) ** OBJECT1888.SK)
 		)
-		( ; "Soo Simeon will ride him home."
+		( "Soo Simeon will ride him home."
 			(E1889.SK (AT-ABOUT NOW612))
 			(E692 (ORIENTS E1889.SK))
 			((SOO_SIMEON.NAME (WILL.MD ((ADV-A HOME.N) (RIDE.V HE.PRO)))) ** E1889.SK)
 		)
-		( ; "He likes to sit under a tree."
+		( "He likes to sit under a tree."
 			(TREE1893.SK TREE.N)
 			(OBJECT1892.SK (AT-ABOUT NOW614))
 			(E695 (ORIENTS OBJECT1892.SK))
 			((HE.PRO (LIKE.V (KA ((:R (UNDER.P TREE1893.SK)) SIT.V)))) ** OBJECT1892.SK)
 		)
-		( ; "Three of them are old, and two of them are young."
+		( "Three of them are old, and two of them are young."
 			((PRED?1897.SK YOUNG.A) ** OBJECT1900.SK)
 			(PRED?1897.SK TWO.A)
 			(PRED?1897.SK (OF.P THEY.PRO))
@@ -3103,20 +3103,20 @@
 	)
 
 	(
-		( ; "I see a nest."
+		( "I see a nest."
 			((ME.PRO (SEE.V NEST1902.SK)) ** OBJECT1901.SK)
 			(E699 (ORIENTS OBJECT1901.SK))
 			(OBJECT1901.SK (AT-ABOUT NOW617))
 			(NEST1902.SK NEST.N)
 		)
-		( ; "The little birds can not fly."
+		( "The little birds can not fly."
 			((NOT (LITTLE1906.SK (CAN.MD FLY.V))) ** OBJECT1904.SK)
 			(E701 (ORIENTS OBJECT1904.SK))
 			(OBJECT1904.SK (AT-ABOUT NOW619))
 			(LITTLE1906.SK LITTLE.A)
 			(LITTLE1906.SK (PLUR BIRD.N))
 		)
-		( ; "The big bird is not here now."
+		( "The big bird is not here now."
 			((NOT (BIRD1910.SK (NOW.ADV HERE.A))) ** OBJECT1911.SK)
 			((NOT (BIRD1910.SK (NOW.ADV HERE.A))) ** E1909.SK)
 			(E704 (ORIENTS OBJECT1911.SK))
@@ -3126,7 +3126,7 @@
 			(BIRD1910.SK BIG.A)
 			(BIRD1910.SK BIRD.N)
 		)
-		( ; "She is high in the apple tree."
+		( "She is high in the apple tree."
 			((SHE.PRO ((:R (IN.P OBJECT1913.SK)) HIGH.A)) ** OBJECT1912.SK)
 			(E705 (ORIENTS OBJECT1912.SK))
 			(OBJECT1912.SK (AT-ABOUT NOW623))
@@ -3135,13 +3135,13 @@
 	)
 
 	(
-		( ; "Grace is running after the butterfly."
+		( "Grace is running after the butterfly."
 			(BUTTERFLY1917.SK BUTTERFLY.N)
 			(E1916.SK (AT-ABOUT NOW626))
 			(E708 (ORIENTS E1916.SK))
 			((PROG GRACE.NAME ((:R (AFTER.P BUTTERFLY1917.SK)) RUN.V)) ** E1916.SK)
 		)
-		( ; "I think not."
+		( "I think not."
 			(E1920.SK (AT-ABOUT NOW628))
 			(E710 (ORIENTS E1920.SK))
 			((NOT (ME.PRO THINK.V)) ** E1920.SK)
@@ -3149,7 +3149,7 @@
 	)
 
 	(
-		( ; "It is small and is made of silk."
+		( "It is small and is made of silk."
 			(E720 (ORIENTS OBJECT1935.SK))
 			(OBJECT1935.SK (AT-ABOUT NOW634))
 			((IT.PRO SMALL.A) ** OBJECT1934.SK)
@@ -3157,13 +3157,13 @@
 			(OBJECT1934.SK (AT-ABOUT NOW634))
 			(E719 (ORIENTS OBJECT1934.SK))
 		)
-		( ; "Pepita carries an umbrella."
+		( "Pepita carries an umbrella."
 			((PEPITA.NAME (CARRY.V UMBRELLA1937.SK)) ** OBJECT1936.SK)
 			(E721 (ORIENTS OBJECT1936.SK))
 			(OBJECT1936.SK (AT-ABOUT NOW635))
 			(UMBRELLA1937.SK UMBRELLA.N)
 		)
-		( ; "This is a picture of it."
+		( "This is a picture of it."
 			(PRED?1939.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1939.SK PRED?.N)
 			(E1938.SK (RIGHT-AFTER U635))
@@ -3175,7 +3175,7 @@
 			((PRED?1939.SK (= PICTURE1942.SK)) ** OBJECT1940.SK)
 			((PRED?1939.SK (= PICTURE1942.SK)) ** E1938.SK)
 		)
-		( ; "It comes from Japan."
+		( "It comes from Japan."
 			(OBJECT1943.SK (AT-ABOUT NOW637))
 			(E723 (ORIENTS OBJECT1943.SK))
 			((IT.PRO ((:R (FROM.P JAPAN.NAME)) COME.V)) ** OBJECT1943.SK)
@@ -3183,7 +3183,7 @@
 	)
 
 	(
-		( ; "They lay nice white eggs."
+		( "They lay nice white eggs."
 			((THEY.PRO
      (LAY.V
       (K
@@ -3196,7 +3196,7 @@
 			(E729 (ORIENTS OBJECT1960.SK))
 			(OBJECT1960.SK (AT-ABOUT NOW642))
 		)
-		( ; "You can find them in the hay."
+		( "You can find them in the hay."
 			((YOU.PRO ((CAN.MD ((:R (IN.P HAY1962.SK)) FIND.V)) THEY.PRO)) ** E1961.SK)
 			(E730 (ORIENTS E1961.SK))
 			(E1961.SK (AT-ABOUT NOW643))
@@ -3205,14 +3205,14 @@
 	)
 
 	(
-		( ; "Sometimes they sit on the bridge."
+		( "Sometimes they sit on the bridge."
 			(BRIDGE1972.SK BRIDGE.N)
 			(OBJECT1971.SK (AT-ABOUT NOW648))
 			(E735 (ORIENTS OBJECT1971.SK))
 			((THEY.PRO (SOMETIMES.ADV ((:R (ON.P BRIDGE1972.SK)) SIT.V))) **
     OBJECT1971.SK)
 		)
-		( ; "Sometimes they sit on the bank of the river."
+		( "Sometimes they sit on the bank of the river."
 			(BANK1975.SK (OF.P RIVER1976.SK))
 			(BANK1975.SK BANK.N)
 			(OBJECT1973.SK (AT-ABOUT NOW649))
@@ -3220,7 +3220,7 @@
 			((THEY.PRO (SOMETIMES.ADV ((:R (ON.P BANK1975.SK)) SIT.V))) ** OBJECT1973.SK)
 			(RIVER1976.SK RIVER.N)
 		)
-		( ; "This morning Simeon caught a large fish."
+		( "This morning Simeon caught a large fish."
 			(E1979.SK (SAME-TIME NOW651))
 			(E1979.SK (RIGHT-AFTER U650))
 			(MORNING1980.SK MORNING.N)
@@ -3230,7 +3230,7 @@
 	)
 
 	(
-		( ; "This is red clover."
+		( "This is red clover."
 			(PRED?1988.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?1988.SK PRED?.N)
 			(E1987.SK (RIGHT-AFTER U654))
@@ -3244,7 +3244,7 @@
      (= (K (L #:G130582 (AND (#:G130582 RED.A) (#:G130582 CLOVER.N))))))
     ** E1987.SK)
 		)
-		( ; "The bees like it."
+		( "The bees like it."
 			((BEES1991.SK (LIKE.V IT.PRO)) ** OBJECT1992.SK)
 			((BEES1991.SK (LIKE.V IT.PRO)) ** E1990.SK)
 			(BEES1991.SK (PLUR BEE.N))
@@ -3253,7 +3253,7 @@
 			(E742 (ORIENTS OBJECT1992.SK))
 			(OBJECT1992.SK (AT-ABOUT NOW656))
 		)
-		( ; "They find sweet nectar in the clover flowers."
+		( "They find sweet nectar in the clover flowers."
 			((THEY.PRO
      (((:R (IN.P OBJECT1994.SK)) FIND.V)
       (K (L #:G131031 (AND (#:G131031 SWEET.A) (#:G131031 NECTAR.N))))))
@@ -3262,12 +3262,12 @@
 			(OBJECT1993.SK (AT-ABOUT NOW657))
 			(OBJECT1994.SK ((NN CLOVER.N) (PLUR FLOWER.N)))
 		)
-		( ; "It is sweet."
+		( "It is sweet."
 			((IT.PRO SWEET.A) ** OBJECT1998.SK)
 			(E745 (ORIENTS OBJECT1998.SK))
 			(OBJECT1998.SK (AT-ABOUT NOW660))
 		)
-		( ; "It grows in the fields with red clover and yellow buttercups."
+		( "It grows in the fields with red clover and yellow buttercups."
 			(OBJECT2006.SK (PLUR FIELD.N))
 			(OBJECT2005.SK (AT-ABOUT NOW662))
 			(E748 (ORIENTS OBJECT2005.SK))
@@ -3281,7 +3281,7 @@
       ((:R (IN.P OBJECT2006.SK)) GROW.V)))
     ** OBJECT2005.SK)
 		)
-		( ; "Horses and cows eat clover."
+		( "Horses and cows eat clover."
 			(((SET-OF (K (PLUR HORSE.N)) (K (PLUR COW.N))) (EAT.V (K CLOVER.N))) **
     OBJECT2007.SK)
 			(E750 (ORIENTS OBJECT2007.SK))
@@ -3290,7 +3290,7 @@
 	)
 
 	(
-		( ; "I can get into bed, and then you can not get me."
+		( "I can get into bed, and then you can not get me."
 			((NOT (YOU.PRO (CAN.MD (THEN.ADV (GET.V ME.PRO))))) ** OBJECT2009.SK)
 			(E2008.SK (AT-ABOUT NOW664))
 			(E751 (ORIENTS E2008.SK))
@@ -3298,7 +3298,7 @@
 			(OBJECT2009.SK (AT-ABOUT NOW664))
 			(E752 (ORIENTS OBJECT2009.SK))
 		)
-		( ; "This is my red dress."
+		( "This is my red dress."
 			(PRED?2015.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?2015.SK PRED?.N)
 			(E2014.SK (RIGHT-AFTER U666))
@@ -3311,29 +3311,29 @@
 			((PRED?2015.SK (= DRESS2019.SK)) ** OBJECT2016.SK)
 			((PRED?2015.SK (= DRESS2019.SK)) ** E2014.SK)
 		)
-		( ; "I am Nell."
+		( "I am Nell."
 			((ME.PRO (= NELL.NAME)) ** OBJECT2020.SK)
 			(E756 (ORIENTS OBJECT2020.SK))
 			(OBJECT2020.SK (AT-ABOUT NOW668))
 		)
-		( ; "I can not get you."
+		( "I can not get you."
 			((NOT (ME.PRO (CAN.MD (GET.V YOU.PRO)))) ** OBJECT2022.SK)
 			(E758 (ORIENTS OBJECT2022.SK))
 			(OBJECT2022.SK (AT-ABOUT NOW670))
 		)
-		( ; "You can get into bed."
+		( "You can get into bed."
 			(E2023.SK (AT-ABOUT NOW671))
 			(E759 (ORIENTS E2023.SK))
 			((YOU.PRO (CAN.MD ((:R (INTO.P (K BED.N))) GET.V))) ** E2023.SK)
 		)
-		( ; "Nell, you have a pretty dress."
+		( "Nell, you have a pretty dress."
 			(DRESS2027.SK DRESS.N)
 			(DRESS2027.SK PRETTY.A)
 			(OBJECT2024.SK (AT-ABOUT NOW672))
 			(E760 (ORIENTS OBJECT2024.SK))
 			((YOU.PRO (HAVE.V DRESS2027.SK)) ** OBJECT2024.SK)
 		)
-		( ; "I have a black dress."
+		( "I have a black dress."
 			((ME.PRO (HAVE.V DRESS2031.SK)) ** OBJECT2028.SK)
 			(E761 (ORIENTS OBJECT2028.SK))
 			(OBJECT2028.SK (AT-ABOUT NOW673))
@@ -3343,7 +3343,7 @@
 	)
 
 	(
-		( ; "This large animal is an elephant."
+		( "This large animal is an elephant."
 			(ANIMAL2043.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(E2042.SK (RIGHT-AFTER U676))
 			(E2042.SK (SAME-TIME NOW677))
@@ -3355,7 +3355,7 @@
 			((ANIMAL2043.SK (= ELEPHANT2045.SK)) ** OBJECT2044.SK)
 			((ANIMAL2043.SK (= ELEPHANT2045.SK)) ** E2042.SK)
 		)
-		( ; "His ears look like fans."
+		( "His ears look like fans."
 			((EARS2047.SK
      ((:R
        (L #:G134957 (AND (#:G134957 LIKE.P) (#:G134957 (= (K (PLUR FAN.N)))))))
@@ -3373,7 +3373,7 @@
 			(E767 (ORIENTS OBJECT2048.SK))
 			(OBJECT2048.SK (AT-ABOUT NOW678))
 		)
-		( ; "The elephant eats grass and green corn."
+		( "The elephant eats grass and green corn."
 			((ELEPHANT2053.SK
      (EAT.V
       (SET-OF (K GRASS.N)
@@ -3390,7 +3390,7 @@
 			(E769 (ORIENTS OBJECT2054.SK))
 			(OBJECT2054.SK (AT-ABOUT NOW680))
 		)
-		( ; "He likes oranges bananas and peanuts."
+		( "He likes oranges bananas and peanuts."
 			((HE.PRO
      (LIKE.V (K (PLUR ORANGE.N))
       (SET-OF (K (PLUR BANANA.N)) (K (PLUR PEANUT.N)))))
@@ -3398,7 +3398,7 @@
 			(E770 (ORIENTS OBJECT2055.SK))
 			(OBJECT2055.SK (AT-ABOUT NOW681))
 		)
-		( ; "Elephants live in India."
+		( "Elephants live in India."
 			(OBJECT2056.SK (AT-ABOUT NOW682))
 			(E771 (ORIENTS OBJECT2056.SK))
 			(((K (PLUR ELEPHANT.N)) ((:R (IN.P INDIA.NAME)) LIVE.V)) ** OBJECT2056.SK)
@@ -3406,7 +3406,7 @@
 	)
 
 	(
-		( ; "The stems and the leaves are green."
+		( "The stems and the leaves are green."
 			((LEAFS2061.SK GREEN.A) ** OBJECT2064.SK)
 			(LEAFS2061.SK (PLUR LEAF.N))
 			((PRED?2063.SK STEM.V) ** E2062.SK)
@@ -3416,7 +3416,7 @@
 			(E776 (ORIENTS OBJECT2064.SK))
 			(OBJECT2064.SK (AT-ABOUT NOW685))
 		)
-		( ; "He can make green paint."
+		( "He can make green paint."
 			(E2080.SK (AT-ABOUT NOW689))
 			(E783 (ORIENTS E2080.SK))
 			((HE.PRO
@@ -3428,14 +3428,14 @@
 	)
 
 	(
-		( ; "The little bird flew out."
+		( "The little bird flew out."
 			(BIRD2091.SK BIRD.N)
 			(BIRD2091.SK LITTLE.A)
 			(E2090.SK (BEFORE NOW693))
 			(E787 (ORIENTS E2090.SK))
 			((BIRD2091.SK FLY_OUT.V) ** E2090.SK)
 		)
-		( ; "It flew into a tree in the yard."
+		( "It flew into a tree in the yard."
 			(YARD2094.SK YARD.N)
 			(TREE2093.SK TREE.N)
 			(OBJECT2092.SK (BEFORE NOW694))
@@ -3443,7 +3443,7 @@
 			((IT.PRO ((:R (IN.P YARD2094.SK)) ((:R (INTO.P TREE2093.SK)) FLY.V))) **
     OBJECT2092.SK)
 		)
-		( ; "The bird did not like to live in the cage."
+		( "The bird did not like to live in the cage."
 			(CAGE2102.SK CAGE.N)
 			(BIRD2101.SK BIRD.N)
 			(OBJECT2100.SK (BEFORE NOW697))
@@ -3454,7 +3454,7 @@
 	)
 
 	(
-		( ; "They hear their sweet songs."
+		( "They hear their sweet songs."
 			((THEY.PRO (HEAR.V SWEET2118.SK)) ** OBJECT2116.SK)
 			(E802 (ORIENTS OBJECT2116.SK))
 			(OBJECT2116.SK (AT-ABOUT NOW703))
@@ -3465,14 +3465,14 @@
 	)
 
 	(
-		( ; "One mouse is on a table."
+		( "One mouse is on a table."
 			((MOUSE2124.SK (ON.P TABLE2126.SK)) ** OBJECT2125.SK)
 			(MOUSE2124.SK MOUSE.N)
 			(E808 (ORIENTS OBJECT2125.SK))
 			(OBJECT2125.SK (AT-ABOUT NOW708))
 			(TABLE2126.SK TABLE.N)
 		)
-		( ; "Two mice are near the table."
+		( "Two mice are near the table."
 			((MOUSES2127.SK (NEAR.P TABLE2129.SK)) ** OBJECT2128.SK)
 			(MOUSES2127.SK TWO.A)
 			(MOUSES2127.SK (PLUR MOUSE.N))
@@ -3480,13 +3480,13 @@
 			(OBJECT2128.SK (AT-ABOUT NOW709))
 			(TABLE2129.SK TABLE.N)
 		)
-		( ; "She wants a mouse."
+		( "She wants a mouse."
 			((SHE.PRO (WANT.V MOUSE2144.SK)) ** OBJECT2143.SK)
 			(E814 (ORIENTS OBJECT2143.SK))
 			(OBJECT2143.SK (AT-ABOUT NOW714))
 			(MOUSE2144.SK MOUSE.N)
 		)
-		( ; "A mouse has a long body, and a long tail."
+		( "A mouse has a long body, and a long tail."
 			((MOUSE2145.SK (HAVE.V (SET-OF BODY2152.SK LONG2154.SK))) ** OBJECT2146.SK)
 			(MOUSE2145.SK MOUSE.N)
 			(E815 (ORIENTS OBJECT2146.SK))
@@ -3499,7 +3499,7 @@
 	)
 
 	(
-		( ; "The cocoanut tree is tall."
+		( "The cocoanut tree is tall."
 			(TREE2158.SK ((NN COCOANUT.N) TREE.N))
 			(E2157.SK (RIGHT-AFTER U716))
 			(E2157.SK (SAME-TIME NOW717))
@@ -3508,12 +3508,12 @@
 			((TREE2158.SK TALL.A) ** OBJECT2159.SK)
 			((TREE2158.SK TALL.A) ** E2157.SK)
 		)
-		( ; "It is very pretty."
+		( "It is very pretty."
 			((IT.PRO (VERY.ADV PRETTY.A)) ** OBJECT2160.SK)
 			(E818 (ORIENTS OBJECT2160.SK))
 			(OBJECT2160.SK (AT-ABOUT NOW718))
 		)
-		( ; "Many cocoanuts grow on the tree."
+		( "Many cocoanuts grow on the tree."
 			(TREE2163.SK TREE.N)
 			(OBJECT2162.SK (AT-ABOUT NOW719))
 			(E819 (ORIENTS OBJECT2162.SK))
@@ -3521,13 +3521,13 @@
 			(COCOANUTS2161.SK MANY.A)
 			((COCOANUTS2161.SK ((:R (ON.P TREE2163.SK)) GROW.V)) ** OBJECT2162.SK)
 		)
-		( ; "Simeon can climb the tree."
+		( "Simeon can climb the tree."
 			((SIMEON.NAME ((CAN.MD CLIMB.V) TREE2165.SK)) ** E2164.SK)
 			(E820 (ORIENTS E2164.SK))
 			(E2164.SK (AT-ABOUT NOW720))
 			(TREE2165.SK TREE.N)
 		)
-		( ; "He gets the cocoanuts for his mother."
+		( "He gets the cocoanuts for his mother."
 			(OBJECT2167.SK (FOR.P MOTHER2169.SK))
 			(OBJECT2167.SK (PLUR COCOANUT.N))
 			(OBJECT2166.SK (AT-ABOUT NOW721))
@@ -3536,7 +3536,7 @@
 			(MOTHER2169.SK MOTHER.N)
 			(MOTHER2169.SK (MOTHER-OF.N HE.PRO))
 		)
-		( ; "His mother likes cocoanuts."
+		( "His mother likes cocoanuts."
 			((MOTHER2171.SK (LIKE.V (K (PLUR COCOANUT.N)))) ** OBJECT2172.SK)
 			((MOTHER2171.SK (LIKE.V (K (PLUR COCOANUT.N)))) ** E2170.SK)
 			(MOTHER2171.SK (MOTHER-OF.N HE.PRO))
@@ -3546,7 +3546,7 @@
 			(E822 (ORIENTS OBJECT2172.SK))
 			(OBJECT2172.SK (AT-ABOUT NOW722))
 		)
-		( ; "She likes to play with Simeon."
+		( "She likes to play with Simeon."
 			(OBJECT2180.SK (AT-ABOUT NOW726))
 			(E826 (ORIENTS OBJECT2180.SK))
 			((SHE.PRO (LIKE.V (KA ((:R (WITH.P SIMEON.NAME)) PLAY.V)))) ** OBJECT2180.SK)
@@ -3554,12 +3554,12 @@
 	)
 
 	(
-		( ; "He comes from China."
+		( "He comes from China."
 			(OBJECT2185.SK (AT-ABOUT NOW728))
 			(E828 (ORIENTS OBJECT2185.SK))
 			((HE.PRO ((:R (FROM.P CHINA.NAME)) COME.V)) ** OBJECT2185.SK)
 		)
-		( ; "There are handkerchiefs and slippers for the girls, and hats and coats  for the boys."
+		( "There are handkerchiefs and slippers for the girls, and hats and coats  for the boys."
 			(((SET-OF OBJECT2196.SK OBJECT2198.SK) BE.V) ** OBJECT2195.SK)
 			(E832 (ORIENTS OBJECT2195.SK))
 			(OBJECT2195.SK (AT-ABOUT NOW732))
@@ -3573,7 +3573,7 @@
 	)
 
 	(
-		( ; "The air is pure."
+		( "The air is pure."
 			(AIR2206.SK AIR.N)
 			(E2205.SK (RIGHT-AFTER U735))
 			(E2205.SK (SAME-TIME NOW736))
@@ -3582,7 +3582,7 @@
 			((AIR2206.SK PURE.A) ** OBJECT2207.SK)
 			((AIR2206.SK PURE.A) ** E2205.SK)
 		)
-		( ; "Lucy and her mamma are in the woods."
+		( "Lucy and her mamma are in the woods."
 			(MAMMA2213.SK (PERTAIN-TO LUCY.NAME))
 			(MAMMA2213.SK MAMMA.N)
 			(E2212.SK (RIGHT-AFTER U737))
@@ -3596,7 +3596,7 @@
 	)
 
 	(
-		( ; "She has gone to her home, far away."
+		( "She has gone to her home, far away."
 			(E849 (ORIENTS E2249.SK))
 			(E2249.SK (IMPINGES-ON E2248.SK))
 			(E854 (ORIENTS E2248.SK))
@@ -3606,14 +3606,14 @@
 			((SHE.PRO (AWAY.ADV (FAR.ADV ((:R (TO.P HOME2251.SK)) GO.V)))) ** E2248.SK)
 			((SHE.PRO (AWAY.ADV (FAR.ADV ((:R (TO.P HOME2251.SK)) GO.V)))) ** E2249.SK)
 		)
-		( ; "But I see May and some other girls."
+		( "But I see May and some other girls."
 			((ME.PRO (SEE.V (SET-OF MAY.NAME OTHER2254.SK))) ** OBJECT2252.SK)
 			(E855 (ORIENTS OBJECT2252.SK))
 			(OBJECT2252.SK (AT-ABOUT NOW747))
 			(OTHER2254.SK OTHER.A)
 			(OTHER2254.SK (PLUR GIRL.N))
 		)
-		( ; "John has his new book."
+		( "John has his new book."
 			((JOHN.NAME (HAVE.V BOOK2258.SK)) ** OBJECT2255.SK)
 			(E857 (ORIENTS OBJECT2255.SK))
 			(OBJECT2255.SK (AT-ABOUT NOW748))
@@ -3624,7 +3624,7 @@
 	)
 
 	(
-		( ; "This is my pet hen."
+		( "This is my pet hen."
 			(PRED?2265.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?2265.SK PRED?.N)
 			(E2264.SK (RIGHT-AFTER U750))
@@ -3637,7 +3637,7 @@
 			((PRED?2265.SK (= HEN2269.SK)) ** OBJECT2266.SK)
 			((PRED?2265.SK (= HEN2269.SK)) ** E2264.SK)
 		)
-		( ; "She left her nest, and now a rat is in it."
+		( "She left her nest, and now a rat is in it."
 			((RAT2278.SK (NOW.ADV (IN.P IT.PRO))) ** OBJECT2281.SK)
 			(RAT2278.SK RAT.N)
 			((SHE.PRO (LEAVE.V NEST2282.SK)) ** OBJECT2279.SK)
@@ -3648,7 +3648,7 @@
 			(NEST2282.SK NEST.N)
 			(NEST2282.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "The boy has a pet."
+		( "The boy has a pet."
 			((BOY2284.SK (HAVE.V PET2286.SK)) ** OBJECT2285.SK)
 			((BOY2284.SK (HAVE.V PET2286.SK)) ** E2283.SK)
 			(BOY2284.SK BOY.N)
@@ -3658,14 +3658,14 @@
 			(OBJECT2285.SK (AT-ABOUT NOW754))
 			(PET2286.SK PET.N)
 		)
-		( ; "Dash is his pet."
+		( "Dash is his pet."
 			(((K DASH.N) (= PET2289.SK)) ** OBJECT2287.SK)
 			(E867 (ORIENTS OBJECT2287.SK))
 			(OBJECT2287.SK (AT-ABOUT NOW755))
 			(PET2289.SK PET.N)
 			(PET2289.SK (PERTAIN-TO HE.PRO))
 		)
-		( ; "The black hen is my pet."
+		( "The black hen is my pet."
 			(E2290.SK (RIGHT-AFTER U755))
 			(E2290.SK (SAME-TIME NOW756))
 			(E868 (ORIENTS OBJECT2292.SK))
@@ -3677,7 +3677,7 @@
 			((HEN2291.SK (= PET2294.SK)) ** OBJECT2292.SK)
 			((HEN2291.SK (= PET2294.SK)) ** E2290.SK)
 		)
-		( ; "My pet hen has a nest."
+		( "My pet hen has a nest."
 			((HEN2296.SK (HAVE.V NEST2298.SK)) ** OBJECT2297.SK)
 			((HEN2296.SK (HAVE.V NEST2298.SK)) ** E2295.SK)
 			(HEN2296.SK (PERTAIN-TO ME.PRO))
@@ -3689,7 +3689,7 @@
 			(HEN2296.SK PET.A)
 			(HEN2296.SK HEN.N)
 		)
-		( ; "The black hen left her nest."
+		( "The black hen left her nest."
 			((HEN2301.SK (LEAVE.V NEST2304.SK)) ** OBJECT2302.SK)
 			((HEN2301.SK (LEAVE.V NEST2304.SK)) ** E2300.SK)
 			(E2300.SK (RIGHT-AFTER U758))
@@ -3701,14 +3701,14 @@
 			(HEN2301.SK BLACK.A)
 			(HEN2301.SK HEN.N)
 		)
-		( ; "A rat ran to the nest."
+		( "A rat ran to the nest."
 			(NEST2307.SK NEST.N)
 			(OBJECT2306.SK (BEFORE NOW760))
 			(E872 (ORIENTS OBJECT2306.SK))
 			(RAT2305.SK RAT.N)
 			((RAT2305.SK ((:R (TO.P NEST2307.SK)) RUN.V)) ** OBJECT2306.SK)
 		)
-		( ; "My pet hen ran."
+		( "My pet hen ran."
 			(HENS2309.SK (PLUR HEN.N))
 			(HENS2309.SK PET.A)
 			(E2308.SK (BEFORE NOW761))
@@ -3716,7 +3716,7 @@
 			(HENS2309.SK (PERTAIN-TO ME.PRO))
 			((HENS2309.SK RUN.V) ** E2308.SK)
 		)
-		( ; "Dash ran and the rat ran."
+		( "Dash ran and the rat ran."
 			(E2311.SK (BEFORE NOW762))
 			(E874 (ORIENTS E2311.SK))
 			(((K DASH.N) RUN.V) ** E2311.SK)
@@ -3725,7 +3725,7 @@
 			(RAT2312.SK RAT.N)
 			((RAT2312.SK RUN.V) ** E2310.SK)
 		)
-		( ; "The rat is not in the nest now."
+		( "The rat is not in the nest now."
 			((NOT (RAT2314.SK (NOW.ADV (IN.P NEST2316.SK)))) ** OBJECT2315.SK)
 			((NOT (RAT2314.SK (NOW.ADV (IN.P NEST2316.SK)))) ** E2313.SK)
 			(E871 (ORIENTS OBJECT2315.SK))
@@ -3735,7 +3735,7 @@
 			(E2313.SK (RIGHT-AFTER U762))
 			(E2313.SK (SAME-TIME NOW763))
 		)
-		( ; "The black hen is in the nest."
+		( "The black hen is in the nest."
 			(E2317.SK (RIGHT-AFTER U763))
 			(E2317.SK (SAME-TIME NOW764))
 			(E877 (ORIENTS OBJECT2319.SK))
@@ -3749,10 +3749,10 @@
 	)
 
 	(
-		( ; "Bluejays do not sing well."
+		( "Bluejays do not sing well."
 			(NOT ((K (PLUR BLUEJAY.N)) (WELL.ADV SING.V)))
 		)
-		( ; "A little quail has a sweet song."
+		( "A little quail has a sweet song."
 			((QUAIL2322.SK (HAVE.V SONG2326.SK)) ** OBJECT2323.SK)
 			(E879 (ORIENTS OBJECT2323.SK))
 			(OBJECT2323.SK (AT-ABOUT NOW767))
@@ -3761,14 +3761,14 @@
 			(QUAIL2322.SK LITTLE.A)
 			(QUAIL2322.SK QUAIL.N)
 		)
-		( ; "He is a shy bird."
+		( "He is a shy bird."
 			((HE.PRO (= BIRD2330.SK)) ** OBJECT2327.SK)
 			(E880 (ORIENTS OBJECT2327.SK))
 			(OBJECT2327.SK (AT-ABOUT NOW768))
 			(BIRD2330.SK SHY.A)
 			(BIRD2330.SK BIRD.N)
 		)
-		( ; "I see an owl in the tree."
+		( "I see an owl in the tree."
 			(OWL2336.SK (IN.P TREE2337.SK))
 			(OWL2336.SK OWL.N)
 			(OBJECT2334.SK (AT-ABOUT NOW770))
@@ -3776,7 +3776,7 @@
 			((ME.PRO (SEE.V OWL2336.SK)) ** OBJECT2334.SK)
 			(TREE2337.SK TREE.N)
 		)
-		( ; "But he can not see me."
+		( "But he can not see me."
 			((NOT (HE.PRO (CAN.MD (SEE.V ME.PRO)))) ** OBJECT2338.SK)
 			(E883 (ORIENTS OBJECT2338.SK))
 			(OBJECT2338.SK (AT-ABOUT NOW771))
@@ -3784,7 +3784,7 @@
 	)
 
 	(
-		( ; "I have a pet cat, and a pet dog."
+		( "I have a pet cat, and a pet dog."
 			((ME.PRO (HAVE.V (SET-OF CAT2354.SK PET2356.SK))) ** OBJECT2348.SK)
 			(E887 (ORIENTS OBJECT2348.SK))
 			(OBJECT2348.SK (AT-ABOUT NOW773))
@@ -3793,7 +3793,7 @@
 			(CAT2354.SK PET.A)
 			(CAT2354.SK CAT.N)
 		)
-		( ; "The cat is Tab, and the dog is Tip."
+		( "The cat is Tab, and the dog is Tip."
 			((DOG2357.SK (= (K TIP.N))) ** OBJECT2360.SK)
 			(DOG2357.SK DOG.N)
 			((CAT2358.SK (= (K TAB.N))) ** OBJECT2359.SK)
@@ -3803,26 +3803,26 @@
 			(E889 (ORIENTS OBJECT2360.SK))
 			(OBJECT2360.SK (AT-ABOUT NOW774))
 		)
-		( ; "Tip is on the rug."
+		( "Tip is on the rug."
 			(((K TIP.N) (ON.P RUG2362.SK)) ** OBJECT2361.SK)
 			(E890 (ORIENTS OBJECT2361.SK))
 			(OBJECT2361.SK (AT-ABOUT NOW775))
 			(RUG2362.SK RUG.N)
 		)
-		( ; "He sleeps on the rug at night."
+		( "He sleeps on the rug at night."
 			(RUG2364.SK RUG.N)
 			(OBJECT2363.SK (AT-ABOUT NOW776))
 			(E891 (ORIENTS OBJECT2363.SK))
 			((HE.PRO ((:R (AT.P (K NIGHT.N))) ((:R (ON.P RUG2364.SK)) SLEEP.V))) **
     OBJECT2363.SK)
 		)
-		( ; "Tab sleeps on a mat."
+		( "Tab sleeps on a mat."
 			(MAT2366.SK MAT.N)
 			(OBJECT2365.SK (AT-ABOUT NOW777))
 			(E892 (ORIENTS OBJECT2365.SK))
 			(((K TAB.N) ((:R (ON.P MAT2366.SK)) SLEEP.V)) ** OBJECT2365.SK)
 		)
-		( ; "Tab sits up and rubs her ear."
+		( "Tab sits up and rubs her ear."
 			(((K TAB.N) (RUB.V EAR2374.SK)) ** OBJECT2370.SK)
 			(((K TAB.N) (RUB.V EAR2374.SK)) ** E2373.SK)
 			(((K TAB.N) SIT_UP.V) ** E2372.SK)
@@ -3836,13 +3836,13 @@
 			(EAR2374.SK EAR.N)
 			(EAR2374.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "Tab and Tip are on the rug now."
+		( "Tab and Tip are on the rug now."
 			(((SET-OF (K TAB.N) (K TIP.N)) (NOW.ADV (ON.P RUG2384.SK))) ** OBJECT2383.SK)
 			(E897 (ORIENTS OBJECT2383.SK))
 			(OBJECT2383.SK (AT-ABOUT NOW782))
 			(RUG2384.SK RUG.N)
 		)
-		( ; "Tab mews, and runs to her own mat."
+		( "Tab mews, and runs to her own mat."
 			(((K TAB.N) ((:R (TO.P MAT2394.SK)) RUN.V)) ** OBJECT2389.SK)
 			(((K TAB.N) ((:R (TO.P MAT2394.SK)) RUN.V)) ** E2392.SK)
 			(((K TAB.N) MEW.V) ** E2391.SK)
@@ -3860,7 +3860,7 @@
 	)
 
 	(
-		( ; "This is Simeon's knife."
+		( "This is Simeon's knife."
 			(PRED?2396.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?2396.SK PRED?.N)
 			(E2395.SK (RIGHT-AFTER U784))
@@ -3872,7 +3872,7 @@
 			((PRED?2396.SK (= KNIFE2399.SK)) ** OBJECT2397.SK)
 			((PRED?2396.SK (= KNIFE2399.SK)) ** E2395.SK)
 		)
-		( ; "His father bought it for him."
+		( "His father bought it for him."
 			((FATHER2401.SK (((:R (FOR.P HE.PRO)) BUY.V) IT.PRO)) ** OBJECT2402.SK)
 			((FATHER2401.SK (((:R (FOR.P HE.PRO)) BUY.V) IT.PRO)) ** E2400.SK)
 			(FATHER2401.SK (FATHER-OF.N HE.PRO))
@@ -3882,12 +3882,12 @@
 			(E876 (ORIENTS OBJECT2402.SK))
 			(OBJECT2402.SK (BEFORE NOW786))
 		)
-		( ; "They are sharp."
+		( "They are sharp."
 			((THEY.PRO SHARP.A) ** OBJECT2404.SK)
 			(E904 (ORIENTS OBJECT2404.SK))
 			(OBJECT2404.SK (AT-ABOUT NOW788))
 		)
-		( ; "Simeon carries a knife in his pocket."
+		( "Simeon carries a knife in his pocket."
 			(KNIFE2407.SK (IN.P POCKET2409.SK))
 			(KNIFE2407.SK KNIFE.N)
 			(OBJECT2405.SK (AT-ABOUT NOW789))
@@ -3896,7 +3896,7 @@
 			(POCKET2409.SK POCKET.N)
 			(POCKET2409.SK (PERTAIN-TO HE.PRO))
 		)
-		( ; "Luisa likes her fan very much."
+		( "Luisa likes her fan very much."
 			((LUISA.NAME (LIKE.V FAN2412.SK)) ** OBJECT2410.SK)
 			(E906 (ORIENTS OBJECT2410.SK))
 			(OBJECT2410.SK (AT-ABOUT NOW790))
@@ -3904,21 +3904,21 @@
 			(FAN2412.SK FAN.N)
 			(FAN2412.SK (PERTAIN-TO LUISA.NAME))
 		)
-		( ; "It is a pretty fan."
+		( "It is a pretty fan."
 			((IT.PRO (= FAN2416.SK)) ** OBJECT2413.SK)
 			(E907 (ORIENTS OBJECT2413.SK))
 			(OBJECT2413.SK (AT-ABOUT NOW791))
 			(FAN2416.SK PRETTY.A)
 			(FAN2416.SK FAN.N)
 		)
-		( ; "She carries it in her hand."
+		( "She carries it in her hand."
 			((SHE.PRO (((:R (IN.P HAND2419.SK)) CARRY.V) IT.PRO)) ** OBJECT2417.SK)
 			(E908 (ORIENTS OBJECT2417.SK))
 			(OBJECT2417.SK (AT-ABOUT NOW792))
 			(HAND2419.SK HAND.N)
 			(HAND2419.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "She puts it in her desk at school."
+		( "She puts it in her desk at school."
 			((SHE.PRO
      (((:R (AT.P (K SCHOOL.N))) ((:R (IN.P DESK2422.SK)) PUT.V)) IT.PRO))
     ** OBJECT2420.SK)
@@ -3930,13 +3930,13 @@
 	)
 
 	(
-		( ; "Here comes the band!"
+		( "Here comes the band!"
 			(OBJECT2424.SK (AT-ABOUT NOW794))
 			(E910 (ORIENTS OBJECT2424.SK))
 			(BAND2423.SK BAND.N)
 			((BAND2423.SK (HERE.ADV COME.V)) ** OBJECT2424.SK)
 		)
-		( ; "Look, too, at the man on that fine horse."
+		( "Look, too, at the man on that fine horse."
 			(HORSE2438.SK HORSE.N)
 			(HORSE2438.SK FINE.A)
 			(HORSE2438.SK NEW-SALIENT-ENTITY*.N)
@@ -3947,7 +3947,7 @@
 	)
 
 	(
-		( ; "This man is John's father."
+		( "This man is John's father."
 			(MAN2443.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(MAN2443.SK MAN.N)
 			(E2442.SK (RIGHT-AFTER U802))
@@ -3959,7 +3959,7 @@
 			((MAN2443.SK (= FATHER2446.SK)) ** OBJECT2444.SK)
 			((MAN2443.SK (= FATHER2446.SK)) ** E2442.SK)
 		)
-		( ; "The horse is Billy."
+		( "The horse is Billy."
 			(HORSE2448.SK HORSE.N)
 			(E2447.SK (RIGHT-AFTER U803))
 			(E2447.SK (SAME-TIME NOW804))
@@ -3968,7 +3968,7 @@
 			((HORSE2448.SK (= BILLY.NAME)) ** OBJECT2449.SK)
 			((HORSE2448.SK (= BILLY.NAME)) ** E2447.SK)
 		)
-		( ; "Billy is a good old horse."
+		( "Billy is a good old horse."
 			((BILLY.NAME (= HORSE2454.SK)) ** OBJECT2450.SK)
 			(E921 (ORIENTS OBJECT2450.SK))
 			(OBJECT2450.SK (AT-ABOUT NOW805))
@@ -3976,7 +3976,7 @@
 			(HORSE2454.SK OLD.A)
 			(HORSE2454.SK HORSE.N)
 		)
-		( ; "He is a fine black horse."
+		( "He is a fine black horse."
 			((HE.PRO (= HORSE2459.SK)) ** OBJECT2455.SK)
 			(E922 (ORIENTS OBJECT2455.SK))
 			(OBJECT2455.SK (AT-ABOUT NOW806))
@@ -3984,12 +3984,12 @@
 			(HORSE2459.SK BLACK.A)
 			(HORSE2459.SK HORSE.N)
 		)
-		( ; "John likes to ride on Billy."
+		( "John likes to ride on Billy."
 			(OBJECT2461.SK (AT-ABOUT NOW808))
 			(E923 (ORIENTS OBJECT2461.SK))
 			((JOHN.NAME (LIKE.V (KA ((:R (ON.P BILLY.NAME)) RIDE.V)))) ** OBJECT2461.SK)
 		)
-		( ; "Billy will not go too fast with John."
+		( "Billy will not go too fast with John."
 			((NOT
      (BILLY.NAME
       (WILL.MD (FAST.ADV (TOO.ADV ((:R (WITH.P JOHN.NAME)) GO.V))))))
@@ -3997,7 +3997,7 @@
 			(E924 (ORIENTS E2462.SK))
 			(E2462.SK (AT-ABOUT NOW809))
 		)
-		( ; "John will not fall off."
+		( "John will not fall off."
 			((NOT (JOHN.NAME (WILL.MD FALL_OFF.V))) ** OBJECT2463.SK)
 			(E925 (ORIENTS OBJECT2463.SK))
 			(OBJECT2463.SK (AT-ABOUT NOW810))
@@ -4005,14 +4005,14 @@
 	)
 
 	(
-		( ; "John has a new boat."
+		( "John has a new boat."
 			((JOHN.NAME (HAVE.V BOAT2472.SK)) ** OBJECT2469.SK)
 			(E926 (ORIENTS OBJECT2469.SK))
 			(OBJECT2469.SK (AT-ABOUT NOW813))
 			(BOAT2472.SK NEW.A)
 			(BOAT2472.SK BOAT.N)
 		)
-		( ; "His father gave it to him."
+		( "His father gave it to him."
 			((FATHER2474.SK (((:R (TO.P HE.PRO)) GIVE.V) IT.PRO)) ** OBJECT2475.SK)
 			((FATHER2474.SK (((:R (TO.P HE.PRO)) GIVE.V) IT.PRO)) ** E2473.SK)
 			(FATHER2474.SK (FATHER-OF.N HE.PRO))
@@ -4022,14 +4022,14 @@
 			(E928 (ORIENTS OBJECT2475.SK))
 			(OBJECT2475.SK (BEFORE NOW814))
 		)
-		( ; "He keeps the oars at the house."
+		( "He keeps the oars at the house."
 			((HE.PRO (((:R (AT.P HOUSE2486.SK)) KEEP.V) OBJECT2485.SK)) ** OBJECT2484.SK)
 			(E933 (ORIENTS OBJECT2484.SK))
 			(OBJECT2484.SK (AT-ABOUT NOW818))
 			(OBJECT2485.SK (PLUR OAR.N))
 			(HOUSE2486.SK HOUSE.N)
 		)
-		( ; "His home is near the river."
+		( "His home is near the river."
 			(HOME2488.SK (PERTAIN-TO HE.PRO))
 			(HOME2488.SK HOME.N)
 			(E2487.SK (RIGHT-AFTER U818))
@@ -4043,19 +4043,19 @@
 	)
 
 	(
-		( ; "One dog was black."
+		( "One dog was black."
 			((DOG2500.SK BLACK.A) ** OBJECT2501.SK)
 			(DOG2500.SK DOG.N)
 			(E940 (ORIENTS OBJECT2501.SK))
 			(OBJECT2501.SK (BEFORE NOW824))
 		)
-		( ; "One dog was white."
+		( "One dog was white."
 			((DOG2502.SK WHITE.A) ** OBJECT2503.SK)
 			(DOG2502.SK DOG.N)
 			(E941 (ORIENTS OBJECT2503.SK))
 			(OBJECT2503.SK (BEFORE NOW825))
 		)
-		( ; "The large dog was black."
+		( "The large dog was black."
 			(E2507.SK (RIGHT-AFTER U826))
 			(E2507.SK (SAME-TIME NOW827))
 			(E943 (ORIENTS OBJECT2509.SK))
@@ -4065,7 +4065,7 @@
 			((DOG2508.SK BLACK.A) ** OBJECT2509.SK)
 			((DOG2508.SK BLACK.A) ** E2507.SK)
 		)
-		( ; "The small one was white."
+		( "The small one was white."
 			(E2510.SK (RIGHT-AFTER U827))
 			(E2510.SK (SAME-TIME NOW828))
 			(E944 (ORIENTS OBJECT2512.SK))
@@ -4076,7 +4076,7 @@
 			((PRED?2511.SK WHITE.A) ** OBJECT2512.SK)
 			((PRED?2511.SK WHITE.A) ** E2510.SK)
 		)
-		( ; "No; the cats were on the steps."
+		( "No; the cats were on the steps."
 			((CATS2520.SK (NO.ADV (ON.P OBJECT2522.SK))) ** OBJECT2521.SK)
 			((CATS2520.SK (NO.ADV (ON.P OBJECT2522.SK))) ** E2519.SK)
 			(CATS2520.SK (PLUR CAT.N))
@@ -4086,7 +4086,7 @@
 			(OBJECT2521.SK (BEFORE NOW831))
 			(OBJECT2522.SK (PLUR STEP.N))
 		)
-		( ; "The white cat was lying on the steps."
+		( "The white cat was lying on the steps."
 			(CAT2527.SK CAT.N)
 			(CAT2527.SK WHITE.A)
 			(OBJECT2525.SK (PLUR STEP.N))
@@ -4097,19 +4097,19 @@
 	)
 
 	(
-		( ; "Boys like to catch fish."
+		( "Boys like to catch fish."
 			(OBJECT2535.SK (AT-ABOUT NOW835))
 			(E939 (ORIENTS OBJECT2535.SK))
 			(((K (PLUR BOY.N)) (LIKE.V (KA (CATCH.V (K FISH.N))))) ** OBJECT2535.SK)
 		)
-		( ; "It is a good sport."
+		( "It is a good sport."
 			((IT.PRO (= SPORT2539.SK)) ** OBJECT2536.SK)
 			(E952 (ORIENTS OBJECT2536.SK))
 			(OBJECT2536.SK (AT-ABOUT NOW836))
 			(SPORT2539.SK GOOD.A)
 			(SPORT2539.SK SPORT.N)
 		)
-		( ; "A hook is on the end of the line."
+		( "A hook is on the end of the line."
 			(END2545.SK (OF.P LINE2546.SK))
 			(END2545.SK END.N)
 			(OBJECT2543.SK (AT-ABOUT NOW838))
@@ -4118,14 +4118,14 @@
 			((HOOK2542.SK (ON.P END2545.SK)) ** OBJECT2543.SK)
 			(LINE2546.SK LINE.N)
 		)
-		( ; "It swims with its tail."
+		( "It swims with its tail."
 			(TAIL2555.SK (PERTAIN-TO IT.PRO))
 			(TAIL2555.SK TAIL.N)
 			(OBJECT2553.SK (AT-ABOUT NOW842))
 			(E958 (ORIENTS OBJECT2553.SK))
 			((IT.PRO ((:R (WITH.P TAIL2555.SK)) SWIM.V)) ** OBJECT2553.SK)
 		)
-		( ; "It can swim very fast."
+		( "It can swim very fast."
 			(E2556.SK (ORIENTS E2557.SK))
 			(E2557.SK (AT-ABOUT NOW843))
 			(E959 (ORIENTS E2556.SK))
@@ -4136,7 +4136,7 @@
 	)
 
 	(
-		( ; "They live in a town near the sea."
+		( "They live in a town near the sea."
 			(SEA2565.SK SEA.N)
 			(TOWN2564.SK TOWN.N)
 			(OBJECT2563.SK (AT-ABOUT NOW845))
@@ -4144,7 +4144,7 @@
 			((THEY.PRO ((:R (NEAR.P SEA2565.SK)) ((:R (IN.P TOWN2564.SK)) LIVE.V))) **
     OBJECT2563.SK)
 		)
-		( ; "They have been picking up shells for their little sister."
+		( "They have been picking up shells for their little sister."
 			((THEY.PRO (PICK_UP.V OBJECT2596.SK)) ** E2595.SK)
 			(E962 (ORIENTS E2595.SK))
 			(E2595.SK (IMPINGES-ON E971))
@@ -4157,7 +4157,7 @@
 	)
 
 	(
-		( ; "Six birds are on this tree."
+		( "Six birds are on this tree."
 			((BIRDS2609.SK (ON.P TREE2612.SK)) ** OBJECT2610.SK)
 			(BIRDS2609.SK SIX.A)
 			(BIRDS2609.SK (PLUR BIRD.N))
@@ -4166,13 +4166,13 @@
 			(TREE2612.SK TREE.N)
 			(TREE2612.SK (ATTENDED-TO-BY*.A SPEAKER))
 		)
-		( ; "Birds sing in the trees."
+		( "Birds sing in the trees."
 			(OBJECT2614.SK (PLUR TREE.N))
 			(OBJECT2613.SK (AT-ABOUT NOW855))
 			(E978 (ORIENTS OBJECT2613.SK))
 			(((K (PLUR BIRD.N)) ((:R (IN.P OBJECT2614.SK)) SING.V)) ** OBJECT2613.SK)
 		)
-		( ; "They lay pretty eggs in them."
+		( "They lay pretty eggs in them."
 			((THEY.PRO (LAY.V OBJECT2619.SK)) ** OBJECT2618.SK)
 			(E980 (ORIENTS OBJECT2618.SK))
 			(OBJECT2618.SK (AT-ABOUT NOW857))
@@ -4180,7 +4180,7 @@
 			(OBJECT2619.SK
     (= (K (L #:G176302 (AND (#:G176302 PRETTY.A) (#:G176302 (PLUR EGG.N)))))))
 		)
-		( ; "The swans have come."
+		( "The swans have come."
 			(OBJECT2625.SK (PLUR SWAN.N))
 			(E2624.SK (IMPINGES-ON E982))
 			(E972 (ORIENTS E2624.SK))
@@ -4189,7 +4189,7 @@
 	)
 
 	(
-		( ; "You can see them at their places in the school room."
+		( "You can see them at their places in the school room."
 			((YOU.PRO
      ((CAN.MD ((:R (IN.P OBJECT2644.SK)) ((:R (AT.P OBJECT2643.SK)) SEE.V)))
       THEY.PRO))
@@ -4200,7 +4200,7 @@
 			(OBJECT2643.SK (PLUR PLACE.N))
 			(OBJECT2643.SK (PERTAIN-TO THEY.PRO))
 		)
-		( ; "The teacher has been showing the children some pictures in her new book."
+		( "The teacher has been showing the children some pictures in her new book."
 			((TEACHER2654.SK (SHOW.V OBJECT2655.SK OBJECT2656.SK)) ** E2653.SK)
 			((TEACHER2654.SK (SHOW.V OBJECT2655.SK OBJECT2656.SK)) ** E2652.SK)
 			(OBJECT2656.SK (IN.P BOOK2659.SK))
@@ -4215,7 +4215,7 @@
 			(BOOK2659.SK NEW.A)
 			(BOOK2659.SK BOOK.N)
 		)
-		( ; "The children look and listen."
+		( "The children look and listen."
 			(E2663.SK (AT-ABOUT NOW871))
 			(E1003 (ORIENTS E2663.SK))
 			(E2664.SK (AT-ABOUT NOW871))
@@ -4227,7 +4227,7 @@
 	)
 
 	(
-		( ; "One day he drew them on his slate."
+		( "One day he drew them on his slate."
 			((DAY2667.SK (((:R (ON.P SLATE2670.SK)) DRAW.V) THEY.PRO)) ** OBJECT2668.SK)
 			(DAY2667.SK DAY.N)
 			(E951 (ORIENTS OBJECT2668.SK))
@@ -4235,7 +4235,7 @@
 			(SLATE2670.SK SLATE.N)
 			(SLATE2670.SK (PERTAIN-TO HE.PRO))
 		)
-		( ; "They are white rabbits, and they have pink eyes."
+		( "They are white rabbits, and they have pink eyes."
 			((THEY.PRO
      (HAVE.V
       (K (L #:G182306 (AND (#:G182306 PINK.A) (#:G182306 (PLUR EYE.N)))))))
@@ -4252,21 +4252,21 @@
 	)
 
 	(
-		( ; "Manuela and Carmen live near the sea."
+		( "Manuela and Carmen live near the sea."
 			(SEA2690.SK SEA.N)
 			(OBJECT2689.SK (AT-ABOUT NOW884))
 			(E1018 (ORIENTS OBJECT2689.SK))
 			(((SET-OF MANUELA.NAME CARMEN.NAME) ((:R (NEAR.P SEA2690.SK)) LIVE.V)) **
     OBJECT2689.SK)
 		)
-		( ; "Yesterday they found these shells."
+		( "Yesterday they found these shells."
 			((THEY.PRO (FIND.V OBJECT2694.SK)) ** OBJECT2693.SK)
 			(E1014 (ORIENTS OBJECT2693.SK))
 			(OBJECT2693.SK (BEFORE NOW886))
 			(OBJECT2694.SK (PLUR SHELL.N))
 			(OBJECT2694.SK (ATTENDED-TO-BY*.A SPEAKER))
 		)
-		( ; "A shell is the house of an animal."
+		( "A shell is the house of an animal."
 			(HOUSE2698.SK (OF.P ANIMAL2699.SK))
 			(HOUSE2698.SK HOUSE.N)
 			(OBJECT2696.SK (AT-ABOUT NOW887))
@@ -4278,7 +4278,7 @@
 	)
 
 	(
-		( ; "Now the ball is lost."
+		( "Now the ball is lost."
 			(E1031 (ORIENTS OBJECT2727.SK))
 			(OBJECT2727.SK (AT-ABOUT NOW895))
 			(BALL2726.SK BALL.N)
@@ -4287,7 +4287,7 @@
 			((BALL2726.SK (NOW.ADV (BE.PASV LOSE.V))) ** E2725.SK)
 			((BALL2726.SK (NOW.ADV (BE.PASV LOSE.V))) ** OBJECT2727.SK)
 		)
-		( ; "Ponto has found it."
+		( "Ponto has found it."
 			((PONTO.NAME (FIND.V IT.PRO)) ** E2733.SK)
 			((PONTO.NAME (FIND.V IT.PRO)) ** E2732.SK)
 			(E2732.SK (AT-ABOUT NOW899))
@@ -4295,7 +4295,7 @@
 			(E2733.SK (IMPINGES-ON E2732.SK))
 			(E1030 (ORIENTS E2733.SK))
 		)
-		( ; "Here he comes with it."
+		( "Here he comes with it."
 			(OBJECT2734.SK (AT-ABOUT NOW900))
 			(E1036 (ORIENTS OBJECT2734.SK))
 			((HE.PRO (HERE.ADV ((:R (WITH.P IT.PRO)) COME.V))) ** OBJECT2734.SK)
@@ -4303,7 +4303,7 @@
 	)
 
 	(
-		( ; "Lucy and her mother are in the woods."
+		( "Lucy and her mother are in the woods."
 			(MOTHER2746.SK (MOTHER-OF.N LUCY.NAME))
 			(MOTHER2746.SK MOTHER.N)
 			(E2745.SK (RIGHT-AFTER U903))
@@ -4314,7 +4314,7 @@
 			(((SET-OF LUCY.NAME MOTHER2746.SK) (IN.P OBJECT2748.SK)) ** OBJECT2747.SK)
 			(((SET-OF LUCY.NAME MOTHER2746.SK) (IN.P OBJECT2748.SK)) ** E2745.SK)
 		)
-		( ; "They have found a good place under a green tree."
+		( "They have found a good place under a green tree."
 			((THEY.PRO (((:R (UNDER.P GREEN2757.SK)) FIND.V) PLACE2755.SK)) ** E2749.SK)
 			(E1037 (ORIENTS E2749.SK))
 			(E2749.SK (IMPINGES-ON E1043))
@@ -4323,13 +4323,13 @@
 			(PLACE2755.SK GOOD.A)
 			(PLACE2755.SK PLACE.N)
 		)
-		( ; "Robin Redbreast is in the tree."
+		( "Robin Redbreast is in the tree."
 			((ROBIN_REDBREAST.NAME (IN.P TREE2765.SK)) ** OBJECT2764.SK)
 			(E1047 (ORIENTS OBJECT2764.SK))
 			(OBJECT2764.SK (AT-ABOUT NOW907))
 			(TREE2765.SK TREE.N)
 		)
-		( ; "By and by he will fly away to his nest."
+		( "By and by he will fly away to his nest."
 			((HE.PRO (WILL.MD (AWAY.ADV ((:R (TO.P NEST2774.SK)) FLY.V)))) **
     OBJECT2769.SK)
 			((HE.PRO (WILL.MD (AWAY.ADV ((:R (TO.P NEST2775.SK)) FLY.V)))) **
@@ -4347,7 +4347,7 @@
 	)
 
 	(
-		( ; "Lucy's home is far away."
+		( "Lucy's home is far away."
 			(HOME2788.SK (PERTAIN-TO LUCY.NAME))
 			(HOME2788.SK HOME.N)
 			(E2787.SK (RIGHT-AFTER U913))
@@ -4357,7 +4357,7 @@
 			((HOME2788.SK (FAR.ADV AWAY.A)) ** OBJECT2789.SK)
 			((HOME2788.SK (FAR.ADV AWAY.A)) ** E2787.SK)
 		)
-		( ; "We shall ride there in the big wagon with father and mother."
+		( "We shall ride there in the big wagon with father and mother."
 			(WAGON2793.SK WAGON.N)
 			(WAGON2793.SK BIG.A)
 			(E2790.SK (AT-ABOUT NOW915))
@@ -4372,7 +4372,7 @@
 	)
 
 	(
-		( ; "We have bees in our garden."
+		( "We have bees in our garden."
 			((WE.PRO (HAVE.V OBJECT2811.SK)) ** OBJECT2810.SK)
 			(E1070 (ORIENTS OBJECT2810.SK))
 			(OBJECT2810.SK (AT-ABOUT NOW922))
@@ -4381,25 +4381,25 @@
 			(OBJECT2811.SK (IN.P GARDEN2813.SK))
 			(OBJECT2811.SK (= (K (PLUR BEE.N))))
 		)
-		( ; "They live in a little house."
+		( "They live in a little house."
 			(HOUSE2817.SK HOUSE.N)
 			(HOUSE2817.SK LITTLE.A)
 			(OBJECT2814.SK (AT-ABOUT NOW923))
 			(E1071 (ORIENTS OBJECT2814.SK))
 			((THEY.PRO ((:R (IN.P HOUSE2817.SK)) LIVE.V)) ** OBJECT2814.SK)
 		)
-		( ; "Honey is very sweet."
+		( "Honey is very sweet."
 			(((K HONEY.N) (VERY.ADV SWEET.A)) ** OBJECT2831.SK)
 			(E1077 (ORIENTS OBJECT2831.SK))
 			(OBJECT2831.SK (AT-ABOUT NOW928))
 		)
-		( ; "Some bees live in trees."
+		( "Some bees live in trees."
 			(OBJECT2835.SK (AT-ABOUT NOW931))
 			(E1078 (ORIENTS OBJECT2835.SK))
 			(BEES2834.SK (PLUR BEE.N))
 			((BEES2834.SK ((:R (IN.P (K (PLUR TREE.N)))) LIVE.V)) ** OBJECT2835.SK)
 		)
-		( ; "They are wild bees."
+		( "They are wild bees."
 			((THEY.PRO
      (= (K (L #:G195674 (AND (#:G195674 WILD.A) (#:G195674 (PLUR BEE.N)))))))
     ** OBJECT2836.SK)
@@ -4409,20 +4409,20 @@
 	)
 
 	(
-		( ; "I see a nest."
+		( "I see a nest."
 			((ME.PRO (SEE.V NEST2838.SK)) ** OBJECT2837.SK)
 			(E1080 (ORIENTS OBJECT2837.SK))
 			(OBJECT2837.SK (AT-ABOUT NOW934))
 			(NEST2838.SK NEST.N)
 		)
-		( ; "The little birds cannot fly."
+		( "The little birds cannot fly."
 			(BIRDS2846.SK (PLUR BIRD.N))
 			(BIRDS2846.SK LITTLE.A)
 			(E2845.SK (AT-ABOUT NOW937))
 			(E1082 (ORIENTS E2845.SK))
 			((BIRDS2846.SK (CANNOT.ADV FLY.V)) ** E2845.SK)
 		)
-		( ; "The big bird is not here now."
+		( "The big bird is not here now."
 			((NOT (BIRD2850.SK (NOW.ADV HERE.A))) ** OBJECT2851.SK)
 			((NOT (BIRD2850.SK (NOW.ADV HERE.A))) ** E2849.SK)
 			(E1085 (ORIENTS OBJECT2851.SK))
@@ -4432,7 +4432,7 @@
 			(BIRD2850.SK BIG.A)
 			(BIRD2850.SK BIRD.N)
 		)
-		( ; "She is high in the apple tree."
+		( "She is high in the apple tree."
 			((SHE.PRO ((:R (IN.P OBJECT2853.SK)) HIGH.A)) ** OBJECT2852.SK)
 			(E1086 (ORIENTS OBJECT2852.SK))
 			(OBJECT2852.SK (AT-ABOUT NOW941))
@@ -4441,7 +4441,7 @@
 	)
 
 	(
-		( ; "This is Gracia."
+		( "This is Gracia."
 			(PRED?2857.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?2857.SK PRED?.N)
 			(E2856.SK (RIGHT-AFTER U943))
@@ -4451,22 +4451,22 @@
 			((PRED?2857.SK (= GRACIA.NAME)) ** OBJECT2858.SK)
 			((PRED?2857.SK (= GRACIA.NAME)) ** E2856.SK)
 		)
-		( ; "She is at home now."
+		( "She is at home now."
 			((SHE.PRO (NOW.ADV AT_HOME.A)) ** OBJECT2859.SK)
 			(E1090 (ORIENTS OBJECT2859.SK))
 			(OBJECT2859.SK (AT-ABOUT NOW945))
 		)
-		( ; "Then it is cool."
+		( "Then it is cool."
 			((IT.PRO (THEN.ADV COOL.A)) ** OBJECT2864.SK)
 			(E1095 (ORIENTS OBJECT2864.SK))
 			(OBJECT2864.SK (AT-ABOUT NOW948))
 		)
-		( ; "She does not go alone."
+		( "She does not go alone."
 			(OBJECT2865.SK (AT-ABOUT NOW949))
 			(E1096 (ORIENTS OBJECT2865.SK))
 			((NOT (SHE.PRO (ALONE.ADV GO.V))) ** OBJECT2865.SK)
 		)
-		( ; "Her mother and her sister Pepita go with her."
+		( "Her mother and her sister Pepita go with her."
 			(((SET-OF MOTHER2867.SK PEPITA.NAME) ((:R (WITH.P PEPITA.NAME)) GO.V)) **
     OBJECT2869.SK)
 			(((SET-OF MOTHER2867.SK PEPITA.NAME) ((:R (WITH.P PEPITA.NAME)) GO.V)) **
@@ -4480,20 +4480,20 @@
 			(E1097 (ORIENTS OBJECT2869.SK))
 			(OBJECT2869.SK (AT-ABOUT NOW950))
 		)
-		( ; "Pepita is a very little girl."
+		( "Pepita is a very little girl."
 			((PEPITA.NAME (= GIRL2872.SK)) ** OBJECT2870.SK)
 			(E1098 (ORIENTS OBJECT2870.SK))
 			(OBJECT2870.SK (AT-ABOUT NOW951))
 			(GIRL2872.SK (VERY.ADV LITTLE.A))
 			(GIRL2872.SK GIRL.N)
 		)
-		( ; "She does not wear a veil."
+		( "She does not wear a veil."
 			((NOT (SHE.PRO (WEAR.V VEIL2874.SK))) ** OBJECT2873.SK)
 			(E1099 (ORIENTS OBJECT2873.SK))
 			(OBJECT2873.SK (AT-ABOUT NOW952))
 			(VEIL2874.SK VEIL.N)
 		)
-		( ; "Sometimes she wears a large white handkerchief on her head."
+		( "Sometimes she wears a large white handkerchief on her head."
 			(WHITE2879.SK WHITE.A)
 			(WHITE2879.SK HANDKERCHIEF.N)
 			(WHITE2879.SK LARGE.A)
@@ -4507,7 +4507,7 @@
 	)
 
 	(
-		( ; "One day Ann and Frank went to the lake with Rover."
+		( "One day Ann and Frank went to the lake with Rover."
 			(DAY2885.SK (= (SET-OF ANN.NAME FRANK.NAME)))
 			(DAY2885.SK DAY.N)
 			(LAKE2884.SK LAKE.N)
@@ -4516,7 +4516,7 @@
 			((DAY2885.SK ((:R (WITH.P ROVER.NAME)) ((:R (TO.P LAKE2884.SK)) GO.V))) **
     OBJECT2883.SK)
 		)
-		( ; "Pretty soon he came out with the stick in his mouth."
+		( "Pretty soon he came out with the stick in his mouth."
 			(MOUTH2894.SK (PERTAIN-TO HE.PRO))
 			(MOUTH2894.SK MOUTH.N)
 			(STICK2892.SK STICK.N)
@@ -4531,7 +4531,7 @@
 	)
 
 	(
-		( ; "Then they are thrown into the water, one at a time."
+		( "Then they are thrown into the water, one at a time."
 			(PRED?2949.SK (AT.P TIME2950.SK))
 			(PRED?2949.SK PRED?.N)
 			((THEY.PRO (THEN.ADV ((:R (INTO.P WATER2947.SK)) (BE.PASV THROW.V)))) **
@@ -4545,7 +4545,7 @@
 	)
 
 	(
-		( ; "The mother bird sits on the nest."
+		( "The mother bird sits on the nest."
 			((BIRD2984.SK ((:R (ON.P NEST2986.SK)) SIT.V)) ** OBJECT2985.SK)
 			((BIRD2984.SK ((:R (ON.P NEST2986.SK)) SIT.V)) ** E2983.SK)
 			(BIRD2984.SK ((NN MOTHER.N) BIRD.N))
@@ -4555,26 +4555,26 @@
 			(OBJECT2985.SK (AT-ABOUT NOW974))
 			(NEST2986.SK NEST.N)
 		)
-		( ; "You cannot see the eggs."
+		( "You cannot see the eggs."
 			(OBJECT2989.SK (PLUR EGG.N))
 			(OBJECT2988.SK (AT-ABOUT NOW976))
 			(E1137 (ORIENTS OBJECT2988.SK))
 			((YOU.PRO (SEE.V OBJECT2989.SK)) ** OBJECT2988.SK)
 		)
-		( ; "The bird is sitting on them."
+		( "The bird is sitting on them."
 			(BIRD2991.SK BIRD.N)
 			(E2990.SK (AT-ABOUT NOW977))
 			(E1138 (ORIENTS E2990.SK))
 			((PROG BIRD2991.SK ((:R (ON.P THEY.PRO)) SIT.V)) ** E2990.SK)
 		)
-		( ; "It is made of grass and sticks."
+		( "It is made of grass and sticks."
 			(E2994.SK (AT-ABOUT NOW979))
 			(E1139 (ORIENTS E2994.SK))
 			((IT.PRO
      ((:R (OF.P (SET-OF (K GRASS.N) (K (PLUR STICK.N))))) (BE.PASV MAKE.V)))
     ** E2994.SK)
 		)
-		( ; "It is a good home for them."
+		( "It is a good home for them."
 			((IT.PRO (= HOME2998.SK)) ** OBJECT2995.SK)
 			(E1141 (ORIENTS OBJECT2995.SK))
 			(OBJECT2995.SK (AT-ABOUT NOW980))
@@ -4585,7 +4585,7 @@
 	)
 
 	(
-		( ; "These are the little birds."
+		( "These are the little birds."
 			(PRED?3001.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?3001.SK PRED?.N)
 			(E3000.SK (RIGHT-AFTER U981))
@@ -4597,7 +4597,7 @@
 			((PRED?3001.SK (= LITTLE3004.SK)) ** OBJECT3002.SK)
 			((PRED?3001.SK (= LITTLE3004.SK)) ** E3000.SK)
 		)
-		( ; "Their mouths are open."
+		( "Their mouths are open."
 			(MOUTHS3008.SK (PERTAIN-TO THEY.PRO))
 			(MOUTHS3008.SK (PLUR MOUTH.N))
 			(E3007.SK (RIGHT-AFTER U983))
@@ -4607,18 +4607,18 @@
 			((MOUTHS3008.SK OPEN.A) ** OBJECT3009.SK)
 			((MOUTHS3008.SK OPEN.A) ** E3007.SK)
 		)
-		( ; "They are hungry."
+		( "They are hungry."
 			((THEY.PRO HUNGRY.A) ** OBJECT3010.SK)
 			(E1146 (ORIENTS OBJECT3010.SK))
 			(OBJECT3010.SK (AT-ABOUT NOW985))
 		)
-		( ; "The mother bird will feed them."
+		( "The mother bird will feed them."
 			((OBJECT3012.SK ((WILL.MD FEED.V) THEY.PRO)) ** E3011.SK)
 			(E1147 (ORIENTS E3011.SK))
 			(E3011.SK (AT-ABOUT NOW986))
 			(OBJECT3012.SK ((NN MOTHER.N) BIRD.N))
 		)
-		( ; "She has a grasshopper in her mouth."
+		( "She has a grasshopper in her mouth."
 			(GRASSHOPPER3015.SK (IN.P MOUTH3017.SK))
 			(GRASSHOPPER3015.SK GRASSHOPPER.N)
 			(OBJECT3013.SK (AT-ABOUT NOW987))
@@ -4627,7 +4627,7 @@
 			(MOUTH3017.SK MOUTH.N)
 			(MOUTH3017.SK (PERTAIN-TO SHE.PRO))
 		)
-		( ; "If they try to fly, they will fall."
+		( "If they try to fly, they will fall."
 			(E3023.SK (AT-ABOUT NOW990))
 			(E1151 (ORIENTS E3023.SK))
 			((THEY.PRO (WILL.MD FALL.V)) ** E3023.SK)
@@ -4635,7 +4635,7 @@
 	)
 
 	(
-		( ; "The day will soon be gone."
+		( "The day will soon be gone."
 			(E1157 (ORIENTS OBJECT3034.SK))
 			(OBJECT3034.SK (AT-ABOUT NOW994))
 			(DAY3033.SK DAY.N)
@@ -4644,7 +4644,7 @@
 			((DAY3033.SK (WILL.MD (SOON.ADV (BE.PASV GO.V)))) ** E3032.SK)
 			((DAY3033.SK (WILL.MD (SOON.ADV (BE.PASV GO.V)))) ** OBJECT3034.SK)
 		)
-		( ; "Some of the clouds are red, and some are as yellow as gold."
+		( "Some of the clouds are red, and some are as yellow as gold."
 			((PRED?3047.SK ((:R (AS.P (K GOLD.N))) (AS.ADV YELLOW.A))) ** OBJECT3051.SK)
 			(PRED?3047.SK PRED?.N)
 			((T3048.SK RED.A) ** OBJECT3050.SK)
@@ -4659,7 +4659,7 @@
 	)
 
 	(
-		( ; "The day will soon be gone."
+		( "The day will soon be gone."
 			(E1 (ORIENTS OBJECT9.SK))
 			(OBJECT9.SK (AT-ABOUT NOW1))
 			(DAY8.SK DAY.N)
@@ -4668,7 +4668,7 @@
 			((DAY8.SK (WILL.MD (SOON.ADV (BE.PASV GO.V)))) ** E7.SK)
 			((DAY8.SK (WILL.MD (SOON.ADV (BE.PASV GO.V)))) ** OBJECT9.SK)
 		)
-		( ; "Some of the clouds are red, and some are as yellow as gold."
+		( "Some of the clouds are red, and some are as yellow as gold."
 			((PRED?22.SK ((:R (AS.P (K GOLD.N))) (AS.ADV YELLOW.A))) ** OBJECT26.SK)
 			(PRED?22.SK PRED?.N)
 			((T23.SK RED.A) ** OBJECT25.SK)
@@ -4683,21 +4683,21 @@
 	)
 
 	(
-		( ; "See, Rosy, here is an apple tree."
+		( "See, Rosy, here is an apple tree."
 			((SEE.NAME (HERE.ADV (= OBJECT42.SK))) ** OBJECT41.SK)
 			(SEE.NAME ROSY.A)
 			(E11 (ORIENTS OBJECT41.SK))
 			(OBJECT41.SK (AT-ABOUT NOW11))
 			(OBJECT42.SK ((NN APPLE.N) TREE.N))
 		)
-		( ; "It stands on a big hill."
+		( "It stands on a big hill."
 			(HILL46.SK HILL.N)
 			(HILL46.SK BIG.A)
 			(OBJECT43.SK (AT-ABOUT NOW12))
 			(E12 (ORIENTS OBJECT43.SK))
 			((IT.PRO ((:R (ON.P HILL46.SK)) STAND.V)) ** OBJECT43.SK)
 		)
-		( ; "Yes, Frank, it is sweet."
+		( "Yes, Frank, it is sweet."
 			((FRANK.NAME SWEET.A) ** OBJECT60.SK)
 			(E20 (ORIENTS OBJECT60.SK))
 			(OBJECT60.SK (AT-ABOUT NOW20))
@@ -4705,7 +4705,7 @@
 	)
 
 	(
-		( ; "With a sharp cry, it answered the voice outside."
+		( "With a sharp cry, it answered the voice outside."
 			(CRY101.SK CRY.N)
 			(CRY101.SK SHARP.A)
 			(VOICE103.SK VOICE.N)
@@ -4714,7 +4714,7 @@
 			((IT.PRO ((ADV-S (WITH.P CRY101.SK)) (ANSWER.V VOICE103.SK))) **
     OBJECT102.SK)
 		)
-		( ; "All at once, a large tigress bounded into the middle of the tent."
+		( "All at once, a large tigress bounded into the middle of the tent."
 			(TIGRESS104.SK TIGRESS.N)
 			(TIGRESS104.SK LARGE.A)
 			(MIDDLE106.SK (OF.P TENT107.SK))
@@ -4727,19 +4727,19 @@
 	)
 
 	(
-		( ; "I am going to the field with papa."
+		( "I am going to the field with papa."
 			(FIELD119.SK FIELD.N)
 			(E118.SK (AT-ABOUT NOW38))
 			(E44 (ORIENTS E118.SK))
 			((PROG ME.PRO ((:R (WITH.P (K PAPA.N))) ((:R (TO.P FIELD119.SK)) GO.V))) **
     E118.SK)
 		)
-		( ; "They can run fast."
+		( "They can run fast."
 			(E123.SK (AT-ABOUT NOW40))
 			(E46 (ORIENTS E123.SK))
 			((THEY.PRO (CAN.MD (FAST.ADV RUN.V))) ** E123.SK)
 		)
-		( ; "I like to ride in the wagon with my papa."
+		( "I like to ride in the wagon with my papa."
 			(PAPA127.SK (PERTAIN-TO ME.PRO))
 			(PAPA127.SK PAPA.N)
 			(WAGON125.SK WAGON.N)
@@ -4749,16 +4749,16 @@
      (LIKE.V (KA ((:R (WITH.P PAPA127.SK)) ((:R (IN.P WAGON125.SK)) RIDE.V)))))
     ** OBJECT124.SK)
 		)
-		( ; "I like the horses."
+		( "I like the horses."
 			((ME.PRO (LIKE.V OBJECT129.SK)) ** OBJECT128.SK)
 			(E48 (ORIENTS OBJECT128.SK))
 			(OBJECT128.SK (AT-ABOUT NOW42))
 			(OBJECT129.SK (PLUR HORSE.N))
 		)
-		( ; "We plant wheat and corn."
+		( "We plant wheat and corn."
 			(WE.PRO (PLANT.V (SET-OF (K WHEAT.N) (K CORN.N))))
 		)
-		( ; "In the spring we plant the grain."
+		( "In the spring we plant the grain."
 			((WE.PRO (((ADV-S (IN.P SPRING134.SK)) PLANT.V) GRAIN135.SK)) ** E133.SK)
 			(SPRING134.SK SPRING.N)
 			(E133.SK (RIGHT-AFTER U46))
@@ -4768,12 +4768,12 @@
 	)
 
 	(
-		( ; "He took Pinky with him."
+		( "He took Pinky with him."
 			((HE.PRO (((:R (WITH.P HE.PRO)) TAKE.V) PINKY.NAME)) ** OBJECT141.SK)
 			(E52 (ORIENTS OBJECT141.SK))
 			(OBJECT141.SK (BEFORE NOW49))
 		)
-		( ; "Pinky was his pet dove."
+		( "Pinky was his pet dove."
 			((PINKY.NAME (= DOVE145.SK)) ** OBJECT142.SK)
 			(E54 (ORIENTS OBJECT142.SK))
 			(OBJECT142.SK (BEFORE NOW50))
@@ -4781,7 +4781,7 @@
 			(DOVE145.SK PET.A)
 			(DOVE145.SK DOVE.N)
 		)
-		( ; "Tom's letter to his papa was a very little one."
+		( "Tom's letter to his papa was a very little one."
 			(T151.SK (TO.P PAPA152.SK))
 			(T151.SK (PERTAIN-TO TOM.NAME))
 			(T151.SK LETTER.N)
@@ -4796,7 +4796,7 @@
 			((T151.SK (= ONE155.SK)) ** OBJECT153.SK)
 			((T151.SK (= ONE155.SK)) ** E150.SK)
 		)
-		( ; "In the morning he tied it to Pinky's neck."
+		( "In the morning he tied it to Pinky's neck."
 			((HE.PRO
      (((ADV-S (IN.P MORNING157.SK)) ((:R (TO.P NECK160.SK)) TIE.V)) IT.PRO))
     ** OBJECT158.SK)
@@ -4811,12 +4811,12 @@
 			(NECK160.SK NECK.N)
 			(NECK160.SK (PERTAIN-TO PINKY.NAME))
 		)
-		( ; "Pinky did not get lost."
+		( "Pinky did not get lost."
 			(OBJECT162.SK (BEFORE NOW56))
 			(E60 (ORIENTS OBJECT162.SK))
 			((NOT (PINKY.NAME (GET.V (KA (BE.PASV LOSE.V))))) ** OBJECT162.SK)
 		)
-		( ; "He flew back to his own little house in the backyard."
+		( "He flew back to his own little house in the backyard."
 			(HOUSE164.SK HOUSE.N)
 			(HOUSE164.SK LITTLE.A)
 			(HOUSE164.SK OWN.A)
@@ -4827,7 +4827,7 @@
 			((HE.PRO ((ADV-A BACK.ADV (TO.P HOUSE164.SK) (IN.P BACKYARD165.SK)) FLY.V))
     ** E163.SK)
 		)
-		( ; "Papa took off the letter."
+		( "Papa took off the letter."
 			(((K PAPA.N) (TAKE_OFF.V LETTER167.SK)) ** OBJECT166.SK)
 			(E62 (ORIENTS OBJECT166.SK))
 			(OBJECT166.SK (BEFORE NOW58))
@@ -4836,7 +4836,7 @@
 	)
 
 	(
-		( ; "This is a fine day."
+		( "This is a fine day."
 			(PRED?173.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?173.SK PRED?.N)
 			(E172.SK (RIGHT-AFTER U59))
@@ -4848,12 +4848,12 @@
 			((PRED?173.SK (= DAY177.SK)) ** OBJECT174.SK)
 			((PRED?173.SK (= DAY177.SK)) ** E172.SK)
 		)
-		( ; "I can just see it."
+		( "I can just see it."
 			(E68 (ORIENTS OBJECT188.SK))
 			(OBJECT188.SK (AT-ABOUT NOW63))
 			((ME.PRO (CAN.MD (JUST.ADV (SEE.V IT.PRO)))) ** OBJECT188.SK)
 		)
-		( ; "He was under the cart."
+		( "He was under the cart."
 			((HE.PRO (UNDER.P CART201.SK)) ** OBJECT200.SK)
 			(E64 (ORIENTS OBJECT200.SK))
 			(OBJECT200.SK (BEFORE NOW66))
@@ -4862,32 +4862,32 @@
 	)
 
 	(
-		( ; "There is a great storm."
+		( "There is a great storm."
 			((STORM214.SK BE.V) ** OBJECT211.SK)
 			(E80 (ORIENTS OBJECT211.SK))
 			(OBJECT211.SK (AT-ABOUT NOW72))
 			(STORM214.SK GREAT.A)
 			(STORM214.SK STORM.N)
 		)
-		( ; "The sun does not shine."
+		( "The sun does not shine."
 			(SUN216.SK SUN.N)
 			(OBJECT215.SK (AT-ABOUT NOW73))
 			(E81 (ORIENTS OBJECT215.SK))
 			((NOT (SUN216.SK SHINE.V)) ** OBJECT215.SK)
 		)
-		( ; "The clouds hide it."
+		( "The clouds hide it."
 			(E217.SK (SAME-TIME NOW74))
 			(E217.SK (RIGHT-AFTER U73))
 			(CLOUDS218.SK (PLUR CLOUD.N))
 			((CLOUDS218.SK (HIDE.V IT.PRO)) ** E217.SK)
 		)
-		( ; "The wind blows very hard."
+		( "The wind blows very hard."
 			(E219.SK (SAME-TIME NOW75))
 			(E219.SK (RIGHT-AFTER U74))
 			(WIND220.SK WIND.N)
 			((AND (WIND220.SK (PLUR BLOW.N)) (WIND220.SK (VERY.ADV HARD.A))) ** E219.SK)
 		)
-		( ; "The fishermen cannot go out in their boats."
+		( "The fishermen cannot go out in their boats."
 			((FISHERMANS222.SK (CANNOT.ADV ((:R (IN.P OBJECT224.SK)) GO_OUT.V))) **
     OBJECT223.SK)
 			((FISHERMANS222.SK (CANNOT.ADV ((:R (IN.P OBJECT224.SK)) GO_OUT.V))) **
@@ -4903,12 +4903,12 @@
 	)
 
 	(
-		( ; "May and Nan are at play."
+		( "May and Nan are at play."
 			(((SET-OF MAY.NAME NAN.NAME) (AT.P (K PLAY.N))) ** OBJECT225.SK)
 			(E83 (ORIENTS OBJECT225.SK))
 			(OBJECT225.SK (AT-ABOUT NOW79))
 		)
-		( ; "They have a name of their own."
+		( "They have a name of their own."
 			(NAME234.SK (OF.P PRED?237.SK))
 			(NAME234.SK NAME.N)
 			(OBJECT232.SK (AT-ABOUT NOW82))
@@ -4918,7 +4918,7 @@
 			(PRED?237.SK OWN.A)
 			(PRED?237.SK PRED?.N)
 		)
-		( ; "This name is cube."
+		( "This name is cube."
 			(NAME239.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(NAME239.SK NAME.N)
 			(E238.SK (RIGHT-AFTER U82))
@@ -4928,7 +4928,7 @@
 			((NAME239.SK (= (K CUBE.N))) ** OBJECT240.SK)
 			((NAME239.SK (= (K CUBE.N))) ** E238.SK)
 		)
-		( ; "It stands on one of its sides."
+		( "It stands on one of its sides."
 			(PRED?249.SK (OF.P OBJECT250.SK))
 			(PRED?249.SK PRED?.N)
 			(OBJECT247.SK (AT-ABOUT NOW86))
@@ -4937,37 +4937,37 @@
 			(OBJECT250.SK (PLUR SIDE.N))
 			(OBJECT250.SK (PERTAIN-TO IT.PRO))
 		)
-		( ; "It cannot roll."
+		( "It cannot roll."
 			((IT.PRO (CANNOT.V (K ROLL.N))) ** OBJECT251.SK)
 			(E79 (ORIENTS OBJECT251.SK))
 			(OBJECT251.SK (BEFORE NOW87))
 		)
-		( ; "Cubes do not grow."
+		( "Cubes do not grow."
 			(NOT ((K (PLUR CUBE.N)) GROW.V))
 		)
 	)
 
 	(
-		( ; "Will Jones lived on a farm."
+		( "Will Jones lived on a farm."
 			(FARM253.SK FARM.N)
 			(OBJECT252.SK (BEFORE NOW89))
 			(E93 (ORIENTS OBJECT252.SK))
 			((WILL_JONES.NAME ((:R (ON.P FARM253.SK)) LIVE.V)) ** OBJECT252.SK)
 		)
-		( ; "Will took him over to the farm."
+		( "Will took him over to the farm."
 			((WILL.NAME (((:R (TO.P FARM258.SK)) TAKE_OVER.V) HE.PRO)) ** OBJECT257.SK)
 			(E95 (ORIENTS OBJECT257.SK))
 			(OBJECT257.SK (BEFORE NOW91))
 			(FARM258.SK FARM.N)
 		)
-		( ; "They saw the horses, and the cows."
+		( "They saw the horses, and the cows."
 			((THEY.PRO (SEE.V (SET-OF OBJECT260.SK OBJECT261.SK))) ** OBJECT259.SK)
 			(E96 (ORIENTS OBJECT259.SK))
 			(OBJECT259.SK (BEFORE NOW92))
 			(OBJECT260.SK (PLUR HORSE.N))
 			(OBJECT261.SK (PLUR COW.N))
 		)
-		( ; "They hunted for hens' nests in the hay."
+		( "They hunted for hens' nests in the hay."
 			(OBJECT263.SK (PERTAIN-TO (K (PLUR HEN.N))))
 			(OBJECT263.SK (PLUR NEST.N))
 			(HAY264.SK HAY.N)
@@ -4976,7 +4976,7 @@
 			((THEY.PRO ((:R (IN.P HAY264.SK)) ((:R (FOR.P OBJECT263.SK)) HUNT.V))) **
     OBJECT262.SK)
 		)
-		( ; "The big fat pigs in the pen looked up."
+		( "The big fat pigs in the pen looked up."
 			(T271.SK (PLUR PIG.N))
 			(T271.SK FAT.A)
 			(T271.SK BIG.A)
@@ -4989,7 +4989,7 @@
 	)
 
 	(
-		( ; "The pigs are in a pen."
+		( "The pigs are in a pen."
 			(PIGS285.SK (PLUR PIG.N))
 			(E284.SK (RIGHT-AFTER U100))
 			(E284.SK (SAME-TIME NOW101))
@@ -4999,19 +4999,19 @@
 			((PIGS285.SK (IN.P PEN287.SK)) ** OBJECT286.SK)
 			((PIGS285.SK (IN.P PEN287.SK)) ** E284.SK)
 		)
-		( ; "Frank likes to feed the pigs."
+		( "Frank likes to feed the pigs."
 			(OBJECT293.SK (PLUR PIG.N))
 			(OBJECT292.SK (AT-ABOUT NOW104))
 			(E110 (ORIENTS OBJECT292.SK))
 			((FRANK.NAME (LIKE.V (KA (FEED.V OBJECT293.SK)))) ** OBJECT292.SK)
 		)
-		( ; "The pigs will drink for Frank."
+		( "The pigs will drink for Frank."
 			(OBJECT297.SK (PLUR PIG.N))
 			(E296.SK (AT-ABOUT NOW106))
 			(E112 (ORIENTS E296.SK))
 			((OBJECT297.SK (WILL.MD ((:R (FOR.P FRANK.NAME)) DRINK.V))) ** E296.SK)
 		)
-		( ; "The pigs like the corn."
+		( "The pigs like the corn."
 			((PIGS303.SK (LIKE.V CORN305.SK)) ** OBJECT304.SK)
 			((PIGS303.SK (LIKE.V CORN305.SK)) ** E302.SK)
 			(PIGS303.SK (PLUR PIG.N))
@@ -5021,7 +5021,7 @@
 			(OBJECT304.SK (AT-ABOUT NOW109))
 			(CORN305.SK CORN.N)
 		)
-		( ; "They are big, fat pigs."
+		( "They are big, fat pigs."
 			((THEY.PRO
      (=
       (K
@@ -5036,7 +5036,7 @@
 	)
 
 	(
-		( ; "They are in the basket by his side."
+		( "They are in the basket by his side."
 			(BASKET342.SK (BY.P SIDE344.SK))
 			(BASKET342.SK BASKET.N)
 			(OBJECT340.SK (AT-ABOUT NOW118))
@@ -5045,7 +5045,7 @@
 			(SIDE344.SK SIDE.N)
 			(SIDE344.SK (SIDE-OF.N HE.PRO))
 		)
-		( ; "He holds the lines in one hand, and his whip in the other."
+		( "He holds the lines in one hand, and his whip in the other."
 			(OBJECT347.SK (IN.P HAND353.SK))
 			(OBJECT347.SK (PLUR LINE.N))
 			(WHIP352.SK (PERTAIN-TO HE.PRO))
@@ -5062,7 +5062,7 @@
 	)
 
 	(
-		( ; "When winter comes, the days are short and the nights are long."
+		( "When winter comes, the days are short and the nights are long."
 			(NIGHTS371.SK (PLUR NIGHT.N))
 			((DAYS372.SK SHORT.A) ** OBJECT373.SK)
 			(DAYS372.SK (PLUR DAY.N))
@@ -5075,7 +5075,7 @@
 			((NIGHTS371.SK LONG.A) ** OBJECT374.SK)
 			((NIGHTS371.SK LONG.A) ** E369.SK)
 		)
-		( ; "It blows over the meadow and the river and the high hills."
+		( "It blows over the meadow and the river and the high hills."
 			(HILLS381.SK (PLUR HILL.N))
 			(HILLS381.SK HIGH.A)
 			(E378.SK (SAME-TIME NOW127))
@@ -5087,12 +5087,12 @@
           (OVER.P (SET-OF (SET-OF MEADOW379.SK RIVER380.SK) HILLS381.SK))))
     ** E378.SK)
 		)
-		( ; "It brings snow and ice."
+		( "It brings snow and ice."
 			((IT.PRO (BRING.V (SET-OF (K SNOW.N) (K ICE.N)))) ** OBJECT382.SK)
 			(E141 (ORIENTS OBJECT382.SK))
 			(OBJECT382.SK (AT-ABOUT NOW128))
 		)
-		( ; "It makes our hands and faces cold."
+		( "It makes our hands and faces cold."
 			(E142 (ORIENTS OBJECT383.SK))
 			(OBJECT383.SK (AT-ABOUT NOW129))
 			(E143 (ORIENTS OBJECT385.SK))
@@ -5103,18 +5103,18 @@
 			((IT.PRO (FACE.V (K COLD.N))) ** OBJECT385.SK)
 			((IT.PRO (MAKE.V OBJECT384.SK)) ** OBJECT383.SK)
 		)
-		( ; "We do not like the north wind."
+		( "We do not like the north wind."
 			(NOT (WE.PRO (LIKE.V WIND388.SK)))
 			(WIND388.SK NORTH.A)
 			(WIND388.SK WIND.N)
 		)
-		( ; "They like to see the snow."
+		( "They like to see the snow."
 			(SNOW392.SK SNOW.N)
 			(OBJECT391.SK (AT-ABOUT NOW132))
 			(E146 (ORIENTS OBJECT391.SK))
 			((THEY.PRO (LIKE.V (KA (SEE.V SNOW392.SK)))) ** OBJECT391.SK)
 		)
-		( ; "They like to play on the ice."
+		( "They like to play on the ice."
 			(ICE394.SK ICE.N)
 			(OBJECT393.SK (AT-ABOUT NOW133))
 			(E147 (ORIENTS OBJECT393.SK))
@@ -5123,19 +5123,19 @@
 	)
 
 	(
-		( ; "We are going to the woods."
+		( "We are going to the woods."
 			(OBJECT417.SK (PLUR WOOD.N))
 			(E416.SK (AT-ABOUT NOW139))
 			(E155 (ORIENTS E416.SK))
 			((PROG WE.PRO ((:R (TO.P OBJECT417.SK)) GO.V)) ** E416.SK)
 		)
-		( ; "Father and Mother are going with us."
+		( "Father and Mother are going with us."
 			(E418.SK (AT-ABOUT NOW140))
 			(E156 (ORIENTS E418.SK))
 			((PROG (SET-OF FATHER.NAME MOTHER.NAME) ((:R (WITH.P WE.PRO)) GO.V)) **
     E418.SK)
 		)
-		( ; "The nuts are ripe in the woods."
+		( "The nuts are ripe in the woods."
 			((NUTS422.SK ((:R (IN.P OBJECT424.SK)) RIPE.A)) ** OBJECT423.SK)
 			((NUTS422.SK ((:R (IN.P OBJECT424.SK)) RIPE.A)) ** E421.SK)
 			(NUTS422.SK (PLUR NUT.N))
@@ -5145,7 +5145,7 @@
 			(OBJECT423.SK (AT-ABOUT NOW142))
 			(OBJECT424.SK (PLUR WOOD.N))
 		)
-		( ; "John likes to hold the horse."
+		( "John likes to hold the horse."
 			(HORSE429.SK HORSE.N)
 			(OBJECT428.SK (AT-ABOUT NOW145))
 			(E161 (ORIENTS OBJECT428.SK))
@@ -5154,7 +5154,7 @@
 	)
 
 	(
-		( ; "Her bird is in a cage."
+		( "Her bird is in a cage."
 			(BIRD434.SK (PERTAIN-TO SHE.PRO))
 			(BIRD434.SK BIRD.N)
 			(E433.SK (RIGHT-AFTER U149))
@@ -5165,14 +5165,14 @@
 			((BIRD434.SK (IN.P CAGE436.SK)) ** OBJECT435.SK)
 			((BIRD434.SK (IN.P CAGE436.SK)) ** E433.SK)
 		)
-		( ; "She is looking at her bird."
+		( "She is looking at her bird."
 			(BIRD441.SK (PERTAIN-TO SHE.PRO))
 			(BIRD441.SK BIRD.N)
 			(E439.SK (AT-ABOUT NOW152))
 			(E165 (ORIENTS E439.SK))
 			((PROG SHE.PRO ((:R (AT.P BIRD441.SK)) LOOK.V)) ** E439.SK)
 		)
-		( ; "Two birds are on a bench."
+		( "Two birds are on a bench."
 			((BIRDS458.SK (ON.P BENCH460.SK)) ** OBJECT459.SK)
 			(BIRDS458.SK TWO.A)
 			(BIRDS458.SK (PLUR BIRD.N))
@@ -5180,7 +5180,7 @@
 			(OBJECT459.SK (AT-ABOUT NOW159))
 			(BENCH460.SK BENCH.N)
 		)
-		( ; "The bench is near the tree."
+		( "The bench is near the tree."
 			(BENCH462.SK BENCH.N)
 			(E461.SK (RIGHT-AFTER U159))
 			(E461.SK (SAME-TIME NOW160))
@@ -5190,7 +5190,7 @@
 			((BENCH462.SK (NEAR.P TREE464.SK)) ** OBJECT463.SK)
 			((BENCH462.SK (NEAR.P TREE464.SK)) ** E461.SK)
 		)
-		( ; "No; May's bird is in a cage."
+		( "No; May's bird is in a cage."
 			(BIRD468.SK (PERTAIN-TO MAY.NAME))
 			(BIRD468.SK BIRD.N)
 			(E467.SK (RIGHT-AFTER U161))
@@ -5201,7 +5201,7 @@
 			((BIRD468.SK (IN.P CAGE470.SK)) ** OBJECT469.SK)
 			((BIRD468.SK (IN.P CAGE470.SK)) ** E467.SK)
 		)
-		( ; "These are my little birds."
+		( "These are my little birds."
 			(PRED?472.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?472.SK PRED?.N)
 			(E471.SK (RIGHT-AFTER U162))
@@ -5214,7 +5214,7 @@
 			((PRED?472.SK (= LITTLE475.SK)) ** OBJECT473.SK)
 			((PRED?472.SK (= LITTLE475.SK)) ** E471.SK)
 		)
-		( ; "The little birds are in a tree."
+		( "The little birds are in a tree."
 			(E476.SK (RIGHT-AFTER U163))
 			(E476.SK (SAME-TIME NOW164))
 			(E179 (ORIENTS OBJECT478.SK))
@@ -5225,7 +5225,7 @@
 			((BIRDS477.SK (IN.P TREE479.SK)) ** OBJECT478.SK)
 			((BIRDS477.SK (IN.P TREE479.SK)) ** E476.SK)
 		)
-		( ; "They are singing in the tree."
+		( "They are singing in the tree."
 			(TREE481.SK TREE.N)
 			(E480.SK (AT-ABOUT NOW165))
 			(E180 (ORIENTS E480.SK))
@@ -5234,7 +5234,7 @@
 	)
 
 	(
-		( ; "It rolls like a ball."
+		( "It rolls like a ball."
 			((IT.PRO
      ((:R (L #:G36819 (AND (#:G36819 LIKE.P) (#:G36819 (= BALL485.SK)))))
       ROLL.V))
@@ -5243,26 +5243,26 @@
 			(OBJECT484.SK (AT-ABOUT NOW168))
 			(BALL485.SK BALL.N)
 		)
-		( ; "We call it a sphere."
+		( "We call it a sphere."
 			((WE.PRO (CALL.V IT.PRO SPHERE487.SK)) ** OBJECT486.SK)
 			(E183 (ORIENTS OBJECT486.SK))
 			(OBJECT486.SK (AT-ABOUT NOW169))
 			(SPHERE487.SK SPHERE.N)
 		)
-		( ; "It grows on a tree."
+		( "It grows on a tree."
 			(TREE489.SK TREE.N)
 			(OBJECT488.SK (AT-ABOUT NOW170))
 			(E184 (ORIENTS OBJECT488.SK))
 			((IT.PRO ((:R (ON.P TREE489.SK)) GROW.V)) ** OBJECT488.SK)
 		)
-		( ; "Many spheres grow on trees."
+		( "Many spheres grow on trees."
 			(OBJECT491.SK (AT-ABOUT NOW171))
 			(E185 (ORIENTS OBJECT491.SK))
 			(SPHERES490.SK (PLUR SPHERE.N))
 			(SPHERES490.SK MANY.A)
 			((SPHERES490.SK ((:R (ON.P (K (PLUR TREE.N)))) GROW.V)) ** OBJECT491.SK)
 		)
-		( ; "Five green peas are in this pod."
+		( "Five green peas are in this pod."
 			((PEAS492.SK (IN.P POD495.SK)) ** OBJECT493.SK)
 			(PEAS492.SK FIVE.A)
 			(E186 (ORIENTS OBJECT493.SK))
@@ -5272,17 +5272,17 @@
 			(PEAS492.SK GREEN.A)
 			(PEAS492.SK (PLUR PEA.N))
 		)
-		( ; "They grow on vines."
+		( "They grow on vines."
 			(OBJECT497.SK (AT-ABOUT NOW174))
 			(E188 (ORIENTS OBJECT497.SK))
 			((THEY.PRO ((:R (ON.P (K (PLUR VINE.N)))) GROW.V)) ** OBJECT497.SK)
 		)
-		( ; "We call them curants."
+		( "We call them curants."
 			((WE.PRO (CALL.V THEY.PRO (K (PLUR CURANT.N)))) ** OBJECT500.SK)
 			(E190 (ORIENTS OBJECT500.SK))
 			(OBJECT500.SK (AT-ABOUT NOW176))
 		)
-		( ; "These spheres are green."
+		( "These spheres are green."
 			(SPHERES511.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(SPHERES511.SK (PLUR SPHERE.N))
 			(E510.SK (RIGHT-AFTER U178))
@@ -5292,7 +5292,7 @@
 			((SPHERES511.SK GREEN.A) ** OBJECT512.SK)
 			((SPHERES511.SK GREEN.A) ** E510.SK)
 		)
-		( ; "They grow on vines."
+		( "They grow on vines."
 			(OBJECT513.SK (AT-ABOUT NOW180))
 			(E193 (ORIENTS OBJECT513.SK))
 			((THEY.PRO ((:R (ON.P (K (PLUR VINE.N)))) GROW.V)) ** OBJECT513.SK)
@@ -5300,7 +5300,7 @@
 	)
 
 	(
-		( ; "The boy in the red wagon is Frank."
+		( "The boy in the red wagon is Frank."
 			(T523.SK (IN.P WAGON524.SK))
 			(T523.SK BOY.N)
 			(E522.SK (RIGHT-AFTER U182))
@@ -5312,13 +5312,13 @@
 			((T523.SK FRANK.A) ** OBJECT525.SK)
 			((T523.SK FRANK.A) ** E522.SK)
 		)
-		( ; "He will give them a ride."
+		( "He will give them a ride."
 			((HE.PRO ((WILL.MD GIVE.V) THEY.PRO RIDE530.SK)) ** E529.SK)
 			(E199 (ORIENTS E529.SK))
 			(E529.SK (AT-ABOUT NOW185))
 			(RIDE530.SK RIDE.N)
 		)
-		( ; "They like to go with him to the fields and the woods."
+		( "They like to go with him to the fields and the woods."
 			(OBJECT533.SK (PLUR WOOD.N))
 			(OBJECT532.SK (PLUR FIELD.N))
 			(OBJECT531.SK (AT-ABOUT NOW186))
@@ -5330,13 +5330,13 @@
         ((:R (WITH.P HE.PRO)) GO.V)))))
     ** OBJECT531.SK)
 		)
-		( ; "Yes, girls, get in!"
+		( "Yes, girls, get in!"
 			((K (PLUR GIRL.N)) ((ADV-A IN.P) GET.V))
 		)
-		( ; "And you, too, boys!"
+		( "And you, too, boys!"
 			(YOU.PRO (PLUR BOY.N))
 		)
-		( ; "She has a pretty home high in the tree."
+		( "She has a pretty home high in the tree."
 			((SHE.PRO (((:R (IN.P TREE561.SK)) HAVE.V) PRETTY562.SK)) ** OBJECT559.SK)
 			(E207 (ORIENTS OBJECT559.SK))
 			(OBJECT559.SK (AT-ABOUT NOW194))
@@ -5347,22 +5347,22 @@
 	)
 
 	(
-		( ; "Kitty and Berty are sisters."
+		( "Kitty and Berty are sisters."
 			(((SET-OF (K KITTY.N) BERTY.NAME) (= (K (PLUR SISTER.N)))) ** OBJECT563.SK)
 			(E208 (ORIENTS OBJECT563.SK))
 			(OBJECT563.SK (AT-ABOUT NOW195))
 		)
-		( ; "Here they come."
+		( "Here they come."
 			(E572.SK (AT-ABOUT NOW200))
 			(E213 (ORIENTS E572.SK))
 			((THEY.PRO (HERE.ADV COME.V)) ** E572.SK)
 		)
-		( ; "Little lucy is with them."
+		( "Little lucy is with them."
 			((LITTLE_LUCY.NAME (WITH.P THEY.PRO)) ** OBJECT573.SK)
 			(E214 (ORIENTS OBJECT573.SK))
 			(OBJECT573.SK (AT-ABOUT NOW201))
 		)
-		( ; "Their baskets are full."
+		( "Their baskets are full."
 			(BASKETS575.SK (PERTAIN-TO THEY.PRO))
 			(BASKETS575.SK (PLUR BASKET.N))
 			(E574.SK (RIGHT-AFTER U201))
@@ -5372,7 +5372,7 @@
 			((BASKETS575.SK FULL.A) ** OBJECT576.SK)
 			((BASKETS575.SK FULL.A) ** E574.SK)
 		)
-		( ; "Some flowers are pink and some are white."
+		( "Some flowers are pink and some are white."
 			((PRED?577.SK WHITE.A) ** OBJECT580.SK)
 			(PRED?577.SK PRED?.N)
 			((FLOWERS578.SK PINK.A) ** OBJECT579.SK)
@@ -5382,7 +5382,7 @@
 			(E217 (ORIENTS OBJECT580.SK))
 			(OBJECT580.SK (AT-ABOUT NOW203))
 		)
-		( ; "These are apple blossoms."
+		( "These are apple blossoms."
 			(PRED?582.SK (ATTENDED-TO-BY*.A SPEAKER))
 			(PRED?582.SK PRED?.N)
 			(E581.SK (RIGHT-AFTER U203))

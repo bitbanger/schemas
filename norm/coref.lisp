@@ -5,6 +5,10 @@
 (load "parse.lisp")
 (load "norm-time.lisp")
 
+(defparameter *BLANK-SCHEMA*
+'(epi-schema ((?x blank.v) ** ?E)
+))
+
 (defparameter *KB-EXPLICIT* (make-hash-table :test #'equal))
 (defparameter *KB-ARG-IND* (make-hash-table :test #'equal))
 (defparameter *KB-PRED-IND* (make-hash-table :test #'equal))
@@ -43,6 +47,15 @@
 		; then
 		(progn
 		(setf curry-res (curry (car prop) carg))
+
+		(if (not (listp curry-res))
+			; monadic predicate, uncurried;
+			; lambda the charstar back into
+			; it (we can assume carg is the
+			; only arg)
+			(return-from cr (list 'LAMBDA.EL (list 'X) (list (list 'X curry-res) (second prop) (third prop))))
+		)
+
 		(return-from cr (list (car curry-res) (second curry-res) (list (third curry-res) (second prop) (third prop))))
 		;(return-from cr (curry (car prop) carg))
 		)
@@ -117,7 +130,7 @@
 
 ; Get all terms to which predicates apply that can be
 ; unified with a given predicate
-(defun get-pred-uni-terms (pred kb)
+(defun get-pred-uni-terms (pred kb whole-story)
 (block gput
 	(setf terms (list))
 	(loop for cand-pred being the hash-keys of (kb-pred-ind kb)
@@ -125,7 +138,7 @@
 			(dbg 'coref "pred is ~s~%" pred)
 			(dbg 'coref "cand-pred is ~s~%" cand-pred)
 			(dbg 'coref "~%")
-			(if (not (unify-preds pred cand-pred (make-hash-table :test #'equal)))
+			(if (not (unify-preds pred cand-pred (make-hash-table :test #'equal) *BLANK-SCHEMA* whole-story))
 				(return-from unil)
 			)
 
@@ -208,6 +221,21 @@
 
 	(setf (gethash story *STORY-KB-MAP*) skb)
 
+	(if (has-element story 'SHE.PRO)
+		; then
+		(progn
+			(add-to-kb '(SHE.PRO FEMALE.A) skb)
+			(add-to-kb '(SHE.PRO AGENT.N) skb)
+		)
+	)
+	(if (has-element story 'HE.PRO)
+		; then
+		(progn
+			(add-to-kb '(HE.PRO MALE.A) skb)
+			(add-to-kb '(HE.PRO AGENT.N) skb)
+		)
+	)
+
 	(return-from outer skb)
 )
 )
@@ -287,19 +315,19 @@
 
 		; Names refer to agents.
 		(if (and (symbolp arg) (has-suffix? (string arg) ".NAME"))
-			(if (equal pred 'AGENT_1.N)
+			(if (equal pred 'AGENT.N)
 				(return-from outer t))
 		)
 
 		; He and she pronouns refer to agents.
 		; TODO: handle "they"
 		(if (and (symbolp arg) (or (equal arg 'HE.PRO) (equal arg 'SHE.PRO)))
-			(if (equal pred 'AGENT_1.N)
+			(if (equal pred 'AGENT.N)
 				(return-from outer t))
 		)
 
 		; KA-abstractions are actions.
-		(if (and (equal pred 'ACTION_1.N)
+		(if (and (equal pred 'ACTION.N)
 				 (canon-kind? arg)
 				 (equal (car arg) 'KA))
 			; then
@@ -343,7 +371,7 @@
 )
 
 (defparameter *IRREGULAR-PREDS* '(
-	AGENT_1.N
+	AGENT.N
 ))
 
 (defun irregular-pred? (pred)
@@ -469,7 +497,7 @@
 					if (not (equal pred 'INDEF.A))
 						; do (format t "~s: ~s~%" pred (gethash pred (kb-pred-ind kb)))
 						; do (format t "pred is ~s~%" pred)
-						append (loop for term in (get-pred-uni-terms pred kb)
+						append (loop for term in (get-pred-uni-terms pred kb story)
 							if (not (equal term e))
 								; collect term
 								do (setf (gethash term share-count) (safe-inc (gethash term share-count)))
@@ -486,7 +514,7 @@
 						)
 				)
 
-				;(format t "best coreference for ~s: ~s (~s shared preds)~%" e max-coref max-count)
+				(format t "best coreference for ~s: ~s (~s shared preds)~%" e max-coref max-count)
 				(if (not (null max-coref))
 					(setf (gethash e-idx corefs) max-coref))
 			)

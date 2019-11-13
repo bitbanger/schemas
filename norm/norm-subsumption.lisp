@@ -17,8 +17,14 @@
 	receive.v
 ))
 
+(defparameter *ENJOY-PREDS* '(
+	like.v
+	enjoy.v
+	love.v
+))
+
 (defparameter *SPECIAL-SUBSUMPTIONS* (mk-hashtable '(
-	((AGENT_1.N ANIMAL_1.N) t) ; animals are agents
+	((AGENT.N ANIMAL.N) t) ; animals are agents
 )))
 
 (defun subsumes (schema-pred story-pred)
@@ -36,6 +42,12 @@
 
 	(if (and (equal schema-pred 'receiving_verb.v)
 			(not (null (member story-pred *RECEIVING-PREDS* :test #'equal))))
+		; then
+		(return-from outer t)
+	)
+
+	(if (and (equal schema-pred 'enjoy_verb.v)
+			(not (null (member story-pred *ENJOY-PREDS* :test #'equal))))
 		; then
 		(return-from outer t)
 	)
@@ -89,25 +101,25 @@
 (defun wordnet-hypernyms (word-sym)
 (block outer
 (cond
-	((equal word-sym 'FIELD_1.N)
-		'(TRACT_1.N GEOGRAPHICAL_AREA_1.N REGION_3.N LOCATION_1.N OBJECT_1.N PHYSICAL_ENTITY_1.N ENTITY_1.N))
+	((equal word-sym 'FIELD.N)
+		'(TRACT.N GEOGRAPHICAL_AREA.N REGION.N LOCATION.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
 
-	((equal word-sym 'WAGON_1.N)
-		'(WHEELED_VEHICLE_1.N CONTAINER_1.N INSTRUMENTALITY_3.N ARTIFACT_1.N WHOLE_2.N OBJECT_1.N PHYSICAL_ENTITY_1.N ENTITY_1.N))
+	((equal word-sym 'WAGON.N)
+		'(WHEELED_VEHICLE.N CONTAINER.N INSTRUMENTALITY.N ARTIFACT.N WHOLE.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
 
-	((equal word-sym 'FLOWER_1.N)
-		'(ANGIOSPERM_1.N SPERMATOPHYTE_1.N VASCULAR_PLANT_1.N PLANT_2.N ORGANISM_1.N LIVING_THING_1.N WHOLE_2.N OBJECT_1.N PHYSICAL_ENTITY_1.N ENTITY_1.N))
+	((equal word-sym 'FLOWER.N)
+		'(ANGIOSPERM.N SPERMATOPHYTE.N VASCULAR_PLANT.N PLANT.N ORGANISM.N LIVING_THING.N WHOLE.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
 
-	((equal word-sym 'MONKEY_1.N)
-		'(PRIMATE_2.N PLACENTAL_1.N MAMMAL_1.N VERTEBRATE_1.N CHORDATE_1.N ANIMAL_1.N ORGANISM_1.N LIVING_THING_1.N WHOLE_2.N OBJECT_1.N PHYSICAL_ENTITY_1.N ENTITY_1.N))
+	((equal word-sym 'MONKEY.N)
+		'(PRIMATE.N PLACENTAL.N MAMMAL.N VERTEBRATE.N CHORDATE.N ANIMAL.N ORGANISM.N LIVING_THING.N WHOLE.N OBJECT.N PHYSICAL_ENTITY.N ENTITY.N))
 
-	((equal word-sym 'COCOANUT_1.N)
-		'(FOOD_2.N SOLID_1.N MATTER_3.N PHYSICAL_ENTITY_1.N ENTITY_1.N))
+	((equal word-sym 'COCOANUT.N)
+		'(FOOD.N SOLID.N MATTER.N PHYSICAL_ENTITY.N ENTITY.N))
 
-	;((equal word-sym 'SET_1.N
-		;'(COLLECTION_1.N GROUP_1.N ABSTRACTION_6.N ENTITY_1.N)))
+	;((equal word-sym 'SET.N
+		;'(COLLECTION.N GROUP.N ABSTRACTION.N ENTITY.N)))
 
-	(t '(ENTITY_1.N))
+	(t '(ENTITY.N))
 )
 )
 )

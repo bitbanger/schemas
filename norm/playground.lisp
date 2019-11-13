@@ -10,13 +10,28 @@
 (load "real_util.lisp")
 (load "norm-time.lisp")
 (load "parsed-stories.lisp")
+(load "dev-frs.lisp")
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema (car kite-gen-schema))
 
-(setf story *PARSED-MONKEY-STORY*)
+; (setf story *PARSED-MONKEY-STORY*)
+(setf *STORY* (car *DEV-FRS*))
 ; (setf story *MONKEY-STORY*)
 ;(setf story *PARSED-STORY-1*)
+
+
+(defparameter *NUM-SHUFFLES* 20)
+(defparameter *GENERALIZE* nil)
+(defparameter *RUN-MATCHER* t)
+
+; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
+(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v 'eat_food.v))
+
+
+(defun run-matcher (story schemas)
+
+(block outer
 
 (format t "story:~%")
 (loop for sent in story
@@ -25,27 +40,19 @@
 
 (load-story-time-model story)
 
-(defparameter *NUM-SHUFFLES* 40)
-(defparameter *GENERALIZE* nil)
-(defparameter *RUN-MATCHER* t)
-
-; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
-(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v))
-
-
 (setf matches (make-hash-table :test #'equal))
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
 (if *RUN-MATCHER*
 ;(loop for i from 1 to 10 do 
-(loop for protoschema in *ALL-SCHEMAS-PLAYGROUND* do (block match-proto
+(loop for protoschema in schemas do (block match-proto
 	;(if (not (equal protoschema 'do_action_to_enable_action.v))
 		; then
 	;	(return-from match-proto)
 	;)
 
-	(setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
+	(setf best-match-res-pair (best-story-schema-match *STORY* (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
 	(setf best-match-res (car best-match-res-pair))
 	(setf best-score (car best-match-res-pair))
 	(setf best-match (second best-match-res-pair))
@@ -68,6 +75,11 @@
 ;)
 )
 
+)
+)
+
+(run-matcher (car *DEV-FRS*) *PROTOSCHEMAS*)
+
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))
 ;(format t "~s~%" (eval-time-prop '(E3.SK BEFORE.PR E2.SK)))
@@ -76,6 +88,7 @@
 (setf enable-match (gethash 'do_action_to_enable_action.v matches))
 (setf get-match (gethash 'take_object.v matches))
 
+(if nil (block ifnil
 
 (format t "~%MERGING do_action_to_enable_action.v AND take_object.v~%")
 (format t "(do_action_to_enable_action.v as external header~%~%")
@@ -100,3 +113,5 @@
 
 (format t "~%even cleaner schema:~%")
 (print-schema cleaner-schema)
+
+))

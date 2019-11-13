@@ -1,4 +1,4 @@
-(defparameter "*DEV-FRS*" '(
+(defparameter *DEV-FRS* '(
 	(
 		( ; "The monkey can climb a tree."
 			((MONKEY1764.SK ((CAN.MD CLIMB.V) TREE1765.SK)) ** E1763.SK)
@@ -37,17 +37,6 @@
 			(E1776.SK (DURING E1774.SK))
 			(E1777.SK (DURING E1774.SK))
 			(E1776.SK (CONSEC E1777.SK))
-		)
-		( ; "Luisa is afraid of large monkeys."
-			((AND (LUISA.NAME AFRAID.A)
-         (LUISA.NAME
-          (OF.P
-           (K
-            (L #:G115623
-             (AND (#:G115623 LARGE.A) (#:G115623 (PLUR MONKEY.N))))))))
-    ** OBJECT1783.SK)
-			(E653 (ORIENTS OBJECT1783.SK))
-			(OBJECT1783.SK (AT-ABOUT NOW576))
 		)
 	)
 

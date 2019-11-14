@@ -1,5 +1,6 @@
 (load "norm-el.lisp")
 (load "norm-subsumption.lisp")
+(load "norm-schema-util.lisp")
 
 (defun bind-if-unbound (key val bindings)
 	(if (not (null (gethash key bindings)))
@@ -461,6 +462,7 @@ bind-pred
 			(dbg 'unify "schema mods are ~s and story mods are ~s~%" schema-mods story-mods)
 			(dbg 'unify "1 binding story pred ~s~%" story-pred)
 			(setf mod-bindings (expl-unify-mod-lists schema-mods story-mods bindings whole-schema whole-story))
+			(format t "~d mod bindings~%" (length mod-bindings))
 			(setf mod-bound (car mod-bindings))
 			(setf mod-bindings (second mod-bindings))
 			(if (null mod-bindings)

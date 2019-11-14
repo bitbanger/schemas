@@ -1,4 +1,5 @@
 (load "norm-schema-util.lisp")
+(load "coref.lisp")
 (load "norm-el.lisp")
 
 ; Match outline:

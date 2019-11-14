@@ -567,6 +567,15 @@ is replaced with replacement."
 )
 )
 
+(defun subseq-safe (seq beg end)
+(let (
+	(real-beg (if (> beg (length seq)) (length seq) beg))
+	(real-end (if (> end (length seq)) (length seq) end))
+)
+	(subseq seq real-beg real-end)
+)
+)
+
 (defun split-str (str sep)
 (cond
 	((null (search sep str))

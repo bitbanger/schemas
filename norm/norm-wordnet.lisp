@@ -26,6 +26,11 @@
 
 (defun wordnet-hypernyms (word)
 	(block outer
+		(if (not (symbolp word))
+			; then
+			(return-from outer '(ENTITY.N))
+		)
+
 		(if (null (gethash word *WN-CACHE*))
 			; then
 			(setf (gethash word *WN-CACHE*) (uncached-wordnet-hyps word))

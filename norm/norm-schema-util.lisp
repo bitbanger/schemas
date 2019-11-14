@@ -1,7 +1,9 @@
 (load "ttt/src/load")
 (load "norm-el.lisp")
 (load "real_util.lisp")
-(load "coref.lisp")
+; (load "coref.lisp")
+(load "norm-kb.lisp")
+(load "norm-subsumption.lisp")
 
 (defparameter *SEC-NAMES* '(
 	:Roles
@@ -169,6 +171,20 @@
 		if (equal (section-type sec) 'NONFLUENT)
 			collect sec
 	)
+)
+
+(defun get-schema-ep-var-char (schema v)
+(block outer
+	(loop for sec in (fluent-sections schema)
+		do (loop for form in (section-formulas sec)
+			if (equal (car form) v) do (return-from outer (second form))
+		)
+	)
+)
+)
+
+(defun schema-ep-var? (schema v)
+	(not (null (get-schema-ep-var-char schema v)))
 )
 
 (defun fluent-sections (schema)
@@ -489,20 +505,6 @@
 		append sent)
 )
 
-(defun get-schema-ep-var-char (schema v)
-(block outer
-	(loop for sec in (fluent-sections schema)
-		do (loop for form in (section-formulas sec)
-			if (equal (car form) v) do (return-from outer (second form))
-		)
-	)
-)
-)
-
-(defun schema-ep-var? (schema v)
-	(not (null (get-schema-ep-var-char schema v)))
-)
-
 ; check-temporal-constraints takes a schema match and verifies
 ; the consistency of each of its temporal constraints with the
 ; temporal information extracted from the story.
@@ -541,6 +543,62 @@
 	)
 
 	(return-from outer (list trues falses))
+)
+)
+
+(defun get-schema-word-preds (schema)
+	(remove-duplicates (get-elements-pred schema (lambda (x)
+		(and
+			(symbolp x)
+			(not (null (search "." (format nil "~s" x))))
+		)
+	)) :test #'equal)
+)
+
+(defun mk-schema-word-pred-idx (schemas)
+(let ((ht (make-hash-table :test #'equal)))
+(block outer
+	(loop for schema in schemas
+		do (loop for word in (get-schema-word-preds schema)
+			do (if (null (member schema (gethash word ht) :test #'equal))
+				; then
+				(push schema (gethash word ht))
+			)
+		)
+	)
+
+	(return-from outer ht)
+)
+)
+)
+
+(defun top-k-schemas (words schemas k)
+(let (
+(schema-scores (list))
+)
+(block outer
+	(loop for schema in schemas
+		do (block check-schema
+			(setf schema-score 0)
+			(setf schema-words (get-schema-word-preds schema))
+			(loop for word in words
+				do (loop for schema-word in schema-words
+					do (if (subsumes schema-word word))
+						; then
+						(setf schema-score (+ schema-score 1))
+					)
+				)
+			)
+
+			(if (> schema-score 0)
+				(setf schema-scores (append schema-scores (list (list schema schema-score))))
+			)
+		)
+	)
+
+	(setf schema-scores (sort schema-scores (lambda (x y) (> (second x) (second y)))))
+	(return-from outer (mapcar #'car (subseq-safe schema-scores 0 k)))
+)
 )
 )
 

@@ -22,6 +22,7 @@
 
 
 (defparameter *NUM-SHUFFLES* 20)
+(defparameter *TOP-K* 5)
 (defparameter *GENERALIZE* nil)
 (defparameter *RUN-MATCHER* t)
 
@@ -33,10 +34,14 @@
 
 (block outer
 
-(format t "story:~%")
-(loop for sent in story
-	do (format t "	~s~%~%" sent))
+;(format t "story:~%")
+;(loop for sent in story
+;	do (format t "	~s~%~%" sent))
 
+;(format t "word preds: ~s~%" (get-word-preds story))
+
+
+(setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
 
 (load-story-time-model story)
 
@@ -46,25 +51,29 @@
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
 (if *RUN-MATCHER*
 ;(loop for i from 1 to 10 do 
-(loop for protoschema in schemas do (block match-proto
+(loop for protoschema in best-schemas do (block match-proto
 	;(if (not (equal protoschema 'do_action_to_enable_action.v))
 		; then
 	;	(return-from match-proto)
 	;)
 
-	(setf best-match-res-pair (best-story-schema-match *STORY* (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
+	(setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
 	(setf best-match-res (car best-match-res-pair))
 	(setf best-score (car best-match-res-pair))
 	(setf best-match (second best-match-res-pair))
 	(setf best-bindings (third best-match-res-pair))
-	(format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
 	; (print-schema best-match)
 	; (format t "deduped:~%")
-	(setf match (dedupe-sections best-match))
-	(print-schema match)
-	(format t "~%~%~%")
+	(if (and (schema? best-match) (not (equal '(0 0) best-score)))
+		(progn
+			(format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
+			(setf match (dedupe-sections best-match))
+			(print-schema match)
+			(format t "~%~%~%")
 
-	(setf (gethash protoschema matches) match)
+			(setf (gethash protoschema matches) match)
+		)
+	)
 
 	; (format t "bindings: ~s~%" (ht-to-str best-bindings))
 
@@ -78,7 +87,10 @@
 )
 )
 
-(run-matcher (car *DEV-FRS*) *PROTOSCHEMAS*)
+; (loop for story in ((lambda (x) (list (first x) (second x) (third x))) *DEV-FRS*)
+(loop for story in *DEV-FRS*
+	do (run-matcher story *PROTOSCHEMAS*)
+)
 
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))

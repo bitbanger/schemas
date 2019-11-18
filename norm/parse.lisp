@@ -35,6 +35,7 @@
 	AND
 	IF
 	ATTR
+	NN
 	PLUR
 	L
 	SET-OF

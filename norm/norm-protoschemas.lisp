@@ -336,7 +336,8 @@
 	'(epi-schema ((?x go_somewhere.v ?l1 ?l2) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?o location.n))
+			(!r2 (?l1 location.n))
+			(!r3 (?l2 location.n))
 		)
 
 		(:Goals
@@ -354,6 +355,8 @@
 			; TODO: automatic synonym detection
 			; TODO: separate active take vs. passive receive?
 			(?e1 (?x ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) movement_verb.v))))
+			(?e2 (?x ((adv-a (to.p ?l2)) movement_verb.v)))
+			(?e3 (?x ((adv-a (from.p ?l1)) movement_verb.v)))
 		)
 
 		(:Postconds
@@ -367,6 +370,8 @@
 			(!w3 (?p1 after ?e1))
 			(!w4 (?p2 after ?e1))
 			(!w5 (?g1 cause.v ?e1))
+			(!w6 (?e2 same-time ?e1))
+			(!w7 (?e3 same-time ?e1))
 		)
 	)
 )

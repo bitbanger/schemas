@@ -3,6 +3,8 @@
 (load "norm-schema-util.lisp")
 
 (defun bind-if-unbound (key val bindings)
+(block outer
+	; (format t "binding ~s to ~s in ~s~%" key val (ht-to-str bindings))
 	(if (not (null (gethash key bindings)))
 		; then
 		(if (equal (gethash key bindings) val)
@@ -17,6 +19,7 @@
 			t
 		)
 	)
+)
 )
 
 (defun unify (schema story old-bindings whole-schema whole-story)
@@ -51,7 +54,7 @@
 
 	; also strip nots
 	(if (and (equal (car story) 'NOT) (equal (car schema) 'NOT))
-		(return-from outer (unify-props (second schema) (second story) whole-schema whole-story))
+		(return-from outer (unify-props (second schema) (second story) bindings whole-schema whole-story))
 	)
 
 	(if (or (equal (car story) 'NOT) (equal (car schema) 'NOT))
@@ -79,18 +82,28 @@
 		(return-from outer nil)
 		)
 	)
+	; (format t "story pre args are ~s~%" story-pre-args)
+	; (format t "schema pre args are ~s~%" schema-pre-args)
+	; (format t "bindings are ~s~%" (print-ht bindings))
+	; (format t "schema is ~s~%" schema)
 	(loop for schema-pre-arg in schema-pre-args
 		for story-pre-arg in story-pre-args do (block uargs
 			(setf bindings (unify-individuals schema-pre-arg story-pre-arg bindings whole-schema whole-story))
 			(if (null bindings)
 				; then
 				(progn
+				; (format t "they didn't bind~%")
 				(dbg 'unify "cannot unify props ~s and ~s (could not unify all prefix args)~%" schema story)
 				(return-from outer nil)
 				)
+				; else
+				; (format t "they did bind~%")
 			)
 		)
 	)
+	; (format t "~%")
+
+	; (format t "bindings are no1 ~s~%" (ht-to-str bindings))
 
 	; step 4: compare the preds (w/ postfix args).
 	; TODO: actual subsumption check w/ ontology? Synonyms? etc.
@@ -104,6 +117,7 @@
 	 ;(dbg 'unify "packaged story pred: ~s~%" packaged-story-pred)
 	 ;(dbg 'unify "is pred? ~s~%" (canon-pred? packaged-story-pred))
 	(setf bindings (unify-preds packaged-schema-pred packaged-story-pred bindings whole-schema whole-story))
+	; (format t "bindings are now2 ~s~%" (ht-to-str bindings))
 	; (dbg 'unify "packaged schema pred: ~s~%" packaged-schema-pred)
 	; (if (not (unify-preds packaged-schema-pred packaged-story-pred bindings))
 	(if (null bindings)
@@ -113,6 +127,8 @@
 		(return-from outer nil)
 		)
 	)
+
+	; (format t "success!~%")
 
 
 	; Success!
@@ -244,6 +260,7 @@
 		; then
 		(progn
 		(dbg 'unify "unifying eps ~s and ~s~%" schema story)
+		; (format t "gotta unify eps ~s and ~s~%" schema story)
 		(setf bindings (can-unify-episodes schema story whole-schema whole-story bindings))
 		(if (null bindings)
 			; then
@@ -294,7 +311,7 @@
 	)
 
 	; Individuals can now both be kinds, Skolem constants,
-	; pronouns, names, p-args, reified propositions, and random
+	; pronouns, names, p-args, reified propositions, and arbitrary
 	; alphanumeric symbols (although these should be avoided in
 	; practice). If they aren't lists, they should only be checked
 	; for equality.
@@ -374,6 +391,8 @@
 )
 (block outer
 	(dbg 'unify "got schema mod list ~s~%" schema-mods)
+	;(format t "got schema mod list ~s~%" schema-mods)
+	;(format t "got story mod list ~s~%" story-mods)
 
 	(if (< (length story-mods) (length schema-mods))
 		; then
@@ -392,6 +411,8 @@
 			(if (not (null tmp-bindings2))
 				; then
 				(progn
+				;(format t "comparing mods ~s and ~s~%" schema-mod story-mod)
+				;(format t "bound!~%")
 				(setf bound (append bound (list story-mod)))
 				(setf unified-mods (+ 1 unified-mods))
 				(setf tmp-bindings tmp-bindings2)
@@ -444,6 +465,7 @@ bind-pred
 	(setf story-pred (pred-base (pred-without-post-args story)))
 	(setf story-mods (pred-mods story))
 	(setf story-args (pred-args story))
+	; (format t "uni-preds starting off with bindings ~s~%" (ht-to-str bindings))
 
 	; First off: if the schema is do.v ?a, we'll try to bind ?a to a kind
 	; of action of the story pred. But first, we'll need to unify any do.v
@@ -462,16 +484,23 @@ bind-pred
 			(dbg 'unify "schema mods are ~s and story mods are ~s~%" schema-mods story-mods)
 			(dbg 'unify "1 binding story pred ~s~%" story-pred)
 			(setf mod-bindings (expl-unify-mod-lists schema-mods story-mods bindings whole-schema whole-story))
-			(format t "~d mod bindings~%" (length mod-bindings))
+			; (format t "~d mod bindings~%" (length mod-bindings))
 			(setf mod-bound (car mod-bindings))
 			(setf mod-bindings (second mod-bindings))
-			(if (null mod-bindings)
-				; then
-				(progn
-				(dbg 'unify "predicates ~s and ~s cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%" schema story)
-				(return-from outer nil)
-				)
+			; (format t "working with mod bindings ~s~%" mod-bindings)
+
+			; For now, we'll allow the modifiers to not be matched.
+			(if (ht-empty? mod-bindings)
+				(setf mod-bindings bindings)
 			)
+
+			;(if (ht-empty? mod-bindings)
+			;	; then
+			;	(progn
+			;	(dbg 'unify "predicates ~s and ~s cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%" schema story)
+			;	(return-from outer nil)
+			;	)
+			;)
 			(setf bind-pred (apply-mods (set-difference story-mods mod-bound :test #'equal) story-pred))
 			(dbg 'unify "2 binding story pred ~s~%" story-pred)
 			(dbg 'unify "bind-pred is ~s~%" bind-pred)
@@ -491,7 +520,10 @@ bind-pred
 			)
 
 			; Success for the do.v ?a case!
-			(dbg 'unify "bound ~s to ~s~%" (car schema-args) (gethash (car schema-args) mod-bindings))
+			; (dbg 'unify "bound ~s to ~s~%" (car schema-args) (gethash (car schema-args) mod-bindings))
+			; (format t "bound ~s to ~s~%" (car schema-args) (gethash (car schema-args) mod-bindings))
+			; (format t "schema args are ~s~%" schema-args)
+			; (format t "mod bindings are ~s~%" (ht-to-str mod-bindings))
 			(return-from outer mod-bindings)
 		)
 	)
@@ -570,7 +602,7 @@ bind-pred
 
 	; Unify all schema modifiers with some modifiers from the
 	; story predicate & accumulate bindings.
-	(setf tmp-bindings (unify-mod-lists schema-mods story-mods bindings whole-schema whole-story))
+	(setf tmp-bindings (unify-mod-lists schema-mods story-mods tmp-bindings whole-schema whole-story))
 	(if (null tmp-bindings)
 		(progn
 		(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify all modifiers in the former with any in the latter)~%" schema story)

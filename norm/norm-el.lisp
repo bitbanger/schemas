@@ -385,6 +385,10 @@
 
 	; default case: prefix args, pred, postfix args
 	(setf pred-idx (position-if #'canon-pred? prop))
+	(if (null pred-idx)
+		; It's a conjunction
+		(return-from outer nil)
+	)
 	(if (> pred-idx 0)
 		(setf pre-args (subseq prop 0 pred-idx))
 	)

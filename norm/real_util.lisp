@@ -431,6 +431,10 @@
 )
 )
 
+(defun ht-empty? (ht)
+	(or (null ht) (equal 0 (hash-table-count ht)))
+)
+
 (defun xor (p q)
 	(or
 		(and p (not q))

@@ -4,6 +4,7 @@
 ; (load "coref.lisp")
 (load "norm-kb.lisp")
 (load "norm-subsumption.lisp")
+(load "norm-time.lisp")
 
 (defparameter *SEC-NAMES* '(
 	:Roles
@@ -247,6 +248,10 @@
 	(setf const-num (- (length (get-section schema sec-name)) 1))
 	(setf new-const (list (intern (format nil "~a~d" (sec-formula-prefix sec-name) (+ const-num 1))) constraint))
 	(setf new-sec (append (get-section schema sec-name) (list new-const)))
+	(if (equal 1 (length new-sec))
+		; we're creating it, so add the name
+		(setf new-sec (append (list sec-name) new-sec))
+	)
 	(return-from outer (set-section schema sec-name new-sec))
 )
 )
@@ -400,11 +405,49 @@
 	)
 )
 
+(defun constr-name (pred)
+(block outer
+	(if (symbolp pred)
+		(return-from outer (intern (car (split-str (format nil "~s" pred) "."))))
+	)
+
+	(if (and
+			(listp pred)
+			(equal 2 (length pred))
+			(equal 'PLUR (car pred))
+			(symbolp (second pred))
+		)
+		; then
+		(return-from outer (intern (concat-strs (car (split-str (format nil "~s" (second pred)) ".")) "S")))
+	)
+
+	(return-from outer nil)
+)
+)
+
 (defun generalize-schema-constants (schema)
 (block outer
 	(setf gen-cursor "?X_A")
 	(setf gen-schema schema)
 	(loop for si in (extract-schema-small-individuals schema) do (block gen-block
+		; (format t "small ind ~s~%" si)
+		(loop for constr in (schema-term-constraints schema si)
+			do (block cc
+				(if (and
+						(listp (second constr))
+						(equal 2 (length (second constr)))
+						(equal si (car (second constr)))
+						(not (null (constr-name (second (second constr)))))
+					)
+					; then
+					(progn
+					; (format t "	constr ~s~%" (constr-name (second (second constr))))
+					; (format t "~s~%" (second constr))
+					)
+				)
+			)
+		)
+
 		(loop while (has-element gen-schema (intern gen-cursor))
 			do (setf gen-cursor (next-str gen-cursor))
 		)
@@ -546,11 +589,13 @@
 )
 )
 
-(defun get-schema-word-preds (schema)
+(defun get-word-preds (schema)
 	(remove-duplicates (get-elements-pred schema (lambda (x)
 		(and
 			(symbolp x)
+			(not (lex-p? x))
 			(not (null (search "." (format nil "~s" x))))
+			(canon-pred? x)
 		)
 	)) :test #'equal)
 )
@@ -559,7 +604,7 @@
 (let ((ht (make-hash-table :test #'equal)))
 (block outer
 	(loop for schema in schemas
-		do (loop for word in (get-schema-word-preds schema)
+		do (loop for word in (get-word-preds schema)
 			do (if (null (member schema (gethash word ht) :test #'equal))
 				; then
 				(push schema (gethash word ht))
@@ -580,10 +625,10 @@
 	(loop for schema in schemas
 		do (block check-schema
 			(setf schema-score 0)
-			(setf schema-words (get-schema-word-preds schema))
+			(setf schema-words (get-word-preds schema))
 			(loop for word in words
 				do (loop for schema-word in schema-words
-					do (if (subsumes schema-word word))
+					do (if (subsumes schema-word word)
 						; then
 						(setf schema-score (+ schema-score 1))
 					)

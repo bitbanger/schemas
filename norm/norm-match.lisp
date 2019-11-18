@@ -27,114 +27,47 @@
 ;
 ; TODO: check constraints
 (defun unify-with-schema (phi schema story)
-(let (bindings)
 (block outer
-	; (setf story-kb (story-to-kb story))
-	; (format t "START~%")
-	; (print-ht (kb-explicit story-kb))
-	; (format t "END~%")
-	(loop for sec in (nonmeta-sections schema)
+	; (loop for sec in (nonmeta-sections schema)
+	(loop for sec in (fluent-sections schema)
 		do (dbg 'match "	schema sec ~s~%" (section-name sec))
 		do (loop for formula in (section-formulas sec) do
 			(block uni
 				(dbg 'match "		schema ~s~%" (second formula))
-				;(dbg 'match "	~s~%" (second formula))
-				(setf new-bindings (unify (second formula) phi bindings schema story))
+				(setf new-bindings (unify (second formula) phi nil schema story))
+				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))
 
 				; Bind episodes to formula IDs as well
 				(if (and (not (null new-bindings)) (canon-charstar? phi) (equal (section-type sec) 'FLUENT))
 					; then
-					; (dbg 'match "temporal formula ~s <-> ~s~%" (third phi) (car formula))
-					(if (not (bind-if-unbound (car formula) (third phi) new-bindings))
+					; (if (not (bind-if-unbound (car formula) (third phi) new-bindings))
+					(progn
+					(setf bindings-with-ep-ids (unify-individuals (car formula) (third phi) new-bindings schema story))
+					(if (null bindings-with-ep-ids)
 						; then
 						(progn
 						(dbg 'match "~s already bound; cannot bind!~%" (car formula))
-						; (return-from outer bindings)
 						(return-from uni)
 						)
+						; else
+						(setf new-bindings bindings-with-ep-ids)
+					)
 					)
 				)
 
-				; (dbg 'match "set bindings are ~s~%" (ht-to-str bindings))
-				; (setf (gethash bindings (car formula)) 
 				(if (null new-bindings)
 					; then
-					;(dbg 'match "no uni~%")
-					;(return-from outer nil)
 					nil
 					; else
-					(progn
-					; (format t "bound to ~s~%" (second formula))
-					; (format t "bindings are ~s~%" (ht-to-str new-bindings))
-					; (print-schema (apply-bindings schema new-bindings))
-					; (setf tcs (check-temporal-constraints (apply-bindings schema new-bindings)))
-					; (if (> (second tcs) 0) (format t "invalid temporal constraint score: ~s~%" tcs))
-
-					;(loop for k being the hash-keys of new-bindings
-						;do (block resolve-cs
-							;(setf schema-constraints (loop for c in (schema-term-constraints schema k)
-							; Extract all constraints with no unbound vars
-							;if (not (has-element-pred c
-									;(lambda (x) (and
-											;(varp x) 
-											;(not (nth-value 1 (gethash x new-bindings))) ))))
-								;collect (second c)))
-
-							; (setf story-constraints (story-select-term-constraints story (list (gethash k new-bindings))))
-
-							; (format t "schema constraints for ~s:~%" k)
-							; (format t "~s~%" (apply-bindings (get-section schema ':Episode-relations) new-bindings))
-							;(setf true-count 0)
-							;(setf untrue-count 0)
-							;(loop for c in schema-constraints
-								;if (not (time-prop? c)) ; we handle time props
-														; afterward, and they're slow
-								;do (block check-constr
-									; (format t "	~s~%" (apply-bindings c new-bindings))
-									;(if (eval-prop (apply-bindings c new-bindings) story-kb)
-										; then
-										; (format t "		true~%")
-										;(setf true-count (+ 1 true-count))
-										; else
-										; (format t "		not true~%")
-										;(setf untrue-count (+ 1 untrue-count))
-									;)
-								;)
-							;)
-							; (format t "~s true, ~s untrue~%" true-count untrue-count)
-
-							; If the binding creates an inconsistency
-							; in the schema, we'll abandon this match.
-							;(if (> untrue-count true-count)
-								; then
-								;(return-from uni)
-							;)
-
-							; (format t "story constraints for ~s:~%" (gethash k new-bindings))
-							; (loop for c in story-constraints do (format t "	~s~%" c))
-						;)
-					;)
-
-					;(dbg 'match "UNIFIED~%")
-					;(dbg 'match "	~s~%" formula)
-					; (dbg 'match "WITH~%")
-					; (dbg 'match "	~s~%" phi)
-					;(dbg 'match "bindings:~%~s~%" (ht-to-str bindings))
-					;(dbg 'match "small individuals:~%~s~%" (extract-small-individuals phi))
-					;(dbg 'match "extra constraints:~%~s~%" (story-select-term-constraints story (extract-small-individuals phi)))
-					;(dbg 'match "final schema:~%~s~%" (apply-bindings schema bindings))
-					;(dbg 'match "final schema with added constraint:~%~s~%" (add-role-constraint (apply-bindings schema bindings) 'TRUE))
-
-					(return-from outer new-bindings)
-					)
+					(return-from outer (list (second formula) phi new-bindings))
 				)
 			)
 		)
 	)
 
-	(return-from outer bindings)
+	(return-from outer nil)
 	)
-))
+)
 
 ; apply-bindings-and-check applies the given bindings map
 ; to a schema, but checks that the schema's constraints are
@@ -166,18 +99,27 @@
 	; (setf story-formulas (linearize-story story))
 
 	(loop for phi in story-formulas do (block uni-loop
+			(if (not (canon-charstar? phi))
+				(return-from uni-loop)
+			)
+
 			(setf small-inds (extract-small-individuals phi))
 			(setf all-small-inds (remove-duplicates (union small-inds all-small-inds) :test #'equal))
 			(setf constraints (story-select-term-constraints story-formulas small-inds))
 	
 			(dbg 'match "trying:~%")
 			(dbg 'match "	formula ~s~%" phi)
-			(setf go-match (unify-with-schema phi test-schema story-formulas))
+			(setf go-match-triple (unify-with-schema phi test-schema story-formulas))
+			(setf matched-schema (car go-match-triple))
+			(setf matched-story (second go-match-triple))
+			(setf go-match (third go-match-triple))
 	
 			(if (not (null go-match))
 				; then
 				(block print-go-match
 					(dbg 'match "bound to story formula ~s~%" phi)
+					; (format t "bound schema formula ~s to story formula ~s in base schema~%~s~%" matched-schema phi test-schema)
+					; (format t "produced bindings ~s~%" (ht-to-str go-match))
 					(setf total-matches (+ total-matches 1))
 					; (dbg 'match "Extra constraints: ~s~%" constraints)
 
@@ -186,9 +128,10 @@
 						do (setf (gethash key all-bindings) (gethash key go-match))
 					)
 	
-					(setf go-match-schema (apply-bindings-and-check test-schema go-match story-formulas))
+					(setf go-match-schema (apply-bindings test-schema go-match))
+					; (format t "applied bindings ~s~%" (ht-to-str go-match))
 
-					; Make sure the full matched sentence goes in the step slot
+					; Make sure the full matched sentence 
 					(setf new-steps (list ':Steps))
 					(loop for s in (cdr (get-section go-match-schema ':Steps)) do (block fix-steps
 						(if (and (canon-charstar? phi) (equal (third phi) (car s)))
@@ -198,6 +141,7 @@
 							(setf new-steps (append new-steps (list s)))
 					)))
 					(setf go-match-schema (set-section go-match-schema ':Steps new-steps))
+
 	
 					(loop for const in constraints do (block const-add
 						(if (time-prop? const)

@@ -1319,6 +1319,7 @@
 			)
 		)
 	)) :test #'equal))
+	; (format t "got initial parse ~s~%" new-sents)
 	(setf needs-res-numbers (loop for e in needs-res collect (parse-integer (second (split-str (format nil "~s" e) "$")))))
 	(setf needs-res-pairs (loop for e1 in needs-res for e2 in needs-res-numbers collect (list e1 e2)))
 	; (format t "individuals that need resolving: ~s~%" needs-res-pairs)
@@ -1331,6 +1332,7 @@
 	; (format t "all coref pairs: ~s~%" all-coref-pairs)
 	(loop for acp in all-coref-pairs
 		do (loop for ind-pair in needs-res-pairs
+			; do (format t "considering ind ~s for pair ~s~%" ind-pair acp)
 			do (if (and (in-span (second ind-pair) acp) (null (member (car ind-pair) claimed-inds :test #'equal)))
 				; then
 				(progn
@@ -1348,13 +1350,21 @@
 		do (setf clusters (replace-vals cp (gethash cp coref-pair-to-ind) clusters ))
 	)
 
-	(loop for cluster in clusters
+	(loop for orig-cluster in clusters
 		for i from 0
 		do (block alias-block
+			; We may end up with spans not mapped to individuals if
+			; some coreference resolution is done by pre-existing
+			; parser rules.
+			(setf cluster (loop for e in orig-cluster if (member e claimed-inds :test #'equal) collect e))
+
 			(setf pronouns (loop for e in cluster if (lex-pronoun? e) collect e))
 			(setf non-pronouns (loop for e in cluster if (not (lex-pronoun? e)) collect e))
 			; (format t "cluster ~d, pronouns ~s, others ~s~%" i pronouns non-pronouns)
 			(setf rep-name (car (append non-pronouns pronouns)))
+			(if (lex-pronoun? rep-name)
+				(setf rep-name (new-skolem! (intern (car (split-str (format nil "~s" rep-name) ".")))))
+			)
 			; (format t "picking representative name ~s~%" rep-name)
 			(loop for e in cluster
 				if (not (equal e rep-name))

@@ -177,6 +177,19 @@
 	(loop for form in phi do (block loop-outer
 		(if (and
 				(listp form)
+				(canon-charstar? form)
+				(lex-skolem? (third form))
+				(has-prefix? (format nil "~s" (third form)) "OBJECT")
+				)
+			; then
+			(block loop-inner
+				(setf new-skolem (new-skolem! 'E))
+				(setf phi-copy (replace-vals (third form) new-skolem phi-copy))
+			)
+		)
+
+		(if (and
+				(listp form)
 				(equal 2 (length form))
 				(lex-skolem? (car form))
 				(symbolp (second form))

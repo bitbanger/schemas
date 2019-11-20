@@ -206,7 +206,10 @@
 				; (format t "got LF ~s from word ~s~%" (derive-word-lf tree *glob-idx*) tree)
 				(setf derived-word-tmp (derive-word-lf tree *glob-idx*))
 				(if (not (equal tree '(POS |'S|)))
+					; then
 					(setf *glob-idx* (+ *glob-idx* 1))
+					; else
+					; (format t "	(didn't advance word counter for non-Allen token ~s~%" tree)
 				)
 				(return-from inner derived-word-tmp)
 				)
@@ -268,7 +271,7 @@
 (block outer
 (let* (
 	(derived (old-derive-word-lf pos+word{s}))
-	(derived-syms (get-elements-pred (listify-nonlists derived) (lambda (x) (and (or (lex-noun? x) (canon-individual? x)) (symbolp x) (not (null (search "." (format nil "~s" x))))))))
+	(derived-syms (get-elements-pred (listify-nonlists derived) (lambda (x) (and (or (canon-pred? x) (canon-individual? x)) (symbolp x) (not (null (search "." (format nil "~s" x))))))))
 	)
 	(if (and
 			(listp derived-syms)

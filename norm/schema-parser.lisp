@@ -5,6 +5,7 @@
 (load "real_util.lisp")
 (load "parse.lisp")
 (load "norm-el.lisp")
+(load "norm-coref.lisp")
 
 ; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
@@ -1300,23 +1301,95 @@
 	)
 )
 
+(defun in-span (num span)
+	(and (>= num (car span)) (<= num (second span)))
+)
+
 (defun parse-story (sents)
 (block outer
 	(setf *glob-idx* 0)
 	(setf new-sents (loop for sent in sents collect (schema-cleanup (interpret sent))))
-	(format t "individuals that need resolving: ~s~%"
-		(remove-duplicates (get-elements-pred new-sents (lambda (x)
-			(let ((spl (split-str (format nil "~s" x) "$")))
+	(setf needs-res (remove-duplicates (get-elements-pred new-sents (lambda (x)
+		(let ((spl (split-str (format nil "~s" x) "$")))
+			(and
+				(canon-individual? x)
 				(and
-					(canon-individual? x)
-					(and
-						(equal 3 (length spl))
-						(num-str? (second spl)))
+					(equal 3 (length spl))
+					(num-str? (second spl)))
+			)
+		)
+	)) :test #'equal))
+	(setf needs-res-numbers (loop for e in needs-res collect (parse-integer (second (split-str (format nil "~s" e) "$")))))
+	(setf needs-res-pairs (loop for e1 in needs-res for e2 in needs-res-numbers collect (list e1 e2)))
+	; (format t "individuals that need resolving: ~s~%" needs-res-pairs)
+
+	(setf clusters (coref-pairs (join-str-list " " sents)))
+	(setf coref-pair-to-ind (make-hash-table :test #'equal))
+	(setf claimed-inds (list))
+	(setf all-coref-pairs (loop for o in clusters append o))
+	(setf all-coref-pairs (sort all-coref-pairs (lambda (x y) (> (- (second y) (car y)) (- (second x) (car x))))))
+	; (format t "all coref pairs: ~s~%" all-coref-pairs)
+	(loop for acp in all-coref-pairs
+		do (loop for ind-pair in needs-res-pairs
+			do (if (and (in-span (second ind-pair) acp) (null (member (car ind-pair) claimed-inds :test #'equal)))
+				; then
+				(progn
+					(setf (gethash acp coref-pair-to-ind) (car ind-pair))
+					(setf claimed-inds (append claimed-inds (list (car ind-pair))))
 				)
 			)
-		)) :test #'equal)
-	(format t "final parse: ~s~%" new-sents)
+		)
 	)
+
+	; (format t "coref clusters: ~s~%" clusters)
+
+	; (format t "coref pair to ind map: ~s~%" (ht-to-str coref-pair-to-ind))
+	(loop for cp being the hash-keys of coref-pair-to-ind
+		do (setf clusters (replace-vals cp (gethash cp coref-pair-to-ind) clusters ))
+	)
+
+	(loop for cluster in clusters
+		for i from 0
+		do (block alias-block
+			(setf pronouns (loop for e in cluster if (lex-pronoun? e) collect e))
+			(setf non-pronouns (loop for e in cluster if (not (lex-pronoun? e)) collect e))
+			; (format t "cluster ~d, pronouns ~s, others ~s~%" i pronouns non-pronouns)
+			(setf rep-name (car (append non-pronouns pronouns)))
+			; (format t "picking representative name ~s~%" rep-name)
+			(loop for e in cluster
+				if (not (equal e rep-name))
+					do (setf new-sents (replace-vals e rep-name new-sents))
+			)
+		)
+	)
+
+	; (format t "individual-mapped coref clusters: ~s~%" clusters)
+	; (format t "resolved parse: ~s~%" new-sents)
+
+	(setf needs-cleaning (remove-duplicates (get-elements-pred new-sents (lambda (x)
+		(let ((spl (split-str (format nil "~s" x) "$")))
+			(and
+				(symbolp x)
+				(and
+					(equal 3 (length spl))
+					(num-str? (second spl)))
+			)
+		)
+	)) :test #'equal))
+	(loop for nc in needs-cleaning
+		do (block clean-nums
+			; (format t "need to clean ~s~%" nc)
+			(setf nc-repl (let ((spl (split-str (format nil "~s" nc) "$")))
+				(intern (concat-strs (car spl) (third spl)))
+			))
+			; (format t "replacing with ~s~%" nc-repl)
+			(setf new-sents (replace-vals nc nc-repl new-sents))
+		)
+	)
+
+	; (format t "number-cleaned, final parse: ~s~%" new-sents)
+
+	(return-from outer new-sents)
 )
 )
 

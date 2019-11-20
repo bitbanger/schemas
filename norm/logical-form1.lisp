@@ -1,3 +1,4 @@
+(load "real_util.lisp")
 
 ;; MAIN TREEBANK LF PROGRAMS (AS IN THE MINIPAR-ORIENTED VERSION) ARE 
 ;;
@@ -155,6 +156,8 @@
  )); end of strip-keywords
 
 
+(setf *glob-idx* 0)
+
 (defun derive-lf (tree) ; Jan 29/10
 ;~~~~~~~~~~~~~~~~~~~~~~
 ; PURPOSE: To compute the unscoped logical form of a preprocessed Treebank
@@ -186,7 +189,8 @@
         (if (proper-list (second tree))
                 ; if the 1st child is a proper list,
                 ; assume we're interpreting a phrase
-            (let ((lfs (mapcar #'derive-lf (cdr tree))))
+            ; (let ((lfs (mapcar #'derive-lf (cdr tree))))
+			(let ((lfs (loop for e in (cdr tree) collect (derive-lf e))))
                  (derive-phrase-lf ; wrap (...) around (car tree), if atomic,
                                    ; to make representations of phrases uniform
                                    ; from the perspective of 'derive-phrase-lf'
@@ -198,7 +202,15 @@
                         (cons (list (car tree)) (cdr tree)) )
                     lfs ))
             ; The child is atomic, so assume we have a categorized word
-            (derive-word-lf tree) ))
+            (block inner
+				(format t "got LF ~s from word ~s~%" (derive-word-lf tree *glob-idx*) tree)
+				(setf derived-word-tmp (derive-word-lf tree *glob-idx*))
+				(if (not (equal tree '(POS |'S|)))
+					(setf *glob-idx* (+ *glob-idx* 1))
+				)
+				(return-from inner derived-word-tmp)
+				)
+			))
  )); end of derive-lf
 
 
@@ -252,7 +264,30 @@
   (and x (listp x)) )
 
 
-(defun derive-word-lf (pos+word{s}); Oct 17/03; Jan 31/10; Oct 4/10; Oct 6/10
+(defun derive-word-lf (pos+word{s} idx)
+(block outer
+(let* (
+	(derived (old-derive-word-lf pos+word{s}))
+	(derived-syms (get-elements-pred (listify-nonlists derived) (lambda (x) (and (or (lex-noun? x) (canon-individual? x)) (symbolp x) (not (null (search "." (format nil "~s" x))))))))
+	)
+	(if (and
+			(listp derived-syms)
+			(equal 1 (length derived-syms))
+			(not (equal (car derived-syms) '..PUNC)))
+		; then
+		(let* ((spl (split-str (format nil "~s" (car derived-syms)) "."))
+			(replacement (intern (concat-strs (car spl) (format nil "$~s$" idx) "." (second spl))))
+			)
+			(return-from outer (replace-vals (car derived-syms) replacement derived))
+		)
+		; else
+		(return-from outer derived)
+	)
+)
+)
+)
+
+(defun old-derive-word-lf (pos+word{s}); Oct 17/03; Jan 31/10; Oct 4/10; Oct 6/10
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~; Nov 3-4/10
 ; Derive a logical form for the given part of speech + word(s);
 ; this might be done by lexical lookup, but it is done procedurally here.
@@ -464,6 +499,8 @@
 ; 
   (prog (pos general-pos word stem stem-parts stem-str 
          log-atom log-atom-str old possessor result)
+
+		; (format t "got word ~s~%" pos+word{s})
 
         ; Treat single numbers and strings as standing for themselves; 
         ; (if word is followed by additional words, then numbers and strings

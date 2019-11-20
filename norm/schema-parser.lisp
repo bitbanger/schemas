@@ -1294,7 +1294,30 @@
 ; (format t "~s~%" (schema-cleanup *PHI*))
 
 (defun schema-parse (sent)
+	(progn
+	(setf *glob-idx* 0) ; for multi-sentence parser word indexing
 	(schema-cleanup (interpret sent))
+	)
+)
+
+(defun parse-story (sents)
+(block outer
+	(setf *glob-idx* 0)
+	(setf new-sents (loop for sent in sents collect (schema-cleanup (interpret sent))))
+	(format t "individuals that need resolving: ~s~%"
+		(remove-duplicates (get-elements-pred new-sents (lambda (x)
+			(let ((spl (split-str (format nil "~s" x) "$")))
+				(and
+					(canon-individual? x)
+					(and
+						(equal 3 (length spl))
+						(num-str? (second spl)))
+				)
+			)
+		)) :test #'equal)
+	(format t "final parse: ~s~%" new-sents)
+	)
+)
 )
 
 (defun sp (sent)

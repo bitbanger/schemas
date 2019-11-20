@@ -203,7 +203,7 @@
                     lfs ))
             ; The child is atomic, so assume we have a categorized word
             (block inner
-				(format t "got LF ~s from word ~s~%" (derive-word-lf tree *glob-idx*) tree)
+				; (format t "got LF ~s from word ~s~%" (derive-word-lf tree *glob-idx*) tree)
 				(setf derived-word-tmp (derive-word-lf tree *glob-idx*))
 				(if (not (equal tree '(POS |'S|)))
 					(setf *glob-idx* (+ *glob-idx* 1))

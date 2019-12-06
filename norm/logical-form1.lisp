@@ -15,6 +15,8 @@
 ;; PSTs for easier interpretation, and the derivation of word and
 ;; phrase LFs is generally much more thorough.
 
+(defparameter *ADD-TOK-NUMBERS* t)
+
 (defparameter *new-symbol-index* 0); for forming new atoms with numerical
                                    ; suffixes; used in 'missing-word-lf'
 
@@ -274,6 +276,7 @@
 	(derived-syms (get-elements-pred (listify-nonlists derived) (lambda (x) (and (or (canon-pred? x) (canon-individual? x)) (symbolp x) (not (null (search "." (format nil "~s" x))))))))
 	)
 	(if (and
+			*ADD-TOK-NUMBERS*
 			(listp derived-syms)
 			(equal 1 (length derived-syms))
 			(not (equal (car derived-syms) '..PUNC)))

@@ -167,6 +167,32 @@
 	name-skolems
 ))
 
+(defun extract-noun-sym (form)
+(block outer
+	(if (not (listp form))
+		(return-from outer nil)
+	)
+
+	(setf last-noun nil)
+	(loop for e in form
+		if (or (lex-noun? e) (mp e (list (id? 'PLUR) 'lex-noun?)))
+			do (setf last-noun e))
+
+	(if (null last-noun)
+		(return-from outer nil)
+	)
+
+	(if (mp last-noun (list (id? 'PLUR) 'lex-noun?))
+		; then
+		(setf last-noun (concat-strs (car (split-str (format nil "~s" (second last-noun)) ".")) "S"))
+		; else
+		(setf last-noun (car (split-str (format nil "~s" last-noun) ".")))
+	)
+
+	(return-from outer last-noun)
+)
+)
+
 ; Ideally, this wouldn't be necessary, but sometimes
 ; Skolemized things still get the OBJECT name, e.g. if
 ; a lambda-and predicate was Skolemized and couldn't be
@@ -188,20 +214,48 @@
 			)
 		)
 
+		(setf noun-sym (extract-noun-sym (second form)))
+
 		(if (and
 				(listp form)
 				(equal 2 (length form))
 				(lex-skolem? (car form))
-				(symbolp (second form))
-				(has-prefix? (format nil "~s" (car form)) "OBJECT")
+				(or
+					(symbolp (second form))
+					(and
+						(not (null noun-sym))
+						(not (has-prefix? (format nil "~s" (car form)) noun-sym))
+					)
+				)
+				(or
+					; we can replace renamed stuff if we find a noun
+					(has-prefix? (format nil "~s" (car form)) "OBJECT")
+					(and
+						(not (null noun-sym))
+						(not (has-prefix? (format nil "~s" (car form)) noun-sym))
+					)
+				)
 				)
 			; then
 			(block loop-inner
-				(setf sym-prefix (car (split-str (format nil "~s" (second form)) ".")))
-				(if (equal sym-prefix "OBJECT")
+				(setf sym-prefix nil)
+
+
+				(if (null noun-sym)
 					; then
-					(return-from loop-outer)
+					(progn
+						(setf sym-prefix (car (split-str (format nil "~s" (second form)) ".")))
+						; (format t "progn sym prefix ~s~%" sym-prefix)
+						(if (equal sym-prefix "OBJECT")
+							; then
+							(return-from loop-outer)
+						)
+					)
+					; else
+					(setf sym-prefix noun-sym)
 				)
+
+				; (format t "replacing ~s with ~s~%" (car form) sym-prefix)
 
 				(setf new-skolem (new-skolem! (intern sym-prefix)))
 				(setf phi-copy (replace-vals (car form) new-skolem phi))

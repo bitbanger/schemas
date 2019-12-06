@@ -551,6 +551,10 @@
 ; between fix rules.
 (defun probably-pred? (p)
 (block outer
+	(if (canon-pred? p)
+		(return-from outer t)
+	)
+
 	; If it's a pred with floating mods,
 	; it can pass---those will get fixed
 	; later, so we'll strip them out now.
@@ -583,10 +587,6 @@
 
 	; BE.V is weird and can pass
 	(if (and (listp p) (equal (car p) 'BE.V))
-		(return-from outer t)
-	)
-
-	(if (canon-pred? p)
 		(return-from outer t)
 	)
 )
@@ -1466,7 +1466,10 @@
 
 	; (format t "number-cleaned, final parse: ~s~%" new-sents)
 
-	(return-from outer new-sents)
+	; call schema-cleanup one more time, as the coref tags
+	; interfere with the cleanup procedures sometimes
+	; TODO: find out why & fix it
+	(return-from outer (mapcar #'schema-cleanup new-sents))
 )
 )
 

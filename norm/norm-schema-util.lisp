@@ -468,6 +468,24 @@
 	(intersection (schema-vars schema1) (schema-vars schema2) :test #'equal)
 )
 
+(defun uniquify-shared-vars (schema1 schema2)
+(block outer
+	(setf shared (shared-vars schema1 schema2))
+	(setf sc1 (copy-list schema1))
+	(setf sc2 (copy-list schema2))
+	(loop for var in shared
+		do (block rename
+			(setf var1 (intern (concat-strs (string var) "_1")))
+			(setf var2 (intern (concat-strs (string var) "_2")))
+			(setf sc1 (replace-vals var var1 sc1))
+			(setf sc2 (replace-vals var var2 sc2))
+		)
+	)
+
+	(return-from outer (list sc1 sc2))
+)
+)
+
 ; To merge two schemas, we'll:
 ;	1. rename their variables to be unique
 ;	2. concatenate all the formulas in each section
@@ -475,15 +493,12 @@
 (defun merge-schemas (schema1 schema2)
 (block outer
 	; 1. rename their variables to be unique
-	(setf shared (shared-vars schema1 schema2))
-	(setf sc1 schema1)
-	(setf sc2 schema2)
-	(loop for var in shared
-		do (block rename
-			(setf var1 (intern (concat-strs (string var) "_1")))
-			(setf var2 (intern (concat-strs (string var) "_2")))
-			(setf sc1 (replace-vals var var1 sc1))
-			(setf sc2 (replace-vals var var2 sc2))
+	(setf sc1 nil)
+	(setf sc2 nil)
+	(let ((uniq-pair (uniquify-shared-vars schema1 schema2)))
+		(progn
+			(setf sc1 (car uniq-pair))
+			(setf sc2 (second uniq-pair))
 		)
 	)
 

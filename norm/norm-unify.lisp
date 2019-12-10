@@ -397,8 +397,20 @@
 	(if (< (length story-mods) (length schema-mods))
 		; then
 		(progn
-		(dbg 'unify "modifier lists cannot be unified (not enough predicate modifiers in the latter~%")
+		(dbg 'unify "modifier lists cannot be unified (not enough predicate modifiers in the latter)~%")
 		(return-from outer (list nil (make-hash-table :test #'equal)))
+		)
+	)
+
+	(if (not (equal
+		(null (member 'NOT schema-mods :test #'equal))
+		(null (member 'NOT story-mods :test #'equal))))
+		; then
+		(progn
+		(dbg 'unify "modifier lists cannot be unified (different polarities)~%")
+		(return-from outer (list nil nil)) ; this one should actually return a null hash map,
+										   ; to cause a failure. the others don't because this
+										   ; failure is usually OK (but should lower score)
 		)
 	)
 
@@ -611,7 +623,6 @@ bind-pred
 	)
 	(setf bindings tmp-bindings)
 
-	; Unified!
 	(return-from outer bindings)
 )
 )

@@ -115,6 +115,8 @@
 	(canon-small-individual? x)
 	(canon-kind? x)
 	(varp x)
+	(mp x (list 'lex-fn? 'canon-individual?+)) ; can a function have
+											   ; 0 args?
 	(mp x (list 'lex-p-arg? 'canon-individual?))
 	(mp x (list (id? 'THAT) 'canon-prop?))
 	(mp x (list (id? 'SET-OF) 'canon-individual?+))

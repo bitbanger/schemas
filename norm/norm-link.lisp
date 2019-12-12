@@ -3,7 +3,7 @@
 ; norm-link.lisp contains functions to link schemas together by their
 ; pre- and post-conditions.
 
-(defun link-schemas-onedir (schema-pre schema-post)
+(defun link-schemas-onedir (schema-post schema-pre)
 (block outer
 	(setf schema-pre-uniq nil)
 	(setf schema-post-uniq nil)
@@ -14,12 +14,18 @@
 		)
 	)
 
-	(loop for pre in (section-formulas (get-section schema-pre ':Preconds))
-		do (loop for post in (section-formulas (get-section schema-post ':Postconds))
+	(loop for post in (section-formulas (get-section schema-post ':Postconds))
+		do (loop for pre in (section-formulas (get-section schema-pre ':Preconds))
 			do (block match-conds
-				(format t "precond ~s and postcond ~s~%" pre post)
+				(if (equal (second pre) (second post))
+					; then
+					; (format t "matching pre ~s and post ~s~%" pre post)
+					(return-from outer t)
+				)
 			)
 		)
 	)
+
+	(return-from outer nil)
 )
 )

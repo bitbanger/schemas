@@ -13,6 +13,8 @@
 (load "dev-frs.lisp")
 (load "monkey-processed.lisp")
 (load "norm-link.lisp")
+(load "dev-story-sents.lisp")
+(load "schema-parser.lisp")
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema (car kite-gen-schema))
@@ -73,11 +75,24 @@
 	; (format t "deduped:~%")
 	(if (and (schema? best-match) (not (equal '(0 0) best-score)))
 		(progn
-			(format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
-			(setf match (dedupe-sections best-match))
-			(print-schema match)
+			; (format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
+			; (format t "best match schema is ~s~%" (schema-name best-match))
+			; (format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
+			; (setf match (dedupe-sections best-match))
+			(setf match (apply-bindings (eval protoschema) best-bindings))
+			; (print-schema match)
+			; (format t "match: ~s~%" (car (second match)))
+			; (format t "header is ~s~%" (second match))
+			; (format t "additional rigid constraints:~%")
+			(loop for k being the hash-keys of best-bindings
+				do (if (not (member k (car (second (eval protoschema))) :test #'equal))
+					; then
+					; CHANGE TO FORMAT T TO RE-ENABLE
+					(format nil "	~s~%" (list (list (var-to-sk-fn k) (third (second (eval protoschema)))) '= (gethash k best-bindings)))
+				)
+			)
 			; (print-schema (gen-clean match))
-			(format t "~%~%~%")
+			; (format t "~%~%~%")
 
 			(setf (gethash protoschema matches) match)
 		)
@@ -97,28 +112,51 @@
 )
 )
 
-; (loop for story in ((lambda (x) (list (first x) (second x) (third x))) *DEV-FRS*)
-; (loop for story in *DEV-FRS*
-; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
 (setf all-matches (list))
-(loop for story in (list *MONKEY-PROC-1*)
-	do (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
-)
-
-
-(format t "all matches:~%")
-(loop for match1 in all-matches do
-	(loop for match2 in all-matches do
-		(block link-block
-			(if (equal match1 match2)
-				; then
-				(return-from link-block)
-			)
-
-			(link-schemas-onedir match1 match2)
+; (loop for story in ((lambda (x) (list (first x) (second x) (third x))) *DEV-FRS*)
+; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
+; (loop for story in (list *MONKEY-PROC-1*)
+; (loop for story in *DEV-FRS*
+(loop for raw-story in *DEV-STORY-SENTS*
+	do (block matchblock
+		(setf story 
+			(loop for sent in (parse-story raw-story)
+				collect (loop for wff in sent
+					if (canon-prop? wff) collect wff
+				))
 		)
+		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
+		(setf story-matches (loop for m in (run-matcher story *PROTOSCHEMAS*)
+			if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v))) collect m))
+
+		(loop for match in story-matches do
+			(format t "match: ~s~%" (car (second match))))
+
+		(format t "~%")
+
+		(if (> (length story-matches) 1)
+			; then
+			(loop for match1 in story-matches do
+				(loop for match2 in story-matches do
+					(block link-block
+						(if (equal match1 match2)
+							; then
+							(return-from link-block)
+						)
+	
+						(if (link-schemas-onedir match1 match2)
+							(format t "~s to enable ~s~%" (car (second match1)) (car (second match2)))
+						)
+					)
+				)
+			)
+		)
+
+		(format t "~%~%")
 	)
 )
+
+
 
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))

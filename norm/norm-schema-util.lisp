@@ -151,6 +151,10 @@
 )
 )
 
+(defun schema-name (schema)
+	(prop-pred (car (second schema)))
+)
+
 (defun schema-sections (schema)
 (progn
 	(check #'schema? schema)
@@ -369,6 +373,17 @@
 (block outer
 	; (format t "extracting from ~s~%" phi)
 	(return-from outer (get-elements-pred phi #'canon-small-individual?))
+)
+)
+
+(defun var-to-sk-fn (var)
+(block outer
+	(if (not (varp var))
+		; then
+		(return-from outer nil)
+	)
+
+	(return-from outer (intern (concat-strs (remove-prefix (format nil "~s" var) "?") "<-")))
 )
 )
 

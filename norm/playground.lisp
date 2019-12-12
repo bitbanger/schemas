@@ -11,6 +11,7 @@
 (load "norm-time.lisp")
 (load "parsed-stories.lisp")
 (load "dev-frs.lisp")
+(load "monkey-processed.lisp")
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
 ;(print-schema (car kite-gen-schema))
@@ -28,6 +29,11 @@
 
 ; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
 (defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v 'eat_food.v))
+
+
+(defun gen-clean (schema)
+	(rename-constraints (sort-steps (generalize-schema-constants schema)))
+)
 
 
 (defun run-matcher (story schemas)
@@ -69,6 +75,7 @@
 			(format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
 			(setf match (dedupe-sections best-match))
 			(print-schema match)
+			; (print-schema (gen-clean match))
 			(format t "~%~%~%")
 
 			(setf (gethash protoschema matches) match)
@@ -88,7 +95,9 @@
 )
 
 ; (loop for story in ((lambda (x) (list (first x) (second x) (third x))) *DEV-FRS*)
-(loop for story in *DEV-FRS*
+; (loop for story in *DEV-FRS*
+; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
+(loop for story in (list *MONKEY-PROC-1*)
 	do (run-matcher story *PROTOSCHEMAS*)
 )
 

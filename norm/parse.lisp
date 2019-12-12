@@ -85,6 +85,17 @@
 	(varp x)
 )
 
+(defun lex-sk-fn? (x)
+	(has-ext? x "<-")
+)
+
+(defun lex-fn? (x)
+(or
+	(has-ext? x ".F")
+	(lex-sk-fn? x)
+)
+)
+
 (defun lex-number? (x)
 	(numberp x)
 )

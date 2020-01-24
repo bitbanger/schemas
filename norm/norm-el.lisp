@@ -142,6 +142,7 @@
 
 	; Bare verbs/modals, nouns, adjectives, and prepositions are predicates
 	(lex-verb? x)
+	(lex-metapred? x)
 	(lex-noun? x)
 	; (lex-modal? x)
 	(lex-adj? x)

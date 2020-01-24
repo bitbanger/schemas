@@ -572,12 +572,29 @@ bind-pred
 	; lists. First, unify the two "head" predicates, which will
 	; be lexical (for now?).
 
+
 	;(if (not (equal schema-pred story-pred))
 	(if (not (subsumes schema-pred story-pred))
 		; then
-		(progn
-		(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
-		(return-from outer nil)
+		(if (not (subsumes story-pred schema-pred))
+			; then
+			(progn
+			(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
+			(return-from outer nil)
+			)
+		)
+		; else
+		(if (and
+				(not (equal schema-pred story-pred))
+				(lex-metapred? schema-pred)
+			)
+			; then
+			(progn
+			; (format t "unequal subsumption in ~s and ~s~%" schema-pred story-pred)
+			; TODO: make this only happen for the specific
+			; metapred, not all across the schema when binding
+			(setf (gethash schema-pred bindings) story-pred)
+			)
 		)
 	)
 

@@ -29,10 +29,56 @@
 	((FOOD.N FRUIT.N) t) ; fruit is food
 )))
 
+(defun get-schema-match-num (pred)
+(block outer
+	(if (symbolp pred)
+		(setf spl (split-str (format nil "~s" pred) "."))
+	)
+	(if (and (symbolp pred)
+			(> (length spl) 2)
+			(is-num-str? (nth (- (length spl) 2) spl)))
+		; then
+		(return-from outer (parse-integer (nth (- (length spl) 2) spl)))
+		; else
+		(return-from outer nil)
+	)
+)
+)
+
+(defun get-schema-match-name (pred)
+(block outer
+	(if (symbolp pred)
+		(setf spl (split-str (format nil "~s" pred) "."))
+	)
+	(if (and (symbolp pred)
+			(> (length spl) 2)
+			(is-num-str? (nth (- (length spl) 2) spl)))
+		; then
+		(return-from outer
+			(intern (join-str-list "." (append
+				(subseq spl 0 (- (length spl) 2))
+				(last spl)
+			)))
+		)
+		; else
+		(return-from outer nil)
+	)
+)
+)
+
 (defun subsumes (schema-pred story-pred)
 (block outer
 	; If they're equal, schema subsumes story
 	(if (equal schema-pred story-pred)
+		(return-from outer t)
+	)
+
+	; If the story pred is a specification of the schema pred,
+	; then schema subsumes story
+	; TODO: proper hierarchy for inheritance
+	(if (and (not (null (get-schema-match-num story-pred)))
+			(equal (get-schema-match-name story-pred) schema-pred))
+		; then
 		(return-from outer t)
 	)
 
@@ -42,7 +88,7 @@
 		(return-from outer t)
 	)
 
-	(if (and (equal schema-pred 'receiving_verb.v)
+	(if (and (equal schema-pred 'receiving_verb?)
 			(not (null (member story-pred *RECEIVING-PREDS* :test #'equal))))
 		; then
 		(return-from outer t)

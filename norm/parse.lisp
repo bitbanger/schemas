@@ -81,6 +81,10 @@
 	(has-ext? x ".V")
 )
 
+(defun lex-metapred? (x)
+	(has-ext? x "?")
+)
+
 (defun lex-var? (x)
 	(varp x)
 )

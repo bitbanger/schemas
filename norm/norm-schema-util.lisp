@@ -253,6 +253,10 @@
 )
 
 (defun add-constraint (schema sec-name constraint)
+	(add-constraint-with-const schema sec-name constraint nil)
+)
+
+(defun add-constraint-with-const (schema sec-name constraint new-const-id)
 (block outer
 	(if (null (member sec-name *SEC-NAMES* :test #'equal))
 		; then
@@ -263,7 +267,13 @@
 	)
 
 	(setf const-num (- (length (get-section schema sec-name)) 1))
-	(setf new-const (list (intern (format nil "~a~d" (sec-formula-prefix sec-name) (+ const-num 1))) constraint))
+
+	(if (null new-const-id)
+		(setf new-const-id (intern (format nil "~a~d" (sec-formula-prefix sec-name) (+ const-num 1))))
+	)
+
+	(setf new-const (list new-const-id constraint))
+
 	(setf new-sec (append (get-section schema sec-name) (list new-const)))
 	(if (equal 1 (length new-sec))
 		; we're creating it, so add the name

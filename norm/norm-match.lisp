@@ -255,6 +255,14 @@
 					(return-from check-constr)
 				)
 
+				(if (and (boundp (prop-pred phi))
+					(schema? (eval (prop-pred phi))))
+					; then
+					(progn
+						(setf nested-schema (eval (prop-pred phi))
+					)
+				)
+
 				(if (eval-prop phi story-kb)
 					; then
 					(progn

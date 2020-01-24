@@ -39,7 +39,7 @@
 (defparameter *RUN-MATCHER* t)
 
 ; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
-(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v 'eat.v))
+(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'receiving_verb? 'eat.v))
 
 
 (defun gen-clean (schema)
@@ -122,6 +122,8 @@
 )
 )
 
+(setf new-schemas (list))
+
 (setf all-matches (list))
 ; (loop for story in ((lambda (x) (list (first x) (second x) (third x))) *DEV-FRS*)
 ; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
@@ -134,6 +136,7 @@
 			(loop for sent in (parse-story raw-story)
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
+					; if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
@@ -183,12 +186,12 @@
 							; (format t "~s to enable ~s~%" (car (second match1)) (car (second match2)))
 							;(format t "~s~%" match1)
 							;(format t "~s~%" match2)
-							(print-schema match1)
-							(print-schema match2)
-							(format t "match1 schema name is ~s~%" (second (car (second match1))))
-							(format t "match1 schema is ~s~%" (eval (second (car (second match1)))))
-							(format t "match2 schema name is ~s~%" (second (car (second match2))))
-							(format t "match2 schema is ~s~%" (eval (second (car (second match2)))))
+							;(print-schema match1)
+							;(print-schema match2)
+							;(format t "match1 schema name is ~s~%" (second (car (second match1))))
+							;(format t "match1 schema is ~s~%" (eval (second (car (second match1)))))
+							;(format t "match2 schema name is ~s~%" (second (car (second match2))))
+							;(format t "match2 schema is ~s~%" (eval (second (car (second match2)))))
 							; (format t "~s schema_name ~s~%" (car (car (second match1))) (remove-duplicates (append (cddr (car (second match1))) (cddr (car (second match2)))) :test #'equal))
 
 							(setf new-schema-header (append (list (car (car (second match1))) 'act_on.v) (remove-duplicates (append (cddr (car (second match1))) (cddr (car (second match2)))) :test #'equal)))
@@ -196,25 +199,35 @@
 							(setf new-schema (list 'epi-schema (list new-schema-header '** '?e) (list ':Steps)))
 
 							(setf new-schema (add-constraint new-schema ':Steps (list 'not (list (car (car (second match2))) (list 'can.md (cdr (car (second match2))))))))
-							(setf new-schema (add-constraint new-schema ':Steps (car (second match1))))
+							(setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match1)) (third (second match1))))
 							(setf new-schema (add-constraint new-schema ':Steps (list (car (car (second match2))) (list 'can.md (cdr (car (second match2)))))))
-							(setf new-schema (add-constraint new-schema ':Steps (car (second match2))))
+							(setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match2)) (third (second match2))))
 
-							(setf new-schema (add-constraint new-schema ':Episode-relations '(?E1 before ?E2)))
-							(setf new-schema (add-constraint new-schema ':Episode-relations '(?E2 cause.v ?E3)))
-							(setf new-schema (add-constraint new-schema ':Episode-relations '(?E4 during ?E3)))
+							(setf new-e2 (third (second match1)))
+							(setf new-e4 (third (second match2)))
+							(setf new-schema (add-constraint new-schema ':Episode-relations (list '?E1 'before new-e2)))
+							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e2 'cause.v '?E3)))
+							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'during '?E3)))
+							(format t "new schema is ~s~%" new-schema)
+							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
+							(set (second (car (second new-schema))) new-schema)
 
-							(print-schema (generalize-schema-constants new-schema))
+							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match1)))))))))
+							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match2)))))))))
+							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+
+
 
 
 							(setf flat-schema (merge-schemas new-schema match1))
-							(setf flat-schema (clean-do-kas (rename-constraints (sort-steps (dedupe-sections flat-schema)))))
 							(setf flat-schema (merge-schemas flat-schema match2))
+							; (print-schema flat-schema)
 							(setf flat-schema (clean-do-kas (rename-constraints (sort-steps (dedupe-sections flat-schema)))))
 							(setf flat-schema (generalize-schema-constants flat-schema))
 
 
-							(print-schema flat-schema)
+							; (print-schema flat-schema)
 
 							)
 						)
@@ -228,39 +241,40 @@
 )
 
 
+(setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (mapcar (lambda (x) (second (car (second x)))) new-schemas)))
+(format t "phase 2 schemas: ~s~%" *PROTOSCHEMAS*)
+
+		(setf next-story 
+			(loop for sent in (parse-story (second *DEV-STORY-SENTS*))
+				collect (loop for wff in sent
+					if (canon-prop? wff) collect wff
+					; if (canon-prop? wff) do (format t "~s~%" wff)
+				))
+		)
+
+		(setf story-matches nil)
+		(setf *PROTOSCHEMAS* (list 'ACT_ON.V))
+		(loop for m in (run-matcher next-story (list 'ACT_ON.V))
+			do (block vet-matches
+				(if (and
+						(or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
+						(not (varp (third (second m))))
+					)
+					; then
+					(setf story-matches (append story-matches (list m)))
+					; else
+					(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
+						; then
+						(setf story-matches (append story-matches (list m)))
+					)
+				)
+			)
+		)
+		(format t "story matches: ~s~%" story-matches)
+
 
 ; (ahow)
 ;(format t "~s~%" (eval-time-prop '(E1.SK BEFORE.PR E3.SK)))
 ;(format t "~s~%" (eval-time-prop '(E3.SK BEFORE.PR E2.SK)))
 
 
-(setf enable-match (gethash 'do_action_to_enable_action.v matches))
-(setf get-match (gethash 'take_object.v matches))
-
-(if nil (block ifnil
-
-(format t "~%MERGING do_action_to_enable_action.v AND take_object.v~%")
-(format t "(do_action_to_enable_action.v as external header~%~%")
-; (print-schema (merge-schemas do_action_to_enable_action.v take_object.v))
-(setf merged-schema (dedupe-sections (merge-schemas enable-match get-match)))
-(print-schema merged-schema)
-(format t "~%generalizing constants to variables:~%")
-(setf gen-merge (generalize-schema-constants merged-schema))
-(print-schema gen-merge)
-
-
-;(setf ep-ids (extract-section-vars gen-merge ':Episode-relations))
-; (print-ht time-graph)
-
-
-
-(format t "~%cleaning up constraint IDs:~%")
-(setf cleaned-schema (rename-constraints (sort-steps gen-merge)))
-(print-schema cleaned-schema)
-
-(setf cleaner-schema (clean-do-kas cleaned-schema))
-
-(format t "~%even cleaner schema:~%")
-(print-schema cleaner-schema)
-
-))

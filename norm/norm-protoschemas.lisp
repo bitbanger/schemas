@@ -4,7 +4,7 @@
 	do_action_to_enable_action.v
 	use_tool.v
 	give_object.v
-	take.v
+	receiving_verb?
 	go_somewhere.v
 	eat.v
 	feed_someone.v
@@ -164,8 +164,8 @@
 	)
 )
 
-(defparameter take_object.v
-	'(epi-schema ((?x take_object.v ?o) ** ?e)
+(defparameter receiving_verb?
+	'(epi-schema ((?x receiving_verb? ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?o object.n))
@@ -180,14 +180,6 @@
 			(?i1 (not (?x have.v ?o)))
 			(?i2 (?x at.p ?l))
 			(?i3 (?o at.p ?l))
-		)
-
-		(:Steps
-			; Lots of ways to paraphrase this...
-			; TODO: implement "optional" p-args like from
-			; TODO: automatic synonym detection
-			; TODO: separate active take vs. passive receive?
-			(?e1 (?x (receiving_verb.v ?o)))
 		)
 
 		(:Postconds

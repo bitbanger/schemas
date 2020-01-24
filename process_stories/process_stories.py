@@ -3,7 +3,7 @@ from StringIO import StringIO
 from heapq import heappush, heappushpop
 from nltk.tokenize import TreebankWordTokenizer
 
-K_RATIOS = 100
+K_RATIOS = 300
 
 stories = []
 with open('raw_stories.txt', 'r') as f:
@@ -51,6 +51,10 @@ with open('roc2.csv', 'r') as f:
             recognized = len(roc_tokens.intersection(reader_tokens))
             total = len(roc_tokens)
             ratio = recognized*1.0/total
+
+            # HACK: modify ratio to account for total story length
+            ratio -= (len(line) * 1.0 / 398)
+
             # print "%d / %d (%.2f)" % (recognized, total, ratio)
 
             if len(top_ratios) < K_RATIOS:

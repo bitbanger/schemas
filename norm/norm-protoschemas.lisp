@@ -262,9 +262,10 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?p1 after ?e1))
-			(!w2 (?i1 before ?e1))
-			(!w3 (?e1 cause.v ?p1))
+			(!w1 (?e1 same-time ?e))
+			(!w2 (?p1 after ?e1))
+			(!w3 (?i1 before ?e1))
+			(!w4 (?e1 cause.v ?p1))
 		)
 	)
 )

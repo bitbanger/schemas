@@ -1391,6 +1391,35 @@
 	(setf needs-res-pairs (loop for e1 in needs-res for e2 in needs-res-numbers collect (list e1 e2)))
 	; (format t "individuals that need resolving: ~s~%" needs-res-pairs)
 
+
+	; INTERMISSION: sometimes, multiple unique Skolem constants will have been
+	; derived from the same word, due to duplication in AND-splitting rules, etc.
+	; (e.g. "Dad and I sit in a room" -> "Dad sits in a room and I sit in a room" -> two "room" constants
+	; So, if we have two Skolem constants from the same word index number, we can merge them.
+	; (We'll assume they won't be Skolemized if they could be under a universal quantifier.)
+
+	(setf same-skolems (make-hash-table :test #'equal))
+	(loop for sk in needs-res-pairs
+		if (lex-skolem? (car sk))
+			; then
+			do (setf (gethash (second sk) same-skolems) (append (gethash (second sk) same-skolems) (list (car sk))))
+	)
+	(loop for k being the hash-keys of same-skolems
+		if (> (length (gethash k same-skolems)) 1)
+			; then
+			; do (format t "word ~s has skolems ~s~%" k (gethash k same-skolems))
+			do (progn
+				; pick the first one (arbitrarily)
+				(setf rep-skol (car (gethash k same-skolems)))
+				(loop for old-sk in (cdr (gethash k same-skolems))
+					do (setf new-sents (replace-vals old-sk rep-skol new-sents))
+				)
+			)
+	)
+
+	; END INTERMISSION
+
+
 	(setf clusters (coref-pairs (join-str-list " " sents)))
 	(setf coref-pair-to-ind (make-hash-table :test #'equal))
 	(setf claimed-inds (list))

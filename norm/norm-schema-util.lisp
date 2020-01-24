@@ -6,6 +6,8 @@
 (load "norm-subsumption.lisp")
 (load "norm-time.lisp")
 
+(defparameter *SCHEMA-MATCH-NUM* 0)
+
 (defparameter *SEC-NAMES* '(
 	:Roles
 	:Goals
@@ -16,6 +18,7 @@
 	:Episode-relations
 	:Certainties
 	:Necessities
+	:Subordinate-constraints
 ))
 
 ; sec-formula-prefix tells you the prefix for condition
@@ -45,6 +48,8 @@
 			(return-from outer "!C"))
 		((equal sec-name ':Necessities)
 			(return-from outer "!N"))
+		((equal sec-name ':Subordinate-constraints)
+			(return-from outer "!S"))
 		(t
 			(return-from outer nil))
 	)
@@ -208,6 +213,14 @@
 
 	(return-from outer nil)
 )
+)
+
+(defun set-header (schema new-header)
+	(append (list
+		'epi-schema
+		(list new-header '** (third (second schema))))
+		(cddr schema)
+	)
 )
 
 ; set-section returns a new schema, identical to the input schema,
@@ -418,6 +431,43 @@
 				collect phi
 		)
 	)
+)
+
+(defun new-schema-match-name (pred)
+(block outer
+	(setf spl (split-str (format nil "~s" pred) "."))
+
+	(if (and (symbolp pred)
+			(> (length spl) 2)
+			(is-num-str? (nth (- (length spl) 2) spl)))
+		(progn
+		(setf *SCHEMA-MATCH-NUM* (+ 1 *SCHEMA-MATCH-NUM*))
+		(return-from outer (intern (join-str-list "."
+			(append
+				(subseq spl 0 (- (length spl) 2))
+				; (list (+ 1 (parse-integer (nth (- (length spl) 2)))))
+				(list (format nil "~s" *SCHEMA-MATCH-NUM*))
+				(last spl)
+			)
+			)
+		)))
+	)
+
+	(if (and (symbolp pred) (equal 2 (length spl)))
+		(progn
+		(setf *SCHEMA-MATCH-NUM* (+ 1 *SCHEMA-MATCH-NUM*))
+		(return-from outer
+			(intern (join-str-list "."
+				(append
+					(list (car spl))
+					(list (format nil "~s" *SCHEMA-MATCH-NUM*))
+					(last spl)
+				)
+			)
+		))
+		)
+	)
+)
 )
 
 (defun constr-name (pred)
@@ -785,7 +835,7 @@
 			(setf cursor (+ cursor 1))
 
 			; (setf (gethash old-const-id const-map) new-const-id)
-			; (format t "replacing ~s with ~s~%" old-const-id new-const-id)
+			(format t "replacing ~s with ~s~%" old-const-id new-const-id)
 			(setf new-schema (replace-vals old-const-id new-const-id new-schema))
 		))
 

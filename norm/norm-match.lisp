@@ -142,6 +142,8 @@
 					)))
 					(setf go-match-schema (set-section go-match-schema ':Steps new-steps))
 
+					; (format t "all constraints to add: ~s~%" constraints)
+
 	
 					(loop for const in constraints do (block const-add
 						(if (time-prop? const)
@@ -151,6 +153,8 @@
 							(setf go-match-schema (add-role-constraint go-match-schema const))
 						)
 					))
+
+					; (format t "schema with constraints added: ~s~%" go-match-schema)
 					; (dbg 'match "test-schema match + generalization:~%~s~%" "")
 					; (print-schema go-match-schema)
 					; (return-from outer go-match-schema)
@@ -182,6 +186,15 @@
 
 	(dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
 	(dbg 'match "total matches: ~s~%" total-matches)
+
+	(setf gen-match (generalize-schema-constants test-schema))
+	(setf new-name (new-schema-match-name (second (car (second test-schema)))))
+	(setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
+	(setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
+	(setf test-schema (set-header test-schema new-match-header))
+	; (format t "gen match is ~s~%" gen-match)
+	(setf gen-match (set-header gen-match new-gen-header))
+	(set new-name gen-match)
 
 	(return-from outer (list test-schema all-bindings))
 )

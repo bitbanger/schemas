@@ -28,7 +28,7 @@
 (defparameter *RUN-MATCHER* t)
 
 ; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
-(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v 'eat_food.v))
+(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v 'eat.v))
 
 
 (defun gen-clean (schema)

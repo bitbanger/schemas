@@ -28,6 +28,35 @@
 ; TODO: check constraints
 (defun unify-with-schema (phi schema story)
 (block outer
+	; first, check whether phi unifies with the schema's header
+	(block check-header
+		(setf new-bindings (unify (car (second schema)) phi nil schema story))
+		; Bind episodes to formula IDs as well
+		(if (and (not (null new-bindings)) (canon-charstar? phi))
+			; then
+			; (if (not (bind-if-unbound (car formula) (third phi) new-bindings))
+			(progn
+			(setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
+			(if (null bindings-with-ep-ids)
+				; then
+				(progn
+				(dbg 'match "~s already bound; cannot bind!~%" (third (second schema)))
+				(return-from check-header)
+				)
+				; else
+				(setf new-bindings bindings-with-ep-ids)
+			)
+
+			(if (null new-bindings)
+				; then
+				(return-from check-header)
+				; else
+				(return-from outer (list (car (second schema)) phi new-bindings))
+			)
+			)
+		)
+	)
+
 	; (loop for sec in (nonmeta-sections schema)
 	(loop for sec in (fluent-sections schema)
 		do (dbg 'match "	schema sec ~s~%" (section-name sec))
@@ -92,6 +121,7 @@
 	(setf test-schema in-schema)
 
 	(setf all-small-inds (list))
+	(setf bound-header nil)
 
 	(setf all-bindings (make-hash-table :test #'equal))
 	(setf total-matches 0)
@@ -113,10 +143,19 @@
 			(setf matched-schema (car go-match-triple))
 			(setf matched-story (second go-match-triple))
 			(setf go-match (third go-match-triple))
-	
+
 			(if (not (null go-match))
 				; then
 				(block print-go-match
+
+					(if (not (null (gethash (third (second test-schema)) go-match)))
+						; then
+						(progn
+							; (format t "matched header for ~s with bindings ~s~%" (car (second test-schema)) (ht-to-str go-match))
+							(setf bound-header t)
+						)
+					)
+	
 					(dbg 'match "bound to story formula ~s~%" phi)
 					; (format t "bound schema formula ~s to story formula ~s in base schema~%~s~%" matched-schema phi test-schema)
 					; (format t "produced bindings ~s~%" (ht-to-str go-match))
@@ -196,7 +235,7 @@
 	(setf gen-match (set-header gen-match new-gen-header))
 	(set new-name gen-match)
 
-	(return-from outer (list test-schema all-bindings))
+	(return-from outer (list test-schema all-bindings bound-header))
 )
 )
 
@@ -254,9 +293,10 @@
 			)
 		)
 			
-		(setf cur-match-pair (match-story-to-schema linear-story schema nil))
-		(setf cur-match (car cur-match-pair))
-		(setf cur-bindings (second cur-match-pair))
+		(setf cur-match-triple (match-story-to-schema linear-story schema nil))
+		(setf cur-match (car cur-match-triple))
+		(setf cur-bindings (second cur-match-triple))
+		(setf bound-header (third cur-match-triple))
 		
 		
 		;(print-schema cur-match)
@@ -286,7 +326,11 @@
 
 		; (if better-than-best (format t "BEST~%"))
 	
-		(if (or (null best-match) better-than-best)
+		(if (or
+				(null best-match)
+				better-than-best
+				bound-header
+			)
 			; then
 			(progn
 				(setf best-score score-pair)

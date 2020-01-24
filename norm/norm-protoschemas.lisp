@@ -4,9 +4,9 @@
 	do_action_to_enable_action.v
 	use_tool.v
 	give_object.v
-	take_object.v
+	take.v
 	go_somewhere.v
-	eat_food.v
+	eat.v
 	feed_someone.v
 	play_for_fun.v
 ))
@@ -236,8 +236,8 @@
 	)
 )
 
-(defparameter eat_food.v
-	'(epi-schema ((?x eat_food.v ?f) ** ?e)
+(defparameter eat.v
+	'(epi-schema ((?x eat.v ?f) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?f food.n))
@@ -252,20 +252,15 @@
 			(?i2 (?x hungry.a))
 		)
 
-		(:Steps
-			(?e1 (?x eat.v ?f))
-		)
-
 		(:Postconds
 			(?p1 (not (?x (have.v ?f))))
 			(?p2 (not (?x hungry.a)))
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time ?e))
-			(!w2 (?p1 after ?e1))
-			(!w3 (?i1 before ?e1))
-			(!w4 (?e1 cause.v ?p1))
+			(!w2 (?p1 after ?e))
+			(!w3 (?i1 before ?e))
+			(!w4 (?e cause.v ?p1))
 		)
 	)
 )
@@ -280,7 +275,7 @@
 
 		(:Goals
 			(?g1 (?x (want.v (that (not (?y hungry.a))))))
-			(?g2 (?x (want.v (that (?y eat_food.v ?f)))))
+			(?g2 (?x (want.v (that (?y eat.v ?f)))))
 		)
 
 		(:Preconds
@@ -291,7 +286,7 @@
 		(:Steps
 			(?e1 (?x feed.v ?y))
 			(?e2 (?x feed.v ?y ?f))
-			(?e3 (?y eat_food.v ?f))
+			(?e3 (?y eat.v ?f))
 		)
 
 		(:Postconds

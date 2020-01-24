@@ -39,7 +39,7 @@
 (defparameter *RUN-MATCHER* t)
 
 ; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
-(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v 'eat_food.v))
+(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'take_object.v 'eat.v))
 
 
 (defun gen-clean (schema)
@@ -137,11 +137,26 @@
 				))
 		)
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
-		(setf story-matches (loop for m in (run-matcher story *PROTOSCHEMAS*)
-			if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v))) collect m))
+		(setf story-matches (list))
+		(loop for m in (run-matcher story *PROTOSCHEMAS*)
+			do (block vet-matches
+				(if (and
+						(or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
+						(not (varp (third (second m))))
+					)
+					; then
+					(setf story-matches (append story-matches (list m)))
+					; else
+					(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
+						; then
+						(setf story-matches (append story-matches (list m)))
+					)
+				)
+			)
+		)
 
 		(loop for match in story-matches do (progn
-			;(format t "match: ~s~%" (car (second match)))
+			; (format t "match: ~s~%" (car (second match)))
 			;(setf gen-match (generalize-schema-constants match))
 			;(setf new-name (new-schema-match-name (second (car (second match)))))
 			;(setf new-header (list (car (car (second gen-match))) new-name (cdr (car (second gen-match)))))
@@ -189,6 +204,8 @@
 							(setf new-schema (add-constraint new-schema ':Episode-relations '(?E2 cause.v ?E3)))
 							(setf new-schema (add-constraint new-schema ':Episode-relations '(?E4 during ?E3)))
 
+							(print-schema (generalize-schema-constants new-schema))
+
 
 							(setf flat-schema (merge-schemas new-schema match1))
 							(setf flat-schema (clean-do-kas (rename-constraints (sort-steps (dedupe-sections flat-schema)))))
@@ -197,7 +214,6 @@
 							(setf flat-schema (generalize-schema-constants flat-schema))
 
 
-							(print-schema (generalize-schema-constants new-schema))
 							(print-schema flat-schema)
 
 							)

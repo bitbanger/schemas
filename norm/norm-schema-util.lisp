@@ -835,7 +835,7 @@
 			(setf cursor (+ cursor 1))
 
 			; (setf (gethash old-const-id const-map) new-const-id)
-			(format t "replacing ~s with ~s~%" old-const-id new-const-id)
+			; (format t "replacing ~s with ~s~%" old-const-id new-const-id)
 			(setf new-schema (replace-vals old-const-id new-const-id new-schema))
 		))
 

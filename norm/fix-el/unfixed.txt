@@ -1,0 +1,5669 @@
+
+
+"Tom used to have his own boat."
+(TOM.NAME
+ ((SOME E0 (E0 BEFORE NOW0) (USE.V ** E0))
+  (KA
+   (PRED577.VP (L P (L X (SOME E1 (E1 IMPINGES-ON NIL) ((X P) ** E1))))
+    (:Q THE (L X ((X (OWN.A BOAT.N)) AND (X PERTAIN-TO TOM.NAME))))))))
+
+
+
+"He had to sell it."
+(E4.SK BEFORE NOW1)
+
+(E0 ORIENTS E4.SK)
+
+((HE.PRO
+  (PRED579.VP (L P (L X (SOME E3 (E3 IMPINGES-ON E4.SK) ((X P) ** E3))))
+   (KA (SELL.V IT.PRO))))
+ ** E4.SK)
+
+
+
+"Now he just comes out on my boat."
+(HE.PRO
+ (NOW.ADV
+  (JUST.ADV
+   ((SOME E4 (E4 AT-ABOUT NOW2) (COME_OUT.V ** E4))
+    (:R (ON.P (:Q THE (L X ((X BOAT.N) AND (X PERTAIN-TO ME.PRO))))))))))
+
+
+
+"We have such a great time together."
+(WE.PRO (SOME E5 ((E5 AT-ABOUT NOW3) AND (E4 ORIENTS E5)) (HAVE.V ** E5))
+ (TERM582.NP SUCH.PDET (L P (:Q A.DET P)) GREAT.A TIME.N TOGETHER.ADV))
+
+
+
+"Now I have someone to help me clean my boat."
+(ME.PRO
+ (NOW.ADV
+  ((SOME E6 ((E6 AT-ABOUT NOW4) AND (E5 ORIENTS E6)) (HAVE.V ** E6))
+   (:Q SOME
+    (:O AND (L X (X = (K SOMEONE.N)))
+     (PRED585.S-REL
+      (KA
+       (PRED584.VP HELP.V
+        (ME.PRO CLEAN.V
+         (:Q THE (L X ((X BOAT.N) AND (X PERTAIN-TO ME.PRO)))))))))))))
+
+
+
+"Today we were playing outside."
+(E8.SK BEFORE NOW5)
+
+(E2 ORIENTS E8.SK)
+
+((PROG (WE.PRO ((MODIF587.ADVP OUTSIDE.P) PLAY.V))) ** E8.SK)
+
+
+
+"We saw a lot of dark clouds in the sky."
+(WE.PRO (SOME E8 ((E8 BEFORE NOW6) AND (E7 ORIENTS E8)) (SEE.V ** E8))
+ (:Q A.DET (L X ((X LOT.N) AND (X OF.P (K (DARK.A (PLUR CLOUD.N)))))))
+ (:R (IN.P (:Q THE SKY.N))))
+
+
+
+"It looked like a storm was coming."
+(E11.SK BEFORE NOW7)
+
+(E8 ORIENTS E11.SK)
+
+((IT.PRO
+  (PRED591.VP LOOK.V
+   (S-LIKE590.S-LIKE (L Y (L X (X LIKE.P (L Z (Z = Y)))))
+    (SOME E10 (E10 AT-OR-BEFORE NOW7)
+          ((PROG ((:Q A.DET STORM.N) COME.V)) ** E10)))))
+ ** E11.SK)
+
+
+
+"We had to go inside to be safe."
+(E13.SK BEFORE NOW8)
+
+(E9 ORIENTS E13.SK)
+
+((WE.PRO
+  (PRED593.VP
+   (L P
+    (L X
+     (SOME E12 ((E12 IMPINGES-ON E13.SK) AND (E3 ORIENTS E12))
+           ((X P) ** E12))))
+   (KA (INSIDE.ADV (GO.V (KA (BE.V SAFE.A)))))))
+ ** E13.SK)
+
+
+
+"It didn't rain after all, so we went back outside!"
+((NOT
+  (SOME E13 ((E13 BEFORE NOW9) AND (E11 ORIENTS E13))
+        ((IT.PRO RAIN.V (:R (AFTER.P (:Q ALL PRED?.N)))) ** E13)))
+ SO.CC
+ (SOME E14 ((E14 BEFORE NOW9) AND (E13 ORIENTS E14))
+       ((WE.PRO (BACK.ADV (OUTSIDE.ADV GO.V))) ** E14)))
+
+
+
+"Today I saw a baby bird."
+(ME.PRO
+ ((MODIF596.ADVP TODAY.N)
+  ((SOME E15 ((E15 BEFORE NOW10) AND (E14 ORIENTS E15)) (SEE.V ** E15))
+   (:Q A.DET ((NN BABY.N) BIRD.N)))))
+
+
+
+"The bird was in a tree."
+(E17.SK SAME-TIME NOW11)
+
+(E17.SK RIGHT-AFTER U10)
+
+(BIRD18.SK BIRD.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (BIRD18.SK
+    (SOME E16 ((E16 BEFORE NOW11) AND (E15 ORIENTS E16))
+          ((BE.V (IN.P (:Q A.DET TREE.N))) ** E16)))))
+ ** E17.SK)
+
+
+
+"The mother bird was teaching the baby bird."
+(E19.SK BEFORE NOW12)
+
+(E16 ORIENTS E19.SK)
+
+((PROG ((:Q THE ((NN MOTHER.N) BIRD.N)) TEACH.V (:Q THE ((NN BABY.N) BIRD.N))))
+ ** E19.SK)
+
+
+
+"She dropped the bird out of the nest."
+(E20.SK BEFORE NOW13)
+
+(E17 ORIENTS E20.SK)
+
+(BIRD21.SK BIRD.N)
+
+(NEST22.SK NEST.N)
+
+((SHE.PRO
+  (PRED601.VP DROP.V BIRD21.SK (PP-OUT600.PP-OUT OUT.P (OF.P NEST22.SK))))
+ ** E20.SK)
+
+
+
+"The baby bird flew away."
+(E23.SK BEFORE NOW14)
+
+(E18 ORIENTS E23.SK)
+
+(BIRD24.SK ((NN BABY.N) BIRD.N))
+
+((BIRD24.SK (AWAY.ADV FLY.V)) ** E23.SK)
+
+
+
+"The orange fell from the tree."
+(E25.SK SAME-TIME NOW15)
+
+(E25.SK RIGHT-AFTER U14)
+
+(ORANGE26.SK ORANGE.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (ORANGE26.SK
+    (SOME E20 ((E20 BEFORE NOW15) AND (E19 ORIENTS E20)) (FALL.V ** E20))
+    (:R (FROM.P (:Q THE TREE.N))))))
+ ** E25.SK)
+
+
+
+"It hit a girl on the head."
+(IT.PRO (SOME E21 ((E21 BEFORE NOW16) AND (E20 ORIENTS E21)) (HIT.V ** E21))
+ (:Q A.DET GIRL.N) (:R (ON.P (:Q THE HEAD.N))))
+
+
+
+"The girl looked up at the tree."
+(E27.SK SAME-TIME NOW17)
+
+(E27.SK RIGHT-AFTER U16)
+
+(GIRL28.SK GIRL.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (GIRL28.SK
+    (SOME E22 ((E22 BEFORE NOW17) AND (E21 ORIENTS E22)) (LOOK_UP.V ** E22))
+    (:R (AT.P (:Q THE TREE.N))))))
+ ** E27.SK)
+
+
+
+"Another orange fell from the tree."
+(ANOTHER.DET X (X ORANGE.N)
+ (X (SOME E23 ((E23 BEFORE NOW18) AND (E22 ORIENTS E23)) (FALL.V ** E23))
+  (:R (FROM.P (:Q THE TREE.N)))))
+
+
+
+"That orange broke her nose."
+(E29.SK SAME-TIME NOW19)
+
+(E29.SK RIGHT-AFTER U18)
+
+(ORANGE30.SK ORANGE.N)
+
+(ORANGE30.SK NEW-SALIENT-ENTITY*.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (ORANGE30.SK
+    (SOME E24 ((E24 BEFORE NOW19) AND (E23 ORIENTS E24)) (BREAK.V ** E24))
+    (:Q THE (L X ((X NOSE.N) AND (X PERTAIN-TO SHE.PRO)))))))
+ ** E29.SK)
+
+
+
+"Sam's dog ran away."
+(E31.SK BEFORE NOW20)
+
+(E24 ORIENTS E31.SK)
+
+(DOG32.SK DOG.N)
+
+(DOG32.SK PERTAIN-TO SAM.NAME)
+
+((DOG32.SK RUN_AWAY.V) ** E31.SK)
+
+
+
+"He was old and going blind."
+(HE.PRO
+ (SOME E26 ((E26 BEFORE NOW21) AND (E25 ORIENTS E26))
+       ((BE.V (:O AND.CC OLD.A (GO.V BLIND.A))) ** E26)))
+
+
+
+"Sam had him for a long time."
+(SAM.NAME (SOME E27 ((E27 BEFORE NOW22) AND (E26 ORIENTS E27)) (HAVE.V ** E27))
+ HE.PRO (:R (FOR.P (:Q A.DET (LONG.A TIME.N)))))
+
+
+
+"He looked for him for years."
+(HE.PRO (SOME E28 ((E28 BEFORE NOW23) AND (E27 ORIENTS E28)) (LOOK.V ** E28))
+ (:R (FOR.P HE.PRO)) (:R (FOR.P (K (PLUR YEAR.N)))))
+
+
+
+"It took Sam much longer to get over it."
+(E33.SK BEFORE NOW24)
+
+(E28 ORIENTS E33.SK)
+
+((IT.PRO
+  (PRED613.VP TAKE.V SAM.NAME (MUCH.ADV LONGER.ADV)
+   (KA (GET.V (:R (OVER.P IT.PRO))))))
+ ** E33.SK)
+
+
+
+"My son is a little child."
+(E34.SK SAME-TIME NOW25)
+
+(E34.SK RIGHT-AFTER U24)
+
+(SON35.SK SON.N)
+
+(SON35.SK SON-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (SON35.SK
+    (SOME E30 ((E30 AT-ABOUT NOW25) AND (E6 ORIENTS E30))
+          ((BE.V (= (:Q A.DET (LITTLE.A CHILD.N)))) ** E30)))))
+ ** E34.SK)
+
+
+
+"He ran outside to play."
+(HE.PRO
+ (OUTSIDE.ADV
+  ((SOME E31 ((E31 BEFORE NOW26) AND (E29 ORIENTS E31)) (RUN.V ** E31))
+   (KA PLAY.V))))
+
+
+
+"His friend was out there with him."
+(E36.SK SAME-TIME NOW27)
+
+(E36.SK RIGHT-AFTER U26)
+
+(FRIEND37.SK FRIEND.N)
+
+(FRIEND37.SK FRIEND-OF.N HE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (FRIEND37.SK
+    ((SOME E32 ((E32 BEFORE NOW27) AND (E31 ORIENTS E32))
+           ((BE.V (PRED617.ADJP OUT.P THERE.A)) ** E32))
+     (:R (WITH.P HE.PRO))))))
+ ** E36.SK)
+
+
+
+"They played together with sticks."
+(THEY.PRO
+ (TOGETHER.ADV
+  ((SOME E33 ((E33 BEFORE NOW28) AND (E32 ORIENTS E33)) (PLAY.V ** E33))
+   (:R (WITH.P (K (PLUR STICK.N)))))))
+
+
+
+"My son came in from outside."
+(E38.SK SAME-TIME NOW29)
+
+(E38.SK RIGHT-AFTER U28)
+
+(SON39.SK SON.N)
+
+(SON39.SK SON-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (SON39.SK
+    (SOME E34 ((E34 BEFORE NOW29) AND (E33 ORIENTS E34)) (COME_IN.V ** E34))
+    (:R (FROM.P (K OUTSIDE.N))))))
+ ** E38.SK)
+
+
+
+"John was at work."
+(JOHN.NAME
+ (SOME E35 ((E35 BEFORE NOW30) AND (E34 ORIENTS E35))
+       ((BE.V (AT.P (K WORK.N))) ** E35)))
+
+
+
+"Suddenly it got dark outside."
+(E40.SK BEFORE NOW31)
+
+(E35 ORIENTS E40.SK)
+
+((IT.PRO (SUDDENLY.ADV (PRED622.VP GET.V DARK.A OUTSIDE.ADV))) ** E40.SK)
+
+
+
+"He looked out the window."
+(E41.SK BEFORE NOW32)
+
+(E36 ORIENTS E41.SK)
+
+(WINDOW42.SK WINDOW.N)
+
+((HE.PRO (PRED625.VP LOOK.V (PP-OUT624.PP-OUT OUT.P WINDOW42.SK))) ** E41.SK)
+
+
+
+"There was some very dark rain clouds."
+(THERE.PRO
+ (SOME E38 ((E38 BEFORE NOW33) AND (E37 ORIENTS E38))
+       ((BE.V
+         (=
+          (TERM627.NP (L P (:Q SOME P)) VERY.ADV DARK.A RAIN.N
+           (PLUR CLOUD.N))))
+        ** E38)))
+
+
+
+"It started to rain very hard."
+(IT.PRO
+ ((SOME E39 ((E39 BEFORE NOW34) AND (E38 ORIENTS E39)) (START.V ** E39))
+  (KA ((VERY.ADV HARD.ADV) RAIN.V))))
+
+
+
+"I took it the harness off the cat."
+(ME.PRO (SOME E40 ((E40 BEFORE NOW35) AND (E39 ORIENTS E40)) (TAKE.V ** E40))
+ IT.PRO (:Q THE HARNESS.N) (:R (OFF.P (:Q THE CAT.N))))
+
+
+
+"The cat did not want to go back inside."
+(NOT
+ (SOME E41 ((E41 BEFORE NOW36) AND (E40 ORIENTS E41))
+       (((:Q THE CAT.N) (WANT.V (KA ((BACK.ADV INSIDE.ADV) GO.V)))) ** E41)))
+
+
+
+"I took the cat outside."
+(ME.PRO
+ ((MODIF632.ADVP OUTSIDE.P)
+  ((SOME E42 ((E42 BEFORE NOW37) AND (E41 ORIENTS E42)) (TAKE.V ** E42))
+   (:Q THE CAT.N))))
+
+
+
+"We bought the cat a harness."
+(WE.PRO (SOME E43 ((E43 BEFORE NOW38) AND (E42 ORIENTS E43)) (BUY.V ** E43))
+ (:Q THE CAT.N) (:Q A.DET HARNESS.N))
+
+
+
+"The cat always liked to go outside."
+(E45.SK SAME-TIME NOW39)
+
+(E45.SK RIGHT-AFTER U38)
+
+(CAT46.SK CAT.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CAT46.SK
+    (ALWAYS.ADV
+     ((SOME E44 ((E44 BEFORE NOW39) AND (E43 ORIENTS E44)) (LIKE.V ** E44))
+      (KA (OUTSIDE.ADV GO.V)))))))
+ ** E45.SK)
+
+
+
+"Tom wanted an apple from his apple tree."
+(TOM.NAME (SOME E45 ((E45 BEFORE NOW40) AND (E44 ORIENTS E45)) (WANT.V ** E45))
+ (:Q AN.DET
+  (L X
+   ((X APPLE.N) AND
+    (X FROM.P
+     (:Q THE (L X ((X ((NN APPLE.N) TREE.N)) AND (X PERTAIN-TO TOM.NAME)))))))))
+
+
+
+"There was a beautiful one right at the top of the tree."
+(THERE.PRO
+ (SOME E46 ((E46 BEFORE NOW41) AND (E45 ORIENTS E46))
+       ((BE.V
+         (= (:Q A.DET (BEAUTIFUL.A (ONE.A PRED?.N)))
+            (:R
+             (RIGHT.ADV
+              (AT.P
+               (:Q THE (L X ((X TOP.N) AND (X OF.P (:Q THE TREE.N))))))))))
+        ** E46)))
+
+
+
+"He tried to climb the tree but couldn't reach the apple."
+(HE.PRO
+ (:O BUT.CC
+  ((SOME E47 ((E47 BEFORE NOW42) AND (E46 ORIENTS E47)) (TRY.V ** E47))
+   (KA (CLIMB.V (:Q THE TREE.N))))
+  (L X (NOT (:O PRES/PAST (COULD.MD (X REACH.V (:Q THE APPLE.N))))))))
+
+
+
+"He found a long stick that he used to knock it down."
+(HE.PRO (SOME E48 ((E48 BEFORE NOW43) AND (E47 ORIENTS E48)) (FIND.V ** E48))
+ (:Q A.DET
+  (L X
+   ((X (LONG.A STICK.N)) AND
+    (HE.PRO
+     ((SOME E49 ((E49 BEFORE NOW43) AND (E48 ORIENTS E49)) (USE.V ** E49))
+      (KA (DOWN.ADV (KNOCK.V IT.PRO)))))))))
+
+
+
+"The apple fell and hit him on the head."
+(E52.SK BEFORE NOW44)
+
+(E49 ORIENTS E52.SK)
+
+(APPLE53.SK APPLE.N)
+
+(((APPLE53.SK FALL.V) AND.CC
+  (APPLE53.SK
+   (SOME E51 ((E51 AT-OR-BEFORE NOW44) AND (E10 ORIENTS E51)) (HIT.V ** E51))
+   HE.PRO (:R (ON.P (:Q THE HEAD.N)))))
+ ** E52.SK)
+
+
+
+"Sam was getting a new baby brother."
+(E54.SK BEFORE NOW45)
+
+(E50 ORIENTS E54.SK)
+
+((PROG (SAM.NAME GET.V (:Q A.DET (NEW.A ((NN BABY.N) BROTHER.N))))) ** E54.SK)
+
+
+
+"At first he was shy and scared of the baby."
+(HE.PRO
+ (AT_FIRST.ADV
+  (SOME E53 ((E53 BEFORE NOW46) AND (E52 ORIENTS E53))
+        ((BE.V (PRED643.ADJP SHY.A AND.CC SCARED.A (OF.P (:Q THE BABY.N)))) **
+         E53))))
+
+
+
+"Sam didn't like the baby because he would cry all day long."
+(E55.SK BEFORE NOW47)
+
+(E53 ORIENTS E55.SK)
+
+(BABY56.SK BABY.N)
+
+((NOT
+  (SAM.NAME
+   (PRED645.VP LIKE.V BABY56.SK
+    ((:O PRES/PAST (WOULD.MD (HE.PRO (LONG.ADV (CRY.V (:Q ALL DAY.N))))))
+     (*OUT-OF-RANGE-SEMANTIC-INDEX* NIL)))))
+ ** E55.SK)
+
+
+
+"But the baby began to grow and play."
+(E57.SK SAME-TIME NOW48)
+
+(E57.SK RIGHT-AFTER U47)
+
+(BABY58.SK BABY.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (BABY58.SK
+    ((SOME E55 ((E55 BEFORE NOW48) AND (E54 ORIENTS E55)) (BEGIN.V ** E55))
+     (KA (:O AND.CC GROW.V PLAY.V))))))
+ ** E57.SK)
+
+
+
+"In time Sam grew to love his brother and they became best friends."
+(IN_TIME.ADV
+ (:O AND.CC
+  (SAM.NAME
+   ((SOME E56 ((E56 BEFORE NOW49) AND (E55 ORIENTS E56)) (GROW.V ** E56))
+    (KA
+     (LOVE.V (:Q THE (L X ((X BROTHER.N) AND (X BROTHER-OF.N SAM.NAME))))))))
+  (THEY.PRO
+   (SOME E57 ((E57 BEFORE NOW49) AND (E56 ORIENTS E57)) (BECOME.V ** E57))
+   (K (BEST.A (PLUR FRIEND.N))))))
+
+
+
+"Joe was bit by a cat when he was very young."
+(JOE.NAME
+ (SOME E58 ((E58 BEFORE NOW50) AND (E57 ORIENTS E58))
+       ((BE.V
+         (=
+          (:Q SOME
+           (:O AND (L X (X = (K BIT.N)))
+            (BY.P
+             (TERM650.NP (:Q A.DET CAT.N)
+              (S-ALTHOUGH-IF-WHILE-ETC649.S-ALTHOUGH-IF-WHILE-ETC
+               (:R (ADV (AT-TIME.P (:Q WH TIME.N))))
+               (JOE.NAME
+                (SOME E59 ((E59 AT-OR-BEFORE NOW50) AND (E51 ORIENTS E59))
+                      ((BE.V (VERY.ADV YOUNG.A)) ** E59))))))))))
+        ** E58)))
+
+
+
+"Since then, he has always been scared of cats."
+(HE.PRO
+ (ALWAYS.ADV
+  (L X
+   (SOME E60 ((E60 AT-ABOUT NOW51) AND (E30 ORIENTS E60))
+         (SOME E61 ((E61 IMPINGES-ON E60) AND (E1 ORIENTS E61))
+               (((X (BE.PASV SCARE.V) (:R (OF.P (K (PLUR CAT.N))))) ** E61) **
+                E60))))))
+
+
+
+"One day at school, a cat came up to him and played with him."
+(ONE.DET Y ((Y DAY.N) AND (Y AT.P (K SCHOOL.N)))
+ (Y
+  (:O AND.CC
+   ((SOME E62 ((E62 BEFORE NOW52) AND (E58 ORIENTS E62)) (COME_UP.V ** E62))
+    (:R (TO.P HE.PRO)))
+   ((SOME E63 ((E63 BEFORE NOW52) AND (E62 ORIENTS E63)) (PLAY.V ** E63))
+    (:R (WITH.P HE.PRO))))))
+
+
+
+"Joe had a lot of fun with the cat."
+(JOE.NAME (SOME E64 ((E64 BEFORE NOW53) AND (E63 ORIENTS E64)) (HAVE.V ** E64))
+ (:Q A.DET (L X ((X LOT.N) AND (X OF.P (K FUN.N)))))
+ (:R (WITH.P (:Q THE CAT.N))))
+
+
+
+"Now, Joe is not scared of cats."
+(JOE.NAME
+ (NOW.ADV
+  (L X
+   (NOT
+    (X
+     (SOME E65 ((E65 AT-ABOUT NOW54) AND (E60 ORIENTS E65))
+           ((BE.V (SCARED.A (OF.P (K (PLUR CAT.N))))) ** E65)))))))
+
+
+
+"I heard a knock on the door a little while ago."
+(ME.PRO
+ ((MODIF658.ADVP (:Q A.DET (LITTLE.A WHILE.N)) AGO.ADV)
+  ((SOME E66 ((E66 BEFORE NOW55) AND (E64 ORIENTS E66)) (HEAR.V ** E66))
+   (:Q A.DET KNOCK.N) (:R (ON.P (:Q THE DOOR.N))))))
+
+
+
+"I looked out the window and saw an old friend."
+(E69.SK BEFORE NOW56)
+
+(E66 ORIENTS E69.SK)
+
+(((THE X (X WINDOW.N) (ME.PRO (PRED661.VP LOOK.V (PP-OUT660.PP-OUT OUT.P X))))
+  AND.CC
+  (ME.PRO
+   (SOME E68 ((E68 AT-OR-BEFORE NOW56) AND (E59 ORIENTS E68)) (SEE.V ** E68))
+   (:Q AN.DET (OLD.A FRIEND.N))))
+ ** E69.SK)
+
+
+
+"He was always trouble and not fun to be around."
+(E70.SK = (K FUN.N))
+
+(E70.SK (PRED663.S-REL (KA (BE.V AROUND.A))))
+
+(HE.PRO
+ (PRED665.VP
+  (L P (SOME E69 ((E69 BEFORE NOW57) AND (E67 ORIENTS E69)) ((BE.V P) ** E69)))
+  ALWAYS.A (TERM664.NP (K TROUBLE.N) AND.CC (L P (L X (NOT (X P)))) E70.SK)))
+
+
+
+"I did not want to talk to him."
+(NOT
+ (SOME E70 ((E70 BEFORE NOW58) AND (E69 ORIENTS E70))
+       ((ME.PRO (WANT.V (KA (TALK.V (:R (TO.P HE.PRO)))))) ** E70)))
+
+
+
+"I was really quiet and pretended not to be home so he left."
+(ME.PRO
+ (:O AND.CC
+  (SOME E71 ((E71 BEFORE NOW59) AND (E70 ORIENTS E71))
+        ((BE.V (REALLY.ADV QUIET.A)) ** E71))
+  (PRED671.VP
+   (SOME E72 ((E72 BEFORE NOW59) AND (E71 ORIENTS E72)) (PRETEND.V ** E72))
+   (WFF670.S (L P (L X (NOT (X P))))
+    (KA
+     (PRED669.VP BE.V (K HOME.N)
+      (S-SO668.S-SO SO.P
+       (HE.PRO
+        (SOME E73 ((E73 BEFORE NOW59) AND (E72 ORIENTS E73))
+              (LEAVE.V ** E73))))))))))
+
+
+
+"Grace loved purple flowers."
+(GRACE.NAME
+ (SOME E74 ((E74 BEFORE NOW60) AND (E73 ORIENTS E74)) (LOVE.V ** E74))
+ (K (PURPLE.A (PLUR FLOWER.N))))
+
+
+
+"She found some beautiful violets to plant in her yard."
+(E76.SK BEFORE NOW61)
+
+(E74 ORIENTS E76.SK)
+
+(VIOLETS77.SK (BEAUTIFUL.A (PLUR VIOLET.N)))
+
+(YARD78.SK YARD.N)
+
+(YARD78.SK PERTAIN-TO SHE.PRO)
+
+((SHE.PRO
+  (PRED676.VP FIND.V
+   (WFF675.S VIOLETS77.SK (KA (PRED674.VP PLANT.N (IN.P YARD78.SK))))))
+ ** E76.SK)
+
+
+
+"She liked to look at them each morning."
+(SHE.PRO
+ ((SOME E76 ((E76 BEFORE NOW62) AND (E75 ORIENTS E76)) (LIKE.V ** E76))
+  (KA
+   (LOOK.V (:Q EACH.DET MORNING.N) (:R (AT.P THEY.PRO))
+    (:R (:Q EACH.DET MORNING.N))))))
+
+
+
+"One day, she clipped a flower and put it in her hair."
+(ONE.DET Y (Y DAY.N)
+ (Y
+  (:O AND.CC (BE.PASV CLIP.V)
+   ((SOME E77 ((E77 BEFORE NOW63) AND (E76 ORIENTS E77)) (PUT.V ** E77)) IT.PRO
+    (:R (IN.P (:Q THE (L X ((X HAIR.N) AND (X PERTAIN-TO SHE.PRO))))))))))
+
+
+
+"She liked to carry the pretty plant with her as she walked."
+(E80.SK BEFORE NOW64)
+
+(E77 ORIENTS E80.SK)
+
+((SHE.PRO
+  (PRED680.VP LIKE.V
+   (KA (CARRY.V (:Q THE (PRETTY.A PLANT.N)) (:R (WITH.P SHE.PRO))))
+   ((SHE.PRO
+     (SOME E79 ((E79 AT-OR-BEFORE NOW64) AND (E68 ORIENTS E79))
+           (WALK.V ** E79)))
+    (*OUT-OF-RANGE-SEMANTIC-INDEX* 4))))
+ ** E80.SK)
+
+
+
+"One day John and his dog went to the beach."
+(ONE.DET Y
+ (((Y DAY.N) AND (Y = (K ((NNP JOHN.NAME) ((NN AND.N) DOG.N))))) AND
+  ((Y DAY.N) AND (Y = (K ((NNP JOHN.NAME) ((NN HIS.N) DOG.N))))))
+ (Y (SOME E80 ((E80 BEFORE NOW65) AND (E78 ORIENTS E80)) (GO.V ** E80))
+  (:R (TO.P (:Q THE BEACH.N)))))
+
+
+
+"While on the beach they walked down the sea shore."
+(WFF683.S
+ (((ADV-S (ON.P (:Q THE BEACH.N)))
+   (THEY.PRO
+    (SOME E81 ((E81 BEFORE NOW66) AND (E80 ORIENTS E81)) (WALK_DOWN.V ** E81))
+    (:Q THE SEA.N)))
+  (*OUT-OF-RANGE-SEMANTIC-INDEX* 4))
+ SHORE.V ..PUNC)
+
+
+
+"After a little while John threw a stick for his dog."
+(WHILE81.SK (LITTLE.A WHILE.N))
+
+((ADV-S (AFTER.P WHILE81.SK))
+ (JOHN.NAME
+  (SOME E82 ((E82 BEFORE NOW67) AND (E81 ORIENTS E82)) (THROW.V ** E82))
+  (:Q A.DET
+   (L X
+    ((X STICK.N) AND
+     (X FOR.P (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO JOHN.NAME))))))))))
+
+
+
+"His dog jumped up and caught the stick in mid-air!"
+(E85.SK BEFORE NOW68)
+
+(E82 ORIENTS E85.SK)
+
+(DOG86.SK DOG.N)
+
+(DOG86.SK PERTAIN-TO HE.PRO)
+
+(((DOG86.SK JUMP_UP.V) AND.CC
+  (DOG86.SK
+   (SOME E84 ((E84 AT-OR-BEFORE NOW68) AND (E79 ORIENTS E84)) (CATCH.V ** E84))
+   (:Q THE (L X ((X STICK.N) AND (X IN.P (K MID-AIR.N)))))))
+ ** E85.SK)
+
+
+
+"After that they walked back along the shore to go home."
+(E87.SK SAME-TIME NOW69)
+
+(E87.SK RIGHT-AFTER U68)
+
+(PRED?88.SK PRED?.N)
+
+(PRED?88.SK NEW-SALIENT-ENTITY*.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   ((ADV-S (AFTER.P PRED?88.SK))
+    (THEY.PRO
+     (BACK.ADV
+      ((SOME E85 ((E85 BEFORE NOW69) AND (E83 ORIENTS E85)) (WALK.V ** E85))
+       (:R
+        (ALONG.P
+         (:Q SOME
+          (:O AND (L X (X = (:Q THE SHORE.N)))
+           (KA ((MODIF687.ADVP HOME.N) GO.V))))))))))))
+ ** E87.SK)
+
+
+
+"My mother had bought me a pair of new shoes."
+(E89.SK BEFORE NOW70)
+
+(E85 ORIENTS E89.SK)
+
+(E90.SK IMPINGES-ON E89.SK)
+
+(E12 ORIENTS E90.SK)
+
+((((:Q THE (L X ((X MOTHER.N) AND (X MOTHER-OF.N ME.PRO)))) BUY.V ME.PRO
+   (:Q A.DET (L X ((X PAIR.N) AND (X OF.P (K (NEW.A (PLUR SHOE.N))))))))
+  ** E90.SK)
+ ** E89.SK)
+
+
+
+"As I put them on my feet, my dog came over to lick them."
+(E91.SK SAME-TIME NOW71)
+
+(E91.SK RIGHT-AFTER U70)
+
+(DOG92.SK DOG.N)
+
+(DOG92.SK PERTAIN-TO ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (DOG92.SK
+    (((ME.PRO PUT.V THEY.PRO
+       (:R
+        (ON.P (:Q THE (L X ((X (PLUR FOOT.N)) AND (X PERTAIN-TO ME.PRO)))))))
+      (*OUT-OF-RANGE-SEMANTIC-INDEX*
+       (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO ME.PRO))))))
+     ((SOME E88 ((E88 BEFORE NOW71) AND (E86 ORIENTS E88))
+            (COME_OVER.V ** E88))
+      (KA (LICK.V THEY.PRO)))))))
+ ** E91.SK)
+
+
+
+"I thought that my dog's feet might be cold."
+(ME.PRO (SOME E89 ((E89 BEFORE NOW72) AND (E88 ORIENTS E89)) (THINK.V ** E89))
+ (THAT.P
+  (:O PRES/PAST
+   (MIGHT.MD
+    ((:Q THE
+      (L X
+       ((X (PLUR FOOT.N)) AND
+        (X PERTAIN-TO (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO ME.PRO))))))))
+     BE.V COLD.A)))))
+
+
+
+"I took my shoes off and put them on my dog."
+(ME.PRO
+ (:O AND.CC
+  ((SOME E90 ((E90 BEFORE NOW73) AND (E89 ORIENTS E90)) (TAKE_OFF.V ** E90))
+   (:Q THE (L X ((X (PLUR SHOE.N)) AND (X PERTAIN-TO ME.PRO)))))
+  ((SOME E91 ((E91 BEFORE NOW73) AND (E90 ORIENTS E91)) (PUT.V ** E91))
+   THEY.PRO (:R (ON.P (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO ME.PRO)))))))))
+
+
+
+"Now I need another pair of new shoes."
+(ANOTHER.DET Y ((Y PAIR.N) AND (Y OF.P (K (NEW.A (PLUR SHOE.N)))))
+ (ME.PRO (NOW.ADV (PRED693.VP *NEED*.AUX Y))))
+
+
+
+"There was a little lonely boy."
+(THERE.PRO
+ (SOME E92 ((E92 BEFORE NOW75) AND (E91 ORIENTS E92))
+       ((BE.V (= (:Q A.DET (LITTLE.A (LONELY.A BOY.N))))) ** E92)))
+
+
+
+"He didn't have much to play with."
+(E95.SK BEFORE NOW76)
+
+(E92 ORIENTS E95.SK)
+
+((NOT
+  (HE.PRO
+   (PRED698.VP
+    (L P
+     (L X
+      (SOME E94 ((E94 IMPINGES-ON E95.SK) AND (E87 ORIENTS E94))
+            ((X P) ** E94))))
+    (WFF697.S MUCH.ADV (KA (PLAY.V (:R (PRED696.PP WITH.P))))))))
+ ** E95.SK)
+
+
+
+"He found an old ball in the back of the woods."
+(HE.PRO (SOME E95 ((E95 BEFORE NOW77) AND (E93 ORIENTS E95)) (FIND.V ** E95))
+ (:Q AN.DET (OLD.A BALL.N))
+ (:R (IN.P (:Q THE (L X ((X BACK.N) AND (X OF.P (:Q THE (PLUR WOOD.N)))))))))
+
+
+
+"He cherished this ball like a friend."
+(HE.PRO (BE.PASV CHERISH.V)
+ (:R (L X (X LIKE.P (L Z (Z = (:Q A.DET FRIEND.N)))))))
+
+
+
+"It was all the boy had just the boy and his ball."
+(IT.PRO
+ (SOME E96 ((E96 BEFORE NOW79) AND (E95 ORIENTS E96))
+       ((BE.V
+         (=
+          (:Q ALL
+           (L X
+            ((X PRED?.N) AND
+             (X
+              (PRED703.S-REL
+               ((:Q THE BOY.N)
+                (SOME E97 ((E97 AT-OR-BEFORE NOW79) AND (E84 ORIENTS E97))
+                      (HAVE.V ** E97))
+                (SET-OF (TERM702.NP JUST.ADV (L P (:Q THE P)) BOY.N)
+                 (:Q THE (L X ((X BALL.N) AND (X PERTAIN-TO HE.PRO)))))))))))))
+        ** E96)))
+
+
+
+"Jill walked home from work alone one night."
+(JILL.NAME
+ (HOME.ADV
+  ((SOME E98 ((E98 BEFORE NOW80) AND (E96 ORIENTS E98)) (WALK.V ** E98))
+   (:R (FROM.P (TERM705.NP (K WORK.N) ALONE.ADV (:Q ONE.DET NIGHT.N)))))))
+
+
+
+"It was dark and she was scared."
+(IT.PRO
+ (SOME E99 ((E99 BEFORE NOW81) AND (E98 ORIENTS E99)) ((BE.V DARK.A) ** E99)))
+
+(SHE.PRO
+ (SOME E100 ((E100 BEFORE NOW81) AND (E99 ORIENTS E100))
+       ((BE.V SCARED.A) ** E100)))
+
+
+
+"She heard a noise in the bushes."
+(SHE.PRO
+ (SOME E101 ((E101 BEFORE NOW82) AND (E100 ORIENTS E101)) (HEAR.V ** E101))
+ (:Q A.DET (L X ((X NOISE.N) AND (X IN.P (:Q THE (PLUR BUSH.N)))))))
+
+
+
+"Jill began walking faster to her house."
+(JILL.NAME
+ ((SOME E102 ((E102 BEFORE NOW83) AND (E101 ORIENTS E102)) (BEGIN.V ** E102))
+  (KA
+   (FASTER.ADV
+    (WALK.V
+     (:R (TO.P (:Q THE (L X ((X HOUSE.N) AND (X PERTAIN-TO JILL.NAME)))))))))))
+
+
+
+"Jill laughed when a dog jumped out of the bush."
+(E105.SK SAME-TIME NOW84)
+
+(E105.SK RIGHT-AFTER U83)
+
+((SPEAKER ASK.V HEARER
+  (QNOM
+   (SOME E103 ((E103 BEFORE NOW84) AND (E102 ORIENTS E103))
+         (SOME E104 ((E104 AT-OR-BEFORE NOW84) AND (E97 ORIENTS E104))
+               (((WH X (X TIME.N)
+                  (A.DET Y (Y DOG.N)
+                   (JILL.NAME
+                    (PRED713.VP LAUGH.V
+                     (S-ALTHOUGH-IF-WHILE-ETC712.S-ALTHOUGH-IF-WHILE-ETC
+                      (:R (ADV (AT-TIME.P X)))
+                      (Y
+                       (PRED711.VP JUMP.V
+                        (PP-OUT710.PP-OUT OUT.P
+                         (OF.P
+                          (REFERENT-OF
+                           (JOIN-NAMES (EF-OF (L P (:Q THE P)))
+                            (EF-OF BUSH.NAME))))))))))))
+                 ** E104)
+                ** E103)))))
+ ** E105.SK)
+
+
+
+"Tom was at the lake with friends."
+(TOM.NAME
+ ((SOME E105 ((E105 BEFORE NOW85) AND (E103 ORIENTS E105))
+        ((BE.V (AT.P (:Q THE LAKE.N))) ** E105))
+  (:R (WITH.P (K (PLUR FRIEND.N))))))
+
+
+
+"They all wanted to go swimming."
+(E107.SK = THEY.PRO)
+
+(ALL Z (Z PRED?.N) (E107.SK = Z))
+
+(E107.SK
+ ((SOME E106 ((E106 BEFORE NOW86) AND (E105 ORIENTS E106)) (WANT.V ** E106))
+  (KA (GO.V (K SWIMMING.N)))))
+
+
+
+"The water was really cold."
+(E108.SK SAME-TIME NOW87)
+
+(E108.SK RIGHT-AFTER U86)
+
+(WATER109.SK WATER.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (WATER109.SK
+    (SOME E107 ((E107 BEFORE NOW87) AND (E106 ORIENTS E107))
+          ((BE.V (REALLY.ADV COLD.A)) ** E107)))))
+ ** E108.SK)
+
+
+
+"Tom didn't want to get in."
+(NOT
+ (SOME E108 ((E108 BEFORE NOW88) AND (E107 ORIENTS E108))
+       ((TOM.NAME (WANT.V (KA ((MODIF718.ADVP IN.P) GET.V)))) ** E108)))
+
+
+
+"It took him a long time to build up the courage to do so."
+(IT.PRO
+ (SOME E109 ((E109 BEFORE NOW89) AND (E108 ORIENTS E109)) (TAKE.V ** E109))
+ HE.PRO
+ (:Q A.DET
+  (L X
+   ((X (LONG.A TIME.N)) AND
+    (X
+     (PRED721.S-REL
+      (KA
+       (BUILD_UP.V
+        (:Q SOME
+         (:O AND (L X (X = (:Q THE COURAGE.N)))
+          (KA (PRED720.VP (L P P) SO.ADV))))))))))))
+
+
+
+"Woods always loved pets cats."
+(WOODS.NAME
+ (ALWAYS.ADV
+  ((SOME E110 ((E110 BEFORE NOW90) AND (E109 ORIENTS E110)) (LOVE.V ** E110))
+   (K ((NN (PLUR PET.N)) (PLUR CAT.N))))))
+
+
+
+"He had always wanted one but his mom said no."
+(E114.SK BEFORE NOW91)
+
+(E110 ORIENTS E114.SK)
+
+(((HE.PRO
+   (ALWAYS.ADV
+    (L X
+     (SOME E112 ((E112 AT-OR-BEFORE NOW91) AND (E104 ORIENTS E112))
+           (SOME E113 (E113 IMPINGES-ON E112)
+                 (((X WANT.V (:Q ONE.DET PRED?.N)) ** E113) ** E112))))))
+  BUT.CC
+  (THE Y ((Y MOM.N) AND (Y MOM-OF.N HE.PRO))
+       (Y (PRED724.VP SAY.V (I.PRO SAY-NO-TO*.V THAT.PRO)))))
+ ** E114.SK)
+
+
+
+"One day, he found a cat on the street."
+(HE.PRO
+ (SOME E114 ((E114 BEFORE NOW92) AND (E111 ORIENTS E114)) (FIND.V ** E114))
+ (:Q A.DET (L X ((X CAT.N) AND (X ON.P (:Q THE STREET.N))))))
+
+
+
+"The cat was very hungry and small."
+(E116.SK SAME-TIME NOW93)
+
+(E116.SK RIGHT-AFTER U92)
+
+(CAT117.SK CAT.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CAT117.SK
+    (SOME E115 ((E115 BEFORE NOW93) AND (E114 ORIENTS E115))
+          ((BE.V (:O AND.CC (VERY.ADV HUNGRY.A) SMALL.A)) ** E115)))))
+ ** E116.SK)
+
+
+
+"Woods fed it and he felt very happy."
+(WOODS.NAME
+ (SOME E116 ((E116 BEFORE NOW94) AND (E115 ORIENTS E116)) (FED.V ** E116))
+ IT.PRO)
+
+(WOODS.NAME
+ ((SOME E117 ((E117 BEFORE NOW94) AND (E116 ORIENTS E117)) (FEEL.V ** E117))
+  (VERY.ADV HAPPY.A)))
+
+
+
+"It was very hot today."
+(IT.PRO
+ (PRED730.VP
+  (L P
+   (SOME E118 ((E118 BEFORE NOW95) AND (E117 ORIENTS E118))
+         ((BE.V P) ** E118)))
+  (VERY.ADV HOT.A) (K TODAY.N)))
+
+
+
+"I decided to go for a long walk."
+(ME.PRO
+ ((SOME E119 ((E119 BEFORE NOW96) AND (E118 ORIENTS E119)) (DECIDE.V ** E119))
+  (KA (GO.V (:R (FOR.P (:Q A.DET (LONG.A WALK.N))))))))
+
+
+
+"I walked for two miles away from home."
+(ME.PRO
+ (SOME E120 ((E120 BEFORE NOW97) AND (E119 ORIENTS E120)) (WALK.V ** E120))
+ (:R (FOR.P (TERM733.NP (L P (:Q TWO.DET P)) (PLUR MILE.N) AWAY.ADV)))
+ (:R (FROM.P (K HOME.N))))
+
+
+
+"The sky went dark and it started to rain very hard."
+(SKY118.SK SKY.N)
+
+(SKY118.SK
+ ((SOME E121 ((E121 BEFORE NOW98) AND (E120 ORIENTS E121)) (GO.V ** E121))
+  DARK.A))
+
+(IT.PRO
+ ((SOME E122 ((E122 BEFORE NOW98) AND (E121 ORIENTS E122)) (START.V ** E122))
+  (KA ((VERY.ADV HARD.ADV) RAIN.V))))
+
+
+
+"I had to run all the way home!"
+(E125.SK BEFORE NOW99)
+
+(E122 ORIENTS E125.SK)
+
+((ME.PRO
+  (PRED737.VP
+   (L P
+    (L X
+     (SOME E124 ((E124 IMPINGES-ON E125.SK) AND (E94 ORIENTS E124))
+           ((X P) ** E124))))
+   (KA ((MODIF736.ADVP HOME.N) (RUN.V (:Q THE WAY.N))))))
+ ** E125.SK)
+
+
+
+"I love to read."
+(ME.PRO
+ ((SOME E125 ((E125 AT-ABOUT NOW100) AND (E65 ORIENTS E125)) (LOVE.V ** E125))
+  (KA READ.V)))
+
+
+
+"I read before I go to bed every night."
+(E128.SK AT-ABOUT NOW101)
+
+(E125 ORIENTS E128.SK)
+
+((ME.PRO
+  (PRED740.VP READ.V
+   ((ME.PRO
+     (SOME E127 ((E127 AT-ABOUT NOW101) AND (E128.SK ORIENTS E127))
+           (GO.V ** E127))
+     (:Q ALL NIGHT.N) (:R (TO.P (K BED.N))) (:R (:Q ALL NIGHT.N)))
+    (*OUT-OF-RANGE-SEMANTIC-INDEX* 4))))
+ ** E128.SK)
+
+
+
+"I read so much I have read all the good books in our house!"
+(E130.SK AT-ABOUT NOW102)
+
+(E127 ORIENTS E130.SK)
+
+((ME.PRO
+  (PRED743.VP READ.V (SO.ADV MUCH.ADV)
+   (SBAR742.SBAR
+    (SOME E129 ((E129 IMPINGES-ON E130.SK) AND (E61 ORIENTS E129))
+          ((ME.PRO READ.V
+            (:Q THE
+             (L X
+              ((X (GOOD.A (PLUR BOOK.N))) AND
+               (X IN.P
+                (:Q THE (L X ((X HOUSE.N) AND (X PERTAIN-TO WE.PRO)))))))))
+           ** E129)))))
+ ** E130.SK)
+
+
+
+"My Mom gave me a new book this morning."
+(E131.SK SAME-TIME NOW103)
+
+(E131.SK RIGHT-AFTER U102)
+
+(MOM132.SK MOM.N)
+
+(MOM132.SK MOM-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MOM132.SK
+    (SOME E130 ((E130 BEFORE NOW103) AND (E123 ORIENTS E130)) (GIVE.V ** E130))
+    (TERM745.NP ME.PRO (:Q A.DET (NEW.A BOOK.N)))
+    (:Q THE (L X ((X MORNING.N) AND (X ATTENDED-TO-BY*.A SPEAKER)))))))
+ ** E131.SK)
+
+
+
+"I am off to read it!"
+(ME.PRO
+ (SOME E131 ((E131 AT-ABOUT NOW104) AND (E128 ORIENTS E131))
+       ((BE.V (PRED747.ADJP OFF.ADV (KA (READ.V IT.PRO)))) ** E131)))
+
+
+
+"I left my dog alone last night."
+(ME.PRO
+ (SOME E132 ((E132 BEFORE NOW105) AND (E130 ORIENTS E132)) (LEAVE.V ** E132))
+ (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO ME.PRO))))
+ (:R (IN.P (MODIF749.NP-TIME ALONE.ADV LAST.A NIGHT.N))))
+
+
+
+"I was called into work."
+(E134.SK BEFORE NOW106)
+
+(E132 ORIENTS E134.SK)
+
+((ME.PRO (BE.PASV CALL.V) (:R (INTO.P (K WORK.N)))) ** E134.SK)
+
+
+
+"He is not used to being alone for so long."
+(E135.SK AT-ABOUT NOW107)
+
+(E131 ORIENTS E135.SK)
+
+((NOT
+  (HE.PRO
+   ((BE.V USED.A)
+    (:R
+     (TO.P
+      (KA
+       (PRED753.VP (L P P) ALONE.ADV
+        (FOR.P (TERM752.NP SO.ADV LONG.ADV)))))))))
+ ** E135.SK)
+
+
+
+"When I came home my house was trashed."
+(E137.SK SAME-TIME NOW108)
+
+(E137.SK RIGHT-AFTER U107)
+
+(HOUSE138.SK HOUSE.N)
+
+(HOUSE138.SK PERTAIN-TO ME.PRO)
+
+((SPEAKER ASK.V HEARER
+  (QNOM
+   (WH Z (Z TIME.N)
+    (HOUSE138.SK
+     ((S-ALTHOUGH-IF-WHILE-ETC755.S-ALTHOUGH-IF-WHILE-ETC
+       (:R (ADV (AT-TIME.P Z)))
+       (ME.PRO
+        (HOME.ADV
+         (SOME E135 ((E135 BEFORE NOW108) AND (E133 ORIENTS E135))
+               (COME.V ** E135)))))
+      (L X
+       (SOME E136 ((E136 BEFORE NOW108) AND (E135 ORIENTS E136))
+             ((X (BE.PASV TRASH.V)) ** E136))))))))
+ ** E137.SK)
+
+
+
+"That's the last time I leave him alone for so long."
+(E139.SK SAME-TIME NOW109)
+
+(E139.SK RIGHT-AFTER U108)
+
+(PRED?140.SK PRED?.N)
+
+(PRED?140.SK NEW-SALIENT-ENTITY*.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (PRED?140.SK
+    (SOME E137 ((E137 AT-ABOUT NOW109) AND (E134 ORIENTS E137))
+          ((BE.V
+            (=
+             (:Q THE
+              (L X
+               ((X (LAST.A TIME.N)) AND
+                (X
+                 (PRED759.S-REL
+                  (ME.PRO
+                   (SOME E138 ((E138 AT-ABOUT NOW109) AND (E137 ORIENTS E138))
+                         (LEAVE.V ** E138))
+                   (TERM757.NP HE.PRO ALONE.ADV)
+                   (:R (FOR.P (TERM758.NP SO.ADV LONG.ADV)))))))))))
+           ** E137)))))
+ ** E139.SK)
+
+
+
+"Rose was a new mother."
+(ROSE.NAME
+ (SOME E139 ((E139 BEFORE NOW110) AND (E136 ORIENTS E139))
+       ((BE.V (= (:Q A.DET (NEW.A MOTHER.N)))) ** E139)))
+
+
+
+"Her baby girl wouldn't stop crying."
+(NOT
+ (:O PRES/PAST
+  (WOULD.MD
+   ((:Q THE (L X ((X ((NN BABY.N) GIRL.N)) AND (X PERTAIN-TO SHE.PRO))))
+    (STOP.V (KA CRY.V))))))
+
+
+
+"The child's father had left for work before she got up."
+(E143.SK SAME-TIME NOW112)
+
+(E143.SK RIGHT-AFTER U111)
+
+(CHILD145.SK CHILD.N)
+
+(T144.SK FATHER.N)
+
+(T144.SK FATHER-OF.N CHILD145.SK)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (SOME E140 ((E140 BEFORE NOW112) AND (E139 ORIENTS E140))
+         (SOME E141 ((E141 IMPINGES-ON E140) AND (E124 ORIENTS E141))
+               (((T144.SK
+                  (PRED763.VP LEAVE.V (FOR.P (K WORK.N))
+                   ((SHE.PRO
+                     (UP.ADV
+                      (SOME E142 (E142 AT-OR-BEFORE NOW112) (GET.V ** E142))))
+                    (*OUT-OF-RANGE-SEMANTIC-INDEX* NIL))))
+                 ** E141)
+                ** E140)))))
+ ** E143.SK)
+
+
+
+"Rose showed the baby a picture of her father."
+(ROSE.NAME
+ (SOME E143 ((E143 BEFORE NOW113) AND (E140 ORIENTS E143)) (SHOW.V ** E143))
+ (:Q THE BABY.N)
+ (:Q A.DET
+  (L X
+   ((X PICTURE.N) AND
+    (X OF.P (:Q THE (L X ((X FATHER.N) AND (X FATHER-OF.N ROSE.NAME)))))))))
+
+
+
+"The baby stopped crying and smiled."
+(E146.SK SAME-TIME NOW114)
+
+(E146.SK RIGHT-AFTER U113)
+
+(BABY147.SK BABY.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (BABY147.SK
+    (:O AND.CC
+     ((SOME E144 ((E144 BEFORE NOW114) AND (E143 ORIENTS E144))
+            (STOP.V ** E144))
+      (KA CRY.V))
+     (SOME E145 ((E145 BEFORE NOW114) AND (E144 ORIENTS E145))
+           (SMILE.V ** E145))))))
+ ** E146.SK)
+
+
+
+"Jane had never been in love before."
+(NEVER.ADV
+ (SOME E146 ((E146 BEFORE NOW115) AND (E145 ORIENTS E146))
+       (SOME E147 ((E147 IMPINGES-ON E146) AND (E141 ORIENTS E147))
+             (((JANE.NAME (BEFORE.ADV (BE.V IN_LOVE.A))) ** E147) ** E146))))
+
+
+
+"She got her first boyfriend."
+(SHE.PRO
+ (SOME E148 ((E148 BEFORE NOW116) AND (E146 ORIENTS E148)) (GET.V ** E148))
+ (:Q THE (L X ((X (FIRST.A BOYFRIEND.N)) AND (X PERTAIN-TO SHE.PRO)))))
+
+
+
+"It was in high school."
+(IT.PRO
+ (SOME E149 ((E149 BEFORE NOW117) AND (E148 ORIENTS E149))
+       ((BE.V (IN.P (K (HIGH.A SCHOOL.N)))) ** E149)))
+
+
+
+"She thought she loved him but they broke up."
+(E153.SK BEFORE NOW118)
+
+(E149 ORIENTS E153.SK)
+
+(((SHE.PRO
+   (PRED771.VP THINK.V
+    (SBAR770.SBAR
+     (SHE.PRO
+      (SOME E151 ((E151 AT-OR-BEFORE NOW118) AND (E112 ORIENTS E151))
+            (LOVE.V ** E151))
+      HE.PRO))))
+  BUT.CC
+  (SOME E152 ((E152 AT-OR-BEFORE NOW118) AND (E151 ORIENTS E152))
+        ((THEY.PRO BREAK_UP.V) ** E152)))
+ ** E153.SK)
+
+
+
+"It took her a long time to get over it."
+(IT.PRO
+ (SOME E153 ((E153 BEFORE NOW119) AND (E150 ORIENTS E153)) (TAKE.V ** E153))
+ SHE.PRO
+ (:Q A.DET
+  (L X
+   ((X (LONG.A TIME.N)) AND
+    (X (PRED773.S-REL (KA (GET.V (:R (OVER.P IT.PRO))))))))))
+
+
+
+"I am so tired today."
+(ME.PRO
+ (PRED775.VP
+  (L P
+   (SOME E154 ((E154 AT-ABOUT NOW120) AND (E138 ORIENTS E154))
+         ((BE.V P) ** E154)))
+  (SO.ADV TIRED.A) (K TODAY.N)))
+
+
+
+"The baby woke up a few times last night."
+(E156.SK SAME-TIME NOW121)
+
+(E156.SK RIGHT-AFTER U120)
+
+(BABY157.SK BABY.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (BABY157.SK
+    (SOME E155 ((E155 BEFORE NOW121) AND (E153 ORIENTS E155)) (WAKE.V ** E155))
+    (:Q SOME
+     (:O AND
+      (L X (X = ((QP777.QP UP.ADV (L P (:Q A.DET P)) FEW.A) (PLUR TIME.N))))
+      (IN.P (MODIF778.NP-TIME LAST.A NIGHT.N)))))))
+ ** E156.SK)
+
+
+
+"I had a lot of trouble getting him back to sleep."
+(E158.SK BEFORE NOW122)
+
+(E155 ORIENTS E158.SK)
+
+((ME.PRO
+  (PRED780.VP
+   (L P
+    (L X
+     (SOME E157 ((E157 IMPINGES-ON E158.SK) AND (E147 ORIENTS E157))
+           ((X P) ** E157))))
+   ((:Q A.DET (L X ((X LOT.N) AND (X OF.P (K TROUBLE.N)))))
+    (BACK.ADV (GET.V HE.PRO)))
+   (KA SLEEP.V)))
+ ** E158.SK)
+
+
+
+"I was up a lot of the night with him."
+(NIGHT160.SK NIGHT.N)
+
+(T159.SK LOT.N)
+
+(T159.SK (:MULT (OF.P NIGHT160.SK) (WITH.P HE.PRO)))
+
+(ME.PRO
+ (PRED782.VP
+  (L P
+   (SOME E158 ((E158 BEFORE NOW123) AND (E156 ORIENTS E158))
+         ((BE.V P) ** E158)))
+  UP.A T159.SK))
+
+
+
+"I hope he sleeps better tonight."
+(E161.SK AT-ABOUT NOW124)
+
+(E154 ORIENTS E161.SK)
+
+(E162.SK AT-ABOUT NOW124)
+
+(E161.SK ORIENTS E162.SK)
+
+(((ME.PRO
+   (PRED787.VP HOPE.V
+    (SBAR786.SBAR
+     (HE.PRO (PRED785.VP SLEEP.V (MODIF784.NP-TIME BETTER.A TONIGHT.N))))))
+  ** E162.SK)
+ ** E161.SK)
+
+
+
+"Julius took his first steps yesterday."
+(JULIUS.NAME
+ (SOME E161 ((E161 BEFORE NOW125) AND (E158 ORIENTS E161)) (TAKE.V ** E161))
+ (:Q THE (L X ((X (FIRST.A (PLUR STEP.N))) AND (X PERTAIN-TO JULIUS.NAME))))
+ (:R (IN.P (K YESTERDAY.N))))
+
+
+
+"He was walking along the table all morning."
+(HE.PRO
+ (PRED790.VP
+  (L P
+   (SOME E162 ((E162 BEFORE NOW126) AND (E161 ORIENTS E162))
+         ((BE.V P) ** E162)))
+  (WALK.V (:Q ALL MORNING.N) (:R (ALONG.P (:Q THE TABLE.N)))
+   (:R (:Q ALL MORNING.N)))))
+
+
+
+"He just let go and started walking."
+(E165.SK BEFORE NOW127)
+
+(E162 ORIENTS E165.SK)
+
+(((HE.PRO (PRED792.VP JUST.ADV LET.V GO.V)) AND.CC
+  (HE.PRO
+   ((SOME E164 ((E164 AT-OR-BEFORE NOW127) AND (E152 ORIENTS E164))
+          (START.V ** E164))
+    (KA WALK.V))))
+ ** E165.SK)
+
+
+
+"At first I did not even notice."
+(ME.PRO
+ (AT_FIRST.ADV
+  (L X
+   (NOT
+    (X
+     (EVEN.ADV
+      (L X
+       (SOME E165 ((E165 BEFORE NOW128) AND (E163 ORIENTS E165))
+             ((X NOTICE.V) ** E165)))))))))
+
+
+
+"He was so proud of himself."
+(HE.PRO
+ (SOME E166 ((E166 BEFORE NOW129) AND (E165 ORIENTS E166))
+       ((BE.V (SO.ADV (PROUD.A (OF.P HIMSELF.PRO)))) ** E166)))
+
+
+
+"Jane's cat ran out the door one day."
+(E168.SK SAME-TIME NOW130)
+
+(E168.SK RIGHT-AFTER U129)
+
+(CAT169.SK CAT.N)
+
+(CAT169.SK PERTAIN-TO JANE.NAME)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CAT169.SK
+    (SOME E167 ((E167 BEFORE NOW130) AND (E166 ORIENTS E167)) (RUN.V ** E167))
+    (:Q ONE.DET DAY.N))))
+ ** E168.SK)
+
+
+
+"She went out looking for him."
+(SHE.PRO
+ ((SOME E168 ((E168 BEFORE NOW131) AND (E167 ORIENTS E168)) (GO_OUT.V ** E168))
+  (KA (LOOK.V (:R (FOR.P HE.PRO))))))
+
+
+
+"After an hour she went back home."
+(E170.SK BEFORE NOW132)
+
+(E168 ORIENTS E170.SK)
+
+(HOUR171.SK HOUR.N)
+
+(((ADV-S (AFTER.P HOUR171.SK))
+  (SHE.PRO (BACK.ADV ((MODIF799.ADVP HOME.N) GO.V))))
+ ** E170.SK)
+
+
+
+"Her cat was waiting by the door for her."
+(E172.SK BEFORE NOW133)
+
+(E169 ORIENTS E172.SK)
+
+((PROG ((:Q THE (L X ((X CAT.N) AND (X PERTAIN-TO SHE.PRO)))) WAIT.V
+        (:R (BY.P (:Q THE DOOR.N))) (:R (FOR.P SHE.PRO))))
+ ** E172.SK)
+
+
+
+"Jane laughed a bit and let him in."
+(JANE.NAME
+ (:O AND.CC
+  ((SOME E171 ((E171 BEFORE NOW134) AND (E170 ORIENTS E171)) (LAUGH.V ** E171))
+   (:Q A.DET BIT.N))
+  ((SOME E172 ((E172 BEFORE NOW134) AND (E171 ORIENTS E172))
+         (LET_IN.V ** E172))
+   HE.PRO)))
+
+
+
+"I sat down to do some work."
+(ME.PRO
+ (DOWN.ADV
+  ((SOME E173 ((E173 BEFORE NOW135) AND (E172 ORIENTS E173)) (SIT.V ** E173))
+   (KA (PRED803.VP (L P P) (:Q SOME WORK.N))))))
+
+
+
+"I looked up and saw a spider in the window."
+(E176.SK BEFORE NOW136)
+
+(E173 ORIENTS E176.SK)
+
+(((ME.PRO LOOK_UP.V) AND.CC
+  (ME.PRO
+   (SOME E175 ((E175 AT-OR-BEFORE NOW136) AND (E164 ORIENTS E175))
+         (SEE.V ** E175))
+   (:Q A.DET (CONSTRUE-AS-PRED SPIDER.NAME)) (:R (IN.P (:Q THE WINDOW.N)))))
+ ** E176.SK)
+
+
+
+"I got anxious and watched the spider."
+(ME.PRO
+ (:O AND.CC
+  ((SOME E176 ((E176 BEFORE NOW137) AND (E174 ORIENTS E176)) (GET.V ** E176))
+   ANXIOUS.A)
+  ((SOME E177 ((E177 BEFORE NOW137) AND (E176 ORIENTS E177)) (WATCH.V ** E177))
+   (REFERENT-OF (JOIN-NAMES (EF-OF (L P (:Q THE P))) (EF-OF SPIDER.NAME))))))
+
+
+
+"I was afraid that the spider would escape."
+(ME.PRO
+ (SOME E178 ((E178 BEFORE NOW138) AND (E177 ORIENTS E178))
+       ((BE.V
+         (AFRAID.A
+          (THAT.P
+           (:O PRES/PAST
+            (WOULD.MD
+             ((REFERENT-OF
+               (JOIN-NAMES (EF-OF (L P (:Q THE P))) (EF-OF SPIDER.NAME)))
+              ESCAPE.V))))))
+        ** E178)))
+
+
+
+"I didn't get any work done."
+(E180.SK BEFORE NOW139)
+
+(E178 ORIENTS E180.SK)
+
+((ANY.DET X (X WORK.N)
+  (NOT (ME.PRO (PRED809.VP GET.V (X (PRED808.VP *DONE*.AUX))))))
+ ** E180.SK)
+
+
+
+"Harry is a baby."
+(HARRY.NAME
+ (SOME E180 ((E180 AT-ABOUT NOW140) AND (E160 ORIENTS E180))
+       ((BE.V (= (:Q A.DET BABY.N))) ** E180)))
+
+
+
+"He doesn't know how to be gentle when he pets a dog."
+(E182.SK SAME-TIME NOW141)
+
+(E182.SK RIGHT-AFTER U140)
+
+((SPEAKER ASK.V HEARER
+  (QNOM
+   (WH X (X MANNER.N)
+    (WH Y (Y TIME.N)
+     (A.DET Z (Z DOG.N)
+      (NOT
+       (SOME E181 ((E181 AT-ABOUT NOW141) AND (E180 ORIENTS E181))
+             ((HE.PRO
+               (PRED816.VP KNOW.V
+                (TERM815.S-WHPP (:R (ADV (IN-MANNER.P X)))
+                 (KA
+                  (PRED814.VP BE.V GENTLE.A
+                   (S-ALTHOUGH-IF-WHILE-ETC813.S-ALTHOUGH-IF-WHILE-ETC
+                    (:R (ADV (AT-TIME.P Y)))
+                    (HE.PRO (PRED812.VP (PLUR PET.N) Z))))))))
+              ** E181))))))))
+ ** E182.SK)
+
+
+
+"Harry's mother tried to teach him how to be gentle."
+(E183.SK SAME-TIME NOW142)
+
+(E183.SK RIGHT-AFTER U141)
+
+(MOTHER184.SK MOTHER.N)
+
+(MOTHER184.SK MOTHER-OF.N HARRY.NAME)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MOTHER184.SK
+    ((SOME E182 ((E182 BEFORE NOW142) AND (E179 ORIENTS E182)) (TRY.V ** E182))
+     (KA
+      (PRED819.VP TEACH.V HARRY.NAME
+       (TERM818.S-WHPP (:R (ADV (IN-MANNER.P (:Q WH MANNER.N))))
+        (KA (BE.V GENTLE.A)))))))))
+ ** E183.SK)
+
+
+
+"Harry pulled the dog's ears."
+(HARRY.NAME
+ (SOME E183 ((E183 BEFORE NOW143) AND (E182 ORIENTS E183)) (PULL.V ** E183))
+ (:Q THE (L X ((X (PLUR EAR.N)) AND (X PERTAIN-TO (:Q THE DOG.N))))))
+
+
+
+"His mother decided he is still too young to be near the dog."
+(E186.SK BEFORE NOW144)
+
+(E183 ORIENTS E186.SK)
+
+(MOTHER187.SK MOTHER.N)
+
+(MOTHER187.SK MOTHER-OF.N HE.PRO)
+
+((MOTHER187.SK
+  (PRED824.VP DECIDE.V
+   (SBAR823.SBAR
+    (HE.PRO
+     (PRED822.VP
+      (L P
+       (SOME E185 ((E185 AT-ABOUT NOW144) AND (E186.SK ORIENTS E185))
+             ((BE.V P) ** E185)))
+      STILL.ADV (TOO.ADV YOUNG.A) (KA (BE.V (NEAR.P (:Q THE DOG.N)))))))))
+ ** E186.SK)
+
+
+
+"Tom had a cat."
+(TOM.NAME
+ (SOME E186 ((E186 BEFORE NOW145) AND (E185 ORIENTS E186)) (HAVE.V ** E186))
+ (:Q A.DET CAT.N))
+
+
+
+"He decided to get another one."
+(HE.PRO
+ ((SOME E187 ((E187 BEFORE NOW146) AND (E186 ORIENTS E187)) (DECIDE.V ** E187))
+  (KA (GET.V (:Q ANOTHER.DET ONE.N)))))
+
+
+
+"The two cats didn't get along."
+(NOT
+ (SOME E188 ((E188 BEFORE NOW147) AND (E187 ORIENTS E188))
+       (((:Q THE (TWO.A (PLUR CAT.N))) (ALONG.ADV GET.V)) ** E188)))
+
+
+
+"Tom tried his best to get them to live together."
+(E189.SK SAME-TIME NOW148)
+
+(E189.SK RIGHT-AFTER U147)
+
+(PRED?190.SK (BEST.A PRED?.N))
+
+(PRED?190.SK PERTAIN-TO TOM.NAME)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (TOM.NAME *UNDEFINED* PRED?190.SK
+    (KA (PRED830.VP GET.V (WFF829.S THEY.PRO (KA (TOGETHER.ADV LIVE.V))))))))
+ ** E189.SK)
+
+
+
+"It never worked and he had to get rid of one."
+(E192.SK BEFORE NOW149)
+
+(E188 ORIENTS E192.SK)
+
+(((NEVER.ADV
+   (IT.PRO
+    (SOME E190 ((E190 AT-OR-BEFORE NOW149) AND (E175 ORIENTS E190))
+          (WORK.V ** E190))))
+  AND.CC
+  (HE.PRO
+   (PRED832.VP
+    (L P
+     (L X
+      (SOME E191 ((E191 IMPINGES-ON E192.SK) AND (E157 ORIENTS E191))
+            ((X P) ** E191))))
+    (KA (GET.V (RID.A (OF.P (:Q ONE.DET PRED?.N))))))))
+ ** E192.SK)
+
+
+
+"Nancy loved the swings."
+(NANCY.NAME
+ (SOME E192 ((E192 BEFORE NOW150) AND (E189 ORIENTS E192)) (LOVE.V ** E192))
+ (:Q THE (PLUR SWING.N)))
+
+
+
+"Since she was a child she was always on them."
+(SHE.PRO
+ ((SOME E193 ((E193 BEFORE NOW151) AND (E192 ORIENTS E193))
+        ((BE.V ALWAYS.A) ** E193))
+  (:R (ON.P THEY.PRO))))
+
+
+
+"Nancy rode the swings next to her friends as well."
+(NANCY.NAME
+ ((MODIF836.ADVP NEXT.A
+   (TO.P (:Q THE (L X ((X (PLUR FRIEND.N)) AND (X PERTAIN-TO NANCY.NAME))))))
+  ((AS.ADV WELL.ADV)
+   ((SOME E194 ((E194 BEFORE NOW152) AND (E193 ORIENTS E194)) (RIDE.V ** E194))
+    (:Q THE (PLUR SWING.N))))))
+
+
+
+"One day, Nancy fell off the swings."
+(ONE.DET Y ((Y DAY.N) AND (Y = NANCY.NAME))
+ (Y (SOME E195 ((E195 BEFORE NOW153) AND (E194 ORIENTS E195)) (FALL.V ** E195))
+  (:R (OFF.P (:Q THE (PLUR SWING.N))))))
+
+
+
+"She was hurt and never rode the swings again."
+(E198.SK BEFORE NOW154)
+
+(E195 ORIENTS E198.SK)
+
+(((SOME E197 ((E197 AT-OR-BEFORE NOW154) AND (E190 ORIENTS E197))
+        ((SHE.PRO (BE.PASV HURT.V)) ** E197))
+  AND.CC
+  (THE Y (Y (PLUR SWING.N))
+       (SHE.PRO
+        (PRED839.VP (L P (L X (NEVER.ADV (X P)))) RIDE.V Y AGAIN.ADV))))
+ ** E198.SK)
+
+
+
+"Michael was very shy."
+(MICHAEL.NAME
+ (SOME E198 ((E198 BEFORE NOW155) AND (E196 ORIENTS E198))
+       ((BE.V (VERY.ADV SHY.A)) ** E198)))
+
+
+
+"He would only play by himself."
+(HE.PRO
+ (ONLY.ADV (L X (:O PRES/PAST (WOULD.MD (X PLAY.V (:R (BY.P HIMSELF.PRO))))))))
+
+
+
+"One day I asked him to play with me."
+(ONE.DET X (X DAY.N) (X *UNDEFINED* HE.PRO (KA (PLAY.V (:R (WITH.P ME.PRO))))))
+
+
+
+"We have been friends ever since."
+(E200.SK IMPINGES-ON E181)
+
+(E129 ORIENTS E200.SK)
+
+((WE.PRO BE.V
+  (= (K (PLUR FRIEND.N))
+     (:R (PRED845.PP EVER.ADV (PP-SINCE844.PP-SINCE SINCE.P)))))
+ ** E200.SK)
+
+
+
+"Michael is my best friend."
+(MICHAEL.NAME
+ (SOME E200 ((E200 AT-ABOUT NOW159) AND (E181 ORIENTS E200))
+       ((BE.V
+         (= (:Q THE (L X ((X (BEST.A FRIEND.N)) AND (X PERTAIN-TO ME.PRO))))))
+        ** E200)))
+
+
+
+"Magee was only good at running."
+(MAGEE.NAME
+ ((SOME E201 ((E201 BEFORE NOW160) AND (E198 ORIENTS E201))
+        ((BE.V (ONLY.ADV GOOD.A)) ** E201))
+  (:R (AT.P (KA RUN.V)))))
+
+
+
+"He loved to run all the time."
+(HE.PRO
+ ((SOME E202 ((E202 BEFORE NOW161) AND (E201 ORIENTS E202)) (LOVE.V ** E202))
+  (KA (RUN.V (:Q THE TIME.N)))))
+
+
+
+"One day he ran far away from home."
+(E204.SK BEFORE NOW162)
+
+(E202 ORIENTS E204.SK)
+
+((ONE.DET X (X DAY.N)
+  (X ((MODIF850.ADVP (FAR.ADV AWAY.ADV) (FROM.P (K HOME.N))) RUN.V)))
+ ** E204.SK)
+
+
+
+"Magee was never seen again."
+(NEVER.ADV
+ (SOME E204 ((E204 BEFORE NOW163) AND (E203 ORIENTS E204))
+       ((MAGEE.NAME (AGAIN.ADV SEE.V)) ** E204)))
+
+
+
+"Some say Magee is still running today."
+(E207.SK AT-ABOUT NOW164)
+
+(E200 ORIENTS E207.SK)
+
+(E208.SK AT-ABOUT NOW164)
+
+(E207.SK ORIENTS E208.SK)
+
+(PRED?209.SK PRED?.N)
+
+(((PRED?209.SK
+   (PRED855.VP SAY.V
+    (SBAR854.SBAR
+     (MAGEE.NAME
+      (STILL.ADV (L X (PROG (X (PRED853.VP RUN.V (K TODAY.N))))))))))
+  ** E208.SK)
+ ** E207.SK)
+
+
+
+"Joe's dog was very dirty from playing outside."
+(E210.SK SAME-TIME NOW165)
+
+(E210.SK RIGHT-AFTER U164)
+
+(DOG211.SK DOG.N)
+
+(DOG211.SK PERTAIN-TO JOE.NAME)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (DOG211.SK
+    (SOME E207 ((E207 BEFORE NOW165) AND (E204 ORIENTS E207))
+          ((BE.V (VERY.ADV (DIRTY.A (FROM.P (K ((NN PLAYING.N) OUTSIDE.N))))))
+           ** E207)))))
+ ** E210.SK)
+
+
+
+"So Joe took his do to the tub."
+(JOE.NAME
+ (SOME E208 ((E208 BEFORE NOW166) AND (E207 ORIENTS E208)) (TAKE.V ** E208))
+ (TERM858.NP (L P (:Q THE (L X ((X P) AND (X PERTAIN-TO JOE.NAME))))) (L P P))
+ (:R (TO.P (:Q THE TUB.N))))
+
+
+
+"He began to wash his dog."
+(HE.PRO
+ ((SOME E209 ((E209 BEFORE NOW167) AND (E208 ORIENTS E209)) (BEGIN.V ** E209))
+  (KA (WASH.V (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO HE.PRO))))))))
+
+
+
+"After washing his do he dried the dog."
+(E212.SK SAME-TIME NOW168)
+
+(E212.SK RIGHT-AFTER U167)
+
+(PRED?213.SK PRED?.N)
+
+(PRED?213.SK PERTAIN-TO HE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   ((ADV-S
+     (AFTER.P
+      (KA
+       (PRED863.VP WASH.V (SBAR862.SBAR (PRED?213.SK (PRED861.VP (L P P))))))))
+    (HE.PRO
+     (SOME E210 ((E210 BEFORE NOW168) AND (E209 ORIENTS E210)) (DRY.V ** E210))
+     (:Q THE DOG.N)))))
+ ** E212.SK)
+
+
+
+"Joe's dog was no longer dirty and played inside the house."
+(E214.SK SAME-TIME NOW169)
+
+(E214.SK RIGHT-AFTER U168)
+
+(DOG215.SK DOG.N)
+
+(DOG215.SK PERTAIN-TO JOE.NAME)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (DOG215.SK
+    (:O AND.CC
+     ((NO.ADV LONGER.ADV)
+      (SOME E211 ((E211 BEFORE NOW169) AND (E210 ORIENTS E211))
+            ((BE.V DIRTY.A) ** E211)))
+     ((SOME E212 ((E212 BEFORE NOW169) AND (E211 ORIENTS E212))
+            (PLAY.V ** E212))
+      (:R (INSIDE.P (:Q THE HOUSE.N))))))))
+ ** E214.SK)
+
+
+
+"We went in a hike in the woods by my house."
+(WE.PRO
+ (SOME E213 ((E213 BEFORE NOW170) AND (E212 ORIENTS E213)) (GO.V ** E213))
+ (:R
+  (IN.P
+   (:Q A.DET
+    (L X
+     ((X HIKE.N) AND
+      (X
+       (:MULT (IN.P (:Q THE (PLUR WOOD.N)))
+        (BY.P (:Q THE (L X ((X HOUSE.N) AND (X PERTAIN-TO ME.PRO)))))))))))))
+
+
+
+"The trees were very high."
+(E216.SK SAME-TIME NOW171)
+
+(E216.SK RIGHT-AFTER U170)
+
+(TREES217.SK (PLUR TREE.N))
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (TREES217.SK
+    (SOME E214 ((E214 BEFORE NOW171) AND (E213 ORIENTS E214))
+          ((BE.V (VERY.ADV HIGH.A)) ** E214)))))
+ ** E216.SK)
+
+
+
+"My brother climbed one of the trees."
+(E218.SK SAME-TIME NOW172)
+
+(E218.SK RIGHT-AFTER U171)
+
+(BROTHER219.SK BROTHER.N)
+
+(BROTHER219.SK BROTHER-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (BROTHER219.SK
+    (SOME E215 ((E215 BEFORE NOW172) AND (E214 ORIENTS E215))
+          (CLIMB.V ** E215))
+    (:Q ONE.DET (L X ((X PRED?.N) AND (X OF.P (:Q THE (PLUR TREE.N)))))))))
+ ** E218.SK)
+
+
+
+"We told him to get down."
+(WE.PRO *UNDEFINED* HE.PRO (KA (DOWN.ADV GET.V)))
+
+
+
+"He fell from the tree."
+(HE.PRO
+ (SOME E216 ((E216 BEFORE NOW174) AND (E215 ORIENTS E216)) (FALL.V ** E216))
+ (:R (FROM.P (:Q THE TREE.N))))
+
+
+
+"Tom never liked taking pictures."
+(NEVER.ADV
+ (TOM.NAME
+  ((SOME E217 ((E217 BEFORE NOW175) AND (E216 ORIENTS E217)) (LIKE.V ** E217))
+   (KA (TAKE.V (K (PLUR PICTURE.N)))))))
+
+
+
+"He always thought he looked bad in them."
+(E220.SK BEFORE NOW176)
+
+(E217 ORIENTS E220.SK)
+
+(E221.SK AT-OR-BEFORE NOW176)
+
+(E197 ORIENTS E221.SK)
+
+(((HE.PRO
+   (ALWAYS.ADV
+    (PRED874.VP THINK.V
+     (SBAR873.SBAR (HE.PRO (PRED872.VP LOOK.V BAD.A (IN.P THEY.PRO)))))))
+  ** E221.SK)
+ ** E220.SK)
+
+
+
+"One day a friend convinced him to take some."
+(E222.SK BEFORE NOW177)
+
+(E218 ORIENTS E222.SK)
+
+((ONE.DET Y (A.DET Z (Z FRIEND.N) ((Y DAY.N) AND (Y = Z)))
+  (Y
+   (PRED877.VP CONVINCE.V (WFF876.S HE.PRO (KA (TAKE.V (:Q SOME PRED?.N)))))))
+ ** E222.SK)
+
+
+
+"Tom liked the way he looked in them."
+(TOM.NAME
+ (SOME E221 ((E221 BEFORE NOW178) AND (E220 ORIENTS E221)) (LIKE.V ** E221))
+ (:Q THE
+  (L X
+   ((X WAY.N) AND
+    (X
+     (PRED879.S-REL
+      (TOM.NAME
+       (SOME E222 ((E222 BEFORE NOW178) AND (E221 ORIENTS E222))
+             (LOOK.V ** E222))
+       (:R (IN.P THEY.PRO)))))))))
+
+
+
+"He started taking more and better pictures."
+(HE.PRO
+ ((SOME E223 ((E223 BEFORE NOW179) AND (E222 ORIENTS E223)) (START.V ** E223))
+  (KA (TAKE.V (K ((:O AND.CC MORE.A BETTER.A) (PLUR PICTURE.N)))))))
+
+
+
+"Susie say a girl was playing ball."
+(E226.SK AT-ABOUT NOW180)
+
+(E206 ORIENTS E226.SK)
+
+(((K SUSIE.N)
+  (PRED883.VP SAY.V
+   (SBAR882.SBAR
+    (SOME E225 ((E225 BEFORE NOW180) AND (E223 ORIENTS E225))
+          ((PROG ((:Q A.DET GIRL.N) PLAY.V (K BALL.N))) ** E225)))))
+ ** E226.SK)
+
+
+
+"She wanted to play with her too."
+(SHE.PRO
+ ((SOME E226 ((E226 BEFORE NOW181) AND (E225 ORIENTS E226)) (WANT.V ** E226))
+  (KA (PLAY.V (:R (WITH.P (TERM885.NP SHE.PRO TOO.ADV)))))))
+
+
+
+"So she went ahead and asked for permission."
+(E229.SK BEFORE NOW182)
+
+(E226 ORIENTS E229.SK)
+
+(((SHE.PRO (AHEAD.ADV GO.V)) AND.CC
+  (SHE.PRO
+   (SOME E228 ((E228 AT-OR-BEFORE NOW182) AND (E219 ORIENTS E228))
+         (ASK.V ** E228))
+   (:R (FOR.P (K PERMISSION.N)))))
+ ** E229.SK)
+
+
+
+"The girl said no."
+(E230.SK BEFORE NOW183)
+
+(E227 ORIENTS E230.SK)
+
+(GIRL231.SK GIRL.N)
+
+((GIRL231.SK (PRED888.VP SAY.V (I.PRO SAY-NO-TO*.V THAT.PRO))) ** E230.SK)
+
+
+
+"Susie then started to cry."
+((K SUSIE.N)
+ (THEN.ADV
+  ((SOME E230 ((E230 BEFORE NOW184) AND (E229 ORIENTS E230)) (START.V ** E230))
+   (KA CRY.V))))
+
+
+
+"Sam's cat ran away one day."
+(E232.SK SAME-TIME NOW185)
+
+(E232.SK RIGHT-AFTER U184)
+
+(CAT233.SK CAT.N)
+
+(CAT233.SK PERTAIN-TO SAM.NAME)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CAT233.SK
+    (SOME E231 ((E231 BEFORE NOW185) AND (E230 ORIENTS E231))
+          (RUN_AWAY.V ** E231))
+    (:Q ONE.DET DAY.N))))
+ ** E232.SK)
+
+
+
+"Sam never got along with it."
+(NEVER.ADV
+ (SAM.NAME
+  (SOME E232 ((E232 BEFORE NOW186) AND (E231 ORIENTS E232)) (GET.V ** E232))
+  (:R (PRED892.PP ALONG.P (WITH.P IT.PRO)))))
+
+
+
+"He tried to look for a day or two."
+(HE.PRO
+ ((SOME E233 ((E233 BEFORE NOW187) AND (E232 ORIENTS E233)) (TRY.V ** E233))
+  (KA
+   (LOOK.V
+    (:R
+     (FOR.P
+      (TERM895.NP (L P (:Q A.DET P)) DAY.N
+       (QP894.QP OR.CC (L P (:Q TWO.DET P))))))))))
+
+
+
+"Sam quickly gave up the search."
+(SAM.NAME
+ (QUICKLY.ADV
+  ((SOME E234 ((E234 BEFORE NOW188) AND (E233 ORIENTS E234))
+         (GIVE_UP.V ** E234))
+   (:Q THE SEARCH.N))))
+
+
+
+"He got a new cat instead."
+(HE.PRO
+ (INSTEAD.ADV
+  ((SOME E235 ((E235 BEFORE NOW189) AND (E234 ORIENTS E235)) (GET.V ** E235))
+   (:Q A.DET (NEW.A CAT.N)))))
+
+
+
+"My son was outside playing."
+(E237.SK SAME-TIME NOW190)
+
+(E237.SK RIGHT-AFTER U189)
+
+(SON238.SK SON.N)
+
+(SON238.SK SON-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (SON238.SK
+    (SOME E236 ((E236 BEFORE NOW190) AND (E235 ORIENTS E236))
+          ((BE.V (OUTSIDE.P (KA PLAY.V))) ** E236)))))
+ ** E237.SK)
+
+
+
+"His best friend came by the house."
+(E239.SK SAME-TIME NOW191)
+
+(E239.SK RIGHT-AFTER U190)
+
+(FRIEND240.SK (BEST.A FRIEND.N))
+
+(FRIEND240.SK PERTAIN-TO HE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (FRIEND240.SK
+    (SOME E237 ((E237 BEFORE NOW191) AND (E236 ORIENTS E237)) (COME.V ** E237))
+    (:R (BY.P (:Q THE HOUSE.N))))))
+ ** E239.SK)
+
+
+
+"They went off on an adventure."
+(THEY.PRO
+ (OFF.ADV
+  ((SOME E238 ((E238 BEFORE NOW192) AND (E237 ORIENTS E238)) (GO.V ** E238))
+   (:R (ON.P (:Q AN.DET ADVENTURE.N))))))
+
+
+
+"They were gone for quite some time."
+(E241.SK BEFORE NOW193)
+
+(E238 ORIENTS E241.SK)
+
+((THEY.PRO (BE.PASV GO.V)
+  (:R (FOR.P (TERM902.NP QUITE.ADV (L P (:Q SOME P)) TIME.N))))
+ ** E241.SK)
+
+
+
+"They came home before dark."
+(THEY.PRO
+ (HOME.ADV
+  ((SOME E240 ((E240 BEFORE NOW194) AND (E239 ORIENTS E240)) (COME.V ** E240))
+   (:R (BEFORE.P (K DARK.N))))))
+
+
+
+"My friend came to visit."
+(E242.SK SAME-TIME NOW195)
+
+(E242.SK RIGHT-AFTER U194)
+
+(FRIEND243.SK FRIEND.N)
+
+(FRIEND243.SK FRIEND-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (FRIEND243.SK
+    ((SOME E241 ((E241 BEFORE NOW195) AND (E240 ORIENTS E241))
+           (COME.V ** E241))
+     (KA VISIT.V)))))
+ ** E242.SK)
+
+
+
+"She wanted to go out."
+(SHE.PRO
+ ((SOME E242 ((E242 BEFORE NOW196) AND (E241 ORIENTS E242)) (WANT.V ** E242))
+  (KA (OUT.ADV GO.V))))
+
+
+
+"I asked if she wanted to meet my brothers."
+(E245.SK BEFORE NOW197)
+
+(E242 ORIENTS E245.SK)
+
+((ME.PRO
+  (PRED907.VP ASK.V
+   ((SHE.PRO
+     ((SOME E244 ((E244 AT-OR-BEFORE NOW197) AND (E228 ORIENTS E244))
+            (WANT.V ** E244))
+      (KA
+       (MEET.V
+        (:Q THE (L X ((X (PLUR BROTHER.N)) AND (X PERTAIN-TO ME.PRO))))))))
+    (*OUT-OF-RANGE-SEMANTIC-INDEX* 4))))
+ ** E245.SK)
+
+
+
+"I was in trouble that night."
+(E246.SK SAME-TIME NOW198)
+
+(E246.SK RIGHT-AFTER U197)
+
+(NIGHT247.SK NIGHT.N)
+
+(NIGHT247.SK NEW-SALIENT-ENTITY*.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (ME.PRO
+    (PRED909.VP
+     (L P
+      (SOME E245 ((E245 BEFORE NOW198) AND (E243 ORIENTS E245))
+            ((BE.V P) ** E245)))
+     IN_TROUBLE.A NIGHT247.SK))))
+ ** E246.SK)
+
+
+
+"I didn't find out why until the next day."
+(E248.SK BEFORE NOW199)
+
+(E245 ORIENTS E248.SK)
+
+(DAY249.SK (NEXT.A DAY.N))
+
+((NOT
+  (ME.PRO
+   (PRED911.VP FIND_OUT.V
+    ((LOGICAL-FRAGMENT.F (:R (ADV (FOR-REASON.P (:Q WH REASON.N)))))
+     PLAYS-UNDETERMINED-ROLE*.V)
+    (UNTIL.P DAY249.SK))))
+ ** E248.SK)
+
+
+
+"Helen bought a nice plant in the store."
+(HELEN.NAME
+ (SOME E247 ((E247 BEFORE NOW200) AND (E246 ORIENTS E247)) (BUY.V ** E247))
+ (:Q A.DET (L X ((X (NICE.A PLANT.N)) AND (X IN.P (:Q THE STORE.N))))))
+
+
+
+"She put it into the window at home."
+(E250.SK BEFORE NOW201)
+
+(E247 ORIENTS E250.SK)
+
+(WINDOW251.SK WINDOW.N)
+
+((SHE.PRO (PRED914.VP PUT.V IT.PRO (INTO.P WINDOW251.SK) AT_HOME.A)) ** E250.SK)
+
+
+
+"Next morning she wanted to water it."
+(SHE.PRO
+ ((MODIF916.ADVP NEXT.A MORNING.N)
+  ((SOME E249 ((E249 BEFORE NOW202) AND (E248 ORIENTS E249)) (WANT.V ** E249))
+   (KA (WATER.V IT.PRO)))))
+
+
+
+"She found it broken on the floor."
+(SHE.PRO
+ (SOME E250 ((E250 BEFORE NOW203) AND (E249 ORIENTS E250)) (FIND.V ** E250))
+ IT.PRO (:R (PRED918.PP BREAK.V (ON.P (:Q THE FLOOR.N)))))
+
+
+
+"It was her cat."
+(IT.PRO
+ (SOME E251 ((E251 BEFORE NOW204) AND (E250 ORIENTS E251))
+       ((BE.V (= (:Q THE (L X ((X CAT.N) AND (X PERTAIN-TO SHE.PRO)))))) **
+        E251)))
+
+
+
+"Tom went out for a walk."
+(TOM.NAME
+ (OUT.ADV
+  ((SOME E252 ((E252 BEFORE NOW205) AND (E251 ORIENTS E252)) (GO.V ** E252))
+   (:R (FOR.P (:Q A.DET WALK.N))))))
+
+
+
+"A baby bear walked in front of him."
+(BEAR252.SK ((NN BABY.N) BEAR.N))
+
+(BEAR252.SK
+ (SOME E253 ((E253 BEFORE NOW206) AND (E252 ORIENTS E253)) (WALK.V ** E253))
+ (:R (IN_FRONT_OF.P HE.PRO)))
+
+
+
+"He anxiously looked around for the mother bear."
+(HE.PRO
+ (ANXIOUSLY.ADV
+  ((SOME E254 ((E254 BEFORE NOW207) AND (E253 ORIENTS E254))
+         (LOOK_AROUND.V ** E254))
+   (:R (FOR.P (:Q THE ((NN MOTHER.N) BEAR.N)))))))
+
+
+
+"He did not see the mother bear."
+(E256.SK BEFORE NOW208)
+
+(E254 ORIENTS E256.SK)
+
+((NOT (HE.PRO (PRED924.VP SEE.V ((:Q THE MOTHER.N) BEAR.V)))) ** E256.SK)
+
+
+
+"He quickly turned around and walked home."
+(E258.SK BEFORE NOW209)
+
+(E255 ORIENTS E258.SK)
+
+(((HE.PRO (PRED927.VP QUICKLY.ADV TURN.V (PRT926.PRT AROUND.PART))) AND.CC
+  (HE.PRO
+   (SOME E257 ((E257 AT-OR-BEFORE NOW209) AND (E244 ORIENTS E257))
+         (WALK.V ** E257))
+   (K HOME.N)))
+ ** E258.SK)
+
+
+
+"The girls went to the pond."
+(E259.SK SAME-TIME NOW210)
+
+(E259.SK RIGHT-AFTER U209)
+
+(GIRLS260.SK (PLUR GIRL.N))
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (GIRLS260.SK
+    (SOME E258 ((E258 BEFORE NOW210) AND (E256 ORIENTS E258)) (GO.V ** E258))
+    (:R
+     (TO.P
+      (REFERENT-OF
+       (JOIN-NAMES (EF-OF (L P (:Q THE P))) (EF-OF POND.NAME))))))))
+ ** E259.SK)
+
+
+
+"They caught a giant frog."
+(THEY.PRO
+ (SOME E259 ((E259 BEFORE NOW211) AND (E258 ORIENTS E259)) (CATCH.V ** E259))
+ (:Q A.DET (GIANT.A FROG.N)))
+
+
+
+"They took it home and put it in a bucket."
+(THEY.PRO
+ (:O AND.CC
+  (HOME.ADV
+   ((SOME E260 ((E260 BEFORE NOW212) AND (E259 ORIENTS E260)) (TAKE.V ** E260))
+    IT.PRO))
+  ((SOME E261 ((E261 BEFORE NOW212) AND (E260 ORIENTS E261)) (PUT.V ** E261))
+   IT.PRO (:R (IN.P (:Q A.DET BUCKET.N))))))
+
+
+
+"They showed it to all their friends."
+(THEY.PRO
+ (SOME E262 ((E262 BEFORE NOW213) AND (E261 ORIENTS E262)) (SHOW.V ** E262))
+ IT.PRO
+ (:R (TO.P (:Q THE (L X ((X (PLUR FRIEND.N)) AND (X PERTAIN-TO THEY.PRO)))))))
+
+
+
+"The frog lived with them for a month."
+(E264.SK SAME-TIME NOW214)
+
+(E264.SK RIGHT-AFTER U213)
+
+(FROG265.SK FROG.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (FROG265.SK
+    (SOME E263 ((E263 BEFORE NOW214) AND (E262 ORIENTS E263)) (LIVE.V ** E263))
+    (:R (WITH.P THEY.PRO)) (:R (FOR.P (:Q A.DET MONTH.N))))))
+ ** E264.SK)
+
+
+
+"My friend came to visit me."
+(E266.SK SAME-TIME NOW215)
+
+(E266.SK RIGHT-AFTER U214)
+
+(FRIEND267.SK FRIEND.N)
+
+(FRIEND267.SK FRIEND-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (FRIEND267.SK
+    ((SOME E264 ((E264 BEFORE NOW215) AND (E263 ORIENTS E264))
+           (COME.V ** E264))
+     (KA (VISIT.V ME.PRO))))))
+ ** E266.SK)
+
+
+
+"She brought her young son with her."
+(SHE.PRO
+ (SOME E265 ((E265 BEFORE NOW216) AND (E264 ORIENTS E265)) (BRING.V ** E265))
+ (:Q THE (L X ((X (YOUNG.A SON.N)) AND (X PERTAIN-TO SHE.PRO))))
+ (:R (WITH.P SHE.PRO)))
+
+
+
+"He was a cute little boy."
+(HE.PRO
+ (SOME E266 ((E266 BEFORE NOW217) AND (E265 ORIENTS E266))
+       ((BE.V (= (:Q A.DET (CUTE.A (LITTLE.A BOY.N))))) ** E266)))
+
+
+
+"We gave him some toys to play with."
+(E268.SK BEFORE NOW218)
+
+(E266 ORIENTS E268.SK)
+
+(TOYS269.SK (PLUR TOY.N))
+
+((WE.PRO
+  (PRED938.VP GIVE.V HE.PRO TOYS269.SK (KA (PLAY.V (:R (PRED937.PP WITH.P))))))
+ ** E268.SK)
+
+
+
+"We had a great visit."
+(WE.PRO
+ (SOME E268 ((E268 BEFORE NOW219) AND (E267 ORIENTS E268)) (HAVE.V ** E268))
+ (:Q A.DET (GREAT.A VISIT.N)))
+
+
+
+"I went to visit a farm on Friday."
+(ME.PRO
+ ((SOME E269 ((E269 BEFORE NOW220) AND (E268 ORIENTS E269)) (GO.V ** E269))
+  (KA (VISIT.V (:Q A.DET FARM.N) (:R (ON.P FRIDAY.NAME))))))
+
+
+
+"It was a long drive to get there."
+(IT.PRO
+ (SOME E270 ((E270 BEFORE NOW221) AND (E269 ORIENTS E270))
+       ((BE.V
+         (=
+          (:Q SOME
+           (:O AND (L X (X = (:Q A.DET (LONG.A DRIVE.N))))
+            (KA (THERE.ADV GET.V))))))
+        ** E270)))
+
+
+
+"They had a lot of animals."
+(THEY.PRO
+ (SOME E271 ((E271 BEFORE NOW222) AND (E270 ORIENTS E271)) (HAVE.V ** E271))
+ (:Q A.DET (L X ((X LOT.N) AND (X OF.P (K (PLUR ANIMAL.N)))))))
+
+
+
+"I got to pet the cow."
+(ME.PRO
+ (SOME E272 ((E272 BEFORE NOW223) AND (E271 ORIENTS E272)) (GET.V ** E272))
+ (:R (TO.P (TERM944.NP PET.A (L P (:Q THE P)) COW.N))))
+
+
+
+"It was a very fun day."
+(IT.PRO
+ (SOME E273 ((E273 BEFORE NOW224) AND (E272 ORIENTS E273))
+       ((BE.V (= (:Q A.DET (VERY.A ((NN FUN.N) DAY.N))))) ** E273)))
+
+
+
+"Holly had just started school."
+(HOLLY.NAME
+ (JUST.ADV
+  (L X
+   (SOME E274 ((E274 BEFORE NOW225) AND (E273 ORIENTS E274))
+         (SOME E275 ((E275 IMPINGES-ON E274) AND (E191 ORIENTS E275))
+               (((X START.V (K SCHOOL.N)) ** E275) ** E274))))))
+
+
+
+"Her mother dropped her off at school."
+(E277.SK SAME-TIME NOW226)
+
+(E277.SK RIGHT-AFTER U225)
+
+(MOTHER278.SK MOTHER.N)
+
+(MOTHER278.SK MOTHER-OF.N SHE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MOTHER278.SK
+    (SOME E276 ((E276 BEFORE NOW226) AND (E274 ORIENTS E276))
+          (DROP_OFF.V ** E276))
+    SHE.PRO (:R (AT.P (K SCHOOL.N))))))
+ ** E277.SK)
+
+
+
+"Holly began to cry when her mother left."
+(E279.SK SAME-TIME NOW227)
+
+(E279.SK RIGHT-AFTER U226)
+
+((SPEAKER ASK.V HEARER
+  (QNOM
+   (SOME E277 ((E277 BEFORE NOW227) AND (E276 ORIENTS E277))
+         ((WH Y (Y TIME.N)
+           (HOLLY.NAME
+            (PRED950.VP BEGIN.V (KA CRY.V)
+             (S-ALTHOUGH-IF-WHILE-ETC949.S-ALTHOUGH-IF-WHILE-ETC
+              (:R (ADV (AT-TIME.P Y)))
+              ((:Q THE (L X ((X MOTHER.N) AND (X MOTHER-OF.N HOLLY.NAME))))
+               (SOME E278 ((E278 AT-OR-BEFORE NOW227) AND (E257 ORIENTS E278))
+                     (LEAVE.V ** E278)))))))
+          ** E277))))
+ ** E279.SK)
+
+
+
+"Her mother returned in the afternoon."
+(E280.SK SAME-TIME NOW228)
+
+(E280.SK RIGHT-AFTER U227)
+
+(MOTHER281.SK MOTHER.N)
+
+(MOTHER281.SK MOTHER-OF.N SHE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MOTHER281.SK
+    (SOME E279 ((E279 BEFORE NOW228) AND (E277 ORIENTS E279))
+          (RETURN.V ** E279))
+    (:R (IN.P (:Q THE AFTERNOON.N))))))
+ ** E280.SK)
+
+
+
+"Holly said she didn't want to go back."
+(E282.SK BEFORE NOW229)
+
+(E279 ORIENTS E282.SK)
+
+((HOLLY.NAME
+  (PRED954.VP SAY.V
+   (SBAR953.SBAR
+    (NOT
+     (SOME E281 ((E281 AT-OR-BEFORE NOW229) AND (E278 ORIENTS E281))
+           ((SHE.PRO (WANT.V (KA (BACK.ADV GO.V)))) ** E281))))))
+ ** E282.SK)
+
+
+
+"Fred always wanted to know how he would look like in a cap."
+(FRED.NAME
+ (ALWAYS.ADV
+  ((SOME E282 ((E282 BEFORE NOW230) AND (E280 ORIENTS E282)) (WANT.V ** E282))
+   (KA (PRED957.VP KNOW.V (ANSWER-TO *UNDEFINED*))))))
+
+
+
+"He decides to buy one."
+(HE.PRO
+ ((SOME E283 ((E283 AT-ABOUT NOW231) AND (E224 ORIENTS E283))
+        (DECIDE.V ** E283))
+  (KA (BUY.V (:Q ONE.DET PRED?.N)))))
+
+
+
+"Fred loves how he looks in a cap."
+(E285.SK AT-ABOUT NOW232)
+
+(E283 ORIENTS E285.SK)
+
+((FRED.NAME (PRED960.VP LOVE.V (ANSWER-TO *UNDEFINED*))) ** E285.SK)
+
+
+
+"His friends love it too."
+(E286.SK SAME-TIME NOW233)
+
+(E286.SK RIGHT-AFTER U232)
+
+(FRIENDS287.SK (PLUR FRIEND.N))
+
+(FRIENDS287.SK PERTAIN-TO HE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (FRIENDS287.SK
+    (TOO.ADV
+     ((SOME E285 ((E285 AT-ABOUT NOW233) AND (E284 ORIENTS E285))
+            (LOVE.V ** E285))
+      IT.PRO)))))
+ ** E286.SK)
+
+
+
+"He is glad he bought a cap."
+(HE.PRO
+ (SOME E286 ((E286 AT-ABOUT NOW234) AND (E285 ORIENTS E286))
+       ((BE.V
+         (PRED964.ADJP GLAD.A
+          (SBAR963.SBAR
+           (HE.PRO
+            (SOME E287 ((E287 BEFORE NOW234) AND (E282 ORIENTS E287))
+                  (BUY.V ** E287))
+            (:Q A.DET CAP.N)))))
+        ** E286)))
+
+
+
+"Emmy lived on a farm."
+(EMMY.NAME
+ (SOME E288 ((E288 BEFORE NOW235) AND (E287 ORIENTS E288)) (LIVE.V ** E288))
+ (:R (ON.P (:Q A.DET FARM.N))))
+
+
+
+"She stayed in a pen with her brother."
+(SHE.PRO
+ (SOME E289 ((E289 BEFORE NOW236) AND (E288 ORIENTS E289)) (STAY.V ** E289))
+ (:R (IN.P (:Q A.DET PEN.N)))
+ (:R (WITH.P (:Q THE (L X ((X BROTHER.N) AND (X BROTHER-OF.N SHE.PRO)))))))
+
+
+
+"One day a man came and saw Emmy."
+(ONE.DET Y (A.DET Z (Z MAN.N) ((Y DAY.N) AND (Y = Z)))
+ (Y
+  (:O AND.CC
+   (SOME E290 ((E290 BEFORE NOW237) AND (E289 ORIENTS E290)) (COME.V ** E290))
+   (SOME E291 ((E291 BEFORE NOW237) AND (E290 ORIENTS E291)) (SEE.V ** E291)))
+  EMMY.NAME))
+
+
+
+"He took her home."
+(HE.PRO
+ (HOME.ADV
+  ((SOME E292 ((E292 BEFORE NOW238) AND (E291 ORIENTS E292)) (TAKE.V ** E292))
+   SHE.PRO)))
+
+
+
+"They are very happy together."
+(THEY.PRO
+ (TOGETHER.ADV
+  (SOME E293 ((E293 AT-ABOUT NOW239) AND (E286 ORIENTS E293))
+        ((BE.V (VERY.ADV HAPPY.A)) ** E293))))
+
+
+
+"The man planted a tree."
+(E295.SK SAME-TIME NOW240)
+
+(E295.SK RIGHT-AFTER U239)
+
+(MAN296.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN296.SK
+    (SOME E294 ((E294 BEFORE NOW240) AND (E292 ORIENTS E294))
+          (PLANT.V ** E294))
+    (:Q A.DET TREE.N))))
+ ** E295.SK)
+
+
+
+"The tree grew to be very tall."
+(E297.SK SAME-TIME NOW241)
+
+(E297.SK RIGHT-AFTER U240)
+
+(TREE298.SK TREE.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (TREE298.SK
+    ((SOME E295 ((E295 BEFORE NOW241) AND (E294 ORIENTS E295))
+           (GROW.V ** E295))
+     (KA (BE.V (VERY.ADV TALL.A)))))))
+ ** E297.SK)
+
+
+
+"One day their was a big storm."
+(ONE.DET Y
+ (THE Z ((Z PRED?.N) AND (Z PERTAIN-TO THEY.PRO)) ((Y DAY.N) AND (Y = Z)))
+ (Y
+  (SOME E296 ((E296 BEFORE NOW242) AND (E295 ORIENTS E296))
+        ((BE.V (= (:Q A.DET (BIG.A STORM.N)))) ** E296))))
+
+
+
+"A branch fell from the tree."
+(BRANCH299.SK BRANCH.N)
+
+(BRANCH299.SK
+ (SOME E297 ((E297 BEFORE NOW243) AND (E296 ORIENTS E297)) (FALL.V ** E297))
+ (:R (FROM.P (:Q THE TREE.N))))
+
+
+
+"It broke a window of the man's house."
+(IT.PRO
+ (SOME E298 ((E298 BEFORE NOW244) AND (E297 ORIENTS E298)) (BREAK.V ** E298))
+ (:Q A.DET
+  (L X
+   ((X WINDOW.N) AND
+    (X OF.P (:Q THE (L X ((X HOUSE.N) AND (X PERTAIN-TO (:Q THE MAN.N))))))))))
+
+
+
+"Rose was at the jewelry store."
+(ROSE.NAME
+ (SOME E299 ((E299 BEFORE NOW245) AND (E298 ORIENTS E299))
+       ((BE.V (AT.P (:Q THE ((NN JEWELRY.N) STORE.N)))) ** E299)))
+
+
+
+"She wanted to buy a new watch."
+(SHE.PRO
+ ((SOME E300 ((E300 BEFORE NOW246) AND (E299 ORIENTS E300)) (WANT.V ** E300))
+  (KA (BUY.V (:Q A.DET (NEW.A WATCH.N))))))
+
+
+
+"She tried on each one."
+(SHE.PRO
+ (SOME E301 ((E301 BEFORE NOW247) AND (E300 ORIENTS E301)) (TRY.V ** E301))
+ (:R (ON.P (:Q EACH.DET (ONE.A PRED?.N)))))
+
+
+
+"She liked the rose gold watch the most."
+(SHE.PRO
+ (SOME E302 ((E302 BEFORE NOW248) AND (E301 ORIENTS E302)) (LIKE.V ** E302))
+ (:Q THE ((NN (:O AND ROSE.N GOLD.N)) WATCH.N)) (:Q THE (MOST.A PRED?.N)))
+
+
+
+"She bought it and wore it home."
+(SHE.PRO
+ (:O AND.CC
+  ((SOME E303 ((E303 BEFORE NOW249) AND (E302 ORIENTS E303)) (BUY.V ** E303))
+   IT.PRO)
+  (HOME.ADV
+   ((SOME E304 ((E304 BEFORE NOW249) AND (E303 ORIENTS E304)) (WEAR.V ** E304))
+    IT.PRO))))
+
+
+
+"Jill bought a new dress."
+(JILL.NAME
+ (SOME E305 ((E305 BEFORE NOW250) AND (E304 ORIENTS E305)) (BUY.V ** E305))
+ (:Q A.DET (NEW.A DRESS.N)))
+
+
+
+"She tried it on when she got home."
+(SHE.PRO
+ (SOME E306 ((E306 BEFORE NOW251) AND (E305 ORIENTS E306)) (TRY.V ** E306))
+ IT.PRO
+ (:R
+  (PRED983.PP ON.P
+   (S-ALTHOUGH-IF-WHILE-ETC982.S-ALTHOUGH-IF-WHILE-ETC
+    (:R (ADV (AT-TIME.P (:Q WH TIME.N))))
+    (SHE.PRO
+     (SOME E307 ((E307 BEFORE NOW251) AND (E306 ORIENTS E307)) (GET.V ** E307))
+     (K HOME.N))))))
+
+
+
+"The dress didn't fit."
+(NOT
+ (SOME E308 ((E308 BEFORE NOW252) AND (E307 ORIENTS E308))
+       (((:Q THE DRESS.N) FIT.V) ** E308)))
+
+
+
+"Jill couldn't find the receipt."
+(NOT (:O PRES/PAST (COULD.MD (JILL.NAME FIND.V (:Q THE RECEIPT.N)))))
+
+
+
+"Jill gave the dress to one of her friends."
+(JILL.NAME
+ (SOME E309 ((E309 BEFORE NOW254) AND (E308 ORIENTS E309)) (GIVE.V ** E309))
+ (:Q THE DRESS.N)
+ (:R
+  (TO.P
+   (:Q ONE.DET
+    (L X
+     ((X PRED?.N) AND
+      (X OF.P
+       (:Q THE (L X ((X (PLUR FRIEND.N)) AND (X PERTAIN-TO JILL.NAME)))))))))))
+
+
+
+"There was a penny on the ground."
+(THERE.PRO
+ (SOME E310 ((E310 BEFORE NOW255) AND (E309 ORIENTS E310))
+       ((BE.V
+         (= (:Q A.DET (L X ((X PENNY.N) AND (X ON.P (:Q THE GROUND.N)))))))
+        ** E310)))
+
+
+
+"My son went to pick it up."
+(E312.SK SAME-TIME NOW256)
+
+(E312.SK RIGHT-AFTER U255)
+
+(SON313.SK SON.N)
+
+(SON313.SK SON-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (SON313.SK
+    ((SOME E311 ((E311 BEFORE NOW256) AND (E310 ORIENTS E311)) (GO.V ** E311))
+     (KA (PICK_UP.V IT.PRO))))))
+ ** E312.SK)
+
+
+
+"I told him not to get it."
+(E314.SK BEFORE NOW257)
+
+(E311 ORIENTS E314.SK)
+
+((ME.PRO
+  (PRED991.VP TELL.V HE.PRO
+   (WFF990.S (L P (L X (NOT (X P)))) (KA (GET.V IT.PRO)))))
+ ** E314.SK)
+
+
+
+"The penny was lying tails up."
+(E315.SK BEFORE NOW258)
+
+(E312 ORIENTS E315.SK)
+
+(((:Q THE PENNY.N) LIE_UP.V (K (PLUR TAIL.N))) ** E315.SK)
+
+
+
+"We left the penny right there."
+(WE.PRO
+ (SOME E314 ((E314 BEFORE NOW259) AND (E313 ORIENTS E314)) (LEAVE.V ** E314))
+ (TERM994.NP (:Q THE PENNY.N) (RIGHT.ADV THERE.ADV)))
+
+
+
+"Rene loved the swings."
+(RENE.NAME
+ (SOME E315 ((E315 BEFORE NOW260) AND (E314 ORIENTS E315)) (LOVE.V ** E315))
+ (:Q THE (PLUR SWING.N)))
+
+
+
+"She didn't think she was too old to use them."
+(E318.SK BEFORE NOW261)
+
+(E315 ORIENTS E318.SK)
+
+((NOT
+  (SHE.PRO
+   (PRED1000.VP THINK.V
+    (SBAR999.SBAR
+     (SHE.PRO
+      (SOME E317 ((E317 AT-OR-BEFORE NOW261) AND (E281 ORIENTS E317))
+            ((BE.V
+              (PRED998.ADJP TOO.ADV OLD.A
+               (SBAR997.SBAR (KA (USE.V THEY.PRO)))))
+             ** E317)))))))
+ ** E318.SK)
+
+
+
+"Rene went very high."
+(RENE.NAME
+ ((SOME E318 ((E318 BEFORE NOW262) AND (E316 ORIENTS E318)) (GO.V ** E318))
+  (VERY.ADV HIGH.A)))
+
+
+
+"At the end she jumped off."
+(E320.SK SAME-TIME NOW263)
+
+(E320.SK RIGHT-AFTER U262)
+
+(END321.SK END.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   ((ADV-S (AT.P END321.SK))
+    (SHE.PRO
+     (SOME E319 ((E319 BEFORE NOW263) AND (E318 ORIENTS E319))
+           (JUMP_OFF.V ** E319))))))
+ ** E320.SK)
+
+
+
+"She had much fun."
+(SHE.PRO
+ (SOME E320 ((E320 BEFORE NOW264) AND (E319 ORIENTS E320)) (HAVE.V ** E320))
+ (:Q MUCH.DET FUN.N))
+
+
+
+"Mary had an apple tree in her garden."
+(MARY.NAME
+ (SOME E321 ((E321 BEFORE NOW265) AND (E320 ORIENTS E321)) (HAVE.V ** E321))
+ (:Q AN.DET ((NN APPLE.N) TREE.N)) (:R (IN.P (TERM1005.NP MARY.NAME GARDEN.N))))
+
+
+
+"The tree was full of apples."
+(E323.SK SAME-TIME NOW266)
+
+(E323.SK RIGHT-AFTER U265)
+
+(TREE324.SK TREE.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (TREE324.SK
+    (SOME E322 ((E322 BEFORE NOW266) AND (E321 ORIENTS E322))
+          ((BE.V (FULL.A (OF.P (K (PLUR APPLE.N))))) ** E322)))))
+ ** E323.SK)
+
+
+
+"Mary climbed up the tree to pick the apples."
+(MARY.NAME
+ (SOME E323 ((E323 BEFORE NOW267) AND (E322 ORIENTS E323))
+       (CLIMB_UP.V ** E323))
+ (:Q SOME
+  (:O AND (L X (X = (:Q THE TREE.N))) (KA (PICK.V (:Q THE (PLUR APPLE.N)))))))
+
+
+
+"She fell down from the tree."
+(E325.SK BEFORE NOW268)
+
+(E323 ORIENTS E325.SK)
+
+(TREE326.SK TREE.N)
+
+((SHE.PRO ((DOWN.ADV (FROM.P TREE326.SK)) FALL.V)) ** E325.SK)
+
+
+
+"Mary broke her leg when she fell."
+(E327.SK SAME-TIME NOW269)
+
+(E327.SK RIGHT-AFTER U268)
+
+((SPEAKER ASK.V HEARER
+  (QNOM
+   (SOME E325 ((E325 BEFORE NOW269) AND (E324 ORIENTS E325))
+         (THE Y ((Y LEG.N) AND (Y PERTAIN-TO MARY.NAME))
+              ((WH Z (Z TIME.N)
+                (MARY.NAME
+                 (PRED1011.VP BREAK.V Y
+                  (S-ALTHOUGH-IF-WHILE-ETC1010.S-ALTHOUGH-IF-WHILE-ETC
+                   (:R (ADV (AT-TIME.P Z)))
+                   (MARY.NAME
+                    (SOME E326
+                          ((E326 AT-OR-BEFORE NOW269) AND (E317 ORIENTS E326))
+                          (FALL.V ** E326)))))))
+               ** E325)))))
+ ** E327.SK)
+
+
+
+"Kate felt something run across her foot."
+(E328.SK BEFORE NOW270)
+
+(E325 ORIENTS E328.SK)
+
+((KATE.NAME
+  (PRED1013.VP FEEL.V
+   ((K SOMETHING.N) RUN_ACROSS.V
+    (:Q THE (L X ((X FOOT.N) AND (X PERTAIN-TO KATE.NAME)))))))
+ ** E328.SK)
+
+
+
+"It was a giant spider!"
+(IT.PRO
+ (SOME E328 ((E328 BEFORE NOW271) AND (E327 ORIENTS E328))
+       ((BE.V (= (:Q A.DET (GIANT.A (CONSTRUE-AS-PRED SPIDER.NAME))))) **
+        E328)))
+
+
+
+"She swatted it away."
+(SHE.PRO
+ (AWAY.ADV
+  ((SOME E329 ((E329 BEFORE NOW272) AND (E328 ORIENTS E329)) (SWAT.V ** E329))
+   IT.PRO)))
+
+
+
+"It ran under her bed."
+(IT.PRO
+ (SOME E330 ((E330 BEFORE NOW273) AND (E329 ORIENTS E330)) (RUN.V ** E330))
+ (:R (UNDER.P (:Q THE (L X ((X BED.N) AND (X PERTAIN-TO SHE.PRO)))))))
+
+
+
+"She could not sleep that night."
+(NOT
+ (:O PRES/PAST
+  (COULD.MD
+   (SHE.PRO SLEEP.V
+    (:Q THE (L X ((X NIGHT.N) AND (X NEW-SALIENT-ENTITY*.N))))))))
+
+
+
+"John asked Tom to be his best man."
+(JOHN.NAME *UNDEFINED* TOM.NAME
+ (KA
+  (BE.V (= (:Q THE (L X ((X (BEST.A MAN.N)) AND (X PERTAIN-TO JOHN.NAME))))))))
+
+
+
+"They met in grade school."
+(THEY.PRO
+ (SOME E331 ((E331 BEFORE NOW276) AND (E330 ORIENTS E331)) (MEET.V ** E331))
+ (:R (IN.P (K ((NN GRADE.N) SCHOOL.N)))))
+
+
+
+"They spent the rest of their school years together."
+(THEY.PRO
+ (TOGETHER.ADV
+  ((SOME E332 ((E332 BEFORE NOW277) AND (E331 ORIENTS E332)) (SPEND.V ** E332))
+   (:Q THE
+    (L X
+     ((X REST.N) AND
+      (X OF.P
+       (:Q THE
+        (L X
+         ((X ((NN SCHOOL.N) (PLUR YEAR.N))) AND
+          (X PERTAIN-TO THEY.PRO)))))))))))
+
+
+
+"They were always together."
+(THEY.PRO
+ (ALWAYS.ADV
+  (SOME E333 ((E333 BEFORE NOW278) AND (E332 ORIENTS E333))
+        ((BE.V TOGETHER.A) ** E333))))
+
+
+
+"They are best friends."
+(THEY.PRO
+ (PRED1023.VP
+  (L P
+   (SOME E334 ((E334 AT-ABOUT NOW279) AND (E293 ORIENTS E334))
+         ((BE.V P) ** E334)))
+  BEST.A (K (PLUR FRIEND.N))))
+
+
+
+"Jane and John walked up a hill."
+(E336.SK BEFORE NOW280)
+
+(E333 ORIENTS E336.SK)
+
+(HILL337.SK HILL.N)
+
+(((SET-OF JANE.NAME JOHN.NAME) ((MODIF1025.ADVP UP.ADV HILL337.SK) WALK.V)) **
+ E336.SK)
+
+
+
+"They wanted to see the view."
+(THEY.PRO
+ ((SOME E336 ((E336 BEFORE NOW281) AND (E335 ORIENTS E336)) (WANT.V ** E336))
+  (KA (SEE.V (:Q THE VIEW.N)))))
+
+
+
+"John fell down."
+(E338.SK BEFORE NOW282)
+
+(E336 ORIENTS E338.SK)
+
+((JOHN.NAME (DOWN.ADV FALL.V)) ** E338.SK)
+
+
+
+"He hit his head really hard."
+(HE.PRO
+ ((REALLY.ADV HARD.ADV)
+  ((SOME E338 ((E338 BEFORE NOW283) AND (E337 ORIENTS E338)) (HIT.V ** E338))
+   (:Q THE (L X ((X HEAD.N) AND (X PERTAIN-TO HE.PRO)))))))
+
+
+
+"Jane carried him back down."
+(JANE.NAME
+ ((BACK.ADV DOWN.ADV)
+  ((SOME E339 ((E339 BEFORE NOW284) AND (E338 ORIENTS E339)) (CARRY.V ** E339))
+   HE.PRO)))
+
+
+
+"I went to my door yesterday."
+(ME.PRO
+ (SOME E340 ((E340 BEFORE NOW285) AND (E339 ORIENTS E340)) (GO.V ** E340))
+ (:R (TO.P (:Q THE (L X ((X DOOR.N) AND (X PERTAIN-TO ME.PRO))))))
+ (:R (IN.P (K YESTERDAY.N))))
+
+
+
+"I saw there was a new book."
+(E343.SK BEFORE NOW286)
+
+(E340 ORIENTS E343.SK)
+
+((ME.PRO
+  (PRED1033.VP SEE.V
+   (SBAR1032.SBAR
+    (THERE.PRO
+     (SOME E342 ((E342 AT-OR-BEFORE NOW286) AND (E326 ORIENTS E342))
+           ((BE.V (= (:Q A.DET (NEW.A BOOK.N)))) ** E342))))))
+ ** E343.SK)
+
+
+
+"It came right to me."
+(IT.PRO
+ (SOME E343 ((E343 BEFORE NOW287) AND (E341 ORIENTS E343)) (COME.V ** E343))
+ (:R (RIGHT.ADV (TO.P ME.PRO))))
+
+
+
+"I was pretty happy about that."
+(ME.PRO
+ (SOME E344 ((E344 BEFORE NOW288) AND (E343 ORIENTS E344))
+       ((BE.V
+         (PRETTY.ADV
+          (HAPPY.A
+           (ABOUT.P
+            (:Q THE (L X ((X PRED?.N) AND (X NEW-SALIENT-ENTITY*.N))))))))
+        ** E344)))
+
+
+
+"I couldn't wait to read it."
+(NOT (:O PRES/PAST (COULD.MD (ME.PRO (WAIT.V (KA (READ.V IT.PRO)))))))
+
+
+
+"Frank was walking to work one day."
+(E346.SK BEFORE NOW290)
+
+(E344 ORIENTS E346.SK)
+
+((PROG (FRANK.NAME (WALK.V (KA (WORK.V (:Q ONE.DET DAY.N)))))) ** E346.SK)
+
+
+
+"It began to rain."
+(IT.PRO
+ ((SOME E346 ((E346 BEFORE NOW291) AND (E345 ORIENTS E346)) (BEGIN.V ** E346))
+  (KA RAIN.V)))
+
+
+
+"Frank hadn't brought his umbrella with him."
+(NOT
+ (SOME E347 ((E347 BEFORE NOW292) AND (E346 ORIENTS E347))
+       (SOME E348 ((E348 IMPINGES-ON E347) AND (E275 ORIENTS E348))
+             (((FRANK.NAME BRING.V
+                (:Q THE (L X ((X UMBRELLA.N) AND (X PERTAIN-TO FRANK.NAME))))
+                (:R (WITH.P FRANK.NAME)))
+               ** E348)
+              ** E347))))
+
+
+
+"Frank got to work soaking wet."
+(FRANK.NAME
+ ((SOME E349 ((E349 BEFORE NOW293) AND (E347 ORIENTS E349)) (GET.V ** E349))
+  (KA (WORK.V (KA (SOAK.V WET.A))))))
+
+
+
+"Frank started to always bring an umbrella to work."
+(FRANK.NAME
+ ((SOME E350 ((E350 BEFORE NOW294) AND (E349 ORIENTS E350)) (START.V ** E350))
+  (KA
+   (PRED1043.VP (L P P) ALWAYS.ADV
+    (BRING.V (:Q AN.DET UMBRELLA.N) (:R (TO.P (TERM1042.NP WORK.V))))))))
+
+
+
+"Tom had a girlfriend he loved very much."
+(TOM.NAME
+ (SOME E351 ((E351 BEFORE NOW295) AND (E350 ORIENTS E351)) (HAVE.V ** E351))
+ (:Q A.DET
+  (L X
+   ((X GIRLFRIEND.N) AND
+    (X
+     (PRED1045.S-REL
+      (TOM.NAME
+       ((VERY.ADV MUCH.ADV)
+        (SOME E352 ((E352 BEFORE NOW295) AND (E351 ORIENTS E352))
+              (LOVE.V ** E352))))))))))
+
+
+
+"He cut her with his nails one day."
+(HE.PRO
+ (SOME E353 ((E353 BEFORE NOW296) AND (E352 ORIENTS E353)) (CUT.V ** E353))
+ SHE.PRO
+ (:R
+  (WITH.P
+   (:Q THE
+    (L X
+     (((X (PLUR NAIL.N)) AND (X PERTAIN-TO HE.PRO)) AND
+      (X = (:Q ONE.DET DAY.N))))))))
+
+
+
+"She asked him to cut them."
+(SHE.PRO *UNDEFINED* HE.PRO (KA (CUT.V THEY.PRO)))
+
+
+
+"He cut his nails."
+(HE.PRO
+ (SOME E354 ((E354 BEFORE NOW298) AND (E353 ORIENTS E354)) (CUT.V ** E354))
+ (:Q THE (L X ((X (PLUR NAIL.N)) AND (X PERTAIN-TO HE.PRO)))))
+
+
+
+"His girlfriend was happy that he cut his nails."
+(E357.SK SAME-TIME NOW299)
+
+(E357.SK RIGHT-AFTER U298)
+
+(GIRLFRIEND358.SK GIRLFRIEND.N)
+
+(GIRLFRIEND358.SK GIRLFRIEND-OF.N HE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (GIRLFRIEND358.SK
+    (SOME E355 ((E355 BEFORE NOW299) AND (E354 ORIENTS E355))
+          ((BE.V
+            (HAPPY.A
+             (THAT.P
+              (HE.PRO
+               (SOME E356 ((E356 AT-OR-BEFORE NOW299) AND (E342 ORIENTS E356))
+                     (CUT.V ** E356))
+               (:Q THE (L X ((X (PLUR NAIL.N)) AND (X PERTAIN-TO HE.PRO))))))))
+           ** E355)))))
+ ** E357.SK)
+
+
+
+"The girl made a dress."
+(E359.SK SAME-TIME NOW300)
+
+(E359.SK RIGHT-AFTER U299)
+
+(GIRL360.SK GIRL.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (GIRL360.SK
+    (SOME E357 ((E357 BEFORE NOW300) AND (E355 ORIENTS E357)) (MAKE.V ** E357))
+    (:Q A.DET DRESS.N))))
+ ** E359.SK)
+
+
+
+"The dress was pretty."
+(E361.SK SAME-TIME NOW301)
+
+(E361.SK RIGHT-AFTER U300)
+
+(DRESS362.SK DRESS.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (DRESS362.SK
+    (SOME E358 ((E358 BEFORE NOW301) AND (E357 ORIENTS E358))
+          ((BE.V PRETTY.A) ** E358)))))
+ ** E361.SK)
+
+
+
+"All her friends wanted one."
+((TERM1053.NP (L P (:Q ALL P))
+  (L P (:Q THE (L X ((X P) AND (X PERTAIN-TO SHE.PRO))))) (PLUR FRIEND.N))
+ (SOME E359 ((E359 BEFORE NOW302) AND (E358 ORIENTS E359)) (WANT.V ** E359))
+ (:Q ONE.DET PRED?.N))
+
+
+
+"She made each friend a dress of their own."
+(SHE.PRO
+ (SOME E360 ((E360 BEFORE NOW303) AND (E359 ORIENTS E360)) (MAKE.V ** E360))
+ (:Q EACH.DET FRIEND.N)
+ (:Q A.DET
+  (L X
+   ((X DRESS.N) AND
+    (X OF.P
+     (:Q THE (L X ((X (OWN.A PRED?.N)) AND (X PERTAIN-TO THEY.PRO)))))))))
+
+
+
+"He friends each wore the dress at the girl's wedding."
+(HE.PRO
+ (SOME E361 ((E361 BEFORE NOW304) AND (E360 ORIENTS E361)) (WEAR.V ** E361))
+ (:Q THE DRESS.N)
+ (:R
+  (AT.P (:Q THE (L X ((X WEDDING.N) AND (X WEDDING-OF.N (:Q THE GIRL.N))))))))
+
+
+
+"Reese wanted to be more active."
+(REESE.NAME
+ ((SOME E362 ((E362 BEFORE NOW305) AND (E361 ORIENTS E362)) (WANT.V ** E362))
+  (KA (BE.V (MORE.ADV ACTIVE.A)))))
+
+
+
+"He mostly sat around the house."
+(HE.PRO
+ (MOSTLY.ADV
+  ((SOME E363 ((E363 BEFORE NOW306) AND (E362 ORIENTS E363)) (SIT.V ** E363))
+   (:R (AROUND.P (:Q THE HOUSE.N))))))
+
+
+
+"He wanted to be more fit."
+(HE.PRO
+ ((SOME E364 ((E364 BEFORE NOW307) AND (E363 ORIENTS E364)) (WANT.V ** E364))
+  (KA (BE.V (= (:Q MORE.DET FIT.N))))))
+
+
+
+"He started playing one hour outside a day."
+(HE.PRO
+ ((SOME E365 ((E365 BEFORE NOW308) AND (E364 ORIENTS E365)) (START.V ** E365))
+  (KA (PLAY.V (:Q ONE.DET HOUR.N) (:R (OUTSIDE.P (:Q A.DET DAY.N)))))))
+
+
+
+"He is much more fit now."
+(HE.PRO
+ (NOW.ADV
+  (SOME E366 ((E366 AT-ABOUT NOW309) AND (E334 ORIENTS E366))
+        ((BE.V (PRED1061.ADJP (MUCH.ADV MORE.ADV) FIT.A)) ** E366))))
+
+
+
+"Lynn gets a new dog."
+(LYNN.NAME
+ (SOME E367 ((E367 AT-ABOUT NOW310) AND (E366 ORIENTS E367)) (GET.V ** E367))
+ (:Q A.DET (NEW.A DOG.N)))
+
+
+
+"She loves her dog."
+(SHE.PRO
+ (SOME E368 ((E368 AT-ABOUT NOW311) AND (E367 ORIENTS E368)) (LOVE.V ** E368))
+ (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO SHE.PRO)))))
+
+
+
+"She is out one evening walking him."
+(SHE.PRO
+ ((MODIF1065.ADVP OUT.PART)
+  (SOME E369 ((E369 AT-ABOUT NOW312) AND (E368 ORIENTS E369))
+        ((BE.V (= (:Q ONE.DET (L X ((X EVENING.N) AND (X WALK.V HE.PRO)))))) **
+         E369))))
+
+
+
+"Her dog runs off away from her."
+(E371.SK AT-ABOUT NOW313)
+
+(E369 ORIENTS E371.SK)
+
+(DOG372.SK DOG.N)
+
+(DOG372.SK PERTAIN-TO SHE.PRO)
+
+((DOG372.SK ((AWAY.ADV (FROM.P SHE.PRO)) RUN_OFF.V)) ** E371.SK)
+
+
+
+"She cannot catch him and he runs away."
+(SHE.PRO (CANNOT.ADV (CATCH.V HE.PRO)))
+
+(E373.SK AT-ABOUT NOW314)
+
+(E370 ORIENTS E373.SK)
+
+((HE.PRO RUN_AWAY.V) ** E373.SK)
+
+
+
+"I went to the store yesterday."
+(ME.PRO
+ (SOME E372 ((E372 BEFORE NOW315) AND (E365 ORIENTS E372)) (GO.V ** E372))
+ (:R (TO.P (:Q THE STORE.N))) (:R (IN.P (K YESTERDAY.N))))
+
+
+
+"I tried some things on."
+(E374.SK BEFORE NOW316)
+
+(E372 ORIENTS E374.SK)
+
+(THINGS375.SK (PLUR THING.N))
+
+((ME.PRO (PRED1072.VP TRY.V (WFF1071.S THINGS375.SK (MODIF1070.ADVP ON.PART))))
+ ** E374.SK)
+
+
+
+"I liked them but they were too expensive."
+((ME.PRO
+  (SOME E374 ((E374 BEFORE NOW317) AND (E373 ORIENTS E374)) (LIKE.V ** E374))
+  THEY.PRO)
+ BUT.CC
+ (THEY.PRO
+  (SOME E375 ((E375 BEFORE NOW317) AND (E374 ORIENTS E375))
+        ((BE.V (TOO.ADV EXPENSIVE.A)) ** E375))))
+
+
+
+"I couldn't buy them."
+(NOT (:O PRES/PAST (COULD.MD (ME.PRO BUY.V THEY.PRO))))
+
+
+
+"So I put them back."
+(ME.PRO
+ (BACK.ADV
+  ((SOME E376 ((E376 BEFORE NOW319) AND (E375 ORIENTS E376)) (PUT.V ** E376))
+   THEY.PRO)))
+
+
+
+"Carlton liked to play with all children."
+(CARLTON.NAME
+ ((SOME E377 ((E377 BEFORE NOW320) AND (E376 ORIENTS E377)) (LIKE.V ** E377))
+  (KA (PLAY.V (:R (WITH.P (:Q ALL (PLUR CHILD.N))))))))
+
+
+
+"One child was sick however."
+(ONE.DET X (X CHILD.N)
+ (X
+  (HOWEVER.ADV
+   (SOME E378 ((E378 BEFORE NOW321) AND (E377 ORIENTS E378))
+         ((BE.V SICK.A) ** E378)))))
+
+
+
+"His mother told him not to play with him."
+(E380.SK BEFORE NOW322)
+
+(E378 ORIENTS E380.SK)
+
+(MOTHER381.SK MOTHER.N)
+
+(MOTHER381.SK MOTHER-OF.N HE.PRO)
+
+((MOTHER381.SK
+  (PRED1080.VP TELL.V HE.PRO
+   (WFF1079.S (L P (L X (NOT (X P)))) (KA (PLAY.V (:R (WITH.P HE.PRO)))))))
+ ** E380.SK)
+
+
+
+"And so Carlton listened."
+(E382.SK BEFORE NOW323)
+
+(E379 ORIENTS E382.SK)
+
+((CARLTON.NAME LISTEN.V) ** E382.SK)
+
+
+
+"So he did not get sick."
+(NOT
+ (SOME E381 ((E381 BEFORE NOW324) AND (E380 ORIENTS E381))
+       ((HE.PRO (GET.V SICK.A)) ** E381)))
+
+
+
+"Barry lost his dog."
+(BARRY.NAME
+ (SOME E382 ((E382 BEFORE NOW325) AND (E381 ORIENTS E382)) (LOSE.V ** E382))
+ (:Q THE (L X ((X DOG.N) AND (X PERTAIN-TO BARRY.NAME)))))
+
+
+
+"He felt a hole in his heart."
+(HE.PRO
+ (SOME E383 ((E383 BEFORE NOW326) AND (E382 ORIENTS E383)) (FEEL.V ** E383))
+ (:Q A.DET HOLE.N)
+ (:R (IN.P (:Q THE (L X ((X HEART.N) AND (X PERTAIN-TO HE.PRO)))))))
+
+
+
+"He went to the pet store."
+(HE.PRO
+ (SOME E384 ((E384 BEFORE NOW327) AND (E383 ORIENTS E384)) (GO.V ** E384))
+ (:R (TO.P (:Q THE ((NN PET.N) STORE.N)))))
+
+
+
+"The dog he found was great."
+(E387.SK SAME-TIME NOW328)
+
+(E387.SK RIGHT-AFTER U327)
+
+(DOG388.SK DOG.N)
+
+(DOG388.SK
+ (PRED1087.S-REL
+  (HE.PRO
+   (SOME E385 ((E385 BEFORE NOW328) AND (E384 ORIENTS E385))
+         (FIND.V ** E385)))))
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (DOG388.SK
+    (SOME E386 ((E386 BEFORE NOW328) AND (E385 ORIENTS E386))
+          ((BE.V GREAT.A) ** E386)))))
+ ** E387.SK)
+
+
+
+"They are best friends now."
+(THEY.PRO
+ (PRED1089.VP
+  (L P
+   (SOME E387 ((E387 AT-ABOUT NOW329) AND (E371 ORIENTS E387))
+         ((BE.V P) ** E387)))
+  BEST.A (K (PLUR FRIEND.N)) NOW.ADV))
+
+
+
+"A new teacher had a bad class."
+(TEACHER389.SK (NEW.A TEACHER.N))
+
+(TEACHER389.SK
+ (SOME E388 ((E388 BEFORE NOW330) AND (E386 ORIENTS E388)) (HAVE.V ** E388))
+ (:Q A.DET (BAD.A CLASS.N)))
+
+
+
+"The children threw paper."
+(E390.SK SAME-TIME NOW331)
+
+(E390.SK RIGHT-AFTER U330)
+
+(CHILDS391.SK (PLUR CHILD.N))
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CHILDS391.SK
+    (SOME E389 ((E389 BEFORE NOW331) AND (E388 ORIENTS E389))
+          (THROW.V ** E389))
+    (K PAPER.N))))
+ ** E390.SK)
+
+
+
+"The paper hit the teacher."
+(E392.SK SAME-TIME NOW332)
+
+(E392.SK RIGHT-AFTER U331)
+
+(PAPER393.SK PAPER.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (PAPER393.SK
+    (SOME E390 ((E390 BEFORE NOW332) AND (E389 ORIENTS E390)) (HIT.V ** E390))
+    (:Q THE TEACHER.N))))
+ ** E392.SK)
+
+
+
+"She turned back at the class."
+(SHE.PRO
+ (BACK.ADV
+  ((SOME E391 ((E391 BEFORE NOW333) AND (E390 ORIENTS E391)) (TURN.V ** E391))
+   (:R (AT.P (:Q THE CLASS.N))))))
+
+
+
+"She told them to shut up and sit down."
+(SHE.PRO *UNDEFINED* THEY.PRO (KA SHUT_UP.V))
+
+(SHE.PRO *UNDEFINED* THEY.PRO (KA (DOWN.ADV SIT.V)))
+
+
+
+"I was walking home from work when I saw a little girl playing."
+(E394.SK SAME-TIME NOW335)
+
+(E394.SK RIGHT-AFTER U334)
+
+((SPEAKER ASK.V HEARER
+  (QNOM
+   (WH X (X TIME.N)
+    (SOME E392 ((E392 BEFORE NOW335) AND (E391 ORIENTS E392))
+          ((PROG (ME.PRO
+                  (PRED1098.VP WALK.V (MODIF1096.ADVP HOME.N)
+                   (FROM.P (K WORK.N))
+                   (S-ALTHOUGH-IF-WHILE-ETC1097.S-ALTHOUGH-IF-WHILE-ETC
+                    (:R (ADV (AT-TIME.P X)))
+                    (ME.PRO
+                     (SOME E393
+                           ((E393 AT-OR-BEFORE NOW335) AND (E356 ORIENTS E393))
+                           (SEE.V ** E393))
+                     (:Q A.DET (LITTLE.A ((NN GIRL.N) PLAYING.N))))))))
+           ** E392)))))
+ ** E394.SK)
+
+
+
+"An older child came up to her and took her doll."
+(CHILD395.SK (OLDER.A CHILD.N))
+
+(CHILD395.SK
+ (:O AND.CC
+  ((SOME E394 ((E394 BEFORE NOW336) AND (E392 ORIENTS E394))
+         (COME_UP.V ** E394))
+   (:R (TO.P SHE.PRO)))
+  ((SOME E395 ((E395 BEFORE NOW336) AND (E394 ORIENTS E395)) (TAKE.V ** E395))
+   (:Q THE (L X ((X DOLL.N) AND (X PERTAIN-TO SHE.PRO)))))))
+
+
+
+"She tried to get it back, but he laughed and threw it into the road."
+((SHE.PRO
+  ((SOME E396 ((E396 BEFORE NOW337) AND (E395 ORIENTS E396)) (TRY.V ** E396))
+   (KA (BACK.ADV (GET.V IT.PRO)))))
+ BUT.CC
+ (SOME E397 ((E397 BEFORE NOW337) AND (E396 ORIENTS E397))
+       (((HE.PRO LAUGH.V) AND.CC
+         (HE.PRO
+          (SOME E398 ((E398 AT-OR-BEFORE NOW337) AND (E393 ORIENTS E398))
+                (THROW.V ** E398))
+          IT.PRO (:R (INTO.P (:Q THE ROAD.N)))))
+        ** E397)))
+
+
+
+"She didn't see the car coming, and ran after her toy."
+(E401.SK BEFORE NOW338)
+
+(E397 ORIENTS E401.SK)
+
+(((NOT (SHE.PRO (PRED1102.VP SEE.V ((:Q THE CAR.N) COME.V)))) AND.CC
+  (SHE.PRO
+   (SOME E400 ((E400 AT-OR-BEFORE NOW338) AND (E398 ORIENTS E400))
+         (RUN.V ** E400))
+   (:R (AFTER.P (:Q THE (L X ((X TOY.N) AND (X PERTAIN-TO SHE.PRO))))))))
+ ** E401.SK)
+
+
+
+"I caught her just in time."
+(ME.PRO
+ ((MODIF1104.ADVP JUST.ADV IN_TIME.ADV)
+  ((SOME E401 ((E401 BEFORE NOW339) AND (E399 ORIENTS E401)) (CATCH.V ** E401))
+   SHE.PRO)))
+
+
+
+"We went to the town today."
+(WE.PRO
+ (SOME E402 ((E402 BEFORE NOW340) AND (E401 ORIENTS E402)) (GO.V ** E402))
+ (:R (TO.P (:Q THE TOWN.N))) (:R (IN.P (K TODAY.N))))
+
+
+
+"It was too hot,"
+(IT.PRO
+ (SOME E403 ((E403 BEFORE NOW341) AND (E402 ORIENTS E403))
+       ((BE.V (TOO.ADV HOT.A)) ** E403)))
+
+
+
+"It felt like a sauna."
+(IT.PRO
+ (SOME E404 ((E404 BEFORE NOW342) AND (E403 ORIENTS E404)) (FEEL.V ** E404))
+ (:R (L X (X LIKE.P (L Z (Z = (:Q A.DET SAUNA.N)))))))
+
+
+
+"I couldn't stand it."
+(NOT (:O PRES/PAST (COULD.MD (ME.PRO STAND.V IT.PRO))))
+
+
+
+"I had to sit down."
+(E407.SK BEFORE NOW344)
+
+(E404 ORIENTS E407.SK)
+
+((ME.PRO
+  (PRED1110.VP
+   (L P
+    (L X
+     (SOME E406 ((E406 IMPINGES-ON E407.SK) AND (E348 ORIENTS E406))
+           ((X P) ** E406))))
+   (KA (DOWN.ADV SIT.V))))
+ ** E407.SK)
+
+
+
+"Tom moved to a new city."
+(TOM.NAME
+ (SOME E407 ((E407 BEFORE NOW345) AND (E405 ORIENTS E407)) (MOVE.V ** E407))
+ (:R (TO.P (:Q A.DET (NEW.A CITY.N)))))
+
+
+
+"He couldn't find a church he liked."
+(NOT
+ (:O PRES/PAST
+  (COULD.MD
+   (HE.PRO FIND.V
+    (:Q A.DET
+     (L X
+      ((X CHURCH.N) AND
+       (X
+        (PRED1113.S-REL
+         (HE.PRO
+          (SOME E408 ((E408 BEFORE NOW346) AND (E407 ORIENTS E408))
+                (LIKE.V ** E408))))))))))))
+
+
+
+"He tried going to a black church."
+(HE.PRO
+ ((SOME E409 ((E409 BEFORE NOW347) AND (E408 ORIENTS E409)) (TRY.V ** E409))
+  (KA (GO.V (:R (TO.P (:Q A.DET (BLACK.A CHURCH.N))))))))
+
+
+
+"Tom had a lot of fun there."
+(TOM.NAME
+ (SOME E410 ((E410 BEFORE NOW348) AND (E409 ORIENTS E410)) (HAVE.V ** E410))
+ (TERM1116.NP (:Q A.DET LOT.N) (OF.P (K FUN.N)) THERE.ADV))
+
+
+
+"He returned often."
+(OFTEN.ADV
+ (HE.PRO
+  (SOME E411 ((E411 BEFORE NOW349) AND (E410 ORIENTS E411))
+        (RETURN.V ** E411))))
+
+
+
+"The man put on his jacket."
+(E413.SK SAME-TIME NOW350)
+
+(E413.SK RIGHT-AFTER U349)
+
+(MAN414.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN414.SK
+    (SOME E412 ((E412 BEFORE NOW350) AND (E411 ORIENTS E412))
+          (PUT_ON.V ** E412))
+    (:Q THE (L X ((X JACKET.N) AND (X PERTAIN-TO HE.PRO)))))))
+ ** E413.SK)
+
+
+
+"He soon became too hot."
+(HE.PRO
+ (SOON.ADV
+  ((SOME E413 ((E413 BEFORE NOW351) AND (E412 ORIENTS E413))
+         (BECOME.V ** E413))
+   (TOO.ADV HOT.A))))
+
+
+
+"He took his jacket off."
+(HE.PRO
+ (OFF.ADV
+  ((SOME E414 ((E414 BEFORE NOW352) AND (E413 ORIENTS E414)) (TAKE.V ** E414))
+   (:Q THE (L X ((X JACKET.N) AND (X PERTAIN-TO HE.PRO)))))))
+
+
+
+"He became cold again."
+(E416.SK BEFORE NOW353)
+
+(E414 ORIENTS E416.SK)
+
+((HE.PRO (PRED1122.VP BECOME.V COLD.A AGAIN.ADV)) ** E416.SK)
+
+
+
+"He put on a coat that was not as warm."
+(HE.PRO
+ (SOME E416 ((E416 BEFORE NOW354) AND (E415 ORIENTS E416)) (PUT.V ** E416))
+ (:R
+  (ON.P
+   (:Q A.DET
+    (L X
+     ((X COAT.N) AND
+      (X
+       (PRED1126.S-REL
+        (TERM1124.WHNP
+         (L P (:Q THE (L X ((X P) AND (X NEW-SALIENT-ENTITY*.N))))))
+        (PRED1125.VP
+         (L P
+          (L X
+           (SOME E417 ((E417 BEFORE NOW354) AND (E416 ORIENTS E417))
+                 ((X P) ** E417))))
+         (L P (L X (NOT (X P)))) (AS.ADV WARM.A))))))))))
+
+
+
+"Susie tried on the dress."
+(SUSIE.NAME
+ (SOME E418 ((E418 BEFORE NOW355) AND (E417 ORIENTS E418)) (TRY.V ** E418))
+ (:R (ON.P (:Q THE DRESS.N))))
+
+
+
+"She found it very uncomfortable."
+(SHE.PRO
+ ((SOME E419 ((E419 BEFORE NOW356) AND (E418 ORIENTS E419)) (FIND.V ** E419))
+  (VERY.ADV UNCOMFORTABLE.A))
+ IT.PRO)
+
+
+
+"She wasn't sure she wanted to even wear it."
+(E422.SK BEFORE NOW357)
+
+(E419 ORIENTS E422.SK)
+
+((NOT
+  (SHE.PRO BE.V
+   (PRED1132.ADJP SURE.A
+    (SBAR1131.SBAR
+     (SHE.PRO
+      ((SOME E421 ((E421 AT-OR-BEFORE NOW357) AND (E400 ORIENTS E421))
+             (WANT.V ** E421))
+       (KA (PRED1130.VP (L P P) EVEN.ADV (WEAR.V IT.PRO)))))))))
+ ** E422.SK)
+
+
+
+"Susie put it away."
+((K SUSIE.N)
+ (AWAY.ADV
+  ((SOME E422 ((E422 BEFORE NOW358) AND (E420 ORIENTS E422)) (PUT.V ** E422))
+   IT.PRO)))
+
+
+
+"She never wore it again."
+(NEVER.ADV
+ (SHE.PRO
+  (AGAIN.ADV
+   ((SOME E423 ((E423 BEFORE NOW359) AND (E422 ORIENTS E423)) (WEAR.V ** E423))
+    IT.PRO))))
+
+
+
+"Mary wanted to paint something for her cousin."
+(MARY.NAME
+ ((SOME E424 ((E424 BEFORE NOW360) AND (E423 ORIENTS E424)) (WANT.V ** E424))
+  (KA
+   (PAINT.V (K SOMETHING.N)
+    (:R (FOR.P (:Q THE (L X ((X COUSIN.N) AND (X COUSIN-OF.N MARY.NAME))))))))))
+
+
+
+"She got some more paint from the store."
+(SHE.PRO
+ (SOME E425 ((E425 BEFORE NOW361) AND (E424 ORIENTS E425)) (GET.V ** E425))
+ (:Q SOME (MORE.A PAINT.N)) (:R (FROM.P (:Q THE STORE.N))))
+
+
+
+"She started to paint a picture."
+(SHE.PRO
+ ((SOME E426 ((E426 BEFORE NOW362) AND (E425 ORIENTS E426)) (START.V ** E426))
+  (KA (PAINT.V (:Q A.DET PICTURE.N)))))
+
+
+
+"Mary gave her cousin her painting."
+(MARY.NAME
+ (SOME E427 ((E427 BEFORE NOW363) AND (E426 ORIENTS E427)) (GIVE.V ** E427))
+ (:Q THE (L X ((X COUSIN.N) AND (X COUSIN-OF.N MARY.NAME))))
+ (:Q THE (L X ((X PAINTING.N) AND (X PERTAIN-TO MARY.NAME)))))
+
+
+
+"Her cousin loved it."
+(E429.SK SAME-TIME NOW364)
+
+(E429.SK RIGHT-AFTER U363)
+
+(COUSIN430.SK COUSIN.N)
+
+(COUSIN430.SK COUSIN-OF.N SHE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (COUSIN430.SK
+    (SOME E428 ((E428 BEFORE NOW364) AND (E427 ORIENTS E428)) (LOVE.V ** E428))
+    IT.PRO)))
+ ** E429.SK)
+
+
+
+"It was very hot outside."
+(IT.PRO
+ (OUTSIDE.ADV
+  (SOME E429 ((E429 BEFORE NOW365) AND (E428 ORIENTS E429))
+        ((BE.V (VERY.ADV HOT.A)) ** E429))))
+
+
+
+"So we wanted to go where it was cool."
+(WE.PRO
+ ((SOME E430 ((E430 BEFORE NOW366) AND (E429 ORIENTS E430)) (WANT.V ** E430))
+  (KA
+   (PRED1143.VP GO.V
+    (S-WHERE1142.S-WHERE (:R (AT/TO-LOC.P (:Q WH LOCATION.N)))
+     (IT.PRO
+      (SOME E431 ((E431 BEFORE NOW366) AND (E430 ORIENTS E431))
+            ((BE.V COOL.A) ** E431))))))))
+
+
+
+"We walked into the building."
+(WE.PRO
+ (SOME E432 ((E432 BEFORE NOW367) AND (E431 ORIENTS E432)) (WALK.V ** E432))
+ (:R (INTO.P (:Q THE BUILDING.N))))
+
+
+
+"But then we walked out."
+(E434.SK BEFORE NOW368)
+
+(E432 ORIENTS E434.SK)
+
+((WE.PRO WALK_OUT.V) ** E434.SK)
+
+
+
+"The building was far too cold."
+(E435.SK SAME-TIME NOW369)
+
+(E435.SK RIGHT-AFTER U368)
+
+(BUILDING436.SK BUILDING.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (BUILDING436.SK
+    (SOME E434 ((E434 BEFORE NOW369) AND (E433 ORIENTS E434))
+          ((BE.V (FAR.ADV (TOO.ADV COLD.A))) ** E434)))))
+ ** E435.SK)
+
+
+
+"A girl went to play with her friends."
+(GIRL437.SK GIRL.N)
+
+(GIRL437.SK
+ ((SOME E435 ((E435 BEFORE NOW370) AND (E434 ORIENTS E435)) (GO.V ** E435))
+  (KA
+   (PLAY.V
+    (:R
+     (WITH.P
+      (:Q THE (L X ((X (PLUR FRIEND.N)) AND (X PERTAIN-TO SHE.PRO))))))))))
+
+
+
+"She went across the street."
+(SHE.PRO
+ (SOME E436 ((E436 BEFORE NOW371) AND (E435 ORIENTS E436)) (GO.V ** E436))
+ (:R (ACROSS.P (:Q THE STREET.N))))
+
+
+
+"The parents went over to get her."
+(E438.SK SAME-TIME NOW372)
+
+(E438.SK RIGHT-AFTER U371)
+
+(PARENTS439.SK (PLUR PARENT.N))
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (PARENTS439.SK
+    ((SOME E437 ((E437 BEFORE NOW372) AND (E436 ORIENTS E437))
+           (GO_OVER.V ** E437))
+     (KA (GET.V SHE.PRO))))))
+ ** E438.SK)
+
+
+
+"She was lost."
+(SHE.PRO
+ (SOME E438 ((E438 BEFORE NOW373) AND (E437 ORIENTS E438))
+       ((BE.V LOST.A) ** E438)))
+
+
+
+"They found her in their home."
+(THEY.PRO
+ (SOME E439 ((E439 BEFORE NOW374) AND (E438 ORIENTS E439)) (FIND.V ** E439))
+ SHE.PRO (:R (IN.P (:Q THE (L X ((X HOME.N) AND (X PERTAIN-TO THEY.PRO)))))))
+
+
+
+"Today I went swimming."
+(ME.PRO
+ (SOME E440 ((E440 BEFORE NOW375) AND (E439 ORIENTS E440)) (GO.V ** E440))
+ (K SWIMMING.N))
+
+
+
+"I love to swim."
+(E443.SK AT-ABOUT NOW376)
+
+(E387 ORIENTS E443.SK)
+
+(E444.SK AT-ABOUT NOW376)
+
+(E443.SK ORIENTS E444.SK)
+
+(((ME.PRO (PRED1156.VP LOVE.V (SBAR1155.SBAR (WFF1154.S (L P P) SWIM.V)))) **
+  E444.SK)
+ ** E443.SK)
+
+
+
+"The water was very cold."
+(E445.SK SAME-TIME NOW377)
+
+(E445.SK RIGHT-AFTER U376)
+
+(WATER446.SK WATER.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (WATER446.SK
+    (SOME E443 ((E443 BEFORE NOW377) AND (E440 ORIENTS E443))
+          ((BE.V (VERY.ADV COLD.A)) ** E443)))))
+ ** E445.SK)
+
+
+
+"The water made my teeth chatter."
+(E447.SK SAME-TIME NOW378)
+
+(E447.SK RIGHT-AFTER U377)
+
+(WATER448.SK WATER.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (WATER448.SK
+    (SOME E444 ((E444 BEFORE NOW378) AND (E443 ORIENTS E444)) (MAKE.V ** E444))
+    (:Q THE
+     (L X ((X ((NN (PLUR TOOTH.N)) CHATTER.N)) AND (X PERTAIN-TO ME.PRO)))))))
+ ** E447.SK)
+
+
+
+"The water was so cold, I had to get out."
+(E449.SK BEFORE NOW379)
+
+(E444 ORIENTS E449.SK)
+
+((WFF1161.S
+  ((:Q THE WATER.N)
+   (SOME E446 ((E446 AT-OR-BEFORE NOW379) AND (E421 ORIENTS E446))
+         ((BE.V (SO.ADV COLD.A)) ** E446)))
+  |,.PUNC|
+  (ME.PRO
+   (PRED1160.VP
+    (L P
+     (L X
+      (SOME E447 ((E447 IMPINGES-ON E449.SK) AND (E406 ORIENTS E447))
+            ((X P) ** E447))))
+    (KA (OUT.ADV GET.V))))
+  ..PUNC)
+ ** E449.SK)
+
+
+
+"Susie got a new hair oil."
+((K SUSIE.N)
+ (SOME E448 ((E448 BEFORE NOW380) AND (E445 ORIENTS E448)) (GET.V ** E448))
+ (:Q A.DET (L X ((X (NEW.A HAIR.N)) AND (X = (K OIL.N))))))
+
+
+
+"She thought it was great."
+(E451.SK BEFORE NOW381)
+
+(E448 ORIENTS E451.SK)
+
+((SHE.PRO
+  (PRED1165.VP THINK.V
+   (SBAR1164.SBAR
+    (IT.PRO
+     (SOME E450 ((E450 AT-OR-BEFORE NOW381) AND (E446 ORIENTS E450))
+           ((BE.V GREAT.A) ** E450))))))
+ ** E451.SK)
+
+
+
+"When she tried it, it worked good,"
+(IT.PRO
+ ((S-ALTHOUGH-IF-WHILE-ETC1167.S-ALTHOUGH-IF-WHILE-ETC
+   (:R (ADV (AT-TIME.P (:Q WH TIME.N))))
+   (SHE.PRO
+    (SOME E451 ((E451 BEFORE NOW382) AND (E449 ORIENTS E451)) (TRY.V ** E451))
+    IT.PRO))
+  ((SOME E452 ((E452 BEFORE NOW382) AND (E451 ORIENTS E452)) (WORK.V ** E452))
+   GOOD.A)))
+
+
+
+"Susie wanted to buy more."
+(SUSIE.NAME
+ ((SOME E453 ((E453 BEFORE NOW383) AND (E452 ORIENTS E453)) (WANT.V ** E453))
+  (KA (BUY.V (:Q MORE.DET PRED?.N)))))
+
+
+
+"She loved it."
+(SHE.PRO
+ (SOME E454 ((E454 BEFORE NOW384) AND (E453 ORIENTS E454)) (LOVE.V ** E454))
+ IT.PRO)
+
+
+
+"Julia loved flowers."
+(JULIA.NAME
+ (SOME E455 ((E455 BEFORE NOW385) AND (E454 ORIENTS E455)) (LOVE.V ** E455))
+ (K (PLUR FLOWER.N)))
+
+
+
+"She thought they were so pretty."
+(E458.SK BEFORE NOW386)
+
+(E455 ORIENTS E458.SK)
+
+((SHE.PRO
+  (PRED1173.VP THINK.V
+   (SBAR1172.SBAR
+    (THEY.PRO
+     (SOME E457 ((E457 AT-OR-BEFORE NOW386) AND (E450 ORIENTS E457))
+           ((BE.V (SO.ADV PRETTY.A)) ** E457))))))
+ ** E458.SK)
+
+
+
+"One day she was walking."
+(E459.SK BEFORE NOW387)
+
+(E456 ORIENTS E459.SK)
+
+((PROG ((:Q ONE.DET DAY.N) WALK.V)) ** E459.SK)
+
+
+
+"She saw a field of flowers."
+(SHE.PRO
+ (SOME E459 ((E459 BEFORE NOW388) AND (E458 ORIENTS E459)) (SEE.V ** E459))
+ (:Q A.DET (L X ((X FIELD.N) AND (X OF.P (K (PLUR FLOWER.N)))))))
+
+
+
+"She had fun playing the flowers."
+(SHE.PRO
+ (SOME E460 ((E460 BEFORE NOW389) AND (E459 ORIENTS E460)) (HAVE.V ** E460))
+ (:Q SOME (:O AND (L X (X = (K FUN.N))) (PLAY.V (:Q THE (PLUR FLOWER.N))))))
+
+
+
+"It was very hot outside."
+(IT.PRO
+ (OUTSIDE.ADV
+  (SOME E461 ((E461 BEFORE NOW390) AND (E460 ORIENTS E461))
+        ((BE.V (VERY.ADV HOT.A)) ** E461))))
+
+
+
+"So Tina went to the beach."
+(TINA.NAME
+ (SOME E462 ((E462 BEFORE NOW391) AND (E461 ORIENTS E462)) (GO.V ** E462))
+ (:R (TO.P (:Q THE BEACH.N))))
+
+
+
+"She thought it would be good."
+(E464.SK BEFORE NOW392)
+
+(E462 ORIENTS E464.SK)
+
+((SHE.PRO
+  (PRED1181.VP THINK.V
+   (SBAR1180.SBAR (:O PRES/PAST (WOULD.MD (IT.PRO BE.V GOOD.A))))))
+ ** E464.SK)
+
+
+
+"But then it was not."
+(WFF1184.S BUT.CC THEN.ADV IT.PRO
+ (PRED1183.VP
+  (L P
+   (SOME E464 ((E464 BEFORE NOW393) AND (E463 ORIENTS E464))
+         ((BE.V P) ** E464)))
+  (L P (L X (NOT (X P)))))
+ ..PUNC)
+
+
+
+"It was too hard."
+(IT.PRO
+ (SOME E465 ((E465 BEFORE NOW394) AND (E464 ORIENTS E465))
+       ((BE.V (TOO.ADV HARD.A)) ** E465)))
+
+
+
+"It turned out to be a fox."
+(IT.PRO
+ ((SOME E466 ((E466 BEFORE NOW395) AND (E465 ORIENTS E466))
+        (TURN_OUT.V ** E466))
+  (KA (BE.V (= (:Q A.DET FOX.N))))))
+
+
+
+"I got closer."
+(ME.PRO
+ ((SOME E467 ((E467 BEFORE NOW396) AND (E466 ORIENTS E467)) (GET.V ** E467))
+  CLOSER.A))
+
+
+
+"It made a funny sound."
+(IT.PRO
+ (SOME E468 ((E468 BEFORE NOW397) AND (E467 ORIENTS E468)) (MAKE.V ** E468))
+ (:Q A.DET (FUNNY.A SOUND.N)))
+
+
+
+"I heard an animal."
+(ME.PRO
+ (SOME E469 ((E469 BEFORE NOW398) AND (E468 ORIENTS E469)) (HEAR.V ** E469))
+ (:Q AN.DET ANIMAL.N))
+
+
+
+"I was walking through the woods."
+(E471.SK BEFORE NOW399)
+
+(E469 ORIENTS E471.SK)
+
+((PROG (ME.PRO WALK.V (:R (THROUGH.P (:Q THE (PLUR WOOD.N)))))) ** E471.SK)
+
+
+
+"I needed a to write a song."
+(PRED?472.SK PRED?.N)
+
+(ME.PRO *UNDEFINED* PRED?472.SK (KA (WRITE.V (:Q A.DET SONG.N))))
+
+
+
+"I had nothing to write with."
+(ME.PRO
+ (SOME E471 ((E471 BEFORE NOW401) AND (E470 ORIENTS E471)) (HAVE.V ** E471))
+ (:Q SOME
+  (:O AND (L X (X = (K NOTHING.N)))
+   (PRED1194.S-REL (KA (WRITE.V (:R (PRED1193.PP WITH.P))))))))
+
+
+
+"I looked in my desk for a pen."
+(ME.PRO
+ (SOME E472 ((E472 BEFORE NOW402) AND (E471 ORIENTS E472)) (LOOK.V ** E472))
+ (:R (IN.P (:Q THE (L X ((X DESK.N) AND (X PERTAIN-TO ME.PRO))))))
+ (:R (FOR.P (:Q A.DET PEN.N))))
+
+
+
+"I only saw a pen cap."
+(ME.PRO
+ (ONLY.ADV
+  ((SOME E473 ((E473 BEFORE NOW403) AND (E472 ORIENTS E473)) (SEE.V ** E473))
+   (:Q A.DET ((NN PEN.N) CAP.N)))))
+
+
+
+"I threw the pen cap away."
+(ME.PRO
+ (AWAY.ADV
+  ((SOME E474 ((E474 BEFORE NOW404) AND (E473 ORIENTS E474)) (THROW.V ** E474))
+   (:Q THE ((NN PEN.N) CAP.N)))))
+
+
+
+"Fred liked Susie."
+(FRED.NAME
+ (SOME E475 ((E475 BEFORE NOW405) AND (E474 ORIENTS E475)) (LIKE.V ** E475))
+ SUSIE.NAME)
+
+
+
+"He really wanted to ask her to the ball."
+(HE.PRO
+ (REALLY.ADV
+  ((SOME E476 ((E476 BEFORE NOW406) AND (E475 ORIENTS E476)) (WANT.V ** E476))
+   (KA (ASK.V SHE.PRO (:R (TO.P (:Q THE BALL.N))))))))
+
+
+
+"But he was nervous."
+(HE.PRO
+ (SOME E477 ((E477 BEFORE NOW407) AND (E476 ORIENTS E477))
+       ((BE.V NERVOUS.A) ** E477)))
+
+
+
+"She said yes however."
+(E479.SK BEFORE NOW408)
+
+(E477 ORIENTS E479.SK)
+
+((SHE.PRO (PRED1202.VP SAY.V (I.PRO SAY-YES-TO*.V THAT.PRO) HOWEVER.ADV)) **
+ E479.SK)
+
+
+
+"So fred was very happy."
+(FRED.NAME
+ (SOME E479 ((E479 BEFORE NOW409) AND (E478 ORIENTS E479))
+       ((BE.V (VERY.ADV HAPPY.A)) ** E479)))
+
+
+
+"Billy went to work."
+(BILLY.NAME
+ (SOME E480 ((E480 BEFORE NOW410) AND (E479 ORIENTS E480)) (GO.V ** E480))
+ (:R (TO.P (TERM1205.NP WORK.V))))
+
+
+
+"He came home late at night."
+(E482.SK BEFORE NOW411)
+
+(E480 ORIENTS E482.SK)
+
+((HE.PRO (HOME.ADV ((LATE.ADV (AT.P (K NIGHT.N))) COME.V))) ** E482.SK)
+
+
+
+"Billy was very tired."
+(BILLY.NAME
+ (SOME E482 ((E482 BEFORE NOW412) AND (E481 ORIENTS E482))
+       ((BE.V (VERY.ADV TIRED.A)) ** E482)))
+
+
+
+"He laid down in his bed."
+(HE.PRO
+ (SOME E483 ((E483 BEFORE NOW413) AND (E482 ORIENTS E483))
+       (LAY_DOWN.V ** E483))
+ (:R (IN.P (:Q THE (L X ((X BED.N) AND (X PERTAIN-TO HE.PRO)))))))
+
+
+
+"He fell asleep quickly."
+(E485.SK BEFORE NOW414)
+
+(E483 ORIENTS E485.SK)
+
+((HE.PRO ((ASLEEP.ADV QUICKLY.ADV) FALL.V)) ** E485.SK)
+
+
+
+"Billy liked this girl."
+(BILLY.NAME
+ (SOME E485 ((E485 BEFORE NOW415) AND (E484 ORIENTS E485)) (LIKE.V ** E485))
+ (:Q THE (L X ((X GIRL.N) AND (X ATTENDED-TO-BY*.A SPEAKER)))))
+
+
+
+"The girl sat in front of him."
+(E487.SK SAME-TIME NOW416)
+
+(E487.SK RIGHT-AFTER U415)
+
+(GIRL488.SK GIRL.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (GIRL488.SK
+    (SOME E486 ((E486 BEFORE NOW416) AND (E485 ORIENTS E486)) (SIT.V ** E486))
+    (:R (IN_FRONT_OF.P HE.PRO)))))
+ ** E487.SK)
+
+
+
+"He played with her hair."
+(HE.PRO
+ (SOME E487 ((E487 BEFORE NOW417) AND (E486 ORIENTS E487)) (PLAY.V ** E487))
+ (:R (WITH.P (:Q THE (L X ((X HAIR.N) AND (X PERTAIN-TO SHE.PRO)))))))
+
+
+
+"She told him to stop."
+(SHE.PRO *UNDEFINED* HE.PRO (KA STOP.V))
+
+
+
+"He stopped it."
+(HE.PRO
+ (SOME E488 ((E488 BEFORE NOW419) AND (E487 ORIENTS E488)) (STOP.V ** E488))
+ IT.PRO)
+
+
+
+"My friend, Mary, loved the rain."
+(E490.SK SAME-TIME NOW420)
+
+(E490.SK RIGHT-AFTER U419)
+
+(MARY.NAME FRIEND.N)
+
+(MARY.NAME FRIEND-OF.N ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MARY.NAME
+    (SOME E489 ((E489 BEFORE NOW420) AND (E488 ORIENTS E489)) (LOVE.V ** E489))
+    (:Q THE RAIN.N))))
+ ** E490.SK)
+
+
+
+"She would sing songs and write stories about it."
+(:O PRES/PAST
+ (WOULD.MD
+  (SHE.PRO
+   (:O AND.CC (SING.V (K (PLUR SONG.N)))
+    (WRITE.V
+     (:Q SOME (:O AND (L X (X = (K (PLUR STORY.N)))) (ABOUT.P IT.PRO))))))))
+
+
+
+"I asked her why she loved the rain oh so much."
+(E492.SK BEFORE NOW422)
+
+(E489 ORIENTS E492.SK)
+
+((ME.PRO (PRED1219.VP ASK.V SHE.PRO (ANSWER-TO *UNDEFINED*))) ** E492.SK)
+
+
+
+"She looked at me and smiled, as though she were looking inside of me."
+(E494.SK BEFORE NOW423)
+
+(E490 ORIENTS E494.SK)
+
+((SHE.PRO
+  (PRED1223.VP
+   ((SOME E492 ((E492 AT-OR-BEFORE NOW423) AND (E457 ORIENTS E492))
+          (LOOK.V ** E492))
+    (:R (AT.P ME.PRO)))
+   AND.CC SMILE.V |,.PUNC|
+   (S-ALTHOUGH-IF-WHILE-ETC1222.S-ALTHOUGH-IF-WHILE-ETC AS.P THOUGH.P
+    (SOME E493 ((E493 AT-OR-BEFORE NOW423) AND (E492 ORIENTS E493))
+          ((PROG (SHE.PRO LOOK.V (:R (PRED1221.PP INSIDE.P (OF.P ME.PRO))))) **
+           E493)))))
+ ** E494.SK)
+
+
+
+"She told me that she loved it so much because we met on a rainy day."
+(SHE.PRO
+ (SOME E494 ((E494 BEFORE NOW424) AND (E491 ORIENTS E494)) (TELL.V ** E494))
+ ME.PRO
+ (THAT.P
+  (SHE.PRO
+   ((MODIF1225.ADVP (SO.ADV MUCH.ADV)
+     ((WE.PRO
+       (SOME E495 ((E495 BEFORE NOW424) AND (E494 ORIENTS E495))
+             (MEET.V ** E495))
+       (:R (ON.P (:Q A.DET (RAINY.A DAY.N)))))
+      (*OUT-OF-RANGE-SEMANTIC-INDEX* 4)))
+    ((SOME E496 ((E496 BEFORE NOW424) AND (E495 ORIENTS E496))
+           (LOVE.V ** E496))
+     IT.PRO)))))
+
+
+
+"The man filled his cup with nuts."
+(E498.SK SAME-TIME NOW425)
+
+(E498.SK RIGHT-AFTER U424)
+
+(MAN499.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN499.SK
+    (SOME E497 ((E497 BEFORE NOW425) AND (E496 ORIENTS E497)) (FILL.V ** E497))
+    (:Q THE (L X ((X CUP.N) AND (X PERTAIN-TO HE.PRO))))
+    (:R (WITH.P (K (PLUR NUT.N)))))))
+ ** E498.SK)
+
+
+
+"He sprinkled the nuts around a tree."
+(HE.PRO
+ (SOME E498 ((E498 BEFORE NOW426) AND (E497 ORIENTS E498))
+       (SPRINKLE.V ** E498))
+ (:Q THE (PLUR NUT.N)) (:R (AROUND.P (:Q A.DET TREE.N))))
+
+
+
+"Squirrels came and gathered the nuts."
+((K (PLUR SQUIRREL.N))
+ (:O AND.CC
+  (SOME E499 ((E499 BEFORE NOW427) AND (E498 ORIENTS E499)) (COME.V ** E499))
+  (SOME E500 ((E500 BEFORE NOW427) AND (E499 ORIENTS E500))
+        (GATHER.V ** E500)))
+ (:Q THE (PLUR NUT.N)))
+
+
+
+"The man watched the squirrels."
+(E502.SK SAME-TIME NOW428)
+
+(E502.SK RIGHT-AFTER U427)
+
+(MAN503.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN503.SK
+    (SOME E501 ((E501 BEFORE NOW428) AND (E500 ORIENTS E501))
+          (WATCH.V ** E501))
+    (:Q THE (PLUR SQUIRREL.N)))))
+ ** E502.SK)
+
+
+
+"The man felt happy feeding the squirrels."
+(E504.SK SAME-TIME NOW429)
+
+(E504.SK RIGHT-AFTER U428)
+
+(MAN505.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN505.SK
+    ((SOME E502 ((E502 BEFORE NOW429) AND (E501 ORIENTS E502))
+           (FEEL.V ** E502))
+     (PRED1231.ADJP HAPPY.A (FEED.V (:Q THE (PLUR SQUIRREL.N))))))))
+ ** E504.SK)
+
+
+
+"The cat strolled through the house."
+(E506.SK SAME-TIME NOW430)
+
+(E506.SK RIGHT-AFTER U429)
+
+(CAT507.SK CAT.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CAT507.SK
+    (SOME E503 ((E503 BEFORE NOW430) AND (E502 ORIENTS E503))
+          (STROLL.V ** E503))
+    (:R (THROUGH.P (:Q THE HOUSE.N))))))
+ ** E506.SK)
+
+
+
+"It found something funny."
+(IT.PRO
+ ((SOME E504 ((E504 BEFORE NOW431) AND (E503 ORIENTS E504)) (FIND.V ** E504))
+  FUNNY.A)
+ (K SOMETHING.N))
+
+
+
+"There was a pink ball on the floor."
+(THERE.PRO
+ (SOME E505 ((E505 BEFORE NOW432) AND (E504 ORIENTS E505))
+       ((BE.V
+         (=
+          (:Q A.DET
+           (L X ((X (PINK.A BALL.N)) AND (X ON.P (:Q THE FLOOR.N)))))))
+        ** E505)))
+
+
+
+"The cat swatted the ball."
+(E508.SK SAME-TIME NOW433)
+
+(E508.SK RIGHT-AFTER U432)
+
+(CAT509.SK CAT.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CAT509.SK
+    (SOME E506 ((E506 BEFORE NOW433) AND (E505 ORIENTS E506)) (SWAT.V ** E506))
+    (:Q THE BALL.N))))
+ ** E508.SK)
+
+
+
+"The cat liked playing with the ball."
+(E510.SK SAME-TIME NOW434)
+
+(E510.SK RIGHT-AFTER U433)
+
+(CAT511.SK CAT.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (CAT511.SK
+    ((SOME E507 ((E507 BEFORE NOW434) AND (E506 ORIENTS E507))
+           (LIKE.V ** E507))
+     (KA (PLAY.V (:R (WITH.P (:Q THE BALL.N)))))))))
+ ** E510.SK)
+
+
+
+"The boy cried."
+(E512.SK BEFORE NOW435)
+
+(E507 ORIENTS E512.SK)
+
+(BOY513.SK BOY.N)
+
+((BOY513.SK CRY.V) ** E512.SK)
+
+
+
+"A woman saw the boy crying."
+(WOMAN514.SK WOMAN.N)
+
+(WOMAN514.SK
+ (SOME E509 ((E509 BEFORE NOW436) AND (E508 ORIENTS E509)) (SEE.V ** E509))
+ (:Q THE ((NN BOY.N) CRYING.N)))
+
+
+
+"She wanted to help."
+(SHE.PRO
+ ((SOME E510 ((E510 BEFORE NOW437) AND (E509 ORIENTS E510)) (WANT.V ** E510))
+  (KA HELP.V)))
+
+
+
+"The boy did not want her help."
+(NOT
+ (SOME E511 ((E511 BEFORE NOW438) AND (E510 ORIENTS E511))
+       (((:Q THE BOY.N) WANT.V
+         (:Q THE (L X ((X HELP.N) AND (X PERTAIN-TO SHE.PRO)))))
+        ** E511)))
+
+
+
+"The boy's mother came running over."
+(E515.SK SAME-TIME NOW439)
+
+(E515.SK RIGHT-AFTER U438)
+
+(BOY517.SK BOY.N)
+
+(T516.SK MOTHER.N)
+
+(T516.SK MOTHER-OF.N BOY517.SK)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (T516.SK
+    ((SOME E512 ((E512 BEFORE NOW439) AND (E511 ORIENTS E512))
+           (COME.V ** E512))
+     (KA RUN_OVER.V)))))
+ ** E515.SK)
+
+
+
+"Sam wanted a new tv."
+(SAM.NAME
+ (SOME E513 ((E513 BEFORE NOW440) AND (E512 ORIENTS E513)) (WANT.V ** E513))
+ (:Q A.DET (NEW.A TV.N)))
+
+
+
+"So he went to the best buy and looked at a tv."
+(HE.PRO
+ (:O AND.CC
+  ((SOME E514 ((E514 BEFORE NOW441) AND (E513 ORIENTS E514)) (GO.V ** E514))
+   (:R (TO.P (:Q THE (BEST.A BUY.N)))))
+  ((SOME E515 ((E515 BEFORE NOW441) AND (E514 ORIENTS E515)) (LOOK.V ** E515))
+   (:R (AT.P (:Q A.DET TV.N))))))
+
+
+
+"Found a good tv."
+(WFF1245.S (BE.PASV FIND.V))
+
+
+
+"Bought the tv."
+(WFF1247.S
+ ((SOME E516 ((E516 BEFORE NOW443) AND (E515 ORIENTS E516)) (BUY.V ** E516))
+  (:Q THE TV.N)))
+
+
+
+"Sam loved his new tv."
+(SAM.NAME
+ (SOME E517 ((E517 BEFORE NOW444) AND (E516 ORIENTS E517)) (LOVE.V ** E517))
+ (:Q THE (L X ((X (NEW.A TV.N)) AND (X PERTAIN-TO SAM.NAME)))))
+
+
+
+"We were worried my cat would not get along with our new kitten."
+(E519.SK SAME-TIME NOW445)
+
+(E519.SK RIGHT-AFTER U444)
+
+(CAT520.SK CAT.N)
+
+(CAT520.SK PERTAIN-TO ME.PRO)
+
+(KITTENS521.SK (NEW.A (PLUR KITTEN.N)))
+
+(KITTENS521.SK PERTAIN-TO WE.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (SOME E518 ((E518 BEFORE NOW445) AND (E517 ORIENTS E518))
+         ((WE.PRO
+           (PRED1252.VP WORRY.V
+            (SBAR1251.SBAR
+             (NOT
+              (:O PRES/PAST
+               (WOULD.MD
+                (CAT520.SK
+                 ((MODIF1250.ADVP ALONG.P (WITH.P KITTENS521.SK)) GET.V))))))))
+          ** E518))))
+ ** E519.SK)
+
+
+
+"My cat would hide all day long since the kitten showed up."
+(E522.SK SAME-TIME NOW446)
+
+(E522.SK RIGHT-AFTER U445)
+
+(CAT523.SK CAT.N)
+
+(CAT523.SK PERTAIN-TO ME.PRO)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (ALL Z (Z DAY.N)
+    (:O PRES/PAST
+     (WOULD.MD
+      (CAT523.SK
+       (PRED1255.VP HIDE.V Z
+        (SBAR1254.SBAR LONG.ADV SINCE.P
+         ((:Q THE KITTEN.N)
+          (SOME E519 ((E519 BEFORE NOW446) AND (E518 ORIENTS E519))
+                (SHOW_UP.V ** E519)))))))))))
+ ** E522.SK)
+
+
+
+"We heard a racket in the middle of the night."
+(WE.PRO
+ (SOME E520 ((E520 BEFORE NOW447) AND (E519 ORIENTS E520)) (HEAR.V ** E520))
+ (:Q A.DET
+  (L X
+   ((X RACKET.N) AND
+    (X IN.P (:Q THE (L X ((X MIDDLE.N) AND (X OF.P (:Q THE NIGHT.N))))))))))
+
+
+
+"The cats were playing with each other."
+(E524.SK BEFORE NOW448)
+
+(E520 ORIENTS E524.SK)
+
+((PROG ((:Q THE (PLUR CAT.N)) PLAY.V
+        (:R (WITH.P (:Q EACH.DET (OTHER.A PRED?.N))))))
+ ** E524.SK)
+
+
+
+"They are now best friends and play together all the time."
+(THEY.PRO
+ (PRED1259.VP
+  (L P
+   (SOME E522 ((E522 AT-ABOUT NOW449) AND (E442 ORIENTS E522))
+         ((BE.V P) ** E522)))
+  NOW.A (K (BEST.A (PLUR FRIEND.N)))))
+
+(THEY.PRO
+ (SOME E523 ((E523 AT-ABOUT NOW449) AND (E522 ORIENTS E523))
+       (PLAY_TOGETHER.V ** E523))
+ (:Q THE TIME.N))
+
+
+
+"I walked through the forest at midnight last night."
+(ME.PRO
+ (SOME E524 ((E524 BEFORE NOW450) AND (E521 ORIENTS E524)) (WALK.V ** E524))
+ (:R (THROUGH.P (:Q THE FOREST.N)))
+ (:R (AT.P (TERM1262.NP (K MIDNIGHT.N) (MODIF1261.NP-TIME LAST.A NIGHT.N)))))
+
+
+
+"While on my walk, I came across a little fox."
+(ME.PRO
+ (SOME E525 ((E525 BEFORE NOW451) AND (E524 ORIENTS E525)) (COME.V ** E525))
+ (:R (ACROSS.P (:Q A.DET (LITTLE.A FOX.N)))))
+
+
+
+"He was small, but I was still frightened."
+((HE.PRO
+  (SOME E526 ((E526 BEFORE NOW452) AND (E525 ORIENTS E526))
+        ((BE.V SMALL.A) ** E526)))
+ BUT.CC
+ (ME.PRO
+  (STILL.ADV
+   (SOME E527 ((E527 BEFORE NOW452) AND (E526 ORIENTS E527))
+         ((BE.V FRIGHTENED.A) ** E527)))))
+
+
+
+"Being more afraid of me, the fox ran away."
+(E529.SK BEFORE NOW453)
+
+(E527 ORIENTS E529.SK)
+
+(FOX530.SK FOX.N)
+
+((WFF1268.S (PRED1267.VP (L P P) (MORE.ADV (AFRAID.A (OF.P ME.PRO)))) |,.PUNC|
+  FOX530.SK RUN_AWAY.V ..PUNC)
+ ** E529.SK)
+
+
+
+"I quickly walked home, determined to take a friend with me next time."
+(E531.SK BEFORE NOW454)
+
+(E528 ORIENTS E531.SK)
+
+((ME.PRO
+  (PRED1272.VP (PRED1270.VP QUICKLY.ADV WALK.V (K HOME.N)) |,.PUNC|
+   ((SOME E530 ((E530 AT-OR-BEFORE NOW454) AND (E493 ORIENTS E530))
+          (DETERMINE.V ** E530))
+    (KA
+     (TAKE.V (:Q A.DET (L X ((X FRIEND.N) AND (X WITH.P ME.PRO))))
+      (:R (IN.P (MODIF1271.NP-TIME NEXT.A TIME.N))))))))
+ ** E531.SK)
+
+
+
+"The tree lost its leaves."
+(E532.SK SAME-TIME NOW455)
+
+(E532.SK RIGHT-AFTER U454)
+
+(TREE533.SK TREE.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (TREE533.SK
+    (SOME E531 ((E531 BEFORE NOW455) AND (E529 ORIENTS E531)) (LOSE.V ** E531))
+    (:Q THE (L X ((X (PLUR LEAF.N)) AND (X PERTAIN-TO IT.PRO)))))))
+ ** E532.SK)
+
+
+
+"That winter it became very cold."
+(E534.SK SAME-TIME NOW456)
+
+(E534.SK RIGHT-AFTER U455)
+
+(WINTER535.SK WINTER.N)
+
+(WINTER535.SK NEW-SALIENT-ENTITY*.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (WINTER535.SK
+    ((SOME E532 ((E532 BEFORE NOW456) AND (E531 ORIENTS E532))
+           (BECOME.V ** E532))
+     (VERY.ADV COLD.A)))))
+ ** E534.SK)
+
+
+
+"The branches froze."
+(E536.SK BEFORE NOW457)
+
+(E532 ORIENTS E536.SK)
+
+(BRANCHS537.SK (PLUR BRANCH.N))
+
+((BRANCHS537.SK FREEZE.V) ** E536.SK)
+
+
+
+"The tree lost its branches."
+(E538.SK SAME-TIME NOW458)
+
+(E538.SK RIGHT-AFTER U457)
+
+(TREE539.SK TREE.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (TREE539.SK
+    (SOME E534 ((E534 BEFORE NOW458) AND (E533 ORIENTS E534)) (LOSE.V ** E534))
+    (:Q THE (L X ((X (PLUR BRANCH.N)) AND (X PERTAIN-TO IT.PRO)))))))
+ ** E538.SK)
+
+
+
+"The next spring the leaves could not grow back."
+(NOT (:O PRES/PAST (COULD.MD ((:Q THE (NEXT.A SPRING.N)) (BACK.ADV GROW.V)))))
+
+
+
+"The man went to a park."
+(E540.SK SAME-TIME NOW460)
+
+(E540.SK RIGHT-AFTER U459)
+
+(MAN541.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN541.SK
+    (SOME E535 ((E535 BEFORE NOW460) AND (E534 ORIENTS E535)) (GO.V ** E535))
+    (:R (TO.P (:Q A.DET PARK.N))))))
+ ** E540.SK)
+
+
+
+"He saw a woman there."
+(HE.PRO
+ (SOME E536 ((E536 BEFORE NOW461) AND (E535 ORIENTS E536)) (SEE.V ** E536))
+ (TERM1280.NP (:Q A.DET WOMAN.N) THERE.ADV))
+
+
+
+"The woman was beautiful."
+(E542.SK SAME-TIME NOW462)
+
+(E542.SK RIGHT-AFTER U461)
+
+(WOMAN543.SK WOMAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (WOMAN543.SK
+    (SOME E537 ((E537 BEFORE NOW462) AND (E536 ORIENTS E537))
+          ((BE.V BEAUTIFUL.A) ** E537)))))
+ ** E542.SK)
+
+
+
+"He took a picture of her."
+(HE.PRO
+ (SOME E538 ((E538 BEFORE NOW463) AND (E537 ORIENTS E538)) (TAKE.V ** E538))
+ (:Q A.DET (L X ((X PICTURE.N) AND (X OF.P SHE.PRO)))))
+
+
+
+"The woman saw him do it."
+(E544.SK SAME-TIME NOW464)
+
+(E544.SK RIGHT-AFTER U463)
+
+(WOMAN545.SK WOMAN.N)
+
+(WOMAN545.SK
+ (PRED1284.S-REL
+  ((SOME E539 ((E539 BEFORE NOW464) AND (E538 ORIENTS E539)) (SEE.V ** E539))
+   HE.PRO)))
+
+((SPEAKER TELL.V HEARER (THAT (WOMAN545.SK (PRED1285.VP (L P P) IT.PRO)))) **
+ E544.SK)
+
+
+
+"The man found the answer."
+(E546.SK SAME-TIME NOW465)
+
+(E546.SK RIGHT-AFTER U464)
+
+(MAN547.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN547.SK
+    (SOME E540 ((E540 BEFORE NOW465) AND (E539 ORIENTS E540)) (FIND.V ** E540))
+    (:Q THE ANSWER.N))))
+ ** E546.SK)
+
+
+
+"He told everyone he could."
+(E548.SK BEFORE NOW466)
+
+(E540 ORIENTS E548.SK)
+
+((HE.PRO
+  (PRED1290.VP TELL.V (K EVERYONE.N)
+   (SBAR1289.SBAR
+    (HE.PRO (PRED1288.VP (L P (L X (:O PRES/PAST (COULD.MD (X P))))))))))
+ ** E548.SK)
+
+
+
+"People did not like the answer."
+(E549.SK BEFORE NOW467)
+
+(E541 ORIENTS E549.SK)
+
+(ANSWER550.SK ANSWER.N)
+
+((NOT
+  ((K (PLUR PERSON.N))
+   (PRED1292.VP (L Y (L X (X LIKE.P (L Z (Z = Y))))) ANSWER550.SK)))
+ ** E549.SK)
+
+
+
+"They got angry at the man."
+(E551.SK BEFORE NOW468)
+
+(E542 ORIENTS E551.SK)
+
+(MAN552.SK MAN.N)
+
+((THEY.PRO (PRED1294.VP GET.V ANGRY.A (AT.P MAN552.SK))) ** E551.SK)
+
+
+
+"They hung the man in the street."
+(THEY.PRO
+ (SOME E544 ((E544 BEFORE NOW469) AND (E543 ORIENTS E544)) (HANG.V ** E544))
+ (:Q THE (L X ((X MAN.N) AND (X IN.P (:Q THE STREET.N))))))
+
+
+
+"The man caught a fish."
+(E553.SK SAME-TIME NOW470)
+
+(E553.SK RIGHT-AFTER U469)
+
+(MAN554.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN554.SK
+    (SOME E545 ((E545 BEFORE NOW470) AND (E544 ORIENTS E545))
+          (CATCH.V ** E545))
+    (:Q A.DET FISH.N))))
+ ** E553.SK)
+
+
+
+"The fish looked sad to him."
+(E555.SK BEFORE NOW471)
+
+(E545 ORIENTS E555.SK)
+
+(FISH556.SK FISH.N)
+
+((FISH556.SK (PRED1298.VP LOOK.V SAD.A (TO.P HE.PRO))) ** E555.SK)
+
+
+
+"The man felt bad."
+(E557.SK SAME-TIME NOW472)
+
+(E557.SK RIGHT-AFTER U471)
+
+(MAN558.SK MAN.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (MAN558.SK
+    ((SOME E547 ((E547 BEFORE NOW472) AND (E546 ORIENTS E547))
+           (FEEL.V ** E547))
+     BAD.A))))
+ ** E557.SK)
+
+
+
+"He let the fish go."
+(E559.SK BEFORE NOW473)
+
+(E547 ORIENTS E559.SK)
+
+((HE.PRO (PRED1301.VP LET.V ((:Q THE FISH.N) GO.V))) ** E559.SK)
+
+
+
+"The fish went belly up in the water."
+(E560.SK SAME-TIME NOW474)
+
+(E560.SK RIGHT-AFTER U473)
+
+(FISH561.SK FISH.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (FISH561.SK
+    ((MODIF1303.ADVP BELLY.N UP.P)
+     ((SOME E549 ((E549 BEFORE NOW474) AND (E548 ORIENTS E549)) (GO.V ** E549))
+      (:R (IN.P (:Q THE WATER.N))))))))
+ ** E560.SK)
+
+
+
+"The cow left the barn."
+(E562.SK SAME-TIME NOW475)
+
+(E562.SK RIGHT-AFTER U474)
+
+(COW563.SK COW.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (COW563.SK
+    (SOME E550 ((E550 BEFORE NOW475) AND (E549 ORIENTS E550))
+          (LEAVE.V ** E550))
+    (:Q THE BARN.N))))
+ ** E562.SK)
+
+
+
+"It went out to the field."
+(IT.PRO
+ (OUT.ADV
+  ((SOME E551 ((E551 BEFORE NOW476) AND (E550 ORIENTS E551)) (GO.V ** E551))
+   (:R (TO.P (:Q THE FIELD.N))))))
+
+
+
+"The other cows were out in the field."
+(E564.SK SAME-TIME NOW477)
+
+(E564.SK RIGHT-AFTER U476)
+
+(COWS565.SK (OTHER.A (PLUR COW.N)))
+
+(FIELD566.SK FIELD.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (COWS565.SK
+    (PRED1308.VP
+     (L P
+      (SOME E552 ((E552 BEFORE NOW477) AND (E551 ORIENTS E552))
+            ((BE.V P) ** E552)))
+     (PP-OUT1307.PP-OUT OUT.P (IN.P FIELD566.SK))))))
+ ** E564.SK)
+
+
+
+"The cow found a spot of grass."
+(E567.SK SAME-TIME NOW478)
+
+(E567.SK RIGHT-AFTER U477)
+
+(COW568.SK COW.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (COW568.SK
+    (SOME E553 ((E553 BEFORE NOW478) AND (E552 ORIENTS E553)) (FIND.V ** E553))
+    (:Q A.DET (L X ((X SPOT.N) AND (X OF.P (K GRASS.N))))))))
+ ** E567.SK)
+
+
+
+"The cow ate the grass."
+(E569.SK SAME-TIME NOW479)
+
+(E569.SK RIGHT-AFTER U478)
+
+(COW570.SK COW.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (COW570.SK
+    (SOME E554 ((E554 BEFORE NOW479) AND (E553 ORIENTS E554)) (EAT.V ** E554))
+    (:Q THE GRASS.N))))
+ ** E569.SK)
+
+
+
+"Shelley wanted a new cat."
+(SHELLEY.NAME
+ (SOME E555 ((E555 BEFORE NOW480) AND (E554 ORIENTS E555)) (WANT.V ** E555))
+ (:Q A.DET (NEW.A CAT.N)))
+
+
+
+"She went to the pet store."
+(SHE.PRO
+ (SOME E556 ((E556 BEFORE NOW481) AND (E555 ORIENTS E556)) (GO.V ** E556))
+ (:R (TO.P (:Q THE ((NN PET.N) STORE.N)))))
+
+
+
+"She found a nice cat."
+(SHE.PRO
+ (SOME E557 ((E557 BEFORE NOW482) AND (E556 ORIENTS E557)) (FIND.V ** E557))
+ (:Q A.DET (NICE.A CAT.N)))
+
+
+
+"Shelley bought the cat and things for the cat."
+(SHELLEY.NAME
+ (SOME E558 ((E558 BEFORE NOW483) AND (E557 ORIENTS E558)) (BUY.V ** E558))
+ (:O AND.CC (L P (:Q THE P)) CAT.N (PLUR THING.N)) (:R (FOR.P (:Q THE CAT.N))))
+
+
+
+"She loved her cat."
+(SHE.PRO
+ (SOME E559 ((E559 BEFORE NOW484) AND (E558 ORIENTS E559)) (LOVE.V ** E559))
+ (:Q THE (L X ((X CAT.N) AND (X PERTAIN-TO SHE.PRO)))))
+
+
+
+"I went to buy some almonds yesterday."
+(E571.SK BEFORE NOW485)
+
+(E559 ORIENTS E571.SK)
+
+((ME.PRO
+  (PRED1317.VP GO.V (KA (BUY.V (:Q SOME (PLUR ALMOND.N)))) (K YESTERDAY.N)))
+ ** E571.SK)
+
+
+
+"I bought a large box."
+(ME.PRO
+ (SOME E561 ((E561 BEFORE NOW486) AND (E560 ORIENTS E561)) (BUY.V ** E561))
+ (:Q A.DET (LARGE.A BOX.N)))
+
+
+
+"I tried some."
+(ME.PRO
+ (SOME E562 ((E562 BEFORE NOW487) AND (E561 ORIENTS E562)) (TRY.V ** E562))
+ (:Q SOME PRED?.N))
+
+
+
+"They were so good."
+(THEY.PRO
+ (SOME E563 ((E563 BEFORE NOW488) AND (E562 ORIENTS E563))
+       ((BE.V (SO.ADV GOOD.A)) ** E563)))
+
+
+
+"I wanted to have some more."
+(ME.PRO
+ ((SOME E564 ((E564 BEFORE NOW489) AND (E563 ORIENTS E564)) (WANT.V ** E564))
+  (KA
+   (PRED1322.VP
+    (L P
+     (L X
+      (SOME E565 ((E565 IMPINGES-ON E523) AND (E199 ORIENTS E565))
+            ((X P) ** E565))))
+    (:Q SOME (MORE.A PRED?.N))))))
+
+
+
+"He told himself to go up to her and go for it."
+(HE.PRO *UNDEFINED* HIMSELF.PRO (KA ((UP.ADV (TO.P SHE.PRO)) GO.V)))
+
+(HE.PRO *UNDEFINED* HIMSELF.PRO (KA (GO.V (:R (FOR.P IT.PRO)))))
+
+
+
+"He went over and made some small talk first."
+(E572.SK BEFORE NOW491)
+
+(E564 ORIENTS E572.SK)
+
+(((HE.PRO (OVER.ADV GO.V)) AND.CC
+  (HE.PRO
+   (SOME E567 ((E567 AT-OR-BEFORE NOW491) AND (E530 ORIENTS E567))
+         (MAKE.V ** E567))
+   (TERM1325.NP (L P (:Q SOME P)) SMALL.A TALK.N FIRST.ADV)))
+ ** E572.SK)
+
+
+
+"Then he asked if she wanted to go out the next weekend."
+(E573.SK BEFORE NOW492)
+
+(E566 ORIENTS E573.SK)
+
+((HE.PRO
+  (PRED1329.VP ASK.V
+   ((SHE.PRO
+     ((SOME E569 ((E569 AT-OR-BEFORE NOW492) AND (E567 ORIENTS E569))
+            (WANT.V ** E569))
+      (KA
+       (PRED1328.VP GO.V
+        (PP-OUT1327.PP-OUT OUT.P (:Q THE (NEXT.A WEEKEND.N)))))))
+    (*OUT-OF-RANGE-SEMANTIC-INDEX* 4))))
+ ** E573.SK)
+
+
+
+"She told him she would but she was already seeing someone."
+(E574.SK BEFORE NOW493)
+
+(E568 ORIENTS E574.SK)
+
+(((SHE.PRO
+   (PRED1333.VP TELL.V HE.PRO
+    (SBAR1332.SBAR
+     (SHE.PRO (PRED1331.VP (L P (L X (:O PRES/PAST (WOULD.MD (X P))))))))))
+  BUT.CC
+  (SHE.PRO
+   (ALREADY.ADV
+    (L X
+     (SOME E571 ((E571 AT-OR-BEFORE NOW493) AND (E569 ORIENTS E571))
+           ((PROG (X SEE.V (K SOMEONE.N))) ** E571))))))
+ ** E574.SK)
+
+
+
+"He told her that did him no good and they both laughed."
+(HE.PRO
+ (SOME E572 ((E572 BEFORE NOW494) AND (E570 ORIENTS E572)) (TELL.V ** E572))
+ SHE.PRO
+ (THAT.P
+  (:O AND.CC
+   (PRED1335.VP
+    (L P
+     (L X
+      (SOME E573 ((E573 BEFORE NOW494) AND (E572 ORIENTS E573))
+            ((X P) ** E573))))
+    HE.PRO (:Q NO (GOOD.A PRED?.N)))
+   ((:Q SOME (:O AND (L X (X = THEY.PRO)) (L X (X = (:Q BOTH.DET PRED?.N)))))
+    (SOME E574 ((E574 BEFORE NOW494) AND (E573 ORIENTS E574))
+          (LAUGH.V ** E574))))))
+
+
+
+"A new teacher started the day."
+(TEACHER575.SK (NEW.A TEACHER.N))
+
+(TEACHER575.SK
+ (SOME E575 ((E575 BEFORE NOW495) AND (E574 ORIENTS E575)) (START.V ** E575))
+ (:Q THE DAY.N))
+
+
+
+"She asked them to sit."
+(SHE.PRO *UNDEFINED* THEY.PRO (KA SIT.V))
+
+
+
+"They didn't sit."
+(NOT
+ (SOME E576 ((E576 BEFORE NOW497) AND (E575 ORIENTS E576))
+       ((THEY.PRO SIT.V) ** E576)))
+
+
+
+"She didn't know what to do."
+(E578.SK SAME-TIME NOW498)
+
+(E578.SK RIGHT-AFTER U497)
+
+((SPEAKER ASK.V HEARER
+  (QNOM
+   (SOME E577 ((E577 BEFORE NOW498) AND (E576 ORIENTS E577))
+         ((WH X (X THING.N)
+           (NOT
+            (SHE.PRO
+             (PRED1342.VP KNOW.V
+              (PRED1341.S-REL X (KA (PRED1340.VP (L P P))))))))
+          ** E577))))
+ ** E578.SK)
+
+
+
+"She asked the principal to help."
+(E579.SK SAME-TIME NOW499)
+
+(E579.SK RIGHT-AFTER U498)
+
+(PRINCIPAL580.SK PRINCIPAL.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT (SHE.PRO *UNDEFINED* PRINCIPAL580.SK (KA HELP.V))))
+ ** E579.SK)
+

@@ -123,7 +123,6 @@
 	; (dbg 'match "matching with ~s~%" in-schema)
 	(setf test-schema in-schema)
 
-	(setf all-small-inds (list))
 	(setf bound-header nil)
 
 	(setf all-bindings (make-hash-table :test #'equal))
@@ -132,12 +131,51 @@
 	; (setf story-formulas (linearize-story story))
 
 	(loop for phi in story-formulas do (block uni-loop
+		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
+		(if (null fm-res) (return-from uni-loop))
+
+		(setf test-schema (car fm-res))
+		(setf all-bindings (second fm-res))
+		(setf total-matches (third fm-res))
+		(setf bound-header (fourth fm-res))
+		
+	))
+
+
+
+
+	(dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
+	(dbg 'match "total matches: ~s~%" total-matches)
+
+	(setf gen-match (generalize-schema-constants test-schema))
+	(setf new-name (new-schema-match-name (second (car (second test-schema)))))
+	(setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
+	(setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
+	(setf test-schema (set-header test-schema new-match-header))
+	; (format t "gen match is ~s~%" gen-match)
+	(setf gen-match (set-header gen-match new-gen-header))
+	(set new-name gen-match)
+
+	(return-from outer (list test-schema all-bindings bound-header))
+)
+)
+
+(defun match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
+	(ll-partial-cached
+		'uncached-match-formula-to-schema
+		(list phi test-schema all-bindings total-matches bound-header)
+		(list phi test-schema all-bindings total-matches bound-header story-formulas)
+		128
+	)
+)
+
+(defun uncached-match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
+(block outer
 			(if (not (canon-charstar? phi))
-				(return-from uni-loop)
+				(return-from outer nil)
 			)
 
 			(setf small-inds (extract-small-individuals phi))
-			(setf all-small-inds (remove-duplicates (union small-inds all-small-inds) :test #'equal))
 			(setf constraints (story-select-term-constraints story-formulas small-inds))
 	
 			(dbg 'match "trying:~%")
@@ -203,43 +241,10 @@
 					(setf test-schema go-match-schema)
 				)
 			)
-		))
 
+		(return-from outer (list test-schema all-bindings total-matches bound-header))
 
-					; Now replace terms by variables
-					(if generalize
-						(progn
-						(dbg 'match "generalizing~%")
-
-						(setf gen-cursor "?_A")
-						; Advance the cursor until it's no longer in the schema.
-						; We'll assume all underscore-prefixed variable names will
-						; be added here and only here, and thus in order.
-						(loop while (has-element test-schema (intern gen-cursor))
-							do (dbg 'match "advancing cursor (~s is present)~%" gen-cursor)
-							do (setf gen-cursor (next-str gen-cursor)))
-
-						(loop for ind in all-small-inds do (block gen-ind-loop
-							(setf test-schema (replace-vals ind (intern gen-cursor) test-schema))
-							(setf gen-cursor (next-str gen-cursor))
-						))
-						)
-					)
-
-	(dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
-	(dbg 'match "total matches: ~s~%" total-matches)
-
-	(setf gen-match (generalize-schema-constants test-schema))
-	(setf new-name (new-schema-match-name (second (car (second test-schema)))))
-	(setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
-	(setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
-	(setf test-schema (set-header test-schema new-match-header))
-	; (format t "gen match is ~s~%" gen-match)
-	(setf gen-match (set-header gen-match new-gen-header))
-	(set new-name gen-match)
-
-	(return-from outer (list test-schema all-bindings bound-header))
-)
+		)
 )
 
 (defun check-constraints (schema story)

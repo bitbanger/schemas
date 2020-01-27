@@ -5,6 +5,7 @@
 (load "norm-kb.lisp")
 (load "norm-subsumption.lisp")
 (load "norm-time.lisp")
+(load "ll-cache.lisp")
 
 (defparameter *SCHEMA-MATCH-NUM* 0)
 
@@ -501,6 +502,14 @@
 )
 
 (defun generalize-schema-constants (schema)
+	(ll-cached
+		'uncached-generalize-schema-constants
+		(list schema)
+		128
+	)
+)
+
+(defun uncached-generalize-schema-constants (schema)
 (block outer
 	(setf gen-cursor "?X_A")
 	(setf gen-schema schema)

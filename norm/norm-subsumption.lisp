@@ -119,8 +119,27 @@
 		)
 	)
 
+	(if (and (not (null (get-schema-match-num story-pred)))
+			(equal (get-schema-match-name story-pred) schema-pred))
+		; then
+		(return-from outer t)
+	)
+
+
+	(setf wn-schema-pred schema-pred)
+	(setf wn-story-pred story-pred)
+	(if (not (null (get-schema-match-num story-pred)))
+		(setf wn-story-pred (get-schema-match-name story-pred))
+	)
+	(if (not (null (get-schema-match-num schema-pred)))
+		(setf wn-schema-pred (get-schema-match-name schema-pred))
+	)
+
+	; TODO: confirm that stripping match numbers doesn't affect
+	; subsumption at this point
+
 	; Check WordNet hypernym hierarchy
-	(if (not (null (member schema-pred (wordnet-hypernyms story-pred))))
+	(if (not (null (member wn-schema-pred (wordnet-hypernyms wn-story-pred))))
 		(return-from outer t)
 	)
 

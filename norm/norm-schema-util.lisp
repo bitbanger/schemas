@@ -502,7 +502,7 @@
 )
 
 (defun generalize-schema-constants (schema)
-	(ll-cached
+	(ll-cache
 		'uncached-generalize-schema-constants
 		(list schema)
 		128

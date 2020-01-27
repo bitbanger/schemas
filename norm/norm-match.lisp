@@ -161,7 +161,7 @@
 )
 
 (defun match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
-	(ll-partial-cached
+	(ll-partial-cache
 		'uncached-match-formula-to-schema
 		(list phi test-schema all-bindings total-matches bound-header)
 		(list phi test-schema all-bindings total-matches bound-header story-formulas)
@@ -249,7 +249,7 @@
 
 (defun check-constraints (schema story)
 	; (uncached-check-constraints schema story)
-	(ll-cached 'uncached-check-constraints (list schema story) 5)
+	(ll-cache 'uncached-check-constraints (list schema story) 5)
 )
 
 (defun uncached-check-constraints (schema story)

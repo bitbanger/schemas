@@ -3,11 +3,21 @@
 (defparameter *CACHE-MRUS* (make-hash-table :test #'equal))
 (defparameter *CACHE-TABLES* (make-hash-table :test #'equal))
 
-(defun ll-cached (fn-name arg-list size)
-	(ll-partial-cached fn-name arg-list arg-list size)
+(defun ll-cache (fn-name arg-list size)
+	(ll-partial-cache fn-name arg-list arg-list size)
 )
 
-(defun ll-partial-cached (fn-name cache-by arg-list size)
+(defun ll-partial-cache (fn-name cache-by arg-list size)
+	(ll-partial-cache-preloaded-result
+		fn-name
+		cache-by
+		arg-list
+		size
+		'll-no-preload
+	)
+)
+
+(defun ll-partial-cache-preloaded-result (fn-name cache-by arg-list size preloaded-result)
 (block outer
 	(setf table (gethash fn-name *CACHE-TABLES*))
 	(setf mru (gethash fn-name *CACHE-MRUS*))
@@ -44,7 +54,11 @@
 
 	; use a sentinel to make sure nulls aren't ambiguous
 	; in the cache map
-	(setf result (list (apply fn-name arg-list) 'll-sentinel))
+	(setf result (list preloaded-result 'll-sentinel))
+	(if (equal preloaded-result 'll-no-preload)
+		; then
+		(setf result (list (apply fn-name arg-list) 'll-sentinel))
+	)
 
 	(if (>= (length mru) size)
 		; then

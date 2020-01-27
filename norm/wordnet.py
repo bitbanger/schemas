@@ -48,7 +48,10 @@ def lisp_list(lst):
     return '(' + ' '.join([str(x) for x in lst]) + ')'
 
 def wn_hypernyms(el):
-    return lisp_list(hypernyms(el))
+    try:
+        return lisp_list([el] + hypernyms(el))
+    except:
+        return ""
 
 first = True
 for x in WORD_LST:

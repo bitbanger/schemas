@@ -679,7 +679,7 @@
 )
 )
 
-(defun get-word-preds (schema)
+(defun get-single-word-preds (schema)
 	(remove-duplicates (get-elements-pred schema (lambda (x)
 		(and
 			(symbolp x)
@@ -688,6 +688,26 @@
 			(canon-pred? x)
 		)
 	)) :test #'equal)
+)
+
+(defun get-word-preds (schema)
+(block outer
+	(setf word-preds (get-single-word-preds schema))
+	(loop for prop in (mapcar #'second (section-formulas (get-section schema ':Steps)))
+		do (block check
+			(if (and (boundp (prop-pred prop))
+					(schema? (eval (prop-pred prop))))
+				; then
+				(progn
+				; (format t "adding embedded word preds for ~s~%" (prop-pred prop))
+				(setf word-preds (union word-preds (get-word-preds (eval (prop-pred prop))) :test #'equal))
+				)
+			)
+		)
+	)
+
+	(return-from outer word-preds)
+)
 )
 
 (defun mk-schema-word-pred-idx (schemas)
@@ -718,9 +738,14 @@
 			(setf schema-words (get-word-preds schema))
 			(loop for word in words
 				do (loop for schema-word in schema-words
-					do (if (subsumes schema-word word)
+					do (if (or
+						(subsumes schema-word word)
+						(subsumes word schema-word)
+						)
 						; then
 						(setf schema-score (+ schema-score 1))
+						; else
+						; (dbg 'match "~s didn't subsume ~s~%" schema-word word)
 					)
 				)
 			)

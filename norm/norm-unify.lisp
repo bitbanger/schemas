@@ -582,6 +582,8 @@ bind-pred
 			(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
 			(return-from outer nil)
 			)
+			; else
+			(dbg 'match "unified schema ~s with unequal story ~s~%" schema-pred story-pred)
 		)
 		; else
 		(if (and

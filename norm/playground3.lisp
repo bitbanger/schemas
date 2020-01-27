@@ -57,8 +57,9 @@
 
 ;(format t "word preds: ~s~%" (get-word-preds story))
 
-
-(setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
+(format t "protoschemas are ~s~%" *PROTOSCHEMAS*)
+(setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
+(format t "best schemas are ~s~%" best-schemas)
 
 (load-story-time-model story)
 
@@ -211,6 +212,7 @@
 							(format t "new schema is ~s~%" new-schema)
 							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
 							(set (second (car (second new-schema))) new-schema)
+							(format t "new schema (~s) is ~s~%" (second (car (second new-schema))) act_on.v)
 
 							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
 							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match1)))))))))
@@ -241,19 +243,21 @@
 )
 
 
-(setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (mapcar (lambda (x) (second (car (second x)))) new-schemas)))
+; (setf *DBG-TAGS* '(match))
+; (setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (mapcar (lambda (x) (second (car (second x)))) new-schemas)))
+(setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (list 'ACT_ON.V)))
 (format t "phase 2 schemas: ~s~%" *PROTOSCHEMAS*)
 
 		(setf next-story 
 			(loop for sent in (parse-story (second *DEV-STORY-SENTS*))
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					; if (canon-prop? wff) do (format t "~s~%" wff)
+					if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 
 		(setf story-matches nil)
-		(setf *PROTOSCHEMAS* (list 'ACT_ON.V))
+		; (setf *PROTOSCHEMAS* (list 'ACT_ON.V))
 		(loop for m in (run-matcher next-story (list 'ACT_ON.V))
 			do (block vet-matches
 				(if (and

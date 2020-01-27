@@ -31,6 +31,7 @@
 	; first, check whether phi unifies with the schema's header
 	(block check-header
 		(setf new-bindings (unify (car (second schema)) phi nil schema story))
+		; (format t "attempting to unify ~s with header ~s~%" phi (car (second schema)))
 		; Bind episodes to formula IDs as well
 		(if (and (not (null new-bindings)) (canon-charstar? phi))
 			; then
@@ -118,6 +119,7 @@
 ; schema are replaced by variables.
 (defun match-story-to-schema (story-formulas in-schema generalize)
 (block outer
+	; (dbg 'match "matching with ~s~%" in-schema)
 	(setf test-schema in-schema)
 
 	(setf all-small-inds (list))
@@ -248,18 +250,53 @@
 	(setf untrue-count 0)
 
 	(loop for sec in (nonmeta-sections schema)
-		do (loop for phi in (mapcar #'second (section-formulas sec))
+		; do (loop for phi in (mapcar #'second (section-formulas sec))
+		do (loop for phi-pair in (section-formulas sec)
 			do (block check-constr
+				(setf phi-id (car phi-pair))
+				(setf phi (second phi-pair))
 				(if (has-element-pred phi #'varp)
 					; then
 					(return-from check-constr)
 				)
 
 				(if (and (boundp (prop-pred phi))
-					(schema? (eval (prop-pred phi))))
+					(schema? (eval (prop-pred phi)))
+					; TODO: break this down for booleans
+					(canon-atomic-prop? phi)
+					)
 					; then
 					(progn
-						(setf nested-schema (eval (prop-pred phi))
+						; (format t "evaluating nested schema ~s~%" phi)
+						(setf nested-schema-name (prop-pred phi))
+						(setf nested-schema (eval (prop-pred phi)))
+
+						; NOTE: if we're evaluating the
+						; consistency of a prop with an
+						; unknown/variable episode ID, we
+						; should make a unique name for it,
+						; instead of e.g. ?E3, so that it
+						; doesn't alias in the subordinate
+						; schema. It doesn't matter what it is
+						; UNTIL we decide to implement cross-
+						; schema time consistency checking.
+						(if (varp phi-id)
+							(setf phi-id (intern (format nil "~s_PARENT" phi-id)))
+						)
+
+
+						; (format t "attempting to unify prop ~s with header ~s~%" (list phi '** phi-id) nested-schema)
+						(setf header-bindings (third (unify-with-schema (list phi '** phi-id) nested-schema (linearize-story story))))
+						(if (null header-bindings)
+							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
+						)
+						; (format t "got result ~s~%" header-bindings)
+						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
+						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
+						(setf nest-score (check-constraints nested-schema-bound story))
+						; (format t "score of ~s for nested schema ~s~%" nest-score nested-schema-name)
+						(setf true-count (+ true-count (car nest-score)))
+						(setf untrue-count (+ untrue-count (second nest-score)))
 					)
 				)
 
@@ -286,6 +323,7 @@
 
 (defun best-story-schema-match (story schema num_shuffles generalize)
 (block outer
+	; (dbg 'match "matching to schema ~s~%" schema)
 	(setf best-score '(0 0))
 	(setf best-match nil)
 	(setf best-bindings nil)

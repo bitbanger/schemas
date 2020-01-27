@@ -1,6 +1,7 @@
 (load "norm-schema-util.lisp")
 (load "coref.lisp")
 (load "norm-el.lisp")
+(load "ll-cache.lisp")
 
 ; Match outline:
 ;	- first, modify schema syntax to have char formulas AND * formulas for ?eNs
@@ -242,6 +243,11 @@
 )
 
 (defun check-constraints (schema story)
+	; (uncached-check-constraints schema story)
+	(ll-cached 'uncached-check-constraints (list schema story) 5)
+)
+
+(defun uncached-check-constraints (schema story)
 (block outer
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))

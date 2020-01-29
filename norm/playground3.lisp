@@ -243,13 +243,13 @@
 							(setf new-schema (add-constraint new-schema ':Episode-relations (list '?E1 'before new-e2)))
 							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e2 'cause.v '?E3)))
 							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'during '?E3)))
-							(format t "new schema is ~s~%" new-schema)
+							; (format t "new schema is ~s~%" new-schema)
 							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
 							(set (second (car (second new-schema))) new-schema)
 							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
-							;(format t "LEARNED NEW SCHEMA:~%")
+							(format t "LEARNED NEW SCHEMA:~%")
 
-							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
 							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match1)))))))))
 							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match2)))))))))
 							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
@@ -322,9 +322,9 @@
 
 (setf act-on-match (car (car story-matches)))
 
-(format t "got act on match ~s~%" act-on-match)
+; (format t "got act on match ~s~%" act-on-match)
 
-(expand-nested-schemas act-on-match)
+(expand-nested-schemas act-on-match next-story)
 
 
 

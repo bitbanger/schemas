@@ -723,6 +723,15 @@ is replaced with replacement."
 			:rule-order :slow-forward))
 )
 
+(defun flatten (lst)
+	(loop for e in lst
+		if (not (listp e))
+			collect e
+		if (listp e)
+			append (flatten e)
+	)
+)
+
 (defun flat-cdr (lst)
 	(if (and (equal 2 (length lst)) (listp (second lst)))
 		; then

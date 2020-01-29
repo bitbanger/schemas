@@ -1060,8 +1060,48 @@
 )
 )
 
+
+(defun flatten-prop (in-prop)
+(block outer
+	(setf prop (copy-list in-prop))
+
+	(if (and
+			(equal 2 (length prop))
+			; (not (equal (car prop) 'NOT))
+			(not (has-element-pred prop 'lex-verb?))
+		)
+		; then
+		(setf prop (list (car prop) 'IS (second prop)))
+	)
+
+	(if (and
+			(has-element-pred prop 'lex-verb?)
+			(equal (car prop) 'NOT))
+		; then
+		(progn
+			(setf prop (second prop))
+			(setf verb (car (get-elements-pred prop 'lex-verb?)))
+			(setf prop (replace-vals verb (list 'NOT verb) prop))
+		)
+	)
+
+	(return-from outer (flatten prop))
+)
+)
+
+(defun clean-tags (flat)
+	(loop for e in flat
+		collect (intern (car (split-str (string e) ".")))
+	)
+)
+
+(defun el-to-english (prop)
+	(clean-tags (flatten-prop prop))
+)
+
+
 ; TODO: safe multi-level expansion. How to prevent loops? Just stop at duplicates, maybe?
-(defun expand-nested-schemas (parent-schema)
+(defun expand-nested-schemas (parent-schema story)
 (block outer
 	(setf invoked-schemas (list))
 
@@ -1070,12 +1110,12 @@
 			(if (not (invokes-schema? (second st)))
 				; then
 				(progn
-				(format t "~s doesn't invoke~%" (second st))
+				; (format t "~s doesn't invoke~%" (second st))
 				(return-from get-invokers)
 				)
 			)
 
-			(format t "invoked ~s~%" (prop-pred (second st)))
+			; (format t "invoked ~s~%" (prop-pred (second st)))
 
 			(setf invoked-schema (eval (prop-pred (second st))))
 			(setf invoked-schema (second (uniquify-shared-vars parent-schema invoked-schema)))
@@ -1103,10 +1143,38 @@
 		(loop for ep-id in sorted-ep-ids
 			collect (get-char-form ep-id all-schemas)))
 
+
+
+	(setf all-role-consts
+		(remove-duplicates (loop for schema in all-schemas
+			append (loop for form in (section-formulas (get-section schema ':Roles))
+				collect (second form)
+			)
+		) :test #'equal)
+	)
+
+
+	(setf all-role-consts
+		(sort all-role-consts
+			(lambda (a b)
+				(< (rechash (car a)) (rechash (car b)))
+			)
+		))
+
+
+	(format t "predicted entity types:~%")
+	(loop for role-const in all-role-consts
+		if (and
+				(not (has-element-pred role-const 'varp))
+				(not (member role-const (linearize-story story) :test #'equal))
+			)
+			do (format t "	~s~%" (el-to-english role-const))
+	)
+
 	(format t "predicted full story, in order:~%")
 	(loop for ep in sorted-eps
 			for ep-id in sorted-ep-ids
-		do (format t "	~a~s~%" (if (not (varp ep-id)) "		(known from story)" "") ep)
+		do (format t "~a ~a~%" (if (not (varp ep-id)) "(known from story)" "") (el-to-english ep))
 	)
 )
 )

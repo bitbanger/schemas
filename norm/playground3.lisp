@@ -1,3 +1,5 @@
+(require :sb-sprof)
+
 (declaim (sb-ext:muffle-conditions cl:warning))
 
 (setf *random-state* (make-random-state t))
@@ -46,8 +48,19 @@
 	(rename-constraints (sort-steps (generalize-schema-constants schema)))
 )
 
-
 (defun run-matcher (story schemas)
+(block outer
+	(setf rm-result nil)
+	(sb-sprof:with-profiling (:max-samples 10000
+							  :max-depth 3
+							  :mode :alloc
+							  :report :graph)
+		(setf rm-result (uninstrumented-run-matcher story schemas)))
+	(return-from outer rm-result)
+)
+)
+
+(defun uninstrumented-run-matcher (story schemas)
 
 (block outer
 

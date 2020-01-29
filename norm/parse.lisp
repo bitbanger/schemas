@@ -41,20 +41,29 @@
 	SET-OF
 )))
 
+(defparameter *KEYWORDS-MAP* (make-hash-table :test #'equal))
+(loop for kw in *KEYWORDS*
+	do (setf (gethash kw *KEYWORDS-MAP*) t)
+)
+
 (defun has-ext? (x e)
+(let (
+	(strx (if (symbolp x) (string x) nil))
+)
 	(and
 		(symbolp x)
 		(stringp e)
-		(>= (length (string x)) (length e))
+		(>= (length strx) (length e))
 		(equal
 			e
 			(subseq
-				(string x)
-				(- (length (string x)) (length e))
-				(length (string x))
+				strx
+				(- (length strx) (length e))
+				(length strx)
 			)
 		)
 	)
+)
 )
 
 (defun remove-ext (x e)
@@ -265,10 +274,14 @@
 )
 
 ; Equal-to-value predicate generator
+(defun id? (e)
+	(list 'id? e)
+)
+
 (setf id-pred-counter 0)
 (setf id-pred-map (make-hash-table :test #'equal))
 (setf id-pred-rev-map (make-hash-table :test #'equal))
-(defun id? (e)
+(defun old-id? (e)
 (progn
 	(if (null (gethash e id-pred-map))
 		(progn
@@ -283,6 +296,15 @@
 	)
 
 	(intern (format nil "ID-PRED-~d" (gethash e id-pred-map)))
+)
+)
+
+(defun uncached-id? (e)
+(block outer
+	(setf id-pred-name (intern (format nil "ID-PRED-~d" id-pred-counter)))
+	(setf id-pred-counter (+ 1 id-pred-counter))
+
+	(setf (fdefinition id-pred-name) (lambda (x) (equal x e)))
 )
 )
 
@@ -305,7 +327,8 @@
 		nil
 
 		; else
-		(intern (format nil "~s*" pred))
+		; (intern (format nil "~s*" pred))
+		(intern (concatenate 'string (string pred) "*"))
 	)
 )
 
@@ -345,14 +368,32 @@
 
 (setf pred-cache (make-hash-table :test #'equal))
 
-(defun cached-funcall (cache func args)
+(defun cached-funcall (cache func arg)
 (block outer
-	(if (null (gethash (list func args) cache))
-		(setf (gethash (list func args) cache)
-			(funcall func args))
+	; special case for 'id'
+	; (if (listp func) (format t "func list ~s~%" func))
+	(if (and (listp func) (equal 2 (length func)) (equal 'id? (car func)))
+		; then
+		(progn
+		; (format t "direct equality comparison for ~s and ~s~%" (second func) arg)
+		(return-from outer (equal (second func) arg))
+		)
 	)
 
-	(return-from outer (gethash (list func args) cache))
+	(if (null (gethash (list func arg) cache))
+		(setf (gethash (list func arg) cache)
+			(funcall func arg))
+	)
+
+	(return-from outer (gethash (list func arg) cache))
+)
+)
+
+(defun id-pred-list? (x)
+(and
+	(listp x)
+	(equal 2 (length x))
+	(equal 'id? (car x))
 )
 )
 
@@ -399,7 +440,9 @@
 	)
 
 	; check to see if we have a nested list of predicates; if we do, we'll try to tree-recurse
-	(if (listp (car preds))
+	(if (and (listp (car preds))
+		(not (id-pred-list? (car preds)))
+		)
 		; tree-recurse with the head token.
 		; if it's not also a list, the recursive case will handle that
 		; (as well as consuming any stars from this list, on the offchance)
@@ -468,18 +511,25 @@
 
 (defun sent-punct? (x)
 (or
-	(funcall (id? '?) x)
-	(funcall (id? '!) x)
+	;(funcall (id? '?) x)
+	;(funcall (id? '!) x)
+	(equal x '?)
+	(equal x '!)
 )
 )
 
 (defun sent-reifier? (x)
 (or
-	(funcall (id? 'that) x)
-	(funcall (id? 'tht) x)
-	(funcall (id? 'whether) x)
-	(funcall (id? 'ans-to) x)
-	(funcall (id? 'KE) x)
+	;(funcall (id? 'that) x)
+	;(funcall (id? 'tht) x)
+	;(funcall (id? 'whether) x)
+	;(funcall (id? 'ans-to) x)
+	;(funcall (id? 'KE) x)
+	(equal x 'that)
+	(equal x 'tht)
+	(equal x 'whether)
+	(equal x 'ans-to)
+	(equal x 'KE)
 )
 )
 

@@ -1,5 +1,6 @@
 (load "parse.lisp")
 (load "real_util.lisp")
+(load "ll-cache.lisp")
 
 ; Example canonical story
 (defparameter *CANON-STORY*
@@ -67,7 +68,8 @@
 )
 
 (defun special-str (x)
-	(not (null (member x *KEYWORDS* :test #'equal)))
+	; (not (null (member x *KEYWORDS* :test #'equal)))
+	(gethash x *KEYWORDS-MAP*)
 )
 
 (defun typecheck (x)
@@ -102,11 +104,13 @@
 )
 
 (defun canon-small-individual? (x)
+(and (symbolp x)
 (or
 	(lex-skolem? x)
 	(lex-pronoun? x)
 	(lex-name? x)
-	(and (not (special-str x)) (alphanum-str? (format nil "~s" x)))
+	(and (not (special-str x)) (alphanum-str? (string x)))
+)
 )
 )
 

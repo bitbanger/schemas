@@ -405,9 +405,10 @@
 )
 
 (defun dbg (tag fmt-str &rest args)
-	(if (or *DBG-ALL* (member tag *DBG-TAGS*))
-		(apply #'format (append (list t fmt-str) args))
-	)
+	;(if (or *DBG-ALL* (member tag *DBG-TAGS*))
+	;	(apply #'format (append (list t fmt-str) args))
+	;)
+	nil
 )
 
 (defun ht-eq (ht1 ht2)
@@ -527,7 +528,8 @@ is replaced with replacement."
             while pos)))
 
 (defun concat-two-strs (str1 str2)
-	(format nil "~d~d" str1 str2)
+	; (format nil "~d~d" str1 str2)
+	(concatenate 'string str1 str2)
 )
 
 (defun concat-strs (&rest strs)

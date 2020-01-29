@@ -948,3 +948,14 @@
 	(load-time-model story-time-props)
 )
 )
+
+(defun invokes-schema? (phi)
+; TODO: extend to non-atomic props?
+(let ((pred (if (canon-atomic-prop? phi) (prop-pred phi) nil)))
+	(and
+		(not (null pred))
+		(boundp pred)
+		(schema? (eval pred))
+	)
+)
+)

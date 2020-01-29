@@ -311,7 +311,7 @@
 		; (format t "story matches: ~s~%" story-matches)
 		(format t "story matches:~%")
 		(loop for sm in story-matches
-			do (format t "~s confirmed, ~s contradiction~s:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
+			do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
 			do (print-schema (car sm))
 		)
 

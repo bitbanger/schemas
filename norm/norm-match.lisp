@@ -279,11 +279,7 @@
 					(return-from check-constr)
 				)
 
-				(if (and (boundp (prop-pred phi))
-					(schema? (eval (prop-pred phi)))
-					; TODO: break this down for booleans
-					(canon-atomic-prop? phi)
-					)
+				(if (invokes-schema? phi)
 					; then
 					(progn
 						; (format t "evaluating nested schema ~s~%" phi)

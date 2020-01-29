@@ -189,7 +189,9 @@
 		(:Episode-relations
 			(!w1 (?e1 same-time ?e))
 			(!w2 (?i1 precond-of ?e))
-			(!w3 (?p1 postcond-of ?e))
+			(!w3 (?i2 precond-of ?e))
+			(!w4 (?i3 precond-of ?e))
+			(!w5 (?p1 postcond-of ?e))
 		)
 	)
 )

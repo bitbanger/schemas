@@ -212,6 +212,7 @@
 					; (format t "applied bindings ~s~%" (ht-to-str go-match))
 
 					; Make sure the full matched sentence 
+					(if nil (block replace-with-story-sent
 					(setf new-steps (list ':Steps))
 					(loop for s in (cdr (get-section go-match-schema ':Steps)) do (block fix-steps
 						(if (and (canon-charstar? phi) (equal (third phi) (car s)))
@@ -221,6 +222,10 @@
 							(setf new-steps (append new-steps (list s)))
 					)))
 					(setf go-match-schema (set-section go-match-schema ':Steps new-steps))
+					))
+
+
+
 
 					; (format t "all constraints to add: ~s~%" constraints)
 

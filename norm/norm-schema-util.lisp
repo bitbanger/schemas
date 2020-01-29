@@ -552,6 +552,7 @@
 	(intersection (schema-vars schema1) (schema-vars schema2) :test #'equal)
 )
 
+; NOTE: this works on lists of schemas, too
 (defun uniquify-shared-vars (schema1 schema2)
 (block outer
 	(setf shared (shared-vars schema1 schema2))
@@ -567,6 +568,39 @@
 	)
 
 	(return-from outer (list sc1 sc2))
+)
+)
+
+(defun uniquify-shared-vars-chain (schemas)
+(block outer
+	(if (equal 1 (length schemas))
+		(return-from outer schemas)
+	)
+
+	; get shared vars for all schemas
+	(setf processed (list (car schemas) (second schemas)))
+	(setf shared (shared-vars (car schemas) (second schemas)))
+	(loop for schema in (cddr schemas) do (block lss
+		(setf shared (shared-vars processed schemas))
+		(setf processed (append processed (list schema)))
+	))
+
+	; give each schema a unique suffix for its shared vars
+	(setf new-schemas (list))
+	(loop for schema in schemas for i from 1
+		do (block ns-loop
+			(setf new-schema schema)
+
+		   (loop for sv in shared do (block rename-block
+			(setf new-var (intern (format nil "~s_~d" sv i)))
+			(setf new-schema (replace-vals sv new-var new-schema))
+			))
+
+			(setf new-schemas (append new-schemas (list new-schema)))
+		)
+	)
+
+	(return-from outer new-schemas)
 )
 )
 
@@ -830,11 +864,53 @@
 )
 )
 
-(defun topsort-steps (schema)
+(defun topsort-steps (schemas)
 (block outer
-	(setf ep-ids (mapcar #'car (section-formulas (get-section schema ':Steps))))
+	(setf ep-ids
+		(loop for schema in schemas
+			append (mapcar #'car (section-formulas (get-section schema ':Steps)))
+		)
+	)
+
+	(return-from outer (topsort-eps schemas ep-ids))
+)
+)
+
+(defun topsort-fluents (schemas)
+(block outer
+	(setf ep-ids
+		(loop for schema in schemas
+			append (loop for sec in (fluent-sections schema)
+			 append (mapcar #'car (section-formulas sec))
+			)
+		)
+	)
+
+	(setf ep-ids (append ep-ids
+		(loop for schema in schemas
+			collect (third (second schema))
+		)
+	))
+
+	(return-from outer (topsort-eps schemas ep-ids))
+)
+)
+
+(defun topsort-eps (schemas unfiltered-ep-ids)
+(block outer
 	; (format t "ep IDs: ~s~%" ep-ids)
-	(load-time-model (mapcar #'second (section-formulas (get-section schema ':Episode-relations))))
+	(setf all-ep-rels
+		(loop for schema in schemas
+			append (mapcar #'second (section-formulas (get-section schema ':Episode-relations)))
+		)
+	)
+
+	(load-time-model all-ep-rels)
+
+	(setf ep-ids (loop for ep-id in unfiltered-ep-ids
+		if (has-element all-ep-rels ep-id)
+			collect ep-id
+	))
 
 	(setf time-graph (make-hash-table :test #'equal))
 	(loop for ep-id in ep-ids do (setf (gethash ep-id time-graph) (list)))
@@ -856,7 +932,7 @@
 (defun sort-steps (schema)
 (block outer
 	(setf steps (section-formulas (get-section schema ':Steps)))
-	(setf sorted-step-ids (topsort-steps schema))
+	(setf sorted-step-ids (topsort-steps (list schema)))
 	(setf sorted-steps (sort (copy-seq steps) (lambda (x y) (< (position x sorted-step-ids) (position y sorted-step-ids))) :key #'car))
 	(setf new-steps-sec (append (list ':Steps) sorted-steps))
 	(return-from outer (set-section schema ':Steps new-steps-sec))
@@ -954,8 +1030,83 @@
 (let ((pred (if (canon-atomic-prop? phi) (prop-pred phi) nil)))
 	(and
 		(not (null pred))
+		(not (member 'can.md (prop-mods phi) :test #'equal))
 		(boundp pred)
 		(schema? (eval pred))
+	)
+)
+)
+
+(defun get-char-form (ep-id schemas)
+(block outer
+(loop for schema in schemas do (block inner
+	; first, check the header
+	(if (equal (third (second schema)) ep-id)
+		(return-from outer (car (second schema)))
+	)
+
+	; then check all fluent sections
+	(loop for sec in (fluent-sections schema)
+		do (loop for form in (section-formulas sec)
+			if (equal ep-id (car form))
+				do (return-from outer (second form))
+		)
+	)
+
+))
+
+; give up
+(return-from outer nil)
+)
+)
+
+; TODO: safe multi-level expansion. How to prevent loops? Just stop at duplicates, maybe?
+(defun expand-nested-schemas (parent-schema)
+(block outer
+	(setf invoked-schemas (list))
+
+	(loop for st in (section-formulas (get-section parent-schema ':Steps))
+		do (block get-invokers
+			(if (not (invokes-schema? (second st)))
+				; then
+				(progn
+				(format t "~s doesn't invoke~%" (second st))
+				(return-from get-invokers)
+				)
+			)
+
+			(format t "invoked ~s~%" (prop-pred (second st)))
+
+			(setf invoked-schema (eval (prop-pred (second st))))
+			(setf invoked-schema (second (uniquify-shared-vars parent-schema invoked-schema)))
+
+			(setf header-bindings (third (unify-with-schema (list (second st) '** (car st)) invoked-schema nil)))
+			(setf invoked-schema-bound (apply-bindings invoked-schema header-bindings))
+
+
+			(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema-bound))))
+		)
+	)
+
+	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas))
+
+	 ;(format t "invoked schemas are:~%")
+	 ;(loop for is in invoked-schemas
+	;	do (print-schema (second is))
+	;)
+
+	(setf all-schemas (append (list parent-schema) (mapcar #'second invoked-schemas)))
+
+	(setf sorted-ep-ids (topsort-fluents all-schemas))
+
+	(setf sorted-eps
+		(loop for ep-id in sorted-ep-ids
+			collect (get-char-form ep-id all-schemas)))
+
+	(format t "predicted full story, in order:~%")
+	(loop for ep in sorted-eps
+			for ep-id in sorted-ep-ids
+		do (format t "	~a~s~%" (if (not (varp ep-id)) "		(known from story)" "") ep)
 	)
 )
 )

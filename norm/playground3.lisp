@@ -71,7 +71,7 @@
 
 ;(format t "word preds: ~s~%" (get-word-preds story))
 
-(format t "protoschemas are ~s~%" *PROTOSCHEMAS*)
+; (format t "protoschemas are ~s~%" *PROTOSCHEMAS*)
 
 ; Preload all Wordnet hypernym ladders for the
 ; story and for all schemas in two big batch
@@ -84,7 +84,7 @@
 (batch-cache-preload-wordnet-hyps all-schema-words)
 
 (setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
-(format t "best schemas are ~s~%" best-schemas)
+; (format t "best schemas are ~s~%" best-schemas)
 
 (load-story-time-model story)
 
@@ -169,6 +169,9 @@
 					; if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
+
+		(format t "story 1: ~s~%" raw-story)
+
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
 		(setf story-matches (list))
 		(loop for m-pair in (run-matcher story *PROTOSCHEMAS*)
@@ -243,12 +246,13 @@
 							(format t "new schema is ~s~%" new-schema)
 							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
 							(set (second (car (second new-schema))) new-schema)
-							(format t "new schema (~s) is ~s~%" (second (car (second new-schema))) act_on.v)
+							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
+							;(format t "LEARNED NEW SCHEMA:~%")
 
-							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
-							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match1)))))))))
-							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match2)))))))))
-							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match1)))))))))
+							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match2)))))))))
+							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
 
 
 
@@ -277,15 +281,16 @@
 ; (setf *DBG-TAGS* '(match))
 ; (setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (mapcar (lambda (x) (second (car (second x)))) new-schemas)))
 (setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (list 'ACT_ON.V)))
-(format t "phase 2 schemas: ~s~%" *PROTOSCHEMAS*)
+; (format t "phase 2 schemas: ~s~%" *PROTOSCHEMAS*)
 
 		(setf next-story 
 			(loop for sent in (parse-story (second *DEV-STORY-SENTS*))
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					if (canon-prop? wff) do (format t "~s~%" wff)
+					; if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
+		(format t "story 2: ~s~%" (second *DEV-STORY-SENTS*))
 		(load-story-time-model next-story)
 
 		(setf story-matches nil)
@@ -309,13 +314,17 @@
 			)
 		)
 		; (format t "story matches: ~s~%" story-matches)
-		(format t "story matches:~%")
-		(loop for sm in story-matches
-			do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
-			do (print-schema (car sm))
-		)
+		;(format t "story matches:~%")
+		;(loop for sm in story-matches
+		;	do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
+		;	do (print-schema (car sm))
+		;)
 
-(setf act-on-match (car story-matches))
+(setf act-on-match (car (car story-matches)))
+
+(format t "got act on match ~s~%" act-on-match)
+
+(expand-nested-schemas act-on-match)
 
 
 

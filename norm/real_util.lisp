@@ -360,8 +360,16 @@
 )
 )
 
+(defun rechashtable (data)
+	(sxhash (append (list 'rechashtable-ht-sentinel (sort (loop for k being the hash-keys of data collect (rechash (list k (gethash k data)))) #'<))))
+)
+
 (defun rechash (data)
 (cond
+	((hash-table-p data)
+		(rechashtable data)
+	)
+
 	((not (listp data))
 		(sxhash data))
 
@@ -373,6 +381,10 @@
 
 (defun unordered-rechash (data)
 (cond
+	((hash-table-p data)
+		(rechashtable data)
+	)
+
 	((not (listp data))
 		(sxhash data))
 

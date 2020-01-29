@@ -4,6 +4,7 @@
 ; OPT: a cache for all preds, similar to the cache in (defun mp)
 
 (load "real_util.lisp")
+(load "ll-cache.lisp")
 
 (defparameter *KEYWORD-PREDS* '(
 	=
@@ -47,6 +48,10 @@
 )
 
 (defun has-ext? (x e)
+	(ll-cache 'uc-has-ext? (list x e) 512)
+)
+
+(defun uc-has-ext? (x e)
 (let (
 	(strx (if (symbolp x) (string x) nil))
 )
@@ -511,8 +516,8 @@
 
 (defun sent-punct? (x)
 (or
-	;(funcall (id? '?) x)
-	;(funcall (id? '!) x)
+	;(funcall (list 'id? '?) x)
+	;(funcall (list 'id? '!) x)
 	(equal x '?)
 	(equal x '!)
 )
@@ -520,11 +525,11 @@
 
 (defun sent-reifier? (x)
 (or
-	;(funcall (id? 'that) x)
-	;(funcall (id? 'tht) x)
-	;(funcall (id? 'whether) x)
-	;(funcall (id? 'ans-to) x)
-	;(funcall (id? 'KE) x)
+	;(funcall (list 'id? 'that) x)
+	;(funcall (list 'id? 'tht) x)
+	;(funcall (list 'id? 'whether) x)
+	;(funcall (list 'id? 'ans-to) x)
+	;(funcall (list 'id? 'KE) x)
 	(equal x 'that)
 	(equal x 'tht)
 	(equal x 'whether)
@@ -535,7 +540,7 @@
 
 (defun get-sent-subj (x)
 	(cond
-		((mp x (list 'no-ep-sent? (id? '**) 'lex-ep-ref?)) (get-sent-subj (car x)))
+		((mp x (list 'no-ep-sent? (list 'id? '**) 'lex-ep-ref?)) (get-sent-subj (car x)))
 		((mp x (list 'term? 'verb?)) (car x))
 		((mp x (list 'term? 'lex-verb? 'term?)) (car x))
 		((mp x (list 'term? 'lex-modal? 'verb?)) (car x))
@@ -546,7 +551,7 @@
 
 (defun get-sent-verb (x)
 	(cond
-		((mp x (list 'no-ep-sent? (id? '**) 'lex-ep-ref?)) (get-sent-verb (car x)))
+		((mp x (list 'no-ep-sent? (list 'id? '**) 'lex-ep-ref?)) (get-sent-verb (car x)))
 		((mp x (list 'term? 'verb?)) (second x))
 		((mp x (list 'term? 'lex-verb? 'term?)) (second x))
 		((mp x (list 'term? 'lex-modal? 'verb?)) (third x))
@@ -559,7 +564,7 @@
 ; in these rules and auto-generate getters/setters
 (defun replace-sent-subj (x new-subj)
 	(cond
-		((mp x (list 'no-ep-sent? (id? '**) 'lex-ep-ref?)) (list (replace-sent-subj (car x) new-subj) '** (third x)))
+		((mp x (list 'no-ep-sent? (list 'id? '**) 'lex-ep-ref?)) (list (replace-sent-subj (car x) new-subj) '** (third x)))
 		((mp x (list 'term? 'verb?)) (list new-subj (second x)))
 		((mp x (list 'term? 'lex-verb? 'term?)) (list new-subj (second x) (third x)))
 		((mp x (list 'term? 'lex-modal? 'verb?)) (list new-subj (second x) (third x)))
@@ -577,7 +582,7 @@
 	(mp x (list 'adv-a? 'term? 'verb?)) ; action adverb, subject, verb
 	(mp x (list 'lex-modal? 'no-ep-sent?)) ; a modal elevated to the sentence level
 
-	;(mp x (list 'term? (id? '=) 'term?)) ; equality
+	;(mp x (list 'term? (list 'id? '=) 'term?)) ; equality
 	; (mp x (list 'sent? 'lex-coord? 'sent?+))
 )
 )
@@ -603,7 +608,7 @@
 		(return-from outer nil)
 	)
 
-	;(mp x (list 'term? (id? '=) 'term?)) ; equality
+	;(mp x (list 'term? (list 'id? '=) 'term?)) ; equality
 	; (mp x (list 'sent? 'lex-coord? 'sent?+))
 )
 )
@@ -621,7 +626,7 @@
 
 	; TODO: optimize this so it doesn't parse twice
 	; TODO: or, instead, just figure out how to get mp to do transductions
-	;(if (mp x (list 'no-ep-sent? (id? '**) 'ep?))
+	;(if (mp x (list 'no-ep-sent? (list 'id? '**) 'ep?))
 	;	(return-from outer (normalize-sent (first x)))
 	;)
 
@@ -638,7 +643,7 @@
 
 (defun char-wff? (x)
 (or
-	(mp x (list 'unchar-wff? (id? '**) 'lex-ep-ref?))
+	(mp x (list 'unchar-wff? (list 'id? '**) 'lex-ep-ref?))
 )
 )
 
@@ -725,7 +730,7 @@
 (defun sent? (x)
 (or
 	(no-ep-sent? x)
-	;(mp x (list 'no-ep-sent? (id? '**) 'any?)) ; allow characterization of a variable
+	;(mp x (list 'no-ep-sent? (list 'id? '**) 'any?)) ; allow characterization of a variable
 	(mp x (list 'sent? 'sent-punct?))
 )
 )
@@ -750,7 +755,7 @@
 (defun adv-a? (x)
 (or
 	(lex-adv-a? x)
-	(mp x (list (id? 'adv-a) 'pred?))
+	(mp x (list (list 'id? 'adv-a) 'pred?))
 	(mp x (list 'adv-a? 'lex-coord? 'adv-a?+))
 )
 )
@@ -758,7 +763,7 @@
 (defun adv-s? (x)
 (or
 	(lex-adv-s? x)
-	(mp x (list (id? 'adv-s) 'pred?))
+	(mp x (list (list 'id? 'adv-s) 'pred?))
 	(mp x (list 'adv-s? 'lex-coord? 'adv-s?+))
 )
 )
@@ -766,7 +771,7 @@
 (defun adv-e? (x)
 (or
 	(lex-adv-e? x)
-	(mp x (list (id? 'adv-e) 'pred?))
+	(mp x (list (list 'id? 'adv-e) 'pred?))
 	(mp x (list 'adv-e? 'lex-coord? 'adv-e?+))
 )
 )
@@ -774,7 +779,7 @@
 (defun adv-f? (x)
 (or
 	(lex-adv-f? x)
-	(mp x (list (id? 'adv-f) 'pred?))
+	(mp x (list (list 'id? 'adv-f) 'pred?))
 	(mp x (list 'adv-f? 'lex-coord? 'adv-f?+))
 )
 )
@@ -819,7 +824,7 @@
 
 (defun lambda? (x)
 (or
-	(mp x (list (id? 'L) 'ent-list? 'pred?))
+	(mp x (list (list 'id? 'L) 'ent-list? 'pred?))
 )
 )
 
@@ -862,7 +867,7 @@
 (or
 	(lex-noun? x)
 	(lambda? x)
-	(mp x (list (id? 'plur) 'noun?))
+	(mp x (list (list 'id? 'plur) 'noun?))
 	(mp x (list 'adj? 'noun?))
 	(mp x (list 'noun? 'lex-coord? 'noun?+))
 	(mp x (list 'noun? 'noun?))
@@ -884,15 +889,15 @@
 )
 
 (defun kind-of-noun? (x)
-	(mp x (list (id? 'K) 'noun?))
+	(mp x (list (list 'id? 'K) 'noun?))
 )
 
 (defun kind-of-action? (x)
-	(mp x (list (id? 'KA) 'verb?))
+	(mp x (list (list 'id? 'KA) 'verb?))
 )
 
 (defun kind-of-event? (x)
-	(mp x (list (id? 'KE) 'verb?))
+	(mp x (list (list 'id? 'KE) 'verb?))
 )
 
 (defun kind? (x)
@@ -961,5 +966,5 @@
 )
 
 (defun el-lambda? (x)
-	(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'el-prop?))
+	(mp x (list (list 'id? 'LAMBDA.EL) 'ent-list? 'el-prop?))
 )

@@ -50,13 +50,14 @@
 
 (defun run-matcher (story schemas)
 (block outer
-	(setf rm-result nil)
-	(sb-sprof:with-profiling (:max-samples 10000
-							  :max-depth 3
-							  :mode :alloc
-							  :report :graph)
-		(setf rm-result (uninstrumented-run-matcher story schemas)))
-	(return-from outer rm-result)
+	;(setf rm-result nil)
+	;(sb-sprof:with-profiling (:max-samples 10000
+	;						  :max-depth 3
+	;						  :mode :alloc
+	;						  :report :graph)
+	;	(setf rm-result (uninstrumented-run-matcher story schemas)))
+	;(return-from outer rm-result)
+	(return-from outer (uninstrumented-run-matcher story schemas))
 )
 )
 
@@ -88,6 +89,7 @@
 (load-story-time-model story)
 
 (setf matches (make-hash-table :test #'equal))
+(setf match-scores (make-hash-table :test #'equal))
 
 ;(format t "scores:~%")
 ;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
@@ -130,6 +132,7 @@
 			; (format t "~%~%~%")
 
 			(setf (gethash protoschema matches) match)
+			(setf (gethash protoschema match-scores) best-score)
 		)
 	)
 
@@ -142,7 +145,9 @@
 ;)
 )
 
-	(return-from outer (loop for k being the hash-keys of matches collect (gethash k matches)))
+	(return-from outer (loop for k being the hash-keys of matches collect
+		(list (gethash k matches) (gethash k match-scores))
+	))
 
 )
 )
@@ -166,8 +171,10 @@
 		)
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
 		(setf story-matches (list))
-		(loop for m in (run-matcher story *PROTOSCHEMAS*)
+		(loop for m-pair in (run-matcher story *PROTOSCHEMAS*)
 			do (block vet-matches
+				(setf m (car m-pair))
+				(setf score (second m-pair))
 				(if (and
 						(or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
 						(not (varp (third (second m))))
@@ -283,18 +290,20 @@
 
 		(setf story-matches nil)
 		; (setf *PROTOSCHEMAS* (list 'ACT_ON.V))
-		(loop for m in (run-matcher next-story (list 'ACT_ON.V))
+		(loop for m-pair in (run-matcher next-story (list 'ACT_ON.V))
 			do (block vet-matches
+				(setf m (car m-pair))
+				(setf score (second m-pair))
 				(if (and
 						(or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
 						(not (varp (third (second m))))
 					)
 					; then
-					(setf story-matches (append story-matches (list m)))
+					(setf story-matches (append story-matches (list (list m score))))
 					; else
 					(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
 						; then
-						(setf story-matches (append story-matches (list m)))
+						(setf story-matches (append story-matches (list (list m score))))
 					)
 				)
 			)

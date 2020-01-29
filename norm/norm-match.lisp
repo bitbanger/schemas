@@ -248,11 +248,19 @@
 )
 
 (defun check-constraints (schema story)
-	; (uncached-check-constraints schema story)
-	(ll-cache 'uncached-check-constraints (list schema story) 5)
+	(check-constraints-helper schema story (make-hash-table :test #'equal))
 )
 
-(defun uncached-check-constraints (schema story)
+(defun check-constraints-helper (schema story checked)
+	; (uncached-check-constraints schema story)
+	(ll-cache 'uncached-check-constraints (list schema story checked) 5)
+)
+
+(defun uncached-check-constraints (schema story checked)
+	(uncached-check-constraints-helper schema story checked)
+)
+
+(defun uncached-check-constraints (schema story checked)
 (block outer
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))
@@ -304,24 +312,28 @@
 						; (format t "got result ~s~%" header-bindings)
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
 						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
-						(setf nest-score (check-constraints nested-schema-bound story))
+						(setf nest-score (check-constraints-helper nested-schema-bound story checked))
 						; (format t "score of ~s for nested schema ~s~%" nest-score nested-schema-name)
 						(setf true-count (+ true-count (car nest-score)))
 						(setf untrue-count (+ untrue-count (second nest-score)))
 					)
 				)
 
-				(if (eval-prop phi story-kb)
+				; don't double-count anything, esp. in nested schemas
+				(if (null (gethash phi checked))
 					; then
 					(progn
-						(setf true-count (+ true-count 1))
-						; (format t "	true: ~s~%" phi)
-					)
-					; else
-					(progn
-						; (format t "time model: ~s~%" *TIME-MODEL*)
-						(setf untrue-count (+ untrue-count 1))
-						; (format t "	untrue: ~s~%" phi)
+						(if (eval-prop phi story-kb)
+							; then
+							(setf true-count (+ true-count 1))
+							; (format t "	true: ~s~%" phi)
+
+							; else
+							; (format t "time model: ~s~%" *TIME-MODEL*)
+							(setf untrue-count (+ untrue-count 1))
+							; (format t "	untrue: ~s~%" phi)
+						)
+						(setf (gethash phi checked) t)
 					)
 				)
 			)

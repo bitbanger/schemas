@@ -85,21 +85,21 @@
 
 (defun canon-lambda? (x)
 (or
-	;(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
-	;(mp x (list (id? 'L) 'ent-list? 'canon-prop?))
-	(mp x (list (id? 'LAMBDA.EL) 'ent-list? 'any?))
-	(mp x (list (id? 'L) 'ent-list? 'any?))
+	;(mp x (list (list 'id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
+	;(mp x (list (list 'id? 'L) 'ent-list? 'canon-prop?))
+	(mp x (list (list 'id? 'LAMBDA.EL) 'ent-list? 'any?))
+	(mp x (list (list 'id? 'L) 'ent-list? 'any?))
 )
 )
 
 (defun canon-kind? (x)
 (or
 	; TODO: restrictions on VP/non-VP preds for KA/K?
-	(mp x (list (id? 'K) 'canon-pred?))
-	(mp x (list (id? 'K) 'canon-pred? 'canon-individual?+))
-	(mp x (list (id? 'KA) 'canon-pred?))
-	(mp x (list (id? 'KA) 'canon-pred? 'canon-individual?+))
-	(mp x (list (id? 'KE) 'canon-prop?))
+	(mp x (list (list 'id? 'K) 'canon-pred?))
+	(mp x (list (list 'id? 'K) 'canon-pred? 'canon-individual?+))
+	(mp x (list (list 'id? 'KA) 'canon-pred?))
+	(mp x (list (list 'id? 'KA) 'canon-pred? 'canon-individual?+))
+	(mp x (list (list 'id? 'KE) 'canon-prop?))
 )
 )
 
@@ -122,16 +122,16 @@
 	(mp x (list 'lex-fn? 'canon-individual?+)) ; can a function have
 											   ; 0 args?
 	(mp x (list 'lex-p-arg? 'canon-individual?))
-	(mp x (list (id? 'THAT) 'canon-prop?))
-	(mp x (list (id? 'SET-OF) 'canon-individual?+))
+	(mp x (list (list 'id? 'THAT) 'canon-prop?))
+	(mp x (list (list 'id? 'SET-OF) 'canon-individual?+))
 )
 )
 
 (defun canon-attr? (x)
 (or
 	(equal x 'PLUR)
-	(mp x (list (id? 'ATTR) 'canon-pred?))
-	(mp x (list (id? 'NN) 'canon-pred?))
+	(mp x (list (list 'id? 'ATTR) 'canon-pred?))
+	(mp x (list (list 'id? 'NN) 'canon-pred?))
 	(lex-attr-pred? x)
 )
 )
@@ -185,20 +185,20 @@
 	(lex-modal? x)
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
-	(mp x (list (id? 'ADV-A) 'canon-pred-or-mod?+))
-	(mp x (list (id? 'ADV-E) 'canon-pred-or-mod?+))
-	(mp x (list (id? 'ADV-S) 'canon-pred-or-mod?+))
-	(mp x (list (id? 'ADV-F) 'canon-pred-or-mod?+))
-	(mp x (list (id? ':R) 'canon-pred-or-mod?+))
-	(mp x (list (id? 'ATTR) 'canon-pred-or-mod?))
-	(mp x (list (id? 'NN) 'canon-pred-or-mod?))
+	(mp x (list (list 'id? 'ADV-A) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-F) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? ':R) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ATTR) 'canon-pred-or-mod?))
+	(mp x (list (list 'id? 'NN) 'canon-pred-or-mod?))
 )
 )
 
 (defun canon-charstar? (x)
 (or
-	(mp x (list 'canon-prop? (id? '*) 'canon-individual?))
-	(mp x (list 'canon-prop? (id? '**) 'canon-individual?))
+	(mp x (list 'canon-prop? (list 'id? '*) 'canon-individual?))
+	(mp x (list 'canon-prop? (list 'id? '**) 'canon-individual?))
 )
 )
 
@@ -220,10 +220,10 @@
 	(canon-atomic-prop? x)
 
 	; Boolean combinations
-	(mp x (list (id? 'NOT) 'canon-prop?))
-	(mp x (list (id? 'OR) 'canon-prop?+))
-	(mp x (list (id? 'AND) 'canon-prop?+))
-	(mp x (list (id? 'IF) 'canon-prop? 'canon-prop?))
+	(mp x (list (list 'id? 'NOT) 'canon-prop?))
+	(mp x (list (list 'id? 'OR) 'canon-prop?+))
+	(mp x (list (list 'id? 'AND) 'canon-prop?+))
+	(mp x (list (list 'id? 'IF) 'canon-prop? 'canon-prop?))
 )
 )
 

@@ -1,7 +1,8 @@
 (load "parse.lisp")
 (load "norm-el.lisp")
 (load "real_util.lisp")
-(load "norm-wordnet.lisp")
+; (load "norm-wordnet.lisp")
+(load "trial-wn.lisp")
 
 (defparameter *MOVEMENT-PREDS* '(
 	go.v
@@ -73,6 +74,17 @@
 		(return-from outer t)
 	)
 
+	; ...Or if they're synonyms
+	(if (or
+			(member schema-pred (wordnet-synonyms story-pred) :test #'equal)
+			(member story-pred (wordnet-synonyms schema-pred) :test #'equal))
+		; then
+		(progn
+		; (format t "~s and ~s are synonyms~%" schema-pred story-pred)
+		(return-from outer t)
+		)
+	)
+
 	; If the story pred is a specification of the schema pred,
 	; then schema subsumes story
 	; TODO: proper hierarchy for inheritance
@@ -139,8 +151,14 @@
 	; subsumption at this point
 
 	; Check WordNet hypernym hierarchy
-	(if (not (null (member wn-schema-pred (wordnet-hypernyms wn-story-pred))))
+	;(if (not (null (member wn-schema-pred (wordnet-hypernyms wn-story-pred))))
+	;	(return-from outer t)
+	;)
+	(if (has-element (wordnet-hypernyms wn-story-pred) wn-schema-pred)
+		(progn
+		;(format t "~s in hypernyms of ~s~%" wn-schema-pred wn-story-pred)
 		(return-from outer t)
+		)
 	)
 
 	; Default case: no subsumption

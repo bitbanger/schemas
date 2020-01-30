@@ -76,12 +76,12 @@
 ; Preload all Wordnet hypernym ladders for the
 ; story and for all schemas in two big batch
 ; calls
-(batch-cache-preload-wordnet-hyps (get-single-word-preds story))
+; (batch-cache-preload-wordnet-hyps (get-single-word-preds story))
 (setf all-schema-words (list))
 (loop for schema in *PROTOSCHEMAS*
 	do (setf all-schema-words (union all-schema-words (get-word-preds (eval schema)) :test #'equal))
 )
-(batch-cache-preload-wordnet-hyps all-schema-words)
+; (batch-cache-preload-wordnet-hyps all-schema-words)
 
 (setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
 ; (format t "best schemas are ~s~%" best-schemas)

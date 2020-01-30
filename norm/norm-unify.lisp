@@ -106,7 +106,6 @@
 	; (format t "bindings are no1 ~s~%" (ht-to-str bindings))
 
 	; step 4: compare the preds (w/ postfix args).
-	; TODO: actual subsumption check w/ ontology? Synonyms? etc.
 
 	; We need to "package" the preds up to curry all postfix args
 	; in, in case they were serialized into the proposition.

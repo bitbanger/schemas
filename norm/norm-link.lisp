@@ -48,11 +48,11 @@
 
 						; (allen-how schema-post-ep schema-pre-ep)
 
-						(setf pre (second pre-pair))
 						(setf post (second post-pair))
+						(setf pre (second pre-pair))
 						; (format t "matching pre ~s and post ~s~%" pre post)
 						(setf post-bindings (unify post pre nil schema-post nil))
-						(setf pre-bindings (unify post pre nil schema-post nil))
+						(setf pre-bindings (unify pre post nil schema-pre nil))
 						;(format t "post-bindings are ~s~%" (ht-to-str post-bindings))
 						;(format t "pre-bindings are ~s~%" (ht-to-str pre-bindings))
 
@@ -60,7 +60,7 @@
 							; then
 							(progn
 							; (format t "matched pre ~s and post ~s~%" pre post)
-							(return-from outer (list post-bindings pre-bindings pre post))
+							(return-from outer (list post-bindings pre-bindings post pre))
 							)
 						)
 					)

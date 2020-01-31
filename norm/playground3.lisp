@@ -234,8 +234,8 @@
 						(if (not (null link-bindings))
 							(progn
 							; (format t "matched ~s and ~s~%" (third link-bindings) (fourth link-bindings))
-							(format t "post bindings are ~s~%" (ht-to-str (car link-bindings)))
-							(format t "post bindings are ~s~%" (ht-to-str (second link-bindings)))
+							; (format t "post bindings are ~s~%" (ht-to-str (car link-bindings)))
+							; (format t "pre bindings are ~s~%" (ht-to-str (second link-bindings)))
 							(if (not (null (car link-bindings)))
 								(setf match1 (apply-bindings match1 (car link-bindings)))
 							)

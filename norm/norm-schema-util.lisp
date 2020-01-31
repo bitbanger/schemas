@@ -571,7 +571,7 @@
 )
 )
 
-(defun uniquify-shared-vars-chain (schemas)
+(defun uniquify-shared-vars-chain (schemas except-in)
 (block outer
 	(if (equal 1 (length schemas))
 		(return-from outer schemas)
@@ -584,6 +584,9 @@
 		(setf shared (shared-vars processed schemas))
 		(setf processed (append processed (list schema)))
 	))
+
+	(setf in-exception-vars (shared-vars processed except-in))
+	(setf shared (set-difference shared in-exception-vars))
 
 	; give each schema a unique suffix for its shared vars
 	(setf new-schemas (list))
@@ -1128,7 +1131,7 @@
 		)
 	)
 
-	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas))
+	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas parent-schema))
 
 	 ;(format t "invoked schemas are:~%")
 	 ;(loop for is in invoked-schemas

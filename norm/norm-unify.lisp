@@ -22,6 +22,25 @@
 )
 )
 
+(defun merge-bindings (b1 b2)
+(block outer
+	(if (null b1) (return-from outer b2))
+	(if (null b2) (return-from outer b1))
+
+	(setf b3 (make-hash-table :test #'equal))
+	(loop for k being the hash-keys of b1
+		do (setf (gethash k b3) (gethash k b1))
+	)
+	(loop for k being the hash-keys of b2
+		if (not (and
+			(not (null (gethash (gethash k b2) b3)))
+			(equal (gethash (gethash k b2) b3) k)))
+			; then
+			do (setf (gethash k b3) (gethash k b2))
+	)
+)
+)
+
 (defun unify (schema story old-bindings whole-schema whole-story)
 (block outer
 	(if (null old-bindings)
@@ -73,6 +92,16 @@
 	(setf schema-pred (prop-pred schema))
 	(setf schema-post-args (prop-post-args schema))
 	(setf schema-mods (prop-mods schema))
+
+	(if (not (equal
+				(has-element-pred schema-mods 'lex-modal?)
+				(has-element-pred story-mods 'lex-modal?)))
+		; then
+		(progn
+		(dbg 'unify "cannot unify props ~s and ~s (different modal environments)~%" schema story)
+		(return-from outer nil)
+		)
+	)
 
 	; step 3: compare the prefix args.
 	(if (not (equal (length schema-pre-args) (length story-pre-args)))
@@ -412,6 +441,18 @@
 										   ; failure is usually OK (but should lower score)
 		)
 	)
+	(if (not (equal
+		(has-element-pred schema-mods 'lex-modal?)
+		(has-element-pred story-mods 'lex-modal?)))
+		
+		; then
+		(progn
+		(dbg 'unify "modifier lists cannot be unified (different modal environments)~%")
+		(return-from outer (list nil nil)) ; this one should actually return a null hash map,
+										   ; to cause a failure. the others don't because this
+										   ; failure is usually OK (but should lower score)
+		)
+	)
 
 	(setf tmp-bindings (ht-copy bindings))
 	(loop for schema-mod in schema-mods do (block umods-outer
@@ -498,6 +539,9 @@ bind-pred
 			; (format t "~d mod bindings~%" (length mod-bindings))
 			(setf mod-bound (car mod-bindings))
 			(setf mod-bindings (second mod-bindings))
+			(if (null mod-bindings)
+				(return-from outer nil)
+			)
 			; (format t "working with mod bindings ~s~%" mod-bindings)
 
 			; For now, we'll allow the modifiers to not be matched.
@@ -586,6 +630,9 @@ bind-pred
 		)
 		; else
 		(if (and
+				nil ; NOTE: disabled for now to move this functionality
+				; info norm-match, where more specific header matches
+				; take priority & nest the general step
 				(not (equal schema-pred story-pred))
 				(lex-metapred? schema-pred)
 			)
@@ -614,25 +661,42 @@ bind-pred
 
 	; Unify all arguments & accumulate bindings.
 	(setf tmp-bindings (ht-copy bindings))
+	(setf bound-schema-args (list))
+	(setf bound-story-args (list))
 	(loop for schema-arg in schema-args
-		for story-arg in story-args
+		do (loop for story-arg in story-args
 			do (block uargs
-				(setf tmp-bindings (unify-individuals schema-arg story-arg tmp-bindings whole-schema whole-story))
-				(if (null tmp-bindings)
+				(if (or
+					(member schema-arg bound-schema-args :test #'equal)
+					(member story-arg bound-story-args :test #'equal))
+					; then
+					(return-from uargs)
+				)
+
+				(setf tmp-bindings2 (unify-individuals schema-arg story-arg tmp-bindings whole-schema whole-story))
+				(if (null tmp-bindings2)
 					; then
 					(progn
-					(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify arguments)~%" schema story)
-					(return-from outer nil)
+					;(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify arguments)~%" schema story)
+					;(return-from outer nil)
+					)
+					; else
+					(progn
+					(setf bound-schema-args (append bound-schema-args (list schema-arg)))
+					(setf bound-story-args (append bound-story-args (list story-arg)))
+					(setf tmp-bindings tmp-bindings2)
 					)
 				)
 			)
+	))
+	(if (not (null tmp-bindings))
+		(setf bindings tmp-bindings)
 	)
-	(setf bindings tmp-bindings)
 
 
 	; Unify all schema modifiers with some modifiers from the
 	; story predicate & accumulate bindings.
-	(setf tmp-bindings (unify-mod-lists schema-mods story-mods tmp-bindings whole-schema whole-story))
+	(setf tmp-bindings (unify-mod-lists schema-mods story-mods bindings whole-schema whole-story))
 	(if (null tmp-bindings)
 		(progn
 		(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify all modifiers in the former with any in the latter)~%" schema story)

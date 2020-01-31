@@ -13,7 +13,7 @@
 (load "dev-frs.lisp")
 (load "monkey-processed.lisp")
 
-;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
+;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
 ;(print-schema (car kite-gen-schema))
 
 ; (setf story *PARSED-MONKEY-STORY*)

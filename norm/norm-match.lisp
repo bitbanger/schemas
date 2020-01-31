@@ -66,6 +66,7 @@
 			(block uni
 				(dbg 'match "		schema ~s~%" (second formula))
 				(setf new-bindings (unify (second formula) phi nil schema story))
+
 				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))
 
 				; Bind episodes to formula IDs as well
@@ -124,6 +125,7 @@
 	(setf test-schema in-schema)
 
 	(setf bound-header nil)
+	(setf bound-header-form nil)
 
 	(setf all-bindings (make-hash-table :test #'equal))
 	(setf total-matches 0)
@@ -142,13 +144,43 @@
 	))
 
 
+	(setf header-bound-form nil)
+	(if bound-header
+		(loop for phi in story-formulas
+			if (and (canon-charstar? phi) (equal (third phi) (third (second test-schema))))
+				do (setf header-bound-form (car phi)))
+	)
+
+	(if (and
+			(not (null header-bound-form))
+			(not (equal
+				(prop-pred header-bound-form)
+				(prop-pred (car (second in-schema)))))
+			(subsumes
+				(prop-pred (car (second in-schema)))
+				(prop-pred header-bound-form))
+		)
+		; then
+		; (format t "bound ~s to header ~s~%" header-bound-form (car (second in-schema)))
+		(block replace-schema-name
+			; If we match a more specific predicate from the story
+			; to a more general one in the schema, we'll replace the name
+			(setf old-name (prop-pred (car (second in-schema))))
+			(setf new-name (prop-pred header-bound-form))
+			(setf test-schema (replace-vals old-name new-name test-schema))
+		)
+	)
+
+
 
 
 	(dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
 	(dbg 'match "total matches: ~s~%" total-matches)
 
 	(setf gen-match (generalize-schema-constants test-schema))
+
 	(setf new-name (new-schema-match-name (second (car (second test-schema)))))
+
 	(setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
 	(setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
 	(setf test-schema (set-header test-schema new-match-header))
@@ -313,10 +345,25 @@
 						; (format t "got result ~s~%" header-bindings)
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
 						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
+						(setf old-checked-count (hash-table-count checked))
 						(setf nest-score (check-constraints-helper nested-schema-bound story checked))
+						(setf new-checked-count (hash-table-count checked))
 						; (format t "score of ~s for nested schema ~s~%" nest-score nested-schema-name)
-						(setf true-count (+ true-count (car nest-score)))
-						(setf untrue-count (+ untrue-count (second nest-score)))
+
+						; There's a (probably cache-related) bug where the count
+						; can increase for a nested call even if no new formulas
+						; are checked, so we'll prevent that here by making sure
+						; each point is accounted for.
+						(if (equal
+							(- new-checked-count old-checked-count)
+							(+ (car nest-score) (second nest-score)))
+							; then
+							(progn
+								(setf true-count (+ true-count (car nest-score)))
+								(setf untrue-count (+ untrue-count (second nest-score)))
+							)
+						)
+						
 					)
 				)
 

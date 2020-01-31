@@ -11,7 +11,7 @@
 (load "norm-time.lisp")
 (load "parsed-stories.lisp")
 
-;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
+;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
 ;(print-schema (car kite-gen-schema))
 
 (setf story *MONKEY-STORY-2*)

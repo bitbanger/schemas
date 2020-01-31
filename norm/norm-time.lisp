@@ -77,11 +77,11 @@
 	)
 	(
 		precond-of
-		(m o)
+		(p m)
 	)
 	(
 		postcond-of
-		(oi mi)
+		(pi mi)
 	)
 ))
 )

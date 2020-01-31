@@ -382,7 +382,8 @@
 		(return-from outer (list
 			(list 'THAT (car prop)) ; prefix args (reified prop)
 			(second prop) ; predicate (* or **)
-			(third prop))) ; postfix args (char'd episode)
+			(third prop) ; postfix args (char'd episode)
+			nil)) ; no mods
 	)
 
 	; special case: strip nots

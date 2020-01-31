@@ -18,7 +18,7 @@
 (load "dev-story-sents.lisp")
 (load "schema-parser.lisp")
 
-;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* go_somewhere.v t))
+;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
 ;(print-schema (car kite-gen-schema))
 
 ; (setf story *PARSED-MONKEY-STORY*)
@@ -35,7 +35,7 @@
 
 
 
-(defparameter *NUM-SHUFFLES* 20)
+(defparameter *NUM-SHUFFLES* 30)
 (defparameter *TOP-K* 5)
 (defparameter *GENERALIZE* nil)
 (defparameter *RUN-MATCHER* t)
@@ -153,6 +153,7 @@
 )
 
 (setf new-schemas (list))
+(setf new-schema-names (list))
 
 (setf all-matches (list))
 ; (loop for story in ((lambda (x) (list (first x) (second x) (third x))) *DEV-FRS*)
@@ -166,7 +167,7 @@
 			(loop for sent in (parse-story raw-story)
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					; if (canon-prop? wff) do (format t "~s~%" wff)
+					if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 
@@ -194,7 +195,7 @@
 		)
 
 		(loop for match in story-matches do (progn
-			; (format t "match: ~s~%" (car (second match)))
+			(format t "match: ~s~%" (second match))
 			;(setf gen-match (generalize-schema-constants match))
 			;(setf new-name (new-schema-match-name (second (car (second match)))))
 			;(setf new-header (list (car (car (second gen-match))) new-name (cdr (car (second gen-match)))))
@@ -211,13 +212,22 @@
 			(loop for match1 in story-matches do
 				(loop for match2 in story-matches do
 					(block link-block
-						(if (equal match1 match2)
+						; don't link two things that have the same episode;
+						; they don't have a causal relationship!
+						(if (equal (third (second match1)) (third (second match2)))
 							; then
 							(return-from link-block)
 						)
 	
-						(if (link-schemas-onedir match1 match2)
+						(setf link-bindings (link-schemas-onedir match1 match2 story))
+						(if (not (null link-bindings))
 							(progn
+							(if (not (null (car link-bindings)))
+								(setf match1 (apply-bindings match1 (car link-bindings)))
+							)
+							(if (not (null (second link-bindings)))
+								(setf match2 (apply-bindings match2 (second link-bindings)))
+							)
 							; (format t "~s to enable ~s~%" (car (second match1)) (car (second match2)))
 							;(format t "~s~%" match1)
 							;(format t "~s~%" match2)
@@ -244,7 +254,12 @@
 							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e2 'cause.v '?E3)))
 							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'during '?E3)))
 							; (format t "new schema is ~s~%" new-schema)
+
+							(setf new-schema-name (new-schema-match-name 'act_on.v))
+							(setf new-schema (replace-vals 'act_on.v new-schema-name new-schema))
+
 							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
+							(setf new-schema-names (append new-schema-names (list new-schema-name)))
 							(set (second (car (second new-schema))) new-schema)
 							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
 							(format t "LEARNED NEW SCHEMA:~%")
@@ -279,15 +294,15 @@
 
 
 ; (setf *DBG-TAGS* '(match))
-; (setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (mapcar (lambda (x) (second (car (second x)))) new-schemas)))
-(setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (list 'ACT_ON.V)))
+(setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* new-schema-names))
+; (setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* (list 'ACT_ON.V)))
 ; (format t "phase 2 schemas: ~s~%" *PROTOSCHEMAS*)
 
 		(setf next-story 
 			(loop for sent in (parse-story (second *DEV-STORY-SENTS*))
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					; if (canon-prop? wff) do (format t "~s~%" wff)
+					if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 		(format t "story 2: ~s~%" (second *DEV-STORY-SENTS*))
@@ -314,11 +329,11 @@
 			)
 		)
 		; (format t "story matches: ~s~%" story-matches)
-		;(format t "story matches:~%")
-		;(loop for sm in story-matches
-		;	do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
-		;	do (print-schema (car sm))
-		;)
+		(format t "story matches:~%")
+		(loop for sm in story-matches
+			do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
+			do (print-schema (car sm))
+		)
 
 (setf act-on-match (car (car story-matches)))
 

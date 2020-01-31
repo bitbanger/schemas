@@ -5,7 +5,7 @@
 	use_tool.v
 	give_object.v
 	receiving_verb?
-	go_somewhere.v
+	travel.v
 	eat.v
 	feed_someone.v
 	play_for_fun.v
@@ -325,8 +325,8 @@
 	)
 )
 
-(defparameter go_somewhere.v
-	'(epi-schema ((?x go_somewhere.v ?l1 ?l2) ** ?e)
+(defparameter travel.v
+	'(epi-schema ((?x travel.v (from.p-arg ?l1) ?l2) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?l1 location.n))
@@ -344,16 +344,6 @@
 			(?i2 (not (?x at.p ?l2)))
 		)
 
-		(:Steps
-			; Lots of ways to paraphrase this...
-			; TODO: implement "optional" p-args like from
-			; TODO: automatic synonym detection
-			; TODO: separate active take vs. passive receive?
-			(?e1 (?x ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) movement_verb.v))))
-			(?e2 (?x ((adv-a (to.p ?l2)) movement_verb.v)))
-			(?e3 (?x ((adv-a (from.p ?l1)) movement_verb.v)))
-		)
-
 		(:Postconds
 			;(?p1 (not (?x ((adv-a (at.p ?l1)) be.v))))
 			;(?p2 (?x ((adv-a (at.p ?l2)) be.v)))
@@ -362,13 +352,13 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?i1 before ?e1))
-			(!w2 (?i2 before ?e1))
-			(!w3 (?p1 after ?e1))
-			(!w4 (?p2 after ?e1))
-			(!w5 (?g1 cause.v ?e1))
-			(!w6 (?e2 same-time ?e1))
-			(!w7 (?e3 same-time ?e1))
+			(!w1 (?i1 before ?e))
+			(!w2 (?i2 before ?e))
+			(!w3 (?p1 after ?e))
+			(!w4 (?p2 after ?e))
+			(!w5 (?g1 cause.v ?e))
+			(!w6 (?e2 same-time ?e))
+			(!w7 (?e3 same-time ?e))
 		)
 	)
 )

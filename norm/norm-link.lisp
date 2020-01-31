@@ -26,7 +26,10 @@
 		)
 	)
 
-	(load-time-model (append story-time-props all-ep-rels))
+	; (format t "time model: ~s~%" (append story-time-props all-ep-rels))
+	(handler-case (load-time-model (append story-time-props all-ep-rels))
+		(error () (return-from outer nil))
+	)
 
 
 	; (format t "trying to link ~s and ~s~%" (second schema-post) (second schema-pre))
@@ -35,23 +38,30 @@
 	(loop for post-pair in (section-formulas (get-section schema-post ':Postconds))
 		do (loop for pre-pair in (section-formulas (get-section schema-pre ':Preconds))
 			do (block match-conds
-				; (format t "comparing ~s and ~s~%" schema-post-ep schema-pre-ep)
 				(if
 					; NOTE: this "precond-of" only means Allen time rel (p m),
 					; and doesn't do any causation testing.
-					(not (eval-time-prop (list schema-post-ep 'after schema-pre-ep)))
+					; (not (eval-time-prop (list schema-post-ep 'after schema-pre-ep)))
+					(eval-time-prop (list schema-post-ep 'precond-of schema-pre-ep))
 					; then
 					(block check-pre-post
+
+						; (allen-how schema-post-ep schema-pre-ep)
+
 						(setf pre (second pre-pair))
 						(setf post (second post-pair))
 						; (format t "matching pre ~s and post ~s~%" pre post)
 						(setf post-bindings (unify post pre nil schema-post nil))
 						(setf pre-bindings (unify post pre nil schema-post nil))
-						; (format t "post-bindings are ~s~%" (ht-to-str post-bindings))
-						; (format t "pre-bindings are ~s~%" (ht-to-str pre-bindings))
+						;(format t "post-bindings are ~s~%" (ht-to-str post-bindings))
+						;(format t "pre-bindings are ~s~%" (ht-to-str pre-bindings))
 
 						(if (or (or (not (null post-bindings)) (not (null pre-bindings))) (equal pre post))
-							(return-from outer (list post-bindings pre-bindings))
+							; then
+							(progn
+							; (format t "matched pre ~s and post ~s~%" pre post)
+							(return-from outer (list post-bindings pre-bindings pre post))
+							)
 						)
 					)
 				)

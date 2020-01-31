@@ -22,6 +22,7 @@
 	PRECOND-OF
 	SAME-TIME
 	RIGHT-AFTER
+	STRICTLY-BEFORE
 ))
 
 ; TODO: give these extensions

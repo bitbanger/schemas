@@ -84,7 +84,7 @@
 ; (batch-cache-preload-wordnet-hyps all-schema-words)
 
 (setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
-; (format t "best schemas are ~s~%" best-schemas)
+(format t "best schemas are ~s~%" best-schemas)
 
 (load-story-time-model story)
 
@@ -101,7 +101,9 @@
 	;	(return-from match-proto)
 	;)
 
-	(setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
+	(loop for best-match-res-pair in (top-k-story-schema-matches story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE* 2) do (block process-each
+
+	; (setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
 	(setf best-match-res (car best-match-res-pair))
 	(setf best-score (car best-match-res-pair))
 	(setf best-match (second best-match-res-pair))
@@ -131,10 +133,11 @@
 			; (print-schema (gen-clean match))
 			; (format t "~%~%~%")
 
-			(setf (gethash protoschema matches) match)
-			(setf (gethash protoschema match-scores) best-score)
+			(setf (gethash protoschema matches) (append (gethash protoschema matches) (list match)))
+			(setf (gethash protoschema match-scores) (append (gethash protoschema match-scores) (list best-score)))
 		)
 	)
+	))
 
 	; (format t "bindings: ~s~%" (ht-to-str best-bindings))
 
@@ -145,8 +148,11 @@
 ;)
 )
 
-	(return-from outer (loop for k being the hash-keys of matches collect
-		(list (gethash k matches) (gethash k match-scores))
+	(return-from outer (loop for k being the hash-keys of matches append
+		(loop for match in (gethash k matches)
+				for match-score in (gethash k match-scores)
+			collect (list match match-score))
+		; (list (gethash k matches) (gethash k match-scores))
 	))
 
 )
@@ -175,7 +181,9 @@
 
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
 		(setf story-matches (list))
+		(setf matchcnt 0)
 		(loop for m-pair in (run-matcher story *PROTOSCHEMAS*)
+			do (setf matchcnt (+ 1 matchcnt))
 			do (block vet-matches
 				(setf m (car m-pair))
 				(setf score (second m-pair))
@@ -189,10 +197,13 @@
 					(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
 						; then
 						(setf story-matches (append story-matches (list m)))
+						; else
+						(format t "ignoring match ~s~%" (second m))
 					)
 				)
 			)
 		)
+		(format t "~s matches~%" matchcnt)
 
 		(loop for match in story-matches do (progn
 			(format t "match: ~s~%" (second match))
@@ -222,6 +233,9 @@
 						(setf link-bindings (link-schemas-onedir match1 match2 story))
 						(if (not (null link-bindings))
 							(progn
+							; (format t "matched ~s and ~s~%" (third link-bindings) (fourth link-bindings))
+							(format t "post bindings are ~s~%" (ht-to-str (car link-bindings)))
+							(format t "post bindings are ~s~%" (ht-to-str (second link-bindings)))
 							(if (not (null (car link-bindings)))
 								(setf match1 (apply-bindings match1 (car link-bindings)))
 							)

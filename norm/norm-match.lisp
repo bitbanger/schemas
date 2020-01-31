@@ -393,11 +393,17 @@
 )
 
 (defun best-story-schema-match (story schema num_shuffles generalize)
+	(car (top-k-story-schema-matches story schema num_shuffles generalize 1))
+)
+
+(defun top-k-story-schema-matches (story schema num_shuffles generalize k)
 (block outer
 	; (dbg 'match "matching to schema ~s~%" schema)
 	(setf best-score '(0 0))
 	(setf best-match nil)
 	(setf best-bindings nil)
+
+	(setf all-matches (list))
 
 	(setf linear-story (linearize-story story))
 
@@ -414,7 +420,7 @@
 		(setf cur-match (car cur-match-triple))
 		(setf cur-bindings (second cur-match-triple))
 		(setf bound-header (third cur-match-triple))
-		
+
 		
 		;(print-schema cur-match)
 		
@@ -431,6 +437,13 @@
 
 		(setf score-pair (check-constraints cur-match story))
 		; (format t "score pair is ~s~%" score-pair)
+
+		
+		(if (null (member (list score-pair cur-match cur-bindings bound-header) all-matches :test (lambda (a b) (ht-eq (third a) (third b)))))
+			; then
+			(setf all-matches (append all-matches (list (list score-pair cur-match cur-bindings bound-header))))
+		)
+
 
 		(setf valid-score (car score-pair))
 		(setf invalid-score (second score-pair))
@@ -459,39 +472,33 @@
 		(setf linear-story (shuffle linear-story))
 	))
 
-	; print all small inds in schema
-	(if generalize
-		; then
-		(block gen-block
-			(setf story-formulas (linearize-story story))
-			(setf all-small-inds (list))
-			(loop for sec in (nonmeta-sections best-match)
-				do (block ll1
-					(loop for phi in (mapcar #'second (section-formulas sec))
-						do (block ll2
-							(setf small-inds (extract-small-individuals phi))
-							(setf all-small-inds (remove-duplicates (union small-inds all-small-inds)))
-						)
-					)
-				)
+	(setf sorted-matches (sort all-matches
+		(lambda (a b)
+		(block lb
+			(setf a-valid (car (car a)))
+			(setf a-invalid (second (car a)))
+			(setf a-bound-header (fourth a))
+			(setf b-valid (car (car b)))
+			(setf b-invalid (second (car b)))
+			(setf b-bound-header (fourth b))
+
+			(if (and a-bound-header (not b-bound-header)) (return-from lb t))
+			(if (and b-bound-header (not a-bound-header)) (return-from lb nil))
+
+			(setf a-better (< a-invalid b-invalid))
+			(if (and (equal a-invalid b-invalid) (> a-valid b-valid))
+				(setf a-better t)
 			)
 
-			(setf gen-cursor "?A")
-			(loop for si in all-small-inds do (block gen-block-2
-				; (format t "small ind: ~s~%" si)
-				; Advance the cursor until it's no longer in the schema.
-				; We'll assume all underscore-prefixed variable names will
-				; be added here and only here, and thus in order.
-				(loop while (has-element best-match (intern gen-cursor))
-					do (setf gen-cursor (next-str gen-cursor))
-				)
-
-				(setf best-match (replace-vals si (intern gen-cursor) best-match))
-				(setf gen-cursor (next-str gen-cursor))
-			))
+			(return-from lb a-better)
 		)
-	)
+		)
+	))
+	; (format t "sorted matches are ~s~%" (loop for x in sorted-matches collect (list (car x) (second x) (ht-to-str (third x)) (fourth x))))
 
-	(return-from outer (list best-score best-match best-bindings))
+	; (format t "return val is ~s~%" (mapcar (lambda (x) (subseq x 0 3)) (subseq-safe sorted-matches 0 k)))
+
+	; (return-from outer (list best-score best-match best-bindings))
+	(return-from outer (mapcar (lambda (x) (subseq x 0 3)) (subseq-safe sorted-matches 0 k)))
 )
 )

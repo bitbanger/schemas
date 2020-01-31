@@ -1162,10 +1162,15 @@
 		))
 
 
+	(format t "sorted eps: ~s~%" sorted-eps)
+	(format t "all role consts: ~s~%" all-role-consts)
 	(format t "predicted entity types:~%")
 	(loop for role-const in all-role-consts
 		if (and
-				(not (has-element-pred role-const 'varp))
+				(or
+					(not (has-element-pred role-const 'varp))
+					(has-element sorted-eps (car role-const))
+				)
 				(not (member role-const (linearize-story story) :test #'equal))
 			)
 			do (format t "	~s~%" (el-to-english role-const))

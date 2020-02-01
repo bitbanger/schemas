@@ -1133,10 +1133,10 @@
 
 	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas parent-schema))
 
-	 ;(format t "invoked schemas are:~%")
-	 ;(loop for is in invoked-schemas
-	;	do (print-schema (second is))
-	;)
+	 (format t "invoked subordinate schemas are:~%")
+	 (loop for is in invoked-schemas
+		do (print-schema (second is))
+	)
 
 	(setf all-schemas (append (list parent-schema) (mapcar #'second invoked-schemas)))
 
@@ -1165,9 +1165,9 @@
 		))
 
 
-	(format t "sorted eps: ~s~%" sorted-eps)
-	(format t "all role consts: ~s~%" all-role-consts)
-	(format t "predicted entity types:~%")
+	; (format t "sorted eps: ~s~%" sorted-eps)
+	; (format t "all role consts: ~s~%" all-role-consts)
+	; (format t "predicted entity types:~%")
 	(loop for role-const in all-role-consts
 		if (and
 				(or

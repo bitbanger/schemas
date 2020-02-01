@@ -222,6 +222,7 @@
 			; then
 			(loop for match1 in story-matches do
 				(loop for match2 in story-matches do
+					(loop for match3 in story-matches do
 					(block link-block
 						; don't link two things that have the same episode;
 						; they don't have a causal relationship!
@@ -229,18 +230,29 @@
 							; then
 							(return-from link-block)
 						)
+						(if (equal (third (second match2)) (third (second match3)))
+							; then
+							(return-from link-block)
+						)
 	
-						(setf link-bindings (link-schemas-onedir match1 match2 story))
-						(if (not (null link-bindings))
+						(setf link-bindings-1 (link-schemas-onedir match1 match2 story))
+						(setf link-bindings-2 (link-schemas-onedir match2 match3 story))
+						(if (and (not (null link-bindings-1)) (not (null link-bindings-2)))
 							(progn
 							; (format t "matched ~s and ~s~%" (third link-bindings) (fourth link-bindings))
 							; (format t "post bindings are ~s~%" (ht-to-str (car link-bindings)))
 							; (format t "pre bindings are ~s~%" (ht-to-str (second link-bindings)))
-							(if (not (null (car link-bindings)))
-								(setf match1 (apply-bindings match1 (car link-bindings)))
+							(if (not (null (car link-bindings-1)))
+								(setf match1 (apply-bindings match1 (car link-bindings-1)))
 							)
-							(if (not (null (second link-bindings)))
-								(setf match2 (apply-bindings match2 (second link-bindings)))
+							(if (not (null (second link-bindings-1)))
+								(setf match2 (apply-bindings match2 (second link-bindings-1)))
+							)
+							(if (not (null (car link-bindings-2)))
+								(setf match2 (apply-bindings match2 (car link-bindings-2)))
+							)
+							(if (not (null (second link-bindings-2)))
+								(setf match3 (apply-bindings match3 (second link-bindings-2)))
 							)
 							; (format t "~s to enable ~s~%" (car (second match1)) (car (second match2)))
 							;(format t "~s~%" match1)
@@ -257,16 +269,18 @@
 
 							(setf new-schema (list 'epi-schema (list new-schema-header '** '?e) (list ':Steps)))
 
-							(setf new-schema (add-constraint new-schema ':Steps (list 'not (list (car (car (second match2))) (list 'can.md (cdr (car (second match2))))))))
+							; (setf new-schema (add-constraint new-schema ':Steps (list 'not (list (car (car (second match2))) (list 'can.md (cdr (car (second match2))))))))
 							(setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match1)) (third (second match1))))
-							(setf new-schema (add-constraint new-schema ':Steps (list (car (car (second match2))) (list 'can.md (cdr (car (second match2)))))))
+							; (setf new-schema (add-constraint new-schema ':Steps (list (car (car (second match2))) (list 'can.md (cdr (car (second match2)))))))
 							(setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match2)) (third (second match2))))
+							(setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match3)) (third (second match3))))
 
-							(setf new-e2 (third (second match1)))
-							(setf new-e4 (third (second match2)))
-							(setf new-schema (add-constraint new-schema ':Episode-relations (list '?E1 'before new-e2)))
-							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e2 'cause.v '?E3)))
-							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'during '?E3)))
+							(setf new-e1 (third (second match1)))
+							(setf new-e2 (third (second match2)))
+							(setf new-e3 (third (second match3)))
+							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e1 'before new-e2)))
+							(setf new-schema (add-constraint new-schema ':Episode-relations (list new-e2 'before new-e3)))
+							; (setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'before new-e3)))
 							; (format t "new schema is ~s~%" new-schema)
 
 							(setf new-schema-name (new-schema-match-name 'act_on.v))
@@ -297,7 +311,7 @@
 
 							)
 						)
-					)
+					))
 				)
 			)
 		)

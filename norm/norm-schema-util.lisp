@@ -1133,7 +1133,7 @@
 
 	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas parent-schema))
 
-	 (format t "invoked subordinate schemas are:~%")
+	 ; (format t "invoked subordinate schemas are:~%")
 	 (loop for is in invoked-schemas
 		do (print-schema (second is))
 	)

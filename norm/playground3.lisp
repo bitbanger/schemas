@@ -173,7 +173,7 @@
 			(loop for sent in (parse-story raw-story)
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					if (canon-prop? wff) do (format t "~s~%" wff)
+					; if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 
@@ -330,7 +330,7 @@
 			(loop for sent in (parse-story (second *DEV-STORY-SENTS*))
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					if (canon-prop? wff) do (format t "~s~%" wff)
+					; if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 		(format t "story 2: ~s~%" (second *DEV-STORY-SENTS*))
@@ -357,11 +357,11 @@
 			)
 		)
 		; (format t "story matches: ~s~%" story-matches)
-		(format t "story matches:~%")
-		(loop for sm in story-matches
-			do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
-			do (print-schema (car sm))
-		)
+		; (format t "story matches:~%")
+		; (loop for sm in story-matches
+			; do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
+			; do (print-schema (car sm))
+		; )
 
 (setf act-on-match (car (car story-matches)))
 

@@ -74,6 +74,11 @@
 		(return-from outer t)
 	)
 
+	; ...Or if the story pred has attrs over the schema pred.
+	(if (equal schema-pred (pred-base story-pred))
+		(return-from outer t)
+	)
+
 	; ...Or if they're synonyms
 	(if (or
 			(member schema-pred (wordnet-synonyms story-pred) :test #'equal)

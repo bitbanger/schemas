@@ -1068,13 +1068,28 @@
 (block outer
 	(setf prop (copy-list in-prop))
 
+	(setf doctored nil)
+
 	(if (and
 			(equal 2 (length prop))
-			; (not (equal (car prop) 'NOT))
+			(or
+				(not (equal (car prop) 'NOT))
+				(and (equal (car prop) 'NOT)
+					(equal 2 (length (second prop)))
+					(not (has-element-pred (second prop) 'lex-verb?)))
+			)
 			(not (has-element-pred prop 'lex-verb?))
 		)
 		; then
-		(setf prop (list (car prop) 'IS (second prop)))
+		(progn
+		(if (equal (car prop) 'NOT)
+			; then
+			(setf prop (list (car (second prop)) 'IS 'NOT (second (second prop))))
+			; else
+			(setf prop (list (car prop) 'IS (second prop)))
+		)
+		(setf doctored t)
+		)
 	)
 
 	(if (and
@@ -1085,10 +1100,32 @@
 			(setf prop (second prop))
 			(setf verb (car (get-elements-pred prop 'lex-verb?)))
 			(setf prop (replace-vals verb (list 'NOT verb) prop))
+			(setf doctored t)
 		)
 	)
 
-	(return-from outer (flatten prop))
+
+	(if (null doctored)
+		(progn
+		(setf prop (prop-args-pred-mods prop))
+		)
+	)
+
+	; Reformat all ka-preds to have mods last
+	(loop for ka in (get-elements-pred (copy-list prop) 'kind-of-action?)
+		; do (format t "replacing ~s with ~s~%" ka (cdr (prop-args-pred-mods (list 'LL-SENTINEL.NAME (second ka)))))
+		do (setf prop (replace-vals ka (list 'ka (cdr (prop-args-pred-mods (list 'LL-SENTINEL.NAME (second ka))))) prop))
+	)
+
+	; (setf prop (prop-args-pred-mods prop))
+	(setf prop (flatten prop))
+	(setf prop (replace-vals 'KA 'TO prop))
+	; (setf prop (remove-if 'lex-adv? prop))
+	(setf prop (remove-if
+		(lambda (x) (member x '(ADV-A ADV-E ADV-S ADV-F ADV nil) :test #'equal))
+		prop))
+
+	(return-from outer prop)
 )
 )
 
@@ -1134,9 +1171,9 @@
 	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas parent-schema))
 
 	 ; (format t "invoked subordinate schemas are:~%")
-	 (loop for is in invoked-schemas
-		do (print-schema (second is))
-	)
+	 ; (loop for is in invoked-schemas
+		; do (print-schema (second is))
+	; )
 
 	(setf all-schemas (append (list parent-schema) (mapcar #'second invoked-schemas)))
 
@@ -1167,22 +1204,52 @@
 
 	; (format t "sorted eps: ~s~%" sorted-eps)
 	; (format t "all role consts: ~s~%" all-role-consts)
-	; (format t "predicted entity types:~%")
+
+	(setf all-vars (get-elements-pred all-role-consts 'varp))
+	(setf var-renames (make-hash-table :test #'equal))
+	(loop for v in all-vars
+		do (block rename
+			(setf const-types (loop for const in all-role-consts if (and (symbolp (second const)) (equal (car const) v)) collect (second const)))
+			; (format t "types for ~s: ~s~%" v const-types)
+			(setf chosen-type (car const-types))
+			(setf new-name (intern (car (split-str (string (new-skolem! (intern (car (split-str (string chosen-type) "."))))) "."))))
+			; (format t "new name is ~s~%" new-name)
+			(if (has-element sorted-eps v)
+				; then
+				(progn
+					(setf (gethash v var-renames) new-name)
+					; (setf sorted-eps (replace-vals v new-name sorted-eps))
+					; (setf all-role-consts (replace-vals v new-name sorted-eps))
+				)
+			)
+		)
+	)
+	(loop for v being the hash-keys of var-renames
+		do (progn
+			(setf new-name (gethash v var-renames))
+			(setf sorted-eps (replace-vals v new-name sorted-eps))
+			(setf all-role-consts (replace-vals v new-name all-role-consts))
+		)
+	)
+
+	(format t "predicted entity types:~%")
 	(loop for role-const in all-role-consts
 		if (and
 				(or
 					(not (has-element-pred role-const 'varp))
-					(has-element sorted-eps (car role-const))
+					; (has-element sorted-eps (car role-const))
+					(loop for p in (get-elements-pred role-const 'varp)
+						always (has-element sorted-eps p))
 				)
 				(not (member role-const (linearize-story story) :test #'equal))
 			)
 			do (format t "	~s~%" (el-to-english role-const))
 	)
 
-	(format t "predicted full story, in order:~%")
+	(format t "I predict these steps in the story (in order):~%")
 	(loop for ep in sorted-eps
 			for ep-id in sorted-ep-ids
-		do (format t "~a ~a~%" (if (not (varp ep-id)) "(known from story)" "") (el-to-english ep))
+		do (format t "	~a ~a~%" (if (not (varp ep-id)) "(known from story) " "(schema prediction)") (el-to-english ep))
 	)
 )
 )

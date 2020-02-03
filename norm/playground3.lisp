@@ -84,7 +84,7 @@
 ; (batch-cache-preload-wordnet-hyps all-schema-words)
 
 (setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
-(format t "best schemas are ~s~%" best-schemas)
+; (format t "best schemas are ~s~%" best-schemas)
 
 (load-story-time-model story)
 

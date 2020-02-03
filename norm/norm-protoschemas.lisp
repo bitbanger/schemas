@@ -178,8 +178,8 @@
 
 		(:Preconds
 			(?i1 (not (?x have.v ?o)))
-			(?i2 (?x at.p ?l))
-			(?i3 (?o at.p ?l))
+			(?i2 (?x (at.p ?l)))
+			(?i3 (?o (at.p ?l)))
 		)
 
 		(:Postconds
@@ -340,15 +340,15 @@
 		(:Preconds
 			; (?i1 (?x ((adv-a (at.p ?l1)) be.v)))
 			; (?i2 (not (?x ((adv-a (at.p ?l2)) be.v))))
-			(?i1 (?x at.p ?l1))
-			(?i2 (not (?x at.p ?l2)))
+			(?i1 (?x (at.p ?l1)))
+			(?i2 (not (?x (at.p ?l2))))
 		)
 
 		(:Postconds
 			;(?p1 (not (?x ((adv-a (at.p ?l1)) be.v))))
 			;(?p2 (?x ((adv-a (at.p ?l2)) be.v)))
-			(?p1 (not (?x at.p ?l1)))
-			(?p2 (?x at.p ?l2))
+			(?p1 (not (?x (at.p ?l1))))
+			(?p2 (?x (at.p ?l2)))
 		)
 
 		(:Episode-relations

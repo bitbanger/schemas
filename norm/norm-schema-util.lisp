@@ -566,8 +566,13 @@
 
 ; NOTE: this works on lists of schemas, too
 (defun uniquify-shared-vars (schema1 schema2)
+	(uniquify-shared-vars-except schema1 schema2 nil)
+)
+
+(defun uniquify-shared-vars-except (schema1 schema2 except)
 (block outer
 	(setf shared (shared-vars schema1 schema2))
+	(setf shared (set-difference shared except :test #'equal))
 	(setf sc1 (copy-list schema1))
 	(setf sc2 (copy-list schema2))
 	(loop for var in shared
@@ -1155,7 +1160,13 @@
 (defun expand-nested-schema (invoker parent-schema)
 (block outer
 	(setf invoked-schema (eval (prop-pred (second invoker))))
+
 	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+
+	(setf identical-header-vars (shared-vars (list (second invoker) '** (car invoker)) (second invoked-schema)))
+	(loop for id in identical-header-vars
+		do (setf (gethash id header-bindings) id)
+	)
 
 	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
 			if (equal (car invoker) (second (car (second sc))))
@@ -1195,18 +1206,31 @@
 				)
 			)
 
+			(setf invoked-pair (expand-nested-schema st parent-schema))
+			(setf invoked-schema (apply-bindings (car invoked-pair) (second invoked-pair)))
 			; (format t "invoked ~s~%" (prop-pred (second st)))
+			; (print-schema invoked-schema)
+			(setf except-parent-vars (loop for k being the hash-keys of (second invoked-pair) if (varp (gethash k (second invoked-pair))) collect (gethash k (second invoked-pair))))
+			; (format t "rename shared vars except ~s~%" except-parent-vars)
 
-			(setf invoked-schema (eval (prop-pred (second st))))
-			(setf invoked-schema (second (uniquify-shared-vars parent-schema invoked-schema)))
+			(setf invoked-schema (second (uniquify-shared-vars-except parent-schema invoked-schema except-parent-vars)))
 
-			(setf header-bindings (third (unify-with-schema (list (second st) '** (car st)) invoked-schema nil)))
-			(setf invoked-schema-bound (apply-bindings invoked-schema header-bindings))
+			(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema))))
+
+			(format t "invoked ~s~%" invoked-schema)
+
+			;(setf invoked-schema (eval (prop-pred (second st))))
+			;(setf invoked-schema (second (uniquify-shared-vars parent-schema invoked-schema)))
+
+			;(setf header-bindings (third (unify-with-schema (list (second st) '** (car st)) invoked-schema nil)))
+			;(setf invoked-schema-bound (apply-bindings invoked-schema header-bindings))
 
 
-			(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema-bound))))
+			;(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema-bound))))
 		)
 	)
+
+	(format t "parent: ~s~%" parent-schema)
 
 	; Give each invoked schema a unique variable name, except for any variables shared
 	; with the parent schema; the initial pairwise uniquification above between each
@@ -1214,7 +1238,7 @@
 	; with the parent were the result of a unification, and thus truly cross the scope.
 	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas parent-schema))
 
-	(return-from outer invoked-schemas)
+	; (return-from outer invoked-schemas)
 
 	 ; (format t "invoked subordinate schemas are:~%")
 	 ; (loop for is in invoked-schemas
@@ -1239,6 +1263,16 @@
 		) :test #'equal)
 	)
 
+	;(setf all-role-vars (loop for rc in all-role-consts collect (car form)))
+	;(setf all-role-consts (append all-role-consts
+	;	(loop for wff in (linearize-story story)
+	;		if (and
+	;				(member (car wff) all-role-vars :test #'equal)
+	;				(not (canon-charstar? wff))
+	;				(equal 1 (length (prop-all-args wff)))
+	;			)
+	;			collect wff)))
+
 
 	(setf all-role-consts
 		(sort all-role-consts
@@ -1259,6 +1293,7 @@
 			; (format t "types for ~s: ~s~%" v const-types)
 			(setf chosen-type (car const-types))
 			(setf new-name (intern (car (split-str (string (new-skolem! (intern (car (split-str (string chosen-type) "."))))) "."))))
+			; (setf new-name (intern (concat-strs (car (split-str (string chosen-type) ".")) ".SK")))
 			; (format t "new name is ~s~%" new-name)
 			(if (has-element sorted-eps v)
 				; then
@@ -1287,7 +1322,7 @@
 					(loop for p in (get-elements-pred role-const 'varp)
 						always (has-element sorted-eps p))
 				)
-				(not (member role-const (linearize-story story) :test #'equal))
+				; (not (member role-const (linearize-story story) :test #'equal))
 			)
 			do (format t "	~s~%" (el-to-english role-const))
 	)

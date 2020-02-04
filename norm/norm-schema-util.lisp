@@ -170,8 +170,9 @@
 
 (defun nonmeta-sections (schema)
 	(loop for sec in (schema-sections schema)
-		if (or (equal (section-type sec) 'NONFLUENT)
+		if (and (or (equal (section-type sec) 'NONFLUENT)
 			   (equal (section-type sec) 'FLUENT))
+				(not (equal (car sec) ':Subordinate-constraints)))
 			; then
 			collect sec
 	)
@@ -268,6 +269,9 @@
 	)
 
 	(setf const-num (- (length (get-section schema sec-name)) 1))
+	(if (equal const-num -1)
+		(setf const-num 0)
+	)
 
 	(if (null new-const-id)
 		(setf new-const-id (intern (format nil "~a~d" (sec-formula-prefix sec-name) (+ const-num 1))))
@@ -424,7 +428,8 @@
 (defun extract-schema-small-individuals (schema)
 (block outer
 	(setf all-inds (list))
-	(loop for sec in (nonmeta-sections schema)
+	; (loop for sec in (nonmeta-sections schema)
+	(loop for sec in (schema-sections schema)
 		do (loop for phi in (mapcar #'second (section-formulas sec))
 			do (setf all-inds (remove-duplicates (append all-inds (extract-small-individuals phi)) :test #'equal))
 		)
@@ -501,7 +506,7 @@
 )
 )
 
-(defun generalize-schema-constants (schema)
+(defun cached-generalize-schema-constants (schema)
 	(ll-cache
 		'uncached-generalize-schema-constants
 		(list schema)
@@ -509,10 +514,15 @@
 	)
 )
 
-(defun uncached-generalize-schema-constants (schema)
+(defun generalize-schema-constants (schema)
+	(second (mapped-generalize-schema-constants schema))
+)
+
+(defun mapped-generalize-schema-constants (schema)
 (block outer
 	(setf gen-cursor "?X_A")
 	(setf gen-schema schema)
+	(setf gen-map (make-hash-table :test #'equal))
 	(loop for si in (extract-schema-small-individuals schema) do (block gen-block
 		; (format t "small ind ~s~%" si)
 		(loop for constr in (schema-term-constraints schema si)
@@ -537,10 +547,12 @@
 		)
 
 		(setf gen-schema (replace-vals si (intern gen-cursor) gen-schema))
+		; (setf (gethash si gen-map) (intern gen-cursor))
+		(setf (gethash (intern gen-cursor) gen-map) si)
 		(setf gen-cursor (next-str gen-cursor))
 	))
 
-	(return-from outer gen-schema)
+	(return-from outer (list gen-map gen-schema))
 )
 )
 
@@ -1036,6 +1048,7 @@
 		(not (member 'can.md (prop-mods phi) :test #'equal))
 		(boundp pred)
 		(schema? (eval pred))
+		; TODO: subsumption, not just boundp. Need index of known schemas
 	)
 )
 )
@@ -1139,6 +1152,33 @@
 	(clean-tags (flatten-prop prop))
 )
 
+(defun expand-nested-schema (invoker parent-schema)
+(block outer
+	(setf invoked-schema (eval (prop-pred (second invoker))))
+	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+
+	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
+			if (equal (car invoker) (second (car (second sc))))
+				do (block apply-subord
+					(setf key (remove-ext (car (car (second sc))) "<-"))
+					(setf val (third (second sc)))
+					; (setf (gethash key header-bindings) val)
+					(if (not (bind-if-unbound key val header-bindings))
+						(progn
+						(format t "WEIRD EXPANSION BUG: subordinate constraint ~s can't bind over existing bound value ~s~%" sc (gethash key header-bindings))
+						(format t "invoker is ~s~%" invoker)
+						(print-schema parent-schema)
+						(return-from outer nil)
+						)
+					)
+				)
+	)
+
+	; (setf invoked-schema-bound (apply-bindings invoked-schema header-bindings))
+
+	(return-from outer (list invoked-schema header-bindings))
+)
+)
 
 ; TODO: safe multi-level expansion. How to prevent loops? Just stop at duplicates, maybe?
 (defun expand-nested-schemas (parent-schema story)
@@ -1168,7 +1208,13 @@
 		)
 	)
 
+	; Give each invoked schema a unique variable name, except for any variables shared
+	; with the parent schema; the initial pairwise uniquification above between each
+	; subschema and the parent will have already ensured that any new shared variables
+	; with the parent were the result of a unification, and thus truly cross the scope.
 	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas parent-schema))
+
+	(return-from outer invoked-schemas)
 
 	 ; (format t "invoked subordinate schemas are:~%")
 	 ; (loop for is in invoked-schemas

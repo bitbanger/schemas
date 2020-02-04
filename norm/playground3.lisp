@@ -41,7 +41,7 @@
 (defparameter *RUN-MATCHER* t)
 
 ; (defparameter *ALL-SCHEMAS-PLAYGROUND* *PROTOSCHEMAS*)
-(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'receiving_verb? 'eat.v))
+(defparameter *ALL-SCHEMAS-PLAYGROUND* (list 'do_action_to_enable_action.v 'receiving_verb.? 'eat.v))
 
 
 (defun gen-clean (schema)
@@ -77,10 +77,10 @@
 ; story and for all schemas in two big batch
 ; calls
 ; (batch-cache-preload-wordnet-hyps (get-single-word-preds story))
-(setf all-schema-words (list))
-(loop for schema in *PROTOSCHEMAS*
-	do (setf all-schema-words (union all-schema-words (get-word-preds (eval schema)) :test #'equal))
-)
+; (setf all-schema-words (list))
+; (loop for schema in *PROTOSCHEMAS*
+	;do (setf all-schema-words (union all-schema-words (get-word-preds (eval schema)) :test #'equal))
+; )
 ; (batch-cache-preload-wordnet-hyps all-schema-words)
 
 (setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
@@ -173,7 +173,7 @@
 			(loop for sent in (parse-story raw-story)
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					; if (canon-prop? wff) do (format t "~s~%" wff)
+					if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 
@@ -207,6 +207,7 @@
 
 		(loop for match in story-matches do (progn
 			(format t "match: ~s~%" (second match))
+			(print-schema match)
 			;(setf gen-match (generalize-schema-constants match))
 			;(setf new-name (new-schema-match-name (second (car (second match)))))
 			;(setf new-header (list (car (car (second gen-match))) new-name (cdr (car (second gen-match)))))
@@ -330,7 +331,7 @@
 			(loop for sent in (parse-story (second *DEV-STORY-SENTS*))
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					; if (canon-prop? wff) do (format t "~s~%" wff)
+					if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
 		(format t "story 2: ~s~%" (second *DEV-STORY-SENTS*))
@@ -357,15 +358,16 @@
 			)
 		)
 		; (format t "story matches: ~s~%" story-matches)
-		; (format t "story matches:~%")
-		; (loop for sm in story-matches
-			; do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
-			; do (print-schema (car sm))
-		; )
+		(format t "story matches:~%")
+		(loop for sm in story-matches
+			do (format t "~s confirmed, ~s contradiction~a:~%" (car (second sm)) (second (second sm)) (if (= 1 (second (second sm))) "" "s"))
+			do (print-schema (car sm))
+		)
 
 (setf act-on-match (car (car story-matches)))
 
-; (format t "got act on match ~s~%" act-on-match)
+;(format t "got act on match:~%")
+;(print-schema act-on-match)
 
 (expand-nested-schemas act-on-match next-story)
 

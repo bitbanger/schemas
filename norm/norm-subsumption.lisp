@@ -62,21 +62,30 @@
 			)))
 		)
 		; else
-		(return-from outer nil)
+		(if (equal (length spl) 2)
+			; then
+			(return-from outer pred)
+			; else
+			(return-from outer nil)
+		)
 	)
 )
 )
 
 (defun subsumes (schema-pred story-pred)
+	(> (subsumption-score schema-pred story-pred) 0)
+)
+
+(defun subsumption-score (schema-pred story-pred)
 (block outer
 	; If they're equal, schema subsumes story
 	(if (equal schema-pred story-pred)
-		(return-from outer t)
+		(return-from outer 1.0)
 	)
 
 	; ...Or if the story pred has attrs over the schema pred.
 	(if (equal schema-pred (pred-base story-pred))
-		(return-from outer t)
+		(return-from outer 0.95)
 	)
 
 	; ...Or if they're synonyms
@@ -86,7 +95,7 @@
 		; then
 		(progn
 		; (format t "~s and ~s are synonyms~%" schema-pred story-pred)
-		(return-from outer t)
+		(return-from outer 0.9)
 		)
 	)
 
@@ -96,31 +105,31 @@
 	(if (and (not (null (get-schema-match-num story-pred)))
 			(equal (get-schema-match-name story-pred) schema-pred))
 		; then
-		(return-from outer t)
+		(return-from outer 0.9)
 	)
 
 	(if (and (equal schema-pred 'movement_verb.v)
 			(not (null (member story-pred *MOVEMENT-PREDS* :test #'equal))))
 		; then
-		(return-from outer t)
+		(return-from outer 0.9)
 	)
 
-	(if (and (equal schema-pred 'receiving_verb?)
+	(if (and (equal (get-schema-match-name schema-pred) 'receiving_verb.?)
 			(not (null (member story-pred *RECEIVING-PREDS* :test #'equal))))
 		; then
-		(return-from outer t)
+		(return-from outer 0.9)
 	)
 
 	(if (and (equal schema-pred 'enjoy_verb.v)
 			(not (null (member story-pred *ENJOY-PREDS* :test #'equal))))
 		; then
-		(return-from outer t)
+		(return-from outer 0.9)
 	)
 
 	; Check explicit special cases
 	(if (gethash (list schema-pred story-pred) *SPECIAL-SUBSUMPTIONS*)
 		; then
-		(return-from outer t)
+		(return-from outer 0.9)
 	)
 
 	; We should also check to see if any of the special case
@@ -131,7 +140,7 @@
 			(if (and (equal schema-pred (car sc))
 					 (subsumes (second sc) story-pred))
 				; then
-				(return-from outer t)
+				(return-from outer 0.9)
 			)
 		)
 	)
@@ -139,7 +148,7 @@
 	(if (and (not (null (get-schema-match-num story-pred)))
 			(equal (get-schema-match-name story-pred) schema-pred))
 		; then
-		(return-from outer t)
+		(return-from outer 0.9)
 	)
 
 
@@ -159,15 +168,27 @@
 	;(if (not (null (member wn-schema-pred (wordnet-hypernyms wn-story-pred))))
 	;	(return-from outer t)
 	;)
-	(if (has-element (wordnet-hypernyms wn-story-pred) wn-schema-pred)
-		(progn
+	;(if (has-element (wordnet-hypernyms wn-story-pred) wn-schema-pred)
+	;	(progn
 		;(format t "~s in hypernyms of ~s~%" wn-schema-pred wn-story-pred)
-		(return-from outer t)
+	;	(return-from outer t)
+	;	)
+	;)
+	(loop for ladder in (wordnet-hypernyms wn-story-pred)
+		do (block ladder-eval
+			(if (and (> (length ladder) 0) (not (null (member wn-schema-pred ladder :test (lambda (a b) (member a b :test #'equal))))))
+			(return-from outer
+				(+ 0.5
+					(* 0.5
+						(/
+							(length (member wn-schema-pred ladder :test (lambda (a b) (member a b :test #'equal))))
+							(+ 1 (length ladder)))))))
+							
 		)
 	)
 
 	; Default case: no subsumption
-	(return-from outer nil)
+	(return-from outer 0)
 )
 )
 

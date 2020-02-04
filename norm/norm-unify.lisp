@@ -646,6 +646,7 @@ bind-pred
 		)
 	)
 
+	; (format t "subsumption score between ~s and ~s is ~s~%" schema-pred story-pred (subsumption-score schema-pred story-pred))
 
 	; Next, unify all the args in order, then find some matching
 	; modifier in the story pred for each one in the schema

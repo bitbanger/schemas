@@ -54,10 +54,10 @@
 
 	; use a sentinel to make sure nulls aren't ambiguous
 	; in the cache map
-	(setf result (list preloaded-result 'll-sentinel))
+	(setf ll-result (list preloaded-result 'll-sentinel))
 	(if (equal preloaded-result 'll-no-preload)
 		; then
-		(setf result (list (apply fn-name arg-list) 'll-sentinel))
+		(setf ll-result (list (apply fn-name arg-list) 'll-sentinel))
 	)
 
 	(if (>= (length mru) size)
@@ -82,10 +82,10 @@
 	)
 
 	; add the result
-	(setf (gethash arg-hash table) result)
+	(setf (gethash arg-hash table) ll-result)
 
 	; return the result
-	(return-from outer (car result))
+	(return-from outer (car ll-result))
 )
 )
 

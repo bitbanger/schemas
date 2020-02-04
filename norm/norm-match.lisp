@@ -28,8 +28,14 @@
 ;
 ; TODO: check constraints
 (defun unify-with-schema (phi schema story)
+	(unify-with-schema-maybe-header phi schema story t)
+)
+
+(defun unify-with-schema-maybe-header (phi schema story allow-header-match)
+(let (best-bindings)
 (block outer
 	; first, check whether phi unifies with the schema's header
+	(if allow-header-match
 	(block check-header
 		(setf new-bindings (unify (car (second schema)) phi nil schema story))
 		; (format t "attempting to unify ~s with header ~s~%" phi (car (second schema)))
@@ -53,19 +59,38 @@
 				; then
 				(return-from check-header)
 				; else
-				(return-from outer (list (car (second schema)) phi new-bindings))
+				(return-from outer (list (car (second schema)) phi new-bindings 1.0))
 			)
 			)
 		)
 	)
+	)
 
+	(setf best-bindings nil)
+	(setf best-formula nil)
+	(setf best-sub-score 0)
+
+	(setf match-sections (if (canon-charstar? phi) (fluent-sections schema) (nonfluent-sections schema)))
 	; (loop for sec in (nonmeta-sections schema)
-	(loop for sec in (fluent-sections schema)
+	; (loop for sec in (fluent-sections schema)
+	(loop for sec in match-sections
 		do (dbg 'match "	schema sec ~s~%" (section-name sec))
 		do (loop for formula in (section-formulas sec) do
 			(block uni
 				(dbg 'match "		schema ~s~%" (second formula))
+
+				;(if (invokes-schema? (second formula))
+				;	(format t "matching to ~s, which invokes a schema~%" formula)
+				;)
+
 				(setf new-bindings (unify (second formula) phi nil schema story))
+				(setf pred1 (prop-pred (second formula)))
+				(setf pred2 (prop-pred phi))
+				(if (equal '** pred2)
+					(setf pred2 (prop-pred (car phi)))
+				)
+				(setf sub-score (max (subsumption-score pred1 pred2) (* 0.75 (subsumption-score pred2 pred1))))
+				; (format t "subsumption score between ~s and ~s was ~s~%" pred1 pred2 sub-score)
 
 				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))
 
@@ -91,14 +116,26 @@
 					; then
 					nil
 					; else
-					(return-from outer (list (second formula) phi new-bindings))
+					; (return-from outer (list (second formula) phi new-bindings))
+					(if (> sub-score best-sub-score)
+						(progn
+							(setf best-sub-score sub-score)
+							(setf best-bindings new-bindings)
+							(setf best-formula formula)
+						)
+					)
 				)
 			)
 		)
 	)
 
-	(return-from outer nil)
+	(if (not (null best-formula))
+		; then
+		(return-from outer (list (second best-formula) phi best-bindings best-sub-score))
+		; else
+		(return-from outer nil)
 	)
+	))
 )
 
 ; apply-bindings-and-check applies the given bindings map
@@ -132,7 +169,22 @@
 
 	; (setf story-formulas (linearize-story story))
 
-	(loop for phi in story-formulas do (block uni-loop
+
+	; Put all the charstar formulas first
+	(setf story1 (list))
+	(setf story2 (list))
+	(loop for phi in story-formulas
+		do (if (canon-charstar? phi)
+			; then
+			(setf story1 (append story1 (list phi)))
+			; else
+			(setf story2 (append story2 (list phi)))
+		)
+	)
+	(setf sorted-formulas (append story1 story2))
+
+
+	(loop for phi in sorted-formulas do (block uni-loop
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
 		(if (null fm-res) (return-from uni-loop))
 
@@ -140,6 +192,7 @@
 		(setf all-bindings (second fm-res))
 		(setf total-matches (third fm-res))
 		(setf bound-header (fourth fm-res))
+		(setf sub-score (fifth fm-res))
 		
 	))
 
@@ -192,7 +245,7 @@
 )
 )
 
-(defun match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
+(defun cached-match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
 	(ll-partial-cache
 		'uncached-match-formula-to-schema
 		(list phi test-schema all-bindings total-matches bound-header)
@@ -201,9 +254,186 @@
 	)
 )
 
-(defun uncached-match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
+(defun match-formula-to-schema (phi in-schema all-bindings total-matches bound-header story-formulas)
+(let (
+	best-bindings best-schema
+	(test-schema (copy-list in-schema))
+)
 (block outer
-			(if (not (canon-charstar? phi))
+	(setf subschemas (loop for st in (section-formulas (get-section test-schema ':Steps))
+		if (invokes-schema? (second st))
+			collect (expand-nested-schema st test-schema)
+	))
+
+	; (format t "also considering subschemas ~s~%" subschemas)
+
+	; The parent schema has its bindings applied already, so any expanded schema
+	; bindings don't need to have the parent bindings applied.
+	(setf expanded-schemas (append (list (list test-schema (ht-copy all-bindings))) subschemas))
+	; (setf expanded-schemas (list (car expanded-schemas)))
+
+	(setf best-single-res nil)
+	(setf best-schema nil)
+	(setf best-bindings nil)
+	(setf best-expanded-bindings nil)
+	; (setf all-scores nil)
+
+	(setf matched-sub nil)
+
+	(loop for expanded-schema-pair in expanded-schemas
+			for i from 0
+		do (block match-block
+			(setf expanded-schema (car expanded-schema-pair))
+			(setf expanded-bindings (second expanded-schema-pair))
+
+			; don't allow header matches if i > 0, i.e. if this is a subschema
+			(setf single-res (match-formula-to-single-schema phi (apply-bindings expanded-schema expanded-bindings) (make-hash-table :test #'equal) total-matches bound-header story-formulas (= i 0)))
+
+
+			(if (null single-res)
+				; then
+				(return-from match-block)
+			)
+
+			; (format t "single res ~s~%" single-res)
+
+			(if (or
+					(null best-single-res)
+					(> (fifth single-res) (fifth best-single-res))
+				)
+				; then
+				(progn
+				; (format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
+				(setf best-expanded-bindings expanded-bindings)
+				(setf best-bindings (second single-res))
+				; (setf best-schema (apply-bindings expanded-schema best-bindings))
+				(setf best-schema (car single-res))
+				(setf best-single-res single-res)
+				(setf matched-sub (> i 0))
+				; (setf all-scores (append all-scores (list (fifth best-single-res))))
+				)
+			)
+		)
+	)
+
+	(if matched-sub
+	(progn
+	;(format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
+	;(format t "bindings were ~s on schema ~s~%" (ht-to-str (second best-single-res)) (car best-single-res))
+	;(format t "gen schema is ~s~%" (eval (second (car (second (car best-single-res))))))
+	;(format t "best bindings are ~s~%" (ht-to-str best-bindings))
+	;(format t "best expanded bindings are ~s~%" (ht-to-str best-expanded-bindings))
+	)
+	)
+
+	; (format t "sub-match? ~s~%" matched-sub)
+
+	(if (or (null (fifth best-single-res)) (<= (fifth best-single-res) 0) (null best-schema))
+		(return-from outer nil)
+	)
+
+	; (print-schema (eval (second (car (second (car best-single-res))))))
+
+	; (format t "matched ~s to ~s (score ~s)~%" phi (second (car best-single-res)) (fifth best-single-res))
+
+	(setf matched-bindings nil)
+	(if (not matched-sub)
+		; then
+		(progn
+		(setf all-bindings best-bindings)
+			; (format t "UN-generalized sub-match is:~%")
+			; (print-schema (car best-single-res))
+		(setf test-schema (car best-single-res))
+		)
+		; else
+		(block gen-sub-match
+			(setf gen-match-pair (mapped-generalize-schema-constants (apply-bindings (car best-single-res) best-bindings)))
+			; (format t "generalized subschema is ~s~%" (second gen-match-pair))
+			; (format t "generalized rebindings are ~s~%" (ht-to-str (car gen-match-pair)))
+			(setf matched-bindings (car gen-match-pair))
+			; (format t "matched bindings are ~s~%" (ht-to-str matched-bindings))
+			; (setf gen-match (clean-do-kas (rename-constraints (sort-steps (dedupe-sections (second gen-match-pair))))))
+			(setf gen-match (second gen-match-pair))
+
+			;(format t "UN-generalized sub-match is:~%")
+			;(print-schema (car best-single-res))
+			;(format t "generalized sub-match is:~%")
+			;(print-schema gen-match)
+
+			(setf new-name (new-schema-match-name (second (car (second (car best-single-res))))))
+			(setf gen-match (replace-vals (second (car (second (car best-single-res)))) new-name gen-match))
+			; (format t "renamed gen subschema is ~s~%" gen-match)
+			(set new-name gen-match)
+			(setf new-sec (list ':Steps))
+			(loop for st in (section-formulas (get-section test-schema ':Steps))
+				do (if (equal (car st) (third (second (car best-single-res))))
+					; then
+					(setf new-sec (append new-sec (list (list (car st) (replace-vals (second (car (second (car best-single-res)))) new-name (car (second (car best-single-res))))))))
+					; (setf new-sec (append new-sec (list (list (car st) (car (second gen-match))))))
+					; else
+					(setf new-sec (append new-sec (list st)))
+				)
+			)
+
+
+			; If the best bindings we got for the subordinate schema have bound
+			; a parent-scoped variable, then rebind it here. We'll know it was
+			; parent-scoped if it was a value in the corresponding expanded-bindings
+			; for that subordinate schema, which came from the parent.
+			(setf parent-rebindings (make-hash-table :test #'equal))
+			(loop for k being the hash-keys of best-bindings
+				do (block lk2 (loop for k2 being the hash-keys of best-expanded-bindings
+					if (equal (gethash k2 best-expanded-bindings) k)
+						do (block rebind-parent
+							(setf (gethash k parent-rebindings) (gethash k best-bindings))
+							(return-from lk2)
+						)
+				))
+			)
+
+
+			(setf test-schema (set-section test-schema ':Steps new-sec))
+
+			; (format t "rebinding with parent rebindings ~s~%" (ht-to-str parent-rebindings))
+			(setf test-schema (apply-bindings test-schema parent-rebindings))
+			; (format t "renamed in framing schema: ~s~%" test-schema)
+		)
+	)
+
+	; (format t "bindings ~s~%" (ht-to-str (second best-single-res)))
+	(setf out-schema test-schema)
+	(if matched-sub
+	; (if (and nil matched-sub)
+	(loop for k being the hash-keys of matched-bindings
+		;do (format t "((~s<- ~s) = ~s)~%" k (third (second best-schema)) (gethash k (second best-single-res)))
+		; if matched-sub
+		do (block add-subord-constr
+			(setf sk-fn-name (intern (concat-two-strs (string k) "<-")))
+			(setf constr (list (list sk-fn-name (third (second (car best-single-res)))) '= (gethash k matched-bindings)))
+			(setf out-schema (add-constraint out-schema ':Subordinate-constraints constr))
+		)
+	))
+	; (format t "all bindings: ~s~%" (ht-to-str all-bindings))
+	(setf best-single-res (list
+		; (apply-bindings out-schema all-bindings)
+		out-schema
+		all-bindings
+		(third best-single-res)
+		(fourth best-single-res)
+		(fifth best-single-res)
+	))
+
+	(return-from outer best-single-res)
+))
+)
+
+(defun match-formula-to-single-schema (phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match)
+(block outer
+			; (if (not (canon-charstar? phi))
+			(if (or
+					(time-prop? phi)
+					(equal (prop-pred phi) 'ORIENTS)
+				)
 				(return-from outer nil)
 			)
 
@@ -212,7 +442,12 @@
 	
 			(dbg 'match "trying:~%")
 			(dbg 'match "	formula ~s~%" phi)
-			(setf go-match-triple (unify-with-schema phi test-schema story-formulas))
+			(setf go-match-triple (unify-with-schema-maybe-header phi test-schema story-formulas allow-header-match))
+
+			(if (null go-match-triple)
+				(return-from outer nil)
+			)
+
 			(setf matched-schema (car go-match-triple))
 			(setf matched-story (second go-match-triple))
 			(setf go-match (third go-match-triple))
@@ -244,7 +479,8 @@
 					; (format t "applied bindings ~s~%" (ht-to-str go-match))
 
 					; Make sure the full matched sentence 
-					(if nil (block replace-with-story-sent
+					(if nil
+					(block replace-with-story-sent
 					(setf new-steps (list ':Steps))
 					(loop for s in (cdr (get-section go-match-schema ':Steps)) do (block fix-steps
 						(if (and (canon-charstar? phi) (equal (third phi) (car s)))
@@ -279,7 +515,8 @@
 				)
 			)
 
-		(return-from outer (list test-schema all-bindings total-matches bound-header))
+		; (format t "go match triple ~s~%" go-match-triple)
+		(return-from outer (list test-schema all-bindings total-matches bound-header (fourth go-match-triple)))
 
 		)
 )
@@ -417,6 +654,7 @@
 		)
 			
 		(setf cur-match-triple (match-story-to-schema linear-story schema nil))
+		; (format t "got triple ~s~%" cur-match-triple)
 		(setf cur-match (car cur-match-triple))
 		(setf cur-bindings (second cur-match-triple))
 		(setf bound-header (third cur-match-triple))

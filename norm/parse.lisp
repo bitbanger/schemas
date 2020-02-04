@@ -49,10 +49,6 @@
 )
 
 (defun has-ext? (x e)
-	(ll-cache 'uc-has-ext? (list x e) 512)
-)
-
-(defun uc-has-ext? (x e)
 (let (
 	(strx (if (symbolp x) (string x) nil))
 )
@@ -97,7 +93,7 @@
 )
 
 (defun lex-metapred? (x)
-	(has-ext? x "?")
+	(has-ext? x ".?")
 )
 
 (defun lex-var? (x)

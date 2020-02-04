@@ -4,7 +4,7 @@
 	do_action_to_enable_action.v
 	use_tool.v
 	give_object.v
-	receiving_verb?
+	receiving_verb.?
 	travel.v
 	eat.v
 	feed_someone.v
@@ -164,8 +164,8 @@
 	)
 )
 
-(defparameter receiving_verb?
-	'(epi-schema ((?x receiving_verb? ?o (at.p-arg ?l)) ** ?e)
+(defparameter receiving_verb.?
+	'(epi-schema ((?x receiving_verb.? ?o (at.p-arg ?l)) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?o object.n))

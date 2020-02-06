@@ -277,7 +277,7 @@
 	;(check (canon-individual? story))
 (let ((bindings (ht-copy old-bindings)))
 (block outer
-	(if (equal schema story)
+	(if (and (equal schema story) (not (has-element-pred story 'varp)))
 		; then
 		(return-from outer bindings)
 	)
@@ -323,7 +323,11 @@
 			; formula
 			(if (bind-if-unbound schema story bindings)
 				; then
-				(return-from outer bindings)
+				(block sub
+					; (if (varp story)
+						; (format t "bound schema var ~s to story var ~s~%" schema story))
+					(return-from outer bindings)
+				)
 				; else
 				(if (equal (gethash schema bindings) story)
 					; then

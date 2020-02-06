@@ -318,11 +318,11 @@
 
 	(if matched-sub
 	(progn
-	(format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
-	(format t "bindings were ~s on schema ~s~%" (ht-to-str (second best-single-res)) (car best-single-res))
-	(format t "gen schema is ~s~%" (eval (second (car (second (car best-single-res))))))
-	(format t "best bindings are ~s~%" (ht-to-str best-bindings))
-	(format t "best expanded bindings are ~s~%" (ht-to-str best-expanded-bindings))
+	; (format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
+	; (format t "bindings were ~s on schema ~s~%" (ht-to-str (second best-single-res)) (car best-single-res))
+	; (format t "gen schema is ~s~%" (eval (second (car (second (car best-single-res))))))
+	; (format t "best bindings are ~s~%" (ht-to-str best-bindings))
+	; (format t "best expanded bindings are ~s~%" (ht-to-str best-expanded-bindings))
 	)
 	)
 
@@ -348,8 +348,8 @@
 		; else
 		(block gen-sub-match
 			(setf gen-match-pair (mapped-generalize-schema-constants (apply-bindings (car best-single-res) best-bindings)))
-			(format t "generalized subschema is ~s~%" (second gen-match-pair))
-			(format t "generalized rebindings are ~s~%" (ht-to-str (car gen-match-pair)))
+			; (format t "generalized subschema is ~s~%" (second gen-match-pair))
+			; (format t "generalized rebindings are ~s~%" (ht-to-str (car gen-match-pair)))
 			(setf matched-bindings (car gen-match-pair))
 			; (format t "matched bindings are ~s~%" (ht-to-str matched-bindings))
 			; (setf gen-match (clean-do-kas (rename-constraints (sort-steps (dedupe-sections (second gen-match-pair))))))

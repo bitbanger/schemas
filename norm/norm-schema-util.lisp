@@ -13,9 +13,9 @@
 	:Roles
 	:Goals
 	:Preconds
+	:Steps
 	:Postconds
 	:Paraphrases
-	:Steps
 	:Episode-relations
 	:Certainties
 	:Necessities
@@ -168,6 +168,12 @@
 )
 )
 
+(defun sort-sections (secs)
+	(sort secs (lambda (s1 s2)
+		(> (length (member (car s1) *SEC-NAMES* :test #'equal)) (length (member (car s2) *SEC-NAMES* :test #'equal)))
+	))
+)
+
 (defun nonmeta-sections (schema)
 	(loop for sec in (schema-sections schema)
 		if (and (or (equal (section-type sec) 'NONFLUENT)
@@ -308,9 +314,33 @@
 (let (val)
 (block outer
 	(setf cursor schema)
+
+	; We make some "intermediate" bindings to avoid situations like
+	; A -> B
+	; B -> C
+	; forcing all As to be Cs if done in order.
+	(setf alias-bindings (make-hash-table :test #'equal))
+	(loop for k being the hash-keys of bindings
+		if (symbolp (gethash k bindings))
+		do (block alias
+			(setf old-val (gethash k bindings))
+			(setf new-val (intern (concat-strs (string old-val) "_BINDTMP")))
+			(setf (gethash old-val alias-bindings) new-val)
+		)
+	)
+
 	(loop for key being the hash-keys of bindings do (block inner
 		(setf val (gethash key bindings))
-		(setf cursor (replace-vals key val cursor))
+		(setf alias val)
+		(if (not (null (gethash val alias-bindings)))
+			(setf alias (gethash val alias-bindings))
+		)
+		(setf cursor (replace-vals key alias cursor))
+	))
+	; convert back
+	(loop for old-val being the hash-keys of alias-bindings do (block inner
+		(setf alias-val (gethash old-val alias-bindings))
+		(setf cursor (replace-vals alias-val old-val cursor))
 	))
 	(return-from outer cursor)
 )))
@@ -321,7 +351,7 @@
 	(check #'schema? schema)
 
 	(format t "(~s ~s~%" (car schema) (second schema))
-	(loop for sec in (schema-sections schema)
+	(loop for sec in (sort-sections (schema-sections schema))
 		do (format t "	(~s~%" (section-name sec))
 		do (loop for elem in (cdr sec)
 			do (format t "		~s~%" elem))
@@ -1140,7 +1170,7 @@
 	(setf prop (replace-vals 'KA 'TO prop))
 	; (setf prop (remove-if 'lex-adv? prop))
 	(setf prop (remove-if
-		(lambda (x) (member x '(ADV-A ADV-E ADV-S ADV-F ADV nil) :test #'equal))
+		(lambda (x) (member x '(NN ADV-A ADV-E ADV-S ADV-F ADV nil) :test #'equal))
 		prop))
 
 	(return-from outer prop)
@@ -1162,11 +1192,10 @@
 	(setf invoked-schema (eval (prop-pred (second invoker))))
 
 	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
-
-	(setf identical-header-vars (shared-vars (list (second invoker) '** (car invoker)) (second invoked-schema)))
-	(loop for id in identical-header-vars
-		do (setf (gethash id header-bindings) id)
-	)
+	; (setf identical-header-vars (shared-vars (list (second invoker) '** (car invoker)) (second invoked-schema)))
+	; (loop for id in identical-header-vars
+		; do (setf (gethash id header-bindings) id)
+	; )
 
 	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
 			if (equal (car invoker) (second (car (second sc))))

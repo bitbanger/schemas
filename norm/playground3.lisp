@@ -266,7 +266,17 @@
 							;(format t "match2 schema is ~s~%" (eval (second (car (second match2)))))
 							; (format t "~s schema_name ~s~%" (car (car (second match1))) (remove-duplicates (append (cddr (car (second match1))) (cddr (car (second match2)))) :test #'equal))
 
-							(setf new-schema-header (append (list (car (car (second match1))) 'act_on.v) (remove-duplicates (append (cddr (car (second match1))) (cddr (car (second match2)))) :test #'equal)))
+							(setf comp-preds (loop for m in (list match1 match2 match3) collect (prop-pred (car (second m)))))
+							(setf comp-words (loop for cp in comp-preds collect (remove-ext (get-schema-match-name cp) ".V")))
+							(setf new-schema-pred (intern (format nil "~s_~s_~s.PR" (car comp-words) (second comp-words) (third comp-words))))
+							
+							; (setf new-schema-header (append (list (car (car (second match1))) new-schema-pred)))
+							
+							; (setf new-schema-header (append (list (car (car (second match1))) new-schema-pred) (remove-duplicates (append (cddr (car (second match1))) (cddr (car (second match2)))) :test #'equal)))
+							; (setf new-schema-args (loop for arg in (append (cddr (car (second match1))) (cddr (car (second match2))) (cddr (car (second match3)))) do (format t "arg: ~s~%" arg)))
+							(setf new-schema-args (loop for arg in (append (cddr (car (second match1))) (cddr (car (second match2))) (cddr (car (second match3)))) if (symbolp arg) collect arg))
+							(setf new-schema-args (remove-duplicates new-schema-args :test #'equal))
+							(setf new-schema-header (append (list (car (car (second match1)))) (list new-schema-pred) new-schema-args))
 
 							(setf new-schema (list 'epi-schema (list new-schema-header '** '?e) (list ':Steps)))
 
@@ -284,8 +294,8 @@
 							; (setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'before new-e3)))
 							; (format t "new schema is ~s~%" new-schema)
 
-							(setf new-schema-name (new-schema-match-name 'act_on.v))
-							(setf new-schema (replace-vals 'act_on.v new-schema-name new-schema))
+							(setf new-schema-name (new-schema-match-name (second (car (second new-schema)))))
+							(setf new-schema (replace-vals (second (car (second new-schema))) new-schema-name new-schema))
 
 							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
 							(setf new-schema-names (append new-schema-names (list new-schema-name)))
@@ -293,7 +303,67 @@
 							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
 							(format t "LEARNED NEW SCHEMA:~%")
 
-							(print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+							(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+							(setf all-rcs (list))
+							(setf new-pres (list))
+							(setf new-posts (list))
+
+							(loop for st in (section-formulas (get-section new-schema ':Steps))
+								for i from 0
+								do (block inv-loop
+									(if (not (invokes-schema? (second st)))
+										(return-from inv-loop)
+									)
+									(setf inv-pair (expand-nested-schema st new-schema))
+									; (format t "unifying parent invoker ~s with header ~s~%" (second st) (car (second (car inv-pair))))
+									(setf inv-schema (apply-bindings (car inv-pair) (second inv-pair)))
+									; (format t "embedding: ~s~%" (car (second inv-schema)))
+									; (format t "naked: ~s~%" (car (second (car inv-pair))))
+									; (format t "bindings:~%")
+									; (print-ht (second inv-pair))
+									;(setf except (loop for k  being the hash-keys of (second inv-pair) collect (gethash k (second inv-pair))))
+									(setf except (loop for k  being the hash-keys of (second inv-pair) collect k))
+									; (format t "except: ~s~%" except)
+									(setf deduped-schema (second (uniquify-shared-vars-except new-schema (car inv-pair) except)))
+									(setf deduped-schema (apply-bindings deduped-schema (second inv-pair)))
+
+									(if (equal i 0)
+										(setf new-pres (loop for pre in (section-formulas (get-section deduped-schema ':Preconds)) collect (second pre)))
+									)
+									(setf new-posts (loop for post in (section-formulas (get-section deduped-schema ':Postconds)) collect (second post)))
+
+									(setf rcs (loop for rc in (section-formulas (get-section deduped-schema ':Roles))
+										; do (format t "		~s~%" (second rc))
+										collect (second rc)
+									))
+									(setf rcs (remove-duplicates rcs :test #'equal))
+									(setf rcs (loop for rc in rcs if (loop for v in (get-elements-pred rc #'varp) always (has-element new-schema v)) collect rc))
+									(setf rcs (sort rcs (lambda (a b) (< (sxhash (car a)) (sxhash (car b))))))
+									; (loop for rc in rcs do (format t "	~s~%" rc))
+									(setf all-rcs (append all-rcs rcs))
+								)
+							)
+
+							(setf deduped-rcs (remove-duplicates all-rcs :test #'equal))
+							(setf unsubsumed-rcs (list))
+							(loop for rc1 in deduped-rcs do (block ddp
+								(if (loop for rc2 in deduped-rcs never (and (not (equal rc1 rc2)) (subsumes (prop-pred rc1) (prop-pred rc2))))
+									(setf unsubsumed-rcs (append unsubsumed-rcs (list rc1)))
+								)
+							))
+							; (format t "unsubsumed RCs:~%")
+							; (loop for rc in unsubsumed-rcs do (format t "	~s~%" rc))
+
+							(setf new-display-schema (copy-list new-schema))
+							(loop for rc in unsubsumed-rcs
+								do (setf new-display-schema (add-constraint new-display-schema ':Roles rc))
+							)
+							(loop for pre in new-pres
+								do (setf new-display-schema (add-constraint new-display-schema ':Preconds pre)))
+							(loop for post in new-posts
+								do (setf new-display-schema (add-constraint new-display-schema ':Postconds post)))
+
+							(print-schema new-display-schema)
 							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match1)))))))))
 							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match2)))))))))
 							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))

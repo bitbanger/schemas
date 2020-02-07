@@ -273,6 +273,24 @@
 )
 )
 
+(defun has-subseq (s seq)
+(block outer
+	(if (or (not (listp s)) (not (listp seq)))
+		(return-from outer nil)
+	)
+	(if (> (length seq) (length s))
+		(return-from outer nil)
+	)
+
+	(loop for i from 0 to (- (length s) (length seq))
+		if (equal (subseq s i (+ i (length seq))) seq)
+			do (return-from outer t)
+	)
+
+	(return-from outer nil)
+)
+)
+
 (defun has-suffix? (s suf)
 (and
 	(stringp s)

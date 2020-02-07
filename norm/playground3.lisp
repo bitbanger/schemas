@@ -158,6 +158,130 @@
 )
 )
 
+(defun link-two-matches (match1 match2 story)
+(let (new-match1 new-match2)
+(block outer
+	; don't link two things that have the same episode;
+	; they don't have a causal relationship!
+	(if (equal (third (second match1)) (third (second match2)))
+		; then
+		(return-from outer nil)
+	)
+
+	(setf link-bindings (link-schemas-onedir match1 match2 story))
+	(if (null link-bindings)
+		; then
+		(return-from outer nil)
+	)
+
+	; (setf new-match1 (apply-bindings match1 link-bindings))
+	; (setf new-match2 (apply-bindings match2 link-bindings))
+
+	(return-from outer link-bindings)
+
+)
+)
+)
+
+; Find all pairs of schema matches that link up by
+; pre/postconds, then find all triples, etc. up to
+; k-tuples.
+(defun link-matches (matches story k)
+(let (match-chains new-match-chains)
+(block outer
+
+	(setf match-chains (loop for m in matches collect (list m)))
+	(setf new-match-chains (list))
+
+	; for all chains length 2 to k...
+	(loop for i from 2 to k do (block k-loop
+		; try to extend each chain in the working set
+		(loop for match in matches
+			; We're going to try inserting this match at the
+			; beginning and end of each existing chain independently.
+			; The idea is to generate all length-i chains this round.
+			do (loop for chain in match-chains do (block extend-loop
+				; Don't duplicate length i-1 matches
+				(if (< (length chain) (- i 1))
+					(return-from extend-loop)
+				)
+
+				; Check that the episode of this match isn't already
+				; in the chain.
+				(if (loop for e in chain thereis (equal (third (second e)) (third (second match))))
+					; then
+					(return-from extend-loop)
+				)
+
+				; First, try to unify the match's postconditions
+				; with the chain's preconditions.
+				(setf added-before-bindings (link-two-matches match (car chain) story))
+				(if (not (null added-before-bindings))
+					; then
+					; We've added the match at the beginning of this chain.
+					(block added-before
+						(setf new-match (apply-bindings match (car added-before-bindings)))
+						(setf new-chain (apply-bindings chain (second added-before-bindings)))
+						(setf new-match-chains (append new-match-chains (list (append (list new-match) new-chain))))
+					)
+				)
+
+				; Next, try to unify the match's preconditions
+				; with the chain's postconditions.
+				(setf added-after-bindings (link-two-matches match (car (last chain)) story))
+				(if (not (null added-after-bindings))
+					; then
+					; We've added the match at the beginning of this chain.
+					(block added-after
+						(setf new-match (apply-bindings match (car added-after-bindings)))
+						(setf new-chain (apply-bindings chain (second added-after-bindings)))
+						(setf new-match-chains (append new-match-chains (list (append (list new-match) new-chain))))
+					)
+				)
+		)))
+
+		; all length-i chains have been generated, so we'll add all the chains we've
+		; generated to the chain list and continue on
+		(setf match-chains (append match-chains new-match-chains))
+	))
+
+	; Remove subchains.
+	(setf deduped-match-chains (list))
+	(loop for c1 in match-chains do (block dd-outer
+		(loop for c2 in match-chains do (block dd-inner
+			(if (equal c1 c2)
+				(return-from dd-inner)
+			)
+
+			(format t "is ~s a subchain of ~s? ~s~%" (mapcar #'second c1) (mapcar #'second c2) (has-subseq (mapcar #'second c2) (mapcar #'second c1)))
+
+			(if (has-subseq
+					(mapcar #'second c2)
+					(mapcar #'second c1))
+				; then
+				(return-from dd-outer)
+			)
+		))
+
+		(setf deduped-match-chains
+			(append deduped-match-chains (list c1)))
+
+		)
+	)
+
+	(setf match-chains deduped-match-chains)
+
+	(return-from outer match-chains)
+)
+)
+)
+
+
+
+
+
+
+
 (setf new-schemas (list))
 (setf new-schema-names (list))
 
@@ -218,6 +342,21 @@
 		))
 
 		(format t "~%")
+
+		(if (> (length story-matches) 1)
+			; then
+			(block find-chains
+				(setf chains (link-matches story-matches story 3))
+				(format t "found chains:~%")
+				(loop for chain in chains
+					for i from 0
+					do (format t "	chain ~s:~%" i)
+					do (loop for e in chain
+						do (format t "		~s~%" (second e))
+					)
+				)
+			)
+		)
 
 		(if (> (length story-matches) 1)
 			; then

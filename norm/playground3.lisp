@@ -290,8 +290,8 @@
 ; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
 ; (loop for story in (list *MONKEY-PROC-1*)
 ; (loop for story in *DEV-FRS*
-; (loop for raw-story in *DEV-STORY-SENTS*
-(loop for raw-story in (list (fourth *DEV-STORY-SENTS*))
+(loop for raw-story in *DEV-STORY-SENTS*
+; (loop for raw-story in (list (fourth *DEV-STORY-SENTS*))
 	do (block matchblock
 		(setf story 
 			(loop for sent in (parse-story raw-story)
@@ -322,12 +322,15 @@
 						; then
 						(setf story-matches (append story-matches (list m)))
 						; else
-						(format t "ignoring match ~s~%" (second m))
+						(progn
+						; (format t "ignoring match:~%")
+						; (print-schema m)
+						)
 					)
 				)
 			)
 		)
-		(format t "~s matches~%" matchcnt)
+		(format t "~s matches, ~s valid~%" matchcnt (length story-matches))
 
 		(loop for match in story-matches do (progn
 			(format t "match: ~s~%" (second match))

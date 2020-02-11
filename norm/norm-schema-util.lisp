@@ -1192,6 +1192,9 @@
 	(setf invoked-schema (eval (prop-pred (second invoker))))
 
 	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+	(if (null header-bindings)
+		(format t "WEIRD BUG: invoker ~s can't unify with header ~s~%" invoker (second parent-schema))
+	)
 	; (setf identical-header-vars (shared-vars (list (second invoker) '** (car invoker)) (second invoked-schema)))
 	; (loop for id in identical-header-vars
 		; do (setf (gethash id header-bindings) id)

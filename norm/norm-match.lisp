@@ -287,7 +287,8 @@
 			(setf expanded-bindings (second expanded-schema-pair))
 
 			; don't allow header matches if i > 0, i.e. if this is a subschema
-			(setf single-res (match-formula-to-single-schema phi (apply-bindings expanded-schema expanded-bindings) (make-hash-table :test #'equal) total-matches bound-header story-formulas (= i 0)))
+			(setf old-expanded-bindings (ht-copy expanded-bindings))
+			(setf single-res (match-formula-to-single-schema phi (apply-bindings expanded-schema expanded-bindings) expanded-bindings total-matches bound-header story-formulas (= i 0)))
 
 
 			(if (null single-res)
@@ -295,16 +296,27 @@
 				(return-from match-block)
 			)
 
+			; (format t "phi ~s~%" phi)
+			; (format t "exp-schema ~s~%" (second expanded-schema))
 			; (format t "single res ~s~%" single-res)
 
-			(if (or
-					(null best-single-res)
-					(> (fifth single-res) (fifth best-single-res))
+			(if (and
+					; make sure we have novel bindings
+					(not (ht-eq (second single-res) old-expanded-bindings))
+					; make sure we're better than the best match we've seen so far
+					(or
+					   (null best-single-res)
+					   (> (fifth single-res) (fifth best-single-res))
+					)
 				)
 				; then
 				(progn
+				; (format t "our fifth (~s) was greater than best fifth (~s)~%" (fifth single-res) (fifth best-single-res))
+				; (format t "setting best bindings ~s~%" (ht-to-str (second single-res)))
+				; (format t "started with expanded bindings ~s~%" (ht-to-str old-expanded-bindings))
+				; (format t "~%")
 				; (format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
-				(setf best-expanded-bindings expanded-bindings)
+				(setf best-expanded-bindings old-expanded-bindings)
 				(setf best-bindings (second single-res))
 				; (setf best-schema (apply-bindings expanded-schema best-bindings))
 				(setf best-schema (car single-res))
@@ -347,10 +359,12 @@
 		)
 		; else
 		(block gen-sub-match
+			; (format t "generalizing with bindings ~s~%" (ht-to-str best-bindings))
 			(setf gen-match-pair (mapped-generalize-schema-constants (apply-bindings (car best-single-res) best-bindings)))
 			; (format t "generalized subschema is ~s~%" (second gen-match-pair))
 			; (format t "generalized rebindings are ~s~%" (ht-to-str (car gen-match-pair)))
 			(setf matched-bindings (car gen-match-pair))
+			; (format t "pre-correction, got matched bindings ~s~%" (ht-to-str matched-bindings))
 			; (format t "matched bindings are ~s~%" (ht-to-str matched-bindings))
 			; (setf gen-match (clean-do-kas (rename-constraints (sort-steps (dedupe-sections (second gen-match-pair))))))
 			(setf gen-match (second gen-match-pair))
@@ -360,6 +374,10 @@
 			;(format t "generalized sub-match is:~%")
 			;(print-schema gen-match)
 
+
+			; We've created a new name for our subschema match, and it has its own variables.
+			; We're going to replace the subschema's step in the parent schema with a step using
+			; its new name.
 			(setf new-name (new-schema-match-name (second (car (second (car best-single-res))))))
 			(setf gen-match (replace-vals (second (car (second (car best-single-res)))) new-name gen-match))
 			; (format t "renamed gen subschema is ~s~%" gen-match)
@@ -418,6 +436,14 @@
 	)
 
 	; (format t "bindings ~s~%" (ht-to-str (second best-single-res)))
+	(if (and (not (null matched-bindings)) (> (hash-table-count matched-bindings) 0))
+		(progn
+		; (format t "original bindings: ~s~%" (ht-to-str best-bindings))
+		; (format t "matched bindings: ~s~%" (ht-to-str matched-bindings))
+		; (format t "parent re-bindings: ~s~%" (ht-to-str parent-rebindings))
+		; (format t "current subordinate constraints: ~s~%" (get-section test-schema ':Subordinate-constraints))
+		)
+	)
 	(setf out-schema test-schema)
 	(if matched-sub
 	; (if (and nil matched-sub)
@@ -489,7 +515,11 @@
 
 					; Accumulate all bindings
 					(loop for key being the hash-keys of go-match
-						do (setf (gethash key all-bindings) (gethash key go-match))
+						;	do (setf (gethash key all-bindings) (gethash key go-match))
+						do (if (null (bind-if-unbound key (gethash key go-match) all-bindings))
+							; then
+							(return-from outer nil)
+						)
 					)
 	
 					(setf go-match-schema (apply-bindings test-schema go-match))

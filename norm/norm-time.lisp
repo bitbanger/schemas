@@ -109,6 +109,10 @@
 		)
 	)
 
+
+	; BELOW HERE: Ben adds timegraph model code
+
+
 	; Clear the state of the AIA solver.
 	(clear)
 	
@@ -170,6 +174,7 @@
 )
 
 (defun eval-time-prop (prop)
+; BELOW HERE: Ben evaluates using timegraph instead of Allen
 (block outer
 	(setf allen-rel (convert-time-prop prop))
 	(if (null allen-rel)

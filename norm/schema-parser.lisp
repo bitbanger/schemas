@@ -165,6 +165,7 @@
 	bubble-up-pred-charstars
 	sink-prop-mods
 	name-skolems
+	deindex-will
 ))
 
 (defun extract-noun-sym (form)
@@ -190,6 +191,36 @@
 	)
 
 	(return-from outer last-noun)
+)
+)
+
+(defun deindex-will (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for form in phi do (block loop-outer
+		(if (and
+				(canon-charstar? form)
+				(member 'WILL.MD (prop-mods (car form)) :test #'equal)
+			)
+			; then
+			(block loop-inner
+				(setf deindexed-no-ep (ttt-replace
+					(car form)
+					(list 'will.md '_!1)
+					'_!1
+				))
+
+				(setf new-ep (new-skolem! 'E))
+
+				(setf deindexed (list deindexed-no-ep '** new-ep))
+
+				(setf phi-copy (replace-vals form deindexed phi-copy))
+				(setf phi-copy (append phi-copy (list (list new-ep 'AFTER (third form)))))
+			)
+		)
+	))
+
+	(return-from outer phi-copy)
 )
 )
 

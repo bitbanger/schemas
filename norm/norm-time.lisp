@@ -3,6 +3,9 @@
 (if (not (boundp 'AIA-MATS-LOADED))
 	(progn (load "load-mats.lisp") (setf AIA-MATS-LOADED t)))
 
+(load "real_util.lisp")
+(load "norm-el.lisp")
+
 (initialize-allen-arrays)
 
 ; A "time model" is a list of infix relation triples
@@ -25,22 +28,6 @@
 ; Examples of entries in a time model:
 ;	(E1.SK (p m o) NOW1)
 ;	(E2.SK (p) E3.SK)
-
-(defparameter *NOW-TIME-PROPS* '(
-	(NOW0 STRICTLY-BEFORE NOW1)
-	(NOW1 STRICTLY-BEFORE NOW2)
-	(NOW2 STRICTLY-BEFORE NOW3)
-	(NOW3 STRICTLY-BEFORE NOW4)
-	(NOW4 STRICTLY-BEFORE NOW5)
-	(NOW5 STRICTLY-BEFORE NOW6)
-	(NOW6 STRICTLY-BEFORE NOW7)
-	(NOW7 STRICTLY-BEFORE NOW8)
-	(NOW8 STRICTLY-BEFORE NOW9)
-	(NOW9 STRICTLY-BEFORE NOW10)
-	(NOW10 STRICTLY-BEFORE NOW11)
-	(NOW11 STRICTLY-BEFORE NOW12)
-	(NOW12 STRICTLY-BEFORE NOW13)
-))
 
 (defparameter *TIME-PROP-ALLEN-RELS*
 (mk-hashtable '(
@@ -94,6 +81,38 @@
 (setf *TIME-MODEL-HASH* nil)
 (setf *TIME-MODEL* nil)
 
+(defun is-now? (s)
+	(and
+		(symbolp s)
+		(has-prefix? (string s) "NOW")
+		(is-num-str? (remove-prefix (string s) "NOW"))
+	)
+)
+
+(defun now-num (s)
+	(if (is-now? s)
+		; then
+		(parse-integer (remove-prefix (string s) "NOW"))
+		; else
+		nil
+	)
+)
+
+(defun mk-now-time-props (tm)
+(block outer
+	(setf nows (sort (remove-duplicates (get-elements-pred tm 'is-now?) :test #'equal) '< :key 'now-num))
+
+	(setf now-props (list))
+	(loop for i from 0 to (- (length nows) 2)
+		do (setf now-props (append now-props (list
+			(list (nth i nows) 'STRICTLY-BEFORE (nth (+ i 1) nows))
+		)))
+	)
+
+	(return-from outer now-props)
+)
+)
+
 (defun load-time-model (tm)
 (block outer
 	; (format t "hash of time model: ~s~%" (rechash tm))
@@ -104,8 +123,8 @@
 		; nil
 		; else
 		(progn
+		(setf *TIME-MODEL* (append tm (mk-now-time-props tm)))
 		(setf *TIME-MODEL-HASH* model-hash)
-		(setf *TIME-MODEL* (append tm *NOW-TIME-PROPS*))
 		)
 	)
 
@@ -118,7 +137,7 @@
 	
 	; Load the relationship triples into
 	; the AIA solver's internal data model.
-	(loop for rel in (append tm *NOW-TIME-PROPS*) do (block inner
+	(loop for rel in *TIME-MODEL* do (block inner
 		(setf allen-rel (convert-time-prop rel))
 		(dbg 'time "asserting ~s~%" allen-rel)
 		(if (null allen-rel)

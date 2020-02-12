@@ -1,5 +1,10 @@
 (load "real_util.lisp")
 
+(defparameter *DISABLE-ALL-CACHE*
+	t
+	; nil
+)
+
 (defparameter *CACHE-MRUS* (make-hash-table :test #'equal))
 (defparameter *CACHE-TABLES* (make-hash-table :test #'equal))
 
@@ -19,6 +24,12 @@
 
 (defun ll-partial-cache-preloaded-result (fn-name cache-by arg-list size preloaded-result)
 (block outer
+	(if *DISABLE-ALL-CACHE*
+		; then
+		(return-from outer (apply fn-name arg-list))
+	)
+
+
 	(setf table (gethash fn-name *CACHE-TABLES*))
 	(setf mru (gethash fn-name *CACHE-MRUS*))
 	(if (null table)

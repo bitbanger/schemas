@@ -201,10 +201,14 @@
 			; beginning and end of each existing chain independently.
 			; The idea is to generate all length-i chains this round.
 			do (loop for chain in match-chains do (block extend-loop
+				(format t "considering match ~s with chain ~s~%" (second match) (mapcar (lambda (x) (second x)) chain))
+
 				; Don't duplicate length i-1 matches
 				(if (< (length chain) (- i 1))
 					(return-from extend-loop)
 				)
+
+				(format t "passed duplication check~%")
 
 				; Check that the episode of this match isn't already
 				; in the chain.
@@ -213,31 +217,40 @@
 					(return-from extend-loop)
 				)
 
+				(format t "passed thereis check~%")
+
 				; First, try to unify the match's postconditions
 				; with the chain's preconditions.
 				(setf added-before-bindings (link-two-matches match (car chain) story))
+				(format t "finished before call~%")
 				(if (not (null added-before-bindings))
 					; then
 					; We've added the match at the beginning of this chain.
 					(block added-before
+						(format t "added ~s before ~s~%" (second match) (second (car chain)))
 						(setf new-match (apply-bindings match (car added-before-bindings)))
 						(setf new-chain (apply-bindings chain (second added-before-bindings)))
 						(setf new-match-chains (append new-match-chains (list (append (list new-match) new-chain))))
 					)
 				)
+				(format t "finished before check~%")
 
 				; Next, try to unify the match's preconditions
 				; with the chain's postconditions.
-				(setf added-after-bindings (link-two-matches match (car (last chain)) story))
+				(setf added-after-bindings (link-two-matches (car (last chain)) match story))
+				(format t "finished after call~%")
 				(if (not (null added-after-bindings))
 					; then
-					; We've added the match at the beginning of this chain.
+					; We've added the match at the end of this chain.
 					(block added-after
-						(setf new-match (apply-bindings match (car added-after-bindings)))
-						(setf new-chain (apply-bindings chain (second added-after-bindings)))
-						(setf new-match-chains (append new-match-chains (list (append (list new-match) new-chain))))
+						(format t "added ~s after ~s~%" (car (second match)) (car (second (car (last chain)))))
+						(setf new-chain (apply-bindings chain (car added-after-bindings)))
+						(setf new-match (apply-bindings match (second added-after-bindings)))
+						; (setf new-match-chains (append new-match-chains (list (append (list new-match) new-chain))))
+						(setf new-match-chains (append new-match-chains (list (append new-chain (list new-match)))))
 					)
 				)
+				(format t "finished after check~%")
 		)))
 
 		; all length-i chains have been generated, so we'll add all the chains we've
@@ -245,15 +258,22 @@
 		(setf match-chains (append match-chains new-match-chains))
 	))
 
+	; Remove explicit duplicates.
+	(setf match-chains (remove-duplicates match-chains :test (lambda (c1 c2) (equal (mapcar #'second c1) (mapcar #'second c2)))))
+
 	; Remove subchains.
 	(setf deduped-match-chains (list))
-	(loop for c1 in match-chains do (block dd-outer
-		(loop for c2 in match-chains do (block dd-inner
-			(if (equal c1 c2)
+	(loop for c1 in match-chains for i from 0 do (block dd-outer
+		; (format t "considering chain ~s~%" (mapcar #'second c1))
+		(loop for c2 in match-chains for j from 0 do (block dd-inner
+			(if (equal i j)
 				(return-from dd-inner)
 			)
 
-			(format t "is ~s a subchain of ~s? ~s~%" (mapcar #'second c1) (mapcar #'second c2) (has-subseq (mapcar #'second c2) (mapcar #'second c1)))
+			;(if (has-subseq (mapcar #'second c2) (mapcar #'second c1))
+				; then
+				(format t "is ~s a subchain of ~s? ~s~%" (mapcar #'second c1) (mapcar #'second c2) (has-subseq (mapcar #'second c2) (mapcar #'second c1)))
+			;)
 
 			(if (has-subseq
 					(mapcar #'second c2)
@@ -263,6 +283,7 @@
 			)
 		))
 
+		; (format t "	adding~%")
 		(setf deduped-match-chains
 			(append deduped-match-chains (list c1)))
 
@@ -290,8 +311,9 @@
 ; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
 ; (loop for story in (list *MONKEY-PROC-1*)
 ; (loop for story in *DEV-FRS*
-(loop for raw-story in *DEV-STORY-SENTS*
+; (loop for raw-story in *DEV-STORY-SENTS*
 ; (loop for raw-story in (list (fourth *DEV-STORY-SENTS*))
+(loop for raw-story in (subseq *DEV-STORY-SENTS* 0 4)
 	do (block matchblock
 		(setf story 
 			(loop for sent in (parse-story raw-story)
@@ -313,8 +335,7 @@
 				(setf score (second m-pair))
 				(if (and
 						(or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
-						(not (varp (third (second m))))
-					)
+						(not (varp (third (second m)))))
 					; then
 					(setf story-matches (append story-matches (list m)))
 					; else

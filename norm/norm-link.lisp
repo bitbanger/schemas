@@ -28,7 +28,7 @@
 
 	; (format t "time model: ~s~%" (append story-time-props all-ep-rels))
 	(handler-case (load-time-model (append story-time-props all-ep-rels))
-		(error () (return-from outer nil))
+		(error () (progn (format t "error loading time model~%") (return-from outer nil)))
 	)
 
 
@@ -38,6 +38,7 @@
 	(loop for post-pair in (section-formulas (get-section schema-post ':Postconds))
 		do (loop for pre-pair in (section-formulas (get-section schema-pre ':Preconds))
 			do (block match-conds
+				; (format t "checking post-pair ~s and pre-pair ~s (post-ep ~s and pre-ep ~s))~%" post-pair pre-pair schema-post-ep schema-pre-ep)
 				(if
 					; NOTE: this "precond-of" only means Allen time rel (p m),
 					; and doesn't do any causation testing.

@@ -7,8 +7,8 @@
 (load "norm-kb.lisp")
 
 (defparameter *BLANK-SCHEMA*
-'(epi-schema ((?x blank.v) ** ?E)
-))
+	'(epi-schema ((?x blank.v) ** ?E) (:Roles))
+)
 
 (defparameter *KB-EXPLICIT* (make-hash-table :test #'equal))
 (defparameter *KB-ARG-IND* (make-hash-table :test #'equal))

@@ -273,7 +273,7 @@
 )
 )
 
-(defun has-subseq (s seq)
+(defun has-subseq-pred (s seq eqpred)
 (block outer
 	(if (or (not (listp s)) (not (listp seq)))
 		(return-from outer nil)
@@ -283,12 +283,16 @@
 	)
 
 	(loop for i from 0 to (- (length s) (length seq))
-		if (equal (subseq s i (+ i (length seq))) seq)
+		if (funcall eqpred (subseq s i (+ i (length seq))) seq)
 			do (return-from outer t)
 	)
 
 	(return-from outer nil)
 )
+)
+
+(defun has-subseq (s seq)
+	(has-subseq-pred s seq #'equal)
 )
 
 (defun has-suffix? (s suf)

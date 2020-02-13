@@ -7,6 +7,10 @@
 (load "norm-time.lisp")
 (load "ll-cache.lisp")
 
+(defparameter *BLANK-SCHEMA*
+	'(epi-schema ((?x blank.v) ** ?E) (:Roles))
+)
+
 (defparameter *SCHEMA-MATCH-NUM* 0)
 
 (defparameter *SEC-NAMES* '(

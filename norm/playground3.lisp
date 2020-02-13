@@ -275,9 +275,21 @@
 				; (format t "is ~s a subchain of ~s? ~s~%" (mapcar #'second c1) (mapcar #'second c2) (has-subseq (mapcar #'second c2) (mapcar #'second c1)))
 			;)
 
-			(if (has-subseq
+			(if (has-subseq-pred
 					(mapcar #'second c2)
-					(mapcar #'second c1))
+					(mapcar #'second c1)
+					; Two chains of schema headers are equal if, for each header
+					; of each chain sharing the same index, those headers are equal
+					; modulo a successful variable unification.
+					(lambda (l1 l2)
+						(and
+							(listp l1) (listp l2) (equal (length l1) (length l2))
+							(loop for e1 in l1 for e2 in l2
+								always (equal-with-unification e1 e2)
+							)
+						)
+					)
+				)
 				; then
 				(return-from dd-outer)
 			)

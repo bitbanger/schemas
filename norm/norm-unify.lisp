@@ -52,6 +52,26 @@
 )
 )
 
+(defun unify-no-schema (pred1 pred2 old-bindings)
+	(unify pred1 pred2 old-bindings *BLANK-SCHEMA* nil)
+)
+
+(defun equal-with-unification (p1 p2)
+(block outer
+	(setf p1-bindings (unify-no-schema p1 p2 nil))
+	(if (null p1-bindings) (return-from outer nil))
+	(setf p2-bindings (unify-no-schema p2 (apply-bindings p1 p1-bindings) nil))
+	(if (null p2-bindings) (return-from outer nil))
+	; (format t "p1-bindings are ~s~%" (ht-to-str p1-bindings))
+	; (format t "p2-bindings are ~s~%" (ht-to-str p2-bindings))
+
+	(return-from outer (equal
+		(apply-bindings p1 p1-bindings)
+		(apply-bindings p2 p2-bindings)
+	))
+)
+)
+
 (defun unify-props (schema story old-bindings whole-schema whole-story)
 	;(check (canon-prop? schema))
 	;(check (canon-prop? story))
@@ -277,9 +297,19 @@
 	;(check (canon-individual? story))
 (let ((bindings (ht-copy old-bindings)))
 (block outer
-	(if (and (equal schema story) (not (has-element-pred story 'varp)))
+	; These things have no variables to bind, so they must
+	; be equal.
+	(if (and (not (has-element-pred story 'varp)) (not (has-element-pred schema 'varp)))
 		; then
-		(return-from outer bindings)
+		(progn
+		; (format t "unifying ~s and ~s~%" schema story)
+		(if (equal schema story)
+			; then (we can continue w/ no bindings)
+			(return-from outer bindings)
+			; else (we can't unify at all)
+			(return-from outer nil)
+		)
+		)
 	)
 
 	; If the two individuals are episodes, we have to unify the

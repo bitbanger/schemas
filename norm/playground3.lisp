@@ -201,14 +201,14 @@
 			; beginning and end of each existing chain independently.
 			; The idea is to generate all length-i chains this round.
 			do (loop for chain in match-chains do (block extend-loop
-				(format t "considering match ~s with chain ~s~%" (second match) (mapcar (lambda (x) (second x)) chain))
+				; (format t "considering match ~s with chain ~s~%" (second match) (mapcar (lambda (x) (second x)) chain))
 
 				; Don't duplicate length i-1 matches
 				(if (< (length chain) (- i 1))
 					(return-from extend-loop)
 				)
 
-				(format t "passed duplication check~%")
+				; (format t "passed duplication check~%")
 
 				; Check that the episode of this match isn't already
 				; in the chain.
@@ -217,40 +217,40 @@
 					(return-from extend-loop)
 				)
 
-				(format t "passed thereis check~%")
+				; (format t "passed thereis check~%")
 
 				; First, try to unify the match's postconditions
 				; with the chain's preconditions.
 				(setf added-before-bindings (link-two-matches match (car chain) story))
-				(format t "finished before call~%")
+				; (format t "finished before call~%")
 				(if (not (null added-before-bindings))
 					; then
 					; We've added the match at the beginning of this chain.
 					(block added-before
-						(format t "added ~s before ~s~%" (second match) (second (car chain)))
+						; (format t "added ~s before ~s~%" (second match) (second (car chain)))
 						(setf new-match (apply-bindings match (car added-before-bindings)))
 						(setf new-chain (apply-bindings chain (second added-before-bindings)))
 						(setf new-match-chains (append new-match-chains (list (append (list new-match) new-chain))))
 					)
 				)
-				(format t "finished before check~%")
+				; (format t "finished before check~%")
 
 				; Next, try to unify the match's preconditions
 				; with the chain's postconditions.
 				(setf added-after-bindings (link-two-matches (car (last chain)) match story))
-				(format t "finished after call~%")
+				; (format t "finished after call~%")
 				(if (not (null added-after-bindings))
 					; then
 					; We've added the match at the end of this chain.
 					(block added-after
-						(format t "added ~s after ~s~%" (car (second match)) (car (second (car (last chain)))))
+						; (format t "added ~s after ~s~%" (car (second match)) (car (second (car (last chain)))))
 						(setf new-chain (apply-bindings chain (car added-after-bindings)))
 						(setf new-match (apply-bindings match (second added-after-bindings)))
 						; (setf new-match-chains (append new-match-chains (list (append (list new-match) new-chain))))
 						(setf new-match-chains (append new-match-chains (list (append new-chain (list new-match)))))
 					)
 				)
-				(format t "finished after check~%")
+				; (format t "finished after check~%")
 		)))
 
 		; all length-i chains have been generated, so we'll add all the chains we've
@@ -272,7 +272,7 @@
 
 			;(if (has-subseq (mapcar #'second c2) (mapcar #'second c1))
 				; then
-				(format t "is ~s a subchain of ~s? ~s~%" (mapcar #'second c1) (mapcar #'second c2) (has-subseq (mapcar #'second c2) (mapcar #'second c1)))
+				; (format t "is ~s a subchain of ~s? ~s~%" (mapcar #'second c1) (mapcar #'second c2) (has-subseq (mapcar #'second c2) (mapcar #'second c1)))
 			;)
 
 			(if (has-subseq

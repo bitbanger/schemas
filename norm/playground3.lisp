@@ -323,9 +323,9 @@
 ; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
 ; (loop for story in (list *MONKEY-PROC-1*)
 ; (loop for story in *DEV-FRS*
-; (loop for raw-story in *DEV-STORY-SENTS*
+(loop for raw-story in *DEV-STORY-SENTS*
 ; (loop for raw-story in (list (fourth *DEV-STORY-SENTS*))
-(loop for raw-story in (subseq *DEV-STORY-SENTS* 0 4)
+; (loop for raw-story in (subseq *DEV-STORY-SENTS* 0 4)
 	do (block matchblock
 		(setf story 
 			(loop for sent in (parse-story raw-story)

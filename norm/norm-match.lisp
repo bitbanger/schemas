@@ -751,6 +751,9 @@
 				(setf best-score score-pair)
 				(setf best-match cur-match)
 				(setf best-bindings cur-bindings)
+				(if bound-header
+					(return-from shuffle-block)
+				)
 			)
 		)
 	

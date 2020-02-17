@@ -439,10 +439,19 @@
 )
 
 (defun dbg (tag fmt-str &rest args)
-	;(if (or *DBG-ALL* (member tag *DBG-TAGS*))
-	;	(apply #'format (append (list t fmt-str) args))
-	;)
-	nil
+	(if (or *DBG-ALL* (member tag *DBG-TAGS* :test #'equal))
+		(apply #'format (append (list t fmt-str) args))
+	)
+)
+
+(defun dbg-tag (tag)
+	(if (not (member tag *DBG-TAGS* :test #'equal))
+		(setf *DBG-TAGS* (append *DBG-TAGS* (list tag)))
+	)
+)
+
+(defun dbg-untag (tag)
+	(setf *DBG-TAGS* (remove tag *DBG-TAGS*))
 )
 
 (defun ht-eq (ht1 ht2)

@@ -146,11 +146,13 @@
 				(return-from outer nil)
 				)
 				; else
+				(dbg 'unify "unified prefix args ~s and ~s~%" schema-pre-arg story-pre-arg)
 				; (format t "they did bind~%")
 			)
 		)
 	)
 	; (format t "~%")
+	(dbg 'unify "prefix bindings are ~s~%" (ht-to-str bindings))
 
 	; (format t "bindings are no1 ~s~%" (ht-to-str bindings))
 
@@ -223,12 +225,16 @@
 	; a modifier type-shifting operator and a predicate.
 	; Compare the type-shifting operators for equality, then
 	; try to unify the predicates.
-	(if (equal (car schema) (car story))
+	(if (or
+			(equal (car schema) (car story))
+			; :R comes out a lot in parses, and can match to whatever
+			(equal (car story) ':R)
+		)
 		; then
 		(return-from outer (unify-preds (second schema) (second story) bindings whole-schema whole-story))
 		; else
 		(progn
-		(dbg 'unify "predicate modifiers ~s and ~s cannot be unified (type-shifters match, but not preds inside)~%" schema story)
+		(dbg 'unify "predicate modifiers ~s and ~s cannot be unified (type-shifters don't match)~%" schema story)
 		(return-from outer nil)
 		)
 	)
@@ -512,7 +518,7 @@
 		; then
 		(progn
 		(dbg 'unify "modifier lists cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%")
-		(return-from outer (list nil (make-hash-table :test #'equal)))
+		(return-from outer (list nil bindings))
 		)
 	)
 

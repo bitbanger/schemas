@@ -1309,15 +1309,32 @@
 				(lex-skolem? (third e))
 				(listp (car e))
 				(equal 3 (length (car e)))
-				(equal 'AND.CC (second (car e)))
+				(or 
+					(equal 'AND.CC (second (car e)))
+					(equal 'AND (car (car e)))
+				)
 				;(canon-prop? (car (car e)))
 				;(canon-prop? (third (car e)))
 				)
 			; then
 			(block loop-inner
 				(setf ep (third e))
-				(setf prop1 (car (car e)))
-				(setf prop2 (third (car e)))
+
+				(setf prop1 nil)
+				(setf prop2 nil)
+				(if (equal 'AND.CC (second (car e)))
+					; then
+					(progn
+						(setf prop1 (car (car e)))
+						(setf prop2 (third (car e)))
+					)
+					; else, AND is (car (car e))
+					(progn
+						(setf prop1 (second (car e)))
+						(setf prop2 (third (car e)))
+					)
+				)
+
 				(setf subep1 (new-skolem! 'E))
 				(setf subep2 (new-skolem! 'E))
 				(setf phi-copy (append (list (list subep1 'DURING ep)) phi-copy))

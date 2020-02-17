@@ -86,6 +86,12 @@
 				(setf new-bindings (unify (second formula) phi nil schema story))
 				(setf pred1 (prop-pred (second formula)))
 				(setf pred2 (prop-pred phi))
+
+				; Boolean conjunctions, etc. may not have extractable pred bases
+				(if (or (null pred1) (null pred2))
+					(return-from uni)
+				)
+
 				(if (equal '** pred2)
 					(setf pred2 (prop-pred (car phi)))
 				)

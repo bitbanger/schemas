@@ -579,8 +579,8 @@
 )
 
 (defun check-constraints-helper (schema story checked)
-	; (uncached-check-constraints schema story)
-	(ll-cache 'uncached-check-constraints (list schema story checked) 5)
+	(uncached-check-constraints schema story checked)
+	; (ll-cache 'uncached-check-constraints (list schema story checked) 5)
 )
 
 (defun uncached-check-constraints (schema story checked)
@@ -605,6 +605,8 @@
 					; then
 					(return-from check-constr)
 				)
+
+				(setf bound-nested nil)
 
 				(if (invokes-schema? phi)
 					; then
@@ -651,9 +653,17 @@
 							(progn
 								(setf true-count (+ true-count (car nest-score)))
 								(setf untrue-count (+ untrue-count (second nest-score)))
+								(setf bound-nested t)
 							)
 						)
 						
+					)
+				)
+
+				(if (and (null (gethash phi checked)) bound-nested)
+					; then
+					(progn
+						(format t "double-checking ~s~%" phi)
 					)
 				)
 
@@ -727,6 +737,11 @@
 		; (format t "~s~%" (get-section cur-match ':Episode-relations))
 
 		(setf score-pair (check-constraints cur-match story))
+		; A null score indicates that a constraint with necessity
+		; 1 was broken, and that the match is invalid by definition.
+		(if (null score-pair)
+			
+		)
 		; (format t "score pair is ~s~%" score-pair)
 
 		

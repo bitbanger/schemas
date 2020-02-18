@@ -139,6 +139,14 @@
 
 	(setf (gethash story *STORY-KB-MAP*) skb)
 
+	(if (has-element story 'I.PRO)
+		; then
+		(add-to-kb '(I.PRO AGENT.N) skb)
+	)
+	(if (has-element story 'YOU.PRO)
+		; then
+		(add-to-kb '(YOU.PRO AGENT.N) skb)
+	)
 	(if (has-element story 'SHE.PRO)
 		; then
 		(progn

@@ -195,6 +195,15 @@
 )
 )
 
+(defun plur? (x)
+(and
+	(listp x)
+	(equal 2 (length x))
+	(equal 'PLUR (car x))
+	(canon-pred? (second x))
+)
+)
+
 (defun canon-charstar? (x)
 (or
 	(mp x (list 'canon-prop? (list 'id? '*) 'canon-individual?))

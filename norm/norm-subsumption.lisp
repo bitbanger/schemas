@@ -27,6 +27,7 @@
 
 (defparameter *SPECIAL-SUBSUMPTIONS* (mk-hashtable '(
 	((AGENT.N ANIMAL.N) t) ; animals are agents
+	((AGENT.N CAUSAL_AGENT.N) t) ; causal agents are agents
 	((FOOD.N FRUIT.N) t) ; fruit is food
 )))
 
@@ -98,6 +99,18 @@
 		(return-from outer 0.9)
 		)
 	)
+
+	; Strip PLUR (at a cost if only from one)
+	(if (plur? story-pred)
+		; then
+		(if (not (plur? schema-pred))
+			; then
+			(return-from outer (* 0.75 (subsumption-score schema-pred (second story-pred))))
+			; else
+			(return-from outer (subsumption-score (second schema-pred) (second story-pred)))
+		)
+	)
+	; (or for free if both)
 
 	; If the story pred is a specification of the schema pred,
 	; then schema subsumes story

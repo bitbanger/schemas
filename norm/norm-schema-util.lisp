@@ -11,6 +11,8 @@
 	'(epi-schema ((?x blank.v) ** ?E) (:Roles))
 )
 
+(setf *DEFAULT-NECESSITY* 0.9)
+
 (defparameter *SCHEMA-MATCH-NUM* 0)
 
 (defparameter *SEC-NAMES* '(
@@ -587,6 +589,22 @@
 	))
 
 	(return-from outer (list gen-map gen-schema))
+)
+)
+
+(defun get-necessity (constr-id schema)
+(block outer
+	(if (not (null (get-section schema ':Necessities)))
+		; then
+		(loop for pair in (section-formulas (get-section schema ':Necessities))
+			do (if (equal (car pair) constr-id)
+				; then
+				(return-from outer (car (prop-post-args (second pair))))
+			)
+		)
+	)
+
+	(return-from outer *DEFAULT-NECESSITY*)
 )
 )
 

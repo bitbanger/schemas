@@ -230,6 +230,16 @@
 )
 )
 
+(defun personal-pronoun? (p)
+	(or
+		(equal p 'I.PRO)
+		(equal p 'ME.PRO)
+		(equal p 'HE.PRO)
+		(equal p 'SHE.PRO)
+		(equal p 'THEY.PRO)
+	)
+)
+
 ; Ideally, this wouldn't be necessary, but sometimes
 ; Skolemized things still get the OBJECT name, e.g. if
 ; a lambda-and predicate was Skolemized and couldn't be
@@ -1513,7 +1523,15 @@
 			; (format t "cluster ~d, pronouns ~s, others ~s~%" i pronouns non-pronouns)
 			(setf rep-name (car (append non-pronouns pronouns)))
 			(if (lex-pronoun? rep-name)
+				; then
+				(progn
+				(setf old-rep-name (intern (concat-strs (car (split-str (string rep-name) ".")) ".PRO")))
 				(setf rep-name (new-skolem! (intern (car (split-str (format nil "~s" rep-name) ".")))))
+				(if (personal-pronoun? old-rep-name)
+					; then
+					(setf new-sents (append new-sents (list (list rep-name 'AGENT.N))))
+				)
+				)
 			)
 			; (format t "picking representative name ~s~%" rep-name)
 			(loop for e in cluster

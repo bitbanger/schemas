@@ -466,7 +466,7 @@
 		; then
 		(progn
 		(dbg 'unify "modifier lists cannot be unified (not enough predicate modifiers in the latter)~%")
-		(return-from outer (list nil (make-hash-table :test #'equal)))
+		(return-from outer (list nil bindings))
 		)
 	)
 

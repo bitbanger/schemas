@@ -101,7 +101,7 @@
 	;	(return-from match-proto)
 	;)
 
-	(loop for best-match-res-pair in (top-k-story-schema-matches story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE* 2) do (block process-each
+	(loop for best-match-res-pair in (top-k-story-schema-matches story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE* 3) do (block process-each
 
 	; (setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
 	(setf best-match-res (car best-match-res-pair))
@@ -324,6 +324,7 @@
 ; (loop for story in (list *MONKEY-PROC-1*)
 ; (loop for story in *DEV-FRS*
 (loop for raw-story in *DEV-STORY-SENTS*
+		for story-num from 0
 ; (loop for raw-story in (list (fourth *DEV-STORY-SENTS*))
 ; (loop for raw-story in (subseq *DEV-STORY-SENTS* 0 4)
 	do (block matchblock
@@ -335,7 +336,7 @@
 				))
 		)
 
-		(format t "story 1: ~s~%" raw-story)
+		(format t "story ~s: ~s~%" story-num raw-story)
 
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
 		(setf story-matches (list))

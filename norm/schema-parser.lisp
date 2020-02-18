@@ -150,6 +150,12 @@
 		((!1 canon-individual?) (!2 canon-pred?) (+ canon-individual?))
 		(!1 (!2 +))
 	)
+
+	; Remove progressive indicators
+	(/
+		((<> prog _*1 (!2 canon-pred?)))
+		(_*1 !2)
+	)
 ))
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(

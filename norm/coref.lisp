@@ -178,7 +178,7 @@
 
 	; If we have a kind, check whether the stipulated predicate
 	; subsumes the kind's predicate.
-	(if (and (equal 1 (length args)) (equal 'K (car (car args))))
+	(if (and (equal 1 (length args)) (listp (car args)) (equal 'K (car (car args))))
 		(return-from outer (subsumes pred (second (car args))))
 	)
 

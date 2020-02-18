@@ -588,6 +588,7 @@
 )
 
 (defun uncached-check-constraints (schema story checked)
+(let (bound-nested phi phi-id phi-pair sec)
 (block outer
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))
@@ -639,6 +640,12 @@
 						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
 						(setf old-checked-count (hash-table-count checked))
 						(setf nest-score (check-constraints-helper nested-schema-bound story checked))
+						; If a nested schema breaks a necessity-1 constraint,
+						; the whole nest is invalid.
+						(if (null nest-score)
+							(return-from outer nil)
+						)
+
 						(setf new-checked-count (hash-table-count checked))
 						; (format t "score of ~s for nested schema ~s~%" nest-score nested-schema-name)
 
@@ -660,15 +667,8 @@
 					)
 				)
 
-				(if (and (null (gethash phi checked)) bound-nested)
-					; then
-					(progn
-						(format t "double-checking ~s~%" phi)
-					)
-				)
-
 				; don't double-count anything, esp. in nested schemas
-				(if (null (gethash phi checked))
+				(if (and (null (gethash phi checked)) (not bound-nested))
 					; then
 					(progn
 						(if (eval-prop phi story-kb)
@@ -678,7 +678,12 @@
 
 							; else
 							; (format t "time model: ~s~%" *TIME-MODEL*)
-							(setf untrue-count (+ untrue-count 1))
+							(if (equal (get-necessity phi-id schema) 1.0)
+								; then, invalid match
+								(return-from outer nil)
+								; else
+								(setf untrue-count (+ untrue-count 1))
+							)
 							; (format t "	untrue: ~s~%" phi)
 						)
 						(setf (gethash phi checked) t)
@@ -689,6 +694,7 @@
 	)
 
 	(return-from outer (list true-count untrue-count))
+)
 )
 )
 
@@ -740,7 +746,7 @@
 		; A null score indicates that a constraint with necessity
 		; 1 was broken, and that the match is invalid by definition.
 		(if (null score-pair)
-			
+			(continue shuffle-block)
 		)
 		; (format t "score pair is ~s~%" score-pair)
 

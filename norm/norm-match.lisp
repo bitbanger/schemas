@@ -588,7 +588,7 @@
 )
 
 (defun uncached-check-constraints (schema story checked)
-(let (bound-nested phi phi-id phi-pair sec)
+(let (bound-nested phi phi-id phi-pair sec true-count untrue-count)
 (block outer
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))
@@ -671,6 +671,7 @@
 				(if (and (null (gethash phi checked)) (not bound-nested))
 					; then
 					(progn
+						(format t "verifying ~s~%" phi)
 						(if (eval-prop phi story-kb)
 							; then
 							(setf true-count (+ true-count 1))
@@ -700,6 +701,79 @@
 
 (defun best-story-schema-match (story schema num_shuffles generalize)
 	(car (top-k-story-schema-matches story schema num_shuffles generalize 1))
+)
+
+(defun top-k-story-matches (story num_shuffles schemas num_schemas generalize k)
+(block outer
+(setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num_schemas)))
+
+(load-story-time-model story)
+
+(setf matches (make-hash-table :test #'equal))
+(setf match-scores (make-hash-table :test #'equal))
+
+;(format t "scores:~%")
+;(loop for sc in scores do (format t "	~s~%" (- (car sc) (second sc))))
+;(loop for i from 1 to 10 do 
+(loop for protoschema in best-schemas do (block match-proto
+	;(if (not (equal protoschema 'do_action_to_enable_action.v))
+		; then
+	;	(return-from match-proto)
+	;)
+
+	(loop for best-match-res-pair in (top-k-story-schema-matches story (eval protoschema) num_shuffles generalize k) do (block process-each
+
+	; (setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
+	(setf best-match-res (car best-match-res-pair))
+	(setf best-score (car best-match-res-pair))
+	(setf best-match (second best-match-res-pair))
+	(setf best-bindings (third best-match-res-pair))
+	; (print-schema best-match)
+	; (format t "deduped:~%")
+	(if (and (schema? best-match) (not (equal '(0 0) best-score)))
+		(progn
+			; (format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
+			; (format t "best match schema is ~s~%" (schema-name best-match))
+			; (format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
+
+			(setf match (dedupe-sections best-match))
+			; (setf match (apply-bindings (eval protoschema) best-bindings))
+
+			; (print-schema match)
+			; (format t "match: ~s~%" (car (second match)))
+			; (format t "header is ~s~%" (second match))
+			; (format t "additional rigid constraints:~%")
+			(loop for k being the hash-keys of best-bindings
+				do (if (not (member k (car (second (eval protoschema))) :test #'equal))
+					; then
+					; CHANGE TO FORMAT T TO RE-ENABLE
+					(format nil "	~s~%" (list (list (var-to-sk-fn k) (third (second (eval protoschema)))) '= (gethash k best-bindings)))
+				)
+			)
+			; (print-schema (gen-clean match))
+			; (format t "~%~%~%")
+
+			(setf (gethash protoschema matches) (append (gethash protoschema matches) (list match)))
+			(setf (gethash protoschema match-scores) (append (gethash protoschema match-scores) (list best-score)))
+		)
+	)
+	))
+
+	; (format t "bindings: ~s~%" (ht-to-str best-bindings))
+
+	;(loop for var being the hash-keys of best-bindings do (block binding-loop
+	;	(format 
+	;))
+))
+;)
+
+	(return-from outer (loop for k being the hash-keys of matches append
+		(loop for match in (gethash k matches)
+				for match-score in (gethash k match-scores)
+			collect (list match match-score))
+		; (list (gethash k matches) (gethash k match-scores))
+	))
+)
 )
 
 (defun top-k-story-schema-matches (story schema num_shuffles generalize k)
@@ -746,7 +820,7 @@
 		; A null score indicates that a constraint with necessity
 		; 1 was broken, and that the match is invalid by definition.
 		(if (null score-pair)
-			(continue shuffle-block)
+			(return-from shuffle-block)
 		)
 		; (format t "score pair is ~s~%" score-pair)
 

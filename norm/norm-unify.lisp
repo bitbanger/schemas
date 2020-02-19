@@ -231,7 +231,16 @@
 			(equal (car story) ':R)
 		)
 		; then
-		(return-from outer (unify-preds (second schema) (second story) bindings whole-schema whole-story))
+		(if (equal (length schema) (length story))
+			; then
+			; TODO: unify all serial args, not just second
+			(return-from outer (unify-preds (second schema) (second story) bindings whole-schema whole-story))
+			; else
+			(progn
+		(dbg 'unify "predicate modifiers ~s and ~s cannot be unified (type-shifters have unequal #s of serial args)~%" schema story)
+			(return-from outer nil)
+			)
+		)
 		; else
 		(progn
 		(dbg 'unify "predicate modifiers ~s and ~s cannot be unified (type-shifters don't match)~%" schema story)

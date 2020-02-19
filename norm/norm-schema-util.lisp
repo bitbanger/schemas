@@ -86,9 +86,45 @@
 		;)
 		(canon-individual? (car phi))
 		; else
-		(has-prefix? (format nil "~s" (car phi)) "!"))
+		(has-prefix? (string (car phi)) "!"))
 	(canon-prop? (second phi))
 )
+)
+
+(defun exc-varp (s)
+(and
+	(symbolp s)
+	(> (length (string s)) 1)
+	(equal "!" (subseq (string s) 0 1))
+)
+)
+
+(defun exc-to-var (s)
+	(if (exc-varp s)
+		; then
+			(intern (concat-strs "?" (remove-prefix (string s) "!")))
+		; else
+		(if (varp s)
+			; then
+			s
+			; else
+			nil
+		)
+	)
+)
+
+(defun var-to-exc (s)
+	(if (varp s)
+		; then
+		(intern (concat-strs "!" (remove-prefix (string s) "?")))
+		; else
+		(if (exc-varp s)
+			; then
+			s
+			; else
+			nil
+		)
+	)
 )
 
 (defun fluent-cond? (phi)
@@ -107,6 +143,10 @@
 	(> (length sec) 0)
 	(not (null (member (car sec) *SEC-NAMES*)))
 	(or
+		; These sections don't need to have valid formulas.
+		(equal (car sec) ':Necessities)
+		(equal (car sec) ':Certainties)
+
 		(loop for phi in (cdr sec)
 			always (nonfluent-cond? phi))
 		(loop for phi in (cdr sec)
@@ -554,11 +594,27 @@
 	(second (mapped-generalize-schema-constants schema))
 )
 
-(defun mapped-generalize-schema-constants (schema)
+(defun mapped-generalize-schema-constants (in-schema)
 (block outer
 	(setf gen-cursor "?X_A")
-	(setf gen-schema schema)
+	(setf gen-schema in-schema)
 	(setf gen-map (make-hash-table :test #'equal))
+
+	; don't take any variables scoped by lambdas; we'll replace
+	; them with dummy list values to make sure they're not taken
+	(setf schema (copy-list in-schema))
+	(setf s-lambdas (get-elements-pred in-schema #'canon-lambda?))
+	(loop for l in s-lambdas
+		do (block replace-lambda
+			(setf new-l (copy-list l))
+			(setf l-vars (listify-nonlists (second l)))
+			(loop for lv in l-vars
+				do (setf new-l (replace-vals lv nil l))
+			)
+			(setf schema (replace-vals l new-l schema))
+		)
+	)
+
 	(loop for si in (extract-schema-small-individuals schema) do (block gen-block
 		; (format t "small ind ~s~%" si)
 		(loop for constr in (schema-term-constraints schema si)
@@ -597,9 +653,9 @@
 	(if (not (null (get-section schema ':Necessities)))
 		; then
 		(loop for pair in (section-formulas (get-section schema ':Necessities))
-			do (if (equal (car pair) constr-id)
+			do (if (equal (car (second pair)) (var-to-exc constr-id))
 				; then
-				(return-from outer (car (prop-post-args (second pair))))
+				(return-from outer (third (second pair)))
 			)
 		)
 	)

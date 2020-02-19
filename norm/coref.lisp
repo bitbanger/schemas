@@ -10,6 +10,28 @@
 	'(epi-schema ((?x blank.v) ** ?E) (:Roles))
 )
 
+(defparameter *COMPUTABLE-PREDS* (mk-hashtable (list
+	(list
+		'INANIMATE_OBJECT.N
+		(lambda (args kb)
+			(and
+				(equal 1 (length args))
+				(eval-prop (list (car args) 'OBJECT.N) kb)
+				(not (eval-prop (list (car args) 'AGENT.N) kb))
+			)
+		)
+	)
+
+	(list
+		'=
+		(lambda (args kb)
+			(loop for arg1 in args
+				always (loop for arg2 in args
+					always (equal arg1 arg2)))
+		)
+	)
+)))
+
 (defparameter *KB-EXPLICIT* (make-hash-table :test #'equal))
 (defparameter *KB-ARG-IND* (make-hash-table :test #'equal))
 (defparameter *KB-PRED-IND* (make-hash-table :test #'equal))
@@ -176,12 +198,6 @@
 		(return-from outer nil)
 	)
 
-	; If we have a kind, check whether the stipulated predicate
-	; subsumes the kind's predicate.
-	(if (and (equal 1 (length args)) (listp (car args)) (equal 'K (car (car args))))
-		(return-from outer (subsumes pred (second (car args))))
-	)
-
 
 	; Handle temporal predicates.
 	(if (time-prop? prop)
@@ -220,7 +236,14 @@
 
 		; He and she pronouns refer to agents.
 		; TODO: handle "they"
-		(if (and (symbolp arg) (or (equal arg 'HE.PRO) (equal arg 'SHE.PRO)))
+		(if (and (symbolp arg) (or
+				(member arg '(
+					HE.PRO
+					SHE.PRO
+					I.PRO
+					YOU.PRO
+				) :test #'equal)
+			))
 			(if (equal pred 'AGENT.N)
 				(return-from outer t))
 		)
@@ -233,6 +256,17 @@
 			(return-from outer t)
 		)
 	))
+
+	; Check computable predicates
+	(if (not (null (gethash pred *COMPUTABLE-PREDS*)))
+		(return-from outer (funcall (gethash pred *COMPUTABLE-PREDS*) args kb))
+	)
+
+	; If we have a kind, check whether the stipulated predicate
+	; subsumes the kind's predicate.
+	(if (and (equal 1 (length args)) (listp (car args)) (equal 'K (car (car args))))
+		(return-from outer (subsumes pred (second (car args))))
+	)
 
 	; Handle "OR"s
 	(if (not (null (member 'OR prop))) (block handle-or

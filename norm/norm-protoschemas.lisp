@@ -3,11 +3,11 @@
 	avoid_action_to_avoid_displeasure.v
 	do_action_to_enable_action.v
 	use_tool.v
-	give_object.v
+	give.v
 	receiving_verb.?
 	travel.v
 	eat.v
-	feed_someone.v
+	feed.v
 	play_for_fun.v
 ))
 
@@ -17,6 +17,10 @@
 			(!r1 (?x agent.n))
 			(!r2 (?a action.n))
 			(!r3 (?p pleasure.n))
+		)
+
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
 		)
 
 		(:Goals
@@ -50,6 +54,10 @@
 			(!r3 (?d displeasure.n))
 		)
 
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
+		)
+
 		(:Goals
 			(?g1 (?x (want.v (that (not (?x (experience.v ?d)))))))
 		)
@@ -74,6 +82,10 @@
 			(!r1 (?x agent.n))
 			(!r2 (?a1 action.n))
 			(!r3 (?a2 action.n))
+		)
+
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
 		)
 
 		(:Goals
@@ -112,6 +124,10 @@
 			(!r3 (?a action.n))
 		)
 
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
+		)
+
 		(:Goals
 			(?g1 (?x (want.v (ka (do.v ?a)))))
 		)
@@ -136,12 +152,18 @@
 	)
 )
 
-(defparameter give_object.v
-	'(epi-schema ((?x give_object.v ?o (to.p-arg ?y)) ** ?e)
+(defparameter give.v
+	'(epi-schema ((?x give.v ?o (to.p-arg ?y)) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?o object.n))
+			(!r2 (?o inanimate_object.n))
 			(!r3 (?y agent.n))
+		)
+
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
+			(!c2 (!r2 certain-to-degree 1.0))
+			(!c3 (!r3 certain-to-degree 1.0))
 		)
 
 		(:Goals
@@ -151,10 +173,6 @@
 		(:Preconds
 			(?i1 (?x have.v ?o))
 			(?i2 (not (?y have.v ?o)))
-		)
-
-		(:Steps
-			(?e1 (?x (((adv-a (to.p ?y)) give.v) ?o)))
 		)
 
 		(:Postconds
@@ -168,7 +186,7 @@
 	'(epi-schema ((?x receiving_verb.? ?o (at.p-arg ?l)) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?o object.n))
+			(!r2 (?o inanimate_object.n))
 			(!r3 (?l location.n))
 		)
 
@@ -206,6 +224,10 @@
 			(!r5 (?l2 location.n))
 		)
 
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
+		)
+
 		(:Goals
 			(?g1 (?x (want.v (that (?o ((adv-a (at.p ?l2)) be.v))))))
 		)
@@ -237,6 +259,10 @@
 			(!r2 (?f food.n))
 		)
 
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
+		)
+
 		(:Goals
 			(?g1 (?x (want.v (that (not (?x hungry.a))))))
 		)
@@ -259,12 +285,19 @@
 	)
 )
 
-(defparameter feed_someone.v
-	'(epi-schema ((?x feed_someone.v ?y ?f) ** ?e)
+(defparameter feed.v
+	'(epi-schema ((?x feed.v ?y ?f) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?y agent.n))
 			(!r3 (?f food.n))
+			(!r4 (not (?x = ?y)))
+		)
+
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
+			(!c2 (!r2 certain-to-degree 1.0))
+			(!c3 (!r4 certain-to-degree 1.0))
 		)
 
 		(:Goals
@@ -278,9 +311,7 @@
 		)
 
 		(:Steps
-			(?e1 (?x feed.v ?y))
-			(?e2 (?x feed.v ?y ?f))
-			(?e3 (?y eat.v ?f))
+			(?e1 (?y eat.v ?f))
 		)
 
 		(:Postconds
@@ -289,7 +320,7 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time ?e2))
+			(!w1 (?e1 after ?e))
 		)
 	)
 )
@@ -331,6 +362,10 @@
 			(!r1 (?x agent.n))
 			(!r2 (?l1 location.n))
 			(!r3 (?l2 location.n))
+		)
+
+		(:Necessities
+			(!c1 (!r1 certain-to-degree 1.0))
 		)
 
 		(:Goals

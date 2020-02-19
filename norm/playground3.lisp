@@ -309,7 +309,126 @@
 )
 )
 
+(defun mk-chain-schema (chain)
+(block outer
+	(setf comp-preds (loop for m in chain collect (prop-pred (car (second m)))))
+	(setf comp-words (loop for cp in comp-preds collect (remove-ext (get-schema-match-name cp) ".V")))
+	(setf new-schema-pred (intern (format nil "~s_~s_~s.PR" (car comp-words) (second comp-words) (third comp-words))))
+	
+	(setf new-schema-args (loop for arg in
+		; (append (cddr (car (second match1))) (cddr (car (second match2))) (cddr (car (second match3))))
+		(loop for m in chain append (cddr (car (second m))))
+		 if (symbolp arg) collect arg))
+	(setf new-schema-args (remove-duplicates new-schema-args :test #'equal))
+	(setf new-schema-header (append (list (car (car (second (car chain))))) (list new-schema-pred) new-schema-args))
 
+	(setf new-schema (list 'epi-schema (list new-schema-header '** '?e) (list ':Steps)))
+
+	; (setf new-schema (add-constraint new-schema ':Steps (list 'not (list (car (car (second match2))) (list 'can.md (cdr (car (second match2))))))))
+	; (setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match1)) (third (second match1))))
+	; (setf new-schema (add-constraint new-schema ':Steps (list (car (car (second match2))) (list 'can.md (cdr (car (second match2)))))))
+	; (setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match2)) (third (second match2))))
+	; (setf new-schema (add-constraint-with-const new-schema ':Steps (car (second match3)) (third (second match3))))
+	(loop for m in chain
+		do (setf new-schema (add-constraint-with-const new-schema ':Steps (car (second m)) (third (second m))))
+	)
+
+	; (setf new-e1 (third (second match1)))
+	; (setf new-e2 (third (second match2)))
+	; (setf new-e3 (third (second match3)))
+	; (setf new-es (loop for m in chain collect (third (second m))))
+	(setf new-es (loop for m1 in chain for m2 in (cdr chain)
+		; collect (list (third (second m1)) (third (second m2)))
+		do (setf new-schema (add-constraint new-schema ':Episode-relations
+			(list (third (second m1)) 'before (third (second m2)))
+		))
+	))
+
+
+
+	; (setf new-schema (add-constraint new-schema ':Episode-relations (list new-e1 'before new-e2)))
+	; (setf new-schema (add-constraint new-schema ':Episode-relations (list new-e2 'before new-e3)))
+	; (setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'before new-e3)))
+	; (format t "new schema is ~s~%" new-schema)
+
+	(setf new-schema-name (new-schema-match-name (second (car (second new-schema)))))
+	(setf new-schema (replace-vals (second (car (second new-schema))) new-schema-name new-schema))
+
+	(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
+	(setf new-schema-names (append new-schema-names (list new-schema-name)))
+	; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
+	; (format t "; LEARNED NEW SCHEMA:~%")
+
+	(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+
+	(setf all-rcs (list))
+	(setf new-pres (list))
+	(setf new-posts (list))
+
+	(loop for st in (section-formulas (get-section new-schema ':Steps))
+		for i from 0
+		do (block inv-loop
+			(if (not (invokes-schema? (second st)))
+				(return-from inv-loop)
+			)
+			(setf inv-pair (expand-nested-schema st new-schema))
+			; (format t "unifying parent invoker ~s with header ~s~%" (second st) (car (second (car inv-pair))))
+			(setf inv-schema (apply-bindings (car inv-pair) (second inv-pair)))
+			; (format t "embedding: ~s~%" (car (second inv-schema)))
+			; (format t "naked: ~s~%" (car (second (car inv-pair))))
+			; (format t "bindings:~%")
+			; (print-ht (second inv-pair))
+			;(setf except (loop for k  being the hash-keys of (second inv-pair) collect (gethash k (second inv-pair))))
+			(setf except (loop for k  being the hash-keys of (second inv-pair) collect k))
+			; (format t "except: ~s~%" except)
+			(setf deduped-schema (second (uniquify-shared-vars-except new-schema (car inv-pair) except)))
+			(setf deduped-schema (apply-bindings deduped-schema (second inv-pair)))
+
+			(if (equal i 0)
+				(setf new-pres (loop for pre in (section-formulas (get-section deduped-schema ':Preconds)) collect (second pre)))
+			)
+			(setf new-posts (loop for post in (section-formulas (get-section deduped-schema ':Postconds)) collect (second post)))
+
+			(setf rcs (loop for rc in (section-formulas (get-section deduped-schema ':Roles))
+				; do (format t "		~s~%" (second rc))
+				collect (second rc)
+			))
+			(setf rcs (remove-duplicates rcs :test #'equal))
+			(setf rcs (loop for rc in rcs if (loop for v in (get-elements-pred rc #'varp) always (has-element new-schema v)) collect rc))
+			(setf rcs (sort rcs (lambda (a b) (< (sxhash (car a)) (sxhash (car b))))))
+			; (loop for rc in rcs do (format t "	~s~%" rc))
+			(setf all-rcs (append all-rcs rcs))
+		)
+	)
+
+	(setf deduped-rcs (remove-duplicates all-rcs :test #'equal))
+	(setf unsubsumed-rcs (list))
+	(loop for rc1 in deduped-rcs do (block ddp
+		(if (loop for rc2 in deduped-rcs never (and (not (equal rc1 rc2)) (subsumes (prop-pred rc1) (prop-pred rc2))))
+			(setf unsubsumed-rcs (append unsubsumed-rcs (list rc1)))
+		)
+	))
+	; (format t "unsubsumed RCs:~%")
+	; (loop for rc in unsubsumed-rcs do (format t "	~s~%" rc))
+
+	; (setf new-display-schema (copy-list new-schema))
+	(loop for rc in unsubsumed-rcs
+		do (setf new-schema (add-constraint new-schema ':Roles rc))
+	)
+	(loop for pre in new-pres
+		do (setf new-schema (add-constraint new-schema ':Preconds pre)))
+	(loop for post in new-posts
+		do (setf new-schema (add-constraint new-schema ':Postconds post)))
+
+	(set (second (car (second new-schema))) new-schema)
+	(return-from outer new-schema)
+)
+)
+
+
+
+(format t "(setf matches (list))~%")
+(format t "(setf chain-matches (list))~%")
 
 
 
@@ -328,15 +447,17 @@
 ; (loop for raw-story in (list (fourth *DEV-STORY-SENTS*))
 ; (loop for raw-story in (subseq *DEV-STORY-SENTS* 0 4)
 	do (block matchblock
+		; (format t "; story ~s: ~s~%" story-num raw-story)
+		; (format t "'(")
 		(setf story 
 			(loop for sent in (parse-story raw-story)
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					if (canon-prop? wff) do (format t "~s~%" wff)
+					; if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
+		; (format t ")~%")
 
-		(format t "story ~s: ~s~%" story-num raw-story)
 
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
 		(setf story-matches (list))
@@ -364,11 +485,13 @@
 				)
 			)
 		)
-		(format t "~s matches, ~s valid~%" matchcnt (length story-matches))
+		; (format t "; ~s matches, ~s valid~%" matchcnt (length story-matches))
 
 		(loop for match in story-matches do (progn
-			(format t "match: ~s~%" (second match))
+			; (format t "; match: ~s~%" (second match))
+			(format t "(setf matches (append matches (list '")
 			(print-schema match)
+			(format t ")))~%")
 			;(setf gen-match (generalize-schema-constants match))
 			;(setf new-name (new-schema-match-name (second (car (second match)))))
 			;(setf new-header (list (car (car (second gen-match))) new-name (cdr (car (second gen-match)))))
@@ -384,18 +507,30 @@
 			; then
 			(block find-chains
 				(setf chains (link-matches story-matches story 3))
-				(format t "found chains:~%")
+				(if (loop for chain in chains thereis (> (length chain) 1))
+					; then
+					(format t "; found chains:~%")
+				)
 				(loop for chain in chains
 					for i from 0
-					do (format t "	chain ~s:~%" i)
-					do (loop for e in chain
-						do (format t "		~s~%" (second e))
+						if (> (length chain) 1)
+						do (block chain-block
+							(format t "; 	chain ~s:~%" i)
+							(loop for e in chain
+								do (format t ";		~s~%" (second e))
+							)
+
+							(setf chain-schema (mk-chain-schema chain))
+							(format t ";learned chain schema:~%")
+							(format t "(setf chain-matches (append chain-matches (list '")
+							(print-schema chain-schema)
+							(format t ")))~%")
 					)
 				)
 			)
 		)
 
-		(if (> (length story-matches) 1)
+		(if (and nil (> (length story-matches) 1))
 			; then
 			(loop for match1 in story-matches do
 				(loop for match2 in story-matches do
@@ -477,7 +612,7 @@
 							(setf new-schema-names (append new-schema-names (list new-schema-name)))
 							(set (second (car (second new-schema))) new-schema)
 							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
-							(format t "LEARNED NEW SCHEMA:~%")
+							; (format t "; LEARNED NEW SCHEMA:~%")
 
 							(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
 							(setf all-rcs (list))
@@ -577,10 +712,10 @@
 			(loop for sent in (parse-story (second *DEV-STORY-SENTS*))
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					if (canon-prop? wff) do (format t "~s~%" wff)
+					; if (canon-prop? wff) do (format t "~s~%" wff)
 				))
 		)
-		(format t "story 2: ~s~%" (second *DEV-STORY-SENTS*))
+		; (format t "story 2: ~s~%" (second *DEV-STORY-SENTS*))
 		(load-story-time-model next-story)
 
 		(setf story-matches nil)

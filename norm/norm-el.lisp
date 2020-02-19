@@ -106,6 +106,7 @@
 (defun canon-small-individual? (x)
 (and (symbolp x)
 (or
+	(numberp x)
 	(lex-skolem? x)
 	(lex-pronoun? x)
 	(lex-name? x)

@@ -191,8 +191,8 @@
 		do (block ladder-eval
 			(if (and (> (length ladder) 0) (not (null (member wn-schema-pred ladder :test (lambda (a b) (member a b :test #'equal))))))
 			(return-from outer
-				(+ 0.5
-					(* 0.5
+				(+ 0.25
+					(* 0.75
 						(/
 							(length (member wn-schema-pred ladder :test (lambda (a b) (member a b :test #'equal))))
 							(+ 1 (length ladder)))))))

@@ -20,7 +20,7 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -55,7 +55,7 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -85,7 +85,7 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -125,7 +125,7 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -161,9 +161,9 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
-			(!c2 (!r2 certain-to-degree 1.0))
-			(!c3 (!r3 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+			(!n3 (!r3 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -225,7 +225,7 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -260,7 +260,7 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -295,9 +295,9 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
-			(!c2 (!r2 certain-to-degree 1.0))
-			(!c3 (!r4 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+			(!n3 (!r4 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -365,7 +365,7 @@
 		)
 
 		(:Necessities
-			(!c1 (!r1 certain-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -392,8 +392,6 @@
 			(!w3 (?p1 after ?e))
 			(!w4 (?p2 after ?e))
 			(!w5 (?g1 cause.v ?e))
-			(!w6 (?e2 same-time ?e))
-			(!w7 (?e3 same-time ?e))
 		)
 	)
 )

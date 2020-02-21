@@ -231,13 +231,17 @@
 )
 
 (defun personal-pronoun? (p)
+(and
+	(has-suffix? (string p) "PRO")
 	(or
-		(equal p 'I.PRO)
-		(equal p 'ME.PRO)
-		(equal p 'HE.PRO)
-		(equal p 'SHE.PRO)
-		(equal p 'THEY.PRO)
+		(has-prefix? (string p) "I$")
+		(has-prefix? (string p) "ME$")
+		(has-prefix? (string p) "HE$")
+		(has-prefix? (string p) "SHE$")
+		(has-prefix? (string p) "WE$")
+		(has-prefix? (string p) "THEY$")
 	)
+)
 )
 
 ; Ideally, this wouldn't be necessary, but sometimes
@@ -1522,16 +1526,27 @@
 			(setf non-pronouns (loop for e in cluster if (not (lex-pronoun? e)) collect e))
 			; (format t "cluster ~d, pronouns ~s, others ~s~%" i pronouns non-pronouns)
 			(setf rep-name (car (append non-pronouns pronouns)))
+			(setf agent-constrs (list))
 			(if (lex-pronoun? rep-name)
 				; then
 				(progn
 				(setf old-rep-name (intern (concat-strs (car (split-str (string rep-name) ".")) ".PRO")))
 				(setf rep-name (new-skolem! (intern (car (split-str (format nil "~s" rep-name) ".")))))
+				; (format t "picking new rep name ~s for pronoun ~s~%" rep-name old-rep-name)
 				(if (personal-pronoun? old-rep-name)
 					; then
-					(setf new-sents (append new-sents (list (list rep-name 'AGENT.N))))
+					(setf agent-constrs (append agent-constrs (list (list rep-name 'AGENT.N))))
+					; else
+					(if (has-prefix? old-rep-name "IT$")
+						; then
+						(setf agent-constrs (append agent-constrs (list (list rep-name 'OBJECT.N))))
+					)
 				)
 				)
+			)
+			(if (not (null agent-constrs))
+				; then
+				(setf new-sents (append new-sents (list agent-constrs)))
 			)
 			; (format t "picking representative name ~s~%" rep-name)
 			(loop for e in cluster

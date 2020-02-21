@@ -407,6 +407,19 @@
 )
 )
 
+(defun paper-print-schema (schema)
+	(check #'schema? schema)
+
+	(format t "(~s ~s~%" (car schema) (second schema))
+	(loop for sec in (sort-sections (schema-sections schema))
+		do (format t "  ~s~%" (section-name sec))
+		do (loop for elem in (cdr sec)
+			do (format t "    ~s ~s~%" (car elem) (second elem)))
+		do (format t "  ~%")
+	)
+	(format t ")~%")
+)
+
 ; temporal propositions characterize episodes, generally.
 (defun temporal-prop? (prop)
 	; TODO: more nuanced temporal proposition identification
@@ -914,7 +927,7 @@
 						(subsumes word schema-word)
 						)
 						; then
-						(setf schema-score (+ schema-score 1))
+						(setf schema-score (+ schema-score (expt (max (subsumption-score schema-word word) (subsumption-score word schema-word)) 2)))
 						; else
 						; (dbg 'match "~s didn't subsume ~s~%" schema-word word)
 					)

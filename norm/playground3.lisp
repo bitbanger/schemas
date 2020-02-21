@@ -16,6 +16,7 @@
 (load "monkey-processed.lisp")
 (load "norm-link.lisp")
 (load "dev-story-sents.lisp")
+(load "simple_stories.lisp")
 (load "schema-parser.lisp")
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
@@ -442,12 +443,19 @@
 ; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
 ; (loop for story in (list *MONKEY-PROC-1*)
 ; (loop for story in *DEV-FRS*
-(loop for raw-story in *DEV-STORY-SENTS*
-		for story-num from 0
 ; (loop for raw-story in (list (fourth *DEV-STORY-SENTS*))
 ; (loop for raw-story in (subseq *DEV-STORY-SENTS* 0 4)
+;(loop for raw-story in '(("These are the little birds." "Their mouths are open." "They are hungry."
+; "The mother bird will feed them." "She has a grasshopper in her mouth."
+; "If they try to fly, they will fall."))
+;(loop for raw-story in *DEV-STORY-SENTS*
+(loop for raw-story in (shuffle *ALL-STORY-SENTS*)
+		for story-num from 0
 	do (block matchblock
-		; (format t "; story ~s: ~s~%" story-num raw-story)
+		(format t "; story ~s:~%" story-num)
+		(loop for line in raw-story
+			do (format t "	; ~s~%" line)
+		)
 		; (format t "'(")
 		(setf story 
 			(loop for sent in (parse-story raw-story)
@@ -468,7 +476,7 @@
 				(setf m (car m-pair))
 				(setf score (second m-pair))
 				(if (and
-						(or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
+						; (or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
 						(not (varp (third (second m)))))
 					; then
 					(setf story-matches (append story-matches (list m)))
@@ -698,10 +706,12 @@
 			)
 		)
 
-		(format t "~%~%")
+		; (format t "~%~%")
 	)
 )
 
+
+(if nil (block ifnil
 
 ; (setf *DBG-TAGS* '(match))
 (setf *PROTOSCHEMAS* (append *PROTOSCHEMAS* new-schema-names))
@@ -753,6 +763,7 @@
 (expand-nested-schemas act-on-match next-story)
 
 
+))
 
 
 ; (ahow)

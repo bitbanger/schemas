@@ -14,20 +14,20 @@
 	(list
 		'INANIMATE_OBJECT.N
 		(lambda (args kb)
-			(and
+			(if (and
 				(equal 1 (length args))
 				(eval-prop (list (car args) 'OBJECT.N) kb)
 				(not (eval-prop (list (car args) 'AGENT.N) kb))
-			)
+			) (eval-prop-score (list (car args) 'OBJECT.N) kb) 0)
 		)
 	)
 
 	(list
 		'=
 		(lambda (args kb)
-			(loop for arg1 in args
+			(if (loop for arg1 in args
 				always (loop for arg2 in args
-					always (equal arg1 arg2)))
+					always (equal arg1 arg2))) 1.0 0)
 		)
 	)
 )))
@@ -157,6 +157,10 @@
 
 ; Evaluate whether a proposition is true given a knowledge base
 (defun eval-prop (prop kb)
+	(> (eval-prop-score prop kb) 0)
+)
+
+(defun eval-prop-score (prop kb)
 (let (arg)
 (block outer
 	; Only lists are propositions
@@ -188,14 +192,14 @@
 
 	; Strip negations
 	(if (equal (car prop) 'NOT)
-		(return-from outer (not (eval-prop (second prop) kb))))
+		(return-from outer (if (eval-prop (second prop) kb) 0 1.0)))
 
 	; Check for explicit knowledge of this or its negation.
 	(if (gethash prop (kb-explicit kb))
-		(return-from outer t)
+		(return-from outer 1.0)
 	)
 	(if (gethash (list 'NOT prop) (kb-explicit kb))
-		(return-from outer nil)
+		(return-from outer 0)
 	)
 
 
@@ -207,7 +211,7 @@
 
 			(load-time-model story-time-props)
 
-			(return-from outer (eval-time-prop prop))
+			(return-from outer (if (eval-time-prop prop) 1.0 0))
 		)
 	)
 
@@ -219,7 +223,7 @@
 		; If the KB prop is more specific, the general
 		; test prop is implied
 		if (subsumes-prop? prop kbp)
-			do (return-from outer t)
+			do (return-from outer (subsumption-score (prop-pred prop) (prop-pred kbp)))
 	)
 
 
@@ -231,7 +235,7 @@
 		; Names refer to agents.
 		(if (and (symbolp arg) (has-suffix? (string arg) ".NAME"))
 			(if (equal pred 'AGENT.N)
-				(return-from outer t))
+				(return-from outer 1.0))
 		)
 
 		; He and she pronouns refer to agents.
@@ -245,7 +249,7 @@
 				) :test #'equal)
 			))
 			(if (equal pred 'AGENT.N)
-				(return-from outer t))
+				(return-from outer 1.0))
 		)
 
 		; KA-abstractions are actions.
@@ -253,7 +257,7 @@
 				 (canon-kind? arg)
 				 (equal (car arg) 'KA))
 			; then
-			(return-from outer t)
+			(return-from outer 1.0)
 		)
 	))
 
@@ -265,7 +269,7 @@
 	; If we have a kind, check whether the stipulated predicate
 	; subsumes the kind's predicate.
 	(if (and (equal 1 (length args)) (listp (car args)) (equal 'K (car (car args))))
-		(return-from outer (subsumes pred (second (car args))))
+		(return-from outer (subsumption-score pred (second (car args))))
 	)
 
 	; Handle "OR"s
@@ -274,12 +278,12 @@
 			if (not (equal 'OR e)) do (block handle-or-inner
 				(setf ep-res (eval-prop e kb))
 				(if (equal 'ERROR ep-res) (return-from outer 'ERROR))
-				(if ep-res (return-from outer t))
+				(if ep-res (return-from outer 1.0))
 			)
 		)
 
 		; Nothing evaluated to t
-		(return-from outer nil)
+		(return-from outer 0.0)
 	))
 
 	; Handle "ANDs"
@@ -288,13 +292,15 @@
 			if (not (equal 'AND e)) do (block handle-or-inner
 				(setf ep-res (eval-prop e kb))
 				(if (equal 'ERROR ep-res) (return-from outer 'ERROR))
-				(if (null ep-res) (return-from outer nil))
+				(if (null ep-res) (return-from outer 0))
 			)
 		)
 
 		; Nothing evaluated to nil
-		(return-from outer t)
+		(return-from outer 1.0)
 	))
+
+	(return-from outer 0.0)
 
 ))
 )
@@ -308,7 +314,7 @@
 ))
 
 (defun irregular-pred? (pred)
-	(not (null (member pred *IRREGULAR-PREDS*)))
+	(not (null (member pred *IRREGULAR-PREDS* :test #'equal)))
 )
 
 

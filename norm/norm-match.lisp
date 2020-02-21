@@ -643,7 +643,10 @@
 						; If a nested schema breaks a necessity-1 constraint,
 						; the whole nest is invalid.
 						(if (null nest-score)
+							(progn
+							(format t "null nest score on ~s, nulling out~%" (second nested-schema))
 							(return-from outer nil)
+							)
 						)
 
 						(setf new-checked-count (hash-table-count checked))
@@ -671,19 +674,22 @@
 				(if (and (null (gethash phi checked)) (not bound-nested))
 					; then
 					(progn
-						(format t "verifying ~s~%" phi)
-						(if (eval-prop phi story-kb)
+						(setf eval-score (eval-prop-score phi story-kb))
+						(if (> eval-score 0)
 							; then
-							(setf true-count (+ true-count 1))
+							(setf true-count (+ true-count eval-score))
 							; (format t "	true: ~s~%" phi)
 
 							; else
 							; (format t "time model: ~s~%" *TIME-MODEL*)
 							(if (equal (get-necessity phi-id schema) 1.0)
 								; then, invalid match
+								(progn
+								; (format t "~s ~s is wrong, but necessary~%" phi-id phi)
 								(return-from outer nil)
+								)
 								; else
-								(setf untrue-count (+ untrue-count 1))
+								(setf untrue-count (+ untrue-count 0.1))
 							)
 							; (format t "	untrue: ~s~%" phi)
 						)
@@ -767,11 +773,20 @@
 ))
 ;)
 
-	(return-from outer (loop for k being the hash-keys of matches append
+	(setf unsorted-matches (loop for k being the hash-keys of matches append
 		(loop for match in (gethash k matches)
 				for match-score in (gethash k match-scores)
 			collect (list match match-score))
 		; (list (gethash k matches) (gethash k match-scores))
+	))
+
+	(return-from outer (sort unsorted-matches
+		(lambda (a b)
+			(>
+				(- (car (second a)) (second (second a)))
+				(- (car (second b)) (second (second b)))
+			)
+		)
 	))
 )
 )
@@ -816,7 +831,31 @@
 		; (format t "invalid temporal score: ~s~%" score-pair)
 		; (format t "~s~%" (get-section cur-match ':Episode-relations))
 
-		(setf score-pair (check-constraints cur-match story))
+		; Added constraints shouldn't count toward our score, because we know
+		; they'll be satisfied.
+		(setf cur-match-old-constrs (copy-list cur-match))
+		(loop for sec in (nonmeta-sections cur-match)
+			do (block prune
+				(if (> (length sec) (length (get-section schema (car sec))))
+					; then
+					(progn
+					(setf new-sec (copy-list sec))
+					(setf new-sec (subseq new-sec 0 (length (get-section schema (car sec)))))
+
+					; If the old section was null, then we can just remove it.
+					; Otherwise, replace it with the truncated version.
+					(if (null (get-section schema (car sec)))
+						; then
+						(setf cur-match-old-constrs (remove sec cur-match-old-constrs :test #'equal))
+						; else
+						(setf cur-match-old-constrs (replace-vals sec new-sec cur-match-old-constrs))
+					)
+					)
+				)
+			)
+		)
+
+		(setf score-pair (check-constraints cur-match-old-constrs story))
 		; A null score indicates that a constraint with necessity
 		; 1 was broken, and that the match is invalid by definition.
 		(if (null score-pair)
@@ -874,10 +913,11 @@
 			(if (and a-bound-header (not b-bound-header)) (return-from lb t))
 			(if (and b-bound-header (not a-bound-header)) (return-from lb nil))
 
-			(setf a-better (< a-invalid b-invalid))
-			(if (and (equal a-invalid b-invalid) (> a-valid b-valid))
-				(setf a-better t)
-			)
+			;(setf a-better (< a-invalid b-invalid))
+			;(if (and (equal a-invalid b-invalid) (> a-valid b-valid))
+			;	(setf a-better t)
+			;)
+			(setf a-better (> (- a-valid a-invalid) (- b-valid b-invalid)))
 
 			(return-from lb a-better)
 		)

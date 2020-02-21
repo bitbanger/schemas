@@ -1402,14 +1402,17 @@
 	(setf last-phi-copy (copy-list phi))
 	(setf phi-copy (copy-list phi))
 	(loop while t do (block inner
+		(format t "here1~%")
 		(setf phi-copy (remove-duplicates (schema-cleanup-ttt phi-copy) :test #'equal))
+		(format t "here2~%")
 		(setf phi-copy (remove-duplicates (schema-cleanup-lisp phi-copy) :test #'equal))
+		(format t "here3~%")
 		(if (same-list-unordered phi-copy last-phi-copy)
 			; then
 			(return-from outer phi-copy)
 			; else
 			(progn
-			; (format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
+			(format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
 			(setf last-phi-copy (copy-list phi-copy))
 			)
 		)
@@ -1443,7 +1446,12 @@
 (defun parse-story (sents)
 (block outer
 	(setf *glob-idx* 0)
+	(loop for sent in sents
+		do (schema-cleanup (interpret sent))
+		do (format t "did sent ~s~%" sent)
+	)
 	(setf new-sents (loop for sent in sents collect (schema-cleanup (interpret sent))))
+	(format t "finished initial parse~%")
 	(setf needs-res (remove-duplicates (get-elements-pred new-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))
 			(and

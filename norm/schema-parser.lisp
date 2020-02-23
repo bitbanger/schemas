@@ -834,7 +834,9 @@
 		)
 
 		; Replace the old predicate.
-		(setf uf-target (replace-vals uf-pred new-uf-pred uf-target))
+		; (setf uf-target (replace-vals uf-pred new-uf-pred uf-target))
+		; Shallow replacement; the predicate could exist in individuals/mods as a kind!
+		(setf uf-target (loop for e in uf-target collect (if (equal e uf-pred) new-uf-pred e)))
 
 		; Re-apply any stripped propositional modifiers.
 		(loop for pm in pr-mods
@@ -1385,6 +1387,9 @@
 		do (block inner
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
+			; (if (not (same-list-unordered old-phi-copy new-phi-copy))
+				; (format t "func ~s updated~%" func)
+			; )
 			(setf phi-copy new-phi-copy)
 			(if (null phi-copy)
 				(format t "func ~s gave null phi~%" func)
@@ -1402,17 +1407,17 @@
 	(setf last-phi-copy (copy-list phi))
 	(setf phi-copy (copy-list phi))
 	(loop while t do (block inner
-		(format t "here1~%")
+		; (format t "here1~%")
 		(setf phi-copy (remove-duplicates (schema-cleanup-ttt phi-copy) :test #'equal))
-		(format t "here2~%")
+		; (format t "here2~%")
 		(setf phi-copy (remove-duplicates (schema-cleanup-lisp phi-copy) :test #'equal))
-		(format t "here3~%")
+		; (format t "here3~%")
 		(if (same-list-unordered phi-copy last-phi-copy)
 			; then
 			(return-from outer phi-copy)
 			; else
 			(progn
-			(format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
+			; (format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
 			(setf last-phi-copy (copy-list phi-copy))
 			)
 		)
@@ -1446,12 +1451,8 @@
 (defun parse-story (sents)
 (block outer
 	(setf *glob-idx* 0)
-	(loop for sent in sents
-		do (schema-cleanup (interpret sent))
-		do (format t "did sent ~s~%" sent)
-	)
 	(setf new-sents (loop for sent in sents collect (schema-cleanup (interpret sent))))
-	(format t "finished initial parse~%")
+	; (format t "finished initial parse~%")
 	(setf needs-res (remove-duplicates (get-elements-pred new-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))
 			(and
@@ -1533,6 +1534,7 @@
 			(setf pronouns (loop for e in cluster if (lex-pronoun? e) collect e))
 			(setf non-pronouns (loop for e in cluster if (not (lex-pronoun? e)) collect e))
 			; (format t "cluster ~d, pronouns ~s, others ~s~%" i pronouns non-pronouns)
+			; (format t "cluster was ~s~%" cluster)
 			(setf rep-name (car (append non-pronouns pronouns)))
 			(setf agent-constrs (list))
 			(if (lex-pronoun? rep-name)

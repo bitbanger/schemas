@@ -1599,6 +1599,10 @@
 )
 )
 
+(defun filtered-parse-story (story)
+	(loop for sent in (parse-story story) collect (loop for wff in sent if (canon-prop? wff) collect wff))
+)
+
 (defun sp (sent)
 	;(format t "~s~%" (interpret sent))
 	(format t "~s~%" (schema-parse sent))

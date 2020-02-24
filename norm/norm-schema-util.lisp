@@ -436,16 +436,17 @@
 ; the values are lists of atemporal story constraints on those constants.
 (defun story-term-constraints (story)
 (let (
-			(gen-kb (list (make-hash-table :test #'equal)
-						  (make-hash-table :test #'equal)
-						  (make-hash-table :test #'equal)))
+			;(gen-kb (list (make-hash-table :test #'equal)
+			;			  (make-hash-table :test #'equal)
+			;			  (make-hash-table :test #'equal)))
+			(gen-kb (story-to-kb story))
 
 			(constraints (make-hash-table :test #'equal))
 	)
 (block outer
 	; Index the story into the knowledge base
-	(loop for wff in story
-		do (add-to-kb wff gen-kb))
+	;(loop for wff in story
+	;	do (add-to-kb wff gen-kb))
 
 	; Reindex only small individuals by only non-lambda,
 	; non-temporal constraints
@@ -478,9 +479,33 @@
 ; of those constants.
 (defun story-select-term-constraints (story terms)
 (let ((constraints (story-term-constraints story)))
-	(remove-duplicates (loop for term being the hash-keys of constraints
+(block outer
+	(setf ret-constrs (remove-duplicates (loop for term being the hash-keys of constraints
 		if (member term terms :test #'equal)
-		append (gethash term constraints)) :test #'equal)
+		append (gethash term constraints)) :test #'equal))
+
+	; Transitively pull in constraints on all the new small individuals mentioned
+	; in the constraints we just pulled in.
+
+	(if (not (null ret-constrs)) (block pull-in-outer
+	(setf old-small-inds terms)
+	(setf new-small-inds (set-difference (extract-small-individuals ret-constrs) old-small-inds :test #'equal))
+
+	(loop while (not (null new-small-inds)) do (block pull-in
+		(setf new-ret-constrs (remove-duplicates (loop for term being the hash-keys of constraints
+			if (member term new-small-inds :test #'equal)
+			append (gethash term constraints)) :test #'equal))
+		(if (null new-ret-constrs)
+			(return-from pull-in-outer)
+		)
+		(setf ret-constrs (remove-duplicates (append ret-constrs new-ret-constrs) :test #'equal))
+		(setf old-small-inds (remove-duplicates (append old-small-inds new-small-inds) :test #'equal))
+		(setf new-small-inds (set-difference (extract-small-individuals new-ret-constrs) old-small-inds :test #'equal))
+	))
+	))
+
+	(return-from outer ret-constrs)
+)
 )
 )
 
@@ -601,6 +626,10 @@
 		(list schema)
 		128
 	)
+)
+
+(defun fully-clean-schema (schema)
+	(clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants schema))))
 )
 
 (defun generalize-schema-constants (schema)

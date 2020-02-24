@@ -153,7 +153,7 @@
 )
 
 (defparameter give.v
-	'(epi-schema ((?x give.v ?o (to.p-arg ?y)) ** ?e)
+	'(epi-schema ((?x ((adv-a (to.p ?y)) give.v) ?y ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?o inanimate_object.n))
@@ -357,7 +357,8 @@
 )
 
 (defparameter travel.v
-	'(epi-schema ((?x travel.v (from.p-arg ?l1) ?l2) ** ?e)
+	;'(epi-schema ((?x travel.v (from.p-arg ?l1) (to.p-arg ?l2) ?l2) ** ?e)
+	'(epi-schema ((?x ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v)) ?l2) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?l1 location.n))

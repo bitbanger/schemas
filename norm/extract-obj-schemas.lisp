@@ -16,14 +16,14 @@
 ))
 
 (loop for m in gen-matches
-	do (set (second (car (second m))) m)
+	do (set (schema-pred m) m)
 )
 
 (format t "nouns: ~s~%" nouns)
 
 (defun run (story)
 (block outer
-	(setf best-matches (top-k-story-matches story 30 (mapcar (lambda (x) (second (car (second x)))) gen-matches) 3 nil 1))
+	(setf best-matches (top-k-story-matches story 30 (mapcar (lambda (x) (schema-pred x)) gen-matches) 3 nil 1))
 	(loop for match in best-matches
 		do (block pm
 			(format t "~s:~%" (second match))
@@ -31,7 +31,7 @@
 		)
 	)
 	
-	; (setf best-match (caar (top-k-story-matches story 30 (mapcar (lambda (x) (second (car (second x)))) gen-matches) 5 nil 1)))
+	; (setf best-match (caar (top-k-story-matches story 30 (mapcar (lambda (x) (schema-pred x)) gen-matches) 5 nil 1)))
 	(setf best-match (caar best-matches))
 	; (format t "~s~%" best-match)
 	(print-schema best-match)

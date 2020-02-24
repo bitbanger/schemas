@@ -509,6 +509,14 @@
 )
 )
 
+(defun schema-header (schema)
+	(second schema)
+)
+
+(defun schema-pred (schema)
+	(prop-pred (car (schema-header schema)))
+)
+
 ; extract-small-individuals returns a list of the individual constants
 ; in an EL formula.
 (defun extract-small-individuals (phi)
@@ -1321,7 +1329,7 @@
 	; )
 
 	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
-			if (equal (car invoker) (second (car (second sc))))
+			if (equal (car invoker) (schema-pred sc))
 				do (block apply-subord
 					(setf key (remove-ext (car (car (second sc))) "<-"))
 					(setf val (third (second sc)))

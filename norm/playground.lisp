@@ -47,7 +47,7 @@
 ;(format t "word preds: ~s~%" (get-word-preds story))
 
 
-(setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
+(setf best-schemas (mapcar (lambda (x) (schema-pred x)) (top-k-schemas (get-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
 
 (load-story-time-model story)
 

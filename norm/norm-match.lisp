@@ -238,7 +238,7 @@
 
 	(setf gen-match (generalize-schema-constants test-schema))
 
-	(setf new-name (new-schema-match-name (second (car (second test-schema)))))
+	(setf new-name (new-schema-match-name (schema-pred test-schema)))
 
 	(setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
 	(setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
@@ -338,7 +338,7 @@
 	(progn
 	; (format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
 	; (format t "bindings were ~s on schema ~s~%" (ht-to-str (second best-single-res)) (car best-single-res))
-	; (format t "gen schema is ~s~%" (eval (second (car (second (car best-single-res))))))
+	; (format t "gen schema is ~s~%" (schema-pred (eval (car best-single-res))))
 	; (format t "best bindings are ~s~%" (ht-to-str best-bindings))
 	; (format t "best expanded bindings are ~s~%" (ht-to-str best-expanded-bindings))
 	)
@@ -350,7 +350,7 @@
 		(return-from outer nil)
 	)
 
-	; (print-schema (eval (second (car (second (car best-single-res))))))
+	; (print-schema (eval (schema-pred (car best-single-res))))
 
 	; (format t "matched ~s to ~s (score ~s)~%" phi (second (car best-single-res)) (fifth best-single-res))
 
@@ -384,15 +384,15 @@
 			; We've created a new name for our subschema match, and it has its own variables.
 			; We're going to replace the subschema's step in the parent schema with a step using
 			; its new name.
-			(setf new-name (new-schema-match-name (second (car (second (car best-single-res))))))
-			(setf gen-match (replace-vals (second (car (second (car best-single-res)))) new-name gen-match))
+			(setf new-name (new-schema-match-name (schema-pred (car best-single-res))))
+			(setf gen-match (replace-vals (schema-pred (car best-single-res)) new-name gen-match))
 			; (format t "renamed gen subschema is ~s~%" gen-match)
 			(set new-name gen-match)
 			(setf new-sec (list ':Steps))
 			(loop for st in (section-formulas (get-section test-schema ':Steps))
 				do (if (equal (car st) (third (second (car best-single-res))))
 					; then
-					(setf new-sec (append new-sec (list (list (car st) (replace-vals (second (car (second (car best-single-res)))) new-name (car (second (car best-single-res))))))))
+					(setf new-sec (append new-sec (list (list (car st) (replace-vals (schema-pred (car best-single-res)) new-name (car (second (car best-single-res))))))))
 					; (setf new-sec (append new-sec (list (list (car st) (car (second gen-match))))))
 					; else
 					(setf new-sec (append new-sec (list st)))
@@ -711,7 +711,7 @@
 
 (defun top-k-story-matches (story num_shuffles schemas num_schemas generalize k)
 (block outer
-(setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num_schemas)))
+(setf best-schemas (mapcar (lambda (x) (schema-pred x)) (top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num_schemas)))
 
 (load-story-time-model story)
 

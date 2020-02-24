@@ -84,7 +84,7 @@
 ; )
 ; (batch-cache-preload-wordnet-hyps all-schema-words)
 
-(setf best-schemas (mapcar (lambda (x) (second (car (second x)))) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
+(setf best-schemas (mapcar (lambda (x) (schema-pred x)) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
 ; (format t "best schemas are ~s~%" best-schemas)
 
 (load-story-time-model story)
@@ -352,12 +352,12 @@
 	; (setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'before new-e3)))
 	; (format t "new schema is ~s~%" new-schema)
 
-	(setf new-schema-name (new-schema-match-name (second (car (second new-schema)))))
-	(setf new-schema (replace-vals (second (car (second new-schema))) new-schema-name new-schema))
+	(setf new-schema-name (new-schema-match-name (schema-pred new-schema)))
+	(setf new-schema (replace-vals (schema-pred new-schema) new-schema-name new-schema))
 
 	(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
 	(setf new-schema-names (append new-schema-names (list new-schema-name)))
-	; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
+	; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (schema-pred new-schema) act_on.v)
 	; (format t "; LEARNED NEW SCHEMA:~%")
 
 	(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
@@ -421,7 +421,7 @@
 	(loop for post in new-posts
 		do (setf new-schema (add-constraint new-schema ':Postconds post)))
 
-	(set (second (car (second new-schema))) new-schema)
+	(set (schema-pred new-schema) new-schema)
 	(return-from outer new-schema)
 )
 )
@@ -501,7 +501,7 @@
 			(print-schema match)
 			(format t ")))~%")
 			;(setf gen-match (generalize-schema-constants match))
-			;(setf new-name (new-schema-match-name (second (car (second match)))))
+			;(setf new-name (new-schema-match-name (schema-pred match)))
 			;(setf new-header (list (car (car (second gen-match))) new-name (cdr (car (second gen-match)))))
 			;(setf gen-match (set-header gen-match new-header))
 			;(format t "gen match: ~s~%" gen-match)
@@ -579,10 +579,10 @@
 							;(format t "~s~%" match2)
 							;(print-schema match1)
 							;(print-schema match2)
-							;(format t "match1 schema name is ~s~%" (second (car (second match1))))
-							;(format t "match1 schema is ~s~%" (eval (second (car (second match1)))))
-							;(format t "match2 schema name is ~s~%" (second (car (second match2))))
-							;(format t "match2 schema is ~s~%" (eval (second (car (second match2)))))
+							;(format t "match1 schema name is ~s~%" (schema-pred match1))
+							;(format t "match1 schema is ~s~%" (eval (schema-pred match1)))
+							;(format t "match2 schema name is ~s~%" (schema-pred match2))
+							;(format t "match2 schema is ~s~%" (eval (schema-pred match2)))
 							; (format t "~s schema_name ~s~%" (car (car (second match1))) (remove-duplicates (append (cddr (car (second match1))) (cddr (car (second match2)))) :test #'equal))
 
 							(setf comp-preds (loop for m in (list match1 match2 match3) collect (prop-pred (car (second m)))))
@@ -613,13 +613,13 @@
 							; (setf new-schema (add-constraint new-schema ':Episode-relations (list new-e4 'before new-e3)))
 							; (format t "new schema is ~s~%" new-schema)
 
-							(setf new-schema-name (new-schema-match-name (second (car (second new-schema)))))
-							(setf new-schema (replace-vals (second (car (second new-schema))) new-schema-name new-schema))
+							(setf new-schema-name (new-schema-match-name (schema-pred new-schema)))
+							(setf new-schema (replace-vals (schema-pred new-schema) new-schema-name new-schema))
 
 							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
 							(setf new-schema-names (append new-schema-names (list new-schema-name)))
-							(set (second (car (second new-schema))) new-schema)
-							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (second (car (second new-schema))) act_on.v)
+							(set (schema-pred new-schema) new-schema)
+							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (schema-pred new-schema) act_on.v)
 							; (format t "; LEARNED NEW SCHEMA:~%")
 
 							(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
@@ -683,8 +683,8 @@
 								do (setf new-display-schema (add-constraint new-display-schema ':Postconds post)))
 
 							(print-schema new-display-schema)
-							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match1)))))))))
-							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (second (car (second match2)))))))))
+							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (schema-pred match1)))))))
+							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants (eval (schema-pred match2)))))))
 							; (print-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
 
 

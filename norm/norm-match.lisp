@@ -240,8 +240,10 @@
 
 	(setf new-name (new-schema-match-name (schema-pred test-schema)))
 
-	(setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
-	(setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
+	; (setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
+	(setf new-gen-header (replace-vals (schema-pred gen-match) new-name (car (schema-header gen-match))))
+	; (setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
+	(setf new-match-header (replace-vals (schema-pred test-schema) new-name (car (schema-header test-schema))))
 	(setf test-schema (set-header test-schema new-match-header))
 	; (format t "gen match is ~s~%" gen-match)
 	(setf gen-match (set-header gen-match new-gen-header))

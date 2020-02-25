@@ -468,16 +468,15 @@
 )
 (block outer
 	(dbg 'unify "got schema mod list ~s~%" schema-mods)
-	;(format t "got schema mod list ~s~%" schema-mods)
-	;(format t "got story mod list ~s~%" story-mods)
+	(dbg 'unify "got story mod list ~s~%" story-mods)
 
-	(if (< (length story-mods) (length schema-mods))
+	;(if (< (length story-mods) (length schema-mods))
 		; then
-		(progn
-		(dbg 'unify "modifier lists cannot be unified (not enough predicate modifiers in the latter)~%")
-		(return-from outer (list nil bindings))
-		)
-	)
+	;	(progn
+	;	(dbg 'unify "modifier lists cannot be unified (not enough predicate modifiers in the latter)~%")
+	;	(return-from outer (list nil bindings))
+	;	)
+	;)
 
 	(if (not (equal
 		(null (member 'NOT schema-mods :test #'equal))
@@ -523,13 +522,13 @@
 		))
 	))
 
-	(if (< unified-mods (length schema-mods))
+	;(if (< unified-mods (length schema-mods))
 		; then
-		(progn
-		(dbg 'unify "modifier lists cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%")
-		(return-from outer (list nil bindings))
-		)
-	)
+	;	(progn
+	;	(dbg 'unify "modifier lists cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%")
+	;	(return-from outer (list nil bindings))
+	;	)
+	;)
 
 	(setf bindings tmp-bindings)
 	(return-from outer (list bound bindings))

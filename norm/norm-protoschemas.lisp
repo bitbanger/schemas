@@ -97,7 +97,7 @@
 		)
 
 		(:Steps
-			(?e1 (?x ((adv-a (for.p (ka (do.v ?a2)))) do.v) ?a1))
+			(?e1 (?x ((adv-a (for.p ?a2)) do.v) ?a1))
 			(?e2 (?x (can.md (do.v ?a2))))
 			(?e3 (?x (do.v ?a2)))
 		)
@@ -292,12 +292,16 @@
 			(!r2 (?y agent.n))
 			(!r3 (?f food.n))
 			(!r4 (not (?x = ?y)))
+			(!r5 (not (?y = ?f)))
+			(!r6 (not (?x = ?f)))
 		)
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
 			(!n2 (!r2 necessary-to-degree 1.0))
 			(!n3 (!r4 necessary-to-degree 1.0))
+			(!n4 (!r5 necessary-to-degree 1.0))
+			(!n5 (!r6 necessary-to-degree 1.0))
 		)
 
 		(:Goals

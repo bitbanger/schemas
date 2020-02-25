@@ -466,3 +466,18 @@
 (defun prop-mods (prop)
 	(fourth (prop-args-pred-mods prop))
 )
+
+(defun render-prop (pre-args pred post-args mods)
+(block outer
+	(setf wrapped-pred pred)
+	(loop for m in mods
+		do (setf wrapped-pred (list m wrapped-pred))
+	)
+
+	(return-from outer (append
+		pre-args
+		(list wrapped-pred)
+		post-args
+	))
+)
+)

@@ -1329,7 +1329,7 @@
 	; )
 
 	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
-			if (equal (car invoker) (schema-pred sc))
+			if (equal (car invoker) (second (car (second sc))))
 				do (block apply-subord
 					(setf key (remove-ext (car (car (second sc))) "<-"))
 					(setf val (third (second sc)))

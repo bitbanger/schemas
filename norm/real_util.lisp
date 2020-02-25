@@ -246,8 +246,12 @@
 ; a(n assumed-to-be-acyclic) list structure.
 (defun has-element-pred (lst pred)
 	(cond
-		((not (listp lst))
-			(funcall pred lst))
+		;((not (listp lst))
+			; (funcall pred lst))
+
+		((funcall pred lst) t)
+
+		((not (listp lst)) nil)
 
 		(t (loop for e in lst thereis (has-element-pred e pred)))
 	)

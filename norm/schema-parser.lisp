@@ -7,6 +7,22 @@
 (load "norm-el.lisp")
 (load "norm-coref.lisp")
 
+(defparameter *KA-ARG-VERBS* '(
+	WANT.V
+	NEED.V
+	BELIEVE.V
+	HOPE.V
+	GET.V
+	THINK.V
+	WISH.V
+	TELL.V
+	ASK.V
+	FORCE.V
+	TRY.V
+	SEEM.V
+	APPEAR.V
+))
+
 ; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
 (defun has-ext? (x e)
@@ -172,6 +188,7 @@
 	sink-prop-mods
 	name-skolems
 	deindex-will
+	purposify-ka-args
 ))
 
 (defun extract-noun-sym (form)
@@ -646,6 +663,66 @@
 (defun strip-pred-mods-individuals (p)
 (block outer
 	(return-from outer (unwrap-singletons (loop for e in p if (not (or (canon-mod? e) (canon-individual? e))) collect e)))
+)
+)
+
+; Make sure "ka" args are wrapped in "for.p",
+; unless the verb permits a direct KA arg
+(defun purposify-ka-args (phi)
+(let ((tmp-phi phi))
+(block outer
+	(setf tmp-phi (process-construction tmp-phi
+		(lambda (x) (and (canon-prop? x)
+						(has-element-pred (prop-post-args x)
+							(lambda (y) (and (canon-kind? y) (equal (car y) 'KA))))))
+		#'purposify-ka-args-processor))
+
+	(return-from outer tmp-phi)
+)
+)
+)
+
+(defun purposify-ka-args-processor (pair phi)
+(block outer
+	; (format t "purposify-ka-args-processor called on ~s~%" pair)
+
+	(setf phi-copy (copy-list phi))
+
+	(setf prop-elements (prop-args-pred-mods (car pair)))
+	(setf pre-args (car prop-elements))
+	(setf pred (second prop-elements))
+	(setf post-args (third prop-elements))
+	(setf mods (fourth prop-elements))
+
+	(if (not (lex-verb? pred))
+		(return-from outer phi-copy)
+	)
+
+	(if (not (null (member pred *KA-ARG-VERBS* :test #'equal)))
+		(return-from outer phi-copy)
+	)
+
+	(setf ka-args (list))
+	(setf non-ka-args (list))
+	(loop for arg in post-args
+		do (if (and (canon-kind? arg) (equal (car arg) 'KA))
+			; then
+			(setf ka-args (append ka-args (list arg)))
+			; else
+			(setf non-ka-args (append non-ka-args (list arg)))
+		)
+	)
+
+	; Make modifiers out of the KA args.
+	(loop for ka-arg in ka-args
+		do (setf mods (append mods (list
+			(list 'FOR.P ka-arg)
+		)))
+	)
+
+	(setf new-prop (render-prop pre-args pred non-ka-args mods))
+
+	(setf phi-copy (replace-element-idx phi-copy (second pair) new-prop))
 )
 )
 

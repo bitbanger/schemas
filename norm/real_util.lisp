@@ -420,6 +420,15 @@
 )
 )
 
+(defun ht-count (ht)
+	(if (or (null ht) (not (hashtablep ht)))
+		; then
+		0
+		; else
+		(hash-table-count ht)
+	)
+)
+
 (defun ht-copy (ht)
 (block outer
 	(if (not (hashtablep ht))

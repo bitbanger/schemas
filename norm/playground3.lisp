@@ -479,7 +479,7 @@
 						; (or (null (get-section m ':Steps)) (null (section-formulas (get-section m ':Steps))))
 						(not (varp (third (second m)))))
 					; then
-					(setf story-matches (append story-matches (list m)))
+					(setf story-matches (append story-matches (list (list m score))))
 					; else
 					(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
 						; then
@@ -497,8 +497,10 @@
 
 		(loop for match in story-matches do (progn
 			; (format t "; match: ~s~%" (second match))
-			(format t "(setf matches (append matches (list '")
-			(print-schema match)
+			(format t "(setf matches (append matches '( ")
+			; (format t "~s~%" (check-constraints match story))
+			(format t "~s~%" (second match))
+			(print-schema (car match))
 			(format t ")))~%")
 			;(setf gen-match (generalize-schema-constants match))
 			;(setf new-name (new-schema-match-name (schema-pred match)))
@@ -514,7 +516,7 @@
 		(if (> (length story-matches) 1)
 			; then
 			(block find-chains
-				(setf chains (link-matches story-matches story 3))
+				(setf chains (link-matches (mapcar #'car story-matches) story 3))
 				(if (loop for chain in chains thereis (> (length chain) 1))
 					; then
 					(format t "; found chains:~%")

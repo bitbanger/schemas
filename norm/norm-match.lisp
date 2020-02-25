@@ -68,7 +68,7 @@
 
 	(setf best-bindings nil)
 	(setf best-formula nil)
-	(setf best-sub-score 0)
+	(setf best-sub-score -1)
 
 	(setf match-sections (if (canon-charstar? phi) (fluent-sections schema) (nonfluent-sections schema)))
 	; (loop for sec in (nonmeta-sections schema)
@@ -96,7 +96,8 @@
 					(setf pred2 (prop-pred (car phi)))
 				)
 				(setf sub-score (max (subsumption-score pred1 pred2) (* 0.75 (subsumption-score pred2 pred1))))
-				; (format t "subsumption score between ~s and ~s was ~s~%" pred1 pred2 sub-score)
+				(setf sub-score (+ sub-score (ht-count new-bindings)))
+				; (format t "subsumption score + # of bindings between ~s and ~s was ~s~%" pred1 pred2 sub-score)
 
 				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))
 

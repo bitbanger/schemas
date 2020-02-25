@@ -1166,27 +1166,58 @@
 )
 )
 
-(defun clean-do-kas (schema)
+(defun do-ka-prop? (p)
+(and
+	(canon-prop? p)
+	(equal (prop-pred p) 'DO.V)
+	(equal (length (prop-post-args p)) 1)
+	(canon-kind? (car (prop-post-args p)))
+	(equal 'KA (car (car (prop-post-args p))))
+)
+)
+
+(defun ttt-clean-do-kas (schema)
 	(ttt-replace schema
 		'(DO.V (KA _!))
 		'_!
 	)
 )
 
-(defun old-clean-do-kas (schema)
+(defun clean-do-kas (schema)
 (let (cleaned-schema do-ka-idcs do-ka action)
 (block outer
 	(setf cleaned-schema schema)
-	(setf do-ka-idcs (get-elements-pred-idx cleaned-schema #'do-ka-pred?))
+	(setf do-ka-idcs (get-elements-pred-idx cleaned-schema #'do-ka-prop?))
 	(loop while (not (null do-ka-idcs))
 		do (block replace-do-ka
-			(setf do-ka (get-element-idx cleaned-schema (car do-ka-idcs)))
-			(setf action (second (second do-ka)))
-			(setf cleaned-schema (replace-element-idx cleaned-schema (car do-ka-idcs) action))
-			(setf do-ka-idcs (get-elements-pred-idx cleaned-schema #'do-ka-pred?))
+			;(setf do-ka (get-element-idx cleaned-schema (car do-ka-idcs)))
+			;(setf action (second (second do-ka)))
+			;(setf cleaned-schema (replace-element-idx cleaned-schema (car do-ka-idcs) action))
+			;(setf do-ka-idcs (get-elements-pred-idx cleaned-schema #'do-ka-pred?))
+			(setf do-ka-prop (get-element-idx cleaned-schema (car do-ka-idcs)))
+			(setf breakdown (prop-args-pred-mods do-ka-prop))
+
+			(setf new-pred (second (car (third breakdown))))
+			(setf new-pred-base (pred-base new-pred))
+			(setf new-pred-args (pred-args new-pred))
+			(setf new-pred-mods (pred-mods new-pred))
+
+			(setf new-prop (render-prop
+								(car breakdown) ; Old pre-args
+								new-pred-base   ; From KA
+								new-pred-args   ; Curried post-args from KA
+								(append (fourth breakdown) new-pred-mods) ; Mods from KA
+			))
+
+			(setf cleaned-schema (replace-element-idx cleaned-schema (car do-ka-idcs) new-prop))
+			(setf do-ka-idcs (get-elements-pred-idx cleaned-schema #'do-ka-prop?))
+
 			(return-from replace-do-ka)
 		)
 	)
+
+	; Now feed it through a TTT rule to grab stragglers, e.g. embedded do-KAs within KAs.
+	(setf cleaned-schema (ttt-clean-do-kas cleaned-schema))
 
 	(return-from outer cleaned-schema)
 )))

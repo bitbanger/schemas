@@ -104,7 +104,9 @@
 )
 
 (defun canon-small-individual? (x)
-(and (symbolp x)
+(and
+(symbolp x)
+(not (equal ':R x)) ; string renders of ':R sometimes omit :
 (or
 	(numberp x)
 	(lex-skolem? x)

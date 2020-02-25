@@ -43,6 +43,7 @@
 	PLUR
 	L
 	SET-OF
+	:R
 )))
 
 (defparameter *KEYWORDS-MAP* (make-hash-table :test #'equal))

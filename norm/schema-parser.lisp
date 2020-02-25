@@ -716,7 +716,7 @@
 	; Make modifiers out of the KA args.
 	(loop for ka-arg in ka-args
 		do (setf mods (append mods (list
-			(list 'FOR.P ka-arg)
+			(list 'ADV-A (list 'FOR.P ka-arg))
 		)))
 	)
 

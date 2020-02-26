@@ -22,6 +22,10 @@
 	SEEM.V
 	APPEAR.V
 	DECIDE.V
+	LIKE.V
+	LOVE.V
+	HATE.V
+	DISLIKE.V
 ))
 
 ; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
@@ -287,6 +291,10 @@
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for form in phi do (block loop-outer
+		(if (not (listp form))
+			(return-from loop-outer)
+		)
+
 		(if (and
 				(listp form)
 				(canon-charstar? form)

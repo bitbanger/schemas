@@ -1,15 +1,79 @@
 (defparameter *PROTOSCHEMAS* '(
-	do_action_for_pleasure.v
+	; do_action_for_pleasure.v
 	avoid_action_to_avoid_displeasure.v
-	do_action_to_enable_action.v
-	use_tool.v
+	; do_action_to_enable_action.v
+	; use_tool.v
 	give.v
 	receiving_verb.?
 	travel.v
 	eat.v
 	feed.v
-	play_for_fun.v
+	play.v
+	make.v
+	sit.v
+	search.v
+	find.v
+	drink.v
+	put_in_container.v
 ))
+
+(defparameter put_in_container.v
+	'(epi-schema ((?x put_in_container.v ?o ?c) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?o inanimate_object.n))
+			(!r3 (?c container.n))
+			(!r4 (?c inanimate_object.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+			(!n3 (!r4 necessary-to-degree 1.0))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (?o (in.p ?c))))))
+		)
+
+		(:Preconds
+			(?i1 (not (?o (in.p ?c))))
+			(?i2 (?o (smaller-than.n ?c)))
+		)
+
+		(:Postconds
+			(?p1 (?o (in.p ?c)))
+		)
+	)
+)
+
+(defparameter make.v
+	'(epi-schema ((?x make.v ?o) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?o inanimate_object.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (?o exist.v)))))
+			(?g2 (?x (want.v (ka (have.v ?o)))))
+		)
+
+		(:Preconds
+			(?i1 (not (?o exist.v)))
+		)
+
+		(:Postconds
+			(?p1 (?o exist.v))
+			(?p2 (?x (have.v ?o)))
+		)
+	)
+)
 
 (defparameter do_action_for_pleasure.v
 	'(epi-schema ((?x do_action_for_pleasure.v ?a) ** ?e)
@@ -28,7 +92,7 @@
 		)
 
 		(:Preconds
-			(?i1 (?x (enjoy_verb.v ?a)))
+			(?i1 (?x (enjoy_verb.? ?a)))
 		)
 
 		(:Steps
@@ -288,6 +352,90 @@
 	)
 )
 
+(defparameter drink.v
+	'(epi-schema ((?x drink.v ?f) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?f beverage.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (not (?x thirsty.a))))))
+		)
+
+		(:Preconds
+			(?i1 (?x have.v ?f))
+			(?i2 (?x thirsty.a))
+		)
+
+		(:Postconds
+			(?p1 (not (?x (have.v ?f))))
+			(?p2 (not (?x thirsty.a)))
+		)
+
+		(:Episode-relations
+			(!w2 (?p1 after ?e))
+			(!w3 (?i1 before ?e))
+			(!w4 (?e cause.v ?p1))
+		)
+	)
+)
+
+(defparameter search.v
+	'(epi-schema ((?x ((adv-a (for.p ?o)) search.v)) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?lx location.n))
+			(!r3 (?lo location.n))
+		)
+
+		(:Preconds
+			(?i1 (?x (at.p ?lx)))
+			(?i2 (?o (at.p ?lo)))
+			(?i3 (not (?x (know.v (that (?o (at.p ?lo)))))))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ka (find.v ?o)))))
+			(?g2 (?x (want.v (ka (have.v ?o)))))
+		)
+
+		(:Postconds
+			(?p1 (?x (find.v ?o)))
+		)
+	)
+)
+
+(defparameter find.v
+	'(epi-schema ((?x find.v ?o) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?l location.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+		)
+
+		(:Preconds
+			(?i1 (?x (at.p ?l)))
+			(?i2 (?o (at.p ?l)))
+			(?i3 (?x ((adv-a (for.p ?o)) search.v)))
+			(?i4 (not (?x (know.v (that (?o (at.p ?l)))))))
+			(?i5 (not (?x (have.v ?o))))
+		)
+
+		(:Postconds
+			(?p1 (?x (know.v (that (?o (at.p ?l))))))
+			(?p2 (?x (have.v ?o)))
+		)
+	)
+)
+
 (defparameter feed.v
 	'(epi-schema ((?x feed.v ?y ?f) ** ?e)
 		(:Roles
@@ -332,12 +480,43 @@
 	)
 )
 
-(defparameter play_for_fun.v
-	'(epi-schema ((?x play_for_fun.v ?t) ** ?e)
+(defparameter sit.v
+	'(epi-schema ((?x ((adv-a (on.p ?s)) ((adv-a (in.p ?s)) sit.v))) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?s inanimate_object.n))
+			(!r3 (?s furniture.n))
+			(!r4 (?l location.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ka rest.v))))
+		)
+
+		(:Preconds
+			(?i1 (?x (at.p ?l)))
+			(?i2 (?s (at.p ?l)))
+		)
+	)
+)
+
+(defparameter play.v
+	'(epi-schema ((?x ((adv-a (with.p ?t)) play.v) ?g) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?t toy.n))
-			(!r3 (?g game.n))
+			(!r3 (?t inanimate_object.n))
+			(!r4 (?g game.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r3 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -346,11 +525,6 @@
 
 		(:Preconds
 			(?i1 (?x have.v ?t))
-		)
-
-		(:Steps
-			(?e1 (?x ((adv-a (with.p ?t)) play.v)))
-			(?e2 (?x ((adv-a (with.p ?t)) play.v) ?g))
 		)
 
 		(:Postconds
@@ -370,10 +544,12 @@
 			(!r1 (?x agent.n))
 			(!r2 (?l1 location.n))
 			(!r3 (?l2 location.n))
+			(!r4 (not (?l1 = ?l2)))
 		)
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r4 necessary-to-degree 1.0))
 		)
 
 		(:Goals

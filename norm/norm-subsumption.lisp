@@ -133,7 +133,7 @@
 		(return-from outer 0.9)
 	)
 
-	(if (and (equal schema-pred 'enjoy_verb.v)
+	(if (and (equal schema-pred 'enjoy_verb.?)
 			(not (null (member story-pred *ENJOY-PREDS* :test #'equal))))
 		; then
 		(return-from outer 0.9)

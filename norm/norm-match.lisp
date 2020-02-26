@@ -610,6 +610,13 @@
 					(return-from check-constr)
 				)
 
+				(if (not (null (gethash phi checked)))
+					(progn
+					; (format t "skipping checked formula ~s~%" phi)
+					(return-from check-constr)
+					)
+				)
+
 				(setf bound-nested nil)
 
 				(setf invoked (invoked-schema phi))
@@ -643,6 +650,9 @@
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
 						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
 						(setf old-checked-count (hash-table-count checked))
+						(setf (gethash phi checked) t)
+						; (format t "marking formula ~s as checked~%" phi)
+						; (format t "marking ~s as checked~%" phi)
 						(setf nest-score (check-constraints-helper nested-schema-bound story checked))
 						; If a nested schema breaks a necessity-1 constraint,
 						; the whole nest is invalid.
@@ -686,7 +696,7 @@
 
 							; else
 							; (format t "time model: ~s~%" *TIME-MODEL*)
-							(if (equal (get-necessity phi-id schema) 1.0)
+							(if (>= (get-necessity phi-id schema) 1.0)
 								; then, invalid match
 								(progn
 								; (format t "~s ~s is wrong, but necessary~%" phi-id phi)

@@ -257,7 +257,7 @@
 				 (canon-kind? arg)
 				 (equal (car arg) 'KA))
 			; then
-			(return-from outer 1.0)
+			(return-from outer 0.25)
 		)
 	))
 

@@ -923,6 +923,7 @@
 	(loop for prop in (mapcar #'second (section-formulas (get-section schema ':Steps)))
 		do (block check
 			(if (and (boundp (prop-pred prop))
+					(not (equal (prop-pred prop) (schema-pred schema)))
 					(schema? (eval (prop-pred prop))))
 				; then
 				(progn

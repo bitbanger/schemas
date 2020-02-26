@@ -612,12 +612,13 @@
 
 				(setf bound-nested nil)
 
-				(if (invokes-schema? phi)
+				(setf invoked (invoked-schema phi))
+				(if (not (null invoked))
 					; then
 					(progn
 						; (format t "evaluating nested schema ~s~%" phi)
-						(setf nested-schema-name (prop-pred phi))
-						(setf nested-schema (eval (prop-pred phi)))
+						(setf nested-schema-name (schema-pred invoked))
+						(setf nested-schema invoked)
 
 						; NOTE: if we're evaluating the
 						; consistency of a prop with an
@@ -735,6 +736,7 @@
 	; (setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
 	(setf best-match-res (car best-match-res-pair))
 	(setf best-score (car best-match-res-pair))
+	(format t "setting best-score to res pair car ~s~%" (car best-match-res-pair))
 	(setf best-match (second best-match-res-pair))
 	(setf best-bindings (third best-match-res-pair))
 	; (print-schema best-match)
@@ -872,15 +874,23 @@
 			(setf all-matches (append all-matches (list (list score-pair cur-match cur-bindings bound-header))))
 		)
 
+		; (format t "made it here 0~%")
+
 
 		(setf valid-score (car score-pair))
+		; (format t "made it here 0.1~%")
 		(setf invalid-score (second score-pair))
+		; (format t "made it here 0.2~%")
+		; (format t "best score is ~s~%" best-score)
 		(setf better-than-best (< invalid-score (second best-score)))
+		; (format t "made it here 0.3~%")
 		(if (and (equal invalid-score (second best-score))
 			 (> valid-score (car best-score)))
 			; then
 			(setf better-than-best t)
 		)
+
+		; (format t "made it here 1~%")
 
 		; (if better-than-best (format t "BEST~%"))
 	
@@ -891,6 +901,7 @@
 			)
 			; then
 			(progn
+				; (format t "setting best-score to pair ~s~%" score-pair)
 				(setf best-score score-pair)
 				(setf best-match cur-match)
 				(setf best-bindings cur-bindings)
@@ -902,6 +913,8 @@
 	
 		(setf linear-story (shuffle linear-story))
 	))
+
+	; (format t "made it here 2~%")
 
 	(setf sorted-matches (sort all-matches
 		(lambda (a b)

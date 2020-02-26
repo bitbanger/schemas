@@ -2,8 +2,9 @@ import csv
 from StringIO import StringIO
 from heapq import heappush, heappushpop
 from nltk.tokenize import TreebankWordTokenizer
+from nltk.tokenize import sent_tokenize
 
-K_RATIOS = 300
+K_RATIOS = 400
 
 stories = []
 with open('raw_stories.txt', 'r') as f:
@@ -25,6 +26,12 @@ for story in stories:
             add_tok = token[:-1]
         reader_tokens.add(add_tok.lower())
 
+print "(defparameter *ROC-MCGUFFEY* '("
+
+for story in stories:
+    if len(str(story)) < 400:
+        print "\t(\n\t\t" + '\n\t\t'.join(['"%s"' % ''.join([c for c in sent if c != '"']) for sent in sent_tokenize(story)]) + "\n\t)"
+
 
 def uncsv(story):
     f = StringIO(story)
@@ -36,8 +43,8 @@ with open('roc2.csv', 'r') as f:
 
     i = 0
     for line in f.readlines():
-        if i%10000 == 0:
-            print i
+        #if i%10000 == 0:
+        #    print i
         i += 1
         raw_roc_tokens = tokenizer.tokenize(line)
         roc_tokens = set()
@@ -63,4 +70,8 @@ with open('roc2.csv', 'r') as f:
                 heappushpop(top_ratios, (ratio, line))
 
     print min([x[0] for x in top_ratios])
-    print '\n\n'.join([uncsv(x[1]) for x in sorted(top_ratios, reverse=True)])
+    for x in sorted(top_ratios, reverse=True):
+        print "\t(\n\t\t" + '\n\t\t'.join(['"%s"' % ''.join([c for c in sent if c != '"']) for sent in sent_tokenize(uncsv(x[1]))]) + "\n\t)"
+    # print '\n\n'.join([uncsv(x[1]) for x in sorted(top_ratios, reverse=True)])
+
+print "))"

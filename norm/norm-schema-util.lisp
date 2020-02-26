@@ -28,6 +28,12 @@
 	:Subordinate-constraints
 ))
 
+(defparameter *KNOWN-SCHEMAS* (make-hash-table :test #'equal))
+
+(defun register-schema (schema)
+	(setf (gethash (schema-pred schema) *KNOWN-SCHEMAS*) schema)
+)
+
 ; sec-formula-prefix tells you the prefix for condition
 ; formulas for a given section, e.g. !W for Episode-relations
 ; to yield !W1, ?E for Steps to yield ?E1, etc.
@@ -1234,7 +1240,7 @@
 )
 )
 
-(defun invokes-schema? (phi)
+(defun old-invokes-schema? (phi)
 ; TODO: extend to non-atomic props?
 (let ((pred (if (canon-atomic-prop? phi) (prop-pred phi) nil)))
 	(and
@@ -1244,6 +1250,50 @@
 		(schema? (eval pred))
 		; TODO: subsumption, not just boundp. Need index of known schemas
 	)
+)
+)
+
+(defun invokes-schema? (phi)
+	(not (null (invoked-schema phi)))
+)
+
+(defun invoked-schema (phi)
+(let (
+	(best-score 0)
+	(pred (if (canon-atomic-prop? phi) (prop-pred phi) nil))
+	)
+(block outer
+	(if (or
+			(null pred)
+			(member 'can.md (prop-mods phi) :test #'equal)
+		)
+		; then
+		(return-from outer nil)
+	)
+
+	; If it invokes a schema directly, return that one.
+	(if (and (boundp pred) (schema? (eval pred)))
+		(return-from outer (eval pred))
+	)
+
+	; Otherwise, loop over known schemas and return the one
+	; with the highest subsumption score.
+	(setf best-invoked nil)
+	(loop for sn being the hash-keys of *KNOWN-SCHEMAS*
+		do (block check-invoked
+			(setf cand-score (subsumption-score sn pred))
+			(if (> cand-score best-score)
+				; then
+				(progn
+					(setf best-invoked (gethash sn *KNOWN-SCHEMAS*))
+					(setf best-score cand-score)
+				)
+			)
+		)
+	)
+
+	(return-from outer best-invoked)
+)
 )
 )
 
@@ -1348,7 +1398,8 @@
 
 (defun expand-nested-schema (invoker parent-schema)
 (block outer
-	(setf invoked-schema (eval (prop-pred (second invoker))))
+	; (setf invoked-schema (eval (prop-pred (second invoker))))
+	(setf invoked-schema (invoked-schema (second invoker)))
 
 	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
 	(if (null header-bindings)
@@ -1408,7 +1459,7 @@
 
 			(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema))))
 
-			(format t "invoked ~s~%" invoked-schema)
+			(format t "; invoked ~s~%" invoked-schema)
 
 			;(setf invoked-schema (eval (prop-pred (second st))))
 			;(setf invoked-schema (second (uniquify-shared-vars parent-schema invoked-schema)))
@@ -1421,7 +1472,7 @@
 		)
 	)
 
-	(format t "parent: ~s~%" parent-schema)
+	(format t "; parent: ~s~%" parent-schema)
 
 	; Give each invoked schema a unique variable name, except for any variables shared
 	; with the parent schema; the initial pairwise uniquification above between each

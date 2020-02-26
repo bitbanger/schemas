@@ -21,6 +21,7 @@
 	TRY.V
 	SEEM.V
 	APPEAR.V
+	DECIDE.V
 ))
 
 ; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
@@ -86,6 +87,23 @@
 (let ((tmp-sym (gensym)))
 	(list 'L tmp-sym
 		(append (list 'AND) (mapcar (lambda (x) (list tmp-sym x)) ps)))
+)
+)
+
+(defun remove-idx-tag (sym)
+(block outer
+	(if (and
+			(symbolp sym)
+			(equal 3 (length (split-str (string sym) "$")))
+			(is-num-str? (second (split-str (string sym) "$")))
+		)
+		; then
+		(let ((spl (split-str (string sym) "$")))
+			(return-from outer (intern (format nil "~a~a" (car spl) (third spl))))
+		)
+		; else
+		(return-from outer sym)
+	)
 )
 )
 
@@ -698,7 +716,7 @@
 		(return-from outer phi-copy)
 	)
 
-	(if (not (null (member pred *KA-ARG-VERBS* :test #'equal)))
+	(if (not (null (member (remove-idx-tag pred) *KA-ARG-VERBS* :test #'equal)))
 		(return-from outer phi-copy)
 	)
 

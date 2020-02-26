@@ -18,6 +18,7 @@
 (load "dev-story-sents.lisp")
 (load "simple_stories.lisp")
 (load "schema-parser.lisp")
+(load "roc-mcguffey-stories.lisp")
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
 ;(print-schema (car kite-gen-schema))
@@ -438,6 +439,8 @@
 (setf new-schemas (list))
 (setf new-schema-names (list))
 
+; (setf *DBG-ALL* t)
+
 (setf all-matches (list))
 ; (loop for story in ((lambda (x) (list (first x) (second x) (third x))) *DEV-FRS*)
 ; (loop for story in (list *MONKEY-PROC-1* *MONKEY-PROC-2*)
@@ -449,19 +452,21 @@
 ; "The mother bird will feed them." "She has a grasshopper in her mouth."
 ; "If they try to fly, they will fall."))
 ;(loop for raw-story in *DEV-STORY-SENTS*
-(loop for raw-story in (shuffle *ALL-STORY-SENTS*)
+;(loop for raw-story in (shuffle *ALL-STORY-SENTS*)
+(loop for raw-story in (shuffle *ROC-MCGUFFEY*)
 		for story-num from 0
 	do (block matchblock
 		(format t "; story ~s:~%" story-num)
-		(loop for line in raw-story
-			do (format t "	; ~s~%" line)
-		)
+		(format t "; ~s~%" raw-story)
+		; (loop for line in raw-story
+			; do (format t "	; ~s~%" line)
+		; )
 		; (format t "'(")
 		(setf story 
 			(loop for sent in (parse-story raw-story)
 				collect (loop for wff in sent
 					if (canon-prop? wff) collect wff
-					; if (canon-prop? wff) do (format t "~s~%" wff)
+					; if (canon-prop? wff) do (format t "	; ~s~%" wff)
 				))
 		)
 		; (format t ")~%")
@@ -483,7 +488,7 @@
 					; else
 					(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
 						; then
-						(setf story-matches (append story-matches (list m)))
+						(setf story-matches (append story-matches (list (list m score))))
 						; else
 						(progn
 						; (format t "ignoring match:~%")

@@ -82,10 +82,12 @@
 			(!r1 (?x agent.n))
 			(!r2 (?a1 action.n))
 			(!r3 (?a2 action.n))
+			(!r4 (not (?a1 = ?a2)))
 		)
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r4 necessary-to-degree 1.0))
 		)
 
 		(:Goals
@@ -117,7 +119,7 @@
 )
 
 (defparameter use_tool.v
-	'(epi-schema ((?x use_tool.v ?t (for.p-arg ?a)) ** ?e)
+	'(epi-schema ((?x ((adv-a (for.p ?a)) use_tool.v) ?t) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?t implement.n))
@@ -126,6 +128,7 @@
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
 		)
 
 		(:Goals

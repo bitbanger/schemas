@@ -268,7 +268,7 @@
 
 		(dbg 'unify "var is ~s~%" schema-ep)
 		(setf schema-form (get-schema-ep-var-char schema schema-ep))
-		(dbg "	and schema formula ~s characterizes it~%" schema-form)
+		(dbg 'unify "	and schema formula ~s characterizes it~%" schema-form)
 
 		(dbg 'unify "story ep is ~s~%" story-ep)
 		(loop for phi in story do (block story-loop

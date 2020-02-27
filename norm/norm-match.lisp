@@ -517,7 +517,16 @@
 					)
 	
 					(dbg 'match "bound to story formula ~s~%" phi)
-					; (format t "bound schema formula ~s to story formula ~s in base schema~%~s~%" matched-schema phi test-schema)
+					(setf unbound-prop-mods (list))
+					(if (and (not (equal matched-schema phi)) (canon-charstar? phi))
+						(loop for md in (prop-mods (car phi))
+							; (format t "bound schema formula ~s to story formula ~s in base schema~%~s~%" matched-schema phi test-schema)
+							; do (format t "story formula bound to ~s had prop mod ~s~%" matched-schema md)
+							if (loop for scmd in (prop-mods matched-schema) always (null (unify-mods md scmd go-match test-schema story-formulas)))
+								; do (format t "unbound prop mod ~s after matching to ~s~%" md matched-schema)
+								do (setf unbound-prop-mods (append unbound-prop-mods (list md)))
+						)
+					)
 					; (format t "produced bindings ~s~%" (ht-to-str go-match))
 					(setf total-matches (+ total-matches 1))
 					; (dbg 'match "Extra constraints: ~s~%" constraints)
@@ -533,6 +542,23 @@
 	
 					(setf go-match-schema (apply-bindings test-schema go-match))
 					; (format t "applied bindings ~s~%" (ht-to-str go-match))
+
+					; Add incidental/unbound mods to the matched schema
+					(if (not (null unbound-prop-mods)) (block add-prop-mods
+						; (format t "big schema ")
+						; (print-schema go-match-schema)
+						; (format t "looking for formula ~s~%" (apply-bindings matched-schema go-match))
+						(setf matched-prop (apply-bindings matched-schema go-match))
+						(setf prop-breakdown (prop-args-pred-mods matched-prop))
+						(setf new-prop (render-prop
+							(car prop-breakdown)
+							(second prop-breakdown)
+							(third prop-breakdown)
+							(append (fourth prop-breakdown) unbound-prop-mods)
+						))
+
+						(setf go-match-schema (replace-vals matched-prop new-prop go-match-schema))
+					))
 
 					; Make sure the full matched sentence 
 					(if nil
@@ -593,19 +619,24 @@
 (defun uncached-check-constraints (schema story checked)
 (let (bound-nested phi phi-id phi-pair sec true-count untrue-count)
 (block outer
+	; (format t "checking schema ~s~%" (schema-pred schema))
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))
 
 	(setf true-count 0)
 	(setf untrue-count 0)
 
-	(loop for sec in (nonmeta-sections schema)
+	; (loop for sec in (nonmeta-sections schema)
 		; do (loop for phi in (mapcar #'second (section-formulas sec))
-		do (loop for phi-pair in (section-formulas sec)
+		; do (loop for phi-pair in (section-formulas sec)
+		(loop for phi-pair in (append
+			(list (list (third (second schema)) (car (second schema))))
+			(loop for sec in (nonmeta-sections schema) append (section-formulas sec)))
+
 			do (block check-constr
 				(setf phi-id (car phi-pair))
 				(setf phi (second phi-pair))
-				(if (has-element-pred phi #'varp)
+				(if (and (has-element-pred phi #'varp) (varp phi-id))
 					; then
 					(return-from check-constr)
 				)
@@ -620,7 +651,8 @@
 				(setf bound-nested nil)
 
 				(setf invoked (invoked-schema phi))
-				(if (not (null invoked))
+				; Check nested invoked schemas, unless we're examining the header itself.
+				(if (and (not (equal (third (second schema)) phi-id)) (not (null invoked)))
 					; then
 					(progn
 						; (format t "evaluating nested schema ~s~%" phi)
@@ -689,13 +721,31 @@
 					; then
 					(progn
 						(setf eval-score (eval-prop-score phi story-kb))
+						(if (not (varp phi-id))
+							(setf eval-score 1.0)
+						)
+
+						(if (equal phi-id (third (second schema)))
+							; then (header match worth 2x)
+							(setf eval-score (* eval-score 2))
+							; else
+							(if (equal (sec-name-from-id phi-id) ':Roles)
+								; then (role match worth 0.5x)
+								(setf eval-score (* eval-score 0.5))
+							)
+						)
+
 						(if (> eval-score 0)
 							; then
+							(progn
 							(setf true-count (+ true-count eval-score))
 							; (format t "	true: ~s~%" phi)
+							)
 
 							; else
 							; (format t "time model: ~s~%" *TIME-MODEL*)
+							(progn
+							; (format t "	untrue: ~s~%" phi)
 							(if (>= (get-necessity phi-id schema) 1.0)
 								; then, invalid match
 								(progn
@@ -705,15 +755,16 @@
 								; else
 								(setf untrue-count (+ untrue-count 0.1))
 							)
-							; (format t "	untrue: ~s~%" phi)
+							)
 						)
 						(setf (gethash phi checked) t)
 					)
 				)
 			)
 		)
-	)
+	; )
 
+	; (format t "returning ~s~%" (list true-count untrue-count))
 	(return-from outer (list true-count untrue-count))
 )
 )

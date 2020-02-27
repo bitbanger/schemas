@@ -69,6 +69,21 @@
 )
 )
 
+(defun sec-name-from-prefix (prefix)
+(block outer
+	(loop for sec-name in *SEC-NAMES*
+		if (equal (sec-formula-prefix sec-name) prefix)
+			do (return-from outer sec-name)
+	)
+
+	(return-from outer nil)
+)
+)
+
+(defun sec-name-from-id (id)
+	(sec-name-from-prefix (subseq (string id) 0 2))
+)
+
 ; schema-cond? reports whether phi is a well-formed
 ; pair comprising a schema condition "tag" and an
 ; EL formula. If fluent is non-nil, the "tag" will

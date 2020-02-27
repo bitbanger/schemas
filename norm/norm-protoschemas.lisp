@@ -453,6 +453,7 @@
 			(!n3 (!r4 necessary-to-degree 1.0))
 			(!n4 (!r5 necessary-to-degree 1.0))
 			(!n5 (!r6 necessary-to-degree 1.0))
+			(!n6 (!e necessary-to-degree 1.0))
 		)
 
 		(:Goals

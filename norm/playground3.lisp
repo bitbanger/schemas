@@ -455,6 +455,8 @@
 ;(loop for raw-story in (shuffle *ALL-STORY-SENTS*)
 (loop for raw-story in (shuffle *ROC-MCGUFFEY*)
 ; (loop for raw-story in (list '("Clare found the letter." "She opened it up." "Inside was a small note." "She threw the note away." "She kept the envelope to use."))
+; (loop for raw-story in (list '("Mary went to the store with her friend."))
+; (loop for raw-story in (list '("Frank is there." "John eats a steak."))
 		for story-num from 0
 	do (block matchblock
 		(format t "; story ~s:~%" story-num)

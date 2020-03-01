@@ -458,12 +458,12 @@
 ; (loop for raw-story in (list '("Mary went to the store with her friend."))
 ; (loop for raw-story in (list '("Frank is there." "John eats a steak."))
 		for story-num from 0
-	do (block matchblock
+	do (handler-case (block matchblock
 		(format t "; story ~s:~%" story-num)
-		(format t "; ~s~%" raw-story)
-		; (loop for line in raw-story
-			; do (format t "	; ~s~%" line)
-		; )
+		; (format t "; ~s~%" raw-story)
+		(loop for line in raw-story
+			do (format t "	; ~s~%" line)
+		)
 		; (format t "'(")
 		(setf story 
 			(loop for sent in (parse-story raw-story)
@@ -717,7 +717,7 @@
 		)
 
 		; (format t "~%~%")
-	)
+	) (error () (format t "; error parsing story~%")))
 )
 
 

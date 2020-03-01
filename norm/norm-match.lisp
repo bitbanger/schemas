@@ -96,7 +96,12 @@
 					(setf pred2 (prop-pred (car phi)))
 				)
 				(setf sub-score (max (subsumption-score pred1 pred2) (* 0.75 (subsumption-score pred2 pred1))))
-				(setf sub-score (+ sub-score (ht-count new-bindings)))
+
+				; (format t "~s variables in schema~%" 
+				; (format t "~s~%" (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal))
+				(setf sub-score (+ sub-score
+					(/ (ht-count new-bindings) (length (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal)))
+				))
 				; (format t "subsumption score + # of bindings between ~s and ~s was ~s~%" pred1 pred2 sub-score)
 
 				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))

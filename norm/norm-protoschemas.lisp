@@ -255,6 +255,12 @@
 			(!r1 (?x agent.n))
 			(!r2 (?o inanimate_object.n))
 			(!r3 (?l location.n))
+			(!r4 (not (?x = ?o)))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r4 necessary-to-degree 1.0))
 		)
 
 		(:Goals

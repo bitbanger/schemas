@@ -1524,10 +1524,10 @@
 	(setf phi-copy (copy-list phi))
 	(loop for func in *SCHEMA-CLEANUP-FUNCS*
 		do (block inner
-			(format t "applying func ~s~%" func)
+			; (format t "applying func ~s~%" func)
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
-			(format t "got new phi ~s~%" new-phi-copy)
+			; (format t "got new phi ~s~%" new-phi-copy)
 			; (if (not (same-list-unordered old-phi-copy new-phi-copy))
 				; (format t "func ~s updated~%" func)
 			; )
@@ -1558,7 +1558,7 @@
 			(return-from outer phi-copy)
 			; else
 			(progn
-			(format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
+			; (format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
 			(setf last-phi-copy (copy-list phi-copy))
 			)
 		)

@@ -453,7 +453,11 @@
 ; "If they try to fly, they will fall."))
 ;(loop for raw-story in *DEV-STORY-SENTS*
 ;(loop for raw-story in (shuffle *ALL-STORY-SENTS*)
-(loop for raw-story in (shuffle *ROC-MCGUFFEY*)
+(defparameter start-st (parse-integer (second sb-ext:*posix-argv*)))
+(defparameter end-st (parse-integer (third sb-ext:*posix-argv*)))
+
+; (loop for raw-story in (shuffle *ROC-MCGUFFEY*)
+(loop for raw-story in (subseq *ROC-MCGUFFEY* start-st end-st)
 ; (loop for raw-story in (list '("Clare found the letter." "She opened it up." "Inside was a small note." "She threw the note away." "She kept the envelope to use."))
 ; (loop for raw-story in (list '("Mary went to the store with her friend."))
 ; (loop for raw-story in (list '("Frank is there." "John eats a steak."))

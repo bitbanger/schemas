@@ -9,3 +9,6 @@ G*.txt
 ball*.txt
 output*.txt
 output*.lisp
+*.dot
+*.svg
+*.png

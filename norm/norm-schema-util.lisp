@@ -31,7 +31,10 @@
 (defparameter *KNOWN-SCHEMAS* (make-hash-table :test #'equal))
 
 (defun register-schema (schema)
+(block outer
 	(setf (gethash (schema-pred schema) *KNOWN-SCHEMAS*) schema)
+	(set (schema-pred schema) schema)
+)
 )
 
 ; sec-formula-prefix tells you the prefix for condition

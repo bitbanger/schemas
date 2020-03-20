@@ -422,7 +422,8 @@
 	(loop for post in new-posts
 		do (setf new-schema (add-constraint new-schema ':Postconds post)))
 
-	(set (schema-pred new-schema) new-schema)
+	; (set (schema-pred new-schema) new-schema)
+	(register-schema new-schema)
 	(return-from outer new-schema)
 )
 )
@@ -632,7 +633,8 @@
 
 							(setf new-schemas (append new-schemas (list (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))))
 							(setf new-schema-names (append new-schema-names (list new-schema-name)))
-							(set (schema-pred new-schema) new-schema)
+							; (set (schema-pred new-schema) new-schema)
+							(register-schema new-schema)
 							; (format t "LEARNED NEW SCHEMA (~s): ~s~%" (schema-pred new-schema) act_on.v)
 							; (format t "; LEARNED NEW SCHEMA:~%")
 

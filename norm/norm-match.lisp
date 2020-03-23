@@ -242,18 +242,19 @@
 	(dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
 	(dbg 'match "total matches: ~s~%" total-matches)
 
-	(setf gen-match (generalize-schema-constants test-schema))
 
-	(setf new-name (new-schema-match-name (schema-pred test-schema)))
 
-	; (setf new-gen-header (append (list (car (car (second gen-match))) new-name) (cddr (car (second gen-match)))))
-	(setf new-gen-header (replace-vals (schema-pred gen-match) new-name (car (schema-header gen-match))))
-	; (setf new-match-header (append (list (car (car (second test-schema))) new-name) (cddr (car (second test-schema)))))
-	(setf new-match-header (replace-vals (schema-pred test-schema) new-name (car (schema-header test-schema))))
-	(setf test-schema (set-header test-schema new-match-header))
-	; (format t "gen match is ~s~%" gen-match)
-	(setf gen-match (set-header gen-match new-gen-header))
-	(set new-name gen-match)
+	;(setf gen-match (generalize-schema-constants test-schema))
+	;(setf new-name (new-schema-match-name (schema-pred test-schema)))
+	;(setf new-gen-header (replace-vals (schema-pred gen-match) new-name (car (schema-header gen-match))))
+	;(setf new-match-header (replace-vals (schema-pred test-schema) new-name (car (schema-header test-schema))))
+	;(setf test-schema (set-header test-schema new-match-header))
+	;(setf gen-match (set-header gen-match new-gen-header))
+	;(register-schema gen-match)
+	(setf new-gen-name (create-from-match test-schema))
+	(setf test-schema (replace-vals (schema-pred test-schema) new-gen-name test-schema))
+
+
 
 	(return-from outer (list test-schema all-bindings bound-header))
 )
@@ -392,10 +393,16 @@
 			; We've created a new name for our subschema match, and it has its own variables.
 			; We're going to replace the subschema's step in the parent schema with a step using
 			; its new name.
-			(setf new-name (new-schema-match-name (schema-pred (car best-single-res))))
-			(setf gen-match (replace-vals (schema-pred (car best-single-res)) new-name gen-match))
+			; (setf new-name (new-schema-match-name (schema-pred (car best-single-res))))
+			; (setf gen-match (replace-vals (schema-pred (car best-single-res)) new-name gen-match))
 			; (format t "renamed gen subschema is ~s~%" gen-match)
-			(set new-name gen-match)
+
+
+			; (set new-name gen-match)
+			; (register-schema gen-match)
+
+			(setf new-name (create-from-match-maybe-gen gen-match nil))
+
 			(setf new-sec (list ':Steps))
 			(loop for st in (section-formulas (get-section test-schema ':Steps))
 				do (if (equal (car st) (third (second (car best-single-res))))

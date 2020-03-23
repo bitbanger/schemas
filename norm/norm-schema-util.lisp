@@ -28,10 +28,99 @@
 	:Subordinate-constraints
 ))
 
-(defparameter *KNOWN-SCHEMAS* (make-hash-table :test #'equal))
+(defparameter *SCHEMAS-BY-PRED* (make-hash-table :test #'equal))
+; (format t "resetting preds-by-schema~%")
+(defparameter *PREDS-BY-SCHEMA* (make-hash-table :test #'equal))
+
+; known-schema-pred takes a schema, ignores
+; its predicate, looks it up in a database of
+; known schemas, and returns the predicate it's
+; known by in that database, or nil otherwise.
+(defun known-schema-pred (schema)
+(block outer
+	; We only disregard the match number of a given
+	; predicate; if a schema is identical but has
+	; a different predicate name, it's not identical.
+	(setf blanked-schema (replace-vals (schema-pred schema) (get-schema-match-name (schema-pred schema)) schema))
+	; (format t "looking schema up in known db:~%")
+	; (print-schema blanked-schema)
+	; (format t "~s~%" blanked-schema)
+	(if (not (null (gethash blanked-schema *PREDS-BY-SCHEMA*)))
+		; then
+		(progn
+		; (format t "schema ~s known by name ~s~%" (schema-pred schema) (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		(return-from outer (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		)
+	)
+
+	(return-from outer nil)
+)
+)
 
 (defun register-schema (schema)
-	(setf (gethash (schema-pred schema) *KNOWN-SCHEMAS*) schema)
+(block outer
+	(setf (gethash (schema-pred schema) *SCHEMAS-BY-PRED*) schema)
+	(set (schema-pred schema) schema)
+
+	(setf blanked-schema (replace-vals (schema-pred schema) (get-schema-match-name (schema-pred schema)) schema))
+	(if (null (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		; then
+		(progn
+			; (format t "adding schema (~s) to known list:~%" blanked-schema)
+			; (format t "with pred ~s~%" (schema-pred schema))
+			; (print-schema blanked-schema)
+			; (format t "~s~%" blanked-schema)
+			(setf (gethash blanked-schema *PREDS-BY-SCHEMA*) (schema-pred schema))
+			; (format t "preds-by-schema size ~s~%" (ht-count *PREDS-BY-SCHEMA*))
+			; (format t "successfully added? ~s (val ~s)~%" (not (null (gethash blanked-schema *PREDS-BY-SCHEMA*))) (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		)
+	)
+)
+)
+
+; create-from-match takes a schema match and:
+; 	1. gives it a new name, or re-uses a name
+;		if the schema is known
+;	2. generalizes constants to variables
+;	3. registers the generalized schema under
+;		the new name
+;	4. returns the generalized schema name
+(defun create-from-match (match)
+	(create-from-match-maybe-gen match t)
+)
+
+(defun create-from-match-maybe-gen (match should-gen)
+(block outer
+	(setf is-new-schema nil)
+
+	; (maybe) generalize the schema
+	(setf new-schema match)
+	(if should-gen
+		; then
+		(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+	)
+
+	; check whether we know the generalized schema
+	; by some name
+	(setf new-schema-name (known-schema-pred new-schema))
+	(if (null new-schema-name)
+		; then
+		(progn
+		(setf new-schema-name (new-schema-match-name (schema-pred match)))
+		(setf is-new-schema t)
+		)
+	)
+
+	; Replace the name and generalize the schema
+	(setf new-schema (replace-vals (schema-pred new-schema) new-schema-name new-schema))
+
+	(if is-new-schema
+		; then
+		(register-schema new-schema)
+	)
+
+	(return-from outer new-schema-name)
+)
 )
 
 ; sec-formula-prefix tells you the prefix for condition
@@ -1295,13 +1384,13 @@
 	; Otherwise, loop over known schemas and return the one
 	; with the highest subsumption score.
 	(setf best-invoked nil)
-	(loop for sn being the hash-keys of *KNOWN-SCHEMAS*
+	(loop for sn being the hash-keys of *SCHEMAS-BY-PRED*
 		do (block check-invoked
 			(setf cand-score (subsumption-score sn pred))
 			(if (> cand-score best-score)
 				; then
 				(progn
-					(setf best-invoked (gethash sn *KNOWN-SCHEMAS*))
+					(setf best-invoked (gethash sn *SCHEMAS-BY-PRED*))
 					(setf best-score cand-score)
 				)
 			)

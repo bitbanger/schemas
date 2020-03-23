@@ -22,18 +22,22 @@
 	)
 )
 
-(loop for verb being the hash-keys of schemas-by-verb
-	do (block prsch
-
-		(format t "~s~%" verb)
-		(format t "~s~%" verb)
-		(format t "~s~%" verb)
-		(format t "~s~%" verb)
-		(format t "~s~%" verb)
-		(loop for sch in (gethash verb schemas-by-verb)
-			; do (format t "	~s~%~%" (car (schema-header sch)))
-			if (or (has-element sch 'STORE.N) (has-element sch 'CHAIR.N))
-				do (print-schema sch)
+(loop for noun in (get-elements-pred zmatches 'lex-noun?)
+	do (block print-schs
+		(setf schs (loop for sch in (mapcar #'second zmatches) if (has-element sch noun) collect sch))
+		(if (<= (/ (length schs) (length zmatches)) 0.5)
+			; then
+			(block print-sch
+				(format t "~s~%" (/ (length schs) (length zmatches)))
+				(format t "~s~%" noun)
+				(format t "~s~%" noun)
+				(format t "~s~%" noun)
+				(format t "~s~%" noun)
+				(format t "~s~%" noun)
+				(loop for sch in schs
+					do (print-schema sch)
+				)
+			)
 		)
 	)
 )

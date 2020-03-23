@@ -66,12 +66,12 @@
 	(if (null (gethash blanked-schema *PREDS-BY-SCHEMA*))
 		; then
 		(progn
-			; (format t "preds-by-schema size ~s~%" (ht-count *PREDS-BY-SCHEMA*))
 			; (format t "adding schema (~s) to known list:~%" blanked-schema)
 			; (format t "with pred ~s~%" (schema-pred schema))
 			; (print-schema blanked-schema)
 			; (format t "~s~%" blanked-schema)
 			(setf (gethash blanked-schema *PREDS-BY-SCHEMA*) (schema-pred schema))
+			; (format t "preds-by-schema size ~s~%" (ht-count *PREDS-BY-SCHEMA*))
 			; (format t "successfully added? ~s (val ~s)~%" (not (null (gethash blanked-schema *PREDS-BY-SCHEMA*))) (gethash blanked-schema *PREDS-BY-SCHEMA*))
 		)
 	)

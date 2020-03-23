@@ -462,6 +462,7 @@
 ;(loop for raw-story in (shuffle *ALL-STORY-SENTS*)
 (defparameter start-st (parse-integer (second sb-ext:*posix-argv*)))
 (defparameter end-st (parse-integer (third sb-ext:*posix-argv*)))
+(defparameter needed-schemas 0)
 
 ; (loop for raw-story in (shuffle *ROC-MCGUFFEY*)
 (loop for raw-story in (subseq *ROC-MCGUFFEY* start-st end-st)
@@ -521,6 +522,15 @@
 			(format t "~s~%" (second match))
 			(print-schema (car match))
 			(format t ")))~%")
+
+			(loop for learned-name in (get-elements-pred (car match) (lambda (x) (and (symbolp x) (not (null (get-schema-match-num x))))))
+				do (progn
+					(setf needed-schemas (+ needed-schemas 1))
+					; (format t "need ~s schemas~%" needed-schemas)
+				)
+				; do (format t "; need schema ~s~%" learned-name)
+				; do (format t "~s~%" (eval learned-name))
+			)
 			;(setf gen-match (generalize-schema-constants match))
 			;(setf new-name (new-schema-match-name (schema-pred match)))
 			;(setf new-header (list (car (car (second gen-match))) new-name (cdr (car (second gen-match)))))

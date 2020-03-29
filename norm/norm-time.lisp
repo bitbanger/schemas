@@ -31,11 +31,11 @@
 
 (defparameter *TIME-PROP-ALLEN-RELS*
 (mk-hashtable '(
-	; TODO: cause.v implies (p m o), but not vice versa.
+	; TODO: cause-of implies (p m o), but not vice versa.
 	;		This should affect the certainty scores.
 	(
 		; prop
-		cause.v
+		cause-of
 		; equivalent Allen rel disjunction
 		(p m o)
 	)

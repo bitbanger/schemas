@@ -1161,7 +1161,9 @@
 		)
 	)
 
+	; (handler-case
 	(return-from outer (topsort-eps schemas ep-ids))
+	; (error () (format t "error schemas: ~s~%" schemas)))
 )
 )
 
@@ -1181,7 +1183,9 @@
 		)
 	))
 
+	; (handler-case
 	(return-from outer (topsort-eps schemas ep-ids))
+	; (error () (format t "error schemas: ~s~%" schemas)))
 )
 )
 
@@ -1214,7 +1218,9 @@
 		))
 	)
 
+	; (handler-case
 	(return-from outer (topsort-steps-helper time-graph (list)))
+	; (error () (format t "error schemas: ~s~%" schemas)))
 )
 )
 

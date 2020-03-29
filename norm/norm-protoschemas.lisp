@@ -104,8 +104,8 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?g1 cause.v ?e1))
-			(!w2 (?e1 cause.v ?p1))
+			(!w1 (?g1 cause-of ?e1))
+			(!w2 (?e1 cause-of ?p1))
 		)
 	)
 )
@@ -127,7 +127,7 @@
 		)
 
 		(:Preconds
-			(?i1 ((ke (?x (do.v ?a))) cause.v (ke (?x (experience.v ?d)))))
+			(?i1 ((ke (?x (do.v ?a))) cause-of (ke (?x (experience.v ?d)))))
 		)
 
 		(:Steps
@@ -135,7 +135,7 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?g1 cause.v ?e1))
+			(!w1 (?g1 cause-of ?e1))
 		)
 	)
 )
@@ -169,13 +169,13 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 cause.v ?e2))
+			(!w1 (?e1 cause-of ?e2))
 			(!w2 (?e1 consec ?e2))
 			(!w3 (?e1 consec ?e3))
 			(!w4 (?e1 before ?e2))
 			(!w5 (?e1 before ?e3))
 			(!w6 (?e2 postcond-of ?e1))
-			(!w7 (?g1 cause.v ?e1))
+			(!w7 (?g1 cause-of ?e1))
 			(!w8 (?e1 same-time ?e))
 			(!w9 (?i1 precond-of ?e))
 		)
@@ -353,7 +353,7 @@
 		(:Episode-relations
 			(!w2 (?p1 after ?e))
 			(!w3 (?i1 before ?e))
-			(!w4 (?e cause.v ?p1))
+			(!w4 (?e cause-of ?p1))
 		)
 	)
 )
@@ -386,7 +386,7 @@
 		(:Episode-relations
 			(!w2 (?p1 after ?e))
 			(!w3 (?i1 before ?e))
-			(!w4 (?e cause.v ?p1))
+			(!w4 (?e cause-of ?p1))
 		)
 	)
 )
@@ -582,7 +582,7 @@
 			(!w2 (?i2 before ?e))
 			(!w3 (?p1 after ?e))
 			(!w4 (?p2 after ?e))
-			(!w5 (?g1 cause.v ?e))
+			(!w5 (?g1 cause-of ?e))
 		)
 	)
 )

@@ -667,9 +667,9 @@
 				(if (and (not (equal (third (second schema)) phi-id)) (not (null invoked)))
 					; then
 					(progn
-						; (format t "evaluating nested schema ~s~%" phi)
 						(setf nested-schema-name (schema-pred invoked))
 						(setf nested-schema invoked)
+						; (format t "evaluating nested schema ~s invoked by ~s~%" nested-schema-name phi)
 
 						; NOTE: if we're evaluating the
 						; consistency of a prop with an
@@ -686,7 +686,13 @@
 
 
 						; (format t "attempting to unify prop ~s with header ~s~%" (list phi '** phi-id) nested-schema)
-						(setf header-bindings (third (unify-with-schema (list phi '** phi-id) nested-schema (linearize-story story))))
+						(setf check-phi (list phi '** phi-id))
+						; don't characterize an !-variable
+						(if (exc-varp phi-id)
+							; then
+							(setf check-phi (car check-phi))
+						)
+						(setf header-bindings (third (unify-with-schema check-phi nested-schema (linearize-story story))))
 						(if (null header-bindings)
 							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
 						)

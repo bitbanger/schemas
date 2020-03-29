@@ -1,12 +1,7 @@
-; Include guard for load-mats.lisp, which isn't nicely
-; reloadable due to constant symbol redefinitions.
-(if (not (boundp 'AIA-MATS-LOADED))
-	(progn (load "load-mats.lisp") (setf AIA-MATS-LOADED t)))
-
 (load "real_util.lisp")
 (load "norm-el.lisp")
+(load "timegraph.lisp")
 
-(initialize-allen-arrays)
 
 ; A "time model" is a list of infix relation triples
 ; where the first and third elements are Lisp symbols
@@ -29,57 +24,23 @@
 ;	(E1.SK (p m o) NOW1)
 ;	(E2.SK (p) E3.SK)
 
-(defparameter *TIME-PROP-ALLEN-RELS*
+(defparameter *TIME-PROP-RELS*
 (mk-hashtable '(
-	; TODO: cause.v implies (p m o), but not vice versa.
-	;		This should affect the certainty scores.
-	(
-		; prop
-		cause.v
-		; equivalent Allen rel disjunction
-		(p m o)
-	)
-	(
-		consec
-		(m)
-	)
-	(
-		same-time
-		(=)
-	)
-	(
-		at-about
-		(d s f =)
-	)
-	(
-		before
-		(p m o)
-	)
-	(
-		strictly-before
-		(p)
-	)
-	(
-		after
-		(pi mi oi)
-	)
-	(
-		during
-		(s d f =)
-	)
-	(
-		precond-of
-		(p m)
-	)
-	(
-		postcond-of
-		(pi mi)
-	)
-))
-)
-
+	(cause.v t)
+	(consec t)
+	(same-time t)
+	(at-about t)
+	(before t)
+	(strictly-before t)
+	(after t)
+	(during t)
+	(precond-of t)
+	(postcond-of t))))
+		
+	
 (setf *TIME-MODEL-HASH* nil)
 (setf *TIME-MODEL* nil)
+(setf *TIME-GRAPH* nil)
 
 (defun is-now? (s)
 	(and
@@ -132,38 +93,64 @@
 	; BELOW HERE: Ben adds timegraph model code
 
 
-	; Clear the state of the AIA solver.
-	(clear)
+	; Clear Timegraph
+	(setf *TIME-GRAPH* (make-timegraph))
 	
 	; Load the relationship triples into
-	; the AIA solver's internal data model.
-	(loop for rel in *TIME-MODEL* do (block inner
-		(setf allen-rel (convert-time-prop rel))
-		(dbg 'time "asserting ~s~%" allen-rel)
-		(if (null allen-rel)
-			(progn
-				(dbg 'time "invalid temporal proposition ~s~%" rel)
-				(return-from outer nil)
-			)
-		)
+	; the timegraph's internal data model.
+	(dolist (rel *TIME-MODEL*)
+	  (when (time-prop? rel)
+		(let ((pred (prop-pred rel))
+			  (e1 (first (prop-all-args rel)))
+			  (e2 (second (prop-all-args rel))))
 
-		(allen-assert (car allen-rel) (second allen-rel) (third allen-rel))
-	))
+		  (cond 
+			((and (or (equal pred "cause.v")
+					  (equal pred "before"))
+				  (not (ep-not-before-p *TIME-GRAPH* e1 e2)))
+			 (ep-assert-before *TIME-GRAPH* e1 e2))
 
-	; Reduce the AIA solver's model to obtain
-	; the strictest possible pairwise relations.
-	(allen-reduce)
+			((and (or (equal pred "precond-of")
+				 	  (equal pred "strictly-before"))
+				  (not (ep-not-precond-of-p *TIME-GRAPH* e1 e2)))
+			 (ep-assert-precond-of *TIME-GRAPH* e1 e2))
+
+			((and (or (equal pred "at-about")
+					  (equal pred "during"))
+				  (not (ep-not-at-about-p *TIME-GRAPH* e1 e2)))
+			 (ep-assert-at-about *TIME-GRAPH* e1 e2))
+
+			((and (equal pred "consec")
+				  (not (ep-not-consec-p *TIME-GRAPH* e1 e2)))
+			 (ep-assert-consec *TIME-GRAPH* e1 e2))
+
+			((and (equal pred "same-time")
+				  (not (ep-not-equals-p *TIME-GRAPH* e1 e2)))
+			 (ep-assert-equals *TIME-GRAPH* e1 e2))
+
+			((and (equal pred "after")
+				  (not (ep-not-before-p *TIME-GRAPH* e2 e1)))
+			 (ep-assert-before *TIME-GRAPH* e2 e1))
+
+			((and (equal pred "postcond-of")
+				  (not (ep-not-precond-of-p *TIME-GRAPH* e2 e1)))
+			 (ep-assert-precond-of *TIME-GRAPH* e2 e1))
+
+			(t 
+			  (dbg 'time "temporal proposition ~s is inconsistent with time model ~s~%"
+				   rel tm))))))
+
 )
 )
 
 (defun time-pred? (p)
-	(not (null (gethash p *TIME-PROP-ALLEN-RELS*)))
+	(not (null (gethash p *TIME-PROP-RELS*)))
 )
 
-; convert-time-prop takes a temporal proposition
-; and returns its equivalent Allen relation form.
-(defun convert-time-prop (prop)
-(block outer
+
+; check if temporal proposition is valid
+(defun time-prop? (prop)
+(block outer 
 	(setf pred (prop-pred prop))
 
 	(if (not (time-pred? pred))
@@ -171,6 +158,7 @@
 			(dbg 'time "~s isn't a valid temporal predicate~%" pred)
 			(return-from outer nil)
 		)
+	
 	)
 
 	(setf args (prop-all-args prop))
@@ -182,59 +170,62 @@
 		)
 	)
 
-	(setf allen-rels (gethash pred *TIME-PROP-ALLEN-RELS*))
-
-	(return-from outer (list (car args) allen-rels (second args)))
-)
-)
-
-(defun time-prop? (p)
-	(not (null (convert-time-prop p)))
-)
+	(return-from outer t)
+))
 
 (defun eval-time-prop (prop)
-; BELOW HERE: Ben evaluates using timegraph instead of Allen
-(block outer
-	(setf allen-rel (convert-time-prop prop))
-	(if (null allen-rel)
-		(progn
-			(dbg 'time "invalid temporal proposition ~s~%" prop)
-			(return-from outer nil)
-		)
-	)
+  (when (not (time-prop? prop))
+		(dbg 'time "invalid temporal proposition ~s~%" prop)
+		nil)
 
-	; Evaluate the relationship in the time model.
-	; (dbg 'time "evaluating Allen rel ~s~%" allen-rel)
+  (let ((pred (prop-pred prop))
+		(e1 (first (prop-all-args prop)))
+		(e2 (second (prop-all-args prop))))
+		
+	(cond 
+		
+	  ((and (or (equal pred "cause.v")
+				(equal pred "before"))
+			(not (ep-not-before-p *TIME-GRAPH* e1 e2)))
+	   (ep-before-p *TIME-GRAPH* e1 e2))
+	
+	  ((and (or (equal pred "precond-of")
+	
+				(equal pred "strictly-before"))
+			
+			(not (ep-not-precond-of-p *TIME-GRAPH* e1 e2)))
+		
+	   (ep-precond-of-p *TIME-GRAPH* e1 e2))
+			
+	  ((and (or (equal pred "at-about")
+				(equal pred "during"))
+			(not (ep-not-at-about-p *TIME-GRAPH* e1 e2)))
+	   (ep-at-about-p *TIME-GRAPH* e1 e2))
 
-	(setf allen-result (second (allen-fhow (car args) (second args))))
+	  ((and (equal pred "consec")
+			(not (ep-not-consec-p *TIME-GRAPH* e1 e2)))
+	   (ep-consec-p *TIME-GRAPH* e1 e2))
 
-	(dbg 'time "allen result: ~s~%" allen-result)
-	(dbg 'time "allen rels: ~s~%" allen-rels)
+	  ((and (equal pred "same-time")
+			(not (ep-not-equals-p *TIME-GRAPH* e1 e2)))
+	   (ep-equals-p *TIME-GRAPH* e1 e2))
 
-	(if (equal allen-result 'ANY)
-		; This doesn't confirm the proposition, but it doesn't
-		; necessarily refute it, either.
-		(return-from outer nil)
-	)
+	  ((and (equal pred "after")
+			(not (ep-not-before-p *TIME-GRAPH* e2 e1)))
+	   (ep-before-p *TIME-GRAPH* e2 e1))
+
+	  ((and (equal pred "postcond-of")
+			(not (ep-not-precond-of-p *TIME-GRAPH* e2 e1)))
+	   (ep-precond-of-p *TIME-GRAPH* e2 e1))
+
+	  (t nil))
+
+	;(dbg 'time "allen result: ~s~%" allen-result)
+	;(dbg 'time "allen rels: ~s~%" allen-rels)
+
 
 	; TODO: handle cases (via certainty scores) where
 	; the relationship could be an Allen relation that
 	; doesn't support the predicate, but it could also
 	; be one that supports it.
-	(if (not (listp allen-result))
-		; then
-		(if (member allen-result allen-rels :test #'equal)
-			; then
-			(return-from outer t)
-			; else
-			(return-from outer nil)
-		)
-	)
-	(if (subset allen-result allen-rels)
-	; (if (not (null (intersection allen-result allen-rels :test #'equal)))
-		(return-from outer t)
-	)
-
-	(return-from outer nil)
-)
-)
+))

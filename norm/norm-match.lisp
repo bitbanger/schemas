@@ -95,7 +95,55 @@
 				(if (equal '** pred2)
 					(setf pred2 (prop-pred (car phi)))
 				)
+
+				(block find-common-ancestor
+					(if (or
+							(equal pred1 pred2)
+							(subsumes pred1 pred2)
+							(subsumes pred2 pred1)
+						)
+						; then
+						(return-from find-common-ancestor)
+					)
+
+					(setf closest-ancestor nil)
+					(setf closest-ancestor-len -1)
+					(loop for l1 in (wordnet-hypernyms pred1)
+						do (loop for l2 in (wordnet-hypernyms pred2)
+							do (block intersect
+								(loop for e in l1
+									do (block mem
+										(if (null e)
+											; then
+											(return-from mem)
+										)
+										(setf memb (member e l2 :test #'equal))
+										; (if (> (/ (length memb) (length l2)) closest-ancestor-len)
+										(if (> (length memb) closest-ancestor-len)
+											; then
+											(progn
+												(setf closest-ancestor e)
+												; (setf closest-ancestor-len (/ (length memb) (length l2)))
+												(setf closest-ancestor-len (length memb))
+											)
+										)
+									)
+								)
+							)
+						)
+					)
+					(if (and
+							(not (null closest-ancestor))
+							(> closest-ancestor-len 3)
+						)
+						; then
+						(format t "closest ancestor of ~s and ~s is ~s (dist ~s)~%" pred1 pred2 closest-ancestor closest-ancestor-len)
+					)
+				)
+
 				(setf sub-score (max (subsumption-score pred1 pred2) (* 0.75 (subsumption-score pred2 pred1))))
+				;(if (>= sub-score 1.0)
+					;(setf sub-score 2.0)) ; 2x bonus points for exact matches
 
 				; (format t "~s variables in schema~%" 
 				; (format t "~s~%" (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal))
@@ -487,6 +535,12 @@
 		(fifth best-single-res)
 	))
 
+	; Any time contradictions will crash the Allen algebra solver
+	; downstream, so we'll weed out any temporally unsound matches here.
+	(handler-case (topsort-steps (list out-schema))
+		(error () (return-from outer nil))
+	)
+
 	(return-from outer best-single-res)
 ))
 )
@@ -597,7 +651,10 @@
 							; then
 							(setf go-match-schema (add-constraint go-match-schema ':Episode-relations const))
 							; else
-							(setf go-match-schema (add-role-constraint go-match-schema const))
+							(if (not (equal 'ORIENTS (prop-pred const)))
+								; then
+								(setf go-match-schema (add-role-constraint go-match-schema const))
+							)
 						)
 					))
 
@@ -648,7 +705,13 @@
 			do (block check-constr
 				(setf phi-id (car phi-pair))
 				(setf phi (second phi-pair))
-				(if (and (has-element-pred phi #'varp) (varp phi-id))
+				(if (and (has-element-pred phi #'varp) (or (exc-varp phi-id) (varp phi-id)))
+					; then
+					(return-from check-constr)
+				)
+
+				; Don't check ORIENTS (will eventually be purged from learned schemas)
+				(if (equal 'ORIENTS (prop-pred phi))
 					; then
 					(return-from check-constr)
 				)
@@ -738,8 +801,9 @@
 				(if (and (null (gethash phi checked)) (not bound-nested))
 					; then
 					(progn
-						(setf eval-score (eval-prop-score phi story-kb))
-						(if (not (varp phi-id))
+						; (setf eval-score (eval-prop-score phi story-kb))
+						(setf eval-score (expt (eval-prop-score phi story-kb) 2))
+						(if (and (not (exc-varp phi-id)) (not (varp phi-id)))
 							(setf eval-score 1.0)
 						)
 
@@ -762,17 +826,23 @@
 
 							; else
 							; (format t "time model: ~s~%" *TIME-MODEL*)
-							(progn
-							; (format t "	untrue: ~s~%" phi)
-							(if (>= (get-necessity phi-id schema) 1.0)
-								; then, invalid match
+							(if (not (has-element-pred phi #'varp))
+								; then
 								(progn
-								; (format t "~s ~s is wrong, but necessary~%" phi-id phi)
-								(return-from outer nil)
+								; (format t "	untrue: ~s~%" phi)
+								(if (>= (get-necessity phi-id schema) 1.0)
+									; then, invalid match
+									(progn
+									; (format t "~s ~s is wrong, but necessary~%" phi-id phi)
+									(return-from outer nil)
+									)
+									; else
+									(progn
+									; (format t "~s is untrue~%" phi)
+									(setf untrue-count (+ untrue-count 1))
+									)
 								)
-								; else
-								(setf untrue-count (+ untrue-count 0.1))
-							)
+								)
 							)
 						)
 						(setf (gethash phi checked) t)
@@ -925,6 +995,9 @@
 					(progn
 					(setf new-sec (copy-list sec))
 					(setf new-sec (subseq new-sec 0 (length (get-section schema (car sec)))))
+					; (format t "ref schema is:~%")
+					; (print-schema schema)
+					; (format t "cut sec ~s down to new sec ~s~%" sec new-sec)
 
 					; If the old section was null, then we can just remove it.
 					; Otherwise, replace it with the truncated version.
@@ -938,6 +1011,9 @@
 				)
 			)
 		)
+
+		; (format t "checking old constrs in cur match:~%")
+		; (print-schema cur-match-old-constrs)
 
 		(setf score-pair (check-constraints cur-match-old-constrs story))
 		; A null score indicates that a constraint with necessity

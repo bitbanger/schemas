@@ -20,6 +20,21 @@
 (load "schema-parser.lisp")
 (load "roc-mcguffey-stories.lisp")
 
+(load "all_clargs.lisp")
+; (setf *CLARG-MATCHES* (mapcar #'third matches))
+(defparameter *CLARG-MATCHES* (list))
+(defparameter *CLARG-MATCHES-TO-STORIES* (make-hash-table :test #'equal))
+(loop for clarg-match in matches
+	do (register-schema (third clarg-match))
+	do (setf *CLARG-MATCHES* (append *CLARG-MATCHES* (list (schema-pred (third clarg-match)))))
+	;do (setf (gethash (schema-pred (third clarg-match)) *CLARG-MATCHES-TO-STORIES*)
+	;	(loop for sent in (parse-story (second clarg-match))
+	;		collect (loop for wff in sent
+	;					if (canon-prop? wff) collect wff)))
+	do (setf (gethash (schema-pred (third clarg-match)) *CLARG-MATCHES-TO-STORIES*) (second clarg-match))
+)
+; (print-schema (nth 100 *CLARG-MATCHES*))
+
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
 ;(print-schema (car kite-gen-schema))
 
@@ -38,7 +53,7 @@
 
 
 (defparameter *NUM-SHUFFLES* 30)
-(defparameter *TOP-K* 5)
+(defparameter *TOP-K* 6)
 (defparameter *GENERALIZE* nil)
 (defparameter *RUN-MATCHER* t)
 
@@ -50,7 +65,7 @@
 	(rename-constraints (sort-steps (generalize-schema-constants schema)))
 )
 
-(defun run-matcher (story schemas)
+(defun run-matcher (story schemas raw-story)
 (block outer
 	;(setf rm-result nil)
 	;(sb-sprof:with-profiling (:max-samples 10000
@@ -59,11 +74,15 @@
 	;						  :report :graph)
 	;	(setf rm-result (uninstrumented-run-matcher story schemas)))
 	;(return-from outer rm-result)
-	(return-from outer (uninstrumented-run-matcher story schemas))
+	(return-from outer (uninstrumented-run-matcher story schemas raw-story))
 )
 )
 
-(defun uninstrumented-run-matcher (story schemas)
+
+(defparameter *ALL-SCHEMAS* (append *PROTOSCHEMAS* *CLARG-MATCHES*))
+; (print-schema (nth 100 *ALL-SCHEMAS*))
+
+(defun uninstrumented-run-matcher (story schemas raw-story)
 
 (block outer
 
@@ -85,8 +104,19 @@
 ; )
 ; (batch-cache-preload-wordnet-hyps all-schema-words)
 
-(setf best-schemas (mapcar (lambda (x) (schema-pred x)) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *PROTOSCHEMAS*) *TOP-K*)))
-; (format t "best schemas are ~s~%" best-schemas)
+(setf best-schemas (mapcar (lambda (x) (schema-pred x)) (top-k-schemas (get-single-word-preds story) (mapcar #'eval *ALL-SCHEMAS*) *TOP-K*)))
+; filter out schema candidates that were learned from the same story
+(setf best-schemas (loop for bs in best-schemas
+	if (not (equal raw-story (gethash bs *CLARG-MATCHES-TO-STORIES*)))
+		collect bs
+	else
+		do (format t "discarding schema ~s learned from this story~%" bs)
+))
+(format t "; best schemas are:~%")
+
+(loop for bs in best-schemas
+	do (format t "; ~s~%" bs)
+)
 
 (load-story-time-model story)
 
@@ -112,11 +142,26 @@
 	(setf best-bindings (third best-match-res-pair))
 	; (print-schema best-match)
 	; (format t "deduped:~%")
-	(if (and (schema? best-match) (not (equal '(0 0) best-score)))
+	(if (and
+			(schema? best-match)
+			(not (equal '(0 0) best-score))
+			(not (null (gethash protoschema *CLARG-MATCHES-TO-STORIES*))) ; ONLY FOR TESTING REMATCHES
+		)
 		(progn
 			; (format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
 			; (format t "best match schema is ~s~%" (schema-name best-match))
 			; (format t "best match for protoschema ~s (score ~s):~%~%" protoschema best-score)
+
+			(if (and
+					(not (null (gethash protoschema *CLARG-MATCHES-TO-STORIES*)))
+					(not (varp (third (second best-match))))
+				)
+				; then
+				(progn
+				; (format t "matched to another story's protoschema:~%")
+				; (print-schema (eval protoschema))
+				)
+			)
 
 			(setf match (dedupe-sections best-match))
 			; (setf match (apply-bindings (eval protoschema) best-bindings))
@@ -470,8 +515,8 @@
 ; (loop for raw-story in (list '("Mary went to the store with her friend."))
 ; (loop for raw-story in (list '("Frank is there." "John eats a steak."))
 		for story-num from 0
-	do (handler-case (block matchblock
-	; do (block matchblock
+	; do (handler-case (block matchblock
+	do (block matchblock
 		(format t "; story ~s:~%" story-num)
 		; (format t "; ~s~%" raw-story)
 		(loop for line in raw-story
@@ -491,7 +536,7 @@
 		; (setf all-matches (append all-matches (run-matcher story *PROTOSCHEMAS*)))
 		(setf story-matches (list))
 		(setf matchcnt 0)
-		(loop for m-pair in (run-matcher story *PROTOSCHEMAS*)
+		(loop for m-pair in (run-matcher story *PROTOSCHEMAS* raw-story)
 			do (setf matchcnt (+ 1 matchcnt))
 			do (block vet-matches
 				(setf m (car m-pair))
@@ -516,13 +561,18 @@
 		)
 		; (format t "; ~s matches, ~s valid~%" matchcnt (length story-matches))
 
+		; (format t "learned from older schema:~%")
+		; (print-schema (eval (schema-pred (car match))))
+
 		(loop for match in story-matches do (progn
 			; (format t "; match: ~s~%" (second match))
-			(format t "(setf matches (append matches '( ")
+			(format t "(setf matches (append matches '(( ")
 			; (format t "~s~%" (check-constraints match story))
 			(format t "~s~%" (second match))
+			(format t "~s~%" raw-story)
+			; (print-schema (fully-clean-schema (car match)))
 			(print-schema (car match))
-			(format t ")))~%")
+			(format t "))))~%")
 
 			(loop for learned-name in (get-elements-pred (car match) (lambda (x) (and (symbolp x) (not (null (get-schema-match-num x))))))
 				do (progn
@@ -571,7 +621,7 @@
 		)
 
 		; (format t "~%~%")
-	) (error () (format t "; error parsing story~%")))
+	; ) (error () (format t "; error processing story~%")))
 	)
 )
 
@@ -595,7 +645,7 @@
 
 		(setf story-matches nil)
 		; (setf *PROTOSCHEMAS* (list 'ACT_ON.V))
-		(loop for m-pair in (run-matcher next-story (list 'ACT_ON.V))
+		(loop for m-pair in (run-matcher next-story (list 'ACT_ON.V) raw-story)
 			do (block vet-matches
 				(setf m (car m-pair))
 				(setf score (second m-pair))

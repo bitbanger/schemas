@@ -1,5 +1,8 @@
 (defparameter *ROC-MCGUFFEY* '(
 	(
+		"The dog ate the grass."
+	)
+	(
 		"I see a girl."
 		"I see a boy."
 		"I see a boy and a girl."

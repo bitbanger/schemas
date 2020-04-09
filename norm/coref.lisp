@@ -224,6 +224,8 @@
 		; test prop is implied
 		if (subsumes-prop? prop kbp)
 			do (return-from outer (subsumption-score (prop-pred prop) (prop-pred kbp)))
+		if (subsumes-prop? kbp prop)
+			do (return-from outer (* 0.75 (subsumption-score (prop-pred kbp) (prop-pred prop))))
 	)
 
 
@@ -269,7 +271,10 @@
 	; If we have a kind, check whether the stipulated predicate
 	; subsumes the kind's predicate.
 	(if (and (equal 1 (length args)) (listp (car args)) (equal 'K (car (car args))))
-		(return-from outer (subsumption-score pred (second (car args))))
+		(return-from outer (max
+			(subsumption-score pred (second (car args)))
+			(* 0.75 (subsumption-score (second (car args)) pred))
+		))
 	)
 
 	; Handle "OR"s

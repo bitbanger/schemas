@@ -32,7 +32,7 @@
 )
 
 (defun unify-with-schema-maybe-header (phi schema story allow-header-match)
-(let (best-bindings)
+(let (best-bindings best-formula best-sub-score new-bindings bindings-with-ep-ids pred1 pred2)
 (block outer
 	; first, check whether phi unifies with the schema's header
 	(if allow-header-match
@@ -96,52 +96,22 @@
 					(setf pred2 (prop-pred (car phi)))
 				)
 
-				(block find-common-ancestor
-					(if (or
-							(equal pred1 pred2)
-							(subsumes pred1 pred2)
-							(subsumes pred2 pred1)
-						)
-						; then
-						(return-from find-common-ancestor)
+				(if (and (not (null new-bindings)) (not (null (common-ancestor pred1 pred2))))
+					; then
+					(progn
+						(format t "now less sure of ~s, and more sure of ~s~%" (second formula) (list (car (second formula)) (car (common-ancestor pred1 pred2))))
 					)
+				)
 
-					(setf closest-ancestor nil)
-					(setf closest-ancestor-len -1)
-					(loop for l1 in (wordnet-hypernyms pred1)
-						do (loop for l2 in (wordnet-hypernyms pred2)
-							do (block intersect
-								(loop for e in l1
-									do (block mem
-										(if (null e)
-											; then
-											(return-from mem)
-										)
-										(setf memb (member e l2 :test #'equal))
-										; (if (> (/ (length memb) (length l2)) closest-ancestor-len)
-										(if (> (length memb) closest-ancestor-len)
-											; then
-											(progn
-												(setf closest-ancestor e)
-												; (setf closest-ancestor-len (/ (length memb) (length l2)))
-												(setf closest-ancestor-len (length memb))
-											)
-										)
-									)
-								)
-							)
-						)
-					)
-					(if (and
-							(not (null closest-ancestor))
-							(> closest-ancestor-len 3)
-						)
-						; then
-						(format t "closest ancestor of ~s and ~s is ~s (dist ~s)~%" pred1 pred2 closest-ancestor closest-ancestor-len)
+				(if (and (not (null new-bindings)) (not (equal pred1 pred2)) (not (subsumes pred1 pred2)))
+					(progn
+					; (format t "bound unidentical predicates ~s and ~s for bindings ~s~%" pred1 pred2 (ht-to-str new-bindings))
+					; (print-schema (apply-bindings schema new-bindings))
 					)
 				)
 
 				(setf sub-score (max (subsumption-score pred1 pred2) (* 0.75 (subsumption-score pred2 pred1))))
+
 				;(if (>= sub-score 1.0)
 					;(setf sub-score 2.0)) ; 2x bonus points for exact matches
 
@@ -150,6 +120,12 @@
 				(setf sub-score (+ sub-score
 					(/ (ht-count new-bindings) (length (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal)))
 				))
+
+				(if (and (not (null new-bindings)) (not (equal pred1 pred2)) (not (subsumes pred1 pred2)))
+					(progn
+					; (format t "sub score was ~s against best ~s~%" sub-score best-sub-score)
+					)
+				)
 				; (format t "subsumption score + # of bindings between ~s and ~s was ~s~%" pred1 pred2 sub-score)
 
 				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))
@@ -164,6 +140,7 @@
 						; then
 						(progn
 						(dbg 'match "~s already bound; cannot bind!~%" (car formula))
+						; (format t "~s already bound; cannot bind!~%" (car formula))
 						(return-from uni)
 						)
 						; else
@@ -179,6 +156,7 @@
 					; (return-from outer (list (second formula) phi new-bindings))
 					(if (> sub-score best-sub-score)
 						(progn
+							; (format t "setting best bindings to ~s~%" (ht-to-str best-bindings))
 							(setf best-sub-score sub-score)
 							(setf best-bindings new-bindings)
 							(setf best-formula formula)
@@ -188,6 +166,8 @@
 			)
 		)
 	)
+
+	; (format t "best bindings are ~s with score ~s~%" (ht-to-str best-bindings) best-sub-score)
 
 	(if (not (null best-formula))
 		; then
@@ -863,6 +843,7 @@
 )
 
 (defun top-k-story-matches (story num_shuffles schemas num_schemas generalize k)
+(let (best-bindings best-score)
 (block outer
 (setf best-schemas (mapcar (lambda (x) (schema-pred x)) (top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num_schemas)))
 
@@ -885,7 +866,7 @@
 	; (setf best-match-res-pair (best-story-schema-match story (eval protoschema) *NUM-SHUFFLES* *GENERALIZE*))
 	(setf best-match-res (car best-match-res-pair))
 	(setf best-score (car best-match-res-pair))
-	(format t "setting best-score to res pair car ~s~%" (car best-match-res-pair))
+	; (format t "setting best-score to res pair car ~s~%" (car best-match-res-pair))
 	(setf best-match (second best-match-res-pair))
 	(setf best-bindings (third best-match-res-pair))
 	; (print-schema best-match)
@@ -944,8 +925,10 @@
 	))
 )
 )
+)
 
 (defun top-k-story-schema-matches (story schema num_shuffles generalize k)
+(let (best-bindings best-score)
 (block outer
 	; (dbg 'match "matching to schema ~s~%" schema)
 	(setf best-score '(0 0))
@@ -1100,5 +1083,6 @@
 
 	; (return-from outer (list best-score best-match best-bindings))
 	(return-from outer (mapcar (lambda (x) (subseq x 0 3)) (subseq-safe sorted-matches 0 k)))
+)
 )
 )

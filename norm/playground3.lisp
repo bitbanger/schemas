@@ -83,7 +83,7 @@
 ; (print-schema (nth 100 *ALL-SCHEMAS*))
 
 (defun uninstrumented-run-matcher (story schemas raw-story)
-
+(let (best-bindings best-score)
 (block outer
 
 ;(format t "story:~%")
@@ -202,6 +202,7 @@
 		; (list (gethash k matches) (gethash k match-scores))
 	))
 
+)
 )
 )
 

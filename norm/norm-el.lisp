@@ -457,6 +457,15 @@
 	(second (prop-args-pred-mods prop))
 )
 
+(defun prop-pred-strip-charstars (prop)
+	(if (equal '** (prop-pred prop))
+		; then
+		(prop-pred (car prop))
+		; else
+		(prop-pred prop)
+	)
+)
+
 (defun prop-post-args (prop)
 	(third (prop-args-pred-mods prop))
 )

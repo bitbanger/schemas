@@ -222,17 +222,8 @@
 )
 )
 
-(defun common-ancestor (pred1 pred2)
+(defun common-ancestor-no-check (pred1 pred2)
 (block outer
-	(if (or
-			(equal pred1 pred2)
-			(subsumes pred1 pred2)
-			(subsumes pred2 pred1)
-		)
-		; then
-		(return-from outer nil)
-	)
-
 	(setf closest-ancestor nil)
 	(setf closest-ancestor-len -1)
 	(loop for l1 in (wordnet-hypernyms pred1)
@@ -269,5 +260,20 @@
 		; (format t "closest ancestor of ~s and ~s is ~s (dist ~s)~%" pred1 pred2 closest-ancestor closest-ancestor-len)
 		)
 	)
+)
+)
+
+(defun common-ancestor (pred1 pred2)
+(block outer
+	(if (or
+			(equal pred1 pred2)
+			(subsumes pred1 pred2)
+			(subsumes pred2 pred1)
+		)
+		; then
+		(return-from outer nil)
+	)
+
+	(return-from outer (common-ancestor-no-check pred1 pred2))
 )
 )

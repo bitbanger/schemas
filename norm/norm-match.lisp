@@ -99,7 +99,8 @@
 				(if (and (not (null new-bindings)) (not (null (common-ancestor pred1 pred2))))
 					; then
 					(progn
-						(format t "now less sure of ~s, and more sure of ~s~%" (second formula) (list (car (second formula)) (car (common-ancestor pred1 pred2))))
+						; (format t "now less sure of ~s, and more sure of ~s~%" (second formula) (list (car (second formula)) (car (common-ancestor pred1 pred2))))
+						; (setf schema (add-role-constraint schema (replace-vals pred1 (car (common-ancestor pred1 pred2)) (second formula))))
 					)
 				)
 
@@ -554,6 +555,9 @@
 				; then
 				(block print-go-match
 
+					; (format t "matched pred is ~s, schema pred was ~s~%" (prop-pred-strip-charstars matched-story) (prop-pred-strip-charstars matched-schema))
+
+
 					(if (not (null (gethash (third (second test-schema)) go-match)))
 						; then
 						(progn
@@ -633,7 +637,54 @@
 							; else
 							(if (not (equal 'ORIENTS (prop-pred const)))
 								; then
-								(setf go-match-schema (add-role-constraint go-match-schema const))
+								(block possibly-gen-constr
+									(setf gen-constrs nil)
+									; If we're adding a role constraint for an individual,
+									; and it shares a common ancestor with an existing role
+									; constraint, we'll consider generalizing.
+									(loop for rc-pair in (section-formulas (get-section go-match-schema ':Roles))
+										do (block gen
+											(setf rc (second rc-pair))
+											(if (and
+													(equal 2 (length rc))
+													(equal 2 (length const))
+													(equal (car rc) (car const))
+													(not (null (common-ancestor (second rc) (second const)))))
+												; then
+												; (format t "generalizing ~s and ~s to ~s~%" rc const (list (car rc) (car (common-ancestor (second rc) (second const)))))
+												(progn
+												(setf gen-constr (list (car rc) (car (common-ancestor (second rc) (second const)))))
+												(setf gen-constrs (append gen-constrs (list (list gen-constr (car rc-pair)))))
+												)
+											)
+										)
+									)
+
+									; We'll add the story constraint regardless of whether a generalization happened.
+									(setf go-match-schema (add-role-constraint go-match-schema const))
+									(setf story-spec-constr-id (car (car (last (get-section go-match-schema ':Roles)))))
+
+									; Every general constraint we're adding should be more certain. The specific
+									; constraints they're replacing will become less certain.
+									(loop for gen-constr-pair in gen-constrs
+										do (block add-gen
+											(setf gen-constr (car gen-constr-pair))
+											; add the general constraint, then update its certainty with the specific
+											; schema constraint's certainty (and update the latter's certainty, too)
+											(setf go-match-schema (add-role-constraint go-match-schema gen-constr))
+
+											(setf gen-constr-id (car (car (last (get-section go-match-schema ':Roles)))))
+											(setf schema-spec-constr-id (second gen-constr-pair))
+											(setf schema-spec-constr-cert (get-certainty schema-spec-constr-id go-match-schema))
+											(setf gen-constr-cert (list '/ (+ 1 (second schema-spec-constr-cert)) (+ 1 (third schema-spec-constr-cert))))
+											(setf new-schema-spec-constr-cert (list '/ (second schema-spec-constr-cert) (+ 1 (third schema-spec-constr-cert))))
+
+											(setf go-match-schema (set-certainty gen-constr-id (second gen-constr-cert) (third gen-constr-cert) go-match-schema))
+											(setf go-match-schema (set-certainty schema-spec-constr-id (second new-schema-spec-constr-cert) (third new-schema-spec-constr-cert) go-match-schema))
+											(setf go-match-schema (set-certainty story-spec-constr-id 1 (third new-schema-spec-constr-cert) go-match-schema))
+										)
+									)
+								)
 							)
 						)
 					))

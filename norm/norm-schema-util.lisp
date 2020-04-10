@@ -12,6 +12,7 @@
 )
 
 (setf *DEFAULT-NECESSITY* 0.9)
+(setf *DEFAULT-CERTAINTY* '(/ 1 1))
 
 (defparameter *SCHEMA-MATCH-NUM* 0)
 
@@ -824,6 +825,48 @@
 )
 )
 
+(defun get-certainty (constr-id schema)
+(block outer
+	(if (not (null (get-section schema ':Certainties)))
+		; then
+		(loop for c in (section-formulas (get-section schema ':Certainties))
+			do (if (equal (car (second c)) (var-to-exc constr-id))
+				; then
+				(return-from outer (third (second c)))
+			)
+		)
+	)
+
+	(return-from outer *DEFAULT-CERTAINTY*)
+)
+)
+
+(defun set-certainty (constr-id num denom schema)
+(block outer
+	(setf new-schema (copy-list schema))
+	(setf replaced nil)
+	(if (not (null (get-section new-schema ':Certainties)))
+		(loop for c in (section-formulas (get-section new-schema ':Certainties))
+			do (if (equal (car (second c)) (var-to-exc constr-id))
+				; then
+				(block replace-cert
+					(setf new-cert (replace-vals (third (second c)) (list '/ num denom) c))
+					(setf new-schema (replace-vals c new-cert new-schema))
+					(setf replaced t)
+				)
+			)
+		)
+	)
+
+	(if (null replaced)
+		; then
+		(setf new-schema (add-constraint new-schema ':Certainties (list (var-to-exc constr-id) 'CERTAIN-TO-DEGREE (list '/ num denom))))
+	)
+
+	(return-from outer new-schema)
+)
+)
+
 (defun schema-vars (schema)
 	(remove-duplicates (get-elements-pred schema #'varp) :test #'equal)
 )
@@ -1073,6 +1116,7 @@
 					do (if (or
 						(subsumes schema-word word)
 						(subsumes word schema-word)
+						(not (null (common-ancestor schema-word word)))
 						)
 						; then
 						(setf schema-score (+ schema-score (expt (max (subsumption-score schema-word word) (subsumption-score word schema-word)) 2)))
@@ -1094,13 +1138,47 @@
 )
 )
 
+(defun get-formula-by-id (schema id)
+(block outer
+	(loop for sec in (schema-sections schema)
+		do (loop for formula in (section-formulas sec)
+			if (or (equal (car formula) (exc-to-var id)) (equal (car formula) (var-to-exc id)))
+				do (return-from outer (second formula))
+		)
+	)
+
+	(return-from outer nil)
+)
+)
+
+; NOTE: some formulas have duplicates and different IDs.
+; This will only return the first one. You shouldn't use
+; it for non-deduped schemas.
+(defun get-id-by-formula (schema formula)
+(block outer
+	(loop for sec in (schema-sections schema)
+		do (loop for pair in (section-formulas sec)
+			if (equal formula (second pair))
+				do (return-from outer (car pair))
+		)
+	)
+
+	(return-from outer nil)
+)
+)
+
 (defun dedupe-sections (schema)
 (block outer
-	(setf deduped-schema schema)
+	(setf deduped-schema (copy-list schema))
 
 	; For nonfluent sections, dedupe with the formulas alone
 	(loop for sec in (nonfluent-sections schema) do (block sec-loop
 		(setf new-sec (list (section-name sec)))
+
+		; map formulas to constr IDs so we can replace them in the cert/necess sections
+		(setf deduped-name-map (make-hash-table :test #'equal))
+		(loop for pair in (section-formulas sec) do (setf (gethash (second pair) deduped-name-map) (car pair)))
+
 		(setf deduped-constrs (remove-duplicates (mapcar #'second (section-formulas sec)) :test #'equal))
 
 		; Blank out the section in the schema and
@@ -1108,6 +1186,26 @@
 		(setf deduped-schema (set-section deduped-schema (section-name sec) (list (section-name sec))))
 		(loop for constr in deduped-constrs
 			do (setf deduped-schema (add-constraint deduped-schema (section-name sec) constr))
+		)
+
+		; Fix certainty constraint IDs
+		(if (not (null (get-section deduped-schema ':Certainties)))
+			(progn
+			(setf deduped-schema (set-section deduped-schema ':Certainties (list ':Certainties)))
+			(loop for cert in (section-formulas (get-section schema ':Certainties))
+				do (block replace-cert-ids
+					; get the constraint ID out of the certainty formula
+					(setf constr-id (car (second cert)))
+					; look up the formula for the original constraint id
+					(setf orig-formula (get-formula-by-id schema constr-id))
+					; find that formula's new constraint name
+					(setf new-id (get-id-by-formula deduped-schema orig-formula))
+					; add the updated certainty formula
+					(setf new-cert-form (replace-vals constr-id new-id (second cert)))
+					(setf deduped-schema (add-constraint deduped-schema ':Certainties new-cert-form))
+				)
+			)
+			)
 		)
 	))
 

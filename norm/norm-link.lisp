@@ -28,7 +28,7 @@
 
 	; (format t "time model: ~s~%" (append story-time-props all-ep-rels))
 	(handler-case (load-time-model (append story-time-props all-ep-rels))
-		(error () (progn (format t "error loading time model~%") (return-from outer nil)))
+		(error () (progn (dbg 'link "error loading time model~%") (return-from outer nil)))
 	)
 
 

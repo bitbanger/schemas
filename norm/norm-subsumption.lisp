@@ -133,7 +133,7 @@
 		(return-from outer 0.9)
 	)
 
-	(if (and (equal schema-pred 'enjoy_verb.v)
+	(if (and (equal schema-pred 'enjoy_verb.?)
 			(not (null (member story-pred *ENJOY-PREDS* :test #'equal))))
 		; then
 		(return-from outer 0.9)
@@ -222,3 +222,58 @@
 )
 )
 
+(defun common-ancestor-no-check (pred1 pred2)
+(block outer
+	(setf closest-ancestor nil)
+	(setf closest-ancestor-len -1)
+	(loop for l1 in (wordnet-hypernyms pred1)
+		do (loop for l2 in (wordnet-hypernyms pred2)
+			do (block intersect
+				(loop for e in l1
+					do (block mem
+						(if (null e)
+							; then
+							(return-from mem)
+						)
+						(setf memb (member e l2 :test #'equal))
+						; (if (> (/ (length memb) (length l2)) closest-ancestor-len)
+						(if (> (length memb) closest-ancestor-len)
+							; then
+							(progn
+								(setf closest-ancestor e)
+								; (setf closest-ancestor-len (/ (length memb) (length l2)))
+								(setf closest-ancestor-len (length memb))
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	(if (and
+			(not (null closest-ancestor))
+			(> closest-ancestor-len 3)
+		)
+		; then
+		(progn
+		(return-from outer closest-ancestor)
+		; (format t "closest ancestor of ~s and ~s is ~s (dist ~s)~%" pred1 pred2 closest-ancestor closest-ancestor-len)
+		)
+	)
+)
+)
+
+(defun common-ancestor (pred1 pred2)
+(block outer
+	(if (or
+			(equal pred1 pred2)
+			(subsumes pred1 pred2)
+			(subsumes pred2 pred1)
+		)
+		; then
+		(return-from outer nil)
+	)
+
+	(return-from outer (common-ancestor-no-check pred1 pred2))
+)
+)

@@ -12,6 +12,7 @@
 )
 
 (setf *DEFAULT-NECESSITY* 0.9)
+(setf *DEFAULT-CERTAINTY* '(/ 1 1))
 
 (defparameter *SCHEMA-MATCH-NUM* 0)
 
@@ -27,6 +28,101 @@
 	:Necessities
 	:Subordinate-constraints
 ))
+
+(defparameter *SCHEMAS-BY-PRED* (make-hash-table :test #'equal))
+; (format t "resetting preds-by-schema~%")
+(defparameter *PREDS-BY-SCHEMA* (make-hash-table :test #'equal))
+
+; known-schema-pred takes a schema, ignores
+; its predicate, looks it up in a database of
+; known schemas, and returns the predicate it's
+; known by in that database, or nil otherwise.
+(defun known-schema-pred (schema)
+(block outer
+	; We only disregard the match number of a given
+	; predicate; if a schema is identical but has
+	; a different predicate name, it's not identical.
+	(setf blanked-schema (replace-vals (schema-pred schema) (get-schema-match-name (schema-pred schema)) schema))
+	; (format t "looking schema up in known db:~%")
+	; (print-schema blanked-schema)
+	; (format t "~s~%" blanked-schema)
+	(if (not (null (gethash blanked-schema *PREDS-BY-SCHEMA*)))
+		; then
+		(progn
+		; (format t "schema ~s known by name ~s~%" (schema-pred schema) (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		(return-from outer (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		)
+	)
+
+	(return-from outer nil)
+)
+)
+
+(defun register-schema (schema)
+(block outer
+	(setf (gethash (schema-pred schema) *SCHEMAS-BY-PRED*) schema)
+	(set (schema-pred schema) schema)
+
+	(setf blanked-schema (replace-vals (schema-pred schema) (get-schema-match-name (schema-pred schema)) schema))
+	(if (null (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		; then
+		(progn
+			; (format t "adding schema (~s) to known list:~%" blanked-schema)
+			; (format t "with pred ~s~%" (schema-pred schema))
+			; (print-schema blanked-schema)
+			; (format t "~s~%" blanked-schema)
+			(setf (gethash blanked-schema *PREDS-BY-SCHEMA*) (schema-pred schema))
+			; (format t "preds-by-schema size ~s~%" (ht-count *PREDS-BY-SCHEMA*))
+			; (format t "successfully added? ~s (val ~s)~%" (not (null (gethash blanked-schema *PREDS-BY-SCHEMA*))) (gethash blanked-schema *PREDS-BY-SCHEMA*))
+		)
+	)
+)
+)
+
+; create-from-match takes a schema match and:
+; 	1. gives it a new name, or re-uses a name
+;		if the schema is known
+;	2. generalizes constants to variables
+;	3. registers the generalized schema under
+;		the new name
+;	4. returns the generalized schema name
+(defun create-from-match (match)
+	(create-from-match-maybe-gen match t)
+)
+
+(defun create-from-match-maybe-gen (match should-gen)
+(block outer
+	(setf is-new-schema nil)
+
+	; (maybe) generalize the schema
+	(setf new-schema match)
+	(if should-gen
+		; then
+		(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+	)
+
+	; check whether we know the generalized schema
+	; by some name
+	(setf new-schema-name (known-schema-pred new-schema))
+	(if (null new-schema-name)
+		; then
+		(progn
+		(setf new-schema-name (new-schema-match-name (schema-pred match)))
+		(setf is-new-schema t)
+		)
+	)
+
+	; Replace the name and generalize the schema
+	(setf new-schema (replace-vals (schema-pred new-schema) new-schema-name new-schema))
+
+	(if is-new-schema
+		; then
+		(register-schema new-schema)
+	)
+
+	(return-from outer new-schema-name)
+)
+)
 
 ; sec-formula-prefix tells you the prefix for condition
 ; formulas for a given section, e.g. !W for Episode-relations
@@ -61,6 +157,21 @@
 			(return-from outer nil))
 	)
 )
+)
+
+(defun sec-name-from-prefix (prefix)
+(block outer
+	(loop for sec-name in *SEC-NAMES*
+		if (equal (sec-formula-prefix sec-name) prefix)
+			do (return-from outer sec-name)
+	)
+
+	(return-from outer nil)
+)
+)
+
+(defun sec-name-from-id (id)
+	(sec-name-from-prefix (subseq (string id) 0 2))
 )
 
 ; schema-cond? reports whether phi is a well-formed
@@ -714,6 +825,48 @@
 )
 )
 
+(defun get-certainty (constr-id schema)
+(block outer
+	(if (not (null (get-section schema ':Certainties)))
+		; then
+		(loop for c in (section-formulas (get-section schema ':Certainties))
+			do (if (equal (car (second c)) (var-to-exc constr-id))
+				; then
+				(return-from outer (third (second c)))
+			)
+		)
+	)
+
+	(return-from outer *DEFAULT-CERTAINTY*)
+)
+)
+
+(defun set-certainty (constr-id num denom schema)
+(block outer
+	(setf new-schema (copy-list schema))
+	(setf replaced nil)
+	(if (not (null (get-section new-schema ':Certainties)))
+		(loop for c in (section-formulas (get-section new-schema ':Certainties))
+			do (if (equal (car (second c)) (var-to-exc constr-id))
+				; then
+				(block replace-cert
+					(setf new-cert (replace-vals (third (second c)) (list '/ num denom) c))
+					(setf new-schema (replace-vals c new-cert new-schema))
+					(setf replaced t)
+				)
+			)
+		)
+	)
+
+	(if (null replaced)
+		; then
+		(setf new-schema (add-constraint new-schema ':Certainties (list (var-to-exc constr-id) 'CERTAIN-TO-DEGREE (list '/ num denom))))
+	)
+
+	(return-from outer new-schema)
+)
+)
+
 (defun schema-vars (schema)
 	(remove-duplicates (get-elements-pred schema #'varp) :test #'equal)
 )
@@ -917,6 +1070,7 @@
 	(loop for prop in (mapcar #'second (section-formulas (get-section schema ':Steps)))
 		do (block check
 			(if (and (boundp (prop-pred prop))
+					(not (equal (prop-pred prop) (schema-pred schema)))
 					(schema? (eval (prop-pred prop))))
 				; then
 				(progn
@@ -962,6 +1116,7 @@
 					do (if (or
 						(subsumes schema-word word)
 						(subsumes word schema-word)
+						(not (null (common-ancestor schema-word word)))
 						)
 						; then
 						(setf schema-score (+ schema-score (expt (max (subsumption-score schema-word word) (subsumption-score word schema-word)) 2)))
@@ -983,13 +1138,47 @@
 )
 )
 
+(defun get-formula-by-id (schema id)
+(block outer
+	(loop for sec in (schema-sections schema)
+		do (loop for formula in (section-formulas sec)
+			if (or (equal (car formula) (exc-to-var id)) (equal (car formula) (var-to-exc id)))
+				do (return-from outer (second formula))
+		)
+	)
+
+	(return-from outer nil)
+)
+)
+
+; NOTE: some formulas have duplicates and different IDs.
+; This will only return the first one. You shouldn't use
+; it for non-deduped schemas.
+(defun get-id-by-formula (schema formula)
+(block outer
+	(loop for sec in (schema-sections schema)
+		do (loop for pair in (section-formulas sec)
+			if (equal formula (second pair))
+				do (return-from outer (car pair))
+		)
+	)
+
+	(return-from outer nil)
+)
+)
+
 (defun dedupe-sections (schema)
 (block outer
-	(setf deduped-schema schema)
+	(setf deduped-schema (copy-list schema))
 
 	; For nonfluent sections, dedupe with the formulas alone
 	(loop for sec in (nonfluent-sections schema) do (block sec-loop
 		(setf new-sec (list (section-name sec)))
+
+		; map formulas to constr IDs so we can replace them in the cert/necess sections
+		(setf deduped-name-map (make-hash-table :test #'equal))
+		(loop for pair in (section-formulas sec) do (setf (gethash (second pair) deduped-name-map) (car pair)))
+
 		(setf deduped-constrs (remove-duplicates (mapcar #'second (section-formulas sec)) :test #'equal))
 
 		; Blank out the section in the schema and
@@ -997,6 +1186,26 @@
 		(setf deduped-schema (set-section deduped-schema (section-name sec) (list (section-name sec))))
 		(loop for constr in deduped-constrs
 			do (setf deduped-schema (add-constraint deduped-schema (section-name sec) constr))
+		)
+
+		; Fix certainty constraint IDs
+		(if (not (null (get-section deduped-schema ':Certainties)))
+			(progn
+			(setf deduped-schema (set-section deduped-schema ':Certainties (list ':Certainties)))
+			(loop for cert in (section-formulas (get-section schema ':Certainties))
+				do (block replace-cert-ids
+					; get the constraint ID out of the certainty formula
+					(setf constr-id (car (second cert)))
+					; look up the formula for the original constraint id
+					(setf orig-formula (get-formula-by-id schema constr-id))
+					; find that formula's new constraint name
+					(setf new-id (get-id-by-formula deduped-schema orig-formula))
+					; add the updated certainty formula
+					(setf new-cert-form (replace-vals constr-id new-id (second cert)))
+					(setf deduped-schema (add-constraint deduped-schema ':Certainties new-cert-form))
+				)
+			)
+			)
 		)
 	))
 
@@ -1050,7 +1259,9 @@
 		)
 	)
 
+	; (handler-case
 	(return-from outer (topsort-eps schemas ep-ids))
+	; (error () (format t "error schemas: ~s~%" schemas)))
 )
 )
 
@@ -1070,7 +1281,9 @@
 		)
 	))
 
+	; (handler-case
 	(return-from outer (topsort-eps schemas ep-ids))
+	; (error () (format t "error schemas: ~s~%" schemas)))
 )
 )
 
@@ -1103,7 +1316,9 @@
 		))
 	)
 
+	; (handler-case
 	(return-from outer (topsort-steps-helper time-graph (list)))
+	; (error () (format t "error schemas: ~s~%" schemas)))
 )
 )
 
@@ -1234,7 +1449,7 @@
 )
 )
 
-(defun invokes-schema? (phi)
+(defun old-invokes-schema? (phi)
 ; TODO: extend to non-atomic props?
 (let ((pred (if (canon-atomic-prop? phi) (prop-pred phi) nil)))
 	(and
@@ -1244,6 +1459,50 @@
 		(schema? (eval pred))
 		; TODO: subsumption, not just boundp. Need index of known schemas
 	)
+)
+)
+
+(defun invokes-schema? (phi)
+	(not (null (invoked-schema phi)))
+)
+
+(defun invoked-schema (phi)
+(let (
+	(best-score 0)
+	(pred (if (canon-atomic-prop? phi) (prop-pred phi) nil))
+	)
+(block outer
+	(if (or
+			(null pred)
+			(member 'can.md (prop-mods phi) :test #'equal)
+		)
+		; then
+		(return-from outer nil)
+	)
+
+	; If it invokes a schema directly, return that one.
+	(if (and (boundp pred) (schema? (eval pred)))
+		(return-from outer (eval pred))
+	)
+
+	; Otherwise, loop over known schemas and return the one
+	; with the highest subsumption score.
+	(setf best-invoked nil)
+	(loop for sn being the hash-keys of *SCHEMAS-BY-PRED*
+		do (block check-invoked
+			(setf cand-score (subsumption-score sn pred))
+			(if (> cand-score best-score)
+				; then
+				(progn
+					(setf best-invoked (gethash sn *SCHEMAS-BY-PRED*))
+					(setf best-score cand-score)
+				)
+			)
+		)
+	)
+
+	(return-from outer best-invoked)
+)
 )
 )
 
@@ -1348,7 +1607,8 @@
 
 (defun expand-nested-schema (invoker parent-schema)
 (block outer
-	(setf invoked-schema (eval (prop-pred (second invoker))))
+	; (setf invoked-schema (eval (prop-pred (second invoker))))
+	(setf invoked-schema (invoked-schema (second invoker)))
 
 	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
 	(if (null header-bindings)
@@ -1408,7 +1668,7 @@
 
 			(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema))))
 
-			(format t "invoked ~s~%" invoked-schema)
+			(format t "; invoked ~s~%" invoked-schema)
 
 			;(setf invoked-schema (eval (prop-pred (second st))))
 			;(setf invoked-schema (second (uniquify-shared-vars parent-schema invoked-schema)))
@@ -1421,7 +1681,7 @@
 		)
 	)
 
-	(format t "parent: ~s~%" parent-schema)
+	(format t "; parent: ~s~%" parent-schema)
 
 	; Give each invoked schema a unique variable name, except for any variables shared
 	; with the parent schema; the initial pairwise uniquification above between each

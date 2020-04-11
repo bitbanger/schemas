@@ -7,3 +7,8 @@ norm/ttt/scripts
 norm/ttt/doc
 G*.txt
 ball*.txt
+output*.txt
+output*.lisp
+*.dot
+*.svg
+*.png

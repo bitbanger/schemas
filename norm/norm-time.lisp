@@ -37,7 +37,6 @@
 	(precond-of t)
 	(postcond-of t))))
 		
-	
 (setf *TIME-MODEL-HASH* nil)
 (setf *TIME-MODEL* nil)
 (setf *TIME-GRAPH* nil)

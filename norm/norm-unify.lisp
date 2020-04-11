@@ -268,7 +268,7 @@
 
 		(dbg 'unify "var is ~s~%" schema-ep)
 		(setf schema-form (get-schema-ep-var-char schema schema-ep))
-		(dbg "	and schema formula ~s characterizes it~%" schema-form)
+		(dbg 'unify "	and schema formula ~s characterizes it~%" schema-form)
 
 		(dbg 'unify "story ep is ~s~%" story-ep)
 		(loop for phi in story do (block story-loop
@@ -669,12 +669,15 @@ bind-pred
 		; then
 		(if (not (subsumes story-pred schema-pred))
 			; then
-			(progn
-			(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
-			(return-from outer nil)
+			(if (not (common-ancestor story-pred schema-pred))
+				; then
+				(progn
+				(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
+				(return-from outer nil)
+				)
+				; else
+				(dbg 'match "unified schema ~s with unequal story ~s~%" schema-pred story-pred)
 			)
-			; else
-			(dbg 'match "unified schema ~s with unequal story ~s~%" schema-pred story-pred)
 		)
 		; else
 		(if (and

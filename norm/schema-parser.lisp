@@ -21,6 +21,11 @@
 	TRY.V
 	SEEM.V
 	APPEAR.V
+	DECIDE.V
+	LIKE.V
+	LOVE.V
+	HATE.V
+	DISLIKE.V
 ))
 
 ; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
@@ -89,6 +94,41 @@
 )
 )
 
+(defun remove-idx-tag (sym)
+(block outer
+	(if (and
+			(symbolp sym)
+			(equal 3 (length (split-str (string sym) "$")))
+			(is-num-str? (second (split-str (string sym) "$")))
+		)
+		; then
+		(let ((spl (split-str (string sym) "$")))
+			(return-from outer (intern (format nil "~a~a" (car spl) (third spl))))
+		)
+		; else
+		(return-from outer sym)
+	)
+)
+)
+
+(defun pred-vp? (s)
+(and
+	(symbolp s)
+	(has-ext? s ".VP")
+	(has-prefix? (string s) "PRED")
+)
+)
+
+(defun mono-lam? (l)
+(and
+	(listp l)
+	(equal (length l) 3)
+	(equal (car l) 'L)
+	(symbolp (second l))
+	(equal (second l) (third l))
+)
+)
+
 (defparameter *SCHEMA-CLEANUP-RULES* '(
 	; The case with only one argument
 	; (/ (KA (L _!1 (_!1 _!2)))
@@ -115,6 +155,18 @@
 	(/
 		(:O _+)
 		(_+)
+	)
+
+	; Fix weird DO.V
+	(/
+		(pred-vp? mono-lam? _*)
+		(DO.V _*)
+	)
+
+	; :R can just be ADV-A
+	(/
+		(:R _+)
+		(ADV-A _+)
 	)
 
 	; Strip narrative structures
@@ -156,10 +208,10 @@
 	)
 
 	; Kill PRED****.VP
-	(/
-		((!1 vp-shifter?) _+)
-		(_+)
-	)
+	;(/
+	;	((!1 vp-shifter?) _+)
+	;	(_+)
+	;)
 
 	; Unflatten post-args
 	(/
@@ -180,6 +232,7 @@
 	norm-conjunctive-infixes
 	split-top-level-lambda-ands
 	apply-mono-lambdas
+	; weird-lambda-to-do
 	split-top-level-ands
 	unfloat-modifiers
 	split-double-charstars
@@ -269,6 +322,10 @@
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for form in phi do (block loop-outer
+		(if (not (listp form))
+			(return-from loop-outer)
+		)
+
 		(if (and
 				(listp form)
 				(canon-charstar? form)
@@ -698,7 +755,7 @@
 		(return-from outer phi-copy)
 	)
 
-	(if (not (null (member pred *KA-ARG-VERBS* :test #'equal)))
+	(if (not (null (member (remove-idx-tag pred) *KA-ARG-VERBS* :test #'equal)))
 		(return-from outer phi-copy)
 	)
 
@@ -1297,6 +1354,7 @@
 	(setf l-post-args (third lam-breakdown))
 	(setf l-mods (fourth lam-breakdown))
 	(setf l-var (car (listify-nonlists (second lam))))
+	; (format t "got breakdown ~s~%" lam-breakdown)
 
 	;(setf l-props (get-elements-pred-pairs (third lam)
 	;	(lambda (p) (and
@@ -1329,18 +1387,22 @@
 	; variable *before it gets re-bound*, and another
 	; to make sure we don't infinitely correct props
 	; with the first symbol, because the correction
-	; would otherwie still have it.
+	; would otherwise still have it.
 
 	(setf tmp-sym1 (gensym))
 
 	(setf lam-body (subst-for-free tmp-sym1 l-var lam-body))
 
 	(setf tmp-sym2 (gensym))
+	; (format t "pre-ttt, lam-body is ~s~%" lam-body)
 	(setf lam-body (ttt-replace lam-body
-		(list tmp-sym1 '_*)
+		(list '<> tmp-sym1 '_*)
 		(list 'tmp-stack-mods! (list tmp-sym2 '_*))))
+	; (format t "post-ttt, lam-body is ~s~%" lam-body)
 	; (setf lam-body (replace-vals tmp-sym (car l-pre-args) lam-body))
+	; (format t "substituting ~s for ~s in ~s~%" (car l-pre-args) tmp-sym2 lam-body)
 	(setf lam-body (subst-for-free (car l-pre-args) tmp-sym2 lam-body))
+	; (format t "tmp-sym1 is ~s, tmp-sym2 is ~s~%" tmp-sym1 tmp-sym2)
 
 	; (format t "stacked mods on inner pred to get: ~s~%" lam-body)
 
@@ -1462,8 +1524,10 @@
 	(setf phi-copy (copy-list phi))
 	(loop for func in *SCHEMA-CLEANUP-FUNCS*
 		do (block inner
+			; (format t "applying func ~s~%" func)
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
+			; (format t "got new phi ~s~%" new-phi-copy)
 			; (if (not (same-list-unordered old-phi-copy new-phi-copy))
 				; (format t "func ~s updated~%" func)
 			; )

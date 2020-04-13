@@ -331,6 +331,10 @@
 			(setf expanded-bindings (second expanded-schema-pair))
 
 			; don't allow header matches if i > 0, i.e. if this is a subschema
+			(if (null expanded-bindings)
+				; (format t "null expanded bindings for subschema ~s~%" expanded-schema)
+				(return-from match-block)
+			)
 			(setf old-expanded-bindings (ht-copy expanded-bindings))
 			(setf single-res (match-formula-to-single-schema phi (apply-bindings expanded-schema expanded-bindings) expanded-bindings total-matches bound-header story-formulas (= i 0)))
 

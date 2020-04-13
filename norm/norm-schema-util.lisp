@@ -350,6 +350,12 @@
 
 (defun get-schema-ep-var-char (schema v)
 (block outer
+	; Check if it characterizes the header formula, first.
+	(if (equal (third (schema-header schema)) v)
+		; then
+		(return-from outer (car (schema-header schema)))
+	)
+
 	(loop for sec in (fluent-sections schema)
 		do (loop for form in (section-formulas sec)
 			if (equal (car form) v) do (return-from outer (second form))
@@ -1289,13 +1295,19 @@
 
 (defun topsort-eps (schemas unfiltered-ep-ids)
 (block outer
-	; (format t "ep IDs: ~s~%" ep-ids)
 	(setf all-ep-rels
 		(loop for schema in schemas
 			append (mapcar #'second (section-formulas (get-section schema ':Episode-relations)))
 		)
 	)
 
+	(return-from outer (topsort-ep-list all-ep-rels unfiltered-ep-ids))
+)
+)
+
+(defun topsort-ep-list (all-ep-rels unfiltered-ep-ids)
+(block outer
+	; (format t "ep IDs: ~s~%" ep-ids)
 	(load-time-model all-ep-rels)
 
 	(setf ep-ids (loop for ep-id in unfiltered-ep-ids

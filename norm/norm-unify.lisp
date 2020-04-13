@@ -282,6 +282,12 @@
 			)
 		))
 
+		; Don't bind an unspecified episode from the story to one in the schema.
+		; We need evidence that they can unify.
+		(if (and (not (null schema-form)) (null story-form))
+			(return-from outer nil)
+		)
+
 		(if (and (not (null schema-form)) (not (null story-form)))
 			; then
 			(progn

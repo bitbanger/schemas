@@ -91,7 +91,6 @@
 
 	; BELOW HERE: Ben adds timegraph model code
 
-
 	; Clear Timegraph
 	(setf *TIME-GRAPH* (make-timegraph))
 	
@@ -104,40 +103,41 @@
 			  (e2 (second (prop-all-args rel))))
 
 		  (cond 
-			((and (or (equal pred "cause.v")
-					  (equal pred "before"))
+			((and (or (equal pred 'cause.v)
+					  (equal pred 'before))
 				  (not (ep-not-before-p *TIME-GRAPH* e1 e2)))
 			 (ep-assert-before *TIME-GRAPH* e1 e2))
 
-			((and (or (equal pred "precond-of")
-				 	  (equal pred "strictly-before"))
+			((and (or (equal pred 'precond-of)
+				 	  (equal pred 'strictly-before))
 				  (not (ep-not-precond-of-p *TIME-GRAPH* e1 e2)))
 			 (ep-assert-precond-of *TIME-GRAPH* e1 e2))
 
-			((and (or (equal pred "at-about")
-					  (equal pred "during"))
+			((and (or (equal pred 'at-about)
+					  (equal pred 'during))
 				  (not (ep-not-at-about-p *TIME-GRAPH* e1 e2)))
 			 (ep-assert-at-about *TIME-GRAPH* e1 e2))
 
-			((and (equal pred "consec")
+			((and (equal pred 'consec)
 				  (not (ep-not-consec-p *TIME-GRAPH* e1 e2)))
 			 (ep-assert-consec *TIME-GRAPH* e1 e2))
 
-			((and (equal pred "same-time")
+			((and (equal pred 'same-time)
 				  (not (ep-not-equals-p *TIME-GRAPH* e1 e2)))
 			 (ep-assert-equals *TIME-GRAPH* e1 e2))
 
-			((and (equal pred "after")
+			((and (equal pred 'after)
 				  (not (ep-not-before-p *TIME-GRAPH* e2 e1)))
 			 (ep-assert-before *TIME-GRAPH* e2 e1))
 
-			((and (equal pred "postcond-of")
+			((and (equal pred 'postcond-of)
 				  (not (ep-not-precond-of-p *TIME-GRAPH* e2 e1)))
 			 (ep-assert-precond-of *TIME-GRAPH* e2 e1))
 
 			(t 
 			  (dbg 'time "temporal proposition ~s is inconsistent with time model ~s~%"
 				   rel tm))))))
+
 
 )
 )
@@ -182,38 +182,34 @@
 		(e2 (second (prop-all-args prop))))
 		
 	(cond 
-		
-	  ((and (or (equal pred "cause.v")
-				(equal pred "before"))
+	  ((and (or (equal pred 'cause.v)
+				(equal pred 'before))
 			(not (ep-not-before-p *TIME-GRAPH* e1 e2)))
 	   (ep-before-p *TIME-GRAPH* e1 e2))
 	
-	  ((and (or (equal pred "precond-of")
-	
-				(equal pred "strictly-before"))
-			
+	  ((and (or (equal pred 'precond-of)
+				(equal pred 'strictly-before))
 			(not (ep-not-precond-of-p *TIME-GRAPH* e1 e2)))
-		
 	   (ep-precond-of-p *TIME-GRAPH* e1 e2))
 			
-	  ((and (or (equal pred "at-about")
-				(equal pred "during"))
+	  ((and (or (equal pred 'at-about)
+				(equal pred 'during))
 			(not (ep-not-at-about-p *TIME-GRAPH* e1 e2)))
 	   (ep-at-about-p *TIME-GRAPH* e1 e2))
 
-	  ((and (equal pred "consec")
+	  ((and (equal pred 'consec)
 			(not (ep-not-consec-p *TIME-GRAPH* e1 e2)))
 	   (ep-consec-p *TIME-GRAPH* e1 e2))
 
-	  ((and (equal pred "same-time")
+	  ((and (equal pred 'same-time)
 			(not (ep-not-equals-p *TIME-GRAPH* e1 e2)))
 	   (ep-equals-p *TIME-GRAPH* e1 e2))
 
-	  ((and (equal pred "after")
+	  ((and (equal pred 'after)
 			(not (ep-not-before-p *TIME-GRAPH* e2 e1)))
 	   (ep-before-p *TIME-GRAPH* e2 e1))
 
-	  ((and (equal pred "postcond-of")
+	  ((and (equal pred 'postcond-of)
 			(not (ep-not-precond-of-p *TIME-GRAPH* e2 e1)))
 	   (ep-precond-of-p *TIME-GRAPH* e2 e1))
 

@@ -8,6 +8,15 @@
   (list (make-hash-table :test #'equal)
 		(make-hash-table :test #'equal)))
 
+; Print Functions
+; -------------------------------------------------------------------------
+(defun print-timegraph (tg)
+  (progn 
+  	(maphash #'print-tp (first tg))
+  	(maphash #'print-tp (second tg))))
+
+
+
 ; Assertion Functions
 ; -------------------------------------------------------------------------
 
@@ -24,6 +33,7 @@
 		 (t1 (first pair1))
 		 (t2 (first pair2))
 		 (t3 (second pair3)))
+
 	(setf (gethash e1 (first tg)) t1)
 	(setf (gethash e2 (first tg)) t2)
 	(setf (gethash e1 (second tg)) t2)
@@ -44,6 +54,7 @@
 								  (gethash e2 (second tg))))
 		 (t1 (first pair1))
 		 (t2 (first pair2)))
+
 	(setf (gethash e1 (first tg)) t1)
 	(setf (gethash e2 (first tg)) t1)
 	(setf (gethash e1 (second tg)) t2)
@@ -100,7 +111,7 @@
 	(push e2 (tp-erefs t4))))
 
 ;;; For two epsiodes e1 and e2, assert that
-;;; e1.st <= e2.end <= e2.st <= e2.end
+;;; e1.st <= e1.end <= e2.st <= e2.end
 (defun ep-assert-precond-of (tg e1 e2)
   (let* ((pair1 (tp-assert-before (gethash e1 (first tg))
 							      (gethash e1 (second tg))))
@@ -223,4 +234,6 @@
 	(or (tp-not-before-p e1str e1end)
 		(tp-not-before-p e1end e2str)
 		(tp-not-before-p e2str e2end))))
+
+
 

@@ -1623,8 +1623,14 @@
 	(setf invoked-schema (invoked-schema (second invoker)))
 
 	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+	; NOTE: the following "WEIRD BUG" can happen because wordnet, especially without
+	; sense numbers, gives weird invoke relations for words that fit different schemas
+	; w/ different argument structures.
+	; (if (null header-bindings)
+		; (format t "WEIRD BUG: invoker ~s can't unify with header ~s~%" invoker (second parent-schema))
+	; )
 	(if (null header-bindings)
-		(format t "WEIRD BUG: invoker ~s can't unify with header ~s~%" invoker (second parent-schema))
+		(return-from outer nil)
 	)
 	; (setf identical-header-vars (shared-vars (list (second invoker) '** (car invoker)) (second invoked-schema)))
 	; (loop for id in identical-header-vars

@@ -327,6 +327,10 @@
 	(loop for expanded-schema-pair in expanded-schemas
 			for i from 0
 		do (block match-block
+			(if (null expanded-schema-pair)
+				(return-from match-block)
+			)
+
 			(setf expanded-schema (car expanded-schema-pair))
 			(setf expanded-bindings (second expanded-schema-pair))
 
@@ -791,9 +795,9 @@
 							(setf check-phi (car check-phi))
 						)
 						(setf header-bindings (third (unify-with-schema check-phi nested-schema (linearize-story story))))
-						(if (null header-bindings)
-							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
-						)
+						;(if (null header-bindings)
+						;	(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
+						;)
 						; (format t "got result ~s~%" header-bindings)
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
 						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
@@ -806,7 +810,7 @@
 						; the whole nest is invalid.
 						(if (null nest-score)
 							(progn
-							(format t "null nest score on ~s, nulling out~%" (second nested-schema))
+							; (format t "null nest score on ~s, nulling out~%" (second nested-schema))
 							(return-from outer nil)
 							)
 						)

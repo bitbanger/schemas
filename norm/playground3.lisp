@@ -33,6 +33,15 @@
 	;					if (canon-prop? wff) collect wff)))
 	do (setf (gethash (schema-pred (third clarg-match)) *CLARG-MATCHES-TO-STORIES*) (second clarg-match))
 )
+(loop for clarg-match in chain-matches
+	do (register-schema clarg-match)
+	do (setf *CLARG-MATCHES* (append *CLARG-MATCHES* (list (schema-pred clarg-match))))
+	;do (setf (gethash (schema-pred (third clarg-match)) *CLARG-MATCHES-TO-STORIES*)
+	;	(loop for sent in (parse-story (second clarg-match))
+	;		collect (loop for wff in sent
+	;					if (canon-prop? wff) collect wff)))
+	do (setf (gethash (schema-pred clarg-match) *CLARG-MATCHES-TO-STORIES*) (list 1.0 0.0))
+)
 ; (print-schema (nth 100 *CLARG-MATCHES*))
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
@@ -516,8 +525,8 @@
 ; (loop for raw-story in (list '("Mary went to the store with her friend."))
 ; (loop for raw-story in (list '("Frank is there." "John eats a steak."))
 		for story-num from 0
-	; do (handler-case (block matchblock
-	do (block matchblock
+	do (handler-case (block matchblock
+	; do (block matchblock
 		(format t "; story ~s:~%" story-num)
 		; (format t "; ~s~%" raw-story)
 		(loop for line in raw-story
@@ -622,8 +631,8 @@
 		)
 
 		; (format t "~%~%")
-	; ) (error () (format t "; error processing story~%")))
-	)
+	) (error () (format t "; error processing story~%")))
+	;)
 )
 
 

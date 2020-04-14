@@ -188,7 +188,8 @@
 
     (t
      (push t2 (tp-out t1))
-     (push t1 (tp-inc t2)))))
+     (push t1 (tp-inc t2))
+	 (list t1 t2))))
 
 ;;; t1 and t2 are timepoints (either are possibly nil), assert that t1 is
 ;;; equal to t2 and return (t1 t2). Preconditions: none. Function also
@@ -267,7 +268,7 @@
 		   (setf (gethash src seen) t)
 		   (dolist (node (get-successors src))
 			 (if (self node dst seen)
-			   t)))))
+			  (return t))))))
 	  t1 t2 (make-hash-table :test #'equal))))
 
 ;;; Returns t if and only if the timegraph contains evidence that t1 is 
@@ -358,6 +359,6 @@
 ;;; testing functions
 ;;; -----------------------------------------------------------------------
 
-(defun print-tp (tp)
-  (format t "prev: ~A~%next: ~A~%links: ~A"
-  (tp-prev tp) (tp-next tp) (tp-out tp)))
+(defun print-tp (ep tp)
+  (format t "EP: ~A -> ~A~%prev: ~A~%next: ~A~%links: ~A~%~%"
+  ep tp (tp-prev tp) (tp-next tp) (tp-out tp)))

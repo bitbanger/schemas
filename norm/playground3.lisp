@@ -20,27 +20,33 @@
 (load "schema-parser.lisp")
 (load "roc-mcguffey-stories.lisp")
 
-(load "all_clargs.lisp")
+(load "all-proto-clargs.lisp")
 ; (setf *CLARG-MATCHES* (mapcar #'third matches))
 (defparameter *CLARG-MATCHES* (list))
 (defparameter *CLARG-MATCHES-TO-STORIES* (make-hash-table :test #'equal))
 (loop for clarg-match in matches
-	do (register-schema (third clarg-match))
-	do (setf *CLARG-MATCHES* (append *CLARG-MATCHES* (list (schema-pred (third clarg-match)))))
+	do (block regmatch
+	(setf clean-match (fully-clean-schema (third clarg-match)))
+	(register-schema clean-match)
+	(setf *CLARG-MATCHES* (append *CLARG-MATCHES* (list (schema-pred clean-match))))
 	;do (setf (gethash (schema-pred (third clarg-match)) *CLARG-MATCHES-TO-STORIES*)
 	;	(loop for sent in (parse-story (second clarg-match))
 	;		collect (loop for wff in sent
 	;					if (canon-prop? wff) collect wff)))
-	do (setf (gethash (schema-pred (third clarg-match)) *CLARG-MATCHES-TO-STORIES*) (second clarg-match))
+	(setf (gethash (schema-pred clean-match) *CLARG-MATCHES-TO-STORIES*) (second clarg-match))
+	)
 )
 (loop for clarg-match in chain-matches
-	do (register-schema clarg-match)
-	do (setf *CLARG-MATCHES* (append *CLARG-MATCHES* (list (schema-pred clarg-match))))
+	do (block regchain
+	(setf clean-match (fully-clean-schema clarg-match))
+	(register-schema clean-match)
+	(setf *CLARG-MATCHES* (append *CLARG-MATCHES* (list (schema-pred clean-match))))
 	;do (setf (gethash (schema-pred (third clarg-match)) *CLARG-MATCHES-TO-STORIES*)
 	;	(loop for sent in (parse-story (second clarg-match))
 	;		collect (loop for wff in sent
 	;					if (canon-prop? wff) collect wff)))
-	do (setf (gethash (schema-pred clarg-match) *CLARG-MATCHES-TO-STORIES*) (list 1.0 0.0))
+	(setf (gethash (schema-pred clean-match) *CLARG-MATCHES-TO-STORIES*) (list 1.0 0.0))
+	)
 )
 ; (print-schema (nth 100 *CLARG-MATCHES*))
 
@@ -624,6 +630,7 @@
 							(format t ";learned chain schema:~%")
 							(format t "(setf chain-matches (append chain-matches (list '")
 							(print-schema chain-schema)
+							; (print-schema (fully-clean-schema chain-schema))
 							(format t ")))~%")
 					)
 				)

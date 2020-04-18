@@ -98,7 +98,8 @@
 	(setf new-schema match)
 	(if should-gen
 		; then
-		(setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+		; (setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
+		(setf new-schema (fully-clean-schema match))
 	)
 
 	; check whether we know the generalized schema
@@ -1645,9 +1646,15 @@
 					; (setf (gethash key header-bindings) val)
 					(if (not (bind-if-unbound key val header-bindings))
 						(progn
-						(format t "WEIRD EXPANSION BUG: subordinate constraint ~s can't bind over existing bound value ~s~%" sc (gethash key header-bindings))
-						(format t "invoker is ~s~%" invoker)
-						(print-schema parent-schema)
+						; (format t "WEIRD EXPANSION BUG: subordinate constraint ~s can't bind over existing bound value ~s~%" sc (gethash key header-bindings))
+						; (format t "invoker is ~s~%" invoker)
+						; (print-schema parent-schema)
+						; We're going to just cause an error here and make
+						; the whole story fail, because I don't want to fix
+						; this right now and it also makes the story take
+						; forever for some reason.
+						; TODO: fix it.
+						(error "Weird subordinate constraint expansion bug (see TODO)")
 						(return-from outer nil)
 						)
 					)

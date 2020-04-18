@@ -300,6 +300,7 @@
 
 (defun match-formula-to-schema (phi in-schema all-bindings total-matches bound-header story-formulas)
 (let (
+	matched-bindings
 	best-bindings best-schema
 	(test-schema (copy-list in-schema))
 )
@@ -334,12 +335,12 @@
 			(setf expanded-schema (car expanded-schema-pair))
 			(setf expanded-bindings (second expanded-schema-pair))
 
-			; don't allow header matches if i > 0, i.e. if this is a subschema
 			(if (null expanded-bindings)
 				; (format t "null expanded bindings for subschema ~s~%" expanded-schema)
 				(return-from match-block)
 			)
 			(setf old-expanded-bindings (ht-copy expanded-bindings))
+			; don't allow header matches if i > 0, i.e. if this is a subschema
 			(setf single-res (match-formula-to-single-schema phi (apply-bindings expanded-schema expanded-bindings) expanded-bindings total-matches bound-header story-formulas (= i 0)))
 
 

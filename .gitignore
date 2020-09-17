@@ -12,3 +12,4 @@ output*.lisp
 *.dot
 *.svg
 *.png
+coref-spanbert-large-2020.02.27.tar.gz

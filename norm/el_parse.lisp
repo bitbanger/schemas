@@ -7,7 +7,8 @@
 
 (load "real_util.lisp")
 
-(defparameter *parser* "/p/nl/tools/bllip-parser/first-stage/PARSE/parseIt")
+; (defparameter *parser* "/p/nl/tools/bllip-parser/first-stage/PARSE/parseIt")
+(defparameter *parser* "/Users/l/Code/bllip-parser/first-stage/PARSE/parseIt")
 ;                         ^^^^ changed back from krr (Jan 12); nl had been out of space
 
 ;; This is the traditional Charniak language model.
@@ -15,7 +16,8 @@
 ;;   /p/nl/tools/bllip-parser/first-stage/DATA/
 ;;      ^^ now krr, at least until nl is enlarged; but the reranking
 ;;         parser is still in nl
-(defparameter *pdata* "/p/nl/tools/reranking-parser/first-stage/DATA/EN/")
+; (defparameter *pdata* "/p/nl/tools/reranking-parser/first-stage/DATA/EN/")
+(defparameter *pdata* "/Users/l/Code/bllip-parser/newdata/DATA/EN/")
 
 (defun parse-all (str)
 ; Here we allow str to consist of multiple sentences separated by

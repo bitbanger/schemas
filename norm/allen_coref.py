@@ -2,8 +2,9 @@ import sys
 from allennlp.predictors.predictor import Predictor
 from collections import defaultdict
 
-predictor = Predictor.from_path("coref-model-2018.02.05.tar.gz")
-predictor._dataset_reader._token_indexers['token_characters']._min_padding_length = 5
+# predictor = Predictor.from_path("coref-model-2018.02.05.tar.gz")
+predictor = Predictor.from_path("coref-spanbert-large-2020.02.27.tar.gz")
+# predictor._dataset_reader._token_indexers['token_characters']._min_padding_length = 5
 # print("document is %s" % sys.argv[1])
 res = predictor.predict(document=sys.argv[1])
 

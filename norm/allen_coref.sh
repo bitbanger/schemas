@@ -6,4 +6,4 @@
 #	source .env/bin/activate
 #fi
 
-python3.6 allen_coref.py "$1" 2>/dev/null
+python3 allen_coref.py "$1" 2>/dev/null

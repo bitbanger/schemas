@@ -88,8 +88,16 @@
 )
 
 (defun lambdify-preds! (ps)
+	(lambdify-preds-maybe-colon ps nil)
+)
+
+(defun lambdify-preds-colon! (ps)
+	(lambdify-preds-maybe-colon ps t)
+)
+
+(defun lambdify-preds-maybe-colon (ps colon)
 (let ((tmp-sym (gensym)))
-	(list 'L tmp-sym
+	(list (if colon ':L 'L) tmp-sym
 		(append (list 'AND) (mapcar (lambda (x) (list tmp-sym x)) ps)))
 )
 )
@@ -662,10 +670,16 @@
 
 (defparameter *EXISTENTIAL-SYMS* '(
 	ONE.DET
+	ONE.D
 	A.DET
+	A.D
 	AN.DET
+	AN.D
 	SOME
+	SOME.D
+	SOME.DET
 	THE
+	THE.D
 	THE.DET
 ))
 
@@ -1215,13 +1229,20 @@
 	; though, so that we can automatically determine that they should be added as
 	; atemporals.
 	(setf restrictors (list))
-	(if (equal (car adet) 'SOME)
+	(if (or (equal (car adet) 'SOME) (equal (car adet) 'SOME.D) (equal (car adet) 'SOME.DET))
 		; then
 		(block handle-some
 			;(setf adet-formulas (replace-vals adet-var skolem-placeholder (cdddr adet)))
 			(setf adet-formulas (subst-for-free skolem-placeholder adet-var (cdddr adet)))
-			; (setf restrictors (replace-vals adet-var skolem-placeholder (split-lst (third adet) 'AND)))
-			(setf restrictors (subst-for-free skolem-placeholder adet-var (split-lst (third adet) 'AND)))
+
+			(setf split-conj (split-lst (third adet) 'AND))
+			(if (equal (car (third adet)) 'AND)
+				; then
+				(setf split-conj (cdr (third adet)))
+			)
+
+			(setf restrictors (replace-vals adet-var skolem-placeholder split-conj))
+			(setf restrictors (subst-for-free skolem-placeholder adet-var split-conj))
 			(setf adet-formulas (append adet-formulas restrictors))
 		)
 	)
@@ -1590,9 +1611,22 @@
 )
 
 (defun parse-story (sents)
+	(parse-story-maybe-from-ulf sents nil)
+)
+
+(defun parse-story-maybe-from-ulf (sents pre-ulfs)
 (block outer
 	(setf *glob-idx* 0)
-	(setf new-sents (loop for sent in sents collect (schema-cleanup (interpret sent))))
+	(setf new-sents (loop for sent in sents
+		for pre-ulf in pre-ulfs
+		collect (schema-cleanup
+		(if (not (null pre-ulf))
+			; then
+			(interpret-lf pre-ulf)
+			; else
+			(interpret sent)
+		)
+	)))
 	; (format t "finished initial parse~%")
 	(setf needs-res (remove-duplicates (get-elements-pred new-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))

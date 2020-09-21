@@ -70,6 +70,87 @@
       (interpret-tree parse-tree)
  )); end of interpret 
 
+; Just like interpret-tree, but takes a pre-formed ULF in.
+(defun interpret-lf (tree)
+ (let ( parse-tree1 parse-tree2 parse-tree3 ulf ulf1 ulf2 ulf3
+       ulf4 ulf5 ilf lf lf1 lf2 lf3 lf4 final-lfs)
+; Editing TBC
+
+	(setq ulf tree)
+
+      ; We need to find plausible anaphoric referents at this point,
+      ; and then adjust augmentation (i.e., (:a ...)) constructs
+      ; prior to operator scoping.
+      (setq ulf1 (resolve-anaphors-in-ulf ulf))
+      (if *show-stages*
+          (format t "~%~% Unscoped LF with pronoun resolution, ULF1: ~
+                    ~%   ~s~%~%" ulf1))
+      (setq ulf2 (incorporate-{augmented-}predicate-np ulf1))
+      (if *show-stages*
+          (format t "~%~% Unscoped LF with predicative-NP incorporation, ~
+                    ULF2: ~%   ~s~%~%" ulf2))
+      (setq ulf3 (disambiguate-pp-roles-in-vps ulf2))
+      ; **Originally, the intention was as follows, but I'm tentatively
+      ; dropping ':r' & leaving disambiguation to 'canonicalize-lf' (below):
+      ;   A (:r PP') in a VP may function as a predicate (i.e., we remove 
+      ;   the (:r ...)), or as an adverbial (we type-shift it and apply it
+      ;   to the rest of the VP), or (rarely) supply a verb-suffix and 
+      ;   object (e.g., "rely on"); we use the latter only if omission
+      ;   of the object-supplying PP is ungrammatical.
+      (if *show-stages*
+          (format t "~%~% Unscoped LF with VP-embedded PP disambiguation, ~
+                    ULF3: ~%   ~s~%~%" ulf3))
+      (setq ulf4 (incorporate-augmentations ulf3))
+      (if *show-stages*
+          (format t "~%~% Unscoped LF with NP-postmodifier incorporation, ~
+                    ULF4: ~%   ~s~%~%" ulf4))
+      (setq ulf5 (convert-deep ulf4)); feasible lambda-conversions, since
+                                     ; not doing them may block scoping
+      (if *show-stages*
+          (format t "~%~% Unscoped LF with deep lambda-conversion, ~
+                    ULF5: ~%   ~s~%~%" ulf5))
+      (setq ilf (scope-ulf ulf5))    
+      (if *show-stages*
+          (format t "~%~% Scoped, indexical LF, ILF: ~%   ~s~%~%" ilf))
+      (setq lf (deindex ilf))
+      (if *show-stages*
+          (format t "~%~% Deindexed LF: ~%   ~s~%~%" lf))
+      (setq lf1 (convert-deep lf)); residual lambda-conversions
+      (if *show-stages*
+          (format t "~%~% LF with residual lambda-conversion, ~
+                    LF1: ~%   ~s~%~%" lf1))
+      (setq lf2 (reduce-lf lf1)) ; ** this currently includes incorporating
+                                 ;    augmentations, so I seem to be doing 
+                                 ;    this twice -- see ulf3 above)
+      (if *show-stages*
+          (format t "~%~% Flattened, keyword-reduced LF, LF2: ~%   ~
+                    ~s~%~%" lf2))
+      (setq lf3 (repair-lf lf2)); more augmentation incorporation? 
+                                ; relational nouns (add '-of')
+      (if *show-stages*
+          (format t "~%~% Reduced LF with repairs, e.g., adding '-of' ~
+                    suffix to relational nouns, LF3: ~%   ~s~%~%" lf3))
+      (setq lf4 (transform-deep lf3))
+      (if *show-stages*
+          (format t "~%~% LF after deep logical transformations, LF4: ~
+                     ~%   ~s~%~%" lf4))
+      (setq final-lfs (canonicalize-lfs (list lf4)))
+      (if *show-stages*
+          (format t "~%~% Final, separated canonical WFFs, with speech-~
+                    act wrapper discarded, FINAL-LFS: ~%    ~
+                    ~s~%~%" final-lfs))
+      (setq final-lfs (change-colon-l-to-l final-lfs)); as needed by epi2
+      (if *show-stages*
+          (format t "~%~% FINAL-LFS with colons removed from lambdas, ~
+                    i.e., from (:L ...): ~%    ~s~%~%" final-lfs))
+      ; Needed because conjunction scoping can lead to duplicates:
+      (setq final-lfs (remove-duplicates final-lfs :test #'equal))
+      (if *show-stages*
+          (format t "~%~% FINAL-LFS with duplicates, if any, removed: ~
+                    ~%    ~s~%~%" final-lfs)
+          final-lfs)
+ )); end of interpret-tree
+
 (defun interpret-tree (tree)
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;

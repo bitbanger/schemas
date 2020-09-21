@@ -805,6 +805,19 @@ is replaced with replacement."
 )
 )
 
+(defun rec-remove (lst x)
+	(remove x
+		(loop for e in lst
+			collect (if (listp e)
+				; then
+				(rec-remove e x)
+				; else
+				e
+			)
+		)
+	:test #'equal)
+)
+
 (defun remove-nth (lst n)
 	(append
 		(first-n lst n)

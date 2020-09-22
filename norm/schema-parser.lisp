@@ -97,8 +97,33 @@
 
 (defun lambdify-preds-maybe-colon (ps colon)
 (let ((tmp-sym (gensym)))
-	(list (if colon ':L 'L) tmp-sym
-		(append (list 'AND) (mapcar (lambda (x) (list tmp-sym x)) ps)))
+	(list
+		(if colon ':L 'L)
+		tmp-sym
+		(if colon
+			; then
+			(append (list ':O 'AND) (mapcar (lambda (x) (list ':I tmp-sym x)) ps))
+			; else
+			(append (list 'AND) (mapcar (lambda (x) (list tmp-sym x)) ps))
+		)
+	)
+)
+)
+
+(defun idx-tag-num (sym)
+(block outer
+	(if (and
+			(symbolp sym)
+			(equal 3 (length (split-str (string sym) "$")))
+			(is-num-str? (second (split-str (string sym) "$")))
+		)
+		; then
+		(let ((spl (split-str (string sym) "$")))
+			(return-from outer (parse-integer (second spl)))
+		)
+		; else
+		(return-from outer nil)
+	)
 )
 )
 
@@ -195,6 +220,18 @@
 	(/
 		((* ~ AND.CC) ((+ nonverb-pred?)))
 		(* (lambdify-preds! (+)))
+	)
+
+	; Un-flatten composite predicates.
+	(/
+		((!1 canon-individual?) (!2 canon-pred?) (+ canon-pred?))
+		(!1 (lambdify-preds! (!2 +)))
+	)
+
+	; Unwrap singleton individual lists.
+	(/
+		((!1 canon-individual?))
+		!1
 	)
 
 	; To BE.V, or not to BE.V?
@@ -681,6 +718,7 @@
 	THE
 	THE.D
 	THE.DET
+	THE_INV.DET
 ))
 
 ; probably-pred identifies things that
@@ -1146,7 +1184,7 @@
 
 	; Check whether the Skolemization would be
 	; free or relative to another quantifier.
-	(if (loop for anc in (idx-ancestors phi adet-idx)
+	(if (and (loop for anc in (idx-ancestors phi adet-idx)
 			; NOTE: can't use canon-lambda? here because
 			; there may be unrepaired syntax inside the lambda,
 			; which could lead to this Skolemization happening
@@ -1160,8 +1198,16 @@
 				(equal (caar anc) 'LAMBDA)
 				(equal (caar anc) 'LAMBDA.EL)
 				(equal (caar anc) 'ALL)))
+			; ... BUT, if the scope has been
+			; explicitly marked as "invariant",
+			; e.g. the determiner was "my" or
+			; something, we can continue.
+			(not (equal (car adet) 'THE_INV.DET))
+		)
 		; then
-		(return-from outer phi)
+		(progn
+			(return-from outer phi)
+		)
 	)
 
 	(setf atemporals (list))
@@ -1617,16 +1663,21 @@
 (defun parse-story-maybe-from-ulf (sents pre-ulfs)
 (block outer
 	(setf *glob-idx* 0)
-	(setf new-sents (loop for sent in sents
-		for pre-ulf in pre-ulfs
-		collect (schema-cleanup
-		(if (not (null pre-ulf))
-			; then
+	(if (not (null pre-ulfs))
+		; then
+		(setf new-sents (loop for sent in sents
+			for pre-ulf in pre-ulfs
+			collect (schema-cleanup
 			(interpret-lf pre-ulf)
-			; else
+			)
+		))
+		; else
+		(setf new-sents (loop for sent in sents
+			collect (schema-cleanup
 			(interpret sent)
-		)
-	)))
+			)
+		))
+	)
 	; (format t "finished initial parse~%")
 	(setf needs-res (remove-duplicates (get-elements-pred new-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))
@@ -1677,6 +1728,7 @@
 	(setf claimed-inds (list))
 	(setf all-coref-pairs (loop for o in clusters append o))
 	(setf all-coref-pairs (sort all-coref-pairs (lambda (x y) (> (- (second y) (car y)) (- (second x) (car x))))))
+	; (format t "needs-res-pairs: ~s~%" needs-res-pairs)
 	; (format t "all coref pairs: ~s~%" all-coref-pairs)
 	(loop for acp in all-coref-pairs
 		do (loop for ind-pair in needs-res-pairs

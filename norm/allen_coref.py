@@ -1,5 +1,6 @@
 import sys
 from allennlp.predictors.predictor import Predictor
+import allennlp_models.coref
 from collections import defaultdict
 
 # predictor = Predictor.from_path("coref-model-2018.02.05.tar.gz")
@@ -14,6 +15,7 @@ pronouns = set('''
     their
     he him his
     she her hers
+    i me my
     it
 '''.strip().split())
 

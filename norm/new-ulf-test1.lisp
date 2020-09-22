@@ -4,7 +4,7 @@
 (load "schema-parser.lisp")
 
 (setf sents '(
-	"Tom used to have a boat."
+	"Tom used to have his own boat."
 	"He had to sell it."
 	"Now he just comes out on my boat."
 	"We have such a great time together."
@@ -12,20 +12,32 @@
 ))
 
 (defparameter *POSS-PRONOUNS* (mk-hashtable '(
-	(HIS.PRO HE.PRO)
-	(HER.PRO SHE.PRO)
-	(THEIR.PRO THEY.PRO)
-	(ITS.PRO IT.PRO)
-	(MY.PRO I.PRO)
-	(OUR.PRO WE.PRO)
+	(HIS.PRO HE)
+	(HER.PRO SHE)
+	(THEIR.PRO THEY)
+	(ITS.PRO IT)
+	; (MY.PRO I)
+	(OUR.PRO WE)
 )))
 
 (defun poss-pronoun? (sym)
-	(not (null (gethash sym *POSS-PRONOUNS*)))
+	(not (null (gethash (remove-idx-tag sym) *POSS-PRONOUNS*)))
+)
+
+(defun my-pronoun? (sym)
+	(equal (remove-idx-tag sym) 'MY.PRO)
 )
 
 (defun nominalize-poss-pronoun! (pro)
-	(gethash pro *POSS-PRONOUNS*)
+	(intern (format nil "~a$~a$.PRO"
+		(if (my-pronoun? pro)
+			; then
+			'ME
+			; else
+			(gethash (remove-idx-tag pro) *POSS-PRONOUNS*)
+		)
+		(idx-tag-num pro)
+	))
 )
 
 (defun tilde-tagged? (s)
@@ -36,6 +48,49 @@
 )
 )
 
+(defun get-tilde-tag (s)
+	(if (tilde-tagged? s)
+		; then
+		(parse-integer (second (split-str (string s) "~")))
+		; else
+		nil
+	)
+)
+
+(defun set-tilde-tag (s n)
+	(if (tilde-tagged? s)
+		; then
+		(intern (format nil "~a~~~d" (car (split-str (string s) "~")) n))
+		; else
+		nil
+	)
+)
+
+(defun increment-tilde-tags (ulfs)
+(let (new-ulf new-ulfs tts)
+(block outer
+	(setf new-ulfs (copy-item new-ulf))
+	(loop for ulf in ulfs
+		for sent-num from 0
+		do (block inner
+			(setf new-ulf (copy-item ulf))
+			(setf tts (get-elements-pred ulf #'tilde-tagged?))
+			(loop for tt in tts
+				do (setf new-ulf (replace-vals
+					tt
+					(set-tilde-tag tt (+ sent-num (get-tilde-tag tt)))
+					new-ulf
+				))
+			)
+			(setf new-ulfs (append new-ulfs (list new-ulf)))
+		)
+	)
+
+	(return-from outer new-ulfs)
+)
+)
+)
+
 (defun retag-tilde! (s)
 (let* (
 	(tsplit (split-str (string s) "~"))
@@ -43,9 +98,9 @@
 	)
 	(if (equal 2 (length psplit))
 		; then
-		(intern (format nil "~a$~a$.~a"
+		(intern (format nil "~a$~a$.~d"
 			(car psplit)
-			(second tsplit)
+			(- (parse-integer (second tsplit)) 1)
 			(second psplit)
 		))
 		; else
@@ -54,18 +109,14 @@
 )
 )
 
+(defun isnpreds? (s)
+	(or (equal s 'n+preds) (equal s 'n+pred))
+)
+
 (defun prepare-new-ulf-for-parser (ulf)
-(let (new-ulf)
+(let (new-ulf var-cursor)
 (block outer
 	(setf new-ulf (copy-item ulf))
-	; First, replace all possessive pronoun
-	; modifiers with lambdas.
-	(setf new-ulf (ttt-replace new-ulf
-		; pattern
-		'((!1 poss-pronoun?) _!2)
-		; replacement
-		'(:Q THE.DET (:L X (:I (:I X (:F _!2)) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
-	))
 
 	; Replace all tilde-preds with $$-tagged ones.
 	(setf new-ulf (ttt-replace new-ulf
@@ -75,18 +126,52 @@
 		'(retag-tilde! !1)
 	))
 
+	; Replace all possessive pronoun
+	; modifiers with lambdas.
+	(setf new-ulf (ttt-replace new-ulf
+		; pattern
+		'((!1 poss-pronoun?) _!2)
+		; replacement
+		'(:Q THE.DET (:L X (:I (:I X _!2) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
+	))
+
+	; Special case for MY.PRO, which Skolemizes
+	; in a scope-invariant way and needs the
+	; special THE_INV.DET determiner.
+	(setf new-ulf (ttt-replace new-ulf
+		; pattern
+		'((!1 my-pronoun?) _!2)
+		; replacement
+		'(:Q THE_INV.DET (:L X (:I (:I X _!2) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
+	))
+
 	; Remove |.|
 	(setf new-ulf (rec-remove new-ulf '|.|))
 
-	; Next, replace n+preds with a lambda.
+	; Replace n+preds with a lambda.
 	(setf new-ulf (ttt-replace new-ulf
 		; pattern
-		'(N+PREDS _+1)
+		'((!1 isnpreds?) _+2)
 		; replacement
-		'(lambdify-preds-colon! (_+1))
+		'(lambdify-preds-colon! (_+2))
 	))
 
-	; Finally, apply missing keywords.
+	; Verb preds as first elements of lists get :p
+	(setf new-ulf (ttt-replace new-ulf
+		; pattern
+		'((!1 lex-verb?) _*2)
+		; replacement
+		'(:P !1 _*2)
+	))
+
+	; Replace gensyms with better names.
+	(setf var-cursor "Y")
+	(loop for gs in (get-elements-pred new-ulf (lambda (x) (and (symbolp x) (equal 4 (length (string x))) (has-prefix? (string x) "G") (is-num-str? (remove-prefix (string x) "G")))))
+		do (setf new-ulf (replace-vals gs (intern var-cursor) new-ulf))
+		do (setf var-cursor (next-str var-cursor))
+	)
+
+	; Apply missing keywords.
 	(setf new-ulf (add-missing-keywords-to new-ulf))
 	
 
@@ -101,18 +186,18 @@
 '(
 (TOM~1 ((PAST USE.V~2) (TO~3 (HAVE.V~4 (HIS.PRO~5 (OWN.A~6 BOAT.N~7)))))
       |.|)
-(HE.PRO~1 (HAD.AUX~2 (TO~3 (SELL.V~4 IT.PRO~5))) |.|)
-(NOW.ADV~1 HE.PRO~2 JUST.ADV~3
-      ((PRES COME.V~4) OUT.PRT~5 (ON.P~6 (MY.PRO~7 BOAT.N~8))) |.|)
-(WE.PRO~1
-      (HAVE.AUX~2
-       (SUCH.D~3 A.D~4 (GREAT.A~5 (N+PREDS TIME.N~7 TOGETHER.ADV~8))))
+(HE.PRO~8 (HAD.AUX~9 (TO~10 (SELL.V~11 IT.PRO~12))) |.|)
+(NOW.ADV~13 HE.PRO~14 JUST.ADV~15
+      ((PRES COME.V~16) OUT.PRT~17 (ON.P~18 (MY.PRO~19 BOAT.N~20))) |.|)
+(WE.PRO~21
+      (HAVE.AUX~22
+       (SUCH.D~23 A.D~24 (GREAT.A~25 (N+PREDS TIME.N~26 TOGETHER.ADV~27))))
       |.|)
-(NOW.ADV~1 I.PRO~2
-      (HAVE.AUX~3
-       (SOME.D~4
-        (N+PRED PERSON.N~6
-         (TO~7 (HELP.V~8 (ME.PRO~9 (CLEAN.V~10 (MY.PRO~11 BOAT.N~12))))))))
+(NOW.ADV~28 I.PRO~29
+      (HAVE.AUX~30
+       (SOME.D
+        (N+PRED PERSON.N~31
+         (TO~32 (HELP.V~33 (ME.PRO~34 (CLEAN.V~35 (MY.PRO~36 BOAT.N~37))))))))
       |.|)
 ))
 
@@ -136,7 +221,7 @@
 
 
 
-(:I I$1$.PRO (:F NOW$0$.ADV (:P (:O PRES HAVE$2$.AUX) (:Q SOME$3$.D (:L X (:I (:I X PERSON$5$.N) AND (:I X (:P FOR.P (:F KA (HELP$7$.V (:I ME$8$.PRO (:P CLEAN$9$.V (:Q THE.DET (:L X (:I (:I X BOAT$11$.N) AND (:I X PERTAIN-TO ME$10$.PRO))))))))))))))))
+(:I I$1$.PRO (:F NOW$0$.ADV (:P (:O PRES HAVE$2$.AUX) (:Q SOME$3$.D (:L X (:I (:I X PERSON$5$.N) AND (:I X (:P FOR.P (:F KA (HELP$7$.V (:I ME$8$.PRO (:P CLEAN$9$.V (:Q THE.DET (:L Y (:I (:I Y BOAT$11$.N) AND (:I Y PERTAIN-TO ME$10$.PRO))))))))))))))))
 
 
 ;((K TODAY.N~2) WE.PRO~3 (WERE.AUX~4 ((PROG PLAY.V~5) OUTSIDE.ADV~6)) |.|)
@@ -201,13 +286,26 @@
 
 ))
 
+(defparameter *KEYWORD-TAGS* '(
+	:F
+	:O
+	:A
+	:R
+	:Q
+	:P
+	:I
+))
 
-
-
-
-
-
-
+(defun remove-ulf-tags (ulf)
+(let (new-ulf)
+(block outer
+	(setf new-ulf (copy-item ulf))
+	(loop for kw in *KEYWORD-TAGS*
+		do (setf new-ulf (rec-remove new-ulf kw))
+	)
+	(return-from outer new-ulf)
+)
+))
 
 ;(loop for sent in sents
 ;	for new-ulf in new-ulfs
@@ -219,14 +317,18 @@
 ;)
 ;)
 
-(loop for sent in (parse-story-maybe-from-ulf sents new-ulfs)
+(setf machine-ulfs (increment-tilde-tags len-ulfs))
+(setf machine-ulfs (mapcar #'prepare-new-ulf-for-parser machine-ulfs))
+
+(loop for sent in (parse-story-maybe-from-ulf sents machine-ulfs)
 	for len-ulf in len-ulfs
 	for new-ulf in new-ulfs
+	for machine-ulf in machine-ulfs
 	for txt in sents
 	do (format t "sentence: ~s~%" txt)
 	do (format t "Len's ULF:~%     ~s~%" len-ulf)
 	do (format t "Hand-converted Len ULF fed to parser:~%     ~s~%" new-ulf)
-	do (format t "Machine-converted Len ULF fed to parser:~%~s~%" (prepare-new-ulf-for-parser len-ulf))
+	do (format t "Machine-converted Len ULF fed to parser:~%~s~%" machine-ulf)
 	do (format t "EL conversion from parser:~%")
 	do (loop for wff in sent
 		

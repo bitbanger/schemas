@@ -103,6 +103,22 @@
 	(varp x)
 )
 
+(defun lex-gensym? (x)
+(and
+	(symbolp x)
+	(has-prefix? (string x) "G")
+	(is-num-str? (remove-prefix (string x) "G"))
+)
+)
+
+(defun lex-naked-var? (x)
+(and
+	(symbolp x)
+	(not (special-str x))
+	(alphanum-str? (string x))
+)
+)
+
 (defun lex-sk-fn? (x)
 	(has-ext? x "<-")
 )

@@ -92,13 +92,19 @@
 )
 )
 
+(defun canon-ka? (x)
+(or
+	(mp x (list (list 'id? 'KA) 'canon-pred?))
+	(mp x (list (list 'id? 'KA) 'canon-pred? 'canon-individual?+))
+)
+)
+
 (defun canon-kind? (x)
 (or
 	; TODO: restrictions on VP/non-VP preds for KA/K?
 	(mp x (list (list 'id? 'K) 'canon-pred?))
 	(mp x (list (list 'id? 'K) 'canon-pred? 'canon-individual?+))
-	(mp x (list (list 'id? 'KA) 'canon-pred?))
-	(mp x (list (list 'id? 'KA) 'canon-pred? 'canon-individual?+))
+	(canon-ka? x)
 	(mp x (list (list 'id? 'KE) 'canon-prop?))
 )
 )
@@ -112,7 +118,7 @@
 	(lex-skolem? x)
 	(lex-pronoun? x)
 	(lex-name? x)
-	(and (not (special-str x)) (alphanum-str? (string x)))
+	(lex-naked-var? x)
 )
 )
 )

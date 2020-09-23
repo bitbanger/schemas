@@ -196,6 +196,12 @@
 		(DO.V _*)
 	)
 
+	; s/TO/KA/g
+	(/
+		TO
+		KA
+	)
+
 	; :R can just be ADV-A
 	(/
 		(:R _+)
@@ -222,6 +228,14 @@
 		(* (lambdify-preds! (+)))
 	)
 
+	; We don't need "such", "so", etc.
+	; until we can figure out what to
+	; do with them. (TODO)
+	(/
+		(_*1 SUCH.D _*2)
+		(_*1 _*2)
+	)
+
 	; Un-flatten composite predicates.
 	(/
 		((!1 canon-individual?) (!2 canon-pred?) (+ canon-pred?))
@@ -244,6 +258,12 @@
 	(/
 		(THERE.PRO (BE.V (= _!1)))
 		(_!1 BE.V)
+	)
+
+	; Fix non-auxiliary HAVE.AUX
+	(/
+		(HAVE.AUX (!1 ~ canon-ka?))
+		(HAVE.V !1)
 	)
 
 	; Fix weird type-shifters
@@ -287,6 +307,8 @@
 	name-skolems
 	deindex-will
 	purposify-ka-args
+	rename-gensyms
+	flatten-nested-ands
 ))
 
 (defun extract-noun-sym (form)
@@ -432,6 +454,74 @@
 			)
 		)
 	))
+
+	(return-from outer phi-copy)
+)
+)
+
+(defun unique-var (cursor used)
+	(if (not (member cursor used :test #'equal))
+		; then
+		cursor
+		; else
+		(unique-var (next-str cursor) used)
+	)
+)
+
+(defun flatten-nested-and (phi)
+	(loop for e in (split-conjunction phi)
+		if (pre-or-infix-and-list? e)
+			append (flatten-nested-and e)
+		else
+			collect e
+	)
+)
+
+(defun flatten-nested-ands (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+
+	(setf nested-ands (get-elements-pred phi-copy
+		(lambda (x) (and
+			(pre-or-infix-and-list? x)
+			(loop for e in x
+				thereis (pre-or-infix-and-list? e))
+		))
+	))
+
+	; Only look through the top-level ones.
+	(setf nested-ands (loop for n in nested-ands
+		if (loop for n2 in nested-ands never (and
+			(not (equal n n2))
+			(has-element n2 n)
+		))
+			collect n
+	))
+
+	; Flatten the nested conjunctions.
+	(loop for n in nested-ands
+		do (setf phi-copy (replace-vals n (append (list 'AND) (flatten-nested-and n)) phi-copy))
+	)
+
+	(return-from outer phi-copy)
+)
+)
+
+(defun rename-gensyms (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+
+	(setf used-vars (get-elements-pred phi-copy #'lex-naked-var?))
+
+	(setf used-gensyms (get-elements-pred phi-copy #'lex-gensym?))
+
+	(loop for ug in used-gensyms
+		do (block inner
+			(setf new-gs-var (intern (unique-var "X" used-vars)))
+			(setf used-vars (append used-vars (list new-gs-var)))
+			(setf phi-copy (replace-vals ug new-gs-var phi-copy))
+		)
+	)
 
 	(return-from outer phi-copy)
 )
@@ -597,6 +687,19 @@
 	(or
 		(equal (car l) 'AND)
 		(equal (car l) 'AND.CC)
+	)
+)
+)
+
+(defun pre-or-infix-and-list? (l)
+(and
+	(listp l)
+	(> (length l) 1)
+	(or
+		(equal (car l) 'AND)
+		(equal (car l) 'AND.CC)
+		(> 1 (length (split-lst l 'AND)))
+		(> 1 (length (split-lst l 'AND.CC)))
 	)
 )
 )
@@ -782,6 +885,7 @@
 (block outer
 	(setf tmp-phi (process-construction tmp-phi
 		(lambda (x) (and (canon-prop? x)
+					(not (equal (prop-pred x) 'USED_TO.V))
 						(has-element-pred (prop-post-args x)
 							(lambda (y) (and (canon-kind? y) (equal (car y) 'KA))))))
 		#'purposify-ka-args-processor))
@@ -836,14 +940,14 @@
 )
 
 (defun unfloat-modifiers (phi)
-(let ((tmp-phi phi))
+(let ((tmp-phi (copy-item phi)))
 (block outer
 		(setf tmp-phi (process-construction tmp-phi
 			(lambda (x) (and (listp x) (equal (car x) 'KA)))
 			#'unfloat-modifiers-processor))
 
 		(setf tmp-phi (process-construction tmp-phi
-			(lambda (x) (member x phi :test #'equal))
+			(lambda (x) (member x tmp-phi :test #'equal))
 			#'unfloat-modifiers-processor))
 
 		(return-from outer tmp-phi)
@@ -857,7 +961,6 @@
 	;(loop for loop-form in phi do (block loop-outer
 
 	(setf loop-form (car pair))
-
 
 	(block loop-outer
 		(setf form (copy-item loop-form))
@@ -883,10 +986,11 @@
 		)
 
 		; Strip propositional modifiers and NOT.
-		(loop while (and (equal (length form) 2) (or (equal (car form) 'NOT) (canon-mod? (car form))))
+		(loop while (and (>= (length form) 2) (or (equal (car form) 'NOT) (canon-mod? (car form))))
 			do (progn
 			(setf pr-mods (append (list (car form)) pr-mods))
-			(setf form (second form))
+			; (setf form (second form))
+			(setf form (unwrap-singletons (cdr form)))
 			)
 		)
 
@@ -1164,6 +1268,41 @@
 (defun free-scope? (idx phi)
 )
 
+(defun atemporal-form? (form skp restrictors)
+(or
+	(and
+		(listp form)
+		(equal skp (car form))
+	)
+	(member form restrictors :test #'equal)
+)
+)
+
+(defun split-conjunction (phi)
+(block outer
+	; prefix
+	(if (or
+		(equal (car phi) 'AND)
+		(equal (car phi) 'AND.CC))
+		; then
+		(return-from outer (cdr phi))
+	)
+
+	; infix chain
+	(if (not (null (member 'AND phi :test #'equal)))
+		; then
+		(return-from outer (split-lst phi 'AND))
+	)
+	(if (not (null (member 'AND.CC phi :test #'equal)))
+		; then
+		(return-from outer (split-lst phi 'AND.CC))
+	)
+
+	; no conjunction case
+	(return-from outer (list phi))
+)
+)
+
 (defun skolemize-adets-processor (pair phi)
 (block outer
 	(setf adet (car pair))
@@ -1296,11 +1435,25 @@
 	(setf final-adet-formulas (list))
 	(loop for form in adet-formulas
 		; TODO: better if condition here to identify atemporals
-		do (if (or (and (listp form) (equal skolem-placeholder (car form))) (member form restrictors :test #'equal) )
+		; do (if (or (and (listp form) (equal skolem-placeholder (car form))) (member form restrictors :test #'equal) )
+		do (if (atemporal-form? form skolem-placeholder restrictors)
 			; then
 			(setf atemporals (append atemporals (list form)))
 			; else
-			(setf final-adet-formulas (append final-adet-formulas (list form)))
+			(if (> (length (split-conjunction form)) 1)
+				; then loop through the conjunction
+				; to split out temporals and atemporals
+				(block split-atemps
+					(loop for cform in (split-conjunction form)
+						if (atemporal-form? cform skolem-placeholder restrictors)
+							do (setf atemporals (append atemporals (list cform)))
+						else
+							do (setf final-adet-formulas (append final-adet-formulas (list cform)))
+					)
+				)
+				; else
+				(setf final-adet-formulas (append final-adet-formulas (list form)))
+			)
 		)
 	)
 

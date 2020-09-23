@@ -113,63 +113,118 @@
 	(or (equal s 'n+preds) (equal s 'n+pred))
 )
 
+(defun untag (x)
+	(if (tilde-tagged? x)
+		; then
+		(intern (car (split-str (string x) "~")))
+		; else
+		x
+	)
+)
+
+(defun eq-untagged? (x target)
+	(equal (untag x) (untag target))
+)
+
+(setf new-ulf-rules '(
+; "Used to" should be handled at the ULF stage,
+; not EL, because past-tense "use" is easier to
+; identify here.
+		; pattern
+	(/
+	(_*1 (PAST (!2 (ll-curry eq-untagged? USE.V))) ((!3 (ll-curry eq-untagged? TO)) _*4) _*5)
+	; replacement
+	(_*1 (PAST USED_TO.V) (!3 _*4) _*5)
+	)
+
+; Replace all tilde-preds with $$-tagged ones.
+		; pattern
+	(/
+	(!1 tilde-tagged?)
+	; replacement
+	(retag-tilde! !1)
+	)
+
+; Replace all possessive pronoun
+; modifiers with lambdas.
+		; pattern
+	(/
+	((!1 poss-pronoun?) _!2)
+	; replacement
+	(:Q THE.DET (:L X (:I (:I X _!2) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
+	)
+
+; Special case for MY.PRO, which Skolemizes
+; in a scope-invariant way and needs the
+; special THE_INV.DET determiner.
+		; pattern
+	(/
+	((!1 my-pronoun?) _!2)
+	; replacement
+	(:Q THE_INV.DET (:L X (:I (:I X _!2) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
+	)
+
+; Replace n+preds with a lambda.
+		; pattern
+	(/
+	((!1 isnpreds?) _+2)
+	; replacement
+	(lambdify-preds-colon! (_+2))
+	)
+
+; Verb preds as first elements of lists get :p
+		; pattern
+	(/
+	((!1 lex-verb?) _*2)
+	; replacement
+	(:P !1 _*2)
+	)
+))
+
+; Process all ll-curry rules into curried functions.
+(setf curry-nums (make-hash-table :test #'equal))
+(loop for llc in (get-elements-pred new-ulf-rules (lambda (x) (and (listp x) (equal (car x) 'll-curry))))
+	do (block make-curry ; delicious!
+		(setf curry-fn (second llc))
+		(setf curry-args (cddr llc))
+		(setf curry-new-name (intern
+			(format nil "LL-CURRY-~a" (remove-suffix (string curry-fn) "?"))))
+		(setf (gethash curry-new-name curry-nums) (append (gethash curry-new-name curry-nums) (list t)))
+		(setf curry-num (length (gethash curry-new-name curry-nums)))
+		(setf curry-new-name (intern (format nil "~a-~d?" (string curry-new-name) curry-num)))
+		
+		(let ((cargs curry-args) (cfn curry-fn))
+		; (setf (fdefinition curry-new-name) (compile nil `(lambda (x)
+			; (apply ,cfn (append (list x) ,cargs))
+		; )))
+			(setf (symbol-function curry-new-name) (lambda (x)
+				(apply cfn (append (list x) cargs))
+			))
+		)
+
+		(setf new-ulf-rules (replace-vals llc curry-new-name new-ulf-rules))
+	)
+)
+
 (defun prepare-new-ulf-for-parser (ulf)
 (let (new-ulf var-cursor)
 (block outer
 	(setf new-ulf (copy-item ulf))
 
-	; Replace all tilde-preds with $$-tagged ones.
-	(setf new-ulf (ttt-replace new-ulf
-		; pattern
-		'(!1 tilde-tagged?)
-		; replacement
-		'(retag-tilde! !1)
-	))
-
-	; Replace all possessive pronoun
-	; modifiers with lambdas.
-	(setf new-ulf (ttt-replace new-ulf
-		; pattern
-		'((!1 poss-pronoun?) _!2)
-		; replacement
-		'(:Q THE.DET (:L X (:I (:I X _!2) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
-	))
-
-	; Special case for MY.PRO, which Skolemizes
-	; in a scope-invariant way and needs the
-	; special THE_INV.DET determiner.
-	(setf new-ulf (ttt-replace new-ulf
-		; pattern
-		'((!1 my-pronoun?) _!2)
-		; replacement
-		'(:Q THE_INV.DET (:L X (:I (:I X _!2) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
-	))
-
 	; Remove |.|
 	(setf new-ulf (rec-remove new-ulf '|.|))
 
-	; Replace n+preds with a lambda.
-	(setf new-ulf (ttt-replace new-ulf
-		; pattern
-		'((!1 isnpreds?) _+2)
-		; replacement
-		'(lambdify-preds-colon! (_+2))
-	))
 
-	; Verb preds as first elements of lists get :p
-	(setf new-ulf (ttt-replace new-ulf
-		; pattern
-		'((!1 lex-verb?) _*2)
-		; replacement
-		'(:P !1 _*2)
-	))
+	(setf new-ulf (unhide-ttt-ops (ttt:apply-rules new-ulf-rules
+			(hide-ttt-ops new-ulf)
+			:rule-order :slow-forward)))
 
 	; Replace gensyms with better names.
-	(setf var-cursor "Y")
-	(loop for gs in (get-elements-pred new-ulf (lambda (x) (and (symbolp x) (equal 4 (length (string x))) (has-prefix? (string x) "G") (is-num-str? (remove-prefix (string x) "G")))))
-		do (setf new-ulf (replace-vals gs (intern var-cursor) new-ulf))
-		do (setf var-cursor (next-str var-cursor))
-	)
+	;(setf var-cursor "Y")
+	;(loop for gs in (get-elements-pred new-ulf (lambda (x) (and (symbolp x) (equal 4 (length (string x))) (has-prefix? (string x) "G") (is-num-str? (remove-prefix (string x) "G")))))
+	;	do (setf new-ulf (replace-vals gs (intern var-cursor) new-ulf))
+	;	do (setf var-cursor (next-str var-cursor))
+	;)
 
 	; Apply missing keywords.
 	(setf new-ulf (add-missing-keywords-to new-ulf))
@@ -326,13 +381,14 @@
 	for machine-ulf in machine-ulfs
 	for txt in sents
 	do (format t "sentence: ~s~%" txt)
-	do (format t "Len's ULF:~%     ~s~%" len-ulf)
-	do (format t "Hand-converted Len ULF fed to parser:~%     ~s~%" new-ulf)
-	do (format t "Machine-converted Len ULF fed to parser:~%~s~%" machine-ulf)
+	; do (format t "Len's ULF:~%     ~s~%" len-ulf)
+	; do (format t "Hand-converted Len ULF fed to parser:~%     ~s~%" new-ulf)
+	; do (format t "Machine-converted Len ULF fed to parser:~%~s~%" machine-ulf)
 	do (format t "EL conversion from parser:~%")
 	do (loop for wff in sent
 		
 		do (format t "     ~s~%" wff)
+		do (format t "          ~s~%" (if (canon-prop? wff) "valid" "invalid"))
 	)
 	do (format t "~%~%")
 )

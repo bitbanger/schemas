@@ -181,30 +181,7 @@
 	)
 ))
 
-; Process all ll-curry rules into curried functions.
-(setf curry-nums (make-hash-table :test #'equal))
-(loop for llc in (get-elements-pred new-ulf-rules (lambda (x) (and (listp x) (equal (car x) 'll-curry))))
-	do (block make-curry ; delicious!
-		(setf curry-fn (second llc))
-		(setf curry-args (cddr llc))
-		(setf curry-new-name (intern
-			(format nil "LL-CURRY-~a" (remove-suffix (string curry-fn) "?"))))
-		(setf (gethash curry-new-name curry-nums) (append (gethash curry-new-name curry-nums) (list t)))
-		(setf curry-num (length (gethash curry-new-name curry-nums)))
-		(setf curry-new-name (intern (format nil "~a-~d?" (string curry-new-name) curry-num)))
-		
-		(let ((cargs curry-args) (cfn curry-fn))
-		; (setf (fdefinition curry-new-name) (compile nil `(lambda (x)
-			; (apply ,cfn (append (list x) ,cargs))
-		; )))
-			(setf (symbol-function curry-new-name) (lambda (x)
-				(apply cfn (append (list x) cargs))
-			))
-		)
-
-		(setf new-ulf-rules (replace-vals llc curry-new-name new-ulf-rules))
-	)
-)
+(setf new-ulf-rules (curry-ttt-rules new-ulf-rules))
 
 (defun prepare-new-ulf-for-parser (ulf)
 (let (new-ulf var-cursor)

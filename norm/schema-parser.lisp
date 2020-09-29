@@ -231,10 +231,10 @@
 	; We don't need "such", "so", etc.
 	; until we can figure out what to
 	; do with them. (TODO)
-	(/
-		(_*1 SUCH.D _*2)
-		(_*1 _*2)
-	)
+	;(/
+		;(_*1 SUCH.D _*2)
+		;(_*1 _*2)
+	;)
 
 	; Un-flatten composite predicates.
 	(/
@@ -292,6 +292,7 @@
 ))
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
+	pull-out-lambda-advs ; run this before lambda splitters
 	skolemize-adets
 	split-and-eps
 	norm-conjunctive-infixes
@@ -309,6 +310,7 @@
 	purposify-ka-args
 	rename-gensyms
 	flatten-nested-ands
+	apply-such-determiners
 ))
 
 (defun extract-noun-sym (form)
@@ -466,6 +468,138 @@
 		; else
 		(unique-var (next-str cursor) used)
 	)
+)
+
+(defun replace-dets-with-k (x)
+(block outer
+	(if (not (listp x))
+		; then
+		(return-from outer x)
+	)
+
+	(setf x-copy (copy-item x))
+
+	(setf dets (get-elements-pred x #'lex-det?))
+
+	(loop for det in dets
+		do (setf x-copy (replace-vals det 'K x-copy))
+	)
+
+	(return-from outer x-copy)
+)
+)
+
+(defun arg-with-adv-lambda? (arg)
+(and
+	(listp arg)
+	(equal (car arg) 'K)
+	(canon-lambda? (second arg))
+	(listp (third (second arg)))
+	(equal (car (third (second arg))) 'AND)
+	(loop for y in (cdr (third (second arg)))
+		thereis (canon-mod? (second y)))
+)
+)
+
+(defun pull-out-lambda-advs (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf lambda-advs (get-elements-pred phi-copy
+		(lambda (x) (and
+			(canon-prop? (replace-dets-with-k x))
+			(not (canon-charstar? (replace-dets-with-k x)))
+			(loop for arg in (prop-post-args (replace-dets-with-k x))
+				thereis (arg-with-adv-lambda? arg))
+			)
+		))
+	)
+
+	(loop for raw-la in lambda-advs
+		do (block inner
+			(setf prop-copy (copy-item raw-la))
+			(setf la (replace-dets-with-k raw-la))
+			; find all mods in the lambdas
+			(loop for arg in (prop-post-args la)
+				do (block get-mods
+					(setf la-mods (loop for x in (cdr (third (second arg)))
+						if (canon-mod? (second x))
+							; then
+							collect (second x)
+					))
+					; remove the mods from the lambda
+					(setf new-l-props (loop for x in (cdr (third (second arg)))
+						if (not (canon-mod? (second x)))
+							; then
+							collect x
+					))
+					(setf prop-copy (replace-vals (third (second arg)) (append (list (car (third (second arg)))) new-l-props) prop-copy))
+					; add the mods to the proposition
+					; (setf prop-copy-pred (second prop-copy))
+					(setf la-pred-base (pred-base (prop-pred la)))
+					(setf new-la-pred-base (copy-item la-pred-base))
+					(loop for la-mod in (remove-duplicates la-mods :test #'equal)
+						do (setf new-la-pred-base (list la-mod new-la-pred-base))
+					)
+					; (format t "replacing pred base ~s with new one ~s~%" la-pred-base new-la-pred-base)
+					(setf prop-copy (replace-vals la-pred-base new-la-pred-base prop-copy))
+					; (setf prop-copy (list (car prop-copy) prop-copy-pred))
+				)
+			)
+
+			(setf phi-copy (replace-vals raw-la prop-copy phi-copy))
+		)
+	)
+
+	(return-from outer phi-copy)
+)
+)
+
+(defun apply-such-determiners (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+
+	(setf such-constrs (get-elements-pred phi-copy
+		(lambda (x) (and
+			(listp x)
+			(not (null (member (car x) '(SUCH SUCH.D SUCH.DET) :test #'equal)))
+			(canon-pred? (second x))
+		))
+	))
+
+	(loop for sc in such-constrs
+		do (block inner
+			(if (lex-adj? (pred-base (second sc)))
+				; then
+				(setf phi-copy (replace-vals sc (list 'A.D (list 'SUCH.ADV (second sc))) phi-copy))
+			)
+
+			(if (and
+				(canon-lambda? (second sc))
+				(mp (third (second sc)) (list (list 'id? 'AND) 'any?+))
+				)
+				; then
+				(block suchify-adjs-in-lambda
+					; (format t "got lambda such-constr: ~s~%" sc)
+					(setf l-preds (cdr (third (second sc))))
+					(setf new-l-preds (list))
+					(loop for lp in l-preds
+						do (if (and (canon-prop? lp) (lex-adj? (pred-base (prop-pred lp))))
+							; then
+							(setf new-l-preds (append new-l-preds (list (add-prop-mods lp (list 'SUCH.ADV)))))
+							; else
+							(setf new-l-preds (append new-l-preds (list lp)))
+						)
+					)
+					(setf new-lambda (list 'L (second (second sc)) (append (list 'AND) new-l-preds)))
+					(setf phi-copy (replace-vals sc (list 'A.D new-lambda) phi-copy))
+				)
+			)
+		)
+	)
+
+	(return-from outer phi-copy)
+)
 )
 
 (defun flatten-nested-and (phi)
@@ -1029,6 +1163,7 @@
 				; then
 				(progn
 				(setf form (append (list (car form)) (second form)))
+				; (format t "form is now ~s~%" form)
 				)
 				; else
 				(return-from loop-outer)
@@ -1751,6 +1886,9 @@
 			; (if (not (same-list-unordered old-phi-copy new-phi-copy))
 				; (format t "func ~s updated~%" func)
 			; )
+			;(if (and (has-element old-phi-copy 'TOGETHER.ADV) (not (has-element new-phi-copy 'TOGETHER.ADV)))
+			;	(format t "func ~s removed TOGETHER.ADV~%" func)
+			;)
 			(setf phi-copy new-phi-copy)
 			(if (null phi-copy)
 				(format t "func ~s gave null phi~%" func)

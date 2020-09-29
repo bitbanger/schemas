@@ -58,6 +58,7 @@
 )
 
 (defun get-elements-pred-helper (lst pred)
+(let (cur-elem tmp-res)
 (block outer
 	; (format t "~s is index pair? ~s~%" lst (index-pair? lst))
 
@@ -66,7 +67,9 @@
 
 	(setf cur-elem (clean-idcs (car lst)))
 
-	; (format t "cur elem is: ~s~%" lst)
+	;(format t "cur-elem is: ~s~%" cur-elem)
+	;(format t "pred is ~s~%" pred)
+	;(format t "good? ~s~%" (funcall pred cur-elem))
 
 	(if (funcall pred cur-elem)
 		(return-from outer (list (clean-idcs (car lst)) (second lst))))
@@ -84,6 +87,7 @@
 		if (not (null (car tmp-res)))
 			append tmp-res
 	)
+)
 )
 )
 

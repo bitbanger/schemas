@@ -484,6 +484,15 @@
 	(fourth (prop-args-pred-mods prop))
 )
 
+(defun add-prop-mods (prop mods)
+	(render-prop
+		(prop-pre-args prop)
+		(prop-pred prop)
+		(prop-post-args prop)
+		(append (prop-mods prop) mods)
+	)
+)
+
 (defun render-prop (pre-args pred post-args mods)
 (block outer
 	(setf wrapped-pred pred)

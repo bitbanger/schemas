@@ -95,6 +95,12 @@
 	(has-ext? x ".V")
 )
 
+(defun retag-as (x ext)
+(let ((pre (car (split-str (string x) "."))))
+	(intern (format nil "~a.~a" pre (string ext)))
+)
+)
+
 (defun lex-metapred? (x)
 	(has-ext? x ".?")
 )

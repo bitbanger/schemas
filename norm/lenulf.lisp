@@ -24,10 +24,38 @@
 
 (setq *show-stages* nil)
 
+(defun max-tag (ulf)
+(block outer
+	(setf len-ulf-max-tag 0)
+
+	(loop for x in (get-elements-pred ulf (lambda (x) (and (symbolp x) (> (length (split-str (string x) "~")) 1))))
+		if (> (parse-integer (second (split-str (string x) "~"))) len-ulf-max-tag)
+			do (setf len-ulf-max-tag (parse-integer (second (split-str (string x) "~"))))
+	)
+
+	(return-from outer len-ulf-max-tag)
+)
+)
+
+(defun len-ulfs (sents)
+(let (len-ulfs len-ulf tag)
+(block outer
+	(setf tag 1)
+	(loop for sent in sents
+		do (block inner
+			(setf len-ulf (len-ulf-with-word-tags sent tag))
+			(setf len-ulfs (append len-ulfs (list len-ulf)))
+			(setf tag (+ (max-tag len-ulf) 1))
+		)
+	)
+
+	(return-from outer len-ulfs)
+)))
+
 ; Same as english-to-ulf, except it re-tags the words
 ; to correspond better to the sentence for coreference
 ; analysis.
-(defun len-ulf-with-word-tags (sent)
+(defun len-ulf-with-word-tags (sent start-tag)
 (let (ulf ulf-words words word)
 (block outer
 	(setf ulf (english-to-ulf sent))
@@ -35,7 +63,7 @@
 	(setf ulf-words (get-elements-pred ulf (lambda (x) (and (symbolp x) (> (length (split-str (string x) "~")) 1)))))
 
 	(setf words (loop for word in ulf-words
-		collect (intern (car (split-str (string word) ".")))
+		collect (intern (car (split-str (string (car (split-str (string word) "."))) "~")))
 	))
 
 	(setf cleaned-sent (loop for word in (split-str sent " ")
@@ -45,7 +73,7 @@
 
 	;(loop for word in words
 
-	(setf sent-word-idx 1)
+	(setf sent-word-idx start-tag)
 	(setf sent-tags (list))
 
 	(loop while (> (length words) 0)

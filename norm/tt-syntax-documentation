@@ -1,0 +1,151 @@
+High-level view of TT
+`````````````````````
+The TT pattern transduction language uses a 
+
+  (match <pattern> <tree>)
+
+function to match a pattern to a syntax tree (or any other tree, i.e., Lisp-
+readable expression) and a
+
+  (fill-template <template> <match-result>)
+
+function to derive a transduced result.
+
+A transduction rule consists of a pair
+
+  (<pattern> <template>).
+
+The function
+
+  (apply-rule <rule> <expr>)
+
+applies a transduction rule to an expression. If the match fails, the
+result is the unaltered expression.
+
+The function 
+
+  (apply-rule-top-down <rule> <expr>)
+
+applies the rule to the expression, and then applies the rule recursively 
+to the top-level elements of the result of the initial rule application.
+Originally it seemed that some rules might best be applied bottom-up,
+but the top-down strategy is currently applied uniformly in ULF derivation.
+
+Pattern matching
+````````````````
+In (match <pattern> <tree>), the pattern can be an arbitrary tree (expression),
+but without match variables, this will only match the exact-same tree. Match
+failure is signalled by value :nil, rather than nil, since nil can be a
+successful match result when matching nil to nil. Match results are essentially
+the same as the matched expression, except that a matched sequence of elements
+is represented as (:seq <el1> <el2> ...); (:seq) thus represents the empty
+sequence (causing nothing to be substituted into the template if it is
+referenced in the template (using position indices -- see below).
+
+Match variables DO NOT GET BOUND to the expressions or sequences of expressions
+they match, so they can be repeated freely in the same pattern. The match 
+variables are limited to the following:
+
+  !atom, ?atom, *atom, +atom, 
+  !list, ?list, *list, +list,
+  !expr, ?expr, *expr, +expr,
+
+(which respectively match exactly one Lisp atom, 0 or 1 atoms, 0 or more 
+successive atoms, 1 or more successive atoms, one list, 0 or 1 lists, ...,
+one Lisp expressions, ..., 1 or more successive Lisp expressions),
+
+and any number of "dot-atoms", like 
+
+  .VB, .NNP, .AUX, .XP, ...
+
+which represent features of atoms; e.g., .VB might be a feature of each 
+of {VB, VBZ, VBD, VBG, VBN, VBEN}, and the user must implement these features
+using a function 
+
+  (ISA <atom> <feat>),
+
+e.g., (ISA 'VBD '.VB) should be non-NIL in the above example. 
+
+  [Possible future extensions: 
+  - It would be entirely possible to extend TT to allow features of arbitrary 
+    expressions, but no real need for this arose for ULF derivation;
+  - a more major change would be to allow, say,
+     !.ABC, ?.ABC, *.ABC, +.ABC, (for any ABC)
+    for matching one itme with feature .ABC, 0 or 1 such items, etc.; but
+    this also hasn't proved essential so far. The simpler the language, the
+    better.]
+
+Matches are rightmost
+`````````````````````
+The match function tries to associate the empty sequence, (:seq), with
+?-variables and *-variables, and only associates a nonempty sequence with
+them if the rest of the match fails.
+
+It seems that rightmost matches are the better choice if ?-variables and
+*-variables are usually used for unlikely optional constituents, whereas
+if such variables usually stand for constituents that are only occasionally
+absent, then leftmost matches would be better. For ULF derivations from 
+parse trees, the former situation seemed more likely -- we don't want to
+try "consuming" constituents with ?- or *-variables, if most of the 
+optional constituents allowed by a pattern are expected to be empty. 
+
+
+Templates
+`````````
+Templates can be arbitrary expressions, EXCEPT that
+
+- position indices like 0, 1, 2, 3, ..., 1.1, 1.2, 1.3, ..., 1.1.1, 1.1.2, ...
+  are interpreted as references to the expressions or sequences of expressions
+  matched by elements of the pattern; think of them as access paths in the
+  given pattern; for example, i.j.k means "go to the i'th element of the
+  pattern, find its j'th sub-element, and find the k'th subelement of *that*;
+  whatever expression or sequence of expressions matched the pattern element
+  thus reached is to be substituted for i.j.k in the template. As a simple
+  example, rule 
+    ((A !list (!atom !atom) *expr) (B 2 (3.2 3.1))), applied to
+     (A (C D) (F E) G) yields (B (C D) (E F)).
+  The actual match result (which we generally aren't interested in) would be
+     (A (C D) (F E) (:seq G)).
+  
+  Position index 0 refers to the expression matched as a whole, if the pattern
+  matched it. NB: If we want to use numbers like 3 or 2.3 in a template, w/o
+  having them interpreted as position indices, they should be represented as
+  |2|, |2.3|, etc., and postprocessed to turn them back into numbers.
+
+- atoms beginning with '!', exclusive of '!', '!atom', '!list', !expr,
+  are interpreted as user-defined functions; e.g., an expression like
+    (!my-function 'NN (QUOTE 3.2))
+  in a template would be interpreted as the result of applying function
+  '!my-function to NN as first argument and the quoted form of whatever 
+  expression or sequence of expressions matched the pattern at position 
+  3.2 as the second argument. 
+
+NB: If we want to use atoms starting with '!' (other than '!' itself), 
+  or any of the 12 variables or any dot-atoms as actual outputs, we need
+  to express them in some other way, e.g., ~?atom,  ~!my-output-atom, etc.,
+  and postprocess to get the desired atoms.
+
+Relation to TTT and the LISSA/ETA matcher
+`````````````````````````````````````````
+The position indexing in templates  generalizes the method of identifying 
+matched words or word sequences in the ETA matcher/transducer. Because no 
+extra brackets are introduced (except for functions), and because we can
+"navigate" to embedded list elements (at definite locations) w/o duplicating
+the embedding structure, the patterns are generally easier to write and read.
+OTOH, we don't have lists of alternatives like (* A B C) (i.e., 0 or more
+repetitions of A, B, or C), which are convenient in TTT. In a limited way,
+we can handle alternatives in TT using dot-atoms; e.g., we could define 
+feature .ABC to be a feature of just A, B, or C, so .ABC in TT would mean 
+the same as (! A B C) in TTT.
+
+The dot-features are similar to LISSA/ETA features, but we don't assume that
+*any* atom could be a feature, just ones starting with a dot. This reminds
+us that 'ISA' needs to work for those dot-atoms. Unlike LISSA/ETA patterns,
+we don't have numbers as variables in patterns, and thus no way of saying
+"match up to 3 atoms"; however, we could use, e.g., ?atom ?atom ?atom with
+equivalent effect. We also don't have a way of negating a pattern, whereas
+LISSA/ETA has global negation, and TTT allows local negation. But ULF
+derivation from syntax trees rarely produced any pressure for allowing
+local or global pattern negation.
+
+

@@ -2,6 +2,7 @@
 
 (load "real_util.lisp")
 (load "schema-parser.lisp")
+(load "lenulf.lisp")
 
 (setf sents '(
 	"Tom used to have his own boat."
@@ -232,46 +233,26 @@
 
 ; (format t "~s~%" (prepare-new-ulf-for-parser '(IT.PRO (BE.V (A.DET (N+PREDS BABY.N (LOVE.V (PLUR DOG.N))))))))
 
-(setf len-ulfs
-'(
-(TOM~1 ((PAST USE.V~2) (TO~3 (HAVE.V~4 (HIS.PRO~5 (OWN.A~6 BOAT.N~7)))))
-      |.|)
-(HE.PRO~8 (HAD.AUX~9 (TO~10 (SELL.V~11 IT.PRO~12))) |.|)
-(NOW.ADV~13 HE.PRO~14 JUST.ADV~15
-      ((PRES COME.V~16) OUT.PRT~17 (ON.P~18 (MY.PRO~19 BOAT.N~20))) |.|)
-(WE.PRO~21
-      (HAVE.AUX~22
-       (SUCH.D~23 (GREAT.A~25 (N+PREDS TIME.N~26 TOGETHER.ADV~27))))
-      |.|)
-(NOW.ADV~28 I.PRO~29
-      (HAVE.AUX~30
-       (SOME.D
-        (N+PRED PERSON.N~31
-         (TO~32 (HELP.V~33 (ME.PRO~34 (CLEAN.V~35 (MY.PRO~36 BOAT.N~37))))))))
-      |.|)
-))
+;(setf len-ulfs
+;'(
+;(TOM~1 ((PAST USE.V~2) (TO~3 (HAVE.V~4 (HIS.PRO~5 (OWN.A~6 BOAT.N~7)))))
+;      |.|)
+;(HE.PRO~8 (HAD.AUX~9 (TO~10 (SELL.V~11 IT.PRO~12))) |.|)
+;(NOW.ADV~13 HE.PRO~14 JUST.ADV~15
+;      ((PRES COME.V~16) OUT.PRT~17 (ON.P~18 (MY.PRO~19 BOAT.N~20))) |.|)
+;(WE.PRO~21
+;      (HAVE.AUX~22
+;       (SUCH.D~23 (GREAT.A~25 (N+PREDS TIME.N~26 TOGETHER.ADV~27))))
+;      |.|)
+;(NOW.ADV~28 I.PRO~29
+;      (HAVE.AUX~30
+;       (SOME.D
+;        (N+PRED PERSON.N~31
+;         (TO~32 (HELP.V~33 (ME.PRO~34 (CLEAN.V~35 (MY.PRO~36 BOAT.N~37))))))))
+;      |.|)
+;))
+(setf len-ulfs (len-ulfs-with-word-tags sents))
 
-(setf new-ulfs
-'(
-
-
-(:I TOM$0$.NAME (:F (:O PAST USE$1$.V) (:F KA (HAVE$3$.V (:Q THE.DET (:L X (:I (:I X (:F OWN$5$.A BOAT$6$.N)) AND (:I X PERTAIN-TO HE$4$.PRO))))))))
-
-
-
-(:I HE$0$.PRO (:F (:O PAST HAVE$1$.V) (:F KA (SELL$3$.V IT$4$.PRO))))
-
-
-
-(:I HE$1$.PRO (:F NOW$0$.ADV (:F JUST$2$.ADV (:P (:F OUT$4$.ADV (:O PRES COME$3$.V) (:R (:P ON$5$.P (:Q THE.DET (:L X (:I (:I X BOAT$7$.N) AND (:I X PERTAIN-TO ME$6$.PRO)))))))))))
-
-
-
-(:I WE$0$.PRO (:P (:O PRES HAVE$1$.V) (:Q A$3$.DET (:F (SUCH$2$.ADV GREAT$4$.A) (:L X (:I (:I X TIME$6$.N) AND (:I X TOGETHER$7$.ADV)))))))
-
-
-
-(:I I$1$.PRO (:F NOW$0$.ADV (:P (:O PRES HAVE$2$.AUX) (:Q SOME$3$.D (:L X (:I (:I X PERSON$5$.N) AND (:I X (:P FOR.P (:F KA (HELP$7$.V (:I ME$8$.PRO (:P CLEAN$9$.V (:Q THE.DET (:L Y (:I (:I Y BOAT$11$.N) AND (:I Y PERTAIN-TO ME$10$.PRO))))))))))))))))
 
 
 ;((K TODAY.N~2) WE.PRO~3 (WERE.AUX~4 ((PROG PLAY.V~5) OUTSIDE.ADV~6)) |.|)
@@ -334,7 +315,7 @@
 
 ;((THAT.D~1 ORANGE.N~2) ((PAST BREAK.V~3) (HER.PRO~4 NOSE.N~5)) |.|)
 
-))
+; ))
 
 (defparameter *KEYWORD-TAGS* '(
 	:F
@@ -372,7 +353,6 @@
 
 (loop for sent in (parse-story-maybe-from-ulf sents machine-ulfs)
 	for len-ulf in len-ulfs
-	for new-ulf in new-ulfs
 	for machine-ulf in machine-ulfs
 	for txt in sents
 	do (format t "sentence: ~s~%" txt)

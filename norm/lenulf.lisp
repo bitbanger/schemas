@@ -37,7 +37,7 @@
 )
 )
 
-(defun len-ulfs (sents)
+(defun len-ulfs-with-word-tags (sents)
 (let (len-ulfs len-ulf tag)
 (block outer
 	(setf tag 1)

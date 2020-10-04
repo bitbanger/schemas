@@ -66,6 +66,8 @@
 	)
 )
 
+; increment-tilde-tags makes sure that periods get accounted for
+; as tokens, for Allen coreference purposes.
 (defun increment-tilde-tags (ulfs)
 (let (new-ulf new-ulfs tts)
 (block outer
@@ -183,6 +185,13 @@
 
 (setf new-ulf-rules (curry-ttt-rules new-ulf-rules))
 
+(defun is-name? (sym)
+(or
+	(not (null (member sym *male-names* :test #'equal)))
+	(not (null (member sym *female-names* :test #'equal)))
+)
+)
+
 (defun prepare-new-ulf-for-parser (ulf)
 (let (new-ulf var-cursor)
 (block outer
@@ -190,6 +199,15 @@
 
 	; Remove |.|
 	(setf new-ulf (rec-remove new-ulf '|.|))
+
+	; Tag names.
+	(setf name-toks (get-elements-pred new-ulf (lambda (x) (and (symbolp x) (equal 2 (length (split-str (string x) "~"))) (is-name? (intern (car (split-str (string x) "~"))))))))
+	(loop for name-tok in (remove-duplicates name-toks :test #'equal)
+		do (block inner
+			(setf name-spl (split-str (string name-tok) "~"))
+			(setf new-ulf (replace-vals name-tok (intern (format nil "~a.NAME~~~d" (car name-spl) (second name-spl))) new-ulf))
+		)
+	)
 
 
 	(setf new-ulf (unhide-ttt-ops (ttt:apply-rules new-ulf-rules
@@ -216,7 +234,7 @@
 
 (setf len-ulfs
 '(
-(TOM.NAME~1 ((PAST USE.V~2) (TO~3 (HAVE.V~4 (HIS.PRO~5 (OWN.A~6 BOAT.N~7)))))
+(TOM~1 ((PAST USE.V~2) (TO~3 (HAVE.V~4 (HIS.PRO~5 (OWN.A~6 BOAT.N~7)))))
       |.|)
 (HE.PRO~8 (HAD.AUX~9 (TO~10 (SELL.V~11 IT.PRO~12))) |.|)
 (NOW.ADV~13 HE.PRO~14 JUST.ADV~15

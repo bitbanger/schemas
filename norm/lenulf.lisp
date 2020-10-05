@@ -99,6 +99,13 @@
 						)
 					)
 
+					; If mpairs is still null, the words are never equal again.
+					; We can just use the pair (1 1) and let it proceed.
+					(if (null mpairs)
+						; then
+						(setf mpairs '(1 1))
+					)
+
 					(loop for tok in (subseq words 0 (car mpairs))
 						do (setf sent-tags (append sent-tags (list sent-word-idx)))
 					)

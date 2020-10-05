@@ -75,6 +75,8 @@
 
 	(setf sent-word-idx start-tag)
 	(setf sent-tags (list))
+	(format t "sent: ~s~%" words)
+	(format t "parse words: ~s~%" cleaned-sent)
 
 	(loop while (> (length words) 0)
 		do (block inner
@@ -97,6 +99,13 @@
 								; collect (list j k)
 								do (setf mpairs (list j k))
 						)
+					)
+
+					; If mpairs is still null, the words are never equal again.
+					; We can just use the pair (1 1) and let it proceed.
+					(if (null mpairs)
+						; then
+						(setf mpairs '(1 1))
 					)
 
 					(loop for tok in (subseq words 0 (car mpairs))

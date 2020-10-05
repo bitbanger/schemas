@@ -383,11 +383,42 @@
 )
 )
 
+(defun has-skolem-prefix? (sym pre)
+(and
+	(symbolp sym)
+	(let ((spl (split-str (string sym) ".")))
+		(equal (length spl) 2)
+		(equal (second spl) "SK")
+		(has-prefix? (car spl) pre)
+		(is-num-str? (remove-prefix (car spl) pre))
+	)
+)
+)
+
+(defun is-characterized? (phi sym)
+	(not (null (get-elements-pred phi (lambda (x)
+		(and
+			(canon-charstar? x)
+			(equal (third x) sym)
+		)
+	))))
+)
+
 ; Ideally, this wouldn't be necessary, but sometimes
 ; Skolemized things still get the OBJECT name, e.g. if
 ; a lambda-and predicate was Skolemized and couldn't be
 ; parsed for a name until it was split later.
+; Further, certain things can be stuck with the default
+; "E" name even if they don't characterize any episodes;
+; we'll fix that, too.
 (defun name-skolems (phi)
+	(name-skolems-maybe-accept-non-nouns
+		(name-skolems-maybe-accept-non-nouns phi nil)
+		t
+	)
+)
+
+(defun name-skolems-maybe-accept-non-nouns (phi accept-non-nouns)
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for form in phi do (block loop-outer
@@ -399,7 +430,8 @@
 				(listp form)
 				(canon-charstar? form)
 				(lex-skolem? (third form))
-				(has-prefix? (format nil "~s" (third form)) "OBJECT")
+				; (has-prefix? (format nil "~s" (third form)) "OBJECT")
+				(has-skolem-prefix? (third form) "OBJECT")
 				)
 			; then
 			(block loop-inner
@@ -423,7 +455,11 @@
 				)
 				(or
 					; we can replace renamed stuff if we find a noun
-					(has-prefix? (format nil "~s" (car form)) "OBJECT")
+					(has-skolem-prefix? (car form) "OBJECT")
+					(and
+						(has-skolem-prefix? (car form) "E")
+						(not (is-characterized? phi-copy (car form)))
+					)
 					(and
 						(not (null noun-sym))
 						(not (has-prefix? (format nil "~s" (car form)) noun-sym))
@@ -438,8 +474,21 @@
 				(if (null noun-sym)
 					; then
 					(progn
-						(setf sym-prefix (car (split-str (format nil "~s" (second form)) ".")))
-						; (format t "progn sym prefix ~s~%" sym-prefix)
+						(setf sym-spl (split-str (format nil "~s" (second form)) "."))
+						(setf sym-prefix (car sym-spl))
+						(setf sym-suffix (second sym-spl))
+
+						; Note: we prefer to do this with nouns. We can do it
+						; with adjectives if no other "word" predicates are
+						; available, but if there are several, we'll always
+						; choose a noun first.
+						(if (and (not accept-non-nouns) (not (equal sym-suffix "N")))
+							; then
+							(return-from loop-outer)
+						)
+
+						; if the thing is actually given the OBJECT.N predicate,
+						; we don't need to rename it
 						(if (equal sym-prefix "OBJECT")
 							; then
 							(return-from loop-outer)
@@ -452,7 +501,7 @@
 				; (format t "replacing ~s with ~s~%" (car form) sym-prefix)
 
 				(setf new-skolem (new-skolem! (intern sym-prefix)))
-				(setf phi-copy (replace-vals (car form) new-skolem phi))
+				(setf phi-copy (replace-vals (car form) new-skolem phi-copy))
 			)
 		)
 	))

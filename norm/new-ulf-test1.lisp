@@ -358,7 +358,7 @@
 	do (format t "sentence: ~s~%" txt)
 	; do (format t "Len's ULF:~%     ~s~%" len-ulf)
 	; do (format t "Hand-converted Len ULF fed to parser:~%     ~s~%" new-ulf)
-	; do (format t "Machine-converted Len ULF fed to parser:~%~s~%" machine-ulf)
+	do (format t "Machine-converted Len ULF fed to parser:~%~s~%" machine-ulf)
 	do (format t "EL conversion from parser:~%")
 	do (loop for wff in sent
 		

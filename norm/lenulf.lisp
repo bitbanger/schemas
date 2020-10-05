@@ -75,6 +75,8 @@
 
 	(setf sent-word-idx start-tag)
 	(setf sent-tags (list))
+	(format t "sent: ~s~%" words)
+	(format t "parse words: ~s~%" cleaned-sent)
 
 	(loop while (> (length words) 0)
 		do (block inner

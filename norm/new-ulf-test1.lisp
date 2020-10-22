@@ -3,13 +3,19 @@
 (load "real_util.lisp")
 (load "schema-parser.lisp")
 (load "lenulf.lisp")
+(load "roc-mcguffey-stories.lisp")
 
 (setf sents '(
-	"Tom used to have his own boat."
-	"He had to sell it."
-	"Now he just comes out on my boat."
-	"We have such a great time together."
-	"Now I have someone to help me clean my boat."
+	; "Tom used to have his own boat."
+	; "He had to sell it."
+	; "Now he just comes out on my boat."
+	; "We have such a great time together."
+	; "Now I have someone to help me clean my boat."
+	"Today we were playing outside."
+	"We saw a lot of dark clouds in the sky."
+	"It looked like a storm was coming."
+	"We had to go inside to be safe."
+	"It didn't rain after all, so we went back outside!"
 ))
 
 (defparameter *POSS-PRONOUNS* (mk-hashtable '(
@@ -251,7 +257,6 @@
 ;         (TO~32 (HELP.V~33 (ME.PRO~34 (CLEAN.V~35 (MY.PRO~36 BOAT.N~37))))))))
 ;      |.|)
 ;))
-(setf len-ulfs (len-ulfs-with-word-tags sents))
 
 
 
@@ -348,22 +353,33 @@
 ;)
 ;)
 
-(setf machine-ulfs (increment-tilde-tags len-ulfs))
-(setf machine-ulfs (mapcar #'prepare-new-ulf-for-parser machine-ulfs))
+(defun len-parse-sents (sents)
+(block outer
+	(setf len-ulfs (len-ulfs-with-word-tags sents))
+	(setf machine-ulfs (increment-tilde-tags len-ulfs))
+	(setf machine-ulfs (mapcar #'prepare-new-ulf-for-parser machine-ulfs))
 
-(loop for sent in (parse-story-maybe-from-ulf sents machine-ulfs)
-	for len-ulf in len-ulfs
-	for machine-ulf in machine-ulfs
-	for txt in sents
-	do (format t "sentence: ~s~%" txt)
-	; do (format t "Len's ULF:~%     ~s~%" len-ulf)
-	; do (format t "Hand-converted Len ULF fed to parser:~%     ~s~%" new-ulf)
-	do (format t "Machine-converted Len ULF fed to parser:~%~s~%" machine-ulf)
-	do (format t "EL conversion from parser:~%")
-	do (loop for wff in sent
-		
-		do (format t "     ~s~%" wff)
-		do (format t "          ~s~%" (if (canon-prop? wff) "valid" "invalid"))
+	(loop for sent in (parse-story-maybe-from-ulf sents machine-ulfs)
+		for len-ulf in len-ulfs
+		for machine-ulf in machine-ulfs
+		for txt in sents
+		do (format t "sentence: ~s~%" txt)
+		; do (format t "Len's ULF:~%     ~s~%" len-ulf)
+		; do (format t "Hand-converted Len ULF fed to parser:~%     ~s~%" new-ulf)
+		do (format t "Machine-converted Len ULF fed to parser:~%~s~%" machine-ulf)
+		do (format t "EL conversion from parser:~%")
+		do (loop for wff in sent
+			
+			do (format t "     ~s~%" wff)
+			do (format t "          ~s~%" (if (canon-prop? wff) "valid" "invalid"))
+		)
+		do (format t "~%~%--------~%")
 	)
-	do (format t "~%~%")
+)
+)
+
+; (len-parse-sents sents)
+(loop for story in *ROC-MCGUFFEY*
+; (loop for story in '(("Ada has a fan in her hand." "These fans are May's." "Ada has May's white fan." "I want to have such a great time with someone." "I want to find someone I can have such a great time with."))
+	do (len-parse-sents story)
 )

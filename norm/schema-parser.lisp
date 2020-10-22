@@ -202,6 +202,19 @@
 		KA
 	)
 
+	; N'T is NOT
+	(/
+		|N'T.ADV|
+		NOT
+	)
+
+	; N'T with explicit bars is also NOT
+	; (I'm not sure why this happens)
+	(/
+		|\|N'T.ADV\||
+		NOT
+	)
+
 	; :R can just be ADV-A
 	(/
 		(:R _+)
@@ -1005,6 +1018,7 @@
 	THE.D
 	THE.DET
 	THE_INV.DET
+	THAT.D
 ))
 
 ; probably-pred identifies things that

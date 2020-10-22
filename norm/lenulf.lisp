@@ -73,10 +73,10 @@
 
 	;(loop for word in words
 
-	(setf sent-word-idx start-tag)
+	(setf sent-word-idx (- start-tag 1))
 	(setf sent-tags (list))
-	(format t "sent: ~s~%" words)
-	(format t "parse words: ~s~%" cleaned-sent)
+	; (format t "sent: ~s~%" words)
+	; (format t "parse words: ~s~%" cleaned-sent)
 
 	(loop while (> (length words) 0)
 		do (block inner
@@ -103,29 +103,42 @@
 
 					; If mpairs is still null, the words are never equal again.
 					; We can just use the pair (1 1) and let it proceed.
+					; (Or, if either list is empty, set its index to 0.)
 					(if (null mpairs)
 						; then
-						(setf mpairs '(1 1))
+						(setf mpairs (list (min 1 (length words)) (min 1 (length cleaned-sent))))
 					)
 
+					(if (not (null cleaned-sent))
+						; then
+						(setf sent-word-idx (+ sent-word-idx 1))
+					)
+
+					; (format t "mpairs: ~s~%" mpairs)
+					; (format t "words: ~s~%" words)
+					; (format t "cleaned-sent: ~s~%" cleaned-sent)
 					(loop for tok in (subseq words 0 (car mpairs))
 						do (setf sent-tags (append sent-tags (list sent-word-idx)))
 					)
-					(setf sent-word-idx (+ sent-word-idx 1))
 
 					(setf words (subseq words (car mpairs) (length words)))
 					(setf cleaned-sent (subseq cleaned-sent (second mpairs) (length cleaned-sent)))
 				)
 				; else
 				(progn
+					(if (not (null cleaned-sent))
+						; then
+						(setf sent-word-idx (+ sent-word-idx 1))
+					)
 					(setf sent-tags (append sent-tags (list sent-word-idx)))
-					(setf sent-word-idx (+ sent-word-idx 1))
 					(setf cleaned-sent (cdr cleaned-sent))
 					(setf words (cdr words))
 				)
 			)
 		)
 	)
+
+	; (format t "~s~%" sent-tags)
 
 	(loop for word in ulf-words
 		for tag in sent-tags

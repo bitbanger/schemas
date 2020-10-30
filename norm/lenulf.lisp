@@ -138,8 +138,6 @@
 		)
 	)
 
-	; (format t "~s~%" sent-tags)
-
 	(loop for word in ulf-words
 		for tag in sent-tags
 		do (block rplc

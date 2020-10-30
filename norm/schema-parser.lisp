@@ -240,6 +240,10 @@
 		((* ~ AND.CC) ((+ nonverb-pred?)))
 		(* (lambdify-preds! (+)))
 	)
+	(/
+		((* ~ AND) ((+ nonverb-pred?)))
+		(* (lambdify-preds! (+)))
+	)
 
 	; We don't need "such", "so", etc.
 	; until we can figure out what to
@@ -251,8 +255,18 @@
 
 	; Un-flatten composite predicates.
 	(/
-		((!1 canon-individual?) (!2 canon-pred?) (+ canon-pred?))
-		(!1 (lambdify-preds! (!2 +)))
+		(<> (!2 canon-pred?) (+ canon-pred?))
+		(lambdify-preds! (!2 +))
+	)
+
+	; Lambdify conjunctive predicates.
+	(/
+		(AND (+ canon-pred?))
+		(lambdify-preds! (+))
+	)
+	(/
+		(AND.CC (+ canon-pred?))
+		(lambdify-preds! (+))
 	)
 
 	; Unwrap singleton individual lists.

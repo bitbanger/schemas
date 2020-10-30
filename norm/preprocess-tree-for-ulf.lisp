@@ -71,6 +71,8 @@
    *comb-2-cds*
    *comb-cc-joined-cds*
    *comb-nn-postmod*
+   *comb-coordinated-adjs*
+   *replace-disgusting-comma-ccs*
    *comb-adj-nn*
    *comb-adj-nn-cc*
    *form-compar-with-gap*

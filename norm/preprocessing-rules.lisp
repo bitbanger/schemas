@@ -166,7 +166,31 @@
 ; add a level of NN structure combining the predicates; any NN premods
 ; will already have been combined:
     '((.NP *expr (.NN +expr) +expr) (1 2 (3.1 (-NONE- n+preds) 3 4))) )
-  
+
+
+(defparameter *comb-coordinated-adjs*
+; This is to handle comma-separated adj's premodifying an NN{S}, and
+; instances of 'and'd adjectives where BLLIP fails to form a conjunction.
+; (E.g., BLLIP forms a conjunction for "I like large and friendly dogs",
+; and for "I saw large and black dogs" but not "I like large and black dogs")
+; e.g., "I saw a large, black dog" -- use \,.cc;
+; e.g., "I like large and black dogs"
+; NB: BLLIP yields coordinated adj's in all of the following examples:
+;   "I think it was a red or maroon car"
+;   "It had black and white stripes"
+;   "He is an experienced and fast programmer"
+;   "It was a good but rowdy concert"
+;   "I saw a large, black dog"
+    '((.NP *expr (.ADJP +expr) (.CC !atom) (.ADJP +expr) (.NN +expr))
+      (1 2 (5.1 3 (CC 4.2) 5) 6)))
+
+(defparameter *replace-disgusting-comma-ccs*
+	'(
+		(CC |,|)
+		(CC AND)
+	)
+)
+
 (defparameter *comb-adj-nn*
 ; For an adjective premodifier in an NP or WHNP, add a level of NN structure,
 ; where NN postmodifiers are assumed to have been NN-incorporated already:

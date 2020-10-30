@@ -359,6 +359,13 @@
 	(setf machine-ulfs (increment-tilde-tags len-ulfs))
 	(setf machine-ulfs (mapcar #'prepare-new-ulf-for-parser machine-ulfs))
 
+	;(loop for sent in sents
+	;	for ulf in len-ulfs
+	;	do (format t "Sentence:~%	~s~%" sent)
+	;	do (format t "ULF:~%	~s~%" ulf)
+	;	do (format t "~%")
+	;)
+
 	(loop for sent in (parse-story-maybe-from-ulf sents machine-ulfs)
 		for len-ulf in len-ulfs
 		for machine-ulf in machine-ulfs
@@ -379,7 +386,15 @@
 )
 
 ; (len-parse-sents sents)
-(loop for story in *ROC-MCGUFFEY*
-; (loop for story in '(("Ada has a fan in her hand." "These fans are May's." "Ada has May's white fan." "I want to have such a great time with someone." "I want to find someone I can have such a great time with."))
+; (loop for story in *ROC-MCGUFFEY*
+(loop for story in '((
+	"I'm a smart and savvy guy."
+	"I like a large and black dog."
+	"I like large, black dogs."
+	"I like large black dogs."
+	"I like large and black dogs."
+	"I like a large, black dog."
+	"I like a large black dog."
+))
 	do (len-parse-sents story)
 )

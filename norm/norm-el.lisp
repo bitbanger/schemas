@@ -145,6 +145,13 @@
 )
 )
 
+(defun canon-prep? (x)
+(or
+	(lex-p? x)
+	(mp x (list 'canon-prep? 'canon-individual?))
+)
+)
+
 (defun canon-pred? (x)
 (or
 	; Explicitly marked predicates are predicates
@@ -194,6 +201,7 @@
 	(lex-modal? x)
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
+	(equal x 'NOT)
 	(mp x (list (list 'id? 'ADV-A) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))
@@ -279,6 +287,13 @@
 	)
 
 	(return-from outer nil)
+)
+)
+
+(defun verb-pred? (pred)
+(and
+	(canon-pred? pred)
+	(lex-verb? (pred-base pred))
 )
 )
 

@@ -235,6 +235,12 @@
 		(_*1 !2 + _*3)
 	)
 
+	; Strip unnecessary parens from predicates.
+	(/
+		((!1 canon-pred?))
+		!1
+	)
+
 	; Un-flatten stacked predicates.
 	(/
 		((* ~ AND.CC) ((+ nonverb-pred?)))
@@ -243,6 +249,28 @@
 	(/
 		((* ~ AND) ((+ nonverb-pred?)))
 		(* (lambdify-preds! (+)))
+	)
+
+	; CAN should usually be CAN.MD.
+	(/
+		CAN
+		CAN.MD
+	)
+
+	; We prefer MDs in this family
+	(/
+		WILL.AUX
+		WILL.MD
+	)
+
+	; Floating prepositions in verb predicates should be mods.
+	(/
+		(_*1 (!2 canon-pred?) _*3 (!4 canon-prep?) _*5)
+		(_*1 ((adv-a !4) !2) _*3 _*5)
+	)
+	(/
+		(_*1 (!2 canon-prep?) _*3 (!4 canon-pred?) _*5)
+		(_*1 ((adv-a !2) !4) _*3 _*5)
 	)
 
 	; We don't need "such", "so", etc.
@@ -267,6 +295,13 @@
 	(/
 		(AND.CC (+ canon-pred?))
 		(lambdify-preds! (+))
+	)
+
+	; Conjunctions of individuals are
+	; actually sets.
+	(/
+		(AND (+ canon-individual?))
+		(SET-OF +)
 	)
 
 	; Unwrap singleton individual lists.
@@ -338,6 +373,7 @@
 	rename-gensyms
 	flatten-nested-ands
 	apply-such-determiners
+	remove-aux-do-did
 ))
 
 (defun extract-noun-sym (form)
@@ -372,7 +408,7 @@
 	(loop for form in phi do (block loop-outer
 		(if (and
 				(canon-charstar? form)
-				(member 'WILL.MD (prop-mods (car form)) :test #'equal)
+				(not (null (member 'WILL.MD (prop-mods (car form)) :test #'equal)))
 			)
 			; then
 			(block loop-inner
@@ -574,6 +610,47 @@
 	(equal (car (third (second arg))) 'AND)
 	(loop for y in (cdr (third (second arg)))
 		thereis (canon-mod? (second y)))
+)
+)
+
+(defun remove-aux-do-did (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(loop for form in phi do (block inner
+		(if (contains form 'DO.AUX)
+			; then
+			(setf phi-copy (replace-vals form (remove 'DO.AUX form :test #'equal) phi-copy))
+		)
+
+		; Re-orient the episode backward in time.
+		(if (contains form 'DID.AUX)
+			; then
+			(block did1
+				; Remove DID.AUX.
+				(setf new-form (remove 'DID.AUX form :test #'equal))
+
+				; If there's an episode, replace the
+				; episode in the formula with a new one,
+				; and add a formula constraining the
+				; new one to be before the old one.
+				(if (canon-charstar? new-form)
+					; then
+					(block did2
+						(setf ep (third new-form))
+						(setf new-ep (new-skolem! 'E))
+						(setf phi-copy (append phi-copy (list (list new-ep 'BEFORE ep))))
+						(setf new-form (list (car new-form) (second new-form) new-ep))
+					)
+				)
+
+				; Replace the old formula.
+				(setf phi-copy (replace-vals form new-form phi-copy))
+			)
+		)
+	))
+
+	(return-from outer phi-copy)
 )
 )
 
@@ -1043,6 +1120,14 @@
 (defun probably-pred? (p)
 (block outer
 	(if (canon-pred? p)
+		(return-from outer t)
+	)
+
+	(if (not (listp p))
+		(return-from outer nil)
+	)
+
+	(if (canon-pred? (unwrap-singletons (loop for e in p if (not (canon-prep? e)) collect e)))
 		(return-from outer t)
 	)
 

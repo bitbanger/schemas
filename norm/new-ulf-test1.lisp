@@ -163,6 +163,16 @@
 	(:Q THE.DET (:L X (:I (:I X _!2) AND (:I X PERTAIN-TO (nominalize-poss-pronoun! !1)))))
 	)
 
+	(/
+		CAN
+		CAN.MD
+	)
+
+	(/
+		COULD
+		(PAST CAN.MD)
+	)
+
 ; Special case for MY.PRO, which Skolemizes
 ; in a scope-invariant way and needs the
 ; special THE_INV.DET determiner.
@@ -359,13 +369,6 @@
 	(setf machine-ulfs (increment-tilde-tags len-ulfs))
 	(setf machine-ulfs (mapcar #'prepare-new-ulf-for-parser machine-ulfs))
 
-	;(loop for sent in sents
-	;	for ulf in len-ulfs
-	;	do (format t "Sentence:~%	~s~%" sent)
-	;	do (format t "ULF:~%	~s~%" ulf)
-	;	do (format t "~%")
-	;)
-
 	(loop for sent in (parse-story-maybe-from-ulf sents machine-ulfs)
 		for len-ulf in len-ulfs
 		for machine-ulf in machine-ulfs
@@ -387,14 +390,13 @@
 
 ; (len-parse-sents sents)
 ; (loop for story in *ROC-MCGUFFEY*
+; (loop for story in *ROC*
 (loop for story in '((
-	"I'm a smart and savvy guy."
-	"I like a large and black dog."
-	"I like large, black dogs."
-	"I like large black dogs."
-	"I like large and black dogs."
-	"I like a large, black dog."
-	"I like a large black dog."
+	"The hen will run at the cat."
+	; "They sit on chairs."
+	; "They do not sit on chairs with others."
+	; "They do not sit on chairs."
+	; "They did not sit."
 ))
 	do (len-parse-sents story)
 )

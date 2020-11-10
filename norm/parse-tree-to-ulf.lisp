@@ -88,11 +88,15 @@
 ;`````````````````````````````````
   (cond ((null tree) nil); to allow empty cdr upon recursion
         ((atom tree); unexpected
-         (format t "~%** Invalid input ~a to 'parse-tee-to-raw-ulf'" tree))
-        ((and (listp (car tree)) (null (cdr tree))); double bracketing?
+         (format t "~%** Invalid input ~a to 'parse-tree-to-raw-ulf'" tree))
+        ((and (listp (car tree)) (null (cdr tree))); double bracketing (Brown)?
          (parse-tree-to-raw-ulf (car tree))); drop the outer brackets
-        ((simple-tree tree) 
+        ((and (eq (car tree) 'S1) (null (cddr tree))); (S1 (...)) (BLLIP)?
+         (parse-tree-to-raw-ulf (second tree))); drop the (S1 (...)) wrapper
+        ((simple-tree tree)
          (simple-tree-to-raw-ulf tree)); e.g., (AUX (VBD were))
+        ((eq (car tree) 'MD) ; BLLIP fails to wrap (AUX ...) around modals
+         (pos+word-to-raw-ulf (list (aux-inflection 'MD (cadr tree)) (cadr tree))))
         ((pos+word tree) (pos+word-to-raw-ulf tree)); e.g., (NN safety)
         (t (if (atom (car tree)); drop initial atom (nonterminal category)
                                 ; and "recurse downwand" on (cdr tree)

@@ -1,4 +1,4 @@
-(defparameter *ROC-MCGUFFEY* '(
+(defparameter *MCGUFFEY* '(
 	(
 		"I see a girl."
 		"I see a boy."
@@ -1397,10 +1397,13 @@
 		"It is fun for boys."
 		"It is not fun for dogs."
 	)
+))
+
+(defparameter *ROC* '(
 	(
 		"We went to the town today."
-		"It was too hot,
-It felt like a sauna."
+		"It was too hot."
+		"It felt like a sauna."
 		"I couldn't stand it."
 		"I had to sit down."
 	)
@@ -4198,3 +4201,5 @@ Joe loved his new door ."
 		"They found it."
 	)
 ))
+
+(defparameter *ROC-MCGUFFEY* (append *MCGUFFEY* *ROC*))

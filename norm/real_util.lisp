@@ -261,6 +261,11 @@
 	)
 )
 
+; An optimization for a single element in a flat list.
+(defun contains (lst elem)
+	(not (null (member elem lst :test #'equal)))
+)
+
 (defun has-element (lst elem)
 	(has-element-pred lst (lambda (x) (equal x elem)))
 )

@@ -1616,6 +1616,11 @@
 		)
 	)
 
+	; The new ULF processor will add word
+	; tags to determiners more aggressively,
+	; so we'll strip them here.
+	(setf adet (append (list (remove-idx-tag (car adet))) (cdr adet)))
+
 	(setf adet-idx (second pair))
 
 	; Check whether the Skolemization would be
@@ -1787,11 +1792,11 @@
 				(listp x)
 				(> (length x) 1)
 				(or
-					(member (car x) *EXISTENTIAL-SYMS* :test #'equal)
+					(member (remove-idx-tag (car x)) *EXISTENTIAL-SYMS* :test #'equal)
 					(and
 						(> (length x) 2)
 						(equal (car x) ':Q)
-						(member (second x) *EXISTENTIAL-SYMS* :test #'equal)
+						(member (remove-idx-tag (second x)) *EXISTENTIAL-SYMS* :test #'equal)
 					)
 				)
 			)
@@ -2132,6 +2137,7 @@
 		))
 	)
 	; (format t "finished initial parse~%")
+	; (format t "new-sents is: ~s~%" new-sents)
 	(setf needs-res (remove-duplicates (get-elements-pred new-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))
 			(and

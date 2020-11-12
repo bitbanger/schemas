@@ -107,7 +107,7 @@
 	)
 	(if (equal 2 (length psplit))
 		; then
-		(intern (format nil "~a$~a$.~d"
+		(intern (format nil "~a$~d$.~a"
 			(car psplit)
 			(- (parse-integer (second tsplit)) 1)
 			(second psplit)
@@ -370,6 +370,7 @@
 	(setf machine-ulfs (mapcar #'prepare-new-ulf-for-parser machine-ulfs))
 
 	(loop for sent in (parse-story-maybe-from-ulf sents machine-ulfs)
+	; (loop for sent in (parse-story sents)
 		for len-ulf in len-ulfs
 		for machine-ulf in machine-ulfs
 		for txt in sents
@@ -390,13 +391,15 @@
 
 ; (len-parse-sents sents)
 ; (loop for story in *ROC-MCGUFFEY*
-; (loop for story in *ROC*
-(loop for story in '((
-	"The hen will run at the cat."
+(loop for story in *ROC*
+; (loop for story in '((
+	; "The hen will run at the cat."
 	; "They sit on chairs."
 	; "They do not sit on chairs with others."
 	; "They do not sit on chairs."
 	; "They did not sit."
-))
+	; "The man made a bet."
+	; "He lost the bet."
+; ))
 	do (len-parse-sents story)
 )

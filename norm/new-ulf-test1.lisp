@@ -4,6 +4,7 @@
 (load "schema-parser.lisp")
 (load "lenulf.lisp")
 (load "roc-mcguffey-stories.lisp")
+(load "school-roc-stories.lisp")
 
 (setf sents '(
 	; "Tom used to have his own boat."
@@ -391,7 +392,8 @@
 
 ; (len-parse-sents sents)
 ; (loop for story in *ROC-MCGUFFEY*
-(loop for story in *ROC*
+; (loop for story in *ROC*
+(loop for story in *SCHOOL-ROC-STORIES*
 ; (loop for story in '((
 	; "The hen will run at the cat."
 	; "They sit on chairs."

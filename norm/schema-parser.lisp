@@ -481,6 +481,23 @@
 	)
 )
 
+(defun is-skolemized-from-pred (sk pred)
+(let (noun-sym)
+(block outer
+	(setf noun-sym (extract-noun-sym pred))
+	(if (and
+		(not (null noun-sym))
+		(has-prefix? (format nil "~s" sk) noun-sym)
+		)
+		; then
+		(return-from outer t)
+	)
+
+	(return-from outer nil)
+)
+)
+)
+
 (defun name-skolems-maybe-accept-non-nouns (phi accept-non-nouns)
 (block outer
 	(setf phi-copy (copy-list phi))
@@ -505,10 +522,14 @@
 
 		(setf noun-sym (extract-noun-sym (second form)))
 
+		(setf constraints (loop for form2 in phi if (and (equal (length form2) 2) (equal (car form2) (car form))) collect form2))
+
 		(if (and
 				(listp form)
 				(equal 2 (length form))
 				(lex-skolem? (car form))
+				; don't rename it if another noun predicate has already "claimed" it:
+				(loop for c in constraints never (is-skolemized-from-pred (car c) (second c)))
 				(or
 					(symbolp (second form))
 					(and
@@ -2050,9 +2071,12 @@
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
 			; (format t "got new phi ~s~%" new-phi-copy)
-			; (if (not (same-list-unordered old-phi-copy new-phi-copy))
+			;(if (not (same-list-unordered old-phi-copy new-phi-copy))
+				;(progn
 				; (format t "func ~s updated~%" func)
-			; )
+				; (format t "new phi: ~s~%~%" new-phi-copy)
+				;)
+			;)
 			;(if (and (has-element old-phi-copy 'TOGETHER.ADV) (not (has-element new-phi-copy 'TOGETHER.ADV)))
 			;	(format t "func ~s removed TOGETHER.ADV~%" func)
 			;)
@@ -2074,6 +2098,7 @@
 	(setf phi-copy (copy-list phi))
 	(loop while t do (block inner
 		; (format t "here1~%")
+		; (format t "doing a cleanup pass of ~s~%" phi)
 		(setf phi-copy (remove-duplicates (schema-cleanup-ttt phi-copy) :test #'equal))
 		; (format t "here2~%")
 		(setf phi-copy (remove-duplicates (schema-cleanup-lisp phi-copy) :test #'equal))
@@ -2084,6 +2109,8 @@
 			; else
 			(progn
 			; (format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
+			; (format t "last phi-copy minus phi-copy: ~s~%" (set-difference last-phi-copy phi-copy :test #'equal))
+			; (format t "phi-copy minus last phi-copy: ~s~%" (set-difference phi-copy last-phi-copy :test #'equal))
 			(setf last-phi-copy (copy-list phi-copy))
 			)
 		)
@@ -2125,6 +2152,7 @@
 		; then
 		(setf new-sents (loop for sent in sents
 			for pre-ulf in pre-ulfs
+			; do (format t "original interpretation: ~s~%" (interpret-lf pre-ulf))
 			collect (schema-cleanup
 			(interpret-lf pre-ulf)
 			)

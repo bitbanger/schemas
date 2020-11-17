@@ -546,7 +546,7 @@
 
 (defparameter travel.v
 	;'(epi-schema ((?x travel.v (from.p-arg ?l1) (to.p-arg ?l2) ?l2) ** ?e)
-	'(epi-schema ((?x ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v)) ?l2) ** ?e)
+	'(epi-schema ((?x ((adv-a (for.p ?l2)) ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v))) ?l2) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?l1 location.n))

@@ -11,6 +11,8 @@
 	walk.v
 	crawl.v
 	fly.v
+	return.v
+	leave.v
 ))
 
 (defparameter *RECEIVING-PREDS* '(
@@ -25,10 +27,28 @@
 	love.v
 ))
 
+(defparameter *SUBSUMPTION-CATEGORIES* (mk-hashtable `(
+	(
+		receiving_verb.?
+		,*RECEIVING-PREDS*
+	)
+	;(
+	;	movement_verb.v
+	;	,*MOVEMENT-PREDS*
+	;)
+	(
+		enjoy_verb.?
+		,*ENJOY-PREDS*
+	)
+)))
+
 (defparameter *SPECIAL-SUBSUMPTIONS* (mk-hashtable '(
-	((AGENT.N ANIMAL.N) t) ; animals are agents
+	((AGENT.N ANIMAL.N) t) ; animals are causal agents
 	((AGENT.N CAUSAL_AGENT.N) t) ; causal agents are agents
 	((FOOD.N FRUIT.N) t) ; fruit is food
+	((TRAVEL.V RETURN.V) t) ; returning is traveling
+	((TRAVEL.V GO.V) t) ; going is traveling
+	((TRAVEL.V LEAVE.V) t) ; leaving is traveling
 )))
 
 (defun get-schema-match-num (pred)
@@ -121,23 +141,13 @@
 		(return-from outer 0.9)
 	)
 
-	(if (and (equal schema-pred 'movement_verb.v)
-			(not (null (member story-pred *MOVEMENT-PREDS* :test #'equal))))
-		; then
-		(return-from outer 0.9)
-	)
-
-	(if (and (equal (get-schema-match-name schema-pred) 'receiving_verb.?)
-			(not (null (member story-pred *RECEIVING-PREDS* :test #'equal))))
-		; then
-		(return-from outer 0.9)
-	)
-
-	(if (and (equal schema-pred 'enjoy_verb.?)
-			(not (null (member story-pred *ENJOY-PREDS* :test #'equal))))
-		; then
-		(return-from outer 0.9)
-	)
+	(loop for k being the hash-keys of *SUBSUMPTION-CATEGORIES* do (block cat
+		(if (and (equal schema-pred k)
+				(not (null (member story-pred (gethash k *SUBSUMPTION-CATEGORIES*) :test #'equal))))
+			; then
+			(return-from outer 0.9)
+		)
+	))
 
 	; Check explicit special cases
 	(if (gethash (list schema-pred story-pred) *SPECIAL-SUBSUMPTIONS*)
@@ -222,12 +232,36 @@
 )
 )
 
+; Collect wordnet hypernyms and special (manually defined) hypernyms
+(defun all-hypernyms (pred)
+	(remove nil (append
+		(wordnet-hypernyms pred)
+		(loop for ssub being the hash-keys of *SPECIAL-SUBSUMPTIONS*
+			if (equal (second ssub) pred)
+				; then
+				collect (list (list (car ssub)))
+		)
+	) :test #'equal)
+)
+
 (defun common-ancestor-no-check (pred1 pred2)
+(let
+	(l1 l2 e k)
 (block outer
 	(setf closest-ancestor nil)
 	(setf closest-ancestor-len -1)
-	(loop for l1 in (wordnet-hypernyms pred1)
-		do (loop for l2 in (wordnet-hypernyms pred2)
+
+	; First, check whether they're in the same "class".
+	(loop for k being the hash-keys of *SUBSUMPTION-CATEGORIES*
+		if (let ((cat (gethash k *SUBSUMPTION-CATEGORIES*)))
+			(and (contains cat pred1) (contains cat pred2)))
+		; then
+		do (return-from outer k)
+	)
+
+	; Next, check the WordNet hypernym ladders.
+	(loop for l1 in (all-hypernyms pred1)
+		do (loop for l2 in (all-hypernyms pred2)
 			do (block intersect
 				(loop for e in l1
 					do (block mem
@@ -235,7 +269,15 @@
 							; then
 							(return-from mem)
 						)
-						(setf memb (member e l2 :test #'equal))
+						(if (not (listp e))
+							; then
+							(setf e (listify-nonlists e))
+						)
+						(setf memb (member e l2 :test (lambda (a b) (not (null (intersection (listify-nonlists a) (listify-nonlists b) :test #'equal))))))
+						(if (null memb)
+							; then
+							(return-from mem)
+						)
 						; (if (> (/ (length memb) (length l2)) closest-ancestor-len)
 						(if (> (length memb) closest-ancestor-len)
 							; then
@@ -252,7 +294,12 @@
 	)
 	(if (and
 			(not (null closest-ancestor))
-			(> closest-ancestor-len 3)
+			(or
+				; The last three for nouns are usually very
+				; general.
+				(not (lex-noun? closest-ancestor))
+				(> closest-ancestor-len 3)
+			)
 		)
 		; then
 		(progn
@@ -262,18 +309,26 @@
 	)
 )
 )
+)
 
-(defun common-ancestor (pred1 pred2)
+(defun common-ancestor-inner (pred1 pred2)
 (block outer
-	(if (or
-			(equal pred1 pred2)
-			(subsumes pred1 pred2)
-			(subsumes pred2 pred1)
-		)
+	(if (equal pred1 pred2)
 		; then
-		(return-from outer nil)
+		(return-from outer pred1)
 	)
+	(if (subsumes pred1 pred2)
+		(return-from outer pred1)
+	)
+	(if (subsumes pred2 pred1)
+		(return-from outer pred2)
+	)
+
 
 	(return-from outer (common-ancestor-no-check pred1 pred2))
 )
+)
+
+(defun common-ancestor (pred1 pred2)
+	(listify-nonlists (common-ancestor-inner pred1 pred2))
 )

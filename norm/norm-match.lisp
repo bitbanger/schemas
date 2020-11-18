@@ -636,7 +636,6 @@
 
 
 
-					; (format t "all constraints to add: ~s~%" constraints)
 
 	
 					(loop for const in constraints do (block const-add

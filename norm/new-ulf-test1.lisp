@@ -147,6 +147,12 @@
 	(_*1 (PAST USED_TO.V) (!3 _*4) _*5)
 	)
 
+; N'T => NOT
+	(/
+		(ll-curry eq-untagged? N\'T.ADV)
+		NOT
+	)
+
 ; Replace all tilde-preds with $$-tagged ones.
 		; pattern
 	(/
@@ -248,91 +254,6 @@
 )
 )
 
-; (format t "~s~%" (prepare-new-ulf-for-parser '(IT.PRO (BE.V (A.DET (N+PREDS BABY.N (LOVE.V (PLUR DOG.N))))))))
-
-;(setf len-ulfs
-;'(
-;(TOM~1 ((PAST USE.V~2) (TO~3 (HAVE.V~4 (HIS.PRO~5 (OWN.A~6 BOAT.N~7)))))
-;      |.|)
-;(HE.PRO~8 (HAD.AUX~9 (TO~10 (SELL.V~11 IT.PRO~12))) |.|)
-;(NOW.ADV~13 HE.PRO~14 JUST.ADV~15
-;      ((PRES COME.V~16) OUT.PRT~17 (ON.P~18 (MY.PRO~19 BOAT.N~20))) |.|)
-;(WE.PRO~21
-;      (HAVE.AUX~22
-;       (SUCH.D~23 (GREAT.A~25 (N+PREDS TIME.N~26 TOGETHER.ADV~27))))
-;      |.|)
-;(NOW.ADV~28 I.PRO~29
-;      (HAVE.AUX~30
-;       (SOME.D
-;        (N+PRED PERSON.N~31
-;         (TO~32 (HELP.V~33 (ME.PRO~34 (CLEAN.V~35 (MY.PRO~36 BOAT.N~37))))))))
-;      |.|)
-;))
-
-
-
-;((K TODAY.N~2) WE.PRO~3 (WERE.AUX~4 ((PROG PLAY.V~5) OUTSIDE.ADV~6)) |.|)
-
-
-;(WE.PRO~1
-;      ((PAST SEE.V~2)
-;       (A.D~3 (N+PRED LOT.N~5 (OF.P~6 (K (DARK.A~8 (PLUR CLOUD.N~9))))))
-;       (IN.P~10 (THE.D~11 SKY.N~12)))
-;      |.|)
-
-
-;(IT.PRO~1
-;      ((PAST LOOK.V~2)
-;       (LIKE.P~3 ((A.D~4 STORM.N~5) (WAS.AUX~6 (PROG COME.V~7)))))
-;      |.|)
-
-
-;(WE.PRO~1
-;      (HAD.AUX~2 (TO~3 (GO.V~4 INSIDE.ADV~5 (TO~6 (BE.AUX~7 SAFE.A~8))))) |.|)
-
-
-;((IT.PRO~1 (DID.AUX~2 |N'T.ADV~3| (RAIN.V~4 (AFTER.P~5 ALL.D~6)))) |,|
-;      SO.CC~7 (WE.PRO~8 ((PAST GO.V~9) BACK.ADV~10 OUTSIDE.ADV~11)) !)
-
-
-;(TODAY.ADV~1 I.PRO~2 ((PAST SEE.V~3) (A.D~4 (BABY.N~5 BIRD.N~6))) |.|)
-
-
-;((THE.D~1 BIRD.N~2) (WAS.AUX~3 (IN.P~4 (A.D~5 TREE.N~6))) |.|)
-
-
-;((THE.D~1 (MOTHER.N~2 BIRD.N~3))
-;      (WAS.AUX~4 ((PROG TEACH.V~5) (THE.D~6 (BABY.N~7 BIRD.N~8)))) |.|)
-
-
-;(SHE.PRO~1
-;      ((PAST DROP.V~2) (THE.D~3 BIRD.N~4)
-;       (OUT.P~5 (OF.P~6 (THE.D~7 NEST.N~8))))
-;      |.|)
-
-
-;((THE.D~1 (BABY.N~2 BIRD.N~3)) ((PAST FLY.V~4) AWAY.ADV~5) |.|)
-
-
-;((THE.D~1 ORANGE.N~2) ((PAST FALL.V~3) (FROM.P~4 (THE.D~5 TREE.N~6))) |.|)
-
-
-;(IT.PRO~1 ((PAST HIT.V~2) (A.D~3 GIRL.N~4) (ON.P~5 (THE.D~6 HEAD.N~7)))
-;      |.|)
-
-
-;((THE.D~1 GIRL.N~2) ((PAST LOOK.V~3) UP.PRT~4 (AT.P~5 (THE.D~6 TREE.N~7)))
-;      |.|)
-
-
-;((ANOTHER.D~1 ORANGE.N~2) ((PAST FALL.V~3) (FROM.P~4 (THE.D~5 TREE.N~6)))
-;      |.|)
-
-
-;((THAT.D~1 ORANGE.N~2) ((PAST BREAK.V~3) (HER.PRO~4 NOSE.N~5)) |.|)
-
-; ))
-
 (defparameter *KEYWORD-TAGS* '(
 	:F
 	:O
@@ -393,7 +314,7 @@
 ; (len-parse-sents sents)
 ; (loop for story in *ROC-MCGUFFEY*
 ; (loop for story in *ROC*
-(loop for story in *SCHOOL-ROC-STORIES*
+; (loop for story in *SCHOOL-ROC-STORIES*
 ; (loop for story in '((
 	; "The hen will run at the cat."
 	; "They sit on chairs."
@@ -402,6 +323,14 @@
 	; "They did not sit."
 	; "The man made a bet."
 	; "He lost the bet."
+	; "Lewis didn't do his homework."
 ; ))
+(loop for story in '((
+	"Billy liked this girl."
+	"The girl sat in front of him."
+	"He played with her hair."
+	"She told him to stop."
+	"He stopped it."
+))
 	do (len-parse-sents story)
 )

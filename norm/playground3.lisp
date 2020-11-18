@@ -526,13 +526,13 @@
 (defparameter needed-schemas 0)
 
 ; (loop for raw-story in (shuffle *ROC-MCGUFFEY*)
-(loop for raw-story in (subseq *ROC-MCGUFFEY* start-st end-st)
+(loop for raw-story in (subseq *ROC* start-st end-st)
 ; (loop for raw-story in (list '("Clare found the letter." "She opened it up." "Inside was a small note." "She threw the note away." "She kept the envelope to use."))
 ; (loop for raw-story in (list '("Mary went to the store with her friend."))
 ; (loop for raw-story in (list '("Frank is there." "John eats a steak."))
 		for story-num from 0
-	do (handler-case (block matchblock
-	; do (block matchblock
+	; do (handler-case (block matchblock
+	do (block matchblock
 		(format t "; story ~s:~%" story-num)
 		; (format t "; ~s~%" raw-story)
 		(loop for line in raw-story
@@ -638,8 +638,8 @@
 		)
 
 		; (format t "~%~%")
-	) (error () (format t "; error processing story~%")))
-	;)
+	;) (error () (format t "; error processing story~%")))
+	)
 )
 
 

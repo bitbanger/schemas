@@ -127,7 +127,8 @@
 		)
 
 		(:Preconds
-			(?i1 ((ke (?x (do.v ?a))) cause-of (ke (?x (experience.v ?d)))))
+			; (?i1 ((ke (?x (do.v ?a))) cause.v (ke (?x (experience.v ?d)))))
+			(?i1 (?x believe.v (that ((ke (?x (do.v ?a))) has-effect (ke (?x (experience.v ?d)))))))
 		)
 
 		(:Steps

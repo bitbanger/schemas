@@ -3,8 +3,10 @@
 
 ; OPT: a cache for all preds, similar to the cache in (defun mp)
 
-(load "real_util.lisp")
-(load "ll-cache.lisp")
+(load "ll-load.lisp")
+
+(ll-load "real_util.lisp")
+(ll-load "ll-cache.lisp")
 
 (defparameter *KEYWORD-PREDS* '(
 	=

@@ -2,14 +2,16 @@
 
 (setf *random-state* (make-random-state t))
 
-(load "norm-schema-util.lisp")
-(load "norm-protoschemas.lisp")
-(load "norm-stories.lisp")
-(load "norm-unify.lisp")
-(load "norm-matcher.lisp")
-(load "real_util.lisp")
-(load "norm-time.lisp")
-(load "parsed-stories.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-schema-util.lisp")
+(ll-load "norm-protoschemas.lisp")
+(ll-load "norm-stories.lisp")
+(ll-load "norm-unify.lisp")
+(ll-load "norm-matcher.lisp")
+(ll-load "real_util.lisp")
+(ll-load "norm-time.lisp")
+(ll-load "parsed-stories.lisp")
 
 ;(setf kite-gen-schema (match-story-to-schema *KITE-STORY* travel.v t))
 ;(print-schema (car kite-gen-schema))

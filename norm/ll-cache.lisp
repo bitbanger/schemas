@@ -1,4 +1,6 @@
-(load "real_util.lisp")
+(load "ll-load.lisp")
+
+(ll-load "real_util.lisp")
 
 (defparameter *DISABLE-ALL-CACHE*
 	t

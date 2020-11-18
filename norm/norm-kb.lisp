@@ -1,4 +1,6 @@
-(load "norm-el.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-el.lisp")
 
 (defun kb-explicit (kb)
 	(car kb)

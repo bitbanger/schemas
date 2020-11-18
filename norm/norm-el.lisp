@@ -1,6 +1,8 @@
-(load "parse.lisp")
-(load "real_util.lisp")
-(load "ll-cache.lisp")
+(load "ll-load.lisp")
+
+(ll-load "parse.lisp")
+(ll-load "real_util.lisp")
+(ll-load "ll-cache.lisp")
 
 ; Example canonical story
 (defparameter *CANON-STORY*

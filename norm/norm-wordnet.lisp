@@ -1,5 +1,7 @@
-(load "real_util.lisp")
-(load "ll-cache.lisp")
+(load "ll-load.lisp")
+
+(ll-load "real_util.lisp")
+(ll-load "ll-cache.lisp")
 
 (defparameter *WN-CACHE* (make-hash-table :test #'equal))
 (defparameter *WN-FAILURE-VAL* '(|raceback| |(most| |recent| |call| |last)|))

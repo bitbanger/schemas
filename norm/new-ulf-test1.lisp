@@ -1,10 +1,12 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "real_util.lisp")
-(load "schema-parser.lisp")
-(load "lenulf.lisp")
-(load "roc-mcguffey-stories.lisp")
-(load "school-roc-stories.lisp")
+(load "ll-load.lisp")
+
+(ll-load "real_util.lisp")
+(ll-load "schema-parser.lisp")
+(ll-load "lenulf.lisp")
+(ll-load "roc-mcguffey-stories.lisp")
+(ll-load "school-roc-stories.lisp")
 
 (setf sents '(
 	; "Tom used to have his own boat."

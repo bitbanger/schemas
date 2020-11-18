@@ -1,11 +1,13 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "ttt/src/load")
-(load "init1.lisp")
-(load "real_util.lisp")
-(load "parse.lisp")
-(load "norm-el.lisp")
-(load "norm-coref.lisp")
+(load "ll-load.lisp")
+
+(ll-load "ttt/src/load")
+(ll-load "init1.lisp")
+(ll-load "real_util.lisp")
+(ll-load "parse.lisp")
+(ll-load "norm-el.lisp")
+(ll-load "norm-coref.lisp")
 
 (defparameter *KA-ARG-VERBS* '(
 	WANT.V
@@ -27,8 +29,6 @@
 	HATE.V
 	DISLIKE.V
 ))
-
-; (load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
 (defun has-ext? (x e)
     (and

@@ -1,8 +1,10 @@
-(load "parse.lisp")
-(load "norm-el.lisp")
-(load "real_util.lisp")
+(load "ll-load.lisp")
+
+(ll-load "parse.lisp")
+(ll-load "norm-el.lisp")
+(ll-load "real_util.lisp")
 ; (load "norm-wordnet.lisp")
-(load "trial-wn.lisp")
+(ll-load "trial-wn.lisp")
 
 (defparameter *MOVEMENT-PREDS* '(
 	go.v

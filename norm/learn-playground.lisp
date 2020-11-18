@@ -1,9 +1,11 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "all-clargs.lisp")
-(load "norm-schema-util.lisp")
-(load "norm-el.lisp")
-(load "real_util.lisp")
+(load "ll-load.lisp")
+
+(ll-load "all-clargs.lisp")
+(ll-load "norm-schema-util.lisp")
+(ll-load "norm-el.lisp")
+(ll-load "real_util.lisp")
 
 ; Due to an output bug, we need to "zip up" pairs in matches
 (setf zmatches (loop for i from 0 to (length matches)

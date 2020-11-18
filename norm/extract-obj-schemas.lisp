@@ -1,9 +1,11 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "output5.lisp")
-(load "real_util.lisp")
-(load "norm-el.lisp")
-(load "norm-matcher.lisp")
+(load "ll-load.lisp")
+
+(ll-load "output5.lisp")
+(ll-load "real_util.lisp")
+(ll-load "norm-el.lisp")
+(ll-load "norm-matcher.lisp")
 
 (setf nouns (remove-duplicates (flatten (loop for match in matches
 	collect (loop for rc in (section-formulas (get-section match ':Roles))
@@ -23,7 +25,7 @@
 
 (defun run (story)
 (block outer
-	(setf best-matches (top-k-story-matches story 30 (mapcar (lambda (x) (schema-pred x)) gen-matches) 3 nil 1))
+	(setf best-matches (top-k-el-story-matches story 30 (mapcar (lambda (x) (schema-pred x)) gen-matches) 3 1 nil))
 	(loop for match in best-matches
 		do (block pm
 			(format t "~s:~%" (second match))
@@ -31,7 +33,7 @@
 		)
 	)
 	
-	; (setf best-match (caar (top-k-story-matches story 30 (mapcar (lambda (x) (schema-pred x)) gen-matches) 5 nil 1)))
+	; (setf best-match (caar (top-k-el-story-matches story 30 (mapcar (lambda (x) (schema-pred x)) gen-matches) 5 1 nil)))
 	(setf best-match (caar best-matches))
 	; (format t "~s~%" best-match)
 	(print-schema best-match)

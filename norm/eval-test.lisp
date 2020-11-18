@@ -1,5 +1,7 @@
-(load "coref.lisp")
-(load "norm-schema-util.lisp")
+(load "ll-load.lisp")
+
+(ll-load "coref.lisp")
+(ll-load "norm-schema-util.lisp")
 
 (defparameter *KB-EXPLICIT* (make-hash-table :test #'equal))                   
 (defparameter *KB-ARG-IND* (make-hash-table :test #'equal))                    

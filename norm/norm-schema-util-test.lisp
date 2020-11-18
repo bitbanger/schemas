@@ -1,10 +1,12 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "norm-schema-util.lisp")
-(load "norm-protoschemas.lisp")
-(load "norm-stories.lisp")
-(load "norm-unify.lisp")
-(load "norm-matcher.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-schema-util.lisp")
+(ll-load "norm-protoschemas.lisp")
+(ll-load "norm-stories.lisp")
+(ll-load "norm-unify.lisp")
+(ll-load "norm-matcher.lisp")
 
 
 ; (format t "~s~%" (shared-vars do_action_for_pleasure.v do_action_to_enable_action.v))

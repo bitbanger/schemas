@@ -3,8 +3,10 @@
 (if (not (boundp 'AIA-MATS-LOADED))
 	(progn (load "load-mats.lisp") (setf AIA-MATS-LOADED t)))
 
-(load "real_util.lisp")
-(load "norm-el.lisp")
+(load "ll-load.lisp")
+
+(ll-load "real_util.lisp")
+(ll-load "norm-el.lisp")
 
 (initialize-allen-arrays)
 

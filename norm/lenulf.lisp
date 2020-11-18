@@ -2,18 +2,20 @@
 ;; If repair rules pre-existing from "elf-from-sentences" are added, 
 ;; ttt and ttt rule files will have to be added from there as well.
 
-; (load "package.lisp")
-(load "init1.lisp")
-(load "english-to-ulf.lisp")
-(load "el_parse.lisp")
-(load "parse-tree-to-ulf.lisp")
-(load "preprocess-tree-for-ulf.lisp")
-(load "pos+word-to-ulf.lisp")        
-(load "preprocessing-rules.lisp")   
-(load "real_util.lisp")
-(load "stem.lisp")
-(load "tt.lisp")
-(load "postprocess-ulf-tree.lisp")
+; (ll-load "package.lisp")
+(load "ll-load.lisp")
+
+(ll-load "init1.lisp")
+(ll-load "english-to-ulf.lisp")
+(ll-load "el_parse.lisp")
+(ll-load "parse-tree-to-ulf.lisp")
+(ll-load "preprocess-tree-for-ulf.lisp")
+(ll-load "pos+word-to-ulf.lisp")        
+(ll-load "preprocessing-rules.lisp")   
+(ll-load "real_util.lisp")
+(ll-load "stem.lisp")
+(ll-load "tt.lisp")
+(ll-load "postprocess-ulf-tree.lisp")
 
 (defun trace-main () 
   (trace simple-tree pos+word-to-raw-ulf aux-inflection 
@@ -154,7 +156,7 @@
 (format t "~%NB: (trace-main) can be used for high-level tracing")
 (format t "~%    (trace-rules) can be used for tracing preprocessing")
 
-; (load "test...pos+word-to-ulf.lisp")
+; (ll-load "test...pos+word-to-ulf.lisp")
 
 (setq *show-stages* t)
 

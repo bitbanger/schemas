@@ -1,5 +1,7 @@
-; (load "compile-mats.lisp")
-(load "load-mats.lisp")
+; (ll-load "compile-mats.lisp")
+(load "ll-load.lisp")
+
+(ll-load "load-mats.lisp")
 
 (initialize-allen-arrays)
 (clear)

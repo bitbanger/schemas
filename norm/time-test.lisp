@@ -1,6 +1,8 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "norm-time.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-time.lisp")
 
 (defparameter *RELS* '(
 	(?A BEFORE ?B)

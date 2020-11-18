@@ -1,10 +1,12 @@
 ; norm-match.lisp contains functions for matching one
 ; specific story to one specific schema.
 
-(load "norm-schema-util.lisp")
-(load "coref.lisp")
-(load "norm-el.lisp")
-(load "ll-cache.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-schema-util.lisp")
+(ll-load "coref.lisp")
+(ll-load "norm-el.lisp")
+(ll-load "ll-cache.lisp")
 
 ; Match outline:
 ;	- first, modify schema syntax to have char formulas AND * formulas for ?eNs
@@ -314,6 +316,9 @@
 	))
 
 	; (format t "also considering subschemas ~s~%" subschemas)
+
+	; TODO: consider subschemas in Goals, preconds, etc. as well
+	; TODO: subschemas embedded in propositions? intensions, different polarities, etc.?
 
 	; The parent schema has its bindings applied already, so any expanded schema
 	; bindings don't need to have the parent bindings applied.
@@ -903,4 +908,165 @@
 (defun best-story-schema-match (story schema num_shuffles generalize)
 	(car (top-k-story-schema-matches story schema num_shuffles generalize 1))
 )
+
+(defun top-k-story-schema-matches (story schema num_shuffles generalize k)
+(let (best-bindings best-score)
+(block outer
+	; (dbg 'match "matching to schema ~s~%" schema)
+	(setf best-score '(0 0))
+	(setf best-match nil)
+	(setf best-bindings nil)
+
+	(setf all-matches (list))
+
+	(setf linear-story (linearize-story story))
+
+	(loop for i from 1 to num_shuffles do (block shuffle-block
+		(if (equal 0 (mod i 10))
+			; then
+			(progn
+				(dbg 'shuffle-match "~s / ~s~%" i num_shuffles)
+				(dbg 'shuffle-match "	best score is ~s~%" best-score)
+			)
+		)
+			
+		(setf cur-match-triple (match-story-to-schema linear-story schema nil))
+		; (format t "got triple ~s~%" cur-match-triple)
+		(setf cur-match (car cur-match-triple))
+		(setf cur-bindings (second cur-match-triple))
+		(setf bound-header (third cur-match-triple))
+
+		
+		;(print-schema cur-match)
+		
+		;(setf score-pair (check-temporal-constraints cur-match))
+		; (format t "score: ~s~%" score)
+		; (setf score (- (car score-pair) (second score-pair)))
+
+		; Always take one with fewer inconsistencies, but break ties with
+		; number of explicit consistencies.
+		;(setf invalid-score (second score-pair))
+		; (format t "tick~%")
+		; (format t "invalid temporal score: ~s~%" score-pair)
+		; (format t "~s~%" (get-section cur-match ':Episode-relations))
+
+		; Added constraints shouldn't count toward our score, because we know
+		; they'll be satisfied.
+		(setf cur-match-old-constrs (copy-list cur-match))
+		(loop for sec in (nonmeta-sections cur-match)
+			do (block prune
+				(if (> (length sec) (length (get-section schema (car sec))))
+					; then
+					(progn
+					(setf new-sec (copy-list sec))
+					(setf new-sec (subseq new-sec 0 (length (get-section schema (car sec)))))
+					; (format t "ref schema is:~%")
+					; (print-schema schema)
+					; (format t "cut sec ~s down to new sec ~s~%" sec new-sec)
+
+					; If the old section was null, then we can just remove it.
+					; Otherwise, replace it with the truncated version.
+					(if (null (get-section schema (car sec)))
+						; then
+						(setf cur-match-old-constrs (remove sec cur-match-old-constrs :test #'equal))
+						; else
+						(setf cur-match-old-constrs (replace-vals sec new-sec cur-match-old-constrs))
+					)
+					)
+				)
+			)
+		)
+
+		; (format t "checking old constrs in cur match:~%")
+		; (print-schema cur-match-old-constrs)
+
+		(setf score-pair (check-constraints cur-match-old-constrs story))
+		; A null score indicates that a constraint with necessity
+		; 1 was broken, and that the match is invalid by definition.
+		(if (null score-pair)
+			(return-from shuffle-block)
+		)
+		; (format t "score pair is ~s~%" score-pair)
+
+		
+		(if (null (member (list score-pair cur-match cur-bindings bound-header) all-matches :test (lambda (a b) (ht-eq (third a) (third b)))))
+			; then
+			(setf all-matches (append all-matches (list (list score-pair cur-match cur-bindings bound-header))))
+		)
+
+		; (format t "made it here 0~%")
+
+
+		(setf valid-score (car score-pair))
+		; (format t "made it here 0.1~%")
+		(setf invalid-score (second score-pair))
+		; (format t "made it here 0.2~%")
+		; (format t "best score is ~s~%" best-score)
+		(setf better-than-best (< invalid-score (second best-score)))
+		; (format t "made it here 0.3~%")
+		(if (and (equal invalid-score (second best-score))
+			 (> valid-score (car best-score)))
+			; then
+			(setf better-than-best t)
+		)
+
+		; (format t "made it here 1~%")
+
+		; (if better-than-best (format t "BEST~%"))
+	
+		(if (or
+				(null best-match)
+				better-than-best
+				bound-header
+			)
+			; then
+			(progn
+				; (format t "setting best-score to pair ~s~%" score-pair)
+				(setf best-score score-pair)
+				(setf best-match cur-match)
+				(setf best-bindings cur-bindings)
+				(if bound-header
+					(return-from shuffle-block)
+				)
+			)
+		)
+	
+		(setf linear-story (shuffle linear-story))
+	))
+
+	; (format t "made it here 2~%")
+
+	(setf sorted-matches (sort all-matches
+		(lambda (a b)
+		(block lb
+			(setf a-valid (car (car a)))
+			(setf a-invalid (second (car a)))
+			(setf a-bound-header (fourth a))
+			(setf b-valid (car (car b)))
+			(setf b-invalid (second (car b)))
+			(setf b-bound-header (fourth b))
+
+			(if (and a-bound-header (not b-bound-header)) (return-from lb t))
+			(if (and b-bound-header (not a-bound-header)) (return-from lb nil))
+
+			;(setf a-better (< a-invalid b-invalid))
+			;(if (and (equal a-invalid b-invalid) (> a-valid b-valid))
+			;	(setf a-better t)
+			;)
+			(setf a-better (> (- a-valid a-invalid) (- b-valid b-invalid)))
+
+			(return-from lb a-better)
+		)
+		)
+	))
+	; (format t "sorted matches are ~s~%" (loop for x in sorted-matches collect (list (car x) (second x) (ht-to-str (third x)) (fourth x))))
+
+	; (format t "return val is ~s~%" (mapcar (lambda (x) (subseq x 0 3)) (subseq-safe sorted-matches 0 k)))
+
+	; (return-from outer (list best-score best-match best-bindings))
+	(return-from outer (mapcar (lambda (x) (subseq x 0 3)) (subseq-safe sorted-matches 0 k)))
+)
+)
+)
+
 

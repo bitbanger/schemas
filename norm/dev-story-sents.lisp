@@ -1,4 +1,6 @@
-(load "schema-parser.lisp")
+(load "ll-load.lisp")
+
+(ll-load "schema-parser.lisp")
 
 (defparameter *DEV-STORY-SENTS* '(("I can see a swan." "A swan can swim well." "She lays eggs in her nest."
   "She is a white swan.")

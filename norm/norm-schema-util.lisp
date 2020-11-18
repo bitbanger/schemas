@@ -1,11 +1,13 @@
-(load "ttt/src/load")
-(load "norm-el.lisp")
-(load "real_util.lisp")
-; (load "coref.lisp")
-(load "norm-kb.lisp")
-(load "norm-subsumption.lisp")
-(load "norm-time.lisp")
-(load "ll-cache.lisp")
+(load "ll-load.lisp")
+
+(ll-load "ttt/src/load")
+(ll-load "norm-el.lisp")
+(ll-load "real_util.lisp")
+; (ll-load "coref.lisp")
+(ll-load "norm-kb.lisp")
+(ll-load "norm-subsumption.lisp")
+(ll-load "norm-time.lisp")
+(ll-load "ll-cache.lisp")
 
 (defparameter *BLANK-SCHEMA*
 	'(epi-schema ((?x blank.v) ** ?E) (:Roles))
@@ -766,6 +768,8 @@
 (block outer
 	(setf gen-cursor "?X_A")
 	(setf gen-schema in-schema)
+
+	; NOTE: when we create the generalization, we need to map the constants to the new variable names to create an updated binding list for the new schema. That way, subordinate constraints not in the header can be properly specified with the new variable names. Not an issue for monkey example #1.
 	(setf gen-map (make-hash-table :test #'equal))
 
 	; don't take any variables scoped by lambdas; we'll replace

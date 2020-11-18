@@ -1,7 +1,9 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "norm-matcher.lisp")
-(load "norm-protoschemas.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-matcher.lisp")
+(ll-load "norm-protoschemas.lisp")
 
 (defparameter nest_schema.v
 	'(epi-schema ((?xp nest_schema.v ?yp) ** ?e)

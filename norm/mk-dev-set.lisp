@@ -1,5 +1,7 @@
-(load "firstreaders.lisp")
-(load "real_util.lisp")
+(load "ll-load.lisp")
+
+(ll-load "firstreaders.lisp")
+(ll-load "real_util.lisp")
 
 (setf *random-state* (make-random-state t))
 

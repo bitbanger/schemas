@@ -1,6 +1,8 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "norm-el.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-el.lisp")
 
 (defun test-types (phi want)
 (let (got)

@@ -1,5 +1,7 @@
-(load "norm-stories.lisp")
-(load "coref.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-stories.lisp")
+(ll-load "coref.lisp")
 
 
 ; print all term constraints

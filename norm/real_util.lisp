@@ -1,5 +1,7 @@
-(load "ttt/src/load")
-(load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
+(load "ll-load.lisp")
+
+(ll-load "ttt/src/load")
+(ll-load "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
 (defparameter *DBG-TAGS* (list
 	; put debug tags you want here

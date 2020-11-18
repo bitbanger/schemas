@@ -5,7 +5,9 @@
 	(quit)
 )
 
-(load "schema-parser.lisp")
+(load "ll-load.lisp")
+
+(ll-load "schema-parser.lisp")
 
 (format t "~s~%"
 	(parse-story (cdr sb-ext:*posix-argv*))

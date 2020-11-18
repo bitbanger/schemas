@@ -1,10 +1,12 @@
-(load "real_util.lisp")
-(load "norm-stories.lisp")
-(load "norm-el.lisp")
-(load "norm-unify.lisp")
-(load "parse.lisp")
-(load "norm-time.lisp")
-(load "norm-kb.lisp")
+(load "ll-load.lisp")
+
+(ll-load "real_util.lisp")
+(ll-load "norm-stories.lisp")
+(ll-load "norm-el.lisp")
+(ll-load "norm-unify.lisp")
+(ll-load "parse.lisp")
+(ll-load "norm-time.lisp")
+(ll-load "norm-kb.lisp")
 
 (defparameter *BLANK-SCHEMA*
 	'(epi-schema ((?x blank.v) ** ?E) (:Roles))
@@ -247,6 +249,7 @@
 					HE.PRO
 					SHE.PRO
 					I.PRO
+					ME.PRO
 					YOU.PRO
 				) :test #'equal)
 			))

@@ -1,6 +1,8 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "norm-unify.lisp")
+(load "ll-load.lisp")
+
+(ll-load "norm-unify.lisp")
 
 (defun test-unify (fn schema story bindings want-bindings)
 (let (got-bindings)

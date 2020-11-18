@@ -1,4 +1,6 @@
-(load "dev-story-sents.lisp")
+(load "ll-load.lisp")
+
+(ll-load "dev-story-sents.lisp")
 
 (defparameter *OTHER-SENTS* '(
 ("Tom used to have his own boat."

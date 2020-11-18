@@ -235,6 +235,17 @@
 		(_*1 !2 + _*3)
 	)
 
+	; Turn parallel kind and PP arguments inside PP
+	; phrases into a valid, conjunctive construction,
+	; e.g.,
+	; (in.p ((k front.n) (of.p billy.name)))
+	; becomes
+	; (in.p (k (l x (and (x front.n) (x (of.p billy.name))))))
+	(/
+		((!1 lex-p?) ((K (!2 canon-pred?)) (!3 canon-prep?)))
+		(!1 (K (lambdify-preds! (!2 !3))))
+	)
+
 	; Strip unnecessary parens from predicates.
 	(/
 		((!1 canon-pred?))
@@ -1131,6 +1142,7 @@
 	THE.DET
 	THE_INV.DET
 	THAT.D
+	THIS.D
 ))
 
 ; probably-pred identifies things that

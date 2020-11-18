@@ -4,7 +4,7 @@
 (load "norm-protoschemas.lisp")
 (load "norm-stories.lisp")
 (load "norm-unify.lisp")
-(load "norm-match.lisp")
+(load "norm-matcher.lisp")
 
 
 ; (format t "~s~%" (shared-vars do_action_for_pleasure.v do_action_to_enable_action.v))

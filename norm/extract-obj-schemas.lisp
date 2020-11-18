@@ -3,7 +3,7 @@
 (load "output5.lisp")
 (load "real_util.lisp")
 (load "norm-el.lisp")
-(load "norm-match.lisp")
+(load "norm-matcher.lisp")
 
 (setf nouns (remove-duplicates (flatten (loop for match in matches
 	collect (loop for rc in (section-formulas (get-section match ':Roles))

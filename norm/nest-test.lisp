@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "norm-match.lisp")
+(load "norm-matcher.lisp")
 (load "norm-protoschemas.lisp")
 
 (defparameter nest_schema.v

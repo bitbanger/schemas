@@ -8,7 +8,7 @@
 (load "norm-protoschemas.lisp")
 (load "norm-stories.lisp")
 (load "norm-unify.lisp")
-(load "norm-match.lisp")
+(load "norm-matcher.lisp")
 (load "real_util.lisp")
 (load "norm-time.lisp")
 (load "parsed-stories.lisp")

@@ -5,17 +5,17 @@
 ; (ll-load "package.lisp")
 (load "ll-load.lisp")
 
-(ll-load "init1.lisp")
-(ll-load "english-to-ulf.lisp")
-(ll-load "el_parse.lisp")
-(ll-load "parse-tree-to-ulf.lisp")
-(ll-load "preprocess-tree-for-ulf.lisp")
-(ll-load "pos+word-to-ulf.lisp")        
-(ll-load "preprocessing-rules.lisp")   
+(ll-load-subdir "el_parse" "init1.lisp")
+(ll-load-subdir "el_parse" "english-to-ulf.lisp")
+(ll-load-subdir "el_parse" "parse-tree-to-ulf.lisp")
+(ll-load-subdir "el_parse" "preprocess-tree-for-ulf.lisp")
+(ll-load-subdir "el_parse" "pos+word-to-ulf.lisp")        
+(ll-load-subdir "el_parse" "preprocessing-rules.lisp")   
+(ll-load-subdir "el_parse" "stem.lisp")
+(ll-load-subdir "el_parse" "tt.lisp")
+(ll-load-subdir "el_parse" "postprocess-ulf-tree.lisp")
+
 (ll-load "real_util.lisp")
-(ll-load "stem.lisp")
-(ll-load "tt.lisp")
-(ll-load "postprocess-ulf-tree.lisp")
 
 (defun trace-main () 
   (trace simple-tree pos+word-to-raw-ulf aux-inflection 

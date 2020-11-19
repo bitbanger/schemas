@@ -7,6 +7,7 @@
 (ll-load "schema-parser.lisp")
 (ll-load "norm-link.lisp")
 (ll-load "norm-match.lisp")
+(ll-load "norm-protoschemas.lisp")
 
 ; top-k-el-story-matches uses a heuristic to retrieve the
 ; K best schema candidates for an EL story, and then returns
@@ -118,3 +119,6 @@
 )
 )
 
+(defun top-story-matches-easy (story)
+	(top-k-story-matches story *PROTOSCHEMAS* 30 3 3 nil nil)
+)

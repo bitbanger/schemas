@@ -1,7 +1,6 @@
 (load "ll-load.lisp")
 
 (ll-load "real_util.lisp")
-(ll-load "norm-stories.lisp")
 (ll-load "norm-el.lisp")
 (ll-load "norm-unify.lisp")
 (ll-load "parse.lisp")
@@ -40,7 +39,6 @@
 (defparameter *KB* (list *KB-EXPLICIT* *KB-ARG-IND* *KB-PRED-IND*))
 
 ; (defparameter *STORY* *FLOWER-STORY*)
-(defparameter *STORY* *MONKEY-STORY*)
 
 ; Determine whether a term needs coreference
 (defun coref? (term kb)

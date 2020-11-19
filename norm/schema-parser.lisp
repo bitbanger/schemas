@@ -7,7 +7,7 @@
 (ll-load "real_util.lisp")
 (ll-load "parse.lisp")
 (ll-load "norm-el.lisp")
-(ll-load "norm-coref.lisp")
+(ll-load-subdir "allen-coref" "norm-coref.lisp")
 
 (defparameter *KA-ARG-VERBS* '(
 	WANT.V

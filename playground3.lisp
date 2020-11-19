@@ -6,7 +6,7 @@
 
 (load "ll-load.lisp")
 
-(ll-load "schema-schema-util.lisp")
+(ll-load "schema-util.lisp")
 (ll-load "schema-protoschemas.lisp")
 (ll-load "schema-stories.lisp")
 (ll-load "schema-unify.lisp")

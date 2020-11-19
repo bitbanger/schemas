@@ -3,7 +3,7 @@
 
 (load "ll-load.lisp")
 
-(ll-load "schema-schema-util.lisp")
+(ll-load "schema-util.lisp")
 (ll-load "coref.lisp")
 (ll-load "schema-el.lisp")
 (ll-load "ll-cache.lisp")

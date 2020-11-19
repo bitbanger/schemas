@@ -2,7 +2,7 @@
 
 (ll-load "schema-el.lisp")
 (ll-load "schema-subsumption.lisp")
-(ll-load "schema-schema-util.lisp")
+(ll-load "schema-util.lisp")
 
 (defun bind-if-unbound (key val bindings)
 (block outer

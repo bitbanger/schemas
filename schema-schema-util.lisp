@@ -1,12 +1,12 @@
 (load "ll-load.lisp")
 
 (ll-load "ttt/src/load")
-(ll-load "norm-el.lisp")
+(ll-load "schema-el.lisp")
 (ll-load "real_util.lisp")
 ; (ll-load "coref.lisp")
-(ll-load "norm-kb.lisp")
-(ll-load "norm-subsumption.lisp")
-(ll-load "norm-time.lisp")
+(ll-load "schema-kb.lisp")
+(ll-load "schema-subsumption.lisp")
+(ll-load "schema-time.lisp")
 (ll-load "ll-cache.lisp")
 
 (defparameter *BLANK-SCHEMA*

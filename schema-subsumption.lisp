@@ -1,7 +1,7 @@
 (load "ll-load.lisp")
 
 (ll-load "parse.lisp")
-(ll-load "norm-el.lisp")
+(ll-load "schema-el.lisp")
 (ll-load "real_util.lisp")
 (ll-load-subdir "wordnet" "trial-wn.lisp")
 

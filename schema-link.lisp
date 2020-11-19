@@ -1,7 +1,7 @@
 (load "ll-load.lisp")
 
-(ll-load "norm-schema-util.lisp")
-(ll-load "norm-unify.lisp")
+(ll-load "schema-schema-util.lisp")
+(ll-load "schema-unify.lisp")
 
 ; norm-link.lisp contains functions to link schemas together by their
 ; pre- and post-conditions.

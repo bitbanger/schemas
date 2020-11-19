@@ -1,11 +1,11 @@
 (load "ll-load.lisp")
 
 (ll-load "real_util.lisp")
-(ll-load "norm-el.lisp")
-(ll-load "norm-unify.lisp")
+(ll-load "schema-el.lisp")
+(ll-load "schema-unify.lisp")
 (ll-load "parse.lisp")
-(ll-load "norm-time.lisp")
-(ll-load "norm-kb.lisp")
+(ll-load "schema-time.lisp")
+(ll-load "schema-kb.lisp")
 
 (defparameter *BLANK-SCHEMA*
 	'(epi-schema ((?x blank.v) ** ?E) (:Roles))

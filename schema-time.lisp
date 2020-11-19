@@ -6,7 +6,7 @@
 (load "ll-load.lisp")
 
 (ll-load "real_util.lisp")
-(ll-load "norm-el.lisp")
+(ll-load "schema-el.lisp")
 
 (initialize-allen-arrays)
 

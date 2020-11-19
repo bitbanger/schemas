@@ -3,9 +3,9 @@
 
 (load "ll-load.lisp")
 
-(ll-load "norm-schema-util.lisp")
+(ll-load "schema-schema-util.lisp")
 (ll-load "coref.lisp")
-(ll-load "norm-el.lisp")
+(ll-load "schema-el.lisp")
 (ll-load "ll-cache.lisp")
 
 ; Match outline:

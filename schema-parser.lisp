@@ -6,7 +6,7 @@
 (ll-load-subdir "el_parse" "init1.lisp")
 (ll-load "real_util.lisp")
 (ll-load "parse.lisp")
-(ll-load "norm-el.lisp")
+(ll-load "schema-el.lisp")
 (ll-load-subdir "allen-coref" "norm-coref.lisp")
 
 (defparameter *KA-ARG-VERBS* '(

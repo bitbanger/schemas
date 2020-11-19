@@ -1,8 +1,8 @@
 (load "ll-load.lisp")
 
-(ll-load "norm-el.lisp")
-(ll-load "norm-subsumption.lisp")
-(ll-load "norm-schema-util.lisp")
+(ll-load "schema-el.lisp")
+(ll-load "schema-subsumption.lisp")
+(ll-load "schema-schema-util.lisp")
 
 (defun bind-if-unbound (key val bindings)
 (block outer

@@ -1,6 +1,6 @@
 (load "ll-load.lisp")
 
-(ll-load "norm-el.lisp")
+(ll-load "schema-el.lisp")
 
 (defun kb-explicit (kb)
 	(car kb)

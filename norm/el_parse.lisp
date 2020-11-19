@@ -5,9 +5,9 @@
 ;; Example:
 ;; (parse "This is a test.")
 
-(load "ll-load.lisp")
+; (load "ll-load.lisp")
 
-(ll-load "real_util.lisp")
+; (ll-load "real_util.lisp")
 
 ; (defparameter *parser* "/p/nl/tools/bllip-parser/first-stage/PARSE/parseIt")
 (defparameter *parser* "/Users/l/Code/bllip-parser/first-stage/PARSE/parseIt")

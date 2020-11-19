@@ -22,12 +22,7 @@
 
 (defun ll-load-subdir (subdir filename)
 	(progn
-	; (format t "default is ~s~%" *default-pathname-defaults*)
-	; (let ((*default-pathname-defaults* (merge-pathnames *default-pathname-defaults* (format nil "~a/" subdir))))
-	(let* (
-		(dpd *default-pathname-defaults*)
-		(new-dpd (pathname (format nil "~a/" (merge-pathnames dpd subdir))))
-		)
+	(let ((*default-pathname-defaults* (pathname (format nil "~a/" (merge-pathnames *default-pathname-defaults* subdir)))))
 		(if (gethash filename *LL-LOADED*)
 			; then
 			(progn
@@ -35,10 +30,8 @@
 			)
 			; else
 			(progn
-				(setf *default-pathname-defaults* new-dpd)
-				; (format t "loading ~s from ~s~%" filename *default-pathname-defaults*)
+				; (format t "loading ~s~%" filename)
 				(load filename)
-				(setf *default-pathname-defaults* dpd)
 				(setf (gethash filename *LL-LOADED*) t)
 			)
 		)

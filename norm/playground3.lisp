@@ -17,8 +17,6 @@
 (ll-load "dev-frs.lisp")
 (ll-load "monkey-processed.lisp")
 (ll-load "norm-link.lisp")
-(ll-load "dev-story-sents.lisp")
-(ll-load "simple_stories.lisp")
 (ll-load "schema-parser.lisp")
 (ll-load "roc-mcguffey-stories.lisp")
 

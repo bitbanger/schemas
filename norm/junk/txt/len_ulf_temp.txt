@@ -1,0 +1,305 @@
+
+# I've inserted ULF parses based on my new approach. I applied the BLLIP
+# parser, and then the tree-to-ULF converter. Note that the ULF derivation
+# attaches word indices (with a '~') to the ULF atoms.  -Len
+
+"Tom used to have his own boat."
+(TOM.NAME
+ ((SOME E0 (E0 BEFORE NOW0) (USE.V ** E0))
+  (KA
+   (PRED577.VP (L P (L X (SOME E1 (E1 IMPINGES-ON NIL) ((X P) ** E1))))
+    (:Q THE (L X ((X (OWN.A BOAT.N)) AND (X PERTAIN-TO TOM.NAME))))))))
+
+#ULF
+(TOM~1
+ ((PAST USE.V~2) (TO~3 (HAVE.V~4 (HIS.PRO~5 (OWN.A~6 BOAT.N~7))))) \.)
+
+
+"He had to sell it."
+(E4.SK BEFORE NOW1)
+
+(E0 ORIENTS E4.SK)
+
+((HE.PRO
+  (PRED579.VP (L P (L X (SOME E3 (E3 IMPINGES-ON E4.SK) ((X P) ** E3))))
+   (KA (SELL.V IT.PRO))))
+ ** E4.SK)
+
+#ULF
+(HE.PRO~1 (HAD.AUX~2 (TO~3 (SELL.V~4 IT.PRO~5))) \.)
+
+
+"Now he just comes out on my boat."
+(HE.PRO
+ (NOW.ADV
+  (JUST.ADV
+   ((SOME E4 (E4 AT-ABOUT NOW2) (COME_OUT.V ** E4))
+    (:R (ON.P (:Q THE (L X ((X BOAT.N) AND (X PERTAIN-TO ME.PRO))))))))))
+
+#ULF
+(NOW.ADV~1 HE.PRO~2 JUST.ADV~3
+ ((PRES COME.V~4) OUT.PRT~5 (ON.P~6 (MY.PRO~7 BOAT.N~8))) \.)
+
+
+"We have such a great time together."
+(WE.PRO (SOME E5 ((E5 AT-ABOUT NOW3) AND (E4 ORIENTS E5)) (HAVE.V ** E5))
+ (TERM582.NP SUCH.PDET (L P (:Q A.DET P)) GREAT.A TIME.N TOGETHER.ADV))
+
+#ULF -- not so good: the BLLIP parse is
+  (S1
+   (S (NP (PRP WE))
+    (VP (AUX HAVE)
+     (NP (PDT SUCH) (DT A) (JJ GREAT) (NN TIME) (RB TOGETHER)))
+    (\. \.)))
+  which gives
+  (WE.PRO~1
+    (HAVE.AUX~2
+     (SUCH.D~3 A.D~4 (GREAT.A~5 (N+PREDS TIME.N~7 TOGETHER.ADV~8))))
+    \.)                      ; NB:^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+"Now I have someone to help me clean my boat."
+(ME.PRO
+ (NOW.ADV
+  ((SOME E6 ((E6 AT-ABOUT NOW4) AND (E5 ORIENTS E6)) (HAVE.V ** E6))
+   (:Q SOME
+    (:O AND (L X (X = (K SOMEONE.N)))
+     (PRED585.S-REL
+      (KA
+       (PRED584.VP HELP.V
+        (ME.PRO CLEAN.V
+         (:Q THE (L X ((X BOAT.N) AND (X PERTAIN-TO ME.PRO)))))))))))))
+
+#ULF
+(NOW.ADV~1 I.PRO~2
+ (HAVE.AUX~3
+  (SOME.D~4
+   (N+PRED PERSON.N~6
+ ; ^^^^^^^^^^^^^^^^^^^^^^^^^^comes from "to help clean..." as NP postmodifier
+    (TO~7 (HELP.V~8 (ME.PRO~9 (CLEAN.V~10 (MY.PRO~11 BOAT.N~12))))))))
+ \.)                        ; ^^^^^^^^^^^^^^^^^^^^^^^^^ should be (KA ...)
+
+"Today we were playing outside."
+(E8.SK BEFORE NOW5)
+
+(E2 ORIENTS E8.SK)
+
+((PROG (WE.PRO ((MODIF587.ADVP OUTSIDE.P) PLAY.V))) ** E8.SK)
+
+#ULF
+((K TODAY.N~2) WE.PRO~3 (WERE.AUX~4 ((PROG PLAY.V~5) OUTSIDE.ADV~6)) \.)
+;^^^comes from pre-subject NP-analysis of "Today" (should be ADVP)
+
+"We saw a lot of dark clouds in the sky."
+(WE.PRO (SOME E8 ((E8 BEFORE NOW6) AND (E7 ORIENTS E8)) (SEE.V ** E8))
+ (:Q A.DET (L X ((X LOT.N) AND (X OF.P (K (DARK.A (PLUR CLOUD.N)))))))
+ (:R (IN.P (:Q THE SKY.N))))
+
+#ULF
+(WE.PRO~1
+ ((PAST SEE.V~2)
+  (A.D~3 (N+PRED LOT.N~5 (OF.P~6 (K (DARK.A~8 (PLUR CLOUD.N~9))))))
+  (IN.P~10 (THE.D~11 SKY.N~12)))
+ \.)
+
+
+"It looked like a storm was coming."
+(E11.SK BEFORE NOW7)
+
+(E8 ORIENTS E11.SK)
+
+((IT.PRO
+  (PRED591.VP LOOK.V
+   (S-LIKE590.S-LIKE (L Y (L X (X LIKE.P (L Z (Z = Y)))))
+    (SOME E10 (E10 AT-OR-BEFORE NOW7)
+          ((PROG ((:Q A.DET STORM.N) COME.V)) ** E10)))))
+ ** E11.SK)
+
+#ULF
+(IT.PRO~1
+ ((PAST LOOK.V~2)
+  (LIKE.P~3 ((A.D~4 STORM.N~5) (WAS.AUX~6 (PROG COME.V~7)))))
+ \.)                          ; ^^^^^^^ comes from (AUX was) -- need (AUXD was)
+
+
+"We had to go inside to be safe."
+(E13.SK BEFORE NOW8)
+
+(E9 ORIENTS E13.SK)
+
+((WE.PRO
+  (PRED593.VP
+   (L P
+    (L X
+     (SOME E12 ((E12 IMPINGES-ON E13.SK) AND (E3 ORIENTS E12))
+           ((X P) ** E12))))
+   (KA (INSIDE.ADV (GO.V (KA (BE.V SAFE.A)))))))
+ ** E13.SK)
+
+#ULF
+(WE.PRO~1
+ (HAD.AUX~2 (TO~3 (GO.V~4 INSIDE.ADV~5 (TO~6 (BE.AUX~7 SAFE.A~8))))) \.)
+
+
+"It didn't rain after all, so we went back outside!"
+((NOT
+  (SOME E13 ((E13 BEFORE NOW9) AND (E11 ORIENTS E13))
+        ((IT.PRO RAIN.V (:R (AFTER.P (:Q ALL PRED?.N)))) ** E13)))
+ SO.CC
+ (SOME E14 ((E14 BEFORE NOW9) AND (E13 ORIENTS E14))
+       ((WE.PRO (BACK.ADV (OUTSIDE.ADV GO.V))) ** E14)))
+
+#ULF
+((IT.PRO~1 (DID.AUX~2 |N'T.ADV~3| (RAIN.V~4 (AFTER.P~5 ALL.D~6)))) |,|
+ SO.CC~7 (WE.PRO~8 ((PAST GO.V~9) BACK.ADV~10 OUTSIDE.ADV~11)) !)
+
+
+"Today I saw a baby bird."
+(ME.PRO
+ ((MODIF596.ADVP TODAY.N)
+  ((SOME E15 ((E15 BEFORE NOW10) AND (E14 ORIENTS E15)) (SEE.V ** E15))
+   (:Q A.DET ((NN BABY.N) BIRD.N)))))
+
+#ULF
+(TODAY.ADV~1 I.PRO~2 ((PAST SEE.V~3) (A.D~4 (BABY.N~5 BIRD.N~6))) \.)
+
+
+"The bird was in a tree."
+(E17.SK SAME-TIME NOW11)
+
+(E17.SK RIGHT-AFTER U10)
+
+(BIRD18.SK BIRD.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (BIRD18.SK
+    (SOME E16 ((E16 BEFORE NOW11) AND (E15 ORIENTS E16))
+          ((BE.V (IN.P (:Q A.DET TREE.N))) ** E16)))))
+ ** E17.SK)
+
+#ULF
+((THE.D~1 BIRD.N~2) (WAS.AUX~3 (IN.P~4 (A.D~5 TREE.N~6))) \.)
+
+"The mother bird was teaching the baby bird."
+(E19.SK BEFORE NOW12)
+
+(E16 ORIENTS E19.SK)
+
+((PROG ((:Q THE ((NN MOTHER.N) BIRD.N)) TEACH.V (:Q THE ((NN BABY.N) BIRD.N))))
+ ** E19.SK)
+
+#ULF
+((THE.D~1 (MOTHER.N~2 BIRD.N~3))
+ (WAS.AUX~4 ((PROG TEACH.V~5) (THE.D~6 (BABY.N~7 BIRD.N~8)))) \.)
+
+
+"She dropped the bird out of the nest."
+(E20.SK BEFORE NOW13)
+
+(E17 ORIENTS E20.SK)
+
+(BIRD21.SK BIRD.N)
+
+(NEST22.SK NEST.N)
+
+((SHE.PRO
+  (PRED601.VP DROP.V BIRD21.SK (PP-OUT600.PP-OUT OUT.P (OF.P NEST22.SK))))
+ ** E20.SK)
+
+#ULF
+(SHE.PRO~1
+ ((PAST DROP.V~2) (THE.D~3 BIRD.N~4)
+  (OUT.P~5 (OF.P~6 (THE.D~7 NEST.N~8))))
+ \.)
+
+
+"The baby bird flew away."
+(E23.SK BEFORE NOW14)
+
+(E18 ORIENTS E23.SK)
+
+(BIRD24.SK ((NN BABY.N) BIRD.N))
+
+((BIRD24.SK (AWAY.ADV FLY.V)) ** E23.SK)
+
+#ULF
+((THE.D~1 (BABY.N~2 BIRD.N~3)) ((PAST FLY.V~4) AWAY.ADV~5) \.)
+
+
+"The orange fell from the tree."
+(E25.SK SAME-TIME NOW15)
+
+(E25.SK RIGHT-AFTER U14)
+
+(ORANGE26.SK ORANGE.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (ORANGE26.SK
+    (SOME E20 ((E20 BEFORE NOW15) AND (E19 ORIENTS E20)) (FALL.V ** E20))
+    (:R (FROM.P (:Q THE TREE.N))))))
+ ** E25.SK)
+
+#ULF
+((THE.D~1 ORANGE.N~2) ((PAST FALL.V~3) (FROM.P~4 (THE.D~5 TREE.N~6)))
+ \.)
+
+
+"It hit a girl on the head."
+(IT.PRO (SOME E21 ((E21 BEFORE NOW16) AND (E20 ORIENTS E21)) (HIT.V ** E21))
+ (:Q A.DET GIRL.N) (:R (ON.P (:Q THE HEAD.N))))
+
+#ULF
+(IT.PRO~1 ((PAST HIT.V~2) (A.D~3 GIRL.N~4) (ON.P~5 (THE.D~6 HEAD.N~7)))
+ \.)
+
+
+"The girl looked up at the tree."
+(E27.SK SAME-TIME NOW17)
+
+(E27.SK RIGHT-AFTER U16)
+
+(GIRL28.SK GIRL.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (GIRL28.SK
+    (SOME E22 ((E22 BEFORE NOW17) AND (E21 ORIENTS E22)) (LOOK_UP.V ** E22))
+    (:R (AT.P (:Q THE TREE.N))))))
+ ** E27.SK)
+
+#ULF
+((THE.D~1 GIRL.N~2)
+ ((PAST LOOK.V~3) UP.PRT~4 (AT.P~5 (THE.D~6 TREE.N~7))) \.)
+
+
+"Another orange fell from the tree."
+(ANOTHER.DET X (X ORANGE.N)
+ (X (SOME E23 ((E23 BEFORE NOW18) AND (E22 ORIENTS E23)) (FALL.V ** E23))
+  (:R (FROM.P (:Q THE TREE.N)))))
+
+#ULF
+((ANOTHER.D~1 ORANGE.N~2)
+ ((PAST FALL.V~3) (FROM.P~4 (THE.D~5 TREE.N~6))) \.)
+
+
+"That orange broke her nose."
+(E29.SK SAME-TIME NOW19)
+
+(E29.SK RIGHT-AFTER U18)
+
+(ORANGE30.SK ORANGE.N)
+
+(ORANGE30.SK NEW-SALIENT-ENTITY*.N)
+
+((SPEAKER TELL.V HEARER
+  (THAT
+   (ORANGE30.SK
+    (SOME E24 ((E24 BEFORE NOW19) AND (E23 ORIENTS E24)) (BREAK.V ** E24))
+    (:Q THE (L X ((X NOSE.N) AND (X PERTAIN-TO SHE.PRO)))))))
+ ** E29.SK)
+
+#ULF
+((THAT.D~1 ORANGE.N~2) ((PAST BREAK.V~3) (HER.PRO~4 NOSE.N~5)) \.)
+
+

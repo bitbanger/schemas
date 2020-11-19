@@ -1,0 +1,2681 @@
+sentence: "We went to the town today."
+Machine-converted Len ULF fed to parser:
+(:I WE$0$.PRO
+ ((:F PAST GO$1$.V) (TO$2$.P (THE$3$.D TOWN$4$.N)) (:F K TODAY$5$.N)))
+EL conversion from parser:
+     ((WE.PRO (((ADV-A (TO.P TOWN6.SK)) GO.V) (K TODAY.N))) ** E7.SK)
+          "valid"
+     (E7.SK (BEFORE NOW0))
+          "valid"
+     (TOWN6.SK TOWN.N)
+          "valid"
+
+
+--------
+sentence: "It was too hot."
+Machine-converted Len ULF fed to parser:
+(:I IT$7$.PRO (WAS$8$.AUX (:F TOO$9$.ADV HOT$10$.A)))
+EL conversion from parser:
+     (IT.PRO (WAS.AUX (TOO.ADV HOT.A)))
+          "invalid"
+
+
+--------
+sentence: "It felt like a sauna."
+Machine-converted Len ULF fed to parser:
+(:I IT$12$.PRO ((:F PAST FEEL$13$.V) (LIKE$14$.P (A$15$.D SAUNA$16$.N))))
+EL conversion from parser:
+     ((IT.PRO ((ADV-A (LIKE.P SAUNA8.SK)) FEEL.V)) ** E9.SK)
+          "valid"
+     (E0 (ORIENTS E9.SK))
+          "valid"
+     (E9.SK (BEFORE NOW2))
+          "valid"
+     (SAUNA8.SK SAUNA.N)
+          "valid"
+
+
+--------
+sentence: "I couldn't stand it."
+Machine-converted Len ULF fed to parser:
+(I$18$.PRO ((:F PAST CAN.MD) |N'T$19$.ADV| (:P STAND$20$.V IT$21$.PRO)))
+EL conversion from parser:
+     ((I5.SK (CAN.MD (NOT (STAND.V IT.PRO)))) ** E4.SK)
+          "valid"
+     (E1 (ORIENTS E4.SK))
+          "valid"
+     (E4.SK (BEFORE NOW3))
+          "valid"
+
+
+--------
+sentence: "I had to sit down."
+Machine-converted Len ULF fed to parser:
+(:I I$23$.PRO (HAD$24$.AUX (TO (:P SIT$26$.V DOWN$27$.ADV))))
+EL conversion from parser:
+     (I.PRO (HAD.AUX (KA (DOWN.ADV SIT.V))))
+          "invalid"
+
+
+--------
+sentence: "Billy liked this girl."
+Machine-converted Len ULF fed to parser:
+(:I BILLY$0$.NAME ((:F PAST LIKE$1$.V) (THIS$2$.D GIRL$3$.N)))
+EL conversion from parser:
+     ((BILLY.NAME (LIKE.V (THIS.D GIRL.N))) ** OBJECT10.SK)
+          "invalid"
+     (E2 (ORIENTS OBJECT10.SK))
+          "valid"
+     (OBJECT10.SK (BEFORE NOW5))
+          "valid"
+
+
+--------
+sentence: "The girl sat in front of him."
+Machine-converted Len ULF fed to parser:
+((THE$5$.D GIRL$6$.N)
+ ((:F PAST SIT$7$.V) (IN$8$.P ((:F K FRONT$9$.N) (:P OF$10$.P HIM$11$.PRO)))))
+EL conversion from parser:
+     (GIRL22.SK GIRL.N)
+          "valid"
+     (OBJECT11.SK (BEFORE NOW6))
+          "valid"
+     (E3 (ORIENTS OBJECT11.SK))
+          "valid"
+     ((GIRL22.SK (SIT.V (IN.P ((K FRONT.N) (OF.P BILLY.NAME))))) ** OBJECT11.SK)
+          "invalid"
+
+
+--------
+sentence: "He played with her hair."
+Machine-converted Len ULF fed to parser:
+(HE$13$.PRO
+ ((:F PAST PLAY$14$.V)
+  (:P WITH$15$.P
+   (:Q THE.DET
+    (:L X (:I (:I X HAIR$17$.N) AND (:I X PERTAIN-TO SHE$16$.PRO)))))))
+EL conversion from parser:
+     (E15.SK (BEFORE NOW7))
+          "valid"
+     (E4 (ORIENTS E15.SK))
+          "valid"
+     (E12.SK (SAME-TIME NOW7))
+          "valid"
+     (E12.SK (RIGHT-AFTER U6))
+          "valid"
+     (HAIR13.SK HAIR.N)
+          "valid"
+     (HAIR13.SK (PERTAIN-TO SHE.PRO))
+          "valid"
+     ((BILLY.NAME ((ADV-A (WITH.P HAIR13.SK)) PLAY.V)) ** E12.SK)
+          "valid"
+     ((BILLY.NAME ((ADV-A (WITH.P HAIR13.SK)) PLAY.V)) ** E15.SK)
+          "valid"
+
+
+--------
+sentence: "She told him to stop."
+Machine-converted Len ULF fed to parser:
+(SHE$19$.PRO (:P (:F PAST TELL$20$.V) HIM$21$.PRO (TO STOP$23$.V)))
+EL conversion from parser:
+     (E17.SK (BEFORE NOW8))
+          "valid"
+     (E5 (ORIENTS E17.SK))
+          "valid"
+     ((SHE20.SK (TELL.V BILLY.NAME (KA STOP.V))) ** E17.SK)
+          "valid"
+
+
+--------
+sentence: "He stopped it."
+Machine-converted Len ULF fed to parser:
+(HE$25$.PRO (:P (:F PAST STOP$26$.V) IT$27$.PRO))
+EL conversion from parser:
+     (E19.SK (BEFORE NOW9))
+          "valid"
+     (E6 (ORIENTS E19.SK))
+          "valid"
+     ((BILLY.NAME (STOP.V IT21.SK)) ** E19.SK)
+          "valid"
+
+
+--------
+sentence: "It turned out to be a fox."
+Machine-converted Len ULF fed to parser:
+(IT$0$.PRO ((:F PAST TURN$1$.V) OUT$2$.PRT (TO (BE$4$.AUX (A$5$.D FOX$6$.N)))))
+EL conversion from parser:
+     (FOX29.SK FOX.N)
+          "valid"
+     (OBJECT23.SK (BEFORE NOW10))
+          "valid"
+     (E7 (ORIENTS OBJECT23.SK))
+          "valid"
+     ((IT27.SK (TURN.V OUT.PRT (KA (BE.AUX FOX29.SK)))) ** OBJECT23.SK)
+          "invalid"
+
+
+--------
+sentence: "I got closer."
+Machine-converted Len ULF fed to parser:
+(:I I$8$.PRO ((:F PAST GET$9$.V) CLOSER$10$.A))
+EL conversion from parser:
+     ((I28.SK (GET.V CLOSER.A)) ** OBJECT24.SK)
+          "invalid"
+     (E8 (ORIENTS OBJECT24.SK))
+          "valid"
+     (OBJECT24.SK (BEFORE NOW11))
+          "valid"
+
+
+--------
+sentence: "It made a funny sound."
+Machine-converted Len ULF fed to parser:
+(:I IT$12$.PRO ((:F PAST MAKE$13$.V) (A$14$.D (FUNNY$15$.A SOUND$16$.N))))
+EL conversion from parser:
+     (SOUND32.SK SOUND.N)
+          "valid"
+     (SOUND32.SK FUNNY.A)
+          "valid"
+     (E31.SK (BEFORE NOW12))
+          "valid"
+     (E9 (ORIENTS E31.SK))
+          "valid"
+     ((IT27.SK (MAKE.V SOUND32.SK)) ** E31.SK)
+          "valid"
+
+
+--------
+sentence: "I heard an animal."
+Machine-converted Len ULF fed to parser:
+(:I I$18$.PRO ((:F PAST HEAR$19$.V) (AN$20$.D ANIMAL$21$.N)))
+EL conversion from parser:
+     (ANIMAL33.SK ANIMAL.N)
+          "valid"
+     (E34.SK (BEFORE NOW13))
+          "valid"
+     (E10 (ORIENTS E34.SK))
+          "valid"
+     ((I28.SK (HEAR.V ANIMAL33.SK)) ** E34.SK)
+          "valid"
+
+
+--------
+sentence: "I was walking through the woods."
+Machine-converted Len ULF fed to parser:
+(:I I$23$.PRO
+ (WAS$24$.AUX
+  ((:F PROG WALK$25$.V) (THROUGH$26$.P (THE$27$.D (PLUR WOOD$28$.N))))))
+EL conversion from parser:
+     (I28.SK (WAS.AUX ((ADV-A (THROUGH.P WOOD36.SK)) WALK.V)))
+          "invalid"
+     (WOOD36.SK (PLUR WOOD.N))
+          "valid"
+
+
+--------
+sentence: "The man made a bet."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D MAN$1$.N) ((:F PAST MAKE$2$.V) (A$3$.D BET$4$.N)))
+EL conversion from parser:
+     (BET44.SK BET.N)
+          "valid"
+     (MAN43.SK MAN.N)
+          "valid"
+     (E45.SK (BEFORE NOW15))
+          "valid"
+     (E11 (ORIENTS E45.SK))
+          "valid"
+     ((MAN43.SK (MAKE.V BET44.SK)) ** E45.SK)
+          "valid"
+
+
+--------
+sentence: "He lost the bet."
+Machine-converted Len ULF fed to parser:
+(:I HE$6$.PRO ((:F PAST LOSE$7$.V) (THE$8$.D BET$9$.N)))
+EL conversion from parser:
+     (BET46.SK BET.N)
+          "valid"
+     (E47.SK (BEFORE NOW16))
+          "valid"
+     (E12 (ORIENTS E47.SK))
+          "valid"
+     ((HE41.SK (LOSE.V BET46.SK)) ** E47.SK)
+          "valid"
+
+
+--------
+sentence: "He only had money for one more bet."
+Machine-converted Len ULF fed to parser:
+(HE$11$.PRO ONLY$12$.ADV
+ (HAD$13$.AUX
+  (:I (:F K MONEY$14$.N) (FOR$15$.P ((ONE$16$.D MORE$17$.A) BET$18$.N)))))
+EL conversion from parser:
+     (MORE48.SK MORE.A)
+          "valid"
+     (HE41.SK (HAD.AUX ((K MONEY.N) (FOR.P (MORE48.SK BET.N)))))
+          "invalid"
+
+
+--------
+sentence: "He bet it all."
+Machine-converted Len ULF fed to parser:
+(HE$20$.PRO ((:F PAST BET$21$.V) (IT$22$.PRO ALL$23$.D)))
+EL conversion from parser:
+     ((HE41.SK (BET.V (IT42.SK ALL.D))) ** OBJECT39.SK)
+          "invalid"
+     (E13 (ORIENTS OBJECT39.SK))
+          "valid"
+     (OBJECT39.SK (BEFORE NOW18))
+          "valid"
+
+
+--------
+sentence: "He lost all of his money."
+Machine-converted Len ULF fed to parser:
+(:I HE$25$.PRO
+ ((:F PAST LOSE$26$.V)
+  (ALL$27$.D
+   (:L #:G4486
+    (:O AND (:I #:G4486 {REF}$28$.N)
+     (:I #:G4486
+      (:P OF$29$.P
+       (:Q THE.DET
+        (:L X (:I (:I X MONEY$31$.N) AND (:I X PERTAIN-TO HE$30$.PRO)))))))))))
+EL conversion from parser:
+     ((HE41.SK
+       (LOSE.V
+        (ALL.D
+         (L X
+          (AND (X {REF}.N)
+               (THE Y (AND (Y MONEY.N) (Y (PERTAIN-TO HE41.SK)))
+                    (X (OF.P Y))))))))
+      ** OBJECT40.SK)
+          "invalid"
+     (E14 (ORIENTS OBJECT40.SK))
+          "valid"
+     (OBJECT40.SK (BEFORE NOW19))
+          "valid"
+
+
+--------
+sentence: "Billy went to work."
+Machine-converted Len ULF fed to parser:
+(:I BILLY$0$.NAME ((:F PAST GO$1$.V) (TO$2$.P WORK$3$.V)))
+EL conversion from parser:
+     ((BILLY.NAME (GO.V ((ADV-A TO.P) WORK.V))) ** OBJECT49.SK)
+          "invalid"
+     (E15 (ORIENTS OBJECT49.SK))
+          "valid"
+     (OBJECT49.SK (BEFORE NOW20))
+          "valid"
+
+
+--------
+sentence: "He came home late at night."
+Machine-converted Len ULF fed to parser:
+(HE$5$.PRO
+ ((:F PAST COME$6$.V) HOME$7$.ADV
+  (:F LATE$8$.ADV (:P AT$9$.P (:F K NIGHT$10$.N)))))
+EL conversion from parser:
+     ((BILLY.NAME (COME.V HOME.ADV (LATE.ADV (AT.P (K NIGHT.N))))) **
+      OBJECT50.SK)
+          "invalid"
+     (E16 (ORIENTS OBJECT50.SK))
+          "valid"
+     (OBJECT50.SK (BEFORE NOW21))
+          "valid"
+
+
+--------
+sentence: "Billy was very tired."
+Machine-converted Len ULF fed to parser:
+(:I BILLY$12$.NAME (WAS$13$.AUX (:F VERY$14$.ADV TIRED$15$.A)))
+EL conversion from parser:
+     (BILLY.NAME (WAS.AUX (VERY.ADV TIRED.A)))
+          "invalid"
+
+
+--------
+sentence: "He laid down in his bed."
+Machine-converted Len ULF fed to parser:
+(HE$17$.PRO
+ ((:F PAST LAY$18$.V) DOWN$19$.PRT
+  (:P IN$20$.P
+   (:Q THE.DET (:L X (:I (:I X BED$22$.N) AND (:I X PERTAIN-TO HE$21$.PRO)))))))
+EL conversion from parser:
+     (OBJECT53.SK (BEFORE NOW23))
+          "valid"
+     (E17 (ORIENTS OBJECT53.SK))
+          "valid"
+     (E51.SK (SAME-TIME NOW23))
+          "valid"
+     (E51.SK (RIGHT-AFTER U22))
+          "valid"
+     (BED52.SK BED.N)
+          "valid"
+     (BED52.SK (PERTAIN-TO BILLY.NAME))
+          "valid"
+     ((BILLY.NAME (((ADV-A (IN.P BED52.SK)) LAY.V) DOWN.PRT)) ** E51.SK)
+          "invalid"
+     ((BILLY.NAME (((ADV-A (IN.P BED52.SK)) LAY.V) DOWN.PRT)) ** OBJECT53.SK)
+          "invalid"
+
+
+--------
+sentence: "He fell asleep quickly."
+Machine-converted Len ULF fed to parser:
+(:I HE$24$.PRO ((:F PAST FALL$25$.V) (ADV (:F ASLEEP$26$.ADV QUICKLY$27$.A))))
+EL conversion from parser:
+     ((BILLY.NAME (FALL.V (ADV (ASLEEP.ADV QUICKLY.A)))) ** OBJECT54.SK)
+          "invalid"
+     (E18 (ORIENTS OBJECT54.SK))
+          "valid"
+     (OBJECT54.SK (BEFORE NOW24))
+          "valid"
+
+
+--------
+sentence: "It was very hot outside."
+Machine-converted Len ULF fed to parser:
+(:I IT$0$.PRO (WAS$1$.AUX (:F VERY$2$.ADV HOT$3$.A) OUTSIDE$4$.ADV))
+EL conversion from parser:
+     (IT.PRO WAS.AUX (OUTSIDE.ADV (VERY.ADV HOT.A)))
+          "invalid"
+
+
+--------
+sentence: "So Tina went to the beach."
+Machine-converted Len ULF fed to parser:
+(SO$6$.CC TINA$7$.NAME ((:F PAST GO$8$.V) (TO$9$.P (THE$10$.D BEACH$11$.N))))
+EL conversion from parser:
+     ((SO.CC TINA.NAME ((ADV-A (TO.P BEACH58.SK)) GO.V)) ** OBJECT55.SK)
+          "invalid"
+     (E19 (ORIENTS OBJECT55.SK))
+          "valid"
+     (OBJECT55.SK (BEFORE NOW26))
+          "valid"
+     (BEACH58.SK BEACH.N)
+          "valid"
+
+
+--------
+sentence: "She thought it would be good."
+Machine-converted Len ULF fed to parser:
+(SHE$13$.PRO
+ ((:F PAST THINK$14$.V) (:I IT$15$.PRO (WOULD (BE$17$.AUX GOOD$18$.A)))))
+EL conversion from parser:
+     ((TINA.NAME (THINK.V (IT57.SK (WOULD (BE.AUX GOOD.A))))) ** OBJECT56.SK)
+          "invalid"
+     (E20 (ORIENTS OBJECT56.SK))
+          "valid"
+     (OBJECT56.SK (BEFORE NOW27))
+          "valid"
+
+
+--------
+sentence: "But then it was not."
+Machine-converted Len ULF fed to parser:
+(BUT$20$.CC THEN$21$.ADV IT$22$.PRO (WAS$23$.AUX NOT$24$.ADV))
+EL conversion from parser:
+     (BUT.CC IT57.SK (WAS.AUX NOT.ADV))
+          "invalid"
+
+
+--------
+sentence: "It was too hard."
+Machine-converted Len ULF fed to parser:
+(:I IT$26$.PRO (WAS$27$.AUX (:F TOO$28$.ADV HARD$29$.A)))
+EL conversion from parser:
+     (IT.PRO (WAS.AUX (TOO.ADV HARD.A)))
+          "invalid"
+
+
+--------
+sentence: "A little girl was born."
+Machine-converted Len ULF fed to parser:
+((A$0$.D (LITTLE$1$.A GIRL$2$.N)) (WAS$3$.AUX (PASV BEAR$4$.V)))
+EL conversion from parser:
+     (GIRL64.SK GIRL.N)
+          "valid"
+     (GIRL64.SK LITTLE.A)
+          "valid"
+     (GIRL64.SK (WAS.AUX (PASV BEAR.V)))
+          "invalid"
+
+
+--------
+sentence: "She grew up."
+Machine-converted Len ULF fed to parser:
+(SHE$6$.PRO ((:F PAST GROW$7$.V) UP$8$.PRT))
+EL conversion from parser:
+     ((SHE62.SK (GROW.V UP.PRT)) ** OBJECT59.SK)
+          "invalid"
+     (E21 (ORIENTS OBJECT59.SK))
+          "valid"
+     (OBJECT59.SK (BEFORE NOW31))
+          "valid"
+
+
+--------
+sentence: "She had a family."
+Machine-converted Len ULF fed to parser:
+(:I SHE$10$.PRO (HAD$11$.AUX (A$12$.D FAMILY$13$.N)))
+EL conversion from parser:
+     (FAMILY65.SK FAMILY.N)
+          "valid"
+     (SHE62.SK (HAD.AUX FAMILY65.SK))
+          "invalid"
+
+
+--------
+sentence: "She got old."
+Machine-converted Len ULF fed to parser:
+(:I SHE$15$.PRO ((:F PAST GET$16$.V) OLD$17$.A))
+EL conversion from parser:
+     ((SHE62.SK (GET.V OLD.A)) ** OBJECT60.SK)
+          "invalid"
+     (E22 (ORIENTS OBJECT60.SK))
+          "valid"
+     (OBJECT60.SK (BEFORE NOW33))
+          "valid"
+
+
+--------
+sentence: "She passed away at the end."
+Machine-converted Len ULF fed to parser:
+(SHE$19$.PRO
+ ((:F PAST PASS$20$.V) AWAY$21$.PRT (AT$22$.P (THE$23$.D END$24$.N))))
+EL conversion from parser:
+     ((SHE62.SK (((ADV-A (AT.P END66.SK)) PASS.V) AWAY.PRT)) ** OBJECT61.SK)
+          "invalid"
+     (E23 (ORIENTS OBJECT61.SK))
+          "valid"
+     (OBJECT61.SK (BEFORE NOW34))
+          "valid"
+     (END66.SK END.N)
+          "valid"
+
+
+--------
+sentence: "I went to buy some almonds yesterday."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO
+ ((:F PAST GO$1$.V) (TO (:P BUY$3$.V (SOME$4$.D (PLUR ALMOND$5$.N))))
+  (:F K YESTERDAY$6$.N)))
+EL conversion from parser:
+     ((I71.SK
+       (((ADV-A (FOR.P (KA (BUY.V ALMOND75.SK)))) GO.V) (K YESTERDAY.N)))
+      ** E74.SK)
+          "valid"
+     (E24 (ORIENTS E74.SK))
+          "valid"
+     (E74.SK (BEFORE NOW35))
+          "valid"
+     (ALMOND75.SK (PLUR ALMOND.N))
+          "valid"
+
+
+--------
+sentence: "I bought a large box."
+Machine-converted Len ULF fed to parser:
+(:I I$8$.PRO ((:F PAST BUY$9$.V) (A$10$.D (LARGE$11$.A BOX$12$.N))))
+EL conversion from parser:
+     (BOX78.SK BOX.N)
+          "valid"
+     (BOX78.SK LARGE.A)
+          "valid"
+     (E77.SK (BEFORE NOW36))
+          "valid"
+     (E25 (ORIENTS E77.SK))
+          "valid"
+     ((I71.SK (BUY.V BOX78.SK)) ** E77.SK)
+          "valid"
+
+
+--------
+sentence: "I tried some."
+Machine-converted Len ULF fed to parser:
+(I$14$.PRO ((:F PAST TRY$15$.V) SOME$16$.D))
+EL conversion from parser:
+     ((I71.SK (TRY.V SOME.D)) ** OBJECT69.SK)
+          "invalid"
+     (E26 (ORIENTS OBJECT69.SK))
+          "valid"
+     (OBJECT69.SK (BEFORE NOW37))
+          "valid"
+
+
+--------
+sentence: "They were so good."
+Machine-converted Len ULF fed to parser:
+(:I THEY$18$.PRO (WERE$19$.AUX (:F SO$20$.ADV GOOD$21$.A)))
+EL conversion from parser:
+     (THEY72.SK (WERE.AUX (SO.ADV GOOD.A)))
+          "invalid"
+
+
+--------
+sentence: "I wanted to have some more."
+Machine-converted Len ULF fed to parser:
+(:I I$23$.PRO
+ ((:F PAST WANT$24$.V) (TO (:P HAVE$26$.V (SOME$27$.D MORE$28$.A)))))
+EL conversion from parser:
+     (MORE79.SK MORE.A)
+          "valid"
+     (E80.SK (BEFORE NOW39))
+          "valid"
+     (E27 (ORIENTS E80.SK))
+          "valid"
+     ((I71.SK (WANT.V (KA (HAVE.V MORE79.SK)))) ** E80.SK)
+          "valid"
+
+
+--------
+sentence: "Sam wanted a new tv."
+Machine-converted Len ULF fed to parser:
+(:I SAM$0$.NAME ((:F PAST WANT$1$.V) (A$2$.D (NEW$3$.A TV$4$.N))))
+EL conversion from parser:
+     (TV91.SK TV.N)
+          "valid"
+     (TV91.SK NEW.A)
+          "valid"
+     (E90.SK (BEFORE NOW40))
+          "valid"
+     (E28 (ORIENTS E90.SK))
+          "valid"
+     ((SAM.NAME (WANT.V TV91.SK)) ** E90.SK)
+          "valid"
+
+
+--------
+sentence: "So he went to the best buy and looked at a tv."
+Machine-converted Len ULF fed to parser:
+(SO$6$.CC HE$7$.PRO
+ (((:F PAST GO$8$.V) (TO$9$.P (THE$10$.D (BEST$11$.A BUY$12$.N)))) AND
+  ((:F PAST LOOK$14$.V) (AT$15$.P (A$16$.D TV$17$.N)))))
+EL conversion from parser:
+     (OBJECT83.SK (BEFORE NOW41))
+          "valid"
+     (E30 (ORIENTS OBJECT83.SK))
+          "valid"
+     (OBJECT82.SK (BEFORE NOW41))
+          "valid"
+     (E29 (ORIENTS OBJECT82.SK))
+          "valid"
+     ((SO.CC SAM.NAME
+       (L X
+        (AND (X ((ADV-A (TO.P BUY96.SK)) GO.V))
+             (X ((ADV-A (AT.P TV95.SK)) LOOK.V)))))
+      ** OBJECT82.SK)
+          "invalid"
+     ((SO.CC SAM.NAME
+       (L X
+        (AND (X ((ADV-A (TO.P BUY97.SK)) GO.V))
+             (X ((ADV-A (AT.P TV93.SK)) LOOK.V)))))
+      ** OBJECT83.SK)
+          "invalid"
+     (TV93.SK TV.N)
+          "valid"
+     (TV95.SK TV.N)
+          "valid"
+     (BUY96.SK BEST.A)
+          "valid"
+     (BUY96.SK BUY.N)
+          "valid"
+     (BUY97.SK BEST.A)
+          "valid"
+     (BUY97.SK BUY.N)
+          "valid"
+
+
+--------
+sentence: "Found a good tv."
+Machine-converted Len ULF fed to parser:
+(((PASV FIND$19$.V) (A$20$.D (GOOD$21$.A TV$22$.N))))
+EL conversion from parser:
+     (TV99.SK TV.N)
+          "valid"
+     (TV99.SK GOOD.A)
+          "valid"
+     (((PASV FIND.V) TV99.SK))
+          "invalid"
+
+
+--------
+sentence: "Bought the tv."
+Machine-converted Len ULF fed to parser:
+(((:F PAST BUY$24$.V) (THE$25$.D TV$26$.N)))
+EL conversion from parser:
+     ((BUY.V TV100.SK) ** OBJECT84.SK)
+          "invalid"
+     (E31 (ORIENTS OBJECT84.SK))
+          "valid"
+     (OBJECT84.SK (BEFORE NOW43))
+          "valid"
+     (TV100.SK TV.N)
+          "valid"
+
+
+--------
+sentence: "Sam loved his new tv."
+Machine-converted Len ULF fed to parser:
+(SAM$28$.NAME
+ (:P (:F PAST LOVE$29$.V)
+  (:Q THE.DET
+   (:L X (:I (:I X (NEW$31$.A TV$32$.N)) AND (:I X PERTAIN-TO HE$30$.PRO))))))
+EL conversion from parser:
+     (E88.SK (BEFORE NOW44))
+          "valid"
+     (E32 (ORIENTS E88.SK))
+          "valid"
+     (E85.SK (SAME-TIME NOW44))
+          "valid"
+     (E85.SK (RIGHT-AFTER U43))
+          "valid"
+     (E86.SK NEW.A TV.N)
+          "invalid"
+     (E86.SK (PERTAIN-TO SAM.NAME))
+          "valid"
+     ((SAM.NAME (LOVE.V E86.SK)) ** E85.SK)
+          "valid"
+     ((SAM.NAME (LOVE.V E86.SK)) ** E88.SK)
+          "valid"
+
+
+--------
+sentence: "The man went to a park."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D MAN$1$.N) ((:F PAST GO$2$.V) (TO$3$.P (A$4$.D PARK$5$.N))))
+EL conversion from parser:
+     ((MAN107.SK ((ADV-A (TO.P PARK108.SK)) GO.V)) ** E109.SK)
+          "valid"
+     (E33 (ORIENTS E109.SK))
+          "valid"
+     (E109.SK (BEFORE NOW45))
+          "valid"
+     (MAN107.SK MAN.N)
+          "valid"
+     (PARK108.SK PARK.N)
+          "valid"
+
+
+--------
+sentence: "He saw a woman there."
+Machine-converted Len ULF fed to parser:
+(HE$7$.PRO ((:F PAST SEE$8$.V) ((A$9$.D WOMAN$10$.N) THERE$11$.ADV)))
+EL conversion from parser:
+     (WOMAN110.SK WOMAN.N)
+          "valid"
+     (OBJECT102.SK (BEFORE NOW46))
+          "valid"
+     (E34 (ORIENTS OBJECT102.SK))
+          "valid"
+     ((HE104.SK (SEE.V (WOMAN110.SK THERE.ADV))) ** OBJECT102.SK)
+          "invalid"
+
+
+--------
+sentence: "The woman was beautiful."
+Machine-converted Len ULF fed to parser:
+((THE$13$.D WOMAN$14$.N) (WAS$15$.AUX BEAUTIFUL$16$.A))
+EL conversion from parser:
+     (WOMAN111.SK WOMAN.N)
+          "valid"
+     (WOMAN111.SK (WAS.AUX BEAUTIFUL.A))
+          "invalid"
+
+
+--------
+sentence: "He took a picture of her."
+Machine-converted Len ULF fed to parser:
+(:I HE$18$.PRO
+ ((:F PAST TAKE$19$.V)
+  (A$20$.D
+   (:L #:G12220
+    (:O AND (:I #:G12220 PICTURE$21$.N)
+     (:I #:G12220 (:P OF$22$.P HER$23$.PRO)))))))
+EL conversion from parser:
+     (PICTURE114.SK (OF.P HER105.SK))
+          "valid"
+     (PICTURE114.SK PICTURE.N)
+          "valid"
+     (E113.SK (BEFORE NOW48))
+          "valid"
+     (E35 (ORIENTS E113.SK))
+          "valid"
+     ((HE104.SK (TAKE.V PICTURE114.SK)) ** E113.SK)
+          "valid"
+
+
+--------
+sentence: "The woman saw him do it."
+Machine-converted Len ULF fed to parser:
+((THE$25$.D
+  (:L #:G12222
+   (:O AND (:I #:G12222 WOMAN$26$.N)
+    (:I #:G12222 (:P (:F PAST SEE$27$.V) HIM$28$.PRO)))))
+ (DO$29$.AUX IT$30$.PRO))
+EL conversion from parser:
+     ((WOMAN116.SK (SEE.V HE104.SK)) ** E118.SK)
+          "valid"
+     (WOMAN116.SK WOMAN.N)
+          "valid"
+     (WOMAN116.SK (DO.AUX IT106.SK))
+          "invalid"
+     (E36 (ORIENTS E118.SK))
+          "valid"
+     (E118.SK (BEFORE NOW49))
+          "valid"
+
+
+--------
+sentence: "John was at work."
+Machine-converted Len ULF fed to parser:
+(JOHN$0$.NAME (WAS$1$.AUX (:P AT$2$.P (:F K WORK$3$.N))))
+EL conversion from parser:
+     (JOHN.NAME (WAS.AUX (AT.P (K WORK.N))))
+          "invalid"
+
+
+--------
+sentence: "Suddenly it got dark outside."
+Machine-converted Len ULF fed to parser:
+(SUDDENLY$5$.ADV IT$6$.PRO ((:F PAST GET$7$.V) DARK$8$.A OUTSIDE$9$.ADV))
+EL conversion from parser:
+     ((SUDDENLY.ADV IT.PRO (GET.V DARK.A OUTSIDE.ADV)) ** OBJECT119.SK)
+          "invalid"
+     (E37 (ORIENTS OBJECT119.SK))
+          "valid"
+     (OBJECT119.SK (BEFORE NOW51))
+          "valid"
+
+
+--------
+sentence: "He looked out the window."
+Machine-converted Len ULF fed to parser:
+(:I HE$11$.PRO ((:F PAST LOOK$12$.V) (OUT$13$.P (THE$14$.D WINDOW$15$.N))))
+EL conversion from parser:
+     ((JOHN.NAME ((ADV-A (OUT.P WINDOW122.SK)) LOOK.V)) ** E123.SK)
+          "valid"
+     (E38 (ORIENTS E123.SK))
+          "valid"
+     (E123.SK (BEFORE NOW52))
+          "valid"
+     (WINDOW122.SK WINDOW.N)
+          "valid"
+
+
+--------
+sentence: "There was some very dark rain clouds."
+Machine-converted Len ULF fed to parser:
+(:I THERE$17$.PRO
+ (WAS$18$.AUX
+  (SOME$19$.D ((:F VERY$20$.ADV DARK$21$.A) (RAIN$22$.N (PLUR CLOUD$23$.N))))))
+EL conversion from parser:
+     (CLOUD127.SK (PLUR CLOUD.N))
+          "valid"
+     (CLOUD127.SK RAIN.N)
+          "valid"
+     (CLOUD127.SK (VERY.ADV DARK.A))
+          "valid"
+     (THERE.PRO (WAS.AUX CLOUD127.SK))
+          "invalid"
+
+
+--------
+sentence: "It started to rain very hard."
+Machine-converted Len ULF fed to parser:
+(:I IT$25$.PRO
+ ((:F PAST START$26$.V)
+  (TO (:P RAIN$28$.V (ADV (:F VERY$29$.ADV HARD$30$.A))))))
+EL conversion from parser:
+     ((IT.PRO (START.V (KA (RAIN.V (ADV (VERY.ADV HARD.A)))))) ** OBJECT121.SK)
+          "invalid"
+     (E39 (ORIENTS OBJECT121.SK))
+          "valid"
+     (OBJECT121.SK (BEFORE NOW54))
+          "valid"
+
+
+--------
+sentence: "Fred liked Susie."
+Machine-converted Len ULF fed to parser:
+(FRED$0$.NAME (:P (:F PAST LIKE$1$.V) SUSIE$2$.NAME))
+EL conversion from parser:
+     (E129.SK (BEFORE NOW55))
+          "valid"
+     (E40 (ORIENTS E129.SK))
+          "valid"
+     ((FRED.NAME (LIKE.V SUSIE.NAME)) ** E129.SK)
+          "valid"
+
+
+--------
+sentence: "He really wanted to ask her to the ball."
+Machine-converted Len ULF fed to parser:
+(HE$4$.PRO REALLY$5$.ADV
+ ((:F PAST WANT$6$.V)
+  (TO (:P ASK$8$.V HER$9$.PRO (TO$10$.P (THE$11$.D BALL$12$.N))))))
+EL conversion from parser:
+     ((FRED.NAME (WANT.V (KA (((ADV-A (TO.P BALL132.SK)) ASK.V) SUSIE.NAME))))
+      ** E133.SK)
+          "valid"
+     (E41 (ORIENTS E133.SK))
+          "valid"
+     (E133.SK (BEFORE NOW56))
+          "valid"
+     (BALL132.SK BALL.N)
+          "valid"
+
+
+--------
+sentence: "But he was nervous."
+Machine-converted Len ULF fed to parser:
+(BUT$14$.CC HE$15$.PRO (WAS$16$.AUX NERVOUS$17$.A))
+EL conversion from parser:
+     (BUT.CC FRED.NAME (WAS.AUX NERVOUS.A))
+          "invalid"
+
+
+--------
+sentence: "She said yes however."
+Machine-converted Len ULF fed to parser:
+(SHE$19$.PRO ((:F PAST SAY$20$.V) YES$21$.X HOWEVER$22$.ADV))
+EL conversion from parser:
+     ((SUSIE.NAME (HOWEVER.ADV SAY.V) YES.X) ** OBJECT131.SK)
+          "invalid"
+     (E42 (ORIENTS OBJECT131.SK))
+          "valid"
+     (OBJECT131.SK (BEFORE NOW58))
+          "valid"
+
+
+--------
+sentence: "So fred was very happy."
+Machine-converted Len ULF fed to parser:
+(SO$24$.ADV FRED$25$.NAME (WAS$26$.AUX (:F VERY$27$.ADV HAPPY$28$.A)))
+EL conversion from parser:
+     (SO.ADV (FRED.NAME (WAS.AUX (VERY.ADV HAPPY.A))))
+          "invalid"
+
+
+--------
+sentence: "The boy got lost."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D BOY$1$.N) ((:F PAST GET$2$.V) LOST$3$.A))
+EL conversion from parser:
+     (BOY148.SK BOY.N)
+          "valid"
+     (OBJECT134.SK (BEFORE NOW60))
+          "valid"
+     (E43 (ORIENTS OBJECT134.SK))
+          "valid"
+     ((BOY148.SK (GET.V LOST.A)) ** OBJECT134.SK)
+          "invalid"
+
+
+--------
+sentence: "He called to his mom."
+Machine-converted Len ULF fed to parser:
+(HE$5$.PRO
+ ((:F PAST CALL$6$.V)
+  (:P TO$7$.P
+   (:Q THE.DET (:L X (:I (:I X MOM$9$.N) AND (:I X PERTAIN-TO HE$8$.PRO)))))))
+EL conversion from parser:
+     (E138.SK (BEFORE NOW61))
+          "valid"
+     (E44 (ORIENTS E138.SK))
+          "valid"
+     (E135.SK (SAME-TIME NOW61))
+          "valid"
+     (E135.SK (RIGHT-AFTER U60))
+          "valid"
+     (MOM136.SK MOM.N)
+          "valid"
+     (MOM136.SK (PERTAIN-TO HE147.SK))
+          "valid"
+     ((HE147.SK ((ADV-A (TO.P MOM136.SK)) CALL.V)) ** E135.SK)
+          "valid"
+     ((HE147.SK ((ADV-A (TO.P MOM136.SK)) CALL.V)) ** E138.SK)
+          "valid"
+
+
+--------
+sentence: "His mom could not hear him."
+Machine-converted Len ULF fed to parser:
+((:Q THE.DET (:L X (:I (:I X MOM$12$.N) AND (:I X PERTAIN-TO HE$11$.PRO))))
+ ((:F PAST CAN.MD) NOT$14$.ADV (:P HEAR$15$.V HIM$16$.PRO)))
+EL conversion from parser:
+     ((MOM136.SK (CAN.MD (NOT.ADV (HEAR.V HE147.SK)))) ** E142.SK)
+          "valid"
+     ((MOM136.SK (CAN.MD (NOT.ADV (HEAR.V HE147.SK)))) ** E139.SK)
+          "valid"
+     (MOM136.SK (PERTAIN-TO HE147.SK))
+          "valid"
+     (MOM136.SK MOM.N)
+          "valid"
+     (E139.SK (RIGHT-AFTER U61))
+          "valid"
+     (E139.SK (SAME-TIME NOW62))
+          "valid"
+     (E45 (ORIENTS E142.SK))
+          "valid"
+     (E142.SK (BEFORE NOW62))
+          "valid"
+
+
+--------
+sentence: "He ran into a man."
+Machine-converted Len ULF fed to parser:
+(:I HE$18$.PRO ((:F PAST RUN$19$.V) (INTO$20$.P (A$21$.D MAN$22$.N))))
+EL conversion from parser:
+     ((HE147.SK ((ADV-A (INTO.P MAN149.SK)) RUN.V)) ** E150.SK)
+          "valid"
+     (E46 (ORIENTS E150.SK))
+          "valid"
+     (E150.SK (BEFORE NOW63))
+          "valid"
+     (MAN149.SK MAN.N)
+          "valid"
+
+
+--------
+sentence: "The man brought the boy to his mom."
+Machine-converted Len ULF fed to parser:
+((THE$24$.D MAN$25$.N)
+ ((:F PAST BRING$26$.V) (THE$27$.D BOY$28$.N)
+  (:P TO$29$.P
+   (:Q THE.DET (:L X (:I (:I X MOM$31$.N) AND (:I X PERTAIN-TO HE$30$.PRO)))))))
+EL conversion from parser:
+     (BOY154.SK BOY.N)
+          "valid"
+     (MAN153.SK MAN.N)
+          "valid"
+     (BOY152.SK BOY.N)
+          "valid"
+     (MAN151.SK MAN.N)
+          "valid"
+     ((MAN151.SK (((ADV-A (TO.P MOM136.SK)) BRING.V) BOY152.SK)) ** E155.SK)
+          "valid"
+     ((MAN153.SK (((ADV-A (TO.P MOM136.SK)) BRING.V) BOY154.SK)) ** E144.SK)
+          "valid"
+     (MOM136.SK (PERTAIN-TO HE.PRO))
+          "valid"
+     (MOM136.SK MOM.N)
+          "valid"
+     (E144.SK (RIGHT-AFTER U63))
+          "valid"
+     (E144.SK (SAME-TIME NOW64))
+          "valid"
+     (E47 (ORIENTS E155.SK))
+          "valid"
+     (E155.SK (BEFORE NOW64))
+          "valid"
+
+
+--------
+sentence: "Fred loved trees."
+Machine-converted Len ULF fed to parser:
+(FRED$0$.NAME (:P (:F PAST LOVE$1$.V) (:F K (PLUR TREE$2$.N))))
+EL conversion from parser:
+     (E157.SK (BEFORE NOW65))
+          "valid"
+     (E48 (ORIENTS E157.SK))
+          "valid"
+     ((FRED.NAME (LOVE.V (K (PLUR TREE.N)))) ** E157.SK)
+          "valid"
+
+
+--------
+sentence: "He decided to climb one."
+Machine-converted Len ULF fed to parser:
+(:I HE$4$.PRO ((:F PAST DECIDE$5$.V) (TO (:P CLIMB$7$.V (:F K ONE$8$.N)))))
+EL conversion from parser:
+     ((FRED.NAME (DECIDE.V (KA (CLIMB.V (K ONE.N))))) ** E159.SK)
+          "valid"
+     (E49 (ORIENTS E159.SK))
+          "valid"
+     (E159.SK (BEFORE NOW66))
+          "valid"
+
+
+--------
+sentence: "When he did he got stuck."
+Machine-converted Len ULF fed to parser:
+((WHEN$10$.ADV (HE$13$.PRO DID$12$.AUX)) HE$13$.PRO
+ ((:F PAST GET$14$.V) (PASV STICK$15$.V)))
+EL conversion from parser:
+     (((WHEN.ADV (FRED.NAME DID.AUX)) FRED.NAME (GET.V (PASV STICK.V))) **
+      OBJECT160.SK)
+          "invalid"
+     (E50 (ORIENTS OBJECT160.SK))
+          "valid"
+     (OBJECT160.SK (BEFORE NOW67))
+          "valid"
+
+
+--------
+sentence: "Then he fell out."
+Machine-converted Len ULF fed to parser:
+(THEN$17$.ADV HE$18$.PRO ((:F PAST FALL$19$.V) OUT$20$.PRT))
+EL conversion from parser:
+     ((THEN.ADV (FRED.NAME (FALL.V OUT.PRT))) ** OBJECT161.SK)
+          "invalid"
+     (E51 (ORIENTS OBJECT161.SK))
+          "valid"
+     (OBJECT161.SK (BEFORE NOW68))
+          "valid"
+
+
+--------
+sentence: "He broke his arm."
+Machine-converted Len ULF fed to parser:
+(HE$22$.PRO
+ (:P (:F PAST BREAK$23$.V)
+  (:Q THE.DET (:L X (:I (:I X ARM$25$.N) AND (:I X PERTAIN-TO HE$24$.PRO))))))
+EL conversion from parser:
+     (E165.SK (BEFORE NOW69))
+          "valid"
+     (E52 (ORIENTS E165.SK))
+          "valid"
+     (E162.SK (SAME-TIME NOW69))
+          "valid"
+     (E162.SK (RIGHT-AFTER U68))
+          "valid"
+     (ARM163.SK ARM.N)
+          "valid"
+     (ARM163.SK (PERTAIN-TO FRED.NAME))
+          "valid"
+     ((FRED.NAME (BREAK.V ARM163.SK)) ** E162.SK)
+          "valid"
+     ((FRED.NAME (BREAK.V ARM163.SK)) ** E165.SK)
+          "valid"
+
+
+--------
+sentence: "Beth wanted a dog."
+Machine-converted Len ULF fed to parser:
+(:I BETH$0$.NAME ((:F PAST WANT$1$.V) (A$2$.D DOG$3$.N)))
+EL conversion from parser:
+     (DOG175.SK DOG.N)
+          "valid"
+     (E176.SK (BEFORE NOW70))
+          "valid"
+     (E53 (ORIENTS E176.SK))
+          "valid"
+     ((BETH.NAME (WANT.V DOG175.SK)) ** E176.SK)
+          "valid"
+
+
+--------
+sentence: "She asked her mother."
+Machine-converted Len ULF fed to parser:
+(SHE$5$.PRO
+ (:P (:F PAST ASK$6$.V)
+  (:Q THE.DET (:L X (:I (:I X MOTHER$8$.N) AND (:I X PERTAIN-TO SHE$7$.PRO))))))
+EL conversion from parser:
+     (E170.SK (BEFORE NOW71))
+          "valid"
+     (E54 (ORIENTS E170.SK))
+          "valid"
+     (E167.SK (SAME-TIME NOW71))
+          "valid"
+     (E167.SK (RIGHT-AFTER U70))
+          "valid"
+     (MOTHER168.SK MOTHER.N)
+          "valid"
+     (MOTHER168.SK (PERTAIN-TO BETH.NAME))
+          "valid"
+     ((BETH.NAME (ASK.V MOTHER168.SK)) ** E167.SK)
+          "valid"
+     ((BETH.NAME (ASK.V MOTHER168.SK)) ** E170.SK)
+          "valid"
+
+
+--------
+sentence: "Her mother said yes."
+Machine-converted Len ULF fed to parser:
+((:Q THE.DET (:L X (:I (:I X MOTHER$11$.N) AND (:I X PERTAIN-TO SHE$10$.PRO))))
+ ((:F PAST SAY$12$.V) YES$13$.X))
+EL conversion from parser:
+     (OBJECT173.SK (BEFORE NOW72))
+          "valid"
+     (E55 (ORIENTS OBJECT173.SK))
+          "valid"
+     (E171.SK (SAME-TIME NOW72))
+          "valid"
+     (E171.SK (RIGHT-AFTER U71))
+          "valid"
+     (MOTHER168.SK MOTHER.N)
+          "valid"
+     (MOTHER168.SK (PERTAIN-TO BETH.NAME))
+          "valid"
+     ((MOTHER168.SK (SAY.V YES.X)) ** E171.SK)
+          "invalid"
+     ((MOTHER168.SK (SAY.V YES.X)) ** OBJECT173.SK)
+          "invalid"
+
+
+--------
+sentence: "Beth was so happy."
+Machine-converted Len ULF fed to parser:
+(:I BETH$15$.NAME (WAS$16$.AUX (:F SO$17$.ADV HAPPY$18$.A)))
+EL conversion from parser:
+     (BETH.NAME (WAS.AUX (SO.ADV HAPPY.A)))
+          "invalid"
+
+
+--------
+sentence: "Beth got a great family dog and was happy."
+Machine-converted Len ULF fed to parser:
+(BETH$20$.NAME
+ (((:F PAST GET$21$.V) (A$22$.D (GREAT$23$.A (FAMILY$24$.N DOG$25$.N)))) AND
+  (WAS$27$.AUX HAPPY$28$.A)))
+EL conversion from parser:
+     (FAMILY179.SK DOG.N)
+          "valid"
+     (FAMILY179.SK FAMILY.N)
+          "valid"
+     (FAMILY179.SK GREAT.A)
+          "valid"
+     (E56 (ORIENTS E178.SK))
+          "valid"
+     (E178.SK (BEFORE NOW74))
+          "valid"
+     (BETH.NAME (WAS.AUX HAPPY.A))
+          "invalid"
+     ((BETH.NAME (GET.V FAMILY179.SK)) ** E178.SK)
+          "valid"
+
+
+--------
+sentence: "The man caught a fish."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D MAN$1$.N) ((:F PAST CATCH$2$.V) (A$3$.D FISH$4$.N)))
+EL conversion from parser:
+     (FISH188.SK FISH.N)
+          "valid"
+     (MAN187.SK MAN.N)
+          "valid"
+     (E189.SK (BEFORE NOW75))
+          "valid"
+     (E57 (ORIENTS E189.SK))
+          "valid"
+     ((MAN187.SK (CATCH.V FISH188.SK)) ** E189.SK)
+          "valid"
+
+
+--------
+sentence: "The fish looked sad to him."
+Machine-converted Len ULF fed to parser:
+((THE$6$.D FISH$7$.N)
+ ((:F PAST LOOK$8$.V) (SAD$9$.A (:P TO$10$.P HIM$11$.PRO))))
+EL conversion from parser:
+     (FISH190.SK FISH.N)
+          "valid"
+     (OBJECT182.SK (BEFORE NOW76))
+          "valid"
+     (E58 (ORIENTS OBJECT182.SK))
+          "valid"
+     ((FISH190.SK (LOOK.V (L X (AND (X SAD.A) (X (TO.P HIM186.SK)))))) **
+      OBJECT182.SK)
+          "invalid"
+
+
+--------
+sentence: "The man felt bad."
+Machine-converted Len ULF fed to parser:
+((THE$13$.D MAN$14$.N) ((:F PAST FEEL$15$.V) BAD$16$.A))
+EL conversion from parser:
+     (MAN191.SK MAN.N)
+          "valid"
+     (OBJECT183.SK (BEFORE NOW77))
+          "valid"
+     (E59 (ORIENTS OBJECT183.SK))
+          "valid"
+     ((MAN191.SK (FEEL.V BAD.A)) ** OBJECT183.SK)
+          "invalid"
+
+
+--------
+sentence: "He let the fish go."
+Machine-converted Len ULF fed to parser:
+(:I HE$18$.PRO ((:F PAST LET$19$.V) ((THE$20$.D FISH$21$.N) GO$22$.V)))
+EL conversion from parser:
+     (FISH192.SK FISH.N)
+          "valid"
+     (OBJECT184.SK (BEFORE NOW78))
+          "valid"
+     (E60 (ORIENTS OBJECT184.SK))
+          "valid"
+     ((HIM186.SK (LET.V (FISH192.SK GO.V))) ** OBJECT184.SK)
+          "invalid"
+
+
+--------
+sentence: "The fish went belly up in the water."
+Machine-converted Len ULF fed to parser:
+((THE$24$.D FISH$25$.N)
+ ((:F PAST GO$26$.V) (BELLY$27$.N UP$28$.P) (IN$29$.P (THE$30$.D WATER$31$.N))))
+EL conversion from parser:
+     ((FISH193.SK (GO.V ((ADV-A (IN.P WATER194.SK)) ((ADV-A UP.P) BELLY.N))))
+      ** OBJECT185.SK)
+          "invalid"
+     (E61 (ORIENTS OBJECT185.SK))
+          "valid"
+     (OBJECT185.SK (BEFORE NOW79))
+          "valid"
+     (FISH193.SK FISH.N)
+          "valid"
+     (WATER194.SK WATER.N)
+          "valid"
+
+
+--------
+sentence: "I got a new iPad."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO ((:F PAST GET$1$.V) (A$2$.D (NEW$3$.A IPAD$4$.N))))
+EL conversion from parser:
+     (IPAD202.SK IPAD.N)
+          "valid"
+     (IPAD202.SK NEW.A)
+          "valid"
+     (E201.SK (BEFORE NOW80))
+          "valid"
+     (E62 (ORIENTS E201.SK))
+          "valid"
+     ((I199.SK (GET.V IPAD202.SK)) ** E201.SK)
+          "valid"
+
+
+--------
+sentence: "It was nice."
+Machine-converted Len ULF fed to parser:
+(:I IT$6$.PRO (WAS$7$.AUX NICE$8$.A))
+EL conversion from parser:
+     (IT198.SK (WAS.AUX NICE.A))
+          "invalid"
+
+
+--------
+sentence: "What I liked it very much."
+Machine-converted Len ULF fed to parser:
+(WHAT$10$.PRO
+ (I$11$.PRO
+  (:P (:F PAST LIKE$12$.V) IT$13$.PRO (ADV (:F VERY$14$.ADV MUCH$15$.A)))))
+EL conversion from parser:
+     ((WHAT.PRO (I199.SK LIKE.V IT198.SK (ADV (VERY.ADV MUCH.A)))) **
+      OBJECT196.SK)
+          "invalid"
+     (E63 (ORIENTS OBJECT196.SK))
+          "valid"
+     (OBJECT196.SK (BEFORE NOW82))
+          "valid"
+
+
+--------
+sentence: "I saved the box."
+Machine-converted Len ULF fed to parser:
+(:I I$17$.PRO ((:F PAST SAVE$18$.V) (THE$19$.D BOX$20$.N)))
+EL conversion from parser:
+     (BOX203.SK BOX.N)
+          "valid"
+     (E204.SK (BEFORE NOW83))
+          "valid"
+     (E64 (ORIENTS E204.SK))
+          "valid"
+     ((I199.SK (SAVE.V BOX203.SK)) ** E204.SK)
+          "valid"
+
+
+--------
+sentence: "The box was very amazing."
+Machine-converted Len ULF fed to parser:
+((THE$22$.D BOX$23$.N) (WAS$24$.AUX (:F VERY$25$.ADV AMAZING$26$.A)))
+EL conversion from parser:
+     (BOX205.SK BOX.N)
+          "valid"
+     (BOX205.SK (WAS.AUX (VERY.ADV AMAZING.A)))
+          "invalid"
+
+
+--------
+sentence: "Barry lost his dog."
+Machine-converted Len ULF fed to parser:
+(BARRY$0$.NAME
+ (:P (:F PAST LOSE$1$.V)
+  (:Q THE.DET (:L X (:I (:I X DOG$3$.N) AND (:I X PERTAIN-TO HE$2$.PRO))))))
+EL conversion from parser:
+     (E209.SK (BEFORE NOW85))
+          "valid"
+     (E65 (ORIENTS E209.SK))
+          "valid"
+     (E206.SK (SAME-TIME NOW85))
+          "valid"
+     (E206.SK (RIGHT-AFTER U84))
+          "valid"
+     (DOG207.SK DOG.N)
+          "valid"
+     (DOG207.SK (PERTAIN-TO BARRY.NAME))
+          "valid"
+     ((BARRY.NAME (LOSE.V DOG207.SK)) ** E206.SK)
+          "valid"
+     ((BARRY.NAME (LOSE.V DOG207.SK)) ** E209.SK)
+          "valid"
+
+
+--------
+sentence: "He felt a hole in his heart."
+Machine-converted Len ULF fed to parser:
+(:I HE$5$.PRO
+ ((:F PAST FEEL$6$.V) (A$7$.D HOLE$8$.N)
+  (:P IN$9$.P
+   (:Q THE.DET
+    (:L X (:I (:I X HEART$11$.N) AND (:I X PERTAIN-TO HE$10$.PRO)))))))
+EL conversion from parser:
+     (HOLE215.SK HOLE.N)
+          "valid"
+     (HOLE214.SK HOLE.N)
+          "valid"
+     ((BARRY.NAME (((ADV-A (IN.P HEART211.SK)) FEEL.V) HOLE214.SK)) ** E216.SK)
+          "valid"
+     ((BARRY.NAME (((ADV-A (IN.P HEART211.SK)) FEEL.V) HOLE215.SK)) ** E210.SK)
+          "valid"
+     (HEART211.SK (PERTAIN-TO BARRY.NAME))
+          "valid"
+     (HEART211.SK HEART.N)
+          "valid"
+     (E210.SK (RIGHT-AFTER U85))
+          "valid"
+     (E210.SK (SAME-TIME NOW86))
+          "valid"
+     (E66 (ORIENTS E216.SK))
+          "valid"
+     (E216.SK (BEFORE NOW86))
+          "valid"
+
+
+--------
+sentence: "He went to the pet store."
+Machine-converted Len ULF fed to parser:
+(:I HE$13$.PRO
+ ((:F PAST GO$14$.V) (TO$15$.P (THE$16$.D (PET$17$.N STORE$18$.N)))))
+EL conversion from parser:
+     ((BARRY.NAME ((ADV-A (TO.P PET218.SK)) GO.V)) ** E220.SK)
+          "valid"
+     (E67 (ORIENTS E220.SK))
+          "valid"
+     (E220.SK (BEFORE NOW87))
+          "valid"
+     (PET218.SK PET.N)
+          "valid"
+     (PET218.SK STORE.N)
+          "valid"
+
+
+--------
+sentence: "The dog he found was great."
+Machine-converted Len ULF fed to parser:
+((THE$20$.D
+  (:L #:G23527
+   (:O AND (:I #:G23527 DOG$21$.N)
+    (:I #:G23527 (:I HE$22$.PRO (:F PAST FIND$23$.V))))))
+ (WAS$24$.AUX GREAT$25$.A))
+EL conversion from parser:
+     (OBJECT223.SK (BEFORE NOW88))
+          "valid"
+     (E68 (ORIENTS OBJECT223.SK))
+          "valid"
+     (DOG222.SK (WAS.AUX GREAT.A))
+          "invalid"
+     (DOG222.SK DOG.N)
+          "valid"
+     ((DOG222.SK (BARRY.NAME FIND.V)) ** OBJECT223.SK)
+          "invalid"
+
+
+--------
+sentence: "They are best friends now."
+Machine-converted Len ULF fed to parser:
+(THEY$27$.PRO (ARE$28$.AUX BEST$29$.ADV (:F K (PLUR FRIEND$30$.N)) NOW$31$.ADV))
+EL conversion from parser:
+     (THEY.PRO ARE.AUX (K (PLUR FRIEND.N)))
+          "invalid"
+
+
+--------
+sentence: "Sam's dog ran away."
+Machine-converted Len ULF fed to parser:
+(((SAM$0$.NAME |'S|) DOG$1$.N) ((:F PAST RUN$2$.V) AWAY$3$.PRT))
+EL conversion from parser:
+     ((((SAM.NAME |'S|) DOG.N) (RUN.V AWAY.PRT)) ** OBJECT224.SK)
+          "invalid"
+     (E69 (ORIENTS OBJECT224.SK))
+          "valid"
+     (OBJECT224.SK (BEFORE NOW90))
+          "valid"
+
+
+--------
+sentence: "He was old and going blind."
+Machine-converted Len ULF fed to parser:
+(HE$5$.PRO (WAS$6$.AUX (OLD$7$.A AND ((:F PROG GO$9$.V) BLIND$10$.A))))
+EL conversion from parser:
+     (HE.PRO (WAS.AUX (AND OLD.A (GO.V BLIND.A))))
+          "invalid"
+
+
+--------
+sentence: "Sam had him for a long time."
+Machine-converted Len ULF fed to parser:
+(SAM$12$.NAME
+ (HAD$13$.AUX HIM$14$.PRO (FOR$15$.P (A$16$.D (LONG$17$.A TIME$18$.N)))))
+EL conversion from parser:
+     (TIME229.SK TIME.N)
+          "valid"
+     (TIME229.SK LONG.A)
+          "valid"
+     (SAM.NAME (HAD.AUX HIM.PRO (FOR.P TIME229.SK)))
+          "invalid"
+
+
+--------
+sentence: "He looked for him for years."
+Machine-converted Len ULF fed to parser:
+(HE$20$.PRO
+ ((:F PAST LOOK$21$.V) (:P FOR$22$.P HIM$23$.PRO)
+  (:P FOR$24$.P (:F K (PLUR YEAR$25$.N)))))
+EL conversion from parser:
+     ((HE.PRO (LOOK.V ((ADV-A (FOR.P (K (PLUR YEAR.N)))) (FOR.P HIM.PRO)))) **
+      OBJECT225.SK)
+          "invalid"
+     (E70 (ORIENTS OBJECT225.SK))
+          "valid"
+     (OBJECT225.SK (BEFORE NOW93))
+          "valid"
+
+
+--------
+sentence: "It took Sam much longer to get over it."
+Machine-converted Len ULF fed to parser:
+(IT$27$.PRO
+ (:P (:F PAST TAKE$28$.V) SAM$29$.NAME (MUCH$30$.ADV LONGER$31$.ADV)
+  (TO (:P GET$33$.V (:P OVER$34$.P IT$35$.PRO)))))
+EL conversion from parser:
+     (E227.SK (BEFORE NOW94))
+          "valid"
+     (E71 (ORIENTS E227.SK))
+          "valid"
+     ((IT.PRO
+       (((ADV-A (FOR.P (KA ((ADV-A (OVER.P IT.PRO)) GET.V))))
+         (MUCH.ADV (LONGER.ADV TAKE.V)))
+        SAM.NAME))
+      ** E227.SK)
+          "valid"
+
+
+--------
+sentence: "Susie got a new hair oil."
+Machine-converted Len ULF fed to parser:
+((:F K SUSIE$0$.N)
+ ((:F PAST GET$1$.V) (:P (A$2$.D (NEW$3$.A HAIR$4$.N)) (:F K OIL$5$.N))))
+EL conversion from parser:
+     (HAIR237.SK HAIR.N)
+          "valid"
+     (HAIR237.SK NEW.A)
+          "valid"
+     (OBJECT230.SK (BEFORE NOW95))
+          "valid"
+     (E72 (ORIENTS OBJECT230.SK))
+          "valid"
+     (((K SUSIE.N) (GET.V (HAIR237.SK (K OIL.N)))) ** OBJECT230.SK)
+          "invalid"
+
+
+--------
+sentence: "She thought it was great."
+Machine-converted Len ULF fed to parser:
+(SHE$7$.PRO ((:F PAST THINK$8$.V) (:I IT$9$.PRO (WAS$10$.AUX GREAT$11$.A))))
+EL conversion from parser:
+     (((K SUSIE.N) (THINK.V ((K OIL.N) (WAS.AUX GREAT.A)))) ** OBJECT231.SK)
+          "invalid"
+     (E73 (ORIENTS OBJECT231.SK))
+          "valid"
+     (OBJECT231.SK (BEFORE NOW96))
+          "valid"
+
+
+--------
+sentence: "When she tried it, it worked good,
+Susie wanted to buy more."
+Machine-converted Len ULF fed to parser:
+(((WHEN$13$.ADV (SHE$14$.PRO (:P (:F PAST TRY$15$.V) IT$16$.PRO))) |,|
+  IT$17$.PRO ((:F PAST WORK$18$.V) GOOD$18$.A))
+ |,| SUSIE$18$.NAME ((:F PAST WANT$18$.V) (TO (:P BUY$20$.V MORE$21$.A))))
+EL conversion from parser:
+     (K OIL.N)
+          "invalid"
+     ((WANT.V (KA (BUY.V MORE.A))) ** OBJECT233.SK)
+          "invalid"
+     (E76 (ORIENTS OBJECT233.SK))
+          "valid"
+     (OBJECT233.SK (BEFORE NOW97))
+          "valid"
+
+
+--------
+sentence: "She loved it."
+Machine-converted Len ULF fed to parser:
+(SHE$23$.PRO (:P (:F PAST LOVE$24$.V) IT$25$.PRO))
+EL conversion from parser:
+     (E235.SK (BEFORE NOW98))
+          "valid"
+     (E77 (ORIENTS E235.SK))
+          "valid"
+     (((K SUSIE.N) (LOVE.V IT.PRO)) ** E235.SK)
+          "valid"
+
+
+--------
+sentence: "I went out to eat today."
+Machine-converted Len ULF fed to parser:
+(I$0$.PRO ((:F PAST GO$1$.V) OUT$2$.PRT (TO (:P EAT$4$.V (:F K TODAY$5$.N)))))
+EL conversion from parser:
+     ((I241.SK (GO.V OUT.PRT (KA (EAT.V (K TODAY.N))))) ** OBJECT238.SK)
+          "invalid"
+     (E78 (ORIENTS OBJECT238.SK))
+          "valid"
+     (OBJECT238.SK (BEFORE NOW99))
+          "valid"
+
+
+--------
+sentence: "The food was standard."
+Machine-converted Len ULF fed to parser:
+((THE$7$.D FOOD$8$.N) (WAS$9$.AUX (:F K STANDARD$10$.N)))
+EL conversion from parser:
+     (FOOD242.SK FOOD.N)
+          "valid"
+     (FOOD242.SK (WAS.AUX (K STANDARD.N)))
+          "invalid"
+
+
+--------
+sentence: "Then I took it home,
+I got the wrong food."
+Machine-converted Len ULF fed to parser:
+((THEN$12$.ADV I$13$.PRO (:P (:F PAST TAKE$14$.V) IT$15$.PRO HOME$16$.ADV)) |,|
+ I$16$.PRO ((:F PAST GET$16$.V) (THE$17$.D (WRONG$18$.A FOOD$19$.N))))
+EL conversion from parser:
+     (FOOD244.SK FOOD.N)
+          "valid"
+     (FOOD244.SK WRONG.A)
+          "valid"
+     (OBJECT240.SK (BEFORE NOW101))
+          "valid"
+     (E80 (ORIENTS OBJECT240.SK))
+          "valid"
+     ((GET.V FOOD244.SK) ** OBJECT240.SK)
+          "invalid"
+     I.PRO
+          "invalid"
+
+
+--------
+sentence: "I was bummed."
+Machine-converted Len ULF fed to parser:
+(:I I$21$.PRO (WAS$22$.AUX (PASV BUM$23$.V)))
+EL conversion from parser:
+     (I.PRO (WAS.AUX (PASV BUM.V)))
+          "invalid"
+
+
+--------
+sentence: "Yesterday I went to cvs."
+Machine-converted Len ULF fed to parser:
+((:F K YESTERDAY$0$.N) I$1$.PRO
+ ((:F PAST GO$2$.V) (:P TO$3$.P (:F K (PLUR CV$4$.N)))))
+EL conversion from parser:
+     (E246.SK (BEFORE NOW103))
+          "valid"
+     (E81 (ORIENTS E246.SK))
+          "valid"
+     (((K YESTERDAY.N) I249.SK ((ADV-A (TO.P (K (PLUR CV.N)))) GO.V)) **
+      E246.SK)
+          "valid"
+
+
+--------
+sentence: "I got some candy."
+Machine-converted Len ULF fed to parser:
+(:I I$6$.PRO ((:F PAST GET$7$.V) (SOME$8$.D CANDY$9$.N)))
+EL conversion from parser:
+     (CANDY250.SK CANDY.N)
+          "valid"
+     (E251.SK (BEFORE NOW104))
+          "valid"
+     (E82 (ORIENTS E251.SK))
+          "valid"
+     ((I249.SK (GET.V CANDY250.SK)) ** E251.SK)
+          "valid"
+
+
+--------
+sentence: "I said I was not going to."
+Machine-converted Len ULF fed to parser:
+(I$13$.PRO
+ ((:F PAST SAY$12$.V)
+  (I$13$.PRO (WAS$14$.AUX NOT$15$.ADV ((:F PROG GO$16$.V) TO$17$.P)))))
+EL conversion from parser:
+     ((I249.SK (SAY.V (I249.SK (WAS.AUX NOT.ADV ((ADV-A TO.P) GO.V))))) **
+      OBJECT248.SK)
+          "invalid"
+     (E83 (ORIENTS OBJECT248.SK))
+          "valid"
+     (OBJECT248.SK (BEFORE NOW105))
+          "valid"
+
+
+--------
+sentence: "But I did anyway."
+Machine-converted Len ULF fed to parser:
+(BUT$19$.CC I$20$.PRO (DID$21$.AUX ANYWAY$22$.ADV))
+EL conversion from parser:
+     (BUT.CC I249.SK (DID.AUX ANYWAY.ADV))
+          "invalid"
+
+
+--------
+sentence: "It was not good."
+Machine-converted Len ULF fed to parser:
+(:I IT$24$.PRO (WAS$25$.AUX (:F NOT$26$.ADV GOOD$27$.A)))
+EL conversion from parser:
+     (IT.PRO (WAS.AUX (NOT.ADV GOOD.A)))
+          "invalid"
+
+
+--------
+sentence: "A farmer got up in the morning."
+Machine-converted Len ULF fed to parser:
+((A$0$.D FARMER$1$.N)
+ ((:F PAST GET$2$.V) UP$3$.PRT (IN$4$.P (THE$5$.D MORNING$6$.N))))
+EL conversion from parser:
+     ((FARMER262.SK (((ADV-A (IN.P MORNING263.SK)) GET.V) UP.PRT)) **
+      OBJECT252.SK)
+          "invalid"
+     (E84 (ORIENTS OBJECT252.SK))
+          "valid"
+     (OBJECT252.SK (BEFORE NOW108))
+          "valid"
+     (FARMER262.SK FARMER.N)
+          "valid"
+     (MORNING263.SK MORNING.N)
+          "valid"
+
+
+--------
+sentence: "He put his boots on."
+Machine-converted Len ULF fed to parser:
+(HE$8$.PRO
+ (:P (:F PAST PUT$9$.V)
+  (:Q THE.DET
+   (:L X (:I (:I X (PLUR BOOT$11$.N)) AND (:I X PERTAIN-TO HE$10$.PRO))))
+  ON$12$.P))
+EL conversion from parser:
+     (E256.SK (BEFORE NOW109))
+          "valid"
+     (E85 (ORIENTS E256.SK))
+          "valid"
+     (E253.SK (SAME-TIME NOW109))
+          "valid"
+     (E253.SK (RIGHT-AFTER U108))
+          "valid"
+     (BOOTS254.SK (PLUR BOOT.N))
+          "valid"
+     (BOOTS254.SK (PERTAIN-TO HE261.SK))
+          "valid"
+     ((HE261.SK (((ADV-A ON.P) PUT.V) BOOTS254.SK)) ** E253.SK)
+          "valid"
+     ((HE261.SK (((ADV-A ON.P) PUT.V) BOOTS254.SK)) ** E256.SK)
+          "valid"
+
+
+--------
+sentence: "He went outside."
+Machine-converted Len ULF fed to parser:
+(HE$14$.PRO ((:F PAST GO$15$.V) OUTSIDE$16$.ADV))
+EL conversion from parser:
+     ((HE261.SK (OUTSIDE.ADV GO.V)) ** E258.SK)
+          "valid"
+     (E86 (ORIENTS E258.SK))
+          "valid"
+     (E258.SK (BEFORE NOW110))
+          "valid"
+
+
+--------
+sentence: "He milked the cow."
+Machine-converted Len ULF fed to parser:
+(:I HE$18$.PRO ((:F PAST MILK$19$.V) (THE$20$.D COW$21$.N)))
+EL conversion from parser:
+     (COW264.SK COW.N)
+          "valid"
+     (E265.SK (BEFORE NOW111))
+          "valid"
+     (E87 (ORIENTS E265.SK))
+          "valid"
+     ((HE261.SK (MILK.V COW264.SK)) ** E265.SK)
+          "valid"
+
+
+--------
+sentence: "He went back to bed."
+Machine-converted Len ULF fed to parser:
+(HE$23$.PRO
+ ((:F PAST GO$24$.V) (:F BACK$25$.ADV (:P TO$26$.P (:F K BED$27$.N)))))
+EL conversion from parser:
+     ((HE261.SK (GO.V (BACK.ADV (TO.P (K BED.N))))) ** OBJECT260.SK)
+          "invalid"
+     (E88 (ORIENTS OBJECT260.SK))
+          "valid"
+     (OBJECT260.SK (BEFORE NOW112))
+          "valid"
+
+
+--------
+sentence: "My son is a little child."
+Machine-converted Len ULF fed to parser:
+(:I
+ (:Q THE_INV.DET (:L X (:I (:I X SON$1$.N) AND (:I X PERTAIN-TO ME$0$.PRO))))
+ (IS$2$.AUX (A$3$.D (LITTLE$4$.A CHILD$5$.N))))
+EL conversion from parser:
+     (CHILD277.SK CHILD.N)
+          "valid"
+     (CHILD277.SK LITTLE.A)
+          "valid"
+     (SON266.SK SON.N)
+          "valid"
+     (SON266.SK (PERTAIN-TO ME275.SK))
+          "valid"
+     (SON266.SK (IS.AUX CHILD277.SK))
+          "invalid"
+
+
+--------
+sentence: "He ran outside to play."
+Machine-converted Len ULF fed to parser:
+(HE$7$.PRO ((:F PAST RUN$8$.V) OUTSIDE$9$.ADV (TO PLAY$11$.V)))
+EL conversion from parser:
+     ((SON266.SK ((ADV-A (FOR.P (KA PLAY.V))) (OUTSIDE.ADV RUN.V))) ** E268.SK)
+          "valid"
+     (E89 (ORIENTS E268.SK))
+          "valid"
+     (E268.SK (BEFORE NOW114))
+          "valid"
+
+
+--------
+sentence: "His friend was out there with him."
+Machine-converted Len ULF fed to parser:
+((:Q THE.DET (:L X (:I (:I X FRIEND$14$.N) AND (:I X PERTAIN-TO HE$13$.PRO))))
+ (WAS$15$.AUX (OUT$16$.P THERE$17$.ADV) (:P WITH$18$.P HIM$19$.PRO)))
+EL conversion from parser:
+     ((FRIEND270.SK (WAS.AUX (OUT.P THERE.ADV) (WITH.P SON266.SK))) ** E269.SK)
+          "invalid"
+     (FRIEND270.SK (PERTAIN-TO SON266.SK))
+          "valid"
+     (FRIEND270.SK FRIEND.N)
+          "valid"
+     (E269.SK (RIGHT-AFTER U114))
+          "valid"
+     (E269.SK (SAME-TIME NOW115))
+          "valid"
+
+
+--------
+sentence: "They played together with sticks."
+Machine-converted Len ULF fed to parser:
+(THEY$21$.PRO
+ ((:F PAST PLAY$22$.V) TOGETHER$23$.ADV
+  (:P WITH$24$.P (:F K (PLUR STICK$25$.N)))))
+EL conversion from parser:
+     (E272.SK (BEFORE NOW116))
+          "valid"
+     (E90 (ORIENTS E272.SK))
+          "valid"
+     ((THEY.PRO (TOGETHER.ADV ((ADV-A (WITH.P (K (PLUR STICK.N)))) PLAY.V))) **
+      E272.SK)
+          "valid"
+
+
+--------
+sentence: "My son came in from outside."
+Machine-converted Len ULF fed to parser:
+((:Q THE_INV.DET (:L X (:I (:I X SON$28$.N) AND (:I X PERTAIN-TO ME$27$.PRO))))
+ ((:F PAST COME$29$.V) IN$30$.PRT (:P FROM$31$.P (:F K OUTSIDE$32$.N))))
+EL conversion from parser:
+     (OBJECT274.SK (BEFORE NOW117))
+          "valid"
+     (E91 (ORIENTS OBJECT274.SK))
+          "valid"
+     (SON266.SK SON.N)
+          "valid"
+     (SON266.SK (PERTAIN-TO ME275.SK))
+          "valid"
+     ((SON266.SK (((ADV-A (FROM.P (K OUTSIDE.N))) COME.V) IN.PRT)) **
+      OBJECT274.SK)
+          "invalid"
+
+
+--------
+sentence: "The boy cried."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D BOY$1$.N) (:F PAST CRY$2$.V))
+EL conversion from parser:
+     (BOY286.SK BOY.N)
+          "valid"
+     (E287.SK (BEFORE NOW118))
+          "valid"
+     (E92 (ORIENTS E287.SK))
+          "valid"
+     ((BOY286.SK CRY.V) ** E287.SK)
+          "valid"
+
+
+--------
+sentence: "A woman saw the boy crying."
+Machine-converted Len ULF fed to parser:
+((A$4$.D WOMAN$5$.N) ((:F PAST SEE$6$.V) (THE$7$.D (BOY$8$.N CRYING$9$.N))))
+EL conversion from parser:
+     (BOY291.SK CRYING.N)
+          "valid"
+     (BOY291.SK BOY.N)
+          "valid"
+     (WOMAN288.SK WOMAN.N)
+          "valid"
+     (E290.SK (BEFORE NOW119))
+          "valid"
+     (E93 (ORIENTS E290.SK))
+          "valid"
+     ((WOMAN288.SK (SEE.V BOY291.SK)) ** E290.SK)
+          "valid"
+
+
+--------
+sentence: "She wanted to help."
+Machine-converted Len ULF fed to parser:
+(:I SHE$11$.PRO ((:F PAST WANT$12$.V) (TO HELP$14$.V)))
+EL conversion from parser:
+     ((SHE285.SK (WANT.V (KA HELP.V))) ** E281.SK)
+          "valid"
+     (E94 (ORIENTS E281.SK))
+          "valid"
+     (E281.SK (BEFORE NOW120))
+          "valid"
+
+
+--------
+sentence: "The boy did not want her help."
+Machine-converted Len ULF fed to parser:
+((THE$16$.D BOY$17$.N)
+ (DID$18$.AUX NOT$19$.ADV
+  (:P WANT$20$.V
+   (:Q THE.DET
+    (:L X (:I (:I X HELP$22$.N) AND (:I X PERTAIN-TO SHE$21$.PRO)))))))
+EL conversion from parser:
+     (BOY293.SK BOY.N)
+          "valid"
+     (E282.SK (SAME-TIME NOW121))
+          "valid"
+     (E282.SK (RIGHT-AFTER U120))
+          "valid"
+     (HELP283.SK HELP.N)
+          "valid"
+     (HELP283.SK (PERTAIN-TO SHE285.SK))
+          "valid"
+     ((BOY293.SK DID.AUX (NOT.ADV (WANT.V HELP283.SK))) ** E282.SK)
+          "invalid"
+
+
+--------
+sentence: "The boy's mother came running over."
+Machine-converted Len ULF fed to parser:
+(((THE$24$.D (:L #:G31947 (:O AND (:I #:G31947 BOY$25$.N) (:I #:G31947 |'S|))))
+  MOTHER$26$.N)
+ ((:F PAST COME$27$.V) ((:F PROG RUN$27$.V) OVER$28$.PRT)))
+EL conversion from parser:
+     (BOY295.SK |'S|)
+          "invalid"
+     (BOY295.SK BOY.N)
+          "valid"
+     (OBJECT284.SK (BEFORE NOW122))
+          "valid"
+     (E95 (ORIENTS OBJECT284.SK))
+          "valid"
+     (((BOY295.SK MOTHER.N) (COME.V (RUN.V OVER.PRT))) ** OBJECT284.SK)
+          "invalid"
+
+
+--------
+sentence: "My friend has a hat."
+Machine-converted Len ULF fed to parser:
+(:I
+ (:Q THE_INV.DET
+  (:L X (:I (:I X FRIEND$1$.N) AND (:I X PERTAIN-TO ME$0$.PRO))))
+ (HAS$2$.AUX (A$3$.D HAT$4$.N)))
+EL conversion from parser:
+     (HAT311.SK HAT.N)
+          "valid"
+     (FRIEND296.SK FRIEND.N)
+          "valid"
+     (FRIEND296.SK (PERTAIN-TO ME310.SK))
+          "valid"
+     (FRIEND296.SK (HAS.AUX HAT311.SK))
+          "invalid"
+
+
+--------
+sentence: "The wind blew his hat away."
+Machine-converted Len ULF fed to parser:
+((THE$6$.D WIND$7$.N)
+ (:P (:F PAST BLOW$8$.V)
+  (:Q THE.DET (:L X (:I (:I X HAT$10$.N) AND (:I X PERTAIN-TO HE$9$.PRO))))
+  AWAY$11$.ADV))
+EL conversion from parser:
+     (E314.SK (BEFORE NOW124))
+          "valid"
+     (E96 (ORIENTS E314.SK))
+          "valid"
+     (E297.SK (SAME-TIME NOW124))
+          "valid"
+     (E297.SK (RIGHT-AFTER U123))
+          "valid"
+     (HAT298.SK HAT.N)
+          "valid"
+     (HAT298.SK (PERTAIN-TO HE.PRO))
+          "valid"
+     ((WIND313.SK ((AWAY.ADV BLOW.V) HAT298.SK)) ** E297.SK)
+          "valid"
+     ((WIND312.SK ((AWAY.ADV BLOW.V) HAT298.SK)) ** E314.SK)
+          "valid"
+     (WIND312.SK WIND.N)
+          "valid"
+     (WIND313.SK WIND.N)
+          "valid"
+
+
+--------
+sentence: "My friend chased his hat."
+Machine-converted Len ULF fed to parser:
+((:Q THE_INV.DET
+  (:L X (:I (:I X FRIEND$14$.N) AND (:I X PERTAIN-TO ME$13$.PRO))))
+ (:P (:F PAST CHASE$15$.V)
+  (:Q THE.DET (:L X (:I (:I X HAT$17$.N) AND (:I X PERTAIN-TO HE$16$.PRO))))))
+EL conversion from parser:
+     (THE Z (AND (Z HAT.N) (Z (PERTAIN-TO HAT298.SK)))
+          (FRIEND296.SK
+           (SOME E98 (AND (E98 (BEFORE NOW125)) (E97 (ORIENTS E98)))
+                 (CHASE.V ** E98))
+           Z))
+          "invalid"
+     (FRIEND296.SK (PERTAIN-TO ME310.SK))
+          "valid"
+     (FRIEND296.SK FRIEND.N)
+          "valid"
+
+
+--------
+sentence: "I chased his hat with him."
+Machine-converted Len ULF fed to parser:
+(I$19$.PRO
+ (:P (:F PAST CHASE$20$.V)
+  (:Q THE.DET (:L X (:I (:I X HAT$22$.N) AND (:I X PERTAIN-TO HE$21$.PRO))))
+  (:P WITH$23$.P HIM$24$.PRO)))
+EL conversion from parser:
+     (E304.SK (BEFORE NOW126))
+          "valid"
+     (E98 (ORIENTS E304.SK))
+          "valid"
+     (E301.SK (SAME-TIME NOW126))
+          "valid"
+     (E301.SK (RIGHT-AFTER U125))
+          "valid"
+     (HAT298.SK HAT.N)
+          "valid"
+     (HAT298.SK (PERTAIN-TO HE.PRO))
+          "valid"
+     ((ME310.SK (((ADV-A (WITH.P FRIEND296.SK)) CHASE.V) HAT298.SK)) ** E301.SK)
+          "valid"
+     ((ME310.SK (((ADV-A (WITH.P FRIEND296.SK)) CHASE.V) HAT298.SK)) ** E304.SK)
+          "valid"
+
+
+--------
+sentence: "We caught my friends hat."
+Machine-converted Len ULF fed to parser:
+(WE$26$.PRO
+ (:P (:F PAST CATCH$27$.V)
+  (:Q THE_INV.DET
+   (:L X
+    (:I (:I X ((PLUR FRIEND$29$.N) HAT$30$.N)) AND
+     (:I X PERTAIN-TO ME$28$.PRO))))))
+EL conversion from parser:
+     ((WE.PRO (CATCH.V FRIEND315.SK)) ** E307.SK)
+          "valid"
+     (FRIEND315.SK (PERTAIN-TO ME.PRO))
+          "valid"
+     (E99 (ORIENTS E307.SK))
+          "valid"
+     (E307.SK (BEFORE NOW127))
+          "valid"
+     (FRIEND315.SK (PLUR FRIEND.N))
+          "valid"
+     (FRIEND315.SK HAT.N)
+          "valid"
+
+
+--------
+sentence: "I went to the store yesterday."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO
+ ((:F PAST GO$1$.V) (TO$2$.P (THE$3$.D STORE$4$.N)) (:F K YESTERDAY$5$.N)))
+EL conversion from parser:
+     ((I319.SK (((ADV-A (TO.P STORE321.SK)) GO.V) (K YESTERDAY.N))) ** E322.SK)
+          "valid"
+     (E100 (ORIENTS E322.SK))
+          "valid"
+     (E322.SK (BEFORE NOW128))
+          "valid"
+     (STORE321.SK STORE.N)
+          "valid"
+
+
+--------
+sentence: "I saw some almonds."
+Machine-converted Len ULF fed to parser:
+(:I I$7$.PRO ((:F PAST SEE$8$.V) (SOME$9$.D (PLUR ALMOND$10$.N))))
+EL conversion from parser:
+     (ALMOND325.SK (PLUR ALMOND.N))
+          "valid"
+     (E324.SK (BEFORE NOW129))
+          "valid"
+     (E101 (ORIENTS E324.SK))
+          "valid"
+     ((I319.SK (SEE.V ALMOND325.SK)) ** E324.SK)
+          "valid"
+
+
+--------
+sentence: "They were so good."
+Machine-converted Len ULF fed to parser:
+(:I THEY$12$.PRO (WERE$13$.AUX (:F SO$14$.ADV GOOD$15$.A)))
+EL conversion from parser:
+     (THEY320.SK (WERE.AUX (SO.ADV GOOD.A)))
+          "invalid"
+
+
+--------
+sentence: "I ate the whole can."
+Machine-converted Len ULF fed to parser:
+(:I I$17$.PRO ((:F PAST EAT$18$.V) (THE$19$.D (WHOLE$20$.A CAN$21$.N))))
+EL conversion from parser:
+     (CAN328.SK CAN.N)
+          "valid"
+     (CAN328.SK WHOLE.A)
+          "valid"
+     (E327.SK (BEFORE NOW131))
+          "valid"
+     (E102 (ORIENTS E327.SK))
+          "valid"
+     ((I319.SK (EAT.V CAN328.SK)) ** E327.SK)
+          "valid"
+
+
+--------
+sentence: "Then I was very full."
+Machine-converted Len ULF fed to parser:
+(THEN$23$.ADV I$24$.PRO (WAS$25$.AUX (:F VERY$26$.ADV FULL$27$.A)))
+EL conversion from parser:
+     (THEN.ADV (I319.SK (WAS.AUX (VERY.ADV FULL.A))))
+          "invalid"
+
+
+--------
+sentence: "Jane and John walked up a hill."
+Machine-converted Len ULF fed to parser:
+((JANE$0$.NAME AND JOHN$2$.N)
+ ((:F PAST WALK$3$.V) (UP$4$.ADV (A$5$.D HILL$6$.N))))
+EL conversion from parser:
+     (HILL338.SK HILL.N)
+          "valid"
+     (OBJECT329.SK (BEFORE NOW133))
+          "valid"
+     (E103 (ORIENTS OBJECT329.SK))
+          "valid"
+     (((AND JANE.NAME JOHN.N) (WALK.V (UP.ADV HILL338.SK))) ** OBJECT329.SK)
+          "invalid"
+
+
+--------
+sentence: "They wanted to see the view."
+Machine-converted Len ULF fed to parser:
+(:I THEY$8$.PRO
+ ((:F PAST WANT$9$.V) (TO (:P SEE$11$.V (THE$12$.D VIEW$13$.N)))))
+EL conversion from parser:
+     (VIEW339.SK VIEW.N)
+          "valid"
+     (E340.SK (BEFORE NOW134))
+          "valid"
+     (E104 (ORIENTS E340.SK))
+          "valid"
+     ((THEY337.SK (WANT.V (KA (SEE.V VIEW339.SK)))) ** E340.SK)
+          "valid"
+
+
+--------
+sentence: "John fell down."
+Machine-converted Len ULF fed to parser:
+(JOHN$15$.NAME ((:F PAST FALL$16$.V) DOWN$17$.ADV))
+EL conversion from parser:
+     ((JOHN.NAME (DOWN.ADV FALL.V)) ** E332.SK)
+          "valid"
+     (E105 (ORIENTS E332.SK))
+          "valid"
+     (E332.SK (BEFORE NOW135))
+          "valid"
+
+
+--------
+sentence: "He hit his head really hard."
+Machine-converted Len ULF fed to parser:
+(HE$19$.PRO
+ (:P (:F PAST HIT$20$.V)
+  (:Q THE.DET (:L X (:I (:I X HEAD$22$.N) AND (:I X PERTAIN-TO HE$21$.PRO))))
+  (ADV (:F REALLY$23$.ADV HARD$24$.A))))
+EL conversion from parser:
+     (OBJECT335.SK (BEFORE NOW136))
+          "valid"
+     (E106 (ORIENTS OBJECT335.SK))
+          "valid"
+     (E333.SK (SAME-TIME NOW136))
+          "valid"
+     (E333.SK (RIGHT-AFTER U135))
+          "valid"
+     (HEAD334.SK HEAD.N)
+          "valid"
+     (HEAD334.SK (PERTAIN-TO JOHN.NAME))
+          "valid"
+     ((JOHN.NAME HIT.V HEAD334.SK (ADV (REALLY.ADV HARD.A))) ** E333.SK)
+          "invalid"
+     ((JOHN.NAME HIT.V HEAD334.SK (ADV (REALLY.ADV HARD.A))) ** OBJECT335.SK)
+          "invalid"
+
+
+--------
+sentence: "Jane carried him back down."
+Machine-converted Len ULF fed to parser:
+(JANE$26$.NAME
+ (:P (:F PAST CARRY$27$.V) HIM$28$.PRO (ADV (:F BACK$29$.ADV DOWN$30$.A))))
+EL conversion from parser:
+     ((JANE.NAME CARRY.V JOHN.NAME (ADV (BACK.ADV DOWN.A))) ** OBJECT336.SK)
+          "invalid"
+     (E107 (ORIENTS OBJECT336.SK))
+          "valid"
+     (OBJECT336.SK (BEFORE NOW137))
+          "valid"
+
+
+--------
+sentence: "I went to the pond behind my house."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO
+ ((:F PAST GO$1$.V) (TO$2$.P (THE$3$.D POND$4$.N))
+  (:P BEHIND$5$.P
+   (:Q THE_INV.DET
+    (:L X (:I (:I X HOUSE$7$.N) AND (:I X PERTAIN-TO ME$6$.PRO)))))))
+EL conversion from parser:
+     (E350.SK (BEFORE NOW138))
+          "valid"
+     (E108 (ORIENTS E350.SK))
+          "valid"
+     (HOUSE341.SK HOUSE.N)
+          "valid"
+     (HOUSE341.SK (PERTAIN-TO I347.SK))
+          "valid"
+     ((I347.SK
+       ((ADV-A (TO.P POND349.SK)) ((ADV-A (BEHIND.P HOUSE341.SK)) GO.V)))
+      ** E350.SK)
+          "valid"
+     (POND349.SK POND.N)
+          "valid"
+
+
+--------
+sentence: "We used crickets."
+Machine-converted Len ULF fed to parser:
+(WE$9$.PRO (:P (:F PAST USE$10$.V) (:F K (PLUR CRICKET$11$.N))))
+EL conversion from parser:
+     (E344.SK (BEFORE NOW139))
+          "valid"
+     (E109 (ORIENTS E344.SK))
+          "valid"
+     ((WE.PRO (USE.V (K (PLUR CRICKET.N)))) ** E344.SK)
+          "valid"
+
+
+--------
+sentence: "I caught a brim."
+Machine-converted Len ULF fed to parser:
+(:I I$13$.PRO ((:F PAST CATCH$14$.V) (A$15$.D BRIM$16$.N)))
+EL conversion from parser:
+     (BRIM351.SK BRIM.N)
+          "valid"
+     (E352.SK (BEFORE NOW140))
+          "valid"
+     (E110 (ORIENTS E352.SK))
+          "valid"
+     ((I347.SK (CATCH.V BRIM351.SK)) ** E352.SK)
+          "valid"
+
+
+--------
+sentence: "I let it go."
+Machine-converted Len ULF fed to parser:
+(:I I$18$.PRO (:P LET$19$.V (:I IT$20$.PRO GO$21$.V)))
+EL conversion from parser:
+     (I347.SK LET.V (IT348.SK GO.V))
+          "invalid"
+
+
+--------
+sentence: "My friend didn't catch anything."
+Machine-converted Len ULF fed to parser:
+((:Q THE_INV.DET
+  (:L X (:I (:I X FRIEND$24$.N) AND (:I X PERTAIN-TO ME$23$.PRO))))
+ (DID$25$.AUX |N'T$25$.ADV| (:P CATCH$26$.V (ANY$27$.D THING$27$.N))))
+EL conversion from parser:
+     (FRIEND346.SK DID.AUX (CATCH.V (ANY.D THING.N)))
+          "invalid"
+     (FRIEND346.SK (PERTAIN-TO I347.SK))
+          "valid"
+     (FRIEND346.SK FRIEND.N)
+          "valid"
+
+
+--------
+sentence: "Rene loved the swings."
+Machine-converted Len ULF fed to parser:
+(:I RENE$0$.NAME ((:F PAST LOVE$1$.V) (THE$2$.D (PLUR SWING$3$.N))))
+EL conversion from parser:
+     (SWING358.SK (PLUR SWING.N))
+          "valid"
+     (E357.SK (BEFORE NOW143))
+          "valid"
+     (E111 (ORIENTS E357.SK))
+          "valid"
+     ((RENE.NAME (LOVE.V SWING358.SK)) ** E357.SK)
+          "valid"
+
+
+--------
+sentence: "She didn't think she was too old to use them."
+Machine-converted Len ULF fed to parser:
+(SHE$8$.PRO
+ (DID$6$.AUX |N'T$6$.ADV|
+  (:P THINK$7$.V
+   (:I SHE$8$.PRO
+    (WAS$9$.AUX (:F TOO$10$.ADV OLD$11$.A (TO (:P USE$13$.V THEM$14$.PRO))))))))
+EL conversion from parser:
+     (SHE.PRO DID.AUX
+      (THINK.V (SHE.PRO (WAS.AUX (TOO.ADV OLD.A (KA (USE.V THEM.PRO)))))))
+          "invalid"
+
+
+--------
+sentence: "Rene went very high."
+Machine-converted Len ULF fed to parser:
+(:I RENE$16$.NAME ((:F PAST GO$17$.V) (:F VERY$18$.ADV HIGH$19$.A)))
+EL conversion from parser:
+     ((RENE.NAME (GO.V (VERY.ADV HIGH.A))) ** OBJECT354.SK)
+          "invalid"
+     (E112 (ORIENTS OBJECT354.SK))
+          "valid"
+     (OBJECT354.SK (BEFORE NOW145))
+          "valid"
+
+
+--------
+sentence: "At the end she jumped off."
+Machine-converted Len ULF fed to parser:
+(:P (AT$21$.P (THE$22$.D END$23$.N)) SHE$24$.PRO
+ ((:F PAST JUMP$25$.V) OFF$26$.PRT))
+EL conversion from parser:
+     (END359.SK END.N)
+          "valid"
+     (OBJECT355.SK (BEFORE NOW146))
+          "valid"
+     (E113 (ORIENTS OBJECT355.SK))
+          "valid"
+     (((AT.P END359.SK) SHE.PRO (JUMP.V OFF.PRT)) ** OBJECT355.SK)
+          "invalid"
+
+
+--------
+sentence: "She had much fun."
+Machine-converted Len ULF fed to parser:
+(SHE$28$.PRO (HAD$29$.AUX (:F K (MUCH$30$.A FUN$31$.N))))
+EL conversion from parser:
+     (SHE.PRO (HAD.AUX (K (L X (AND (X MUCH.A) (X FUN.N))))))
+          "invalid"
+
+
+--------
+sentence: "I found a couple baby turtles."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO
+ ((:F PAST FIND$1$.V) ((A$2$.D (COUPLE$3$.N BABY$4$.N)) (:F PRES TURTLE$5$.V))))
+EL conversion from parser:
+     (COUPLE371.SK BABY.N)
+          "valid"
+     (COUPLE371.SK COUPLE.N)
+          "valid"
+     (COUPLE369.SK BABY.N)
+          "valid"
+     (COUPLE369.SK COUPLE.N)
+          "valid"
+     ((I365.SK (FIND.V (COUPLE371.SK TURTLE.V))) ** OBJECT361.SK)
+          "invalid"
+     ((I365.SK (FIND.V (COUPLE369.SK TURTLE.V))) ** OBJECT360.SK)
+          "invalid"
+     (E114 (ORIENTS OBJECT360.SK))
+          "valid"
+     (OBJECT360.SK (BEFORE NOW148))
+          "valid"
+     (OBJECT361.SK (AT-ABOUT NOW148))
+          "valid"
+
+
+--------
+sentence: "I put them in a box."
+Machine-converted Len ULF fed to parser:
+(I$7$.PRO (:P (:F PRES PUT$8$.V) THEM$9$.PRO (IN$10$.P (A$11$.D BOX$12$.N))))
+EL conversion from parser:
+     ((I365.SK (((ADV-A (IN.P BOX373.SK)) PUT.V) THEM366.SK)) ** E374.SK)
+          "valid"
+     (E116 (ORIENTS E374.SK))
+          "valid"
+     (E374.SK (AT-ABOUT NOW149))
+          "valid"
+     (BOX373.SK BOX.N)
+          "valid"
+
+
+--------
+sentence: "I kept them for an hour."
+Machine-converted Len ULF fed to parser:
+(I$14$.PRO
+ (:P (:F PAST KEEP$15$.V) THEM$16$.PRO (FOR$17$.P (AN$18$.D HOUR$19$.N))))
+EL conversion from parser:
+     ((I365.SK (((ADV-A (FOR.P HOUR375.SK)) KEEP.V) THEM366.SK)) ** E376.SK)
+          "valid"
+     (E115 (ORIENTS E376.SK))
+          "valid"
+     (E376.SK (BEFORE NOW150))
+          "valid"
+     (HOUR375.SK HOUR.N)
+          "valid"
+
+
+--------
+sentence: "Then I let them go."
+Machine-converted Len ULF fed to parser:
+(THEN$21$.ADV I$22$.PRO ((:F PAST LET$23$.V) (:I THEM$24$.PRO GO$25$.V)))
+EL conversion from parser:
+     ((THEN.ADV (I365.SK (LET.V (THEM366.SK GO.V)))) ** OBJECT364.SK)
+          "invalid"
+     (E118 (ORIENTS OBJECT364.SK))
+          "valid"
+     (OBJECT364.SK (BEFORE NOW151))
+          "valid"
+
+
+--------
+sentence: "They were so tiny."
+Machine-converted Len ULF fed to parser:
+(:I THEY$27$.PRO (WERE$28$.AUX (:F SO$29$.ADV TINY$30$.A)))
+EL conversion from parser:
+     (THEM366.SK (WERE.AUX (SO.ADV TINY.A)))
+          "invalid"
+
+
+--------
+sentence: "Ann was at home sick."
+Machine-converted Len ULF fed to parser:
+(ANN$0$.NAME (WAS$1$.AUX (:P AT$2$.P (:F K HOME$3$.N)) SICK$4$.A))
+EL conversion from parser:
+     (ANN.NAME (WAS.AUX ((ADV-A (AT.P (K HOME.N))) SICK.A)))
+          "invalid"
+
+
+--------
+sentence: "Her friend Sally came to visit."
+Machine-converted Len ULF fed to parser:
+(:I
+ (:Q THE.DET
+  (:L X
+   (:I
+    (:I X
+     (:L #:G41987
+      (:O AND (:I #:G41987 FRIEND$7$.N) (:I #:G41987 SALLY$8$.NAME))))
+    AND (:I X PERTAIN-TO SHE$6$.PRO))))
+ ((:F PAST COME$9$.V) (TO VISIT$11$.V)))
+EL conversion from parser:
+     (E380.SK (BEFORE NOW154))
+          "valid"
+     (E119 (ORIENTS E380.SK))
+          "valid"
+     (E377.SK (SAME-TIME NOW154))
+          "valid"
+     (E377.SK (RIGHT-AFTER U153))
+          "valid"
+     (FRIEND378.SK FRIEND.N)
+          "valid"
+     (FRIEND378.SK SALLY.NAME)
+          "invalid"
+     (FRIEND378.SK (PERTAIN-TO SALLY.NAME))
+          "valid"
+     ((FRIEND378.SK ((ADV-A (FOR.P (KA VISIT.V))) COME.V)) ** E377.SK)
+          "valid"
+     ((FRIEND378.SK ((ADV-A (FOR.P (KA VISIT.V))) COME.V)) ** E380.SK)
+          "valid"
+
+
+--------
+sentence: "They played together."
+Machine-converted Len ULF fed to parser:
+(THEY$13$.PRO ((:F PAST PLAY$14$.V) TOGETHER$15$.ADV))
+EL conversion from parser:
+     ((THEY.PRO (TOGETHER.ADV PLAY.V)) ** E382.SK)
+          "valid"
+     (E120 (ORIENTS E382.SK))
+          "valid"
+     (E382.SK (BEFORE NOW155))
+          "valid"
+
+
+--------
+sentence: "Sally got sick from Ann."
+Machine-converted Len ULF fed to parser:
+(:I SALLY$17$.NAME
+ ((:F PAST GET$18$.V) SICK$19$.A (:P FROM$20$.P ANN$21$.NAME)))
+EL conversion from parser:
+     ((FRIEND378.SK (GET.V ((ADV-A (FROM.P ANN.NAME)) SICK.A))) ** OBJECT383.SK)
+          "invalid"
+     (E121 (ORIENTS OBJECT383.SK))
+          "valid"
+     (OBJECT383.SK (BEFORE NOW156))
+          "valid"
+
+
+--------
+sentence: "Now Ann comes to visit Sally."
+Machine-converted Len ULF fed to parser:
+(NOW$23$.ADV ANN$24$.NAME
+ ((:F PRES COME$25$.V) (TO (:P VISIT$27$.V SALLY$28$.NAME))))
+EL conversion from parser:
+     ((ANN.NAME ((ADV-A (FOR.P (KA (VISIT.V FRIEND378.SK)))) (NOW.ADV COME.V)))
+      ** E385.SK)
+          "valid"
+     (E117 (ORIENTS E385.SK))
+          "valid"
+     (E385.SK (AT-ABOUT NOW157))
+          "valid"
+
+
+--------
+sentence: "A new teacher started the day."
+Machine-converted Len ULF fed to parser:
+((A$0$.D (NEW$1$.A TEACHER$2$.N)) ((:F PAST START$3$.V) (THE$4$.D DAY$5$.N)))
+EL conversion from parser:
+     (TEACHER395.SK TEACHER.N)
+          "valid"
+     (TEACHER395.SK NEW.A)
+          "valid"
+     (DAY393.SK DAY.N)
+          "valid"
+     (E394.SK (BEFORE NOW158))
+          "valid"
+     (E122 (ORIENTS E394.SK))
+          "valid"
+     ((TEACHER395.SK (START.V DAY393.SK)) ** E394.SK)
+          "valid"
+
+
+--------
+sentence: "She asked them to sit."
+Machine-converted Len ULF fed to parser:
+(SHE$7$.PRO (:P (:F PAST ASK$8$.V) THEM$9$.PRO (TO SIT$11$.V)))
+EL conversion from parser:
+     (E388.SK (BEFORE NOW159))
+          "valid"
+     (E124 (ORIENTS E388.SK))
+          "valid"
+     ((SHE390.SK (ASK.V THEM391.SK (KA SIT.V))) ** E388.SK)
+          "valid"
+
+
+--------
+sentence: "They didn't sit."
+Machine-converted Len ULF fed to parser:
+(THEY$13$.PRO (DID$14$.AUX |N'T$14$.ADV| SIT$15$.V))
+EL conversion from parser:
+     (THEM391.SK DID.AUX (NOT SIT.V))
+          "invalid"
+
+
+--------
+sentence: "She didn't know what to do."
+Machine-converted Len ULF fed to parser:
+(SHE$17$.PRO
+ (DID$18$.AUX |N'T$18$.ADV| (:P KNOW$19$.V (WHAT$20$.PRO (TO DO$22$.AUX)))))
+EL conversion from parser:
+     (SHE.PRO DID.AUX (KNOW.V (WHAT.PRO (KA DO.AUX))))
+          "invalid"
+
+
+--------
+sentence: "She asked the principal to help."
+Machine-converted Len ULF fed to parser:
+(:I SHE$24$.PRO
+ ((:F PAST ASK$25$.V) (THE$26$.D PRINCIPAL$27$.N) (TO HELP$29$.V)))
+EL conversion from parser:
+     (PRINCIPAL396.SK PRINCIPAL.N)
+          "valid"
+     (E397.SK (BEFORE NOW162))
+          "valid"
+     (E125 (ORIENTS E397.SK))
+          "valid"
+     ((SHE.PRO (ASK.V PRINCIPAL396.SK (KA HELP.V))) ** E397.SK)
+          "valid"
+
+
+--------
+sentence: "Oran bought binoculars."
+Machine-converted Len ULF fed to parser:
+(ORAN$0$.NAME (:P (:F PAST BUY$1$.V) (:F K (PLUR BINOCULAR$2$.N))))
+EL conversion from parser:
+     (E399.SK (BEFORE NOW163))
+          "valid"
+     (E126 (ORIENTS E399.SK))
+          "valid"
+     ((ORAN.NAME (BUY.V (K (PLUR BINOCULAR.N)))) ** E399.SK)
+          "valid"
+
+
+--------
+sentence: "He took them outside."
+Machine-converted Len ULF fed to parser:
+(HE$4$.PRO (:P (:F PAST TAKE$5$.V) THEM$6$.PRO OUTSIDE$7$.ADV))
+EL conversion from parser:
+     (E401.SK (BEFORE NOW164))
+          "valid"
+     (E127 (ORIENTS E401.SK))
+          "valid"
+     ((ORAN.NAME ((OUTSIDE.ADV TAKE.V) THEM.PRO)) ** E401.SK)
+          "valid"
+
+
+--------
+sentence: "He saw birds."
+Machine-converted Len ULF fed to parser:
+(HE$9$.PRO (:P (:F PAST SEE$10$.V) (:F K (PLUR BIRD$11$.N))))
+EL conversion from parser:
+     (E403.SK (BEFORE NOW165))
+          "valid"
+     (E128 (ORIENTS E403.SK))
+          "valid"
+     ((ORAN.NAME (SEE.V (K (PLUR BIRD.N)))) ** E403.SK)
+          "valid"
+
+
+--------
+sentence: "He watched them."
+Machine-converted Len ULF fed to parser:
+(HE$13$.PRO (:P (:F PAST WATCH$14$.V) THEM$15$.PRO))
+EL conversion from parser:
+     (E405.SK (BEFORE NOW166))
+          "valid"
+     (E129 (ORIENTS E405.SK))
+          "valid"
+     ((ORAN.NAME (WATCH.V (K (PLUR BIRD.N)))) ** E405.SK)
+          "valid"
+
+
+--------
+sentence: "They became his friends."
+Machine-converted Len ULF fed to parser:
+(THEY$17$.PRO
+ (:P (:F PAST BECOME$18$.V)
+  (:Q THE.DET
+   (:L X (:I (:I X (PLUR FRIEND$20$.N)) AND (:I X PERTAIN-TO HE$19$.PRO))))))
+EL conversion from parser:
+     (E409.SK (BEFORE NOW167))
+          "valid"
+     (E130 (ORIENTS E409.SK))
+          "valid"
+     (E406.SK (SAME-TIME NOW167))
+          "valid"
+     (E406.SK (RIGHT-AFTER U166))
+          "valid"
+     (FRIENDS407.SK (PLUR FRIEND.N))
+          "valid"
+     (FRIENDS407.SK (PERTAIN-TO HE.PRO))
+          "valid"
+     (((K (PLUR BIRD.N)) (BECOME.V FRIENDS407.SK)) ** E406.SK)
+          "valid"
+     (((K (PLUR BIRD.N)) (BECOME.V FRIENDS407.SK)) ** E409.SK)
+          "valid"
+
+
+--------

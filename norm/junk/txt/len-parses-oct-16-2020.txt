@@ -1,0 +1,764 @@
+sentence: "I see a girl."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO ((:F PRES SEE$1$.V) (A$2$.D GIRL$3$.N)))
+EL conversion from parser:
+     (GIRL5.SK GIRL.N)
+          "valid"
+     (E6.SK (AT-ABOUT NOW0))
+          "valid"
+     ((I4.SK (SEE.V GIRL5.SK)) ** E6.SK)
+          "valid"
+
+
+--------
+sentence: "I see a boy."
+Machine-converted Len ULF fed to parser:
+(:I I$5$.PRO ((:F PRES SEE$6$.V) (A$7$.D BOY$8$.N)))
+EL conversion from parser:
+     (BOY7.SK BOY.N)
+          "valid"
+     (E8.SK (AT-ABOUT NOW1))
+          "valid"
+     (E0 (ORIENTS E8.SK))
+          "valid"
+     ((I4.SK (SEE.V BOY7.SK)) ** E8.SK)
+          "valid"
+
+
+--------
+sentence: "I see a boy and a girl."
+Machine-converted Len ULF fed to parser:
+(I$10$.PRO ((:F PRES SEE$11$.V) ((A$12$.D BOY$13$.N) AND (A$15$.D GIRL$16$.N))))
+EL conversion from parser:
+     (GIRL10.SK GIRL.N)
+          "valid"
+     (BOY9.SK BOY.N)
+          "valid"
+     (OBJECT3.SK (AT-ABOUT NOW2))
+          "valid"
+     (E1 (ORIENTS OBJECT3.SK))
+          "valid"
+     ((I4.SK (SEE.V (AND BOY9.SK GIRL10.SK))) ** OBJECT3.SK)
+          "invalid"
+
+
+--------
+sentence: "The boy can see the girl."
+Machine-converted Len ULF fed to parser:
+((THE$18$.D BOY$19$.N) (CAN (:P SEE$21$.V (THE$22$.D GIRL$23$.N))))
+EL conversion from parser:
+     (GIRL12.SK GIRL.N)
+          "valid"
+     (BOY11.SK BOY.N)
+          "valid"
+     (BOY11.SK (CAN (SEE.V GIRL12.SK)))
+          "invalid"
+
+
+--------
+sentence: "I can see the girl and the boy."
+Machine-converted Len ULF fed to parser:
+(:I I$25$.PRO
+ (CAN (:P SEE$27$.V ((THE$28$.D GIRL$29$.N) AND (THE$31$.D BOY$32$.N)))))
+EL conversion from parser:
+     (BOY14.SK BOY.N)
+          "valid"
+     (GIRL13.SK GIRL.N)
+          "valid"
+     (I4.SK (CAN (SEE.V (AND GIRL13.SK BOY14.SK))))
+          "invalid"
+
+
+--------
+sentence: "I can see the girl."
+Machine-converted Len ULF fed to parser:
+(:I I$34$.PRO (CAN (:P SEE$36$.V (THE$37$.D GIRL$38$.N))))
+EL conversion from parser:
+     (GIRL15.SK GIRL.N)
+          "valid"
+     (I4.SK (CAN (SEE.V GIRL15.SK)))
+          "invalid"
+
+
+--------
+sentence: "A parrot can talk."
+Machine-converted Len ULF fed to parser:
+((A$0$.D PARROT$1$.N) (CAN TALK$3$.V))
+EL conversion from parser:
+     (PARROT16.SK PARROT.N)
+          "valid"
+     (PARROT16.SK (CAN TALK.V))
+          "invalid"
+
+
+--------
+sentence: "The boy and the dog run."
+Machine-converted Len ULF fed to parser:
+(((THE$0$.D BOY$1$.N) AND (THE$3$.D DOG$4$.N)) (PASV RUN$5$.V))
+EL conversion from parser:
+     (DOG18.SK DOG.N)
+          "valid"
+     (BOY17.SK BOY.N)
+          "valid"
+     ((AND BOY17.SK DOG18.SK) (PASV RUN.V))
+          "invalid"
+
+
+--------
+sentence: "The hen will run at the cat."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D HEN$1$.N)
+ (:I WILL$2$.NAME (:P RUN$3$.V (AT$4$.P (THE$5$.D CAT$6$.N)))))
+EL conversion from parser:
+     (CAT20.SK CAT.N)
+          "valid"
+     (HEN19.SK HEN.N)
+          "valid"
+     (HEN19.SK (WILL.NAME (AT.P CAT20.SK)))
+          "invalid"
+     (HEN19.SK (WILL.NAME RUN.V))
+          "invalid"
+
+
+--------
+sentence: "The dog and hen run at the cat."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D (DOG$1$.N AND (PLUR HEN$3$.N)))
+ ((:F PRES RUN$4$.V) (AT$5$.P (THE$6$.D CAT$7$.N))))
+EL conversion from parser:
+     (HEN24.SK DOG.N)
+          "valid"
+     (HEN24.SK (PLUR HEN.N))
+          "valid"
+     (CAT23.SK CAT.N)
+          "valid"
+     (OBJECT21.SK (AT-ABOUT NOW9))
+          "valid"
+     (E2 (ORIENTS OBJECT21.SK))
+          "valid"
+     ((HEN24.SK (RUN.V (AT.P CAT23.SK))) ** OBJECT21.SK)
+          "invalid"
+
+
+--------
+sentence: "I see one dog and two cats."
+Machine-converted Len ULF fed to parser:
+(I$0$.PRO
+ ((:F PRES SEE$1$.V) ((ONE$2$.D DOG$3$.N) AND (TWO$5$.D (PLUR CAT$6$.N)))))
+EL conversion from parser:
+     (DOG27.SK DOG.N)
+          "valid"
+     (OBJECT26.SK (AT-ABOUT NOW10))
+          "valid"
+     (E3 (ORIENTS OBJECT26.SK))
+          "valid"
+     ((I.PRO (SEE.V (AND DOG27.SK (TWO.D (PLUR CAT.N))))) ** OBJECT26.SK)
+          "invalid"
+
+
+--------
+sentence: "She saw Rover run off with the hat."
+Machine-converted Len ULF fed to parser:
+(:I SHE$0$.PRO
+ ((:F PAST SEE$1$.V)
+  (ROVER (:P RUN$3$.V OFF$4$.PRT (WITH$5$.P (THE$6$.D HAT$7$.N))))))
+EL conversion from parser:
+     (HAT29.SK HAT.N)
+          "valid"
+     (OBJECT28.SK (BEFORE NOW11))
+          "valid"
+     ((SHE.PRO (SEE.V (ROVER (RUN.V OFF.PRT (WITH.P HAT29.SK))))) **
+      OBJECT28.SK)
+          "invalid"
+
+
+--------
+sentence: "Here come Jack and Jill on a red sled."
+Machine-converted Len ULF fed to parser:
+(HERE$0$.ADV (:F PAST COME$1$.V)
+ ((JACK$2$.NAME AND JILL$4$.N) (ON$5$.P (A$6$.D (RED$7$.A SLED$8$.N)))))
+EL conversion from parser:
+     (SLED32.SK SLED.N)
+          "valid"
+     (SLED32.SK RED.A)
+          "valid"
+     (OBJECT30.SK (BEFORE NOW12))
+          "valid"
+     (E5 (ORIENTS OBJECT30.SK))
+          "valid"
+     ((HERE.ADV (COME.V ((AND JACK.NAME JILL.N) (ON.P SLED32.SK)))) **
+      OBJECT30.SK)
+          "invalid"
+
+
+--------
+sentence: "The Hare runs from the Dog."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D HARE$1$.N) ((:F PRES RUN$2$.V) (FROM$3$.P (THE$4$.D DOG$5$.N))))
+EL conversion from parser:
+     (DOG35.SK DOG.N)
+          "valid"
+     (HARE34.SK HARE.N)
+          "valid"
+     (OBJECT33.SK (AT-ABOUT NOW13))
+          "valid"
+     (E4 (ORIENTS OBJECT33.SK))
+          "valid"
+     ((HARE34.SK (RUN.V (FROM.P DOG35.SK))) ** OBJECT33.SK)
+          "invalid"
+
+
+--------
+sentence: "The Fox will eat the Hen."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D FOX$1$.N) (:I WILL$2$.NAME (:P EAT$3$.V (THE$4$.D HEN$5$.N))))
+EL conversion from parser:
+     (FOX36.SK (WILL.NAME (EAT.V HEN37.SK)))
+          "invalid"
+     (FOX36.SK FOX.N)
+          "valid"
+     (HEN37.SK HEN.N)
+          "valid"
+
+
+--------
+sentence: "The Man breaks the Ice."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D MAN$1$.N) ((:F PRES BREAK$2$.V) (THE$3$.D ICE$4$.N)))
+EL conversion from parser:
+     (ICE40.SK ICE.N)
+          "valid"
+     (MAN39.SK MAN.N)
+          "valid"
+     (E41.SK (AT-ABOUT NOW15))
+          "valid"
+     (E7 (ORIENTS E41.SK))
+          "valid"
+     ((MAN39.SK (BREAK.V ICE40.SK)) ** E41.SK)
+          "valid"
+
+
+--------
+sentence: "That man is shooting partridges."
+Machine-converted Len ULF fed to parser:
+((THAT$0$.D MAN$1$.N)
+ (IS$2$.AUX (:P (:F PROG SHOOT$3$.V) (:F K (PLUR PARTRIDGE$4$.N)))))
+EL conversion from parser:
+     (MAN42.SK MAN.N)
+          "valid"
+     (MAN42.SK (IS.AUX ((SHOOT.V) (K (PLUR PARTRIDGE.N)))))
+          "invalid"
+
+
+--------
+sentence: "The rat ran from the box."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D RAT$1$.N) ((:F PAST RUN$2$.V) (FROM$3$.P (THE$4$.D BOX$5$.N))))
+EL conversion from parser:
+     (BOX45.SK BOX.N)
+          "valid"
+     (RAT44.SK RAT.N)
+          "valid"
+     (OBJECT43.SK (BEFORE NOW17))
+          "valid"
+     (E6 (ORIENTS OBJECT43.SK))
+          "valid"
+     ((RAT44.SK (RUN.V (FROM.P BOX45.SK))) ** OBJECT43.SK)
+          "invalid"
+
+
+--------
+sentence: "The man with the big hat has a cow."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D
+  (:L #:G4958
+   (:O AND (:I #:G4958 MAN$1$.N)
+    (:I #:G4958 (WITH$2$.P (THE$3$.D (BIG$4$.A HAT$5$.N)))))))
+ (HAS$6$.AUX (A$7$.D COW$8$.N)))
+EL conversion from parser:
+     (MAN48.SK (WITH.P HAT50.SK))
+          "valid"
+     (MAN48.SK MAN.N)
+          "valid"
+     (COW47.SK COW.N)
+          "valid"
+     (MAN48.SK (HAS.AUX COW47.SK))
+          "invalid"
+     (HAT50.SK BIG.A)
+          "valid"
+     (HAT50.SK HAT.N)
+          "valid"
+
+
+--------
+sentence: "The baby can not have the bird."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D BABY$1$.N) (CAN NOT$3$.ADV (HAVE$4$.AUX (THE$5$.D BIRD$6$.N))))
+EL conversion from parser:
+     (BIRD53.SK BIRD.N)
+          "valid"
+     (BABY52.SK BABY.N)
+          "valid"
+     (BABY52.SK CAN (HAVE.V BIRD53.SK))
+          "valid"
+
+
+--------
+sentence: "She can not fly and catch it."
+Machine-converted Len ULF fed to parser:
+(SHE$8$.PRO (CAN NOT$10$.ADV (:P FLY$11$.V AND (:P CATCH$13$.V IT$14$.PRO))))
+EL conversion from parser:
+     (SHE51.SK CAN (AND FLY.V (CATCH.V SHE51.SK)))
+          "invalid"
+
+
+--------
+sentence: "I have four apples on this plate."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO
+ (HAVE$1$.AUX
+  (FOUR$2$.D
+   (:L #:G5754
+    (:O AND (:I #:G5754 (PLUR APPLE$3$.N))
+     (:I #:G5754 (ON$4$.P (THIS$5$.D PLATE$6$.N))))))))
+EL conversion from parser:
+     (I57.SK
+      (HAVE.V
+       (FOUR.D (L X (AND (X (PLUR APPLE.N)) (X ON.P (THIS.D PLATE.N)))))))
+          "invalid"
+
+
+--------
+sentence: "If I put two apples on the box, I shall leave two apples on the plate."
+Machine-converted Len ULF fed to parser:
+((IF$8$.P
+  (:I I$16$.PRO
+   ((:F PRES PUT$10$.V) (TWO$11$.D (PLUR APPLE$12$.N))
+    (ON$13$.P (THE$14$.D BOX$15$.N)))))
+ |,| I$16$.PRO
+ (SHALL
+  (:P LEAVE$18$.V (TWO$19$.D (PLUR APPLE$20$.N))
+   (ON$21$.P (THE$22$.D PLATE$23$.N)))))
+EL conversion from parser:
+     (PLATE59.SK PLATE.N)
+          "valid"
+     (SHALL (LEAVE.V (TWO.D (PLUR APPLE.N)) (ON.P PLATE59.SK)))
+          "invalid"
+     I.PRO
+          "invalid"
+
+
+--------
+sentence: "Four apples are two apples and two apples."
+Machine-converted Len ULF fed to parser:
+((FOUR$25$.D (PLUR APPLE$26$.N))
+ (ARE$27$.AUX
+  ((TWO$28$.D (PLUR APPLE$29$.N)) AND (TWO$31$.D (PLUR APPLE$32$.N)))))
+EL conversion from parser:
+     ((FOUR.D (PLUR APPLE.N))
+      (ARE.AUX (AND (TWO.D (PLUR APPLE.N)) (TWO.D (PLUR APPLE.N)))))
+          "invalid"
+
+
+--------
+sentence: "If I put three apples on the box, I shall leave one apple on the plate."
+Machine-converted Len ULF fed to parser:
+((IF$34$.P
+  (:I I$35$.PRO
+   ((:F PRES PUT$36$.V) (THREE$37$.D (PLUR APPLE$38$.N))
+    (ON$39$.P (THE$40$.D BOX$41$.N)))))
+ |,| I$42$.PRO
+ (SHALL
+  (:P LEAVE$44$.V (ONE$45$.D APPLE$46$.N) (ON$47$.P (THE$48$.D PLATE$49$.N)))))
+EL conversion from parser:
+     (PLATE61.SK PLATE.N)
+          "valid"
+     (APPLE60.SK APPLE.N)
+          "valid"
+     (SHALL (LEAVE.V APPLE60.SK (ON.P PLATE61.SK)))
+          "invalid"
+     I58.SK
+          "invalid"
+
+
+--------
+sentence: "Four apples are three apples and one apple."
+Machine-converted Len ULF fed to parser:
+((FOUR$51$.D (PLUR APPLE$52$.N))
+ (ARE$53$.AUX ((THREE$54$.D (PLUR APPLE$55$.N)) AND (ONE$57$.D APPLE$58$.N))))
+EL conversion from parser:
+     (APPLE62.SK APPLE.N)
+          "valid"
+     ((FOUR.D (PLUR APPLE.N))
+      (ARE.AUX (AND (THREE.D (PLUR APPLE.N)) APPLE62.SK)))
+          "invalid"
+
+
+--------
+sentence: "If I put one on the box, I shall leave on the plate."
+Machine-converted Len ULF fed to parser:
+((IF$60$.P
+  (I$61$.PRO ((:F PRES PUT$62$.V) ONE (ON$64$.P (THE$65$.D BOX$66$.N)))))
+ |,| I$67$.PRO (SHALL (:P LEAVE$69$.V (ON$70$.P (THE$71$.D PLATE$72$.N)))))
+EL conversion from parser:
+     (PLATE63.SK PLATE.N)
+          "valid"
+     (SHALL (LEAVE.V (ON.P PLATE63.SK)))
+          "invalid"
+     I58.SK
+          "invalid"
+
+
+--------
+sentence: "The bear was small then, so he was not afraid of him."
+Machine-converted Len ULF fed to parser:
+(((THE$0$.D BEAR$1$.N) (WAS$2$.AUX SMALL$3$.A THEN$4$.ADV)) |,| SO$5$.P
+ (HE$6$.PRO
+  (WAS$7$.AUX (:F NOT$8$.ADV (AFRAID$9$.A (:P OF$10$.P HIM$11$.PRO))))))
+EL conversion from parser:
+     (HE.PRO (WAS.AUX (NOT.ADV (L X (AND (X AFRAID.A) (X (OF.P HIM.PRO)))))))
+          "invalid"
+     SO.P
+          "invalid"
+
+
+--------
+sentence: "He cut the tree down, and as soon as it fell, the dogs caught the bear."
+Machine-converted Len ULF fed to parser:
+((:I HE$13$.PRO ((:F PAST CUT$14$.V) (THE$15$.D TREE$16$.N) DOWN$17$.ADV)) |,|
+ AND
+ (((ADV (:F AS$19$.ADV SOON$20$.A))
+   (AS$21$.P (:I IT$22$.PRO (:F PAST FALL$23$.V))))
+  |,| (THE$24$.D (PLUR DOG$25$.N))
+  ((:F PAST CATCH$25$.V) (THE$26$.D BEAR$27$.N))))
+EL conversion from parser:
+     (BEAR69.SK BEAR.N)
+          "valid"
+     (DOG70.SK (PLUR DOG.N))
+          "valid"
+     (OBJECT67.SK (BEFORE NOW28))
+          "valid"
+     (E14 (ORIENTS OBJECT67.SK))
+          "valid"
+     ((CATCH.V BEAR69.SK) ** OBJECT67.SK)
+          "invalid"
+     DOG70.SK
+          "invalid"
+     AND
+          "invalid"
+
+
+--------
+sentence: "The cat saw the rat."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D CAT$1$.N) ((:F PAST SEE$2$.V) (THE$3$.D RAT$4$.N)))
+EL conversion from parser:
+     (RAT76.SK RAT.N)
+          "valid"
+     (CAT75.SK CAT.N)
+          "valid"
+     (E77.SK (BEFORE NOW29))
+          "valid"
+     (E15 (ORIENTS E77.SK))
+          "valid"
+     ((CAT75.SK (SEE.V RAT76.SK)) ** E77.SK)
+          "valid"
+
+
+--------
+sentence: "Off ran the rat, and off ran the cat."
+Machine-converted Len ULF fed to parser:
+(((OFF$11$.ADV (:F PAST RUN$12$.V) (THE$13$.D RAT$9$.N)) |,| AND
+  (OFF$11$.ADV (:F PAST RUN$12$.V) (THE$13$.D CAT$14$.N))))
+EL conversion from parser:
+     (CAT81.SK CAT.N)
+          "valid"
+     (RAT80.SK RAT.N)
+          "valid"
+     (CAT79.SK CAT.N)
+          "valid"
+     (RAT78.SK RAT.N)
+          "valid"
+     ((((OFF.ADV RUN.V RAT78.SK) |,| AND (OFF.ADV RUN.V CAT79.SK))) **
+      OBJECT73.SK)
+          "invalid"
+     ((((OFF.ADV RUN.V RAT80.SK) |,| AND (OFF.ADV RUN.V CAT81.SK))) **
+      OBJECT72.SK)
+          "invalid"
+     (E16 (ORIENTS OBJECT72.SK))
+          "valid"
+     (OBJECT72.SK (BEFORE NOW30))
+          "valid"
+     (E17 (ORIENTS OBJECT73.SK))
+          "valid"
+     (OBJECT73.SK (BEFORE NOW30))
+          "valid"
+
+
+--------
+sentence: "But the rat got to the hole all safe."
+Machine-converted Len ULF fed to parser:
+(BUT$16$.CC (THE$17$.D RAT$18$.N)
+ ((:F PAST GET$19$.V)
+  (TO$20$.P
+   (THE$21$.D
+    (:L #:G7208
+     (:O AND (:I #:G7208 HOLE$22$.N)
+      (:I #:G7208 (:F ALL$23$.ADV SAFE$24$.A))))))))
+EL conversion from parser:
+     (HOLE84.SK (ALL.ADV SAFE.A))
+          "valid"
+     (HOLE84.SK HOLE.N)
+          "valid"
+     (RAT83.SK RAT.N)
+          "valid"
+     (OBJECT74.SK (BEFORE NOW31))
+          "valid"
+     (E18 (ORIENTS OBJECT74.SK))
+          "valid"
+     (((GET.V (TO.P HOLE84.SK)) RAT83.SK) ** OBJECT74.SK)
+          "invalid"
+
+
+--------
+sentence: "It is not a dog, but it has legs."
+Machine-converted Len ULF fed to parser:
+((IT$0$.PRO (IS$1$.AUX NOT$2$.ADV (A$3$.D DOG$4$.N))) |,| BUT$5$.CC
+ (IT$6$.PRO (HAS$7$.AUX (:F K (PLUR LEG$8$.N)))))
+EL conversion from parser:
+     (IT.PRO (HAS.AUX (K (PLUR LEG.N))))
+          "invalid"
+     BUT.CC
+          "invalid"
+
+
+--------
+sentence: "It is not a bird, but it has wings."
+Machine-converted Len ULF fed to parser:
+((IT$10$.PRO (IS$11$.AUX NOT$12$.ADV (A$13$.D BIRD$14$.N))) |,| BUT$15$.CC
+ (IT$16$.PRO (HAS$17$.AUX (:F K (PLUR WING$18$.N)))))
+EL conversion from parser:
+     (IT.PRO (HAS.AUX (K (PLUR WING.N))))
+          "invalid"
+     BUT.CC
+          "invalid"
+
+
+--------
+sentence: "It says buz, buz, buz."
+Machine-converted Len ULF fed to parser:
+(IT$20$.PRO ((:F PRES SAY$21$.V) (BUZ |,| BUZ |,| BUZ)))
+EL conversion from parser:
+     ((IT.PRO (SAY.V (BUZ |,| BUZ |,| BUZ))) ** OBJECT87.SK)
+          "invalid"
+     (E12 (ORIENTS OBJECT87.SK))
+          "valid"
+     (OBJECT87.SK (AT-ABOUT NOW34))
+          "valid"
+
+
+--------
+sentence: "It is busy all the day."
+Machine-converted Len ULF fed to parser:
+(:I IT$26$.PRO (IS$27$.AUX BUSY$28$.A (ALL$29$.D THE$30$.D DAY$31$.N)))
+EL conversion from parser:
+     (IT.PRO (IS.AUX BUSY.A (ALL.D THE.D DAY.N)))
+          "invalid"
+
+
+--------
+sentence: "I like to see John run with his kite."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO
+ ((:F PRES LIKE$1$.V)
+  (TO
+   (:P SEE$3$.V
+    (:I JOHN$4$.NAME
+     (:P RUN$5$.V
+      (:P WITH$6$.P
+       (:Q THE.DET
+        (:L X (:I (:I X KITE$8$.N) AND (:I X PERTAIN-TO HE$7$.PRO)))))))))))
+EL conversion from parser:
+     (OBJECT88.SK (AT-ABOUT NOW36))
+          "valid"
+     (E20 (ORIENTS OBJECT88.SK))
+          "valid"
+     ((I.PRO
+       (LIKE.V
+        (KA
+         (SEE.V
+          (THE Z (AND (Z KITE.N) (Z (PERTAIN-TO JOHN.NAME)))
+               (AND (JOHN.NAME RUN.V) (JOHN.NAME (WITH.P Z))))))))
+      ** OBJECT88.SK)
+          "invalid"
+
+
+--------
+sentence: "He can run as fast as the other boys, but he can not jump far."
+Machine-converted Len ULF fed to parser:
+((:I HE$10$.PRO
+  (CAN
+   (:P RUN$12$.V
+    ((ADV (:F AS$13$.ADV FAST$14$.A))
+     (AS$15$.P (THE$16$.D (OTHER$17$.A (PLUR BOY$18$.N))))))))
+ |,| BUT$19$.CC (HE$20$.PRO (CAN NOT$22$.ADV (:P JUMP$23$.V FAR$24$.ADV))))
+EL conversion from parser:
+     (HE.PRO CAN (NOT.ADV (FAR.ADV JUMP.V)))
+          "valid"
+     BUT.CC
+          "invalid"
+
+
+--------
+sentence: "He does not like to look at books and pictures, but he can play on a drum."
+Machine-converted Len ULF fed to parser:
+((HE$26$.PRO
+  (DOES$27$.AUX NOT$28$.ADV
+   (:P LIKE$29$.V
+    (TO
+     (:P LOOK$31$.V
+      (:P AT$32$.P
+       (:F K
+        (:L #:G8875
+         (:O AND (:I #:G8875 (PLUR BOOK$33$.N)) (:I #:G8875 AND)
+          (:I #:G8875 (PLUR PICTURE$35$.N)))))))))))
+ |,| BUT$36$.CC
+ (:I HE$37$.PRO (CAN (:P PLAY$39$.V ON$40$.PRT (A$41$.D DRUM$42$.V)))))
+EL conversion from parser:
+     (DRUM91.SK DRUM.V)
+          "valid"
+     (HE.PRO (CAN (PLAY.V ON.PRT DRUM91.SK)))
+          "invalid"
+     BUT.CC
+          "invalid"
+
+
+--------
+sentence: "Ada has a fan in her hand."
+Machine-converted Len ULF fed to parser:
+(:I ADA$0$.NAME
+ (HAS$1$.AUX
+  (A$2$.D
+   (:L #:G9655
+    (:O AND (:I #:G9655 FAN$3$.N)
+     (:I #:G9655
+      (:P IN$4$.P
+       (:Q THE.DET
+        (:L X (:I (:I X HAND$6$.N) AND (:I X PERTAIN-TO SHE$5$.PRO)))))))))))
+EL conversion from parser:
+     (THE Y (AND (Y HAND.N) (Y (PERTAIN-TO ADA.NAME))) (FAN93.SK (IN.P Y)))
+          "invalid"
+     (FAN93.SK FAN.N)
+          "valid"
+     (ADA.NAME (HAS.AUX FAN93.SK))
+          "invalid"
+
+
+--------
+sentence: "These fans are May's."
+Machine-converted Len ULF fed to parser:
+((THESE$8$.D (PLUR FAN$9$.N)) (ARE$10$.AUX (MAY |'S$11$.AUX|)))
+EL conversion from parser:
+     ((THESE.D (PLUR FAN.N)) (ARE.AUX (MAY |\|'S.AUX\||)))
+          "invalid"
+
+
+--------
+sentence: "Ada has May's white fan."
+Machine-converted Len ULF fed to parser:
+(:I ADA$13$.NAME (HAS$14$.AUX ((MAY |'S|) (WHITE$16$.A FAN$17$.N))))
+EL conversion from parser:
+     (ADA.NAME (HAS.AUX ((MAY |'S|) (L X (AND (X WHITE.A) (X FAN.N))))))
+          "invalid"
+
+
+--------
+sentence: "The boy has a big dog."
+Machine-converted Len ULF fed to parser:
+((THE$0$.D BOY$1$.N) (HAS$2$.AUX (A$3$.D (BIG$4$.A DOG$5$.N))))
+EL conversion from parser:
+     (DOG96.SK DOG.N)
+          "valid"
+     (DOG96.SK BIG.A)
+          "valid"
+     (BOY94.SK BOY.N)
+          "valid"
+     (BOY94.SK (HAS.AUX DOG96.SK))
+          "invalid"
+
+
+--------
+sentence: "You may see the dog play ball."
+Machine-converted Len ULF fed to parser:
+(:I YOU$7$.PRO
+ (MAY (:P SEE$9$.V ((THE$10$.D DOG$11$.N) (:P PLAY$12$.V (:F K BALL$13$.N))))))
+EL conversion from parser:
+     (DOG97.SK DOG.N)
+          "valid"
+     (YOU.PRO (MAY (SEE.V (DOG97.SK (PLAY.V (K BALL.N))))))
+          "invalid"
+
+
+--------
+sentence: "I have a doll."
+Machine-converted Len ULF fed to parser:
+(:I I$0$.PRO (HAVE$1$.AUX (A$2$.D DOLL$3$.N)))
+EL conversion from parser:
+     (DOLL101.SK DOLL.N)
+          "valid"
+     (I100.SK (HAVE.V DOLL101.SK))
+          "valid"
+
+
+--------
+sentence: "I can see my doll."
+Machine-converted Len ULF fed to parser:
+(:I I$5$.PRO
+ (CAN
+  (:P SEE$7$.V
+   (:Q THE_INV.DET
+    (:L X (:I (:I X DOLL$9$.N) AND (:I X PERTAIN-TO ME$8$.PRO)))))))
+EL conversion from parser:
+     (I100.SK (CAN (SEE.V DOLL98.SK)))
+          "invalid"
+     (DOLL98.SK (PERTAIN-TO I100.SK))
+          "valid"
+     (DOLL98.SK DOLL.N)
+          "valid"
+
+
+--------
+sentence: "My doll has a hat."
+Machine-converted Len ULF fed to parser:
+(:I
+ (:Q THE_INV.DET
+  (:L X (:I (:I X DOLL$12$.N) AND (:I X PERTAIN-TO ME$11$.PRO))))
+ (HAS$13$.AUX (A$14$.D HAT$15$.N)))
+EL conversion from parser:
+     (HAT102.SK HAT.N)
+          "valid"
+     (DOLL98.SK DOLL.N)
+          "valid"
+     (DOLL98.SK (PERTAIN-TO ME.PRO))
+          "valid"
+     (DOLL98.SK (HAS.AUX HAT102.SK))
+          "invalid"
+
+
+--------
+sentence: "The girl has a doll and a hat."
+Machine-converted Len ULF fed to parser:
+((THE$17$.D GIRL$18$.N)
+ (HAS$19$.AUX ((A$23$.D DOLL$21$.N) AND (A$23$.D HAT$24$.N))))
+EL conversion from parser:
+     (HAT105.SK HAT.N)
+          "valid"
+     (DOLL104.SK DOLL.N)
+          "valid"
+     (GIRL103.SK GIRL.N)
+          "valid"
+     (GIRL103.SK (HAS.AUX (AND DOLL104.SK HAT105.SK)))
+          "invalid"
+
+
+--------

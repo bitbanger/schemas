@@ -5,8 +5,8 @@
 (ll-load "real_util.lisp")
 (ll-load "schema-parser.lisp")
 (ll-load "lenulf.lisp")
-(ll-load "roc-mcguffey-stories.lisp")
-(ll-load "school-roc-stories.lisp")
+(ll-load-subdir "stories" "roc-mcguffey-stories.lisp")
+(ll-load-subdir "stories" "school-roc-stories.lisp")
 
 (setf sents '(
 	; "Tom used to have his own boat."

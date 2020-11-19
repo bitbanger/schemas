@@ -18,7 +18,7 @@
 (ll-load "monkey-processed.lisp")
 (ll-load "norm-link.lisp")
 (ll-load "schema-parser.lisp")
-(ll-load "roc-mcguffey-stories.lisp")
+(ll-load-subdir "stories" "roc-mcguffey-stories.lisp")
 
 (ll-load "all-proto-clargs.lisp")
 ; (setf *CLARG-MATCHES* (mapcar #'third matches))

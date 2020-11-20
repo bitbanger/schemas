@@ -20,6 +20,15 @@
 	)
 )
 
+(defun ll-load-superdir (filename)
+	(let ((
+			*default-pathname-defaults*
+			(make-pathname :directory (reverse (cdr (reverse (pathname-directory *default-pathname-defaults*)))))
+	))
+		(load filename)
+	)
+)
+
 (defun ll-load-subdir (subdir filename)
 	(progn
 	(let ((*default-pathname-defaults* (pathname (format nil "~a/" (merge-pathnames *default-pathname-defaults* subdir)))))

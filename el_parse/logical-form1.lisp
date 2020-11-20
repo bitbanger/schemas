@@ -1,10 +1,7 @@
 ; Get real-util from the parent directory
-(let ((
-		*default-pathname-defaults*
-		(make-pathname :directory (reverse (cdr (reverse (pathname-directory *default-pathname-defaults*)))))
-))
-	(load "real_util.lisp")
-)
+(load "../ll-load.lisp")
+
+(ll-load-superdir "real_util.lisp")
 
 ;; MAIN TREEBANK LF PROGRAMS (AS IN THE MINIPAR-ORIENTED VERSION) ARE 
 ;;

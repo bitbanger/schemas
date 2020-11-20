@@ -1,3 +1,5 @@
+(defparameter *ROOT-PATH* #P"/Users/l/Code/schemas")
+
 (if (not (boundp '*LL-LOADED*))
 	(progn
 		(declaim (sb-ext:muffle-conditions cl:warning))
@@ -25,7 +27,18 @@
 			*default-pathname-defaults*
 			(make-pathname :directory (reverse (cdr (reverse (pathname-directory *default-pathname-defaults*)))))
 	))
-		(load filename)
+		(if (gethash filename *LL-LOADED*)
+			; then
+			(progn
+				; (format t "not loading ~s~%" filename)
+			)
+			; else
+			(progn
+				; (format t "loading ~s~%" filename)
+				(load filename)
+				(setf (gethash filename *LL-LOADED*) t)
+			)
+		)
 	)
 )
 

@@ -149,8 +149,8 @@
 
 (defun canon-prep? (x)
 (or
-	(lex-p? x)
-	(mp x (list 'canon-prep? 'canon-individual?))
+	; (lex-p? x)
+	(mp x (list 'lex-p? 'canon-individual?))
 )
 )
 

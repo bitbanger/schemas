@@ -284,6 +284,17 @@
 		(_*1 ((adv-a !2) !4) _*3 _*5)
 	)
 
+	; Naked predicates as PP objects should be
+	; reified, for lack of anything else to do.
+	(/
+		((!1 lex-p?) (!2 verb-pred?))
+		(!1 (KA !2))
+	)
+	(/
+		((!1 lex-p?) (!2 canon-pred?))
+		(!1 (K !2))
+	)
+
 	; We don't need "such", "so", etc.
 	; until we can figure out what to
 	; do with them. (TODO)
@@ -2084,10 +2095,10 @@
 			(setf new-phi-copy (funcall func phi-copy))
 			; (format t "got new phi ~s~%" new-phi-copy)
 			;(if (not (same-list-unordered old-phi-copy new-phi-copy))
-				;(progn
-				; (format t "func ~s updated~%" func)
-				; (format t "new phi: ~s~%~%" new-phi-copy)
-				;)
+			;	(progn
+			;	 (format t "func ~s updated~%" func)
+			;	 (format t "new phi: ~s~%~%" new-phi-copy)
+			;	)
 			;)
 			;(if (and (has-element old-phi-copy 'TOGETHER.ADV) (not (has-element new-phi-copy 'TOGETHER.ADV)))
 			;	(format t "func ~s removed TOGETHER.ADV~%" func)

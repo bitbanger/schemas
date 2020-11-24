@@ -332,6 +332,21 @@
 		!1
 	)
 
+	; Auxiliary "be" can always be a copula,
+	; for now (Gene says it's OK!). Change when
+	; Len adds aux-identification back into parser.
+	(/
+		BE.AUX
+		BE.V
+	)
+
+	; Auxiliary "have" without a verb predicate
+	; after it can be a verb.
+	(/
+		(HAVE.AUX (!1 ~ verb-pred?))
+		(HAVE.V !1)
+	)
+
 	; To BE.V, or not to BE.V?
 	(/
 		((!1 ~ THERE.PRO) (BE.V (!2 probably-pred?)))
@@ -2238,8 +2253,8 @@
 	(setf claimed-inds (list))
 	(setf all-coref-pairs (loop for o in clusters append o))
 	(setf all-coref-pairs (sort all-coref-pairs (lambda (x y) (> (- (second y) (car y)) (- (second x) (car x))))))
-	; (format t "needs-res-pairs: ~s~%" needs-res-pairs)
-	; (format t "all coref pairs: ~s~%" all-coref-pairs)
+	(dbg 'coref "needs-res-pairs: ~s~%" needs-res-pairs)
+	(dbg 'coref "all coref pairs: ~s~%" all-coref-pairs)
 	(loop for acp in all-coref-pairs
 		do (loop for ind-pair in needs-res-pairs
 			; do (format t "considering ind ~s for pair ~s~%" ind-pair acp)
@@ -2253,9 +2268,9 @@
 		)
 	)
 
-	; (format t "coref clusters: ~s~%" clusters)
+	(dbg 'coref "coref clusters: ~s~%" clusters)
 
-	; (format t "coref pair to ind map: ~s~%" (ht-to-str coref-pair-to-ind))
+	(dbg 'coref "coref pair to ind map: ~s~%" (ht-to-str coref-pair-to-ind))
 	(loop for cp being the hash-keys of coref-pair-to-ind
 		do (setf clusters (replace-vals cp (gethash cp coref-pair-to-ind) clusters ))
 	)

@@ -17,7 +17,7 @@
 (ll-load "dev-frs.lisp")
 (ll-load "monkey-processed.lisp")
 (ll-load "schema-link.lisp")
-(ll-load "schema-parser.lisp")
+(ll-load "schema-el-parser.lisp")
 (ll-load-subdir "stories" "roc-mcguffey-stories.lisp")
 
 (ll-load "all-proto-clargs.lisp")

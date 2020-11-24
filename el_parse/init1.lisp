@@ -25,7 +25,7 @@
 
 ; Charniak parser
 ; ```````````````
-(load "el_parse.lisp")
+(load "parse.lisp")
 
 ; Basic LF generation files
 ; `````````````````````````

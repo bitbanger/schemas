@@ -3,7 +3,7 @@
 (ll-load "real_util.lisp")
 (ll-load "schema-el.lisp")
 (ll-load "schema-unify.lisp")
-(ll-load "parse.lisp")
+(ll-load "schema-el-lex.lisp")
 (ll-load "schema-time.lisp")
 (ll-load "schema-kb.lisp")
 

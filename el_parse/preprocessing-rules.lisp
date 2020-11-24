@@ -43,6 +43,14 @@
 ; Untensed was => past-tensed be
 	'((AUX was) (AUXD be))
 )
+(defparameter *ll-auxd-were*
+; Untensed were => past-tensed be
+	'((AUX were) (AUXD be))
+)
+(defparameter *ll-auxd-had*
+; Untensed was => past-tensed be
+	'((AUX had) (AUXD have))
+)
 
 ; SINGLE-WORD RULES
 ;``````````````````

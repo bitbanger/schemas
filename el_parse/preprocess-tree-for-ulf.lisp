@@ -46,6 +46,8 @@
  '(
    ; Lane's rules to remove after Len fixes stuff
    *ll-auxd-was*
+   *ll-auxd-were*
+   *ll-auxd-had*
 
    ; single-word rules
    *expand-something*

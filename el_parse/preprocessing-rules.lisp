@@ -37,6 +37,13 @@
 ; But if we go bottom-up, the shallowest rules that change POS's should be
 ; applied first.
 
+; TEMPORARY LANE RULES
+;``````````````````
+(defparameter *ll-auxd-was*
+; Untensed was => past-tensed be
+	'((AUX was) (AUXD be))
+)
+
 ; SINGLE-WORD RULES
 ;``````````````````
 (defparameter *expand-something*

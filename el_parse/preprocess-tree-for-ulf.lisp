@@ -43,7 +43,11 @@
 
 
 (defparameter *preprocessing-rule-names*
- '(; single-word rules
+ '(
+   ; Lane's rules to remove after Len fixes stuff
+   *ll-auxd-was*
+
+   ; single-word rules
    *expand-something*
    *expand-everything*
    *expand-anything*

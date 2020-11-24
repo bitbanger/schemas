@@ -1415,11 +1415,11 @@
 		"He stopped it."
 	)
 	(
-		"It turned out to be a fox."
-		"I got closer."
-		"It made a funny sound."
-		"I heard an animal."
 		"I was walking through the woods."
+		"I heard an animal."
+		"It made a funny sound."
+		"I got closer."
+		"It turned out to be a fox."
 	)
 	(
 		"The man made a bet."
@@ -1536,8 +1536,8 @@
 	(
 		"Susie got a new hair oil."
 		"She thought it was great."
-		"When she tried it, it worked good,
-Susie wanted to buy more."
+		"When she tried it, it worked good."
+		"Susie wanted to buy more."
 		"She loved it."
 	)
 	(

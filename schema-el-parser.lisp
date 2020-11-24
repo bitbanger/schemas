@@ -4,7 +4,7 @@
 
 (ll-load "ttt/src/load")
 (ll-load-subdir "el_parse" "init1.lisp")
-(ll-load "real_util.lisp")
+(ll-load "ll-util.lisp")
 (ll-load "schema-el-lex.lisp")
 (ll-load "schema-el.lisp")
 (ll-load "schema-coref.lisp")

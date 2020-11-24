@@ -4,7 +4,7 @@
 
 (load "ll-load.lisp")
 
-(ll-load "schema-parser.lisp")
+(ll-load "schema-el-parser.lisp")
 (ll-load "schema-link.lisp")
 (ll-load "schema-match.lisp")
 (ll-load "protoschemas.lisp")

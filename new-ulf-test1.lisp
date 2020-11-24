@@ -2,11 +2,17 @@
 
 (load "ll-load.lisp")
 
-(ll-load "real_util.lisp")
-(ll-load "schema-parser.lisp")
+(ll-load "ll-util.lisp")
+(ll-load "schema-el-parser.lisp")
 (ll-load "lenulf.lisp")
 (ll-load-subdir "stories" "roc-mcguffey-stories.lisp")
 (ll-load-subdir "stories" "school-roc-stories.lisp")
+
+(defparameter *USE-DEBUG-STORIES* t)
+
+(defparameter *SHUFFLE-STORIES* t)
+
+(defparameter *HANDLE-ERRORS* nil)
 
 (setf sents '(
 	; "Tom used to have his own boat."
@@ -313,26 +319,33 @@
 )
 )
 
-; (len-parse-sents sents)
-; (loop for story in *ROC-MCGUFFEY*
-; (loop for story in *ROC*
-; (loop for story in *SCHOOL-ROC-STORIES*
-; (loop for story in '((
-	; "The hen will run at the cat."
-	; "They sit on chairs."
-	; "They do not sit on chairs with others."
-	; "They do not sit on chairs."
-	; "They did not sit."
-	; "The man made a bet."
-	; "He lost the bet."
-	; "Lewis didn't do his homework."
-; ))
-(loop for story in '((
-	"Billy liked this girl."
-	"The girl sat in front of him."
-	"He played with her hair."
-	"She told him to stop."
-	"He stopped it."
-))
-	do (len-parse-sents story)
+(setf stories *ROC*)
+
+(if *USE-DEBUG-STORIES*
+	; then
+	(setf stories '((
+		"Allie wanted an iPad."
+		"She really liked it."
+		"But she wanted a new one."
+		"So she went to the store."
+		"When she got back she had a newer one."
+	)))
+)
+
+(if *SHUFFLE-STORIES*
+	; then
+	(setf stories (shuffle stories))
+)
+
+(loop for story in stories
+	if *HANDLE-ERRORS*
+		do (handler-case (len-parse-sents story)
+				(error ()
+					(format t "; error processing story:~%")
+					(loop for sent in story
+						do (format t ";	~s~%" sent)
+					)
+				))
+	if (not *HANDLE-ERRORS*)
+		do (len-parse-sents story)
 )

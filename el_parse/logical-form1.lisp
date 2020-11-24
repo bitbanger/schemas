@@ -1,7 +1,7 @@
 ; Get real-util from the parent directory
 (load "../ll-load.lisp")
 
-(ll-load-superdir "real_util.lisp")
+(ll-load-superdir "ll-util.lisp")
 
 ;; MAIN TREEBANK LF PROGRAMS (AS IN THE MINIPAR-ORIENTED VERSION) ARE 
 ;;

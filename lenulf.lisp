@@ -15,7 +15,7 @@
 (ll-load-subdir "el_parse" "tt.lisp")
 (ll-load-subdir "el_parse" "postprocess-ulf-tree.lisp")
 
-(ll-load "real_util.lisp")
+(ll-load "ll-util.lisp")
 
 (defun trace-main () 
   (trace simple-tree pos+word-to-raw-ulf aux-inflection 

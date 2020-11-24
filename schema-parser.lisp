@@ -388,6 +388,22 @@
 		((<> prog _*1 (!2 canon-pred?)))
 		(_*1 !2)
 	)
+
+	; "Get <adj>" is valid, but kind-ify the adjective?
+	(/
+		(GET.V (!1 adj-pred?))
+		(GET.V (KJ !1))
+	)
+
+	; Strip out some coordinating conjunctions.
+	(/
+		(BUT.CC _*1)
+		(_*1)
+	)
+	(/
+		(SO.CC _*1)
+		(_*1)
+	)
 ))
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
@@ -1636,6 +1652,10 @@
 
 (defun split-conjunction (phi)
 (block outer
+	(if (not (listp phi))
+		(return-from outer (list phi))
+	)
+
 	; prefix
 	(if (or
 		(equal (car phi) 'AND)
@@ -1719,6 +1739,7 @@
 	(setf skolem-placeholder-num (+ 1 skolem-placeholder-num))
 
 	(setf adet-var (second adet))
+
 	; (setf adet-formulas (replace-vals adet-var skolem-placeholder (cddr adet)))
 	(setf adet-formulas (subst-for-free skolem-placeholder adet-var (cddr adet)))
 
@@ -1726,10 +1747,9 @@
 
 
 	; (format t "second adet is ~s~%" (second adet))
-	(if (and
+	(if (or
 			(equal (length adet) 2)
-			;(or (equal (car adet) 'THE) (equal (car adet) 'THE.DET))
-			;(canon-pred? (second adet))
+			(not (or (lex-var? (second adet)) (lex-naked-var? (second adet))))
 		)
 		; then
 		(block handle-the
@@ -1749,8 +1769,8 @@
 			; Replace the THE-clause with the Skolem name
 			(setf phi-copy (replace-element-idx phi adet-idx new-skolem))
 
-			; Add the atemporal Skolem proposition to the conjunction
-			(setf phi-copy (append (list (list new-skolem (second adet))) phi-copy))
+			; Add the atemporal Skolem propositions to the conjunction
+			(setf phi-copy (append (list (list new-skolem (lambdify-preds! (cdr adet)))) phi-copy))
 
 			(return-from outer phi-copy)
 		)
@@ -2179,6 +2199,20 @@
 	(and (>= num (car span)) (<= num (second span)))
 )
 
+; This replaces a given word at a sentence index with
+; the same word, plus "of it"; re-runs the coreference
+; analyzer on the modified istory; and then modifies
+; the original coreference clusters such that the given
+; noun is treated as the "it".
+; So, for example, "I had a phone, but I wanted a new one"
+; would become "I had a phone, I wanted a new one of it",
+; the coreference resolver would link "it" to "phone",
+; and then the coreference cluster for "it" would be added
+; back in, with its index replaced with the index for "one".
+(defun get-coref-of-noun (sents idx)
+	
+)
+
 (defun parse-story (sents)
 	(parse-story-maybe-from-ulf sents nil)
 )
@@ -2246,6 +2280,12 @@
 	)
 
 	; END INTERMISSION
+
+
+	(format t "EL conversion, pre-coref:~%")
+	(loop for sent in new-sents
+		do (format t "	~s~%" sent)
+	)
 
 
 	(setf clusters (coref-pairs (join-str-list " " sents)))

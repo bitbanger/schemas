@@ -36,6 +36,7 @@
 	K
 	KA
 	KE
+	KJ
 	THAT
 	NOT
 	OR

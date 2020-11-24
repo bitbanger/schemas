@@ -108,6 +108,7 @@
 	(mp x (list (list 'id? 'K) 'canon-pred? 'canon-individual?+))
 	(canon-ka? x)
 	(mp x (list (list 'id? 'KE) 'canon-prop?))
+	(mp x (list (list 'id? 'KJ) 'adj-pred?))
 )
 )
 
@@ -297,6 +298,13 @@
 (and
 	(canon-pred? pred)
 	(lex-verb? (pred-base pred))
+)
+)
+
+(defun adj-pred? (pred)
+(and
+	(canon-pred? pred)
+	(lex-adj? (pred-base pred))
 )
 )
 

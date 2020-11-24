@@ -6,4 +6,6 @@
 #	source .env/bin/activate
 #fi
 
-python3 allen_coref.py "$1" 2>/dev/null
+MY_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
+
+python3 $MY_DIR/allen_coref.py "$1" 2>/dev/null

@@ -2213,32 +2213,9 @@
 	
 )
 
-(defun parse-story (sents)
-	(parse-story-maybe-from-ulf sents nil)
-)
-
-(defun parse-story-maybe-from-ulf (sents pre-ulfs)
+(defun resolve-coreference (txt-sents el-sents)
 (block outer
-	(setf *glob-idx* 0)
-	(if (not (null pre-ulfs))
-		; then
-		(setf new-sents (loop for sent in sents
-			for pre-ulf in pre-ulfs
-			; do (format t "original interpretation: ~s~%" (interpret-lf pre-ulf))
-			collect (schema-cleanup
-			(interpret-lf pre-ulf)
-			)
-		))
-		; else
-		(setf new-sents (loop for sent in sents
-			collect (schema-cleanup
-			(interpret sent)
-			)
-		))
-	)
-	; (format t "finished initial parse~%")
-	; (format t "new-sents is: ~s~%" new-sents)
-	(setf needs-res (remove-duplicates (get-elements-pred new-sents (lambda (x)
+	(setf needs-res (remove-duplicates (get-elements-pred el-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))
 			(and
 				(canon-individual? x)
@@ -2248,7 +2225,7 @@
 			)
 		)
 	)) :test #'equal))
-	; (format t "got initial parse ~s~%" new-sents)
+	; (format t "got initial parse ~s~%" el-sents)
 	(setf needs-res-numbers (loop for e in needs-res collect (parse-integer (second (split-str (format nil "~s" e) "$")))))
 	(setf needs-res-pairs (loop for e1 in needs-res for e2 in needs-res-numbers collect (list e1 e2)))
 	; (format t "individuals that need resolving: ~s~%" needs-res-pairs)
@@ -2274,7 +2251,7 @@
 				; pick the first one (arbitrarily)
 				(setf rep-skol (car (gethash k same-skolems)))
 				(loop for old-sk in (cdr (gethash k same-skolems))
-					do (setf new-sents (replace-vals old-sk rep-skol new-sents))
+					do (setf el-sents (replace-vals old-sk rep-skol el-sents))
 				)
 			)
 	)
@@ -2283,12 +2260,12 @@
 
 
 	(format t "EL conversion, pre-coref:~%")
-	(loop for sent in new-sents
+	(loop for sent in el-sents
 		do (format t "	~s~%" sent)
 	)
 
 
-	(setf clusters (coref-pairs (join-str-list " " sents)))
+	(setf clusters (coref-pairs (join-str-list " " txt-sents)))
 	(setf coref-pair-to-ind (make-hash-table :test #'equal))
 	(setf claimed-inds (list))
 	(setf all-coref-pairs (loop for o in clusters append o))
@@ -2348,15 +2325,50 @@
 			)
 			(if (not (null agent-constrs))
 				; then
-				(setf new-sents (append new-sents (list agent-constrs)))
+				(setf el-sents (append el-sents (list agent-constrs)))
 			)
 			; (format t "picking representative name ~s~%" rep-name)
 			(loop for e in cluster
 				if (not (equal e rep-name))
-					do (setf new-sents (replace-vals e rep-name new-sents))
+					do (setf el-sents (replace-vals e rep-name el-sents))
 			)
 		)
 	)
+
+	(return-from outer el-sents)
+)
+)
+
+(defun parse-story (sents)
+	(parse-story-maybe-from-ulf sents nil)
+)
+
+(defun parse-story-maybe-from-ulf (sents pre-ulfs)
+(block outer
+	(setf *glob-idx* 0)
+	(if (not (null pre-ulfs))
+		; then
+		(setf new-sents (loop for sent in sents
+			for pre-ulf in pre-ulfs
+			; do (format t "original interpretation: ~s~%" (interpret-lf pre-ulf))
+			collect (schema-cleanup
+			(interpret-lf pre-ulf)
+			)
+		))
+		; else
+		(setf new-sents (loop for sent in sents
+			collect (schema-cleanup
+			(interpret sent)
+			)
+		))
+	)
+	; (format t "finished initial parse~%")
+	; (format t "new-sents is: ~s~%" new-sents)
+
+
+	; PERFORM COREFERENCE
+	(setf new-sents (resolve-coreference sents new-sents))
+
 
 	; (format t "individual-mapped coref clusters: ~s~%" clusters)
 	; (format t "resolved parse: ~s~%" new-sents)

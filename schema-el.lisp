@@ -204,6 +204,7 @@
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
 	(equal x 'NOT)
+	(mp x (list (list 'id? 'ADV) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-A) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))

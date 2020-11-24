@@ -1,6 +1,6 @@
-(load "../ll-load.lisp")
+(load "ll-load.lisp")
 
-(ll-load-superdir "real_util.lisp")
+(ll-load "real_util.lisp")
 
 (defun coref-pairs (text)
 (block outer

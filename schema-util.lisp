@@ -3,7 +3,6 @@
 (ll-load "ttt/src/load")
 (ll-load "schema-el.lisp")
 (ll-load "real_util.lisp")
-; (ll-load "coref.lisp")
 (ll-load "schema-kb.lisp")
 (ll-load "schema-subsumption.lisp")
 (ll-load "schema-time.lisp")

@@ -263,6 +263,10 @@
 	)
 )
 
+(defun dedupe (lst)
+	(remove-duplicates lst :test #'equal)
+)
+
 ; An optimization for a single element in a flat list.
 (defun contains (lst elem)
 	(not (null (member elem lst :test #'equal)))
@@ -285,6 +289,22 @@
 	(stringp s)
 	(>= (length s) (length pre))
 	(equal pre (subseq s 0 (length pre)))
+)
+)
+
+(defun replace-first-substr (s sub rep)
+(let ((spl (split-str s sub)))
+	(if (not (equal 1 (length spl)))
+		; then
+		(apply #'concat-strs
+			(append
+				(list (car spl) rep)
+				(cdr spl)
+			)
+		)
+		; else
+		s
+	)
 )
 )
 
@@ -656,7 +676,7 @@ is replaced with replacement."
 
 	(t (append
 		(list (subseq str 0 (search sep str)))
-		(split-str (subseq str (+ 1 (search sep str)) (length str)) sep)
+		(split-str (subseq str (+ (length sep) (search sep str)) (length str)) sep)
 	))
 )
 )

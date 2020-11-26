@@ -106,6 +106,9 @@
 	; Explicitly marked predicates are predicates
 	(lex-pred? x)
 
+	; Just for right now.
+	; (lex-det? x)
+
 	; Some special symbols are predicates
 	(not (null (member x *KEYWORD-PREDS* :test #'equal)))
 

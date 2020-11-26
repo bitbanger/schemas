@@ -593,6 +593,13 @@
 )
 )
 
+(defun filter-invalid-wffs (wffs)
+	(loop for wff in wffs
+		if (canon-prop? wff)
+			collect wff
+	)
+)
+
 ; story-select-term-constraints takes a story and a list of individual
 ; constants and returns a list of all atemporal constraints on any
 ; of those constants.

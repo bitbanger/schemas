@@ -64,6 +64,10 @@
 )
 )
 
+(defun eq-no-idx-tags? (x target)
+	(equal (remove-idx-tag x) (remove-idx-tag target))
+)
+
 (defun unflatten! (x)
 (let ((lst (reverse x)) (cursor nil) (modded-verbs (list)))
 (block outer
@@ -141,6 +145,12 @@
 		; else
 		(return-from outer sym)
 	)
+)
+)
+
+(defun add-idx-tag (pred-sym tag-num)
+(let ((pred-sym-spl (split-str (string pred-sym) ".")))
+	(intern (format nil "~a$~d$.~a" (car pred-sym-spl) tag-num (second pred-sym-spl)))
 )
 )
 
@@ -427,6 +437,7 @@
 	flatten-nested-ands
 	apply-such-determiners
 	remove-aux-do-did
+	retag-det-preds
 ))
 
 (defun extract-noun-sym (form)
@@ -723,6 +734,31 @@
 			)
 		)
 	))
+
+	(return-from outer phi-copy)
+)
+)
+
+; Sometimes, determiners like ONE.D get used as
+; predicates, e.g. (ONE1.SK ONE.D). We'll turn
+; that into a noun here.
+(defun retag-det-preds (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(loop for e in phi-copy
+		if (and
+				(listp e)
+				(equal 2 (length e))
+				(canon-individual? (car e))
+				(lex-det? (second e))
+			)
+			; then
+			do (setf phi-copy (replace-vals
+				e
+				(list (car e) (retag-as (second e) 'N))
+				phi-copy))
+	)
 
 	(return-from outer phi-copy)
 )
@@ -2199,22 +2235,35 @@
 	(and (>= num (car span)) (<= num (second span)))
 )
 
-; This replaces a given word at a sentence index with
-; the same word, plus "of it"; re-runs the coreference
-; analyzer on the modified istory; and then modifies
-; the original coreference clusters such that the given
-; noun is treated as the "it".
-; So, for example, "I had a phone, but I wanted a new one"
-; would become "I had a phone, I wanted a new one of it",
-; the coreference resolver would link "it" to "phone",
-; and then the coreference cluster for "it" would be added
-; back in, with its index replaced with the index for "one".
-(defun get-coref-of-noun (sents idx)
-	
-)
-
 (defun parse-story (sents)
 	(parse-story-maybe-from-ulf sents nil)
+)
+
+(defun clean-idx-tags (el-sents)
+(block outer
+	(setf needs-cleaning (remove-duplicates (get-elements-pred el-sents (lambda (x)
+		(let ((spl (split-str (format nil "~s" x) "$")))
+			(and
+				(symbolp x)
+				(and
+					(equal 3 (length spl))
+					(num-str? (second spl)))
+			)
+		)
+	)) :test #'equal))
+	(loop for nc in needs-cleaning
+		do (block clean-nums
+			; (format t "need to clean ~s~%" nc)
+			(setf nc-repl (let ((spl (split-str (format nil "~s" nc) "$")))
+				(intern (concat-strs (car spl) (third spl)))
+			))
+			; (format t "replacing with ~s~%" nc-repl)
+			(setf el-sents (replace-vals nc nc-repl el-sents))
+		)
+	)
+
+	(return-from outer el-sents)
+)
 )
 
 (defun parse-story-maybe-from-ulf (sents pre-ulfs)
@@ -2247,26 +2296,7 @@
 	; (format t "individual-mapped coref clusters: ~s~%" clusters)
 	; (format t "resolved parse: ~s~%" new-sents)
 
-	(setf needs-cleaning (remove-duplicates (get-elements-pred new-sents (lambda (x)
-		(let ((spl (split-str (format nil "~s" x) "$")))
-			(and
-				(symbolp x)
-				(and
-					(equal 3 (length spl))
-					(num-str? (second spl)))
-			)
-		)
-	)) :test #'equal))
-	(loop for nc in needs-cleaning
-		do (block clean-nums
-			; (format t "need to clean ~s~%" nc)
-			(setf nc-repl (let ((spl (split-str (format nil "~s" nc) "$")))
-				(intern (concat-strs (car spl) (third spl)))
-			))
-			; (format t "replacing with ~s~%" nc-repl)
-			(setf new-sents (replace-vals nc nc-repl new-sents))
-		)
-	)
+	(setf new-sents (clean-idx-tags new-sents))
 
 	; (format t "number-cleaned, final parse: ~s~%" new-sents)
 

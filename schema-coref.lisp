@@ -1,6 +1,7 @@
 (load "ll-load.lisp")
 
 (ll-load "ll-util.lisp")
+(ll-load "schema-util.lisp")
 
 (defun coref-pairs (text)
 (block outer
@@ -9,6 +10,93 @@
 		(loop for line = (read-line strm nil)
 			while line
 			do (return-from outer (read-from-string line))
+		)
+	)
+)
+)
+
+(defun max-word-tag (el)
+	(apply #'max (mapcar #'idx-tag-num (get-elements-pred el (lambda (x) (and (symbolp x) (not (null (idx-tag-num x))))))))
+)
+
+; This replaces a given word at a sentence index with
+; the same word, plus "of it"; re-runs the coreference
+; analyzer on the modified istory; and then modifies
+; the original coreference clusters such that the given
+; noun is treated as the "it".
+; So, for example, "I had a phone, but I wanted a new one"
+; would become "I had a phone, I wanted a new one of it",
+; the coreference resolver would link "it" to "phone",
+; and then the coreference cluster for "it" would be added
+; back in, with its index replaced with the index for "one".
+(defun one-coref-clusters (txt-sents el-sents tagged-one)
+(block outer
+	(setf one-txt-sent nil)
+
+	; Get the text sentence containing the "ONE" to
+	; resolve.
+	(setf start-tag-offset 0)
+	(loop for el-sent in el-sents
+			for txt-sent in txt-sents
+		if (null one-txt-sent)
+		do (block find-one
+			; Check for the ONE.
+			(if (not (null (has-element el-sent tagged-one)))
+				; then
+				(setf one-txt-sent txt-sent)
+				; else
+				; Mark the max tag of this sentence
+				; block so we can adjust the
+				; word index down by the cumulative
+				; tag index.
+				; (setf start-tag-offset (max-word-tag el-sent))
+				(setf start-tag-offset (+ start-tag-offset (+ (length (split-str txt-sent " ")) 1)))
+			)
+		)
+	)
+
+	(if (null one-txt-sent)
+		(return-from outer nil)
+	)
+
+	(setf one-tag-num (idx-tag-num tagged-one))
+
+	; Get the text token of the "ONE" out.
+	(setf one-idx (- one-tag-num start-tag-offset))
+
+	(setf sent-spl (split-str one-txt-sent " "))
+
+	(setf one-of-it (replace-first-substr (nth one-idx sent-spl) "one" "one of it"))
+
+	(setf one-of-it-sent (join-str-list " " (append (subseq sent-spl 0 one-idx) (list one-of-it) (subseq sent-spl (+ 1 one-idx) (length sent-spl)))))
+
+
+	(setf one-of-it-story (replace-vals one-txt-sent one-of-it-sent txt-sents))
+
+	; Run coreference.
+	(setf one-of-it-clusters (coref-pairs (join-str-list " " one-of-it-story)))
+
+	; Anything with an index greater than one-tag-num
+	; needs to have its index reduced by 2. This will
+	; make the "it" alias with "one", and correct any
+	; tags after that point.
+	(let ((big-tags (dedupe (get-elements-pred one-of-it-clusters (lambda (x) (and (numberp x) (> x one-tag-num)))))))
+		(loop for big-tag in (sort big-tags #'<)
+			do (setf one-of-it-clusters
+				(replace-vals big-tag (- big-tag 2) one-of-it-clusters))
+		)
+	)
+
+	; Return the clusters that include the "one"/"it",
+	; but don't include those pairs, since we'll use
+	; these to look up individuals in the original
+	; sentence's cluster map later.
+	(return-from outer
+		(let ((one-it-pair (list one-tag-num one-tag-num)))
+			(loop for cluster in one-of-it-clusters
+				if (contains cluster one-it-pair)
+					collect (remove one-it-pair cluster :test #'equal)
+			)
 		)
 	)
 )
@@ -65,7 +153,6 @@
 	;	do (format t "	~s~%" sent)
 	;)
 
-
 	(setf clusters (coref-pairs (join-str-list " " txt-sents)))
 	(setf coref-pair-to-ind (make-hash-table :test #'equal))
 	(setf claimed-inds (list))
@@ -86,12 +173,81 @@
 		)
 	)
 
+	; Find all "one"s, as in "a new ones", in the parse,
+	; and resolve the individuals to whose predicates
+	; they're referring.
+	(setf needs-res-ones
+		(loop for sent in el-sents
+			append (loop for phi in sent
+				if (and
+					(equal 2 (length phi))
+					(and (symbolp (car phi)) (symbolp (second phi)))
+					(not (null (idx-tag-num (second phi))))
+					(or
+						(equal 'ONE.D (remove-idx-tag (second phi)))
+						(equal 'ONE.N (remove-idx-tag (second phi)))
+					)
+				)
+					; then
+					collect (second phi)
+			)
+		)
+	)
+	; TODO: do all "one" => "one of it" replacements in same pass?
+	; Or would that change results?
+	(setf coref-clusters-to-ones (make-hash-table :test #'equal))
+	(setf ones-to-coref-clusters (make-hash-table :test #'equal))
+	(loop for one in needs-res-ones
+		do (block one-loop1
+			(loop for cluster in (one-coref-clusters txt-sents el-sents one)
+				do (block one-loop2
+					(setf clean-cluster (remove nil (loop for pair in cluster
+						; replace numerical pairs with individuals, where applicable
+						collect (block replace-pair-ind
+							(setf ind-replaced-pair (gethash pair coref-pair-to-ind))
+							(if (null ind-replaced-pair)
+								(setf ind-replaced-pair pair)
+							)
+
+							(if (contains claimed-inds ind-replaced-pair)
+								; then
+								(return-from replace-pair-ind ind-replaced-pair)
+								; else
+								(return-from replace-pair-ind nil)
+							)
+						)
+					) :test #'equal))
+
+					; Add this "one" to the list of "one"s covered by this
+					; cluster
+					(setf (gethash clean-cluster coref-clusters-to-ones)
+						(append
+							(gethash clean-cluster coref-clusters-to-ones)
+							(list one)
+						)
+					)
+					(setf (gethash one ones-to-coref-clusters)
+						(append
+							(gethash one ones-to-coref-clusters)
+							(list clean-cluster)
+						)
+					)
+
+					; (format t "cluster ~s covers one ~s~%" clean-cluster one)
+						
+				)
+			)
+		)
+	)
+
 	(dbg 'coref "coref clusters: ~s~%" clusters)
 
 	(dbg 'coref "coref pair to ind map: ~s~%" (ht-to-str coref-pair-to-ind))
 	(loop for cp being the hash-keys of coref-pair-to-ind
 		do (setf clusters (replace-vals cp (gethash cp coref-pair-to-ind) clusters ))
 	)
+
+	(setf ones-to-clusters-map (make-hash-table :test #'equal))
 
 	(loop for orig-cluster in clusters
 		for i from 0
@@ -128,11 +284,28 @@
 				; then
 				(setf el-sents (append el-sents (list agent-constrs)))
 			)
+
 			; (format t "picking representative name ~s~%" rep-name)
 			(loop for e in cluster
 				if (not (equal e rep-name))
 					do (setf el-sents (replace-vals e rep-name el-sents))
 			)
+		)
+	)
+
+	; Get story constraints for all "one"s
+	(loop for one being the hash-keys of ones-to-coref-clusters
+		do (block handle-one
+			(setf one-inds (dedupe (loop for cluster in (gethash one ones-to-coref-clusters) append cluster)))
+			; (format t "one ~s has individuals ~s~%" one one-inds)
+
+			(setf one-constraints (mapcar #'prop-pred (loop for ind in one-inds
+				; append (story-select-term-constraints (linearize-story el-sents (list one))
+				append (story-select-term-constraints (filter-invalid-wffs (clean-idx-tags (linearize-story el-sents))) (list (remove-idx-tag ind)))
+			)))
+
+			(format t "~s has constraints ~s~%" one one-constraints)
+
 		)
 	)
 

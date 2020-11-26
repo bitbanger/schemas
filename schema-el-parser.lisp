@@ -438,6 +438,7 @@
 	apply-such-determiners
 	remove-aux-do-did
 	retag-det-preds
+	split-whens
 ))
 
 (defun extract-noun-sym (form)
@@ -758,6 +759,52 @@
 				e
 				(list (car e) (retag-as (second e) 'N))
 				phi-copy))
+	)
+
+	(return-from outer phi-copy)
+)
+)
+
+(defun split-whens (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(loop for e in phi-copy
+		if (and
+			; (canon-charstar? e)   [it won't be a valid prop]
+			(equal 3 (length e))
+			(equal '** (second e))
+			(canon-individual? (third e))
+			
+			(listp (car e))
+			(equal 3 (length (car e)))
+			(matches-ttt (caar e) '(WHEN.ADV (!1 probably-prop?)))
+			(canon-individual? (second (car e)))
+			(probably-pred? (third (car e)))
+		)
+			; then
+			do (block split-when
+				; split the two props
+				(setf before-prop (second (caar e)))
+				(setf after-prop (append (list (second (car e)) (list (third (car e))))))
+
+				(setf after-ep (third e))
+				; create a new episode for the "when..."
+				; framing proposition, oriented before
+				; the existing episode.
+				(setf before-ep (new-skolem! 'E))
+				(setf phi-copy (append phi-copy (list (list after-ep 'AFTER before-ep))))
+
+				(setf before-prop (list before-prop '** before-ep))
+				(setf after-prop (list after-prop '** after-ep))
+
+				; replace the original episode with the "after" episode
+				(setf phi-copy (replace-vals e after-prop phi-copy))
+
+				; and add the "before" episode separately
+				(setf phi-copy (append phi-copy (list before-prop)))
+
+			)
 	)
 
 	(return-from outer phi-copy)
@@ -1276,6 +1323,28 @@
 	(if (and (listp p) (equal (car p) 'BE.V))
 		(return-from outer t)
 	)
+)
+)
+
+(defun probably-atomic-prop? (x)
+(or
+	(mp x (list 'canon-individual?+ 'probably-pred?))
+
+	(special-charstar? x)
+
+	(mp x (list 'canon-individual?+ 'probably-pred? 'canon-individual?+))
+)
+)
+
+(defun probably-prop? (x)
+(or
+	(probably-atomic-prop? x)
+
+	; Boolean combinations
+	(mp x (list (list 'id? 'NOT) 'canon-prop?))
+	(mp x (list (list 'id? 'OR) 'canon-prop?+))
+	(mp x (list (list 'id? 'AND) 'canon-prop?+))
+	(mp x (list (list 'id? 'IF) 'canon-prop? 'canon-prop?))
 )
 )
 

@@ -267,7 +267,7 @@
 	(remove-duplicates lst :test #'equal)
 )
 
-; An optimization for a single element in a flat list.
+; A convenience function for a single element in a flat list.
 (defun contains (lst elem)
 	(not (null (member elem lst :test #'equal)))
 )
@@ -479,6 +479,30 @@
 (defun ht-eq-oneway (ht1 ht2)
 	(loop for key being the hash-keys of ht1
 		always (equal (gethash key ht1) (gethash key ht2))
+	)
+)
+
+(defun rec-equal (l1 l2)
+(block outer
+	(if (and (not (listp l1)) (not (listp l2)))
+		; then
+		(return-from outer (equal l1 l2))
+	)
+
+	(if (or (listp l1) (listp l2))
+		; then
+		(return-from outer nil)
+	)
+
+	(if (not (equal (length l1) (length l2)))
+		; then
+		(return-from outer nil)
+	)
+
+	(return-from outer
+		(loop for e1 in l1
+				for e2 in l2
+					always (rec-equal e1 e2)))
 	)
 )
 
@@ -793,7 +817,10 @@ is replaced with replacement."
 (defun ttt-replace (phi old new)
 	(unhide-ttt-ops
 		(ttt:apply-rules
-			(list (list '/ old new))
+			(progn
+			; (format t "curried TTT rules: ~s~%" (curry-ttt-rules (list (list '/ old new))))
+			(curry-ttt-rules (list (list '/ old new)))
+			)
 			(hide-ttt-ops phi)
 			:rule-order :slow-forward))
 )
@@ -885,19 +912,22 @@ is replaced with replacement."
 )
 )
 
+(defparameter *LL-CURRY-NUMS*
+	(make-hash-table :test #'equal)
+)
+
 ; Process all ll-curry rules into curried functions.
 (defun curry-ttt-rules (rules)
 (let ((new-ulf-rules (copy-item rules)))
 (block outer
-	(setf curry-nums (make-hash-table :test #'equal))
 	(loop for llc in (get-elements-pred new-ulf-rules (lambda (x) (and (listp x) (equal (car x) 'll-curry))))
 		do (block make-curry ; delicious!
 			(setf curry-fn (second llc))
 			(setf curry-args (cddr llc))
 			(setf curry-new-name (intern
 				(format nil "LL-CURRY-~a" (remove-suffix (string curry-fn) "?"))))
-			(setf (gethash curry-new-name curry-nums) (append (gethash curry-new-name curry-nums) (list t)))
-			(setf curry-num (length (gethash curry-new-name curry-nums)))
+			(setf (gethash curry-new-name *LL-CURRY-NUMS*) (append (gethash curry-new-name *LL-CURRY-NUMS*) (list t)))
+			(setf curry-num (length (gethash curry-new-name *LL-CURRY-NUMS*)))
 			(setf curry-new-name (intern (format nil "~a-~d?" (string curry-new-name) curry-num)))
 			
 			(let ((cargs curry-args) (cfn curry-fn))

@@ -78,6 +78,8 @@
 	(canon-kind? x)
 	(varp x)
 	(mp x (list 'lex-fn? 'canon-individual?+)) ; can a function have
+
+	(mp x (list (list 'id? 'IND) 'any?+)) ; Type-shifter
 											   ; 0 args?
 	(mp x (list 'lex-p-arg? 'canon-individual?))
 	(mp x (list (list 'id? 'THAT) 'canon-prop?))
@@ -436,6 +438,13 @@
 
 (defun prop-pred (prop)
 	(second (prop-args-pred-mods prop))
+)
+
+(defun prop-pred-with-post-args (prop)
+	(append
+		(list (prop-pred prop))
+		(prop-post-args prop)
+	)
 )
 
 (defun prop-pred-strip-charstars (prop)

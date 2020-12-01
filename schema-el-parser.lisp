@@ -149,7 +149,7 @@
 )
 )
 
-(defparameter *SCHEMA-CLEANUP-RULES* '(
+(defparameter *SCHEMA-CLEANUP-RULES* (curry-ttt-rules '(
 	; The case with only one argument
 	; (/ (KA (L _!1 (_!1 _!2)))
 	; 	(KA _!2))
@@ -384,14 +384,14 @@
 
 	; Strip out some coordinating conjunctions.
 	(/
-		(BUT.CC _*1)
-		(_*1)
+		((!1 (ll-curry eq-no-idx-tags? BUT.CC)) _*2)
+		(_*2)
 	)
 	(/
-		(SO.CC _*1)
-		(_*1)
+		((!1 (ll-curry eq-no-idx-tags? SO.CC)) _*2)
+		(_*2)
 	)
-))
+)))
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
 	pull-out-lambda-advs ; run this before lambda splitters
@@ -755,7 +755,7 @@
 			
 			(listp (car e))
 			(equal 3 (length (car e)))
-			(matches-ttt (caar e) '(WHEN.ADV (!1 probably-prop?)))
+			(matches-ttt (caar e) '((!1 (ll-curry eq-no-idx-tags? WHEN.ADV)) (!2 probably-prop?)))
 			(canon-individual? (second (car e)))
 			(probably-pred? (third (car e)))
 		)
@@ -1854,6 +1854,7 @@
 			; Add the atemporal Skolem propositions to the conjunction
 			(setf phi-copy (append (list (list new-skolem (lambdify-preds! (cdr adet)))) phi-copy))
 
+			(setf phi-copy (append phi-copy (list (list new-skolem (list 'HAS-DET.PR (list 'IND (car adet)))))))
 			(return-from outer phi-copy)
 		)
 		; else
@@ -1941,6 +1942,9 @@
 	)
 
 	(setf phi-copy (replace-vals skolem-placeholder new-skolem phi-copy))
+
+	(setf phi-copy (append phi-copy (list (list new-skolem (list 'HAS-DET.PR (list 'IND (car adet)))))))
+
 	(return-from outer phi-copy)
 )
 )

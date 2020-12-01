@@ -3,6 +3,25 @@
 (ll-load "ll-util.lisp")
 (ll-load "schema-util.lisp")
 
+; "Verbs of search, desire, and expectation, exhibit all three intensionality effects."
+; - encyclopedia.com
+(defparameter *INTENSIONAL-TRANSITIVE-VERBS* '(
+	; search
+	SEEK.V
+	SEARCH.V
+	; TODO: "look for", i.e. only if the argument is in the "for" modifier
+
+	; desire
+	WANT.V
+	NEED.V
+	DESIRE.V
+
+	; expectation
+	BELIEVE.V
+	THINK.V
+	EXPECT.V
+))
+
 (defun coref-pairs (text)
 (block outer
 	; (this file is being run from the parent directory, so we prepend the PWD to the call)
@@ -319,13 +338,13 @@
 			(setf clean-story (filter-invalid-wffs (clean-idx-tags (linearize-story el-sents))))
 
 			; Collect all constraint formulas for all co-referring individuals...
-			(setf coref-one-constraints (mapcar #'prop-pred (loop for ind in coref-one-inds
+			(setf coref-one-constraints (mapcar #'prop-pred-with-post-args (loop for ind in coref-one-inds
 				append (story-select-term-constraints clean-story (list (remove-idx-tag ind)))
 			)))
 
 			; ...including itself...
 			(setf orig-one-constraint-formulas (story-select-term-constraints clean-story (list (remove-idx-tag orig-one-ind))))
-			(setf orig-one-constraints (mapcar #'prop-pred orig-one-constraint-formulas))
+			(setf orig-one-constraints (mapcar #'prop-pred-with-post-args orig-one-constraint-formulas))
 			(setf one-constraints (append coref-one-constraints orig-one-constraints))
 
 			; ...but excluding the ONE.N constraint.
@@ -345,16 +364,12 @@
 					(lambdify-preds! one-constraints)
 				)
 			)
-
-			(format t "~s has constraint ~s~%" (gethash one needs-res-ones-to-inds) new-one-pred)
-
 			
 			; Remove the old constraints from the story.
-			(format t "can cull out old constraints: ~s~%" orig-one-constraint-formulas)
 			(setf el-sents
 				(loop for sent in el-sents
 					collect (loop for wff in sent
-						if (not (contains orig-one-constraint-formulas wff))
+						if (not (contains orig-one-constraint-formulas (clean-idx-tags wff)))
 							; then
 							collect wff
 					)
@@ -363,10 +378,41 @@
 			; Replace all instances of the original ONE
 			; Skolem with a reification of the new
 			; composite predicate.
-			; TODO: Skolemize this, instead of reifying,
-			; for non-intensional verbs and/or "the"
-			; determiners?
-			(setf el-sents (replace-vals orig-one-ind (list 'K new-one-pred) el-sents))
+			; If the determiner is "a" or "an" and the verb is an
+			; intensional transitive verb, then we reify the predicate.
+			; Otherwise, we Skolemize it.
+			(setf has-a-determiner (loop for wff in orig-one-constraint-formulas
+				thereis (and
+							(equal 'HAS-DET.PR (prop-pred wff))
+							(or
+								(equal 'A.D (second (car (prop-post-args wff))))
+								(equal 'AN.D (second (car (prop-post-args wff))))
+							)
+					)
+			))
+
+			(setf has-it-verb (loop for sent in el-sents
+				thereis (loop for wff in sent
+					thereis (and
+							(canon-charstar? wff)
+							(contains (prop-post-args (car wff)) orig-one-ind)
+							(contains *INTENSIONAL-TRANSITIVE-VERBS* (remove-idx-tag (prop-pred (car wff))))
+						)
+					)
+			))
+
+			(if (and has-a-determiner has-it-verb)
+				; then
+				; reify the predicate instead of skolemizing it
+				(setf el-sents (replace-vals orig-one-ind (list 'K new-one-pred) el-sents))
+				; else
+				(progn
+				; TODO: actually Skolemize
+				(format t "Individual ~s needs Skolemization~%" orig-one-ind)
+				(setf el-sents (replace-vals orig-one-ind (list 'K new-one-pred) el-sents))
+				)
+			)
+
 			
 
 		)

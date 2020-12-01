@@ -91,29 +91,6 @@
 	(and (canon-pred? p) (not (lex-verb? (pred-base p))))
 )
 
-(defun lambdify-preds! (ps)
-	(lambdify-preds-maybe-colon ps nil)
-)
-
-(defun lambdify-preds-colon! (ps)
-	(lambdify-preds-maybe-colon ps t)
-)
-
-(defun lambdify-preds-maybe-colon (ps colon)
-(let ((tmp-sym (gensym)))
-	(list
-		(if colon ':L 'L)
-		tmp-sym
-		(if colon
-			; then
-			(append (list ':O 'AND) (mapcar (lambda (x) (list ':I tmp-sym x)) ps))
-			; else
-			(append (list 'AND) (mapcar (lambda (x) (list tmp-sym x)) ps))
-		)
-	)
-)
-)
-
 (defun idx-tag-num (sym)
 (block outer
 	(if (and

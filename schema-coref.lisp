@@ -173,9 +173,14 @@
 		)
 	)
 
+
+
 	; Find all "one"s, as in "a new ones", in the parse,
 	; and resolve the individuals to whose predicates
 	; they're referring.
+
+	; Build a map to relate the ONE predicates to their Skolemizations.
+	(setf needs-res-ones-to-inds (make-hash-table :test #'equal))
 	(setf needs-res-ones
 		(loop for sent in el-sents
 			append (loop for phi in sent
@@ -190,9 +195,11 @@
 				)
 					; then
 					collect (second phi)
+					do (setf (gethash (second phi) needs-res-ones-to-inds) (car phi))
 			)
 		)
 	)
+
 	; TODO: do all "one" => "one of it" replacements in same pass?
 	; Or would that change results?
 	(setf coref-clusters-to-ones (make-hash-table :test #'equal))
@@ -296,15 +303,71 @@
 	; Get story constraints for all "one"s
 	(loop for one being the hash-keys of ones-to-coref-clusters
 		do (block handle-one
-			(setf one-inds (dedupe (loop for cluster in (gethash one ones-to-coref-clusters) append cluster)))
+			; The original thing this was Skolemized as,
+			; e.g. ONE$3$1.SK
+			(setf orig-one-ind (gethash one needs-res-ones-to-inds))
+
+			; All co-referring individuals
+			(setf coref-one-inds (dedupe (loop for cluster in (gethash one ones-to-coref-clusters) append cluster)))
+
+			; (setf one-inds (append (list orig-one-ind) coref-one-inds))
+
 			; (format t "one ~s has individuals ~s~%" one one-inds)
 
-			(setf one-constraints (mapcar #'prop-pred (loop for ind in one-inds
-				; append (story-select-term-constraints (linearize-story el-sents (list one))
-				append (story-select-term-constraints (filter-invalid-wffs (clean-idx-tags (linearize-story el-sents))) (list (remove-idx-tag ind)))
+			; Preprocess the story to extract constraint formulas
+			; for the individuals.
+			(setf clean-story (filter-invalid-wffs (clean-idx-tags (linearize-story el-sents))))
+
+			; Collect all constraint formulas for all co-referring individuals...
+			(setf coref-one-constraints (mapcar #'prop-pred (loop for ind in coref-one-inds
+				append (story-select-term-constraints clean-story (list (remove-idx-tag ind)))
 			)))
 
-			(format t "~s has constraints ~s~%" one one-constraints)
+			; ...including itself...
+			(setf orig-one-constraint-formulas (story-select-term-constraints clean-story (list (remove-idx-tag orig-one-ind))))
+			(setf orig-one-constraints (mapcar #'prop-pred orig-one-constraint-formulas))
+			(setf one-constraints (append coref-one-constraints orig-one-constraints))
+
+			; ...but excluding the ONE.N constraint.
+			; However, we'll run this first to log the
+			; constraints we can remove at the end,
+			; including the ONE.N constraint.
+			(setf cullable-constraints orig-one-constraints)
+
+			; Remove the ONE.N predicate from the new combo predicate.
+			(setf one-constraints (remove 'ONE.N one-constraints :test #'equal))
+
+			(setf new-one-pred
+				(if (equal 1 (length one-constraints))
+					; then
+					(car one-constraints)
+					; else
+					(lambdify-preds! one-constraints)
+				)
+			)
+
+			(format t "~s has constraint ~s~%" (gethash one needs-res-ones-to-inds) new-one-pred)
+
+			
+			; Remove the old constraints from the story.
+			(format t "can cull out old constraints: ~s~%" orig-one-constraint-formulas)
+			(setf el-sents
+				(loop for sent in el-sents
+					collect (loop for wff in sent
+						if (not (contains orig-one-constraint-formulas wff))
+							; then
+							collect wff
+					)
+				))
+
+			; Replace all instances of the original ONE
+			; Skolem with a reification of the new
+			; composite predicate.
+			; TODO: Skolemize this, instead of reifying,
+			; for non-intensional verbs and/or "the"
+			; determiners?
+			(setf el-sents (replace-vals orig-one-ind (list 'K new-one-pred) el-sents))
+			
 
 		)
 	)

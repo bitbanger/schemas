@@ -587,3 +587,57 @@
 		)
 	)
 )
+
+(defparameter request_action.v
+	'(epi-schema ((?x request_action.v ?y ?a) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?y agent.n))
+			(!r3 (?a action.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+			(!n3 (!r3 necessary-to-degree 1.0))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v ?y ?a))) ; handle "X wanted (Y) (to do A)" phrasing
+			(?g2 (?x (want.v (that (?x (do.v ?a))))))
+		)
+
+		(:Steps
+			(?e1 (?x (ask.v ?y ?a)))
+
+			(?e2 (?y (do.v ?a)))
+		)
+
+		(:Episode-relations
+			(!w1 (?g1 cause-of e1))
+			(!w2 (?e1 cause-of e2))
+		)
+	)
+)
+
+(defparameter tell_information.v
+	'(epi-schema ((?x tell_information.v ?y ?i) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?y agent.n))
+			(!r3 (?i information.n)) ; TODO: add any "that"-reified prop as information.n in prop eval?
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (?y (know.v ?i))))))
+		)
+
+		(:Steps
+			(?e1 (?x (tell.v ?y ?i)))
+		)
+
+		(:Postconds
+			(?p1 (?y (know.v ?i)))
+		)
+	)
+)

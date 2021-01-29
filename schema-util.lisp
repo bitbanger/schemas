@@ -63,12 +63,16 @@
 	(lambdify-preds-maybe-colon ps nil)
 )
 
+(defun lambdify-preds-with-sym! (ps sym)
+	(lambdify-preds-maybe-colon-with-sym ps nil sym)
+)
+
 (defun lambdify-preds-colon! (ps)
 	(lambdify-preds-maybe-colon ps t)
 )
 
-(defun lambdify-preds-maybe-colon (ps colon)
-(let ((tmp-sym (gensym)))
+(defun lambdify-preds-maybe-colon-with-sym (ps colon sym)
+(let ((tmp-sym sym))
 	(list
 		(if colon ':L 'L)
 		tmp-sym
@@ -80,6 +84,10 @@
 		)
 	)
 )
+)
+
+(defun lambdify-preds-maybe-colon (ps colon)
+	(lambdify-preds-maybe-colon-with-sym ps colon (gensym))
 )
 
 (defun register-schema (schema)
@@ -785,8 +793,52 @@
 	)
 )
 
+(defun linearize-unspecified-steps (schema)
+(let (
+	step-ids 
+	ep-rels
+	unspec-step-ids
+	new-schema
+	new-ep-rels
+)
+(block outer
+	(setf step-ids (mapcar #'car (section-formulas (get-section schema ':Steps))))
+	(setf ep-rels (mapcar #'second (section-formulas (get-section schema ':Episode-relations))))
+	(setf unspec-step-ids
+		(loop for step-id in step-ids
+			if (not (has-element ep-rels step-id))
+				collect step-id
+		)
+	)
+
+	(if (null unspec-step-ids)
+		(return-from outer schema)
+	)
+
+	(setf new-schema (copy-item schema))
+
+	(setf new-ep-rels
+		(loop for i from 1 to (- (length unspec-step-ids) 1)
+			collect (list
+				(nth (- i 1) unspec-step-ids)
+				'BEFORE
+				(nth i unspec-step-ids)
+			)
+		)
+	)
+
+	(loop for new-ep-rel in new-ep-rels
+		do (setf new-schema
+				(add-constraint new-schema ':Episode-relations new-ep-rel))
+	)
+
+	(return-from outer new-schema)
+)
+)
+)
+
 (defun fully-clean-schema (schema)
-	(clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants schema))))
+	(clean-do-kas (rename-constraints (sort-steps (linearize-unspecified-steps (generalize-schema-constants schema)))))
 )
 
 (defun generalize-schema-constants (schema)
@@ -1341,7 +1393,6 @@
 
 (defun topsort-ep-list (all-ep-rels unfiltered-ep-ids)
 (block outer
-	; (format t "ep IDs: ~s~%" ep-ids)
 	(load-time-model all-ep-rels)
 
 	(setf ep-ids (loop for ep-id in unfiltered-ep-ids
@@ -1649,197 +1700,4 @@
 
 (defun el-to-english (prop)
 	(clean-tags (flatten-prop prop))
-)
-
-(defun expand-nested-schema (invoker parent-schema)
-(block outer
-	; (setf invoked-schema (eval (prop-pred (second invoker))))
-	(setf invoked-schema (invoked-schema (second invoker)))
-
-	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
-	; NOTE: the following "WEIRD BUG" can happen because wordnet, especially without
-	; sense numbers, gives weird invoke relations for words that fit different schemas
-	; w/ different argument structures.
-	; (if (null header-bindings)
-		; (format t "WEIRD BUG: invoker ~s can't unify with header ~s~%" invoker (second parent-schema))
-	; )
-	(if (null header-bindings)
-		(return-from outer nil)
-	)
-	; (setf identical-header-vars (shared-vars (list (second invoker) '** (car invoker)) (second invoked-schema)))
-	; (loop for id in identical-header-vars
-		; do (setf (gethash id header-bindings) id)
-	; )
-
-	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
-			if (equal (car invoker) (second (car (second sc))))
-				do (block apply-subord
-					(setf key (remove-ext (car (car (second sc))) "<-"))
-					(setf val (third (second sc)))
-					; (setf (gethash key header-bindings) val)
-					(if (not (bind-if-unbound key val header-bindings))
-						(progn
-						; (format t "WEIRD EXPANSION BUG: subordinate constraint ~s can't bind over existing bound value ~s~%" sc (gethash key header-bindings))
-						; (format t "invoker is ~s~%" invoker)
-						; (print-schema parent-schema)
-						; We're going to just cause an error here and make
-						; the whole story fail, because I don't want to fix
-						; this right now and it also makes the story take
-						; forever for some reason.
-						; TODO: fix it.
-						(error "Weird subordinate constraint expansion bug (see TODO)")
-						(return-from outer nil)
-						)
-					)
-				)
-	)
-
-	; (setf invoked-schema-bound (apply-bindings invoked-schema header-bindings))
-
-	(return-from outer (list invoked-schema header-bindings))
-)
-)
-
-; TODO: safe multi-level expansion. How to prevent loops? Just stop at duplicates, maybe?
-(defun expand-nested-schemas (parent-schema story)
-(block outer
-	(setf invoked-schemas (list))
-
-	(loop for st in (section-formulas (get-section parent-schema ':Steps))
-		do (block get-invokers
-			(if (not (invokes-schema? (second st)))
-				; then
-				(progn
-				; (format t "~s doesn't invoke~%" (second st))
-				(return-from get-invokers)
-				)
-			)
-
-			(setf invoked-pair (expand-nested-schema st parent-schema))
-			(setf invoked-schema (apply-bindings (car invoked-pair) (second invoked-pair)))
-			; (format t "invoked ~s~%" (prop-pred (second st)))
-			; (print-schema invoked-schema)
-			(setf except-parent-vars (loop for k being the hash-keys of (second invoked-pair) if (varp (gethash k (second invoked-pair))) collect (gethash k (second invoked-pair))))
-			; (format t "rename shared vars except ~s~%" except-parent-vars)
-
-			(setf invoked-schema (second (uniquify-shared-vars-except parent-schema invoked-schema except-parent-vars)))
-
-			(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema))))
-
-			(format t "; invoked ~s~%" invoked-schema)
-
-			;(setf invoked-schema (eval (prop-pred (second st))))
-			;(setf invoked-schema (second (uniquify-shared-vars parent-schema invoked-schema)))
-
-			;(setf header-bindings (third (unify-with-schema (list (second st) '** (car st)) invoked-schema nil)))
-			;(setf invoked-schema-bound (apply-bindings invoked-schema header-bindings))
-
-
-			;(setf invoked-schemas (append invoked-schemas (list (list (car st) invoked-schema-bound))))
-		)
-	)
-
-	(format t "; parent: ~s~%" parent-schema)
-
-	; Give each invoked schema a unique variable name, except for any variables shared
-	; with the parent schema; the initial pairwise uniquification above between each
-	; subschema and the parent will have already ensured that any new shared variables
-	; with the parent were the result of a unification, and thus truly cross the scope.
-	(setf invoked-schemas (uniquify-shared-vars-chain invoked-schemas parent-schema))
-
-	; (return-from outer invoked-schemas)
-
-	 ; (format t "invoked subordinate schemas are:~%")
-	 ; (loop for is in invoked-schemas
-		; do (print-schema (second is))
-	; )
-
-	(setf all-schemas (append (list parent-schema) (mapcar #'second invoked-schemas)))
-
-	(setf sorted-ep-ids (topsort-fluents all-schemas))
-
-	(setf sorted-eps
-		(loop for ep-id in sorted-ep-ids
-			collect (get-char-form ep-id all-schemas)))
-
-
-
-	(setf all-role-consts
-		(remove-duplicates (loop for schema in all-schemas
-			append (loop for form in (section-formulas (get-section schema ':Roles))
-				collect (second form)
-			)
-		) :test #'equal)
-	)
-
-	;(setf all-role-vars (loop for rc in all-role-consts collect (car form)))
-	;(setf all-role-consts (append all-role-consts
-	;	(loop for wff in (linearize-story story)
-	;		if (and
-	;				(member (car wff) all-role-vars :test #'equal)
-	;				(not (canon-charstar? wff))
-	;				(equal 1 (length (prop-all-args wff)))
-	;			)
-	;			collect wff)))
-
-
-	(setf all-role-consts
-		(sort all-role-consts
-			(lambda (a b)
-				(< (rechash (car a)) (rechash (car b)))
-			)
-		))
-
-
-	; (format t "sorted eps: ~s~%" sorted-eps)
-	; (format t "all role consts: ~s~%" all-role-consts)
-
-	(setf all-vars (get-elements-pred all-role-consts 'varp))
-	(setf var-renames (make-hash-table :test #'equal))
-	(loop for v in all-vars
-		do (block rename
-			(setf const-types (loop for const in all-role-consts if (and (symbolp (second const)) (equal (car const) v)) collect (second const)))
-			; (format t "types for ~s: ~s~%" v const-types)
-			(setf chosen-type (car const-types))
-			(setf new-name (intern (car (split-str (string (new-skolem! (intern (car (split-str (string chosen-type) "."))))) "."))))
-			; (setf new-name (intern (concat-strs (car (split-str (string chosen-type) ".")) ".SK")))
-			; (format t "new name is ~s~%" new-name)
-			(if (has-element sorted-eps v)
-				; then
-				(progn
-					(setf (gethash v var-renames) new-name)
-					; (setf sorted-eps (replace-vals v new-name sorted-eps))
-					; (setf all-role-consts (replace-vals v new-name sorted-eps))
-				)
-			)
-		)
-	)
-	(loop for v being the hash-keys of var-renames
-		do (progn
-			(setf new-name (gethash v var-renames))
-			(setf sorted-eps (replace-vals v new-name sorted-eps))
-			(setf all-role-consts (replace-vals v new-name all-role-consts))
-		)
-	)
-
-	(format t "predicted entity types:~%")
-	(loop for role-const in all-role-consts
-		if (and
-				(or
-					(not (has-element-pred role-const 'varp))
-					; (has-element sorted-eps (car role-const))
-					(loop for p in (get-elements-pred role-const 'varp)
-						always (has-element sorted-eps p))
-				)
-				; (not (member role-const (linearize-story story) :test #'equal))
-			)
-			do (format t "	~s~%" (el-to-english role-const))
-	)
-
-	(format t "I predict these steps in the story (in order):~%")
-	(loop for ep in sorted-eps
-			for ep-id in sorted-ep-ids
-		do (format t "	~a ~a~%" (if (not (varp ep-id)) "(known from story) " "(schema prediction)") (el-to-english ep))
-	)
-)
 )

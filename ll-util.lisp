@@ -59,6 +59,61 @@
 )
 )
 
+(defun k-most-freq (lst k)
+(let (
+	(elem-to-freq (make-hash-table :test #'equal))
+	(freq-to-elems (make-hash-table :test #'equal))
+	return-elems
+)
+(block outer
+	; Build a frequency table for the elements.
+	(loop for elem in lst
+		do (setf (gethash elem elem-to-freq)
+				(if (null (gethash elem elem-to-freq))
+					; then
+					1
+					; else
+					(+ 1 (gethash elem elem-to-freq))))
+
+	)
+
+	; Invert the frequency table.
+	(loop for elem being the hash-keys of elem-to-freq
+		do (setf (gethash (gethash elem elem-to-freq) freq-to-elems)
+				(append
+					(gethash (gethash elem elem-to-freq) freq-to-elems)
+					(list elem)
+				)
+			)
+	)
+
+	; Loop through all frequencies, starting at
+	; the highest, and accumulate items until we
+	; have K or we run out.
+	; Since there are at most (length lst) unique
+	; frequencies, this still runs in linear time.
+	(loop for i from 1 to (length lst)
+		do (loop for elem in
+			(gethash (- (+ 1 (length lst)) i) freq-to-elems)
+				do (if (>= (length return-elems) k)
+					; then
+					(return-from outer return-elems)
+					; else
+					(setf return-elems
+						(append return-elems (list elem)))
+				)
+		)
+	)
+
+	(return-from outer return-elems)
+)
+)
+)
+
+(defun most-freq (lst)
+	(car (k-most-freq lst 1))
+)
+
 (defun get-elements-pred-helper (lst pred)
 (let (cur-elem tmp-res)
 (block outer

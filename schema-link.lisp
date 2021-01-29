@@ -2,6 +2,7 @@
 
 (ll-load "schema-util.lisp")
 (ll-load "schema-unify.lisp")
+(ll-load "schema-match.lisp")
 
 ; norm-link.lisp contains functions to link schemas together by their
 ; pre- and post-conditions.
@@ -203,11 +204,11 @@
 		do (setf new-schema (add-constraint-with-const new-schema ':Steps (car (second m)) (third (second m))))
 	)
 
-	(setf new-es (loop for m1 in chain for m2 in (cdr chain)
-		do (setf new-schema (add-constraint new-schema ':Episode-relations
-			(list (third (second m1)) 'before (third (second m2)))
-		))
-	))
+	;(setf new-es (loop for m1 in chain for m2 in (cdr chain)
+	;	do (setf new-schema (add-constraint new-schema ':Episode-relations
+	;		(list (third (second m1)) 'before (third (second m2)))
+	;	))
+	;))
 
 
 
@@ -225,6 +226,7 @@
 		for i from 0
 		do (block inv-loop
 			(if (not (invokes-schema? (second st)))
+				(format t "~s doesn't invoke a schema~%" (second st))
 				(return-from inv-loop)
 			)
 			(setf inv-pair (expand-nested-schema st new-schema))
@@ -251,7 +253,14 @@
 	(setf deduped-rcs (remove-duplicates all-rcs :test #'equal))
 	(setf unsubsumed-rcs (list))
 	(loop for rc1 in deduped-rcs do (block ddp
-		(if (loop for rc2 in deduped-rcs never (and (not (equal rc1 rc2)) (subsumes (prop-pred rc1) (prop-pred rc2))))
+		(if (loop for rc2 in deduped-rcs never (and
+			(not (equal rc1 rc2))
+			(equal
+				(append (prop-pre-args rc1) (prop-post-args rc1))
+				(append (prop-pre-args rc2) (prop-post-args rc2))
+			)
+			(subsumes (prop-pred rc1) (prop-pred rc2))
+			))
 			(setf unsubsumed-rcs (append unsubsumed-rcs (list rc1)))
 		)
 	))
@@ -270,5 +279,131 @@
 	(setf new-schemas (append new-schemas (list new-schema)))
 	(setf new-schema-names (append new-schema-names (list new-schema-name)))
 	(return-from outer new-schema)
+)
+)
+
+(defun compose-schema (roles steps)
+(let (
+	new-schema
+)
+(block outer
+	; Create an empty new schema to populate.
+
+	; To create the new schema, we need to make its
+	; header, and to make the header, we need the header
+	; arguments. We'll choose all individuals that are
+	; postfix arguments of the steps as the postfix
+	; arguments of the header, and the most frequent
+	; prefix argument of the steps as the prefix argument
+	; of the header.
+
+	; Find the most frequent prefix argument.
+	(setf new-prefix-arg
+		(most-freq (loop for st in steps
+						collect (car (prop-pre-args (car st))))))
+
+	; Compile all postfix arguments.
+	(setf new-postfix-args
+		(dedupe (loop for st in steps
+					append (prop-post-args (car st)))))
+
+	; We also need to name a new schema header predicate.
+	; For now, we can just use a dummy name, and let the
+	; generalizer add a unique number.
+	; TODO: smarter composite schema naming.
+	(setf new-pred 'COMPOSITE-SCHEMA.PR)
+
+	; Form the new header.
+	(setf new-header
+		(render-prop
+			(list new-prefix-arg)
+			new-pred
+			new-postfix-args
+			nil ; no predicate modifiers in this header (?)
+		)
+	)
+
+	; Use the new header to create a blank schema.
+	(setf new-schema (list 'epi-schema (list new-header '** '?E) (list ':Steps)))
+
+	; Add the steps to the new schema.
+	(loop for st in steps
+		do (setf new-schema
+				(add-constraint-with-const new-schema ':Steps
+					(car st)
+					(third st)
+				)
+		)
+	)
+
+	; Sort the steps and clean up the schema.
+	(setf new-schema (fully-clean-schema new-schema))
+
+	; If we have matches embedded as steps, we're going to move their role constraints
+	; and pre/postconditions into the embedding schema. This is largely for clarity and
+	; display purposes, and can be skipped if the embedded schemas retain their unique
+	; match names.
+	(loop for st in (section-formulas (get-section new-schema ':Steps))
+		for i from 0
+		do (block inv-loop
+			(if (not (invokes-schema? (second st)))
+				(return-from inv-loop)
+			)
+			; (format t "expanding nested schema ~s~%" st)
+			(setf inv-pair (expand-nested-schema st new-schema))
+			; (format t "got inv pair ~s~%" inv-pair)
+			(setf inv-schema (apply-bindings (car inv-pair) (second inv-pair)))
+			(setf except (loop for k  being the hash-keys of (second inv-pair) collect k))
+			(setf deduped-schema (second (uniquify-shared-vars-except new-schema (car inv-pair) except)))
+			(setf deduped-schema (apply-bindings deduped-schema (second inv-pair)))
+
+			;(if (equal i 0)
+			;	(setf new-pres (loop for pre in (section-formulas (get-section deduped-schema ':Preconds)) collect (second pre)))
+			;)
+			;(setf new-posts (loop for post in (section-formulas (get-section deduped-schema ':Postconds)) collect (second post)))
+
+			(setf rcs (loop for rc in (section-formulas (get-section deduped-schema ':Roles))
+				collect (second rc)
+			))
+			(setf rcs (remove-duplicates rcs :test #'equal))
+			(setf rcs (loop for rc in rcs if (loop for v in (get-elements-pred rc #'varp) always (has-element new-schema v)) collect rc))
+			(setf rcs (sort rcs (lambda (a b) (< (sxhash (car a)) (sxhash (car b))))))
+			(setf roles (append roles rcs))
+		)
+	)
+
+	; Remove duplicate role constraints and those
+	; subsumed by other role constraints.
+	(setf deduped-rcs (remove-duplicates roles :test #'equal))
+	(setf unsubsumed-rcs (list))
+	(loop for rc1 in deduped-rcs do (block ddp
+		(if (loop for rc2 in deduped-rcs never (and
+			(not (equal rc1 rc2))
+			(equal
+				(append (prop-pre-args rc1) (prop-post-args rc1))
+				(append (prop-pre-args rc2) (prop-post-args rc2))
+			)
+			(subsumes (prop-pred rc1) (prop-pred rc2))
+			))
+			(setf unsubsumed-rcs (append unsubsumed-rcs (list rc1)))
+		)
+	))
+
+	; Add the roles to the schema.
+	(loop for rc in unsubsumed-rcs
+		do (setf new-schema (add-constraint new-schema ':Roles rc))
+	)
+
+	; Clean the schema one last time.
+	(setf new-schema (fully-clean-schema new-schema))
+
+	; Add the new pre- and post-conditions.
+	;(loop for pre in new-pres
+	;	do (setf new-schema (add-constraint new-schema ':Preconds pre)))
+	;(loop for post in new-posts
+	;	do (setf new-schema (add-constraint new-schema ':Postconds post)))
+
+	(return-from outer new-schema)
+)
 )
 )

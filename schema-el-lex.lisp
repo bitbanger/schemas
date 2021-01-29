@@ -215,6 +215,7 @@
 (defun lex-adv? (x)
 (or
 	(has-ext? x ".ADV")
+	(has-ext? x ".PRT")
 	(lex-adv-a? x)
 	(lex-adv-e? x)
 	(lex-adv-s? x)

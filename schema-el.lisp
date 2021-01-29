@@ -491,3 +491,21 @@
 	))
 )
 )
+
+(defun render-pred (pred post-args mods)
+(block outer
+	(setf wrapped-pred pred)
+	(loop for m in mods
+		do (setf wrapped-pred (list m wrapped-pred))
+	)
+
+	(if (> (length post-args) 1)
+		(return-from outer (append
+			(list wrapped-pred)
+			post-args
+		))
+	)
+
+	(return-from outer wrapped-pred)
+)
+)

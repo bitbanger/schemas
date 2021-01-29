@@ -149,6 +149,15 @@
 )
 )
 
+(defun is-comma? (x)
+(and
+	(symbolp x)
+	(or
+		(equal x (intern ","))
+	)
+)
+)
+
 (defparameter *SCHEMA-CLEANUP-RULES* (curry-ttt-rules '(
 	; The case with only one argument
 	; (/ (KA (L _!1 (_!1 _!2)))
@@ -338,6 +347,12 @@
 	(/
 		((!1 ~ THERE.PRO) (BE.V (!2 probably-pred?)))
 		(!1 !2)
+	)
+
+	; comma-and becomes and
+	(/
+		(_*1 (!2 is-comma?) AND _*3)
+		(_*1 AND _*3)
 	)
 
 	; "There is X" => "X is"

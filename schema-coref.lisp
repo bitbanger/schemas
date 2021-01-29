@@ -121,6 +121,30 @@
 )
 )
 
+(defun get-determiner-from-constraint-set (cset)
+(let ((det))
+(block outer
+	(setf det (loop for c in cset
+							if (has-element c 'HAS-DET.PR)
+								collect c))
+
+	(if (> (length det) 1)
+		; then
+		(format t "got ~d determiners in constraint set ~s~%" (length det) orig-one-constraints)
+		; else
+		(if (equal (length det) 0)
+			; then
+			(format t "got no determiners in constraint set ~s~%" orig-one-constraints)
+			; else
+			(setf det (car det))
+		)
+	)
+
+	(return-from outer det)
+)
+)
+)
+
 (defun resolve-coreference (txt-sents el-sents)
 (block outer
 	(setf needs-res (remove-duplicates (get-elements-pred el-sents (lambda (x)
@@ -348,13 +372,28 @@
 			(setf one-constraints (append coref-one-constraints orig-one-constraints))
 
 			; ...but excluding the ONE.N constraint.
+			; ...
+			; And the HAS-DET constraint the original
+			; sentence had with ONE.N, for rendering back
+			; to English.
+			; ...
 			; However, we'll run this first to log the
 			; constraints we can remove at the end,
 			; including the ONE.N constraint.
 			(setf cullable-constraints orig-one-constraints)
 
 			; Remove the ONE.N predicate from the new combo predicate.
-			(setf one-constraints (remove 'ONE.N one-constraints :test #'equal))
+			(setf one-constraints (remove '(ONE.N) one-constraints :test #'equal))
+
+			; Remove the determiner used by the original sentence for "one",
+			; if it conflicts with the new determiner.
+			(setf orig-one-det (get-determiner-from-constraint-set orig-one-constraints))
+			(setf coref-one-det (get-determiner-from-constraint-set coref-one-constraints))
+
+			(if (not (equal orig-one-det coref-one-det))
+				; then
+				(setf one-constraints (remove coref-one-det one-constraints :test #'equal))
+			)
 
 			(setf new-one-pred
 				(if (equal 1 (length one-constraints))

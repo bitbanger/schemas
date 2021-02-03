@@ -1,6 +1,6 @@
 (load "ll-load.lisp")
 
-(ll-load "ttt/src/load")
+(ll-load "old-ttt/src/load")
 (ll-load-subdir "el_parse" "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
 (defparameter *DBG-TAGS* (list
@@ -871,7 +871,7 @@ is replaced with replacement."
 
 (defun ttt-replace (phi old new)
 	(unhide-ttt-ops
-		(ttt:apply-rules
+		(old-ttt:apply-rules
 			(progn
 			; (format t "curried TTT rules: ~s~%" (curry-ttt-rules (list (list '/ old new))))
 			(curry-ttt-rules (list (list '/ old new)))

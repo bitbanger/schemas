@@ -7,6 +7,15 @@
 (ll-load-subdir "stories" "roc-mcguffey-stories.lisp")
 (ll-load-subdir "stories" "school-roc-stories.lisp")
 
+(load "~/quicklisp/setup.lisp")
+(ql:register-local-projects)
+(ql:quickload "py4cl")
+(ql:quickload "ttt")
+(setf py4cl:*python-command* "/usr/local/opt/python@3.8/bin/python3.8")
+(ql:quickload "ulf2english")
+(ql:quickload "standardize-ulf")
+(use-package :standardize-ulf)
+
 (setf stories '((
 	"My brother had a ball."
 	"He threw it to my son."
@@ -93,9 +102,10 @@ do (block unmake-sk
 	)
 
 	;(format t "	~s~%" sk)
-	(setf determiners (loop for c in constraints if (equal (prop-pred c) 'HAS-DET.PR) collect (second (car (prop-post-args c)))))
+	(setf determiners (loop for c in constraints if (and (canon-prop? c) (equal (prop-pred c) 'HAS-DET.PR)) collect (second (car (prop-post-args c)))))
 	(setf constraints (loop for c in constraints if
 		(and
+			(canon-prop? c)
 			(not (equal (prop-pred c) 'HAS-DET.PR))
 			(equal (length c) 2)
 			(equal (car c) sk)
@@ -151,6 +161,9 @@ do (block unmake-sk
 		; turn all Skolems into lambdas
 
 		; make the VP
+		(if (not (canon-prop? (car now-rels)))
+			(return-from get-time)
+		)
 		(setf time-idx (prop-pred (car now-rels)))
 
 		(setf tense-mod 'PRES)
@@ -162,6 +175,10 @@ do (block unmake-sk
 		(if (equal time-idx 'AFTER)
 			; then
 			(setf tense-mod '(PRES WILL.AUX-S))
+		)
+
+		(if (not (canon-prop? (car event)))
+			(return-from get-time)
 		)
 
 		(setf verb (prop-pred (car event)))
@@ -184,11 +201,17 @@ do (block unmake-sk
 		)
 
 		
-		(setf all-ulfs (append all-ulfs vp))
+		(setf all-ulfs (append all-ulfs (list vp)))
 		(format t "	~s~%" vp)
 
 	)
 
 )
+	(format t "ENGLISH (converted back):~%")
+	(loop for ulf in all-ulfs
+		do (handler-case (format t "	~s~%" (ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english))) (error () (format t "; ulf2english error~%")))
+		; do (format t "	~s~%" (ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english)))
+		; do (format t "	~s~%" (ulf2english:ulf2english ulf))
+	)
 
 ))

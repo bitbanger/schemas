@@ -17,7 +17,7 @@
 
 ; Load TTT so that TTT-dependent code can be loaded
 ; `````````````````````````````````````````````````
-(load "../ttt/src/load")
+(load "../old-ttt/src/load")
 
 ; Main sentence processing code
 ; `````````````````````````````

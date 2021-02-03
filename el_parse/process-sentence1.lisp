@@ -387,7 +387,7 @@
        (setq chunks (tokenize-simply str))
        (setq chunks
          (unhide-ttt-ops
-           (ttt:apply-rules *repair-rules-for-input-sentences*
+           (old-ttt:apply-rules *repair-rules-for-input-sentences*
              (hide-ttt-ops chunks) :rule-order :fast-forward)))
        (detokenize chunks) )); end of repair-input
 
@@ -444,7 +444,7 @@
 ; levels.
 ;
  (unhide-ttt-ops
-   (ttt:apply-rules *repair-rules-for-charniak-parse* 
+   (old-ttt:apply-rules *repair-rules-for-charniak-parse* 
       (hide-ttt-ops parse-tree) :rule-order :slow-forward)))
 
 
@@ -453,7 +453,7 @@
 ; Apply a set of TTT repair rules to a refined Charniak parse tree
 ;
  (unhide-ttt-ops
-   (ttt:apply-rules *repair-rules-for-refined-charniak-parse* 
+   (old-ttt:apply-rules *repair-rules-for-refined-charniak-parse* 
      (hide-ttt-ops parse-tree) :rule-order :slow-forward)))
 
 
@@ -520,7 +520,7 @@
 ; sentence (if any) or perhaps a list of potential referents and their
 ; types as an additional argument of this function.
  (unhide-ttt-ops
-   (ttt:apply-rules *pronoun-resolution-rules-for-ulfs* 
+   (old-ttt:apply-rules *pronoun-resolution-rules-for-ulfs* 
      (hide-ttt-ops ulf) :rule-order :slow-forward)))
 
 (defun incorporate-{augmented-}predicate-np (ulf)
@@ -530,7 +530,7 @@
 ; augmentation); other augmentations are currently handled by 
 ; 'incorporate-augmentations' as defined in the LF derivation code.
  (unhide-ttt-ops
-   (ttt:apply-rules *{augmented-}predicate-np-incorporation-rules-for-ulf*
+   (old-ttt:apply-rules *{augmented-}predicate-np-incorporation-rules-for-ulf*
      (hide-ttt-ops ulf) :rule-order :slow-forward)))
 
 (defun disambiguate-pp-roles-in-vps (ulf); Mar 11/14
@@ -541,7 +541,7 @@
 ; object (e.g., "rely on"); we use the latter only if omission
 ; of the object-supplying PP is ungrammatical.
  (unhide-ttt-ops
-   (ttt:apply-rules *disambiguation-rules-for-pps-in-vp-ulfs*
+   (old-ttt:apply-rules *disambiguation-rules-for-pps-in-vp-ulfs*
      (hide-ttt-ops ulf) :rule-order :slow-forward)))
 
 (defun convert-deep (expr)
@@ -555,7 +555,7 @@
 ; Apply a set of TTT repair rules to the given reduced logical form lf
 ;
  (unhide-ttt-ops
-   (ttt:apply-rules *repair-rules-for-reduced-lf*
+   (old-ttt:apply-rules *repair-rules-for-reduced-lf*
      (hide-ttt-ops lf) :rule-order :slow-forward)))
 
 (defun transform-deep (lf)
@@ -563,7 +563,7 @@
 ; Apply rules that widen the scope of indefinites and definites,
 ; expand the meaning of predications of cognition, etc.
  (unhide-ttt-ops
-   (ttt:apply-rules *deep-lf-transformation-rules* 
+   (old-ttt:apply-rules *deep-lf-transformation-rules* 
      (hide-ttt-ops lf) :rule-order :slow-forward)))
 
 (defun canonicalize-lfs (lfs)
@@ -574,8 +574,8 @@
 ; in ~schubert/lf*/normalizing.lisp).
 ;
  (unhide-ttt-ops
-  ;(ttt:apply-rules-at-root *canonicalization-rules-for-lfs*
-   (ttt:apply-rules *canonicalization-rules-for-lfs*
+  ;(old-ttt:apply-rules-at-root *canonicalization-rules-for-lfs*
+   (old-ttt:apply-rules *canonicalization-rules-for-lfs*
      (hide-ttt-ops lfs) :shallow t :rule-order :slow-forward)))
 
 (defun change-colon-l-to-l (lfs)

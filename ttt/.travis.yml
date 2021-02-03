@@ -1,0 +1,49 @@
+language: lisp
+
+env:
+  global:
+    - PATH=~/.roswell/bin:$PATH
+    - ROSWELL_INSTALL_DIR=$HOME/.roswell
+  matrix:
+    - LISP=sbcl COVERALLS=true
+    - LISP=allegro
+    - LISP=abcl
+    - LISP=ccl-bin
+    - LISP=clisp
+    - LISP=cmu-bin
+    - LISP=ecl
+
+matrix:
+  allow_failures:
+    # Only plan to support SBCL, but check compatilibity issues on other
+    # distributions.
+    - env: LISP=allegro
+    - env: LISP=abcl
+    - env: LISP=ccl-bin
+    - env: LISP=clisp
+    - env: LISP=cmu-bin
+    - env: LISP=ecl
+
+install:
+  # Install roswell
+  #- curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh;
+  - curl -L https://raw.githubusercontent.com/genelkim/custom-ci-scripts/master/install-for-ci-sbcl-2.0.7.sh | sh;
+  # Make current project accessible by roswell
+  - ln -s $(pwd) ~/.roswell/local-projects/ttt
+  
+  # Custom cl-coveralls
+  - ros install genelkim/cl-coveralls
+  
+cache:
+  directories:
+    # Cache roswell
+    - $HOME/.roswell
+
+script:
+  - if [[ "$LISP" == "sbcl" ]]; then
+      ros -s cl-coveralls -e '(or (coveralls:with-coveralls (:exclude (cons "src/tests.lisp" (directory "src/test/*.lisp")))
+                                    (load "src/run-tests"))
+                                  (uiop:quit -1))';
+    else
+      cd src; ros -l run-tests.lisp;
+    fi

@@ -1,9 +1,14 @@
-(defpackage ttt
+(defpackage :ttt
   (:documentation "the TTT (template to template transduction) package!")
-  (:use :common-lisp)
+  (:use :cl)
+  (:shadow :run-tests)
   (:export :match-expr
-	   :apply-rules
-	   :apply-rule
-	   :store-pred))
-;;(in-package ttt)
-;;(defconstant +load-path+ (system-relative-pathname 'epilog ""))
+           :apply-rules
+           :apply-rule
+           :store-pred
+           ;; Utilities
+           :hide-ttt-ops
+           :unhide-ttt-ops
+           :ttt-all-rule-results
+           :ttt-apply-rule-possibilities))
+

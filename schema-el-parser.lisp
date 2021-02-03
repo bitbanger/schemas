@@ -2,7 +2,7 @@
 
 (load "ll-load.lisp")
 
-(ll-load "ttt/src/load")
+(ll-load "old-ttt/src/load")
 (ll-load-subdir "el_parse" "init1.lisp")
 (ll-load "ll-util.lisp")
 (ll-load "schema-el-lex.lisp")
@@ -2216,7 +2216,7 @@
 
 (defun schema-cleanup-ttt (phi)
 	(unhide-ttt-ops
-		(ttt:apply-rules *SCHEMA-CLEANUP-RULES*
+		(old-ttt:apply-rules *SCHEMA-CLEANUP-RULES*
 			(hide-ttt-ops phi)
 			:rule-order :slow-forward))
 )

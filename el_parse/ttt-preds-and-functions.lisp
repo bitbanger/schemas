@@ -112,8 +112,8 @@
 ; Take for granted that the initial list element is ADVP, so we
 ; just look at constituent patterns.
 ;
- (or (ttt:match-expr '((RB (! not n\'t never))) (cdr advp))
-     (ttt:match-expr 
+ (or (old-ttt:match-expr '((RB (! not n\'t never))) (cdr advp))
+     (old-ttt:match-expr 
        '((* (RB _!)) 
          (_! (! accordingly admittedly apparently assuredly certainly
                 conceivably consequently definitely ever fortunately 

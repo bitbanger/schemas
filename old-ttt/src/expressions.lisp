@@ -1,4 +1,4 @@
-(in-package :ttt)
+(in-package :old-ttt)
 ;; These functions are used only by build-pattern and build-tree
 ;; to construct the respective objects from expressions.
 
@@ -250,7 +250,7 @@
    could extend to filter-all - return ALL such sets to any depth"
      
   (if (atom expression)
-      (if (not (eq (get-op expression) 'literal))
+      (if (not (or (eq (get-op expression) 'literal) (numberp expression)))
 	  (keys-to-filter-ops (get expression 'pred-keys))  ;; for predicates
 	  (list expression))
       (case (get-op (car expression))

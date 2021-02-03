@@ -1,6 +1,6 @@
 (load "ll-load.lisp")
 
-(ll-load "ttt/src/load")
+(ll-load "old-ttt/src/load")
 (ll-load "schema-el.lisp")
 (ll-load "ll-util.lisp")
 (ll-load "schema-kb.lisp")

@@ -221,7 +221,7 @@
 	)
 
 
-	(setf new-ulf (unhide-ttt-ops (ttt:apply-rules new-ulf-rules
+	(setf new-ulf (unhide-ttt-ops (old-ttt:apply-rules new-ulf-rules
 			(hide-ttt-ops new-ulf)
 			:rule-order :slow-forward)))
 

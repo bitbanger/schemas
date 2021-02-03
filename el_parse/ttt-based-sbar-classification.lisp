@@ -28,7 +28,7 @@
 ; rule applies, return the input tree.
 ;
 ; rules: a list of TTT rules suitable for individual application of
-;   'ttt:apply-rule';
+;   'old-ttt:apply-rule';
 ; shallow: non-NIL if each rule is to be applied only at the top level  ;
 ; max-n: number of rule applications allowed for each rule (here, 
 ;    usually max-n = 1)
@@ -36,7 +36,7 @@
  (let (result)
       (dolist (r rules) 
          (setq result 
-            (ttt:apply-rule r tree :shallow shallow :max-n max-n))
+            (old-ttt:apply-rule r tree :shallow shallow :max-n max-n))
          (if (not (equal result tree)); if r doesn't apply, (eq result tree)
              (return-from or-ttt result))); is t; but use 'equal' to be sure!
       tree ; no rule applied, so return input tree

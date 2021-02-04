@@ -58,11 +58,29 @@
 			do (format t "	~s~%" ind)
 			do (block print-cnstrs
 				(setf constrs (story-select-term-constraints (linearize-story el-story) (list ind)))
+				(setf constrs
+					(loop for c in constrs
+						if (and
+								(canon-prop? c)
+								(has-element c ind)
+								(not (has-element c 'HAS-DET.PR))
+								(not (time-prop? c)))
+							collect c
+					)
+				)
+				(setf constrs (dedupe constrs))
 				(setf rcs (append rcs constrs))
 				(loop for constr in constrs
 					do (format t "		~s~%" constr)
 				)
 			)
+		)
+
+		(setf rcs (dedupe rcs))
+
+		(format t "all constraints being added: ~%")
+		(loop for constr in rcs
+			do (format t "	~s~%" constr)
 		)
 
 		(setf new-schema (compose-schema rcs (append events headers)))

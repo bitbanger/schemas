@@ -48,6 +48,7 @@
 	SET-OF
 	:R
 	IND
+	ADV
 )))
 
 (defparameter *KEYWORDS-MAP* (make-hash-table :test #'equal))

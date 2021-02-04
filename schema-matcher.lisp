@@ -78,14 +78,22 @@
 )
 
 (defun top-k-story-matches (story schemas num-shuffles num-schemas num-matches form-chains generalize)
+	(top-k-story-matches-from-els (loop for sent in (parse-story story) collect (loop for wff in sent if (canon-prop? wff) collect wff)) schemas num-shuffles num-schemas num-matches form-chains generalize)
+)
+
+(defun top-k-story-matches-len (story schemas num-shuffles num-schemas num-matches form-chains generalize)
+	(top-k-story-matches-from-els (loop for sent in (len-parse-sents story) collect (loop for wff in sent if (canon-prop? wff) collect wff)) schemas num-shuffles num-schemas num-matches form-chains generalize)
+)
+
+(defun top-k-story-matches-from-els (el-story schemas num-shuffles num-schemas num-matches form-chains generalize)
 (let ()
 (block outer
 	; Parse the story and filter out invalid ELFs.
 	; TODO: use Len's new ULF parser, as it's used
 	; in new-ulf-test1.lisp
-	(setf el-story (loop for sent in (parse-story story)
-		collect (loop for wff in sent
-			if (canon-prop? wff) collect wff)))
+	;(setf el-story (loop for sent in (parse-story story)
+		;collect (loop for wff in sent
+			;if (canon-prop? wff) collect wff)))
 
 	; Find the best matches for the story with the given schemas.
 	(setf story-matches (list))
@@ -119,6 +127,14 @@
 )
 )
 
+(defun top-story-matches-easy-el (el-story)
+	(top-k-story-matches-from-els el-story *PROTOSCHEMAS* 30 3 3 nil nil)
+)
+
 (defun top-story-matches-easy (story)
 	(top-k-story-matches story *PROTOSCHEMAS* 30 3 3 nil nil)
+)
+
+(defun top-story-matches-easy-len (story)
+	(top-k-story-matches-len story *PROTOSCHEMAS* 30 3 3 nil nil)
 )

@@ -182,7 +182,12 @@
 )
 
 (defun get-elements-pred (lst pred)
-	(mapcar #'car (get-elements-pred-helper (el-idcs lst) pred))
+	(if (null lst)
+		; then
+		nil
+		; else
+		(mapcar #'car (get-elements-pred-helper (el-idcs lst) pred))
+	)
 )
 
 (defun index-pair? (x)

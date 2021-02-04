@@ -810,6 +810,14 @@
 				collect step-id
 		)
 	)
+	(setf deduped-unspec-step-ids (remove-duplicates unspec-step-ids :test #'equal :from-end t))
+	(if (not (equal deduped-unspec-step-ids unspec-step-ids))
+		; then
+		(progn
+			(format t "step ID list ~s has duplicates; assuming the first occurrences specify the correct order~%" unspec-step-ids)
+			(setf unspec-step-ids deduped-unspec-step-ids)
+		)
+	)
 
 	(if (null unspec-step-ids)
 		(return-from outer schema)

@@ -5,6 +5,7 @@
 (load "../stories/roc-mcguffey-stories.lisp")
 
 (ll-load-superdir "new-ulf-parser.lisp")
+(ll-load-superdir "el-to-ulf.lisp")
 (ll-load-superdir "schema-matcher.lisp")
 (ll-load-superdir "schema-link.lisp")
 (ll-load-superdir "schema-util.lisp")
@@ -14,9 +15,17 @@
 ; start line.
 (setf story-start-line nil)
 ; (setf story-start-line "I went to my door yesterday.")
+(setf stories-processed 0)
 
+(block process-all-stories
 (loop for roc-story in *ROC*
 	do (block process-story
+		(if (>= stories-processed 50)
+			; then
+			(return-from process-all-stories)
+			; else
+			(setf stories-processed (+ stories-processed 1))
+		)
 
 		(if (and
 				(not (null story-start-line))
@@ -106,5 +115,23 @@
 		(setf new-schema (compose-schema rcs (append events headers)))
 		(print-schema new-schema)
 
+		; At this point, we're going to compile all of the role constraints and events into a set of EL formulas, then let the EL-to-English code work its magic.
+		(setf els-for-eng (append
+			; Get all role constraints
+			(mapcar #'second (section-formulas (get-section new-schema ':Roles)))
+
+			; Get all steps
+			(loop for st in (section-formulas (get-section new-schema ':Steps))
+				collect (list (second st) '** (car st))
+			)
+		))
+
+		(setf ulfs-for-eng (el-to-ulf els-for-eng))
+
+		(format t "Schema in English (prototype): ~%")
+		(loop for eng in (el-to-eng els-for-eng)
+			do (format t "	~s~%" eng)
+		)
+
 	)
-)
+))

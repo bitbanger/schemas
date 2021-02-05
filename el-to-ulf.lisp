@@ -16,62 +16,6 @@
 (ql:quickload "standardize-ulf")
 (use-package :standardize-ulf)
 
-(setf stories '((
-	"My brother had a ball."
-	"He threw it to my son."
-	"My son could not catch it."
-	"It rolled right past my son."
-	"My son picked the ball up."
-)))
-
-(if nil
-(loop for story in stories
-	do (loop for pair in (len-ulfs-and-els story)
-			; for sent in story
-		; do (format t "sent:~%")
-		; do (format t "	~s~%" sent)
-		do (format t "ulf:~%")
-		do (format t "	~s~%" (car pair))
-		do (format t "el:~%")
-		; do (format t "	~s~%" (second pair))
-		do (loop for wff in (second pair)
-			do (format t "	~s~%" wff)
-			)
-	)
-)
-)
-
-(loop for story in *ROC*
-
-do (block per-story
-
-
-	(format t "~%~%~%ENGLISH:~%")
-	(loop for sent in story
-		do (format t "	~s~%" sent))
-
-(setf pairs (len-ulfs-and-els story))
-; (setf els (len-parse-sents story))
-(setf ulfs (mapcar #'car pairs))
-(setf els (mapcar #'second pairs))
-
-(format t "ULF (parsed):~%")
-(loop for ulf in ulfs
-	do (format t "	~s~%" ulf)
-)
-
-(setf els (loop for sent in els append sent))
-
-(format t "EL (converted):~%")
-(loop for sent in els
-	do (format t "	~s~%" sent)
-)
-
-(format t "ULF (converted back):~%")
-(setf all-ulfs (list))
-
-(setf events (loop for wff in els if (canon-charstar? wff) collect wff))
-
 (defun now-rel? (phi)
 	(has-element-pred phi (lambda (x)
 		(and
@@ -81,27 +25,70 @@ do (block per-story
 	))
 )
 
+(defun var-to-sk (var)
+(block outer
+	(if (not (varp var))
+		; then
+		(return-from outer var)
+	)
+
+	(return-from outer (intern (concat-strs (remove-prefix (format nil "~s" var) "?") ".SK")))
+)
+)
+
+(defun vars-to-sks (form)
+(let ((all-vars))
+(block outer
+	(if (not (listp form))
+		(return-from outer (var-to-sk form))
+	)
+
+	(setf all-vars (dedupe (get-elements-pred form #'varp)))
+	(loop for var in all-vars
+		do (setf form (replace-vals var (var-to-sk var) form))
+	)
+
+	(return-from outer form)
+)
+)
+)
+
+(defun el-to-ulf (els)
+(block outer
+(setf all-ulfs (list))
+
+(setf els (vars-to-sks els))
+
+(setf events (loop for wff in els if (canon-charstar? wff) collect wff))
+
 (setf story-skolems (dedupe (get-elements-pred els #'lex-skolem?)))
 (setf event-skolems (dedupe (get-elements-pred (mapcar #'car events) #'lex-skolem?)))
 (setf skolems (intersection story-skolems event-skolems :test #'equal))
 
+(setf skolems (vars-to-sks skolems))
 
-(setf clean-story (filter-invalid-wffs (clean-idx-tags els)))
-;(format t "clean story: ~s~%" clean-story)
+; (format t "events: ~s~%" events)
+
+
+(setf clean-story (vars-to-sks (filter-invalid-wffs (clean-idx-tags els))))
+; (format t "clean story: ~s~%" clean-story)
 
 
 (setf sk-map (make-hash-table :test #'equal))
 
-;(format t "skolems: ~%")
+; (format t "skolems: ~%")
 (loop for sk in skolems
 do (block unmake-sk
+	; (format t "looking for constraints matching clean skolem ~s~%" (remove-idx-tag sk))
 	(setf constraints
 		(story-select-term-constraints
 			clean-story
 			(list (remove-idx-tag sk)))
 	)
 
-	;(format t "	~s~%" sk)
+
+	; (format t "	~s~%" sk)
+	; (format t "constraints: ~s~%" constraints)
 	(setf determiners (loop for c in constraints if (and (canon-prop? c) (equal (prop-pred c) 'HAS-DET.PR)) collect (second (car (prop-post-args c)))))
 	(setf constraints (loop for c in constraints if
 		(and
@@ -132,7 +119,7 @@ do (block unmake-sk
 				(setf det 'THE.D)
 			)
 			(if (null det)
-				(setf det 'THE.D)
+				(setf det 'A.D)
 			)
 
 			(setf sk-replacement (list det lambda-pred))
@@ -161,12 +148,13 @@ do (block unmake-sk
 		; turn all Skolems into lambdas
 
 		; make the VP
-		(if (not (canon-prop? (car now-rels)))
-			(return-from get-time)
-		)
-		(setf time-idx (prop-pred (car now-rels)))
-
 		(setf tense-mod 'PRES)
+		(setf time-idx nil)
+		(if (canon-prop? (car now-rels))
+			(setf time-idx (prop-pred (car now-rels)))
+		)
+
+
 
 		(if (equal time-idx 'BEFORE)
 			; then
@@ -202,16 +190,81 @@ do (block unmake-sk
 
 		
 		(setf all-ulfs (append all-ulfs (list vp)))
-		(format t "	~s~%" vp)
+		; (format t "	~s~%" vp)
 
 	)
 
 )
-	(format t "ENGLISH (converted back):~%")
-	(loop for ulf in all-ulfs
-		do (handler-case (format t "	~s~%" (ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english))) (error () (format t "; ulf2english error~%")))
-		; do (format t "	~s~%" (ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english)))
-		; do (format t "	~s~%" (ulf2english:ulf2english ulf))
+		(return-from outer all-ulfs)
+))
+
+(defun ulf-to-eng (ulf)
+	(ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english))
+)
+
+(defun el-to-eng (els)
+	(mapcar #'ulf-to-eng
+		(el-to-ulf els))
+)
+
+(if nil
+(loop for story in stories
+	do (loop for pair in (len-ulfs-and-els story)
+			; for sent in story
+		; do (format t "sent:~%")
+		; do (format t "	~s~%" sent)
+		do (format t "ulf:~%")
+		do (format t "	~s~%" (car pair))
+		do (format t "el:~%")
+		; do (format t "	~s~%" (second pair))
+		do (loop for wff in (second pair)
+			do (format t "	~s~%" wff)
+			)
+	)
+)
+)
+
+
+(if nil (block main-program
+	(loop for story in *ROC*
+
+	do (block per-story
+
+
+		(format t "~%~%~%ENGLISH:~%")
+		(loop for sent in story
+			do (format t "	~s~%" sent))
+
+	(setf pairs (len-ulfs-and-els story))
+	; (setf els (len-parse-sents story))
+	(setf ulfs (mapcar #'car pairs))
+	(setf els (mapcar #'second pairs))
+
+	(format t "ULF (parsed):~%")
+	(loop for ulf in ulfs
+		do (format t "	~s~%" ulf)
 	)
 
+	(setf els (loop for sent in els append sent))
+
+	(format t "EL (converted):~%")
+	(loop for sent in els
+		do (format t "	~s~%" sent)
+	)
+
+	(setf converted-ulfs (el-to-ulf els))
+	(format t "ULF (converted back):~%")
+	(loop for ulf in converted-ulfs
+		do (format t "		~s~%" ulf)
+	)
+
+
+		(format t "ENGLISH (converted back):~%")
+		(loop for ulf in converted-ulfs
+			do (handler-case (format t "	~s~%" (ulf-to-eng ulf)) (error () (format t "; ulf2english error~%")))
+			; do (format t "	~s~%" (ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english)))
+			; do (format t "	~s~%" (ulf2english:ulf2english ulf))
+		)
+
+	))
 ))

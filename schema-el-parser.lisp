@@ -167,6 +167,13 @@
 	; (/ (KA (L _!1 (_!1 _!2 _+3)))
 	; 	(KA _!2 _+3))
 
+	; NOT.ADV, with or without index tags, should
+	; just be NOT.
+	(/
+		(ll-curry eq-no-idx-tags? NOT.ADV)
+		NOT
+	)
+
 	; Get rid of monadic lambda predicates.
 	(/ (_*1 (L _!.2 (_!.2 _+3)) _*4)
 		(_*1 (_+3) _*4)

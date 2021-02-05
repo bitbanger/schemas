@@ -1432,6 +1432,7 @@
 
 	(block loop-outer
 		(setf form (copy-item loop-form))
+		; (format t "got input form ~s~%" form)
 		(setf char-ep nil)
 		(setf pr-mods (list))
 
@@ -1547,6 +1548,14 @@
 			;(t (return-from loop-outer))
 		)))
 
+		; A pred is also required.
+		(if (null uf-pred)
+			(return-from loop-outer)
+		)
+
+		; (format t "got uf-mods ~s~%" uf-mods)
+		; (format t "form is ~s~%" form)
+
 		(setf new-uf-pred (copy-item uf-pred))
 
 		; Strip off all legal modifiers that were already
@@ -1562,6 +1571,8 @@
 			)
 		)
 		(setf uf-mods (append existing-mods uf-mods))
+
+		; (format t "uf-mods is now ~s~%" uf-mods)
 
 		; If the predicate also wraps up floating mods,
 		; e.g. (I.PRO REALLY.ADV-A (GO.V (ADV-A TO.P SCHOOL1.SK))),
@@ -1587,10 +1598,14 @@
 			)
 		)
 
+		; (format t "now it's ~s~%" uf-mods)
+
 		; Stack the floating mods on the predicate.
 		(loop for m in uf-mods
 			do (setf new-uf-pred (list m new-uf-pred))
 		)
+
+		; (format t "stacked up, we've got ~s~%" new-uf-pred)
 
 		; Replace the old predicate.
 		; (setf uf-target (replace-vals uf-pred new-uf-pred uf-target))
@@ -2236,9 +2251,9 @@
 			;	 (format t "new phi: ~s~%~%" new-phi-copy)
 			;	)
 			;)
-			;(if (and (has-element old-phi-copy 'TOGETHER.ADV) (not (has-element new-phi-copy 'TOGETHER.ADV)))
-			;	(format t "func ~s removed TOGETHER.ADV~%" func)
-			;)
+			(if (and (has-element old-phi-copy 'NOT$2$.ADV) (not (has-element new-phi-copy 'NOT$2$.ADV)))
+				(format t "func ~s removed NOT to give ~s~%" func new-phi-copy)
+			)
 			(setf phi-copy new-phi-copy)
 			(if (null phi-copy)
 				(format t "func ~s gave null phi~%" func)
@@ -2259,6 +2274,9 @@
 		; (format t "here1~%")
 		; (format t "doing a cleanup pass of ~s~%" phi)
 		(setf phi-copy (remove-duplicates (schema-cleanup-ttt phi-copy) :test #'equal))
+		;(if (and (has-element last-phi-copy 'NOT$2$.ADV) (not (has-element phi-copy 'NOT$2$.ADV)))
+		;	(format t "TTT removed NOT to give ~s~%" phi-copy)
+		;)
 		; (format t "here2~%")
 		(setf phi-copy (remove-duplicates (schema-cleanup-lisp phi-copy) :test #'equal))
 		; (format t "here3~%")

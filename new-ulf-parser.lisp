@@ -299,6 +299,10 @@
 (block outer
 	(setf ulfs (len-ulfs sents))
 
+	; (format t "ulfs: ~%")
+	; (loop for ulf in ulfs
+		; do (format t "	~s~%" ulf))
+
 	(return-from outer (parse-story-maybe-from-ulf sents ulfs))
 )
 )

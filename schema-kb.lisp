@@ -163,6 +163,16 @@
 			(add-to-kb '(HE.PRO AGENT.N) skb)
 		)
 	)
+	(if (has-element story 'WE.PRO)
+		; then
+		(progn
+			(add-to-kb '(WE.PRO (SET-OF AGENT.N)) skb)
+			(if (has-element story 'I.PRO)
+				; then
+				(add-to-kb '(I.PRO MEMBER-OF WE.PRO) skb)
+			)
+		)
+	)
 
 	(return-from outer skb)
 )

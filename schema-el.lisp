@@ -83,6 +83,9 @@
 											   ; 0 args?
 	(mp x (list 'lex-p-arg? 'canon-individual?))
 	(mp x (list (list 'id? 'THAT) 'canon-prop?))
+
+	; SET-OF with individual arguments is an individual.
+	; SET-OF with a predicate argument is a predicate.
 	(mp x (list (list 'id? 'SET-OF) 'canon-individual?+))
 )
 )
@@ -107,6 +110,10 @@
 (or
 	; Explicitly marked predicates are predicates
 	(lex-pred? x)
+
+	; SET-OF with individual arguments is an individual.
+	; SET-OF with a predicate argument is a predicate.
+	(mp x (list (list 'id? 'SET-OF) 'canon-pred?))
 
 	; Just for right now.
 	; (lex-det? x)

@@ -814,7 +814,7 @@
 	(if (not (equal deduped-unspec-step-ids unspec-step-ids))
 		; then
 		(progn
-			(format t "step ID list ~s has duplicates; assuming the first occurrences specify the correct order~%" unspec-step-ids)
+			; (format t "step ID list ~s has duplicates; assuming the first occurrences specify the correct order~%" unspec-step-ids)
 			(setf unspec-step-ids deduped-unspec-step-ids)
 		)
 	)
@@ -845,8 +845,32 @@
 )
 )
 
+(defun remove-invisible-rcs (schema)
+(block outer
+	(setf cleaned-rcs
+		(loop for rc in (section-formulas (get-section schema ':Roles))
+			if (not 
+					(or
+						(has-element rc 'HAS-DET.PR)
+						(has-element rc 'ORIENTS)
+						(time-prop? (second rc))
+					)
+				)
+				collect rc
+		)
+	)
+
+	(setf new-roles-sec (append (list ':Roles) cleaned-rcs))
+	(return-from outer (set-section schema ':Roles new-roles-sec))
+)
+)
+
 (defun fully-clean-schema (schema)
-	(clean-do-kas (rename-constraints (sort-steps (linearize-unspecified-steps (generalize-schema-constants schema)))))
+	(clean-do-kas (rename-constraints (remove-invisible-rcs (sort-steps (linearize-unspecified-steps (generalize-schema-constants schema))))))
+)
+
+(defun fully-clean-schema-no-gen (schema)
+	(clean-do-kas (rename-constraints (remove-invisible-rcs (sort-steps (linearize-unspecified-steps schema)))))
 )
 
 (defun generalize-schema-constants (schema)
@@ -1326,7 +1350,10 @@
 	; base case
 	(if (equal 0 (hash-table-count time-graph))
 		; then
-		(return-from outer ep-lst)
+		(progn
+			; (format t "empty time graph; returning ep-lst ~s~%" ep-lst)
+			(return-from outer ep-lst)
+		)
 	)
 
 	(loop for ep being the hash-keys of time-graph do (block inner
@@ -1402,16 +1429,28 @@
 (defun topsort-ep-list (all-ep-rels unfiltered-ep-ids)
 (block outer
 	(load-time-model all-ep-rels)
+	; (format t "all-ep-rels: ~s~%" all-ep-rels)
+	; (format t "unfiltered-ep-ids: ~s~%" unfiltered-ep-ids)
 
 	(setf ep-ids (loop for ep-id in unfiltered-ep-ids
 		if (has-element all-ep-rels ep-id)
 			collect ep-id
 	))
 
+	; all-ep-rels won't have any step names if there's
+	; only one unique one, so we'll have to add it in
+	; that case.
+	(if (equal 1 (length (dedupe unfiltered-ep-ids)))
+		(setf ep-ids (list (car unfiltered-ep-ids)))
+	)
+
 	(setf time-graph (make-hash-table :test #'equal))
 	(loop for ep-id in ep-ids do (setf (gethash ep-id time-graph) (list)))
 	(loop for ep1 in ep-ids
 		do (loop for ep2 in ep-ids do (block ep-ep-loop
+			(if (equal ep1 ep2)
+				(return-from ep-ep-loop)
+			)
 			(setf arel (listify-nonlists (second (allen-fhow ep2 ep1))))
 			(if (and (not (null (intersection '(P M O) arel :test #'equal)))
 				 (null (intersection '(PI MI OI =) arel :test #'equal)))
@@ -1421,16 +1460,40 @@
 		))
 	)
 
+	; If there's only one episode, or for whatever other
+	; reason some collection of episodes not in the time
+	; graph, we'll still pass in the episodes we've got.
+	(setf ungraphed-ep-lst (list))
+	(if (equal 0 (hash-table-count time-graph))
+		(setf ungraphed-ep-lst (remove-duplicates ep-ids :test #'equal :from-end t))
+	)
+	; (format t "ep-ids is ~s~%" ep-ids)
+	; (format t "ungraphed ep lst is ~s~%" ungraphed-ep-lst)
+	; (format t "~d entries in graph table~%" (hash-table-count time-graph))
+
 	; (handler-case
-	(return-from outer (topsort-steps-helper time-graph (list)))
+	(return-from outer (topsort-steps-helper time-graph ungraphed-ep-lst))
 	; (error () (format t "error schemas: ~s~%" schemas)))
 )
 )
 
 (defun sort-steps (schema)
 (block outer
+	; If the schema has steps not yet accounted for in
+	; the :Episode-relations section, assume a linear
+	; ordering and add the relations now, as they're
+	; used in building the time graph for later sorting.
+	; That graph will be redundant, but this is an easy
+	; way to avoid errors in that graph building code down
+	; the line.
+	(setf schema (linearize-unspecified-steps schema))
+	; (format t "now sorting schema: ~%")
+	; (print-schema schema)
+
 	(setf steps (section-formulas (get-section schema ':Steps)))
 	(setf sorted-step-ids (topsort-steps (list schema)))
+	; (format t "steps: ~s~%" steps)
+	; (format t "sorted-step-ids: ~s~%" sorted-step-ids)
 	(setf sorted-steps (sort (copy-seq steps) (lambda (x y) (< (position x sorted-step-ids) (position y sorted-step-ids))) :key #'car))
 	(setf new-steps-sec (append (list ':Steps) sorted-steps))
 	(return-from outer (set-section schema ':Steps new-steps-sec))

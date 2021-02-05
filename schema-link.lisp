@@ -244,6 +244,7 @@
 				collect (second rc)
 			))
 			(setf rcs (remove-duplicates rcs :test #'equal))
+
 			(setf rcs (loop for rc in rcs if (loop for v in (get-elements-pred rc #'varp) always (has-element new-schema v)) collect rc))
 			(setf rcs (sort rcs (lambda (a b) (< (sxhash (car a)) (sxhash (car b))))))
 			(setf all-rcs (append all-rcs rcs))
@@ -337,7 +338,12 @@
 	)
 
 	; Sort the steps and clean up the schema.
-	(setf new-schema (fully-clean-schema new-schema))
+	; Don't generalize it, though, as we'll be
+	; doing more non-generalized insertions, and
+	; we don't want to de-alias variables from
+	; constants.
+	; (setf new-schema (fully-clean-schema new-schema))
+	(setf new-schema (fully-clean-schema-no-gen new-schema))
 
 	; If we have matches embedded as steps, we're going to move their role constraints
 	; and pre/postconditions into the embedding schema. This is largely for clarity and
@@ -394,7 +400,9 @@
 		do (setf new-schema (add-constraint new-schema ':Roles rc))
 	)
 
-	; Clean the schema one last time.
+	; Clean the schema one last time, and generalize
+	; constants to variables now that no more changes
+	; will be made.
 	(setf new-schema (fully-clean-schema new-schema))
 
 	; Add the new pre- and post-conditions.

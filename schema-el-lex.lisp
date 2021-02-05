@@ -27,6 +27,8 @@
 	CERTAIN-TO-DEGREE
 	NECESSARY-TO-DEGREE
 	HAS-EFFECT
+	SET-OF
+	MEMBER-OF
 ))
 
 ; TODO: give these extensions
@@ -45,7 +47,6 @@
 	NN
 	PLUR
 	L
-	SET-OF
 	:R
 	IND
 	ADV

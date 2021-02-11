@@ -331,5 +331,18 @@
 )
 
 (defun common-ancestor (pred1 pred2)
-	(listify-nonlists (common-ancestor-inner pred1 pred2))
+	; (listify-nonlists (common-ancestor-inner pred1 pred2))
+	(let ((res (common-ancestor-inner pred1 pred2)))
+		(if (null res)
+			; then
+			res
+			; else
+			(if (canon-pred? res)
+				; then
+				(list res)
+				; else
+				res
+			)
+		)
+	)
 )

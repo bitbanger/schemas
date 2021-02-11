@@ -231,15 +231,16 @@
 		(canon-individual? (car phi))
 		; else
 		(has-prefix? (string (car phi)) "!"))
-	(canon-prop? (second phi))
-)
-)
 
-(defun exc-varp (s)
-(and
-	(symbolp s)
-	(> (length (string s)) 1)
-	(equal "!" (subseq (string s) 0 1))
+	(if (canon-prop? (second phi))
+		; then
+		t
+		; else
+		(progn
+			(format t "~s is an invalid formula~%" (second phi))
+			nil
+		)
+	)
 )
 )
 
@@ -292,9 +293,7 @@
 		(equal (car sec) ':Certainties)
 
 		(loop for phi in (cdr sec)
-			always (nonfluent-cond? phi))
-		(loop for phi in (cdr sec)
-			always (fluent-cond? phi))
+			always (or (nonfluent-cond? phi) (fluent-cond? phi)))
 	)
 ))
 
@@ -501,7 +500,17 @@
 ;	(return-from outer (set-section schema ':Roles new-roles))
 ;)
 ;)
-	(add-constraint schema ':Roles constraint)
+	(block outer
+		(if (and (equal 2 (length constraint)) (equal (second constraint) 'PLUR))
+			; then
+			(progn
+				(format t "tried to add invalid RC~%")
+				(setf x 0)
+				(format t "~d~%" (/ 1 x))
+			)
+		)
+		(add-constraint schema ':Roles constraint)
+	)
 )
 
 ; apply-bindings returns a schema where all variables have been replaced with

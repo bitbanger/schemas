@@ -116,6 +116,14 @@
 	(varp x)
 )
 
+(defun exc-varp (s)
+(and
+	(symbolp s)
+	(> (length (string s)) 1)
+	(equal "!" (subseq (string s) 0 1))
+)
+)
+
 (defun lex-gensym? (x)
 (and
 	(symbolp x)

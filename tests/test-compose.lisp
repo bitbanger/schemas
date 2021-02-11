@@ -14,9 +14,9 @@
 ; Optionally only process the story with this
 ; start line.
 (setf story-start-line
-	"Billy liked this girl."
+	"I was walking through the woods."
 )
-(setf story-start-line nil)
+; (setf story-start-line nil)
 (setf stories-processed 0)
 
 (block process-all-stories
@@ -42,7 +42,7 @@
 		(setf events nil)
 		(setf schemas nil)
 
-		(handler-case
+		;(handler-case
 		(block parse-story
 			(setf el-story (len-parse-sents roc-story))
 			(setf el-story
@@ -61,12 +61,13 @@
 
 			(setf schemas (loop for schema in (top-story-matches-easy-el el-story)
 				collect (car schema)))
-			) (error ()
-				(progn
-					(format t "story processing error~%")
-					(return-from process-story)
-				)
-			))
+			;) (error ()
+				;(progn
+					;(format t "story processing error~%")
+					;(return-from process-story)
+				;)
+			;))
+			)
 
 		(setf headers (loop for schema in schemas collect (schema-header schema)))
 

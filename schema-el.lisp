@@ -205,6 +205,12 @@
 	; This is like the similar serial argument rule in canon-pred?, but
 	; it allows the pred to be flattened with the subject (prefixed) and "curried" args (postfixed).
 	(mp x (list 'canon-individual?+ 'canon-pred? 'canon-individual?+))
+
+	; CERTAIN-TO-DEGREE and NECESSARY-TO-DEGREE don't
+	; follow normal prop rules; best to add exceptions
+	; for now. (I think?)
+	(mp x (list 'exc-varp (id? 'CERTAIN-TO-DEGREE) (list (id? '/) #'numberp #'numberp)))
+	(mp x (list 'exc-varp (id? 'NECESSARY-TO-DEGREE) #'numberp))
 )
 )
 

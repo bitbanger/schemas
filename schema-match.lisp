@@ -667,8 +667,8 @@
 													(equal (car rc) (car const))
 													(not (null (common-ancestor (second rc) (second const)))))
 												; then
-												; (format t "generalizing ~s and ~s to ~s~%" rc const (list (car rc) (car (common-ancestor (second rc) (second const)))))
 												(progn
+												; (format t "generalizing ~s and ~s to ~s~%" rc const (list (car rc) (car (common-ancestor (second rc) (second const)))))
 												(setf gen-constr (list (car rc) (car (common-ancestor (second rc) (second const)))))
 												(setf gen-constrs (append gen-constrs (list (list gen-constr (car rc-pair)))))
 												)

@@ -58,12 +58,17 @@
 (setf all-ulfs (list))
 
 (setf els (vars-to-sks els))
+(setf lambdas (get-elements-pred els (lambda (x) (and (canon-lambda? x) (not (canon-n-preds? x))))))
+(loop for lam in lambdas
+	do (setf els (replace-vals lam
+							(append (list 'N+PREDS) (mapcar #'prop-pred (split-conjunction (third lam)))) els)))
 
 (setf events (loop for wff in els if (canon-charstar? wff) collect wff))
 
 (setf story-skolems (dedupe (get-elements-pred els #'lex-skolem?)))
 (setf event-skolems (dedupe (get-elements-pred (mapcar #'car events) #'lex-skolem?)))
-(setf skolems (intersection story-skolems event-skolems :test #'equal))
+; (setf skolems (intersection story-skolems event-skolems :test #'equal))
+(setf skolems story-skolems)
 
 (setf skolems (vars-to-sks skolems))
 
@@ -86,7 +91,6 @@ do (block unmake-sk
 			(list (remove-idx-tag sk)))
 	)
 
-
 	; (format t "	~s~%" sk)
 	; (format t "constraints: ~s~%" constraints)
 	(setf determiners (loop for c in constraints if (and (canon-prop? c) (equal (prop-pred c) 'HAS-DET.PR)) collect (second (car (prop-post-args c)))))
@@ -105,6 +109,15 @@ do (block unmake-sk
 	;(format t "lambda constraint: ~s~%" (lambdify-preds-with-sym! (mapcar #'second constraints) 'X))
 
 	(setf sk-replacement sk)
+
+	(if (and (equal (length constraints) 1) (canon-lambda? (second (car constraints))))
+		; then
+		(progn
+			(setf sk-replacement (append (list 'N+PREDS)
+								(mapcar #'prop-pred (split-conjunction (third (second (car constraints)))))))
+			; (format t "replacing with ~s~%" sk-replacement)
+		)
+	)
 
 	(if (>= (length constraints) 1)
 		(progn
@@ -185,9 +198,19 @@ do (block unmake-sk
 
 		; Replace Skolems
 		(loop for sk being the hash-keys of sk-map
+			; do (format t "before: ~s~%" vp)
 			do (setf vp (replace-vals sk (gethash sk sk-map) vp))
+			; do (format t "after: ~s~%" vp)
 		)
 
+		; Second pass, in case some Skolems were in replacements.
+		(loop for sk being the hash-keys of sk-map
+			; do (format t "before: ~s~%" vp)
+			do (setf vp (replace-vals sk (gethash sk sk-map) vp))
+			; do (format t "after: ~s~%" vp)
+		)
+
+		(setf vp (replace-vals 'PERTAIN-TO 'of.p vp))
 		
 		(setf all-ulfs (append all-ulfs (list vp)))
 		; (format t "	~s~%" vp)

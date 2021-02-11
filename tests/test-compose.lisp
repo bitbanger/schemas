@@ -13,8 +13,10 @@
 
 ; Optionally only process the story with this
 ; start line.
+(setf story-start-line
+	"Billy liked this girl."
+)
 (setf story-start-line nil)
-; (setf story-start-line "I went to my door yesterday.")
 (setf stories-processed 0)
 
 (block process-all-stories

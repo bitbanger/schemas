@@ -31,12 +31,17 @@
 ; TODO (CURRENT): rewrite parse functions to determine whether
 ; something is a pred, proposition, modifier, individual...
 
+(defun canon-n-preds? (x)
+	(mp x (list (list 'id? 'N+PREDS) 'canon-pred?+))
+)
+
 (defun canon-lambda? (x)
 (or
 	;(mp x (list (list 'id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
 	;(mp x (list (list 'id? 'L) 'ent-list? 'canon-prop?))
 	(mp x (list (list 'id? 'LAMBDA.EL) 'ent-list? 'any?))
 	(mp x (list (list 'id? 'L) 'ent-list? 'any?))
+	(canon-n-preds? x)
 )
 )
 

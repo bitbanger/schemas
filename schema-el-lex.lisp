@@ -46,6 +46,7 @@
 	ATTR
 	NN
 	PLUR
+	N+PREDS
 	L
 	:R
 	IND

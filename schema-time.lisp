@@ -83,7 +83,7 @@
 (setf *TIME-MODEL-HASH* nil)
 (setf *TIME-MODEL* nil)
 
-(defun is-now? (s)
+(ldefun is-now? (s)
 	(and
 		(symbolp s)
 		(has-prefix? (string s) "NOW")
@@ -91,7 +91,7 @@
 	)
 )
 
-(defun now-num (s)
+(ldefun now-num (s)
 	(if (is-now? s)
 		; then
 		(parse-integer (remove-prefix (string s) "NOW"))
@@ -100,7 +100,7 @@
 	)
 )
 
-(defun mk-now-time-props (tm)
+(ldefun mk-now-time-props (tm)
 (block outer
 	(setf nows (sort (remove-duplicates (get-elements-pred tm 'is-now?) :test #'equal) '< :key 'now-num))
 
@@ -115,7 +115,7 @@
 )
 )
 
-(defun load-time-model (tm)
+(ldefun load-time-model (tm)
 (block outer
 	; (format t "hash of time model: ~s~%" (rechash tm))
 	(setf model-hash (rechash tm))
@@ -158,13 +158,13 @@
 )
 )
 
-(defun time-pred? (p)
+(ldefun time-pred? (p)
 	(not (null (gethash p *TIME-PROP-ALLEN-RELS*)))
 )
 
 ; convert-time-prop takes a temporal proposition
 ; and returns its equivalent Allen relation form.
-(defun convert-time-prop (prop)
+(ldefun convert-time-prop (prop)
 (block outer
 	(setf pred (prop-pred prop))
 
@@ -190,11 +190,11 @@
 )
 )
 
-(defun time-prop? (p)
+(ldefun time-prop? (p)
 	(not (null (convert-time-prop p)))
 )
 
-(defun eval-time-prop (prop)
+(ldefun eval-time-prop (prop)
 ; BELOW HERE: Ben evaluates using timegraph instead of Allen
 (block outer
 	(setf allen-rel (convert-time-prop prop))
@@ -208,7 +208,11 @@
 	; Evaluate the relationship in the time model.
 	; (dbg 'time "evaluating Allen rel ~s~%" allen-rel)
 
+	(setf args (prop-all-args prop))
+	(setf pred (prop-pred prop))
+
 	(setf allen-result (second (allen-fhow (car args) (second args))))
+	(setf allen-rels (gethash pred *TIME-PROP-ALLEN-RELS*))
 
 	(dbg 'time "allen result: ~s~%" allen-result)
 	(dbg 'time "allen rels: ~s~%" allen-rels)

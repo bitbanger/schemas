@@ -834,6 +834,44 @@ is replaced with replacement."
 	)
 )
 
+; Automatically scopes all setfs introduced inside
+; a function to be local, without requiring the
+; programmer to manually add let-bindings.
+(defmacro ldefun (fname lambda-list &rest body)
+(block ldefun-outer
+	(setf setf-vars
+		(dedupe (loop for el in (get-elements-pred body
+			(lambda (x) (and (listp x) (equal (car x) 'setf))))
+				if (symbolp (second el))
+					collect (second el)
+		))
+	)
+
+	(setf bound-vars (list))
+	(loop for lt in (get-elements-pred body (lambda (x) (and (listp x) (equal (car x) 'let))))
+		append (loop for binding in (second lt)
+					if (and (listp lt) (symbolp (car lt)))
+						collect (car lt)))
+
+	(setf unscoped-vars setf-vars)
+	(setf unscoped-vars (set-difference unscoped-vars lambda-list :test #'equal))
+	(setf unscoped-vars (set-difference unscoped-vars bound-vars :test #'equal))
+	(setf unscoped-vars (loop for uv in unscoped-vars if (not (boundp uv)) collect uv))
+
+	; TODO: maybe do some "static analysis" to warn
+	; about variables that may be evaluated before
+	; they're defined in this scope?
+
+	;(if (equal fname 'schema-cleanup-lisp)
+	;	(format t "unscoped vars for cleanup function are: ~s~%" unscoped-vars)
+	;)
+
+	(setf body (append (list 'let unscoped-vars) body))
+
+	`(defun ,fname ,lambda-list ,body)
+)
+)
+
 (defun norm-singletons (lst)
 	(if (and
 		(listp lst)

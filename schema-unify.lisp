@@ -4,7 +4,7 @@
 (ll-load "schema-subsumption.lisp")
 (ll-load "schema-util.lisp")
 
-(defun bind-if-unbound (key val bindings)
+(ldefun bind-if-unbound (key val bindings)
 (block outer
 	; (format t "binding ~s to ~s in ~s~%" key val (ht-to-str bindings))
 	(if (not (null (gethash key bindings)))
@@ -24,7 +24,7 @@
 )
 )
 
-(defun merge-bindings (b1 b2)
+(ldefun merge-bindings (b1 b2)
 (block outer
 	(if (null b1) (return-from outer b2))
 	(if (null b2) (return-from outer b1))
@@ -43,7 +43,7 @@
 )
 )
 
-(defun unify (schema story old-bindings whole-schema whole-story)
+(ldefun unify (schema story old-bindings whole-schema whole-story)
 (block outer
 	(if (null old-bindings)
 		; then
@@ -54,11 +54,11 @@
 )
 )
 
-(defun unify-no-schema (pred1 pred2 old-bindings)
+(ldefun unify-no-schema (pred1 pred2 old-bindings)
 	(unify pred1 pred2 old-bindings *BLANK-SCHEMA* nil)
 )
 
-(defun equal-with-unification (p1 p2)
+(ldefun equal-with-unification (p1 p2)
 (block outer
 	(setf p1-bindings (unify-no-schema p1 p2 nil))
 	(if (null p1-bindings) (return-from outer nil))
@@ -74,7 +74,7 @@
 )
 )
 
-(defun unify-props (schema story old-bindings whole-schema whole-story)
+(ldefun unify-props (schema story old-bindings whole-schema whole-story)
 	;(check (canon-prop? schema))
 	;(check (canon-prop? story))
 (let
@@ -197,7 +197,7 @@
 )
 
 
-(defun unify-mods (schema story old-bindings whole-schema whole-story)
+(ldefun unify-mods (schema story old-bindings whole-schema whole-story)
 	;(check (canon-mod? schema))
 	;(check (canon-mod? story))
 (let ((bindings (ht-copy old-bindings)))
@@ -265,7 +265,7 @@
 ; and schema episodes and attempting to unify them with a list of
 ; pre-existing bindings. If they can be unified, the new bindings
 ; are returned; if they can't, nil is returned.
-(defun can-unify-episodes (schema-ep story-ep schema story bindings)
+(ldefun can-unify-episodes (schema-ep story-ep schema story bindings)
 (let (cur-bindings)
 (block outer
 
@@ -320,7 +320,7 @@
 )
 )
 
-(defun unify-individuals (schema story old-bindings whole-schema whole-story)
+(ldefun unify-individuals (schema story old-bindings whole-schema whole-story)
 	;(check (canon-individual? schema))
 	;(check (canon-individual? story))
 (let ((bindings (ht-copy old-bindings)))
@@ -465,11 +465,11 @@
 )
 )
 
-(defun unify-mod-lists (schema-mods story-mods old-bindings whole-schema whole-story)
+(ldefun unify-mod-lists (schema-mods story-mods old-bindings whole-schema whole-story)
 	(second (expl-unify-mod-lists schema-mods story-mods old-bindings whole-schema whole-story))
 )
 
-(defun expl-unify-mod-lists (schema-mods story-mods old-bindings whole-schema whole-story)
+(ldefun expl-unify-mod-lists (schema-mods story-mods old-bindings whole-schema whole-story)
 (let (
 	(bindings (ht-copy old-bindings))
 	(bound (list))
@@ -556,7 +556,7 @@
 )
 
 
-(defun unify-preds (schema story old-bindings whole-schema whole-story)
+(ldefun unify-preds (schema story old-bindings whole-schema whole-story)
 	;(check (canon-pred? schema))
 	;(check (canon-pred? story))
 (let (

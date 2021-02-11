@@ -15,12 +15,12 @@
 )
 )
 
-(defun special-str (x)
+(ldefun special-str (x)
 	; (not (null (member x *KEYWORDS* :test #'equal)))
 	(gethash x *KEYWORDS-MAP*)
 )
 
-(defun typecheck (x)
+(ldefun typecheck (x)
 	(loop for c in *TYPES*
 		if (funcall c x)
 			collect c
@@ -31,11 +31,11 @@
 ; TODO (CURRENT): rewrite parse functions to determine whether
 ; something is a pred, proposition, modifier, individual...
 
-(defun canon-n-preds? (x)
+(ldefun canon-n-preds? (x)
 	(mp x (list (list 'id? 'N+PREDS) 'canon-pred?+))
 )
 
-(defun canon-lambda? (x)
+(ldefun canon-lambda? (x)
 (or
 	;(mp x (list (list 'id? 'LAMBDA.EL) 'ent-list? 'canon-prop?))
 	;(mp x (list (list 'id? 'L) 'ent-list? 'canon-prop?))
@@ -45,14 +45,14 @@
 )
 )
 
-(defun canon-ka? (x)
+(ldefun canon-ka? (x)
 (or
 	(mp x (list (list 'id? 'KA) 'canon-pred?))
 	(mp x (list (list 'id? 'KA) 'canon-pred? 'canon-individual?+))
 )
 )
 
-(defun canon-kind? (x)
+(ldefun canon-kind? (x)
 (or
 	; TODO: restrictions on VP/non-VP preds for KA/K?
 	(mp x (list (list 'id? 'K) 'canon-pred?))
@@ -63,7 +63,7 @@
 )
 )
 
-(defun canon-small-individual? (x)
+(ldefun canon-small-individual? (x)
 (and
 (symbolp x)
 (not (equal ':R x)) ; string renders of ':R sometimes omit :
@@ -77,7 +77,7 @@
 )
 )
 
-(defun canon-individual? (x)
+(ldefun canon-individual? (x)
 (or
 	(canon-small-individual? x)
 	(canon-kind? x)
@@ -95,7 +95,7 @@
 )
 )
 
-(defun canon-attr? (x)
+(ldefun canon-attr? (x)
 (or
 	(equal x 'PLUR)
 	(mp x (list (list 'id? 'ATTR) 'canon-pred?))
@@ -104,14 +104,14 @@
 )
 )
 
-(defun canon-prep? (x)
+(ldefun canon-prep? (x)
 (or
 	; (lex-p? x)
 	(mp x (list 'lex-p? 'canon-individual?))
 )
 )
 
-(defun canon-pred? (x)
+(ldefun canon-pred? (x)
 (or
 	; Explicitly marked predicates are predicates
 	(lex-pred? x)
@@ -153,14 +153,14 @@
 )
 )
 
-(defun canon-pred-or-mod? (x)
+(ldefun canon-pred-or-mod? (x)
 (or
 	(canon-pred? x)
 	(canon-mod? x)
 )
 )
 
-(defun canon-mod? (x)
+(ldefun canon-mod? (x)
 (or
 	(lex-adv? x)
 	(lex-attr-pred? x)
@@ -179,7 +179,7 @@
 )
 )
 
-(defun plur? (x)
+(ldefun plur? (x)
 (and
 	(listp x)
 	(equal 2 (length x))
@@ -188,14 +188,14 @@
 )
 )
 
-(defun canon-charstar? (x)
+(ldefun canon-charstar? (x)
 (or
 	(mp x (list 'canon-prop? (list 'id? '*) 'canon-individual?))
 	(mp x (list 'canon-prop? (list 'id? '**) 'canon-individual?))
 )
 )
 
-(defun canon-atomic-prop? (x)
+(ldefun canon-atomic-prop? (x)
 (or
 	(mp x (list 'canon-individual?+ 'canon-pred?))
 
@@ -214,7 +214,7 @@
 )
 )
 
-(defun canon-prop? (x)
+(ldefun canon-prop? (x)
 (or
 	(canon-atomic-prop? x)
 
@@ -229,14 +229,14 @@
 
 ; Manipulation/normalization functions
 
-(defun pred-mods (pred)
+(ldefun pred-mods (pred)
 	(progn
 	;(format t "in the main way~%")
 	(helper-pred-mods pred)
 	)
 )
 
-(defun helper-pred-mods (pred)
+(ldefun helper-pred-mods (pred)
 (block outer
 	(check #'canon-pred? pred)
 
@@ -263,21 +263,21 @@
 )
 )
 
-(defun verb-pred? (pred)
+(ldefun verb-pred? (pred)
 (and
 	(canon-pred? pred)
 	(lex-verb? (pred-base pred))
 )
 )
 
-(defun adj-pred? (pred)
+(ldefun adj-pred? (pred)
 (and
 	(canon-pred? pred)
 	(lex-adj? (pred-base pred))
 )
 )
 
-(defun pred-base (pred)
+(ldefun pred-base (pred)
 	(check #'canon-pred? pred)
 (block outer
 	(if (canon-lambda? pred)
@@ -298,7 +298,7 @@
 )
 )
 
-(defun apply-mods (mods pred)
+(ldefun apply-mods (mods pred)
 	(if (null mods)
 		; then
 		pred
@@ -308,7 +308,7 @@
 )
 
 ; for preds without modifiers (helper)
-(defun naked-pred-without-post-args (naked-pred)
+(ldefun naked-pred-without-post-args (naked-pred)
 	; TODO: handle or, and, not, etc.
 (block outer
 	(if (canon-lambda? naked-pred)
@@ -329,7 +329,7 @@
 )
 
 ; for preds with modifiers
-(defun pred-without-post-args (pred)
+(ldefun pred-without-post-args (pred)
 	(check #'canon-pred? pred)
 (let (mods base-pred)
 (block outer
@@ -349,7 +349,7 @@
 ; / "curried into" a predicate to form a new predicate;
 ; most commonly, these would be the objects of a verb,
 ; with the "prefix" argument being the subject.
-(defun pred-args (pred)
+(ldefun pred-args (pred)
 	(check #'canon-pred? pred)
 (block outer
 	; Lambdas are atomic; ignore "args"?
@@ -383,7 +383,7 @@
 )
 )
 
-(defun prop-args-pred-mods (prop)
+(ldefun prop-args-pred-mods (prop)
 	(check #'canon-prop? prop)
 (let (pred-idx pre-args pred embedded-post-args flat-post-args post-args mods)
 (block outer
@@ -450,22 +450,22 @@
 )
 )
 
-(defun prop-pre-args (prop)
+(ldefun prop-pre-args (prop)
 	(car (prop-args-pred-mods prop))
 )
 
-(defun prop-pred (prop)
+(ldefun prop-pred (prop)
 	(second (prop-args-pred-mods prop))
 )
 
-(defun prop-pred-with-post-args (prop)
+(ldefun prop-pred-with-post-args (prop)
 	(append
 		(list (prop-pred prop))
 		(prop-post-args prop)
 	)
 )
 
-(defun prop-pred-strip-charstars (prop)
+(ldefun prop-pred-strip-charstars (prop)
 	(if (equal '** (prop-pred prop))
 		; then
 		(prop-pred (car prop))
@@ -474,19 +474,19 @@
 	)
 )
 
-(defun prop-post-args (prop)
+(ldefun prop-post-args (prop)
 	(third (prop-args-pred-mods prop))
 )
 
-(defun prop-all-args (prop)
+(ldefun prop-all-args (prop)
 	(append (listify-nonlists (prop-pre-args prop)) (listify-nonlists (prop-post-args prop)))
 )
 
-(defun prop-mods (prop)
+(ldefun prop-mods (prop)
 	(fourth (prop-args-pred-mods prop))
 )
 
-(defun add-prop-mods (prop mods)
+(ldefun add-prop-mods (prop mods)
 	(render-prop
 		(prop-pre-args prop)
 		(prop-pred prop)
@@ -495,7 +495,7 @@
 	)
 )
 
-(defun render-prop (pre-args pred post-args mods)
+(ldefun render-prop (pre-args pred post-args mods)
 (block outer
 	(setf wrapped-pred pred)
 	(loop for m in mods
@@ -510,7 +510,7 @@
 )
 )
 
-(defun render-pred (pred post-args mods)
+(ldefun render-pred (pred post-args mods)
 (block outer
 	(setf wrapped-pred pred)
 	(loop for m in mods

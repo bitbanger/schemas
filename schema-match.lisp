@@ -32,11 +32,11 @@
 ; characterizes; if this binding is impossible, the unification fails.
 ;
 ; TODO: check constraints
-(defun unify-with-schema (phi schema story)
+(ldefun unify-with-schema (phi schema story)
 	(unify-with-schema-maybe-header phi schema story t)
 )
 
-(defun unify-with-schema-maybe-header (phi schema story allow-header-match)
+(ldefun unify-with-schema-maybe-header (phi schema story allow-header-match)
 (let (best-bindings best-formula best-sub-score new-bindings bindings-with-ep-ids pred1 pred2)
 (block outer
 	; first, check whether phi unifies with the schema's header
@@ -187,7 +187,7 @@
 ; apply-bindings-and-check applies the given bindings map
 ; to a schema, but checks that the schema's constraints are
 ; still satisfied when the substitutions are made.
-(defun apply-bindings-and-check (schema bindings story)
+(ldefun apply-bindings-and-check (schema bindings story)
 	(apply-bindings schema bindings)
 )
 
@@ -202,7 +202,7 @@
 ;
 ; If the "generalize" argument is non-nil, all individual constants in the
 ; schema are replaced by variables.
-(defun match-story-to-schema (story-formulas in-schema generalize)
+(ldefun match-story-to-schema (story-formulas in-schema generalize)
 (block outer
 	; (dbg 'match "matching with ~s~%" in-schema)
 	(setf test-schema in-schema)
@@ -294,7 +294,7 @@
 )
 )
 
-(defun cached-match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
+(ldefun cached-match-formula-to-schema (phi test-schema all-bindings total-matches bound-header story-formulas)
 	(ll-partial-cache
 		'uncached-match-formula-to-schema
 		(list phi test-schema all-bindings total-matches bound-header)
@@ -303,7 +303,7 @@
 	)
 )
 
-(defun match-formula-to-schema (phi in-schema all-bindings total-matches bound-header story-formulas)
+(ldefun match-formula-to-schema (phi in-schema all-bindings total-matches bound-header story-formulas)
 (let (
 	matched-bindings
 	best-bindings best-schema
@@ -543,7 +543,7 @@
 ))
 )
 
-(defun match-formula-to-single-schema (phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match)
+(ldefun match-formula-to-single-schema (phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match)
 (block outer
 			; (if (not (canon-charstar? phi))
 			(if (or
@@ -719,20 +719,20 @@
 		)
 )
 
-(defun check-constraints (schema story)
+(ldefun check-constraints (schema story)
 	(check-constraints-helper schema story (make-hash-table :test #'equal))
 )
 
-(defun check-constraints-helper (schema story checked)
+(ldefun check-constraints-helper (schema story checked)
 	(uncached-check-constraints schema story checked)
 	; (ll-cache 'uncached-check-constraints (list schema story checked) 5)
 )
 
-(defun uncached-check-constraints (schema story checked)
+(ldefun uncached-check-constraints (schema story checked)
 	(uncached-check-constraints-helper schema story checked)
 )
 
-(defun uncached-check-constraints (schema story checked)
+(ldefun uncached-check-constraints (schema story checked)
 (let (bound-nested phi phi-id phi-pair sec true-count untrue-count)
 (block outer
 	; (format t "checking schema ~s~%" (schema-pred schema))
@@ -905,11 +905,11 @@
 )
 )
 
-(defun best-story-schema-match (story schema num_shuffles generalize)
+(ldefun best-story-schema-match (story schema num_shuffles generalize)
 	(car (top-k-story-schema-matches story schema num_shuffles generalize 1))
 )
 
-(defun top-k-story-schema-matches (story schema num_shuffles generalize k)
+(ldefun top-k-story-schema-matches (story schema num_shuffles generalize k)
 (let (best-bindings best-score)
 (block outer
 	; (dbg 'match "matching to schema ~s~%" schema)
@@ -1069,7 +1069,7 @@
 )
 )
 
-(defun expand-nested-schema (invoker parent-schema)
+(ldefun expand-nested-schema (invoker parent-schema)
 (block outer
 	; (setf invoked-schema (eval (prop-pred (second invoker))))
 	(setf invoked-schema (invoked-schema (second invoker)))
@@ -1120,7 +1120,7 @@
 )
 
 ; TODO: safe multi-level expansion. How to prevent loops? Just stop at duplicates, maybe?
-(defun expand-nested-schemas (parent-schema story)
+(ldefun expand-nested-schemas (parent-schema story)
 (block outer
 	(setf invoked-schemas (list))
 

@@ -2,22 +2,22 @@
 
 (ll-load "schema-el.lisp")
 
-(defun kb-explicit (kb)
+(ldefun kb-explicit (kb)
 	(car kb)
 )
 
-(defun kb-arg-ind (kb)
+(ldefun kb-arg-ind (kb)
 	(second kb)
 )
 
-(defun kb-pred-ind (kb)
+(ldefun kb-pred-ind (kb)
 	(third kb)
 )
 
 ; Curry an argument out of a proposition
 ; to form a monadic lambda predicate that
 ; holds for that argument
-(defun curry (prop carg)
+(ldefun curry (prop carg)
 (block cr
 	; Strip charstars
 	(if (canon-charstar? prop)
@@ -76,7 +76,7 @@
 )
 
 ; Add a formula to the knowledge base, under all its various indices
-(defun add-to-kb (wff kb) (block add
+(ldefun add-to-kb (wff kb) (block add
 	; Normalize out episode characterizers
 	(setf effective-wff wff)
 	;(if (char-wff? wff) (setf effective-wff (car wff)))
@@ -127,7 +127,7 @@
 
 (defparameter *STORY-KB-MAP* (make-hash-table :test #'equal))
 
-(defun story-to-kb (story)
+(ldefun story-to-kb (story)
 (block outer
 	(if (not (null (gethash story *STORY-KB-MAP*)))
 		(return-from outer (gethash story *STORY-KB-MAP*))

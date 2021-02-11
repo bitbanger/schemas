@@ -30,7 +30,7 @@
 	DISLIKE.V
 ))
 
-(defun has-ext? (x e)
+(ldefun has-ext? (x e)
     (and
         (symbolp x)
         (stringp e)
@@ -46,29 +46,29 @@
     )
 )
 
-(defun lex-noun? (x)
+(ldefun lex-noun? (x)
 	(has-ext? x ".N")
 )
 
-(defun vp-shifter? (x)
+(ldefun vp-shifter? (x)
 (and
 	(has-suffix? (format nil "~s" x) "VP")
 	(has-prefix? (format nil "~s" x) "PRED")
 )
 )
 
-(defun modif-advp? (x)
+(ldefun modif-advp? (x)
 (and
 	(has-suffix? (format nil "~s" x) "ADVP")
 	(has-prefix? (format nil "~s" x) "MODIF")
 )
 )
 
-(defun eq-no-idx-tags? (x target)
+(ldefun eq-no-idx-tags? (x target)
 	(equal (remove-idx-tag x) (remove-idx-tag target))
 )
 
-(defun unflatten! (x)
+(ldefun unflatten! (x)
 (let ((lst (reverse x)) (cursor nil) (modded-verbs (list)))
 (block outer
 	(setf nonverbs (loop for e in lst if (not (lex-verb? e)) collect e))
@@ -87,11 +87,11 @@
 )
 )
 
-(defun nonverb-pred? (p)
+(ldefun nonverb-pred? (p)
 	(and (canon-pred? p) (not (lex-verb? (pred-base p))))
 )
 
-(defun idx-tag-num (sym)
+(ldefun idx-tag-num (sym)
 (block outer
 	(if (and
 			(symbolp sym)
@@ -108,7 +108,7 @@
 )
 )
 
-(defun remove-idx-tag (sym)
+(ldefun remove-idx-tag (sym)
 (block outer
 	(if (and
 			(symbolp sym)
@@ -125,13 +125,13 @@
 )
 )
 
-(defun add-idx-tag (pred-sym tag-num)
+(ldefun add-idx-tag (pred-sym tag-num)
 (let ((pred-sym-spl (split-str (string pred-sym) ".")))
 	(intern (format nil "~a$~d$.~a" (car pred-sym-spl) tag-num (second pred-sym-spl)))
 )
 )
 
-(defun pred-vp? (s)
+(ldefun pred-vp? (s)
 (and
 	(symbolp s)
 	(has-ext? s ".VP")
@@ -139,7 +139,7 @@
 )
 )
 
-(defun mono-lam? (l)
+(ldefun mono-lam? (l)
 (and
 	(listp l)
 	(equal (length l) 3)
@@ -149,7 +149,7 @@
 )
 )
 
-(defun is-comma? (x)
+(ldefun is-comma? (x)
 (and
 	(symbolp x)
 	(or
@@ -447,7 +447,7 @@
 	split-whens
 ))
 
-(defun extract-noun-sym (form)
+(ldefun extract-noun-sym (form)
 (block outer
 	(if (not (listp form))
 		(return-from outer nil)
@@ -473,7 +473,7 @@
 )
 )
 
-(defun deindex-will (phi)
+(ldefun deindex-will (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for form in phi do (block loop-outer
@@ -503,7 +503,7 @@
 )
 )
 
-(defun personal-pronoun? (p)
+(ldefun personal-pronoun? (p)
 (and
 	(has-suffix? (string p) "PRO")
 	(or
@@ -517,7 +517,7 @@
 )
 )
 
-(defun has-skolem-prefix? (sym pre)
+(ldefun has-skolem-prefix? (sym pre)
 (and
 	(symbolp sym)
 	(let ((spl (split-str (string sym) ".")))
@@ -529,7 +529,7 @@
 )
 )
 
-(defun is-characterized? (phi sym)
+(ldefun is-characterized? (phi sym)
 	(not (null (get-elements-pred phi (lambda (x)
 		(and
 			(canon-charstar? x)
@@ -545,14 +545,14 @@
 ; Further, certain things can be stuck with the default
 ; "E" name even if they don't characterize any episodes;
 ; we'll fix that, too.
-(defun name-skolems (phi)
+(ldefun name-skolems (phi)
 	(name-skolems-maybe-accept-non-nouns
 		(name-skolems-maybe-accept-non-nouns phi nil)
 		t
 	)
 )
 
-(defun is-skolemized-from-pred (sk pred)
+(ldefun is-skolemized-from-pred (sk pred)
 (let (noun-sym)
 (block outer
 	(setf noun-sym (extract-noun-sym pred))
@@ -569,7 +569,7 @@
 )
 )
 
-(defun name-skolems-maybe-accept-non-nouns (phi accept-non-nouns)
+(ldefun name-skolems-maybe-accept-non-nouns (phi accept-non-nouns)
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for form in phi do (block loop-outer
@@ -665,7 +665,7 @@
 )
 )
 
-(defun unique-var (cursor used)
+(ldefun unique-var (cursor used)
 	(if (not (member cursor used :test #'equal))
 		; then
 		cursor
@@ -674,7 +674,7 @@
 	)
 )
 
-(defun replace-dets-with-k (x)
+(ldefun replace-dets-with-k (x)
 (block outer
 	(if (not (listp x))
 		; then
@@ -693,7 +693,7 @@
 )
 )
 
-(defun arg-with-adv-lambda? (arg)
+(ldefun arg-with-adv-lambda? (arg)
 (and
 	(listp arg)
 	(equal (car arg) 'K)
@@ -705,7 +705,7 @@
 )
 )
 
-(defun remove-aux-do-did (phi)
+(ldefun remove-aux-do-did (phi)
 (block outer
 	(setf phi-copy (copy-item phi))
 
@@ -749,7 +749,7 @@
 ; Sometimes, determiners like ONE.D get used as
 ; predicates, e.g. (ONE1.SK ONE.D). We'll turn
 ; that into a noun here.
-(defun retag-det-preds (phi)
+(ldefun retag-det-preds (phi)
 (block outer
 	(setf phi-copy (copy-item phi))
 
@@ -771,7 +771,7 @@
 )
 )
 
-(defun split-whens (phi)
+(ldefun split-whens (phi)
 (block outer
 	(setf phi-copy (copy-item phi))
 
@@ -817,7 +817,7 @@
 )
 )
 
-(defun pull-out-lambda-advs (phi)
+(ldefun pull-out-lambda-advs (phi)
 (block outer
 	(setf phi-copy (copy-item phi))
 
@@ -871,7 +871,7 @@
 )
 )
 
-(defun apply-such-determiners (phi)
+(ldefun apply-such-determiners (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -918,7 +918,7 @@
 )
 )
 
-(defun flatten-nested-and (phi)
+(ldefun flatten-nested-and (phi)
 	(loop for e in (split-conjunction phi)
 		if (pre-or-infix-and-list? e)
 			append (flatten-nested-and e)
@@ -927,7 +927,7 @@
 	)
 )
 
-(defun flatten-nested-ands (phi)
+(ldefun flatten-nested-ands (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -957,7 +957,7 @@
 )
 )
 
-(defun rename-gensyms (phi)
+(ldefun rename-gensyms (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -977,7 +977,7 @@
 )
 )
 
-(defun sink-prop-mods (phi)
+(ldefun sink-prop-mods (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -1056,7 +1056,7 @@
 )
 )
 
-(defun charstar-triple? (x)
+(ldefun charstar-triple? (x)
 	(and
 		(listp x)
 		(equal 3 (length x))
@@ -1064,14 +1064,14 @@
 	)
 )
 
-(defun sk-charstar-triple? (x)
+(ldefun sk-charstar-triple? (x)
 	(and
 		(charstar-triple? x)
 		(lex-skolem? (third x))
 	)
 )
 
-(defun bubble-up-pred-charstars (phi)
+(ldefun bubble-up-pred-charstars (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -1130,7 +1130,7 @@
 )
 )
 
-(defun and-list? (l)
+(ldefun and-list? (l)
 (and
 	(listp l)
 	(> (length l) 1)
@@ -1141,7 +1141,7 @@
 )
 )
 
-(defun pre-or-infix-and-list? (l)
+(ldefun pre-or-infix-and-list? (l)
 (and
 	(listp l)
 	(> (length l) 1)
@@ -1154,7 +1154,7 @@
 )
 )
 
-(defun split-and-preds (phi)
+(ldefun split-and-preds (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -1218,7 +1218,7 @@
 )
 )
 
-(defun split-double-charstars (phi)
+(ldefun split-double-charstars (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -1245,7 +1245,7 @@
 )
 )
 
-(defun and-chain (phis)
+(ldefun and-chain (phis)
 ;(norm-singletons
 (unwrap-singletons
 	(loop for phi in phis
@@ -1281,7 +1281,7 @@
 ; once other fixes are applied. This helps
 ; massage out some cyclical dependencies
 ; between fix rules.
-(defun probably-pred? (p)
+(ldefun probably-pred? (p)
 (block outer
 	(if (canon-pred? p)
 		(return-from outer t)
@@ -1332,7 +1332,7 @@
 )
 )
 
-(defun probably-atomic-prop? (x)
+(ldefun probably-atomic-prop? (x)
 (or
 	(mp x (list 'canon-individual?+ 'probably-pred?))
 
@@ -1342,7 +1342,7 @@
 )
 )
 
-(defun probably-prop? (x)
+(ldefun probably-prop? (x)
 (or
 	(probably-atomic-prop? x)
 
@@ -1354,7 +1354,7 @@
 )
 )
 
-(defun strip-pred-mods-individuals (p)
+(ldefun strip-pred-mods-individuals (p)
 (block outer
 	(return-from outer (unwrap-singletons (loop for e in p if (not (or (canon-mod? e) (canon-individual? e))) collect e)))
 )
@@ -1362,7 +1362,7 @@
 
 ; Make sure "ka" args are wrapped in "for.p",
 ; unless the verb permits a direct KA arg
-(defun purposify-ka-args (phi)
+(ldefun purposify-ka-args (phi)
 (let ((tmp-phi phi))
 (block outer
 	(setf tmp-phi (process-construction tmp-phi
@@ -1377,7 +1377,7 @@
 )
 )
 
-(defun purposify-ka-args-processor (pair phi)
+(ldefun purposify-ka-args-processor (pair phi)
 (block outer
 	; (format t "purposify-ka-args-processor called on ~s~%" pair)
 
@@ -1421,7 +1421,7 @@
 )
 )
 
-(defun unfloat-modifiers (phi)
+(ldefun unfloat-modifiers (phi)
 (let ((tmp-phi (copy-item phi)))
 (block outer
 		(setf tmp-phi (process-construction tmp-phi
@@ -1437,7 +1437,7 @@
 )
 )
 
-(defun unfloat-modifiers-processor (pair phi)
+(ldefun unfloat-modifiers-processor (pair phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 	;(loop for loop-form in phi do (block loop-outer
@@ -1654,7 +1654,7 @@
 )
 )
 
-(defun process-construction (phi pred processor)
+(ldefun process-construction (phi pred processor)
 (let (last-phi-copy phi-copy)
 (block outer
 	(setf last-phi-copy nil)
@@ -1718,7 +1718,7 @@
 )
 )
 
-(defun norm-conjunctive-infixes (phi)
+(ldefun norm-conjunctive-infixes (phi)
 	(process-construction phi
 		; (mk-ttt-pred '(canon-prop? (+ (<> AND canon-prop?))))
 		(mk-ttt-pred '(_! (+ (<> AND _!))))
@@ -1727,7 +1727,7 @@
 	)
 )
 
-(defun norm-conjunctive-infixes-processor (pair phi)
+(ldefun norm-conjunctive-infixes-processor (pair phi)
 (block outer
 	; (format t "infix processor called on ~s~%" (car pair))
 
@@ -1736,13 +1736,13 @@
 	(setf subforms (loop for e in form if (not (equal e conj)) collect e))
 	(setf new-form (append (list conj) subforms))
 
-	(setf phi-copy (replace-element-idx phi-copy (second pair) new-form))
+	(setf phi-copy (replace-element-idx phi (second pair) new-form))
 
 	(return-from outer phi-copy)
 )
 )
 
-(defun skolem-sym-num (s)
+(ldefun skolem-sym-num (s)
 (if (and
 		(symbolp s)
 		(> (length (string s)) 11)
@@ -1753,20 +1753,20 @@
 )
 )
 
-(defun skolem-sym? (s)
+(ldefun skolem-sym? (s)
 	(not (null (skolem-sym-num s)))
 )
 
-(defun get-highest-skolem-num (phi)
+(ldefun get-highest-skolem-num (phi)
 	(reduce #'max (append (list 0) (mapcar #'skolem-sym-num (remove-duplicates (get-elements-pred phi #'skolem-sym?)))))
 )
 
 ; Reports whether the subtree rooted at the given
 ; tree index are free of any scope dependencies.
-(defun free-scope? (idx phi)
+(ldefun free-scope? (idx phi)
 )
 
-(defun atemporal-form? (form skp restrictors)
+(ldefun atemporal-form? (form skp restrictors)
 (or
 	(and
 		(listp form)
@@ -1776,7 +1776,7 @@
 )
 )
 
-(defun split-conjunction (phi)
+(ldefun split-conjunction (phi)
 (block outer
 	(if (not (listp phi))
 		(return-from outer (list phi))
@@ -1805,7 +1805,7 @@
 )
 )
 
-(defun skolemize-adets-processor (pair phi)
+(ldefun skolemize-adets-processor (pair phi)
 (block outer
 	(setf adet (car pair))
 
@@ -1993,7 +1993,7 @@
 )
 )
 
-(defun skolemize-adets (phi)
+(ldefun skolemize-adets (phi)
 	(process-construction
 		phi
 		(lambda (x)
@@ -2013,7 +2013,7 @@
 		#'skolemize-adets-processor)
 )
 
-(defun apply-lambda (l args)
+(ldefun apply-lambda (l args)
 (block outer
 	(if (not (canon-lambda? l))
 		(return-from outer nil))
@@ -2033,7 +2033,7 @@
 )
 )
 
-(defun split-top-level-lambda-ands (phi)
+(ldefun split-top-level-lambda-ands (phi)
 (let (phi-copy props)
 (block outer
 	(setf phi-copy (copy-list phi))
@@ -2059,7 +2059,7 @@
 )
 )
 
-(defun apply-mono-lambdas (phi)
+(ldefun apply-mono-lambdas (phi)
 	(process-construction
 		phi
 		(lambda (x)
@@ -2074,7 +2074,7 @@
 	)
 )
 
-(defun apply-mono-lambdas-processor (pair phi)
+(ldefun apply-mono-lambdas-processor (pair phi)
 (block outer
 	; (format t "mono lambda processor got ~s~%" pair)
 
@@ -2102,7 +2102,7 @@
 	;	do (format t "	~s~%" lp))
 
 	
-	(defun tmp-stack-mods! (lst)
+	(ldefun tmp-stack-mods! (lst)
 		(block outer
 			(setf tmp-sm-cursor (copy-list lst))
 			(loop for lm in l-mods
@@ -2145,13 +2145,17 @@
 )
 )
 
-(defun anded-props? (l)
+(ldefun anded-props? (l)
 	(and (listp l) (> (length l) 0) (equal (car l) 'AND)
 		(loop for e in (cdr l) always (canon-prop? e)))
 )
 
-(defun split-top-level-ands (phi)
+(ldefun split-top-level-ands (phi)
 (block outer
+
+	(if (null phi)
+		(format t "stla got null phi~%")
+	)
 
 	(setf phi-copy (copy-list phi))
 	(loop for e in phi do (block loop-outer
@@ -2189,7 +2193,7 @@
 )
 
 ; TODO: do this for > 2 and-chained props
-(defun split-and-eps (phi)
+(ldefun split-and-eps (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for phi-e in phi do (block loop-outer
@@ -2243,14 +2247,14 @@
 )
 )
 
-(defun schema-cleanup-ttt (phi)
+(ldefun schema-cleanup-ttt (phi)
 	(unhide-ttt-ops
 		(old-ttt:apply-rules *SCHEMA-CLEANUP-RULES*
 			(hide-ttt-ops phi)
 			:rule-order :slow-forward))
 )
 
-(defun schema-cleanup-lisp (phi)
+(ldefun schema-cleanup-lisp (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for func in *SCHEMA-CLEANUP-FUNCS*
@@ -2270,7 +2274,12 @@
 			)
 			(setf phi-copy new-phi-copy)
 			(if (null phi-copy)
-				(format t "func ~s gave null phi~%" func)
+				(if (null phi)
+					; then
+					(format t "func ~s gave null phi, BUT phi was null going in~%" func)
+					; else
+					(format t "func ~s gave null phi~%" func)
+				)
 			)
 		)
 	)
@@ -2278,7 +2287,7 @@
 )
 )
 
-(defun schema-cleanup (phi)
+(ldefun schema-cleanup (phi)
 (let (last-phi-copy phi-copy)
 (block outer
 	; until convergence
@@ -2321,22 +2330,22 @@
 
 ; (format t "~s~%" (schema-cleanup *PHI*))
 
-(defun schema-parse (sent)
+(ldefun schema-parse (sent)
 	(progn
 	(setf *glob-idx* 0) ; for multi-sentence parser word indexing
 	(schema-cleanup (interpret sent))
 	)
 )
 
-(defun in-span (num span)
+(ldefun in-span (num span)
 	(and (>= num (car span)) (<= num (second span)))
 )
 
-(defun parse-story (sents)
+(ldefun parse-story (sents)
 	(parse-story-maybe-from-ulf sents nil)
 )
 
-(defun clean-idx-tags (el-sents)
+(ldefun clean-idx-tags (el-sents)
 (block outer
 	(setf needs-cleaning (remove-duplicates (get-elements-pred el-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))
@@ -2363,7 +2372,7 @@
 )
 )
 
-(defun parse-story-maybe-from-ulf (sents pre-ulfs)
+(ldefun parse-story-maybe-from-ulf (sents pre-ulfs)
 (block outer
 	(setf *glob-idx* 0)
 	(if (not (null pre-ulfs))
@@ -2404,11 +2413,11 @@
 )
 )
 
-(defun filtered-parse-story (story)
+(ldefun filtered-parse-story (story)
 	(loop for sent in (parse-story story) collect (loop for wff in sent if (canon-prop? wff) collect wff))
 )
 
-(defun sp (sent)
+(ldefun sp (sent)
 	;(format t "~s~%" (interpret sent))
 	(format t "~s~%" (schema-parse sent))
 	; (format t "~s~%" (skolemize-adets (interpret sent)))
@@ -2420,7 +2429,7 @@
 
 ;(sp "My son is a little child.")
 
-(defun process-stdin-story (story-processor-fn should-fix)
+(ldefun process-stdin-story (story-processor-fn should-fix)
 (block outer
 	(let ((sentences (list)) (lines (list)) (story-count 0))
 	(progn

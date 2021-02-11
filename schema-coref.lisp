@@ -22,7 +22,7 @@
 	EXPECT.V
 ))
 
-(defun coref-pairs (text)
+(ldefun coref-pairs (text)
 (block outer
 	; (this file is being run from the parent directory, so we prepend the PWD to the call)
 	(let ((strm (sb-ext:process-output (sb-ext:run-program (concat-strs (format nil "~a" *ROOT-PATH*) "/allen-coref/allen_coref.sh") (list text) :output :stream :wait nil))))
@@ -34,7 +34,7 @@
 )
 )
 
-(defun max-word-tag (el)
+(ldefun max-word-tag (el)
 	(apply #'max (mapcar #'idx-tag-num (get-elements-pred el (lambda (x) (and (symbolp x) (not (null (idx-tag-num x))))))))
 )
 
@@ -48,7 +48,7 @@
 ; the coreference resolver would link "it" to "phone",
 ; and then the coreference cluster for "it" would be added
 ; back in, with its index replaced with the index for "one".
-(defun one-coref-clusters (txt-sents el-sents tagged-one)
+(ldefun one-coref-clusters (txt-sents el-sents tagged-one)
 (block outer
 	(setf one-txt-sent nil)
 
@@ -121,7 +121,7 @@
 )
 )
 
-(defun get-determiner-from-constraint-set (cset)
+(ldefun get-determiner-from-constraint-set (cset)
 (let ((det))
 (block outer
 	(setf det (loop for c in cset
@@ -145,7 +145,7 @@
 )
 )
 
-(defun resolve-coreference (txt-sents el-sents)
+(ldefun resolve-coreference (txt-sents el-sents)
 (block outer
 	(setf needs-res (remove-duplicates (get-elements-pred el-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))

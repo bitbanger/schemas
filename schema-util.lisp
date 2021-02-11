@@ -38,7 +38,7 @@
 ; its predicate, looks it up in a database of
 ; known schemas, and returns the predicate it's
 ; known by in that database, or nil otherwise.
-(defun known-schema-pred (schema)
+(ldefun known-schema-pred (schema)
 (block outer
 	; We only disregard the match number of a given
 	; predicate; if a schema is identical but has
@@ -59,19 +59,19 @@
 )
 )
 
-(defun lambdify-preds! (ps)
+(ldefun lambdify-preds! (ps)
 	(lambdify-preds-maybe-colon ps nil)
 )
 
-(defun lambdify-preds-with-sym! (ps sym)
+(ldefun lambdify-preds-with-sym! (ps sym)
 	(lambdify-preds-maybe-colon-with-sym ps nil sym)
 )
 
-(defun lambdify-preds-colon! (ps)
+(ldefun lambdify-preds-colon! (ps)
 	(lambdify-preds-maybe-colon ps t)
 )
 
-(defun lambdify-preds-maybe-colon-with-sym (ps colon sym)
+(ldefun lambdify-preds-maybe-colon-with-sym (ps colon sym)
 (let ((tmp-sym sym))
 	(list
 		(if colon ':L 'L)
@@ -86,11 +86,11 @@
 )
 )
 
-(defun lambdify-preds-maybe-colon (ps colon)
+(ldefun lambdify-preds-maybe-colon (ps colon)
 	(lambdify-preds-maybe-colon-with-sym ps colon (gensym))
 )
 
-(defun register-schema (schema)
+(ldefun register-schema (schema)
 (block outer
 	(setf (gethash (schema-pred schema) *SCHEMAS-BY-PRED*) schema)
 	(set (schema-pred schema) schema)
@@ -118,11 +118,11 @@
 ;	3. registers the generalized schema under
 ;		the new name
 ;	4. returns the generalized schema name
-(defun create-from-match (match)
+(ldefun create-from-match (match)
 	(create-from-match-maybe-gen match t)
 )
 
-(defun create-from-match-maybe-gen (match should-gen)
+(ldefun create-from-match-maybe-gen (match should-gen)
 (block outer
 	(setf is-new-schema nil)
 
@@ -160,7 +160,7 @@
 ; sec-formula-prefix tells you the prefix for condition
 ; formulas for a given section, e.g. !W for Episode-relations
 ; to yield !W1, ?E for Steps to yield ?E1, etc.
-(defun sec-formula-prefix (sec-name)
+(ldefun sec-formula-prefix (sec-name)
 (block outer
 	(if (null (member sec-name *SEC-NAMES* :test #'equal))
 		(return-from outer nil))
@@ -192,7 +192,7 @@
 )
 )
 
-(defun sec-name-from-prefix (prefix)
+(ldefun sec-name-from-prefix (prefix)
 (block outer
 	(loop for sec-name in *SEC-NAMES*
 		if (equal (sec-formula-prefix sec-name) prefix)
@@ -203,7 +203,7 @@
 )
 )
 
-(defun sec-name-from-id (id)
+(ldefun sec-name-from-id (id)
 	(sec-name-from-prefix (subseq (string id) 0 2))
 )
 
@@ -218,7 +218,7 @@
 ; Fluent schema conditions represent temporally-bounded
 ; constraints on the individuals in the schema. Nonfluent
 ; conditions are atemporal, i.e. eternal.
-(defun schema-cond? (phi fluent)
+(ldefun schema-cond? (phi fluent)
 (and
 	(equal 2 (length phi))
 	(symbolp (car phi))
@@ -244,7 +244,7 @@
 )
 )
 
-(defun exc-to-var (s)
+(ldefun exc-to-var (s)
 	(if (exc-varp s)
 		; then
 			(intern (concat-strs "?" (remove-prefix (string s) "!")))
@@ -258,7 +258,7 @@
 	)
 )
 
-(defun var-to-exc (s)
+(ldefun var-to-exc (s)
 	(if (varp s)
 		; then
 		(intern (concat-strs "!" (remove-prefix (string s) "?")))
@@ -272,18 +272,18 @@
 	)
 )
 
-(defun fluent-cond? (phi)
+(ldefun fluent-cond? (phi)
 	(schema-cond? phi t)
 )
 
-(defun nonfluent-cond? (phi)
+(ldefun nonfluent-cond? (phi)
 	(schema-cond? phi nil)
 )
 
 ; schema-section? reports whether sec is a valid schema
 ; section, properly named and populated with valid schema
 ; conditions (fluent or nonfluent).
-(defun schema-section? (sec)
+(ldefun schema-section? (sec)
 (and
 	(> (length sec) 0)
 	(not (null (member (car sec) *SEC-NAMES*)))
@@ -297,7 +297,7 @@
 	)
 ))
 
-(defun section-name (sec)
+(ldefun section-name (sec)
 (progn
 	(check #'schema-section? sec)
 	(car sec)
@@ -305,7 +305,7 @@
 )
 
 ; section-formulas returns all conditions from a schema section.
-(defun section-formulas (sec)
+(ldefun section-formulas (sec)
 (block outer
 	(if (null sec)
 		(return-from outer nil))
@@ -317,7 +317,7 @@
 ; section-type returns the symbol NONFLUENT if sec contains all
 ; nonfluent conditions, or FLUENT if it contains all fluent
 ; conditions.
-(defun section-type (sec)
+(ldefun section-type (sec)
 (progn
 	(check #'schema-section? sec)
 	(if (nonfluent-cond? (car (section-formulas sec)))
@@ -335,7 +335,7 @@
 )
 
 ; schema? reports whether s is a valid schema.
-(defun schema? (s)
+(ldefun schema? (s)
 (and
 	(> (length s) 2)
 	(equal (car s) 'epi-schema)
@@ -346,24 +346,24 @@
 )
 )
 
-(defun schema-name (schema)
+(ldefun schema-name (schema)
 	(prop-pred (car (second schema)))
 )
 
-(defun schema-sections (schema)
+(ldefun schema-sections (schema)
 (progn
 	(check #'schema? schema)
 	(cddr schema)
 )
 )
 
-(defun sort-sections (secs)
+(ldefun sort-sections (secs)
 	(sort secs (lambda (s1 s2)
 		(> (length (member (car s1) *SEC-NAMES* :test #'equal)) (length (member (car s2) *SEC-NAMES* :test #'equal)))
 	))
 )
 
-(defun nonmeta-sections (schema)
+(ldefun nonmeta-sections (schema)
 	(loop for sec in (schema-sections schema)
 		if (and (or (equal (section-type sec) 'NONFLUENT)
 			   (equal (section-type sec) 'FLUENT))
@@ -373,14 +373,14 @@
 	)
 )
 
-(defun nonfluent-sections (schema)
+(ldefun nonfluent-sections (schema)
 	(loop for sec in (schema-sections schema)
 		if (equal (section-type sec) 'NONFLUENT)
 			collect sec
 	)
 )
 
-(defun get-schema-ep-var-char (schema v)
+(ldefun get-schema-ep-var-char (schema v)
 (block outer
 	; Check if it characterizes the header formula, first.
 	(if (equal (third (schema-header schema)) v)
@@ -396,18 +396,18 @@
 )
 )
 
-(defun schema-ep-var? (schema v)
+(ldefun schema-ep-var? (schema v)
 	(not (null (get-schema-ep-var-char schema v)))
 )
 
-(defun fluent-sections (schema)
+(ldefun fluent-sections (schema)
 	(loop for sec in (schema-sections schema)
 		if (equal (section-type sec) 'FLUENT)
 			collect sec
 	)
 )
 
-(defun get-section (schema sec-name)
+(ldefun get-section (schema sec-name)
 (block outer
 	(loop for sec in (schema-sections schema)
 		if (equal (section-name sec) sec-name)
@@ -418,7 +418,7 @@
 )
 )
 
-(defun set-header (schema new-header)
+(ldefun set-header (schema new-header)
 	(append (list
 		'epi-schema
 		(list new-header '** (third (second schema))))
@@ -428,7 +428,7 @@
 
 ; set-section returns a new schema, identical to the input schema,
 ; except with the section "sec-name" having the new value "new-sec".
-(defun set-section (schema sec-name new-sec)
+(ldefun set-section (schema sec-name new-sec)
 (let (new-schema found)
 (block outer
 	(setf new-schema (list 'epi-schema (second schema)))
@@ -455,11 +455,11 @@
 )
 )
 
-(defun add-constraint (schema sec-name constraint)
+(ldefun add-constraint (schema sec-name constraint)
 	(add-constraint-with-const schema sec-name constraint nil)
 )
 
-(defun add-constraint-with-const (schema sec-name constraint new-const-id)
+(ldefun add-constraint-with-const (schema sec-name constraint new-const-id)
 (block outer
 	(if (null (member sec-name *SEC-NAMES* :test #'equal))
 		; then
@@ -491,7 +491,7 @@
 
 ; add-role-constraint adds a nonfluent condition to the schema with a unique
 ; metavariable.
-(defun add-role-constraint (schema constraint)
+(ldefun add-role-constraint (schema constraint)
 ;(let (new-roles role-num new-role)
 ;(block outer
 ;	(setf role-num (- (length (get-section schema ':Roles)) 1))
@@ -515,7 +515,7 @@
 
 ; apply-bindings returns a schema where all variables have been replaced with
 ; their bound referents, given by the bindings map.
-(defun apply-bindings (schema bindings)
+(ldefun apply-bindings (schema bindings)
 (let (val)
 (block outer
 	(setf cursor schema)
@@ -551,7 +551,7 @@
 )))
 
 ; print-schema prints a schema with proper formatting, for readability purposes.
-(defun print-schema (schema)
+(ldefun print-schema (schema)
 (block outer
 	(check #'schema? schema)
 
@@ -566,7 +566,7 @@
 )
 )
 
-(defun paper-print-schema (schema)
+(ldefun paper-print-schema (schema)
 	(check #'schema? schema)
 
 	(format t "(~s ~s~%" (car schema) (second schema))
@@ -580,12 +580,12 @@
 )
 
 ; temporal propositions characterize episodes, generally.
-(defun temporal-prop? (prop)
+(ldefun temporal-prop? (prop)
 	; TODO: more nuanced temporal proposition identification
 	(has-element prop '**)
 )
 
-(defun lambda-prop? (prop)
+(ldefun lambda-prop? (prop)
 	; TODO: more nuanced lambda proposition identification
 	(has-element prop 'LAMBDA.EL)
 )
@@ -593,7 +593,7 @@
 ; story-term-constraints takes an EL story, split into N "sentences",
 ; and returns a hash map where the keys are individual constants and
 ; the values are lists of atemporal story constraints on those constants.
-(defun story-term-constraints (story)
+(ldefun story-term-constraints (story)
 (let (
 			;(gen-kb (list (make-hash-table :test #'equal)
 			;			  (make-hash-table :test #'equal)
@@ -633,7 +633,7 @@
 )
 )
 
-(defun filter-invalid-wffs (wffs)
+(ldefun filter-invalid-wffs (wffs)
 	(loop for wff in wffs
 		if (canon-prop? wff)
 			collect wff
@@ -643,7 +643,7 @@
 ; story-select-term-constraints takes a story and a list of individual
 ; constants and returns a list of all atemporal constraints on any
 ; of those constants.
-(defun story-select-term-constraints (story terms)
+(ldefun story-select-term-constraints (story terms)
 (let ((constraints (story-term-constraints story)))
 (block outer
 	(setf ret-constrs (remove-duplicates (loop for term being the hash-keys of constraints
@@ -675,24 +675,24 @@
 )
 )
 
-(defun schema-header (schema)
+(ldefun schema-header (schema)
 	(second schema)
 )
 
-(defun schema-pred (schema)
+(ldefun schema-pred (schema)
 	(prop-pred (car (schema-header schema)))
 )
 
 ; extract-small-individuals returns a list of the individual constants
 ; in an EL formula.
-(defun extract-small-individuals (phi)
+(ldefun extract-small-individuals (phi)
 (block outer
 	; (format t "extracting from ~s~%" phi)
 	(return-from outer (get-elements-pred phi #'canon-small-individual?))
 )
 )
 
-(defun var-to-sk-fn (var)
+(ldefun var-to-sk-fn (var)
 (block outer
 	(if (not (varp var))
 		; then
@@ -703,7 +703,7 @@
 )
 )
 
-(defun extract-section-vars (schema sec-name)
+(ldefun extract-section-vars (schema sec-name)
 (block outer
 	(setf all-inds (list))
 	(loop for phi in (mapcar #'second (section-formulas (get-section schema sec-name)))
@@ -713,7 +713,7 @@
 )
 )
 
-(defun extract-schema-small-individuals (schema)
+(ldefun extract-schema-small-individuals (schema)
 (block outer
 	(setf all-inds (list))
 	; (loop for sec in (nonmeta-sections schema)
@@ -726,7 +726,7 @@
 )
 )
 
-(defun schema-term-constraints (schema term)
+(ldefun schema-term-constraints (schema term)
 	(loop for sec in (nonfluent-sections schema)
 		append (loop for phi in (section-formulas sec)
 			; do (format t "second phi: ~s~%" (second phi))
@@ -737,7 +737,7 @@
 	)
 )
 
-(defun new-schema-match-name (pred)
+(ldefun new-schema-match-name (pred)
 (block outer
 	(setf spl (split-str (format nil "~s" pred) "."))
 
@@ -774,7 +774,7 @@
 )
 )
 
-(defun constr-name (pred)
+(ldefun constr-name (pred)
 (block outer
 	(if (symbolp pred)
 		(return-from outer (intern (car (split-str (format nil "~s" pred) "."))))
@@ -794,7 +794,7 @@
 )
 )
 
-(defun cached-generalize-schema-constants (schema)
+(ldefun cached-generalize-schema-constants (schema)
 	(ll-cache
 		'uncached-generalize-schema-constants
 		(list schema)
@@ -802,7 +802,7 @@
 	)
 )
 
-(defun linearize-unspecified-steps (schema)
+(ldefun linearize-unspecified-steps (schema)
 (let (
 	step-ids 
 	ep-rels
@@ -854,7 +854,7 @@
 )
 )
 
-(defun remove-invisible-rcs (schema)
+(ldefun remove-invisible-rcs (schema)
 (block outer
 	(setf cleaned-rcs
 		(loop for rc in (section-formulas (get-section schema ':Roles))
@@ -874,19 +874,19 @@
 )
 )
 
-(defun fully-clean-schema (schema)
+(ldefun fully-clean-schema (schema)
 	(clean-do-kas (rename-constraints (remove-invisible-rcs (sort-steps (linearize-unspecified-steps (generalize-schema-constants schema))))))
 )
 
-(defun fully-clean-schema-no-gen (schema)
+(ldefun fully-clean-schema-no-gen (schema)
 	(clean-do-kas (rename-constraints (remove-invisible-rcs (sort-steps (linearize-unspecified-steps schema)))))
 )
 
-(defun generalize-schema-constants (schema)
+(ldefun generalize-schema-constants (schema)
 	(second (mapped-generalize-schema-constants schema))
 )
 
-(defun mapped-generalize-schema-constants (in-schema)
+(ldefun mapped-generalize-schema-constants (in-schema)
 (block outer
 	(setf gen-cursor "?X_A")
 	(setf gen-schema in-schema)
@@ -942,7 +942,7 @@
 )
 )
 
-(defun get-necessity (constr-id schema)
+(ldefun get-necessity (constr-id schema)
 (block outer
 	(if (not (null (get-section schema ':Necessities)))
 		; then
@@ -958,7 +958,7 @@
 )
 )
 
-(defun get-certainty (constr-id schema)
+(ldefun get-certainty (constr-id schema)
 (block outer
 	(if (not (null (get-section schema ':Certainties)))
 		; then
@@ -974,7 +974,7 @@
 )
 )
 
-(defun set-certainty (constr-id num denom schema)
+(ldefun set-certainty (constr-id num denom schema)
 (block outer
 	(setf new-schema (copy-list schema))
 	(setf replaced nil)
@@ -1000,20 +1000,20 @@
 )
 )
 
-(defun schema-vars (schema)
+(ldefun schema-vars (schema)
 	(remove-duplicates (get-elements-pred schema #'varp) :test #'equal)
 )
 
-(defun shared-vars (schema1 schema2)
+(ldefun shared-vars (schema1 schema2)
 	(intersection (schema-vars schema1) (schema-vars schema2) :test #'equal)
 )
 
 ; NOTE: this works on lists of schemas, too
-(defun uniquify-shared-vars (schema1 schema2)
+(ldefun uniquify-shared-vars (schema1 schema2)
 	(uniquify-shared-vars-except schema1 schema2 nil)
 )
 
-(defun uniquify-shared-vars-except (schema1 schema2 except)
+(ldefun uniquify-shared-vars-except (schema1 schema2 except)
 (block outer
 	(setf shared (shared-vars schema1 schema2))
 	(setf shared (set-difference shared except :test #'equal))
@@ -1032,7 +1032,7 @@
 )
 )
 
-(defun uniquify-shared-vars-chain (schemas except-in)
+(ldefun uniquify-shared-vars-chain (schemas except-in)
 (block outer
 	(if (equal 1 (length schemas))
 		(return-from outer schemas)
@@ -1072,7 +1072,7 @@
 ;	1. rename their variables to be unique
 ;	2. concatenate all the formulas in each section
 ;	3. 
-(defun merge-schemas (schema1 schema2)
+(ldefun merge-schemas (schema1 schema2)
 (block outer
 	; 1. rename their variables to be unique
 	(setf sc1 nil)
@@ -1140,7 +1140,7 @@
 )
 )
 
-(defun linearize-story (story)
+(ldefun linearize-story (story)
 	(loop for sent in story
 		append sent)
 )
@@ -1152,7 +1152,7 @@
 ; you've called load-time-model with the story's temporal
 ; model! See norm-time.lisp for more information on loading the
 ; time model into the Allen Interval Algebra solver.
-(defun check-temporal-constraints (schema-match)
+(ldefun check-temporal-constraints (schema-match)
 (block outer
 	(setf trues 0)
 	(setf falses 0)
@@ -1186,7 +1186,7 @@
 )
 )
 
-(defun get-single-word-preds (schema)
+(ldefun get-single-word-preds (schema)
 	(remove-duplicates (get-elements-pred schema (lambda (x)
 		(and
 			(symbolp x)
@@ -1197,7 +1197,7 @@
 	)) :test #'equal)
 )
 
-(defun get-word-preds (schema)
+(ldefun get-word-preds (schema)
 (block outer
 	(setf word-preds (get-single-word-preds schema))
 	(loop for prop in (mapcar #'second (section-formulas (get-section schema ':Steps)))
@@ -1218,7 +1218,7 @@
 )
 )
 
-(defun mk-schema-word-pred-idx (schemas)
+(ldefun mk-schema-word-pred-idx (schemas)
 (let ((ht (make-hash-table :test #'equal)))
 (block outer
 	(loop for schema in schemas
@@ -1235,7 +1235,7 @@
 )
 )
 
-(defun top-k-schemas (words schemas k)
+(ldefun top-k-schemas (words schemas k)
 (let (
 (schema-scores (list))
 )
@@ -1271,7 +1271,7 @@
 )
 )
 
-(defun get-formula-by-id (schema id)
+(ldefun get-formula-by-id (schema id)
 (block outer
 	(loop for sec in (schema-sections schema)
 		do (loop for formula in (section-formulas sec)
@@ -1287,7 +1287,7 @@
 ; NOTE: some formulas have duplicates and different IDs.
 ; This will only return the first one. You shouldn't use
 ; it for non-deduped schemas.
-(defun get-id-by-formula (schema formula)
+(ldefun get-id-by-formula (schema formula)
 (block outer
 	(loop for sec in (schema-sections schema)
 		do (loop for pair in (section-formulas sec)
@@ -1300,7 +1300,7 @@
 )
 )
 
-(defun dedupe-sections (schema)
+(ldefun dedupe-sections (schema)
 (block outer
 	(setf deduped-schema (copy-list schema))
 
@@ -1354,7 +1354,7 @@
 )
 )
 
-(defun topsort-steps-helper (time-graph ep-lst)
+(ldefun topsort-steps-helper (time-graph ep-lst)
 (block outer
 	; base case
 	(if (equal 0 (hash-table-count time-graph))
@@ -1387,7 +1387,7 @@
 )
 )
 
-(defun topsort-steps (schemas)
+(ldefun topsort-steps (schemas)
 (block outer
 	(setf ep-ids
 		(loop for schema in schemas
@@ -1401,7 +1401,7 @@
 )
 )
 
-(defun topsort-fluents (schemas)
+(ldefun topsort-fluents (schemas)
 (block outer
 	(setf ep-ids
 		(loop for schema in schemas
@@ -1423,7 +1423,7 @@
 )
 )
 
-(defun topsort-eps (schemas unfiltered-ep-ids)
+(ldefun topsort-eps (schemas unfiltered-ep-ids)
 (block outer
 	(setf all-ep-rels
 		(loop for schema in schemas
@@ -1435,7 +1435,7 @@
 )
 )
 
-(defun topsort-ep-list (all-ep-rels unfiltered-ep-ids)
+(ldefun topsort-ep-list (all-ep-rels unfiltered-ep-ids)
 (block outer
 	(load-time-model all-ep-rels)
 	; (format t "all-ep-rels: ~s~%" all-ep-rels)
@@ -1486,7 +1486,7 @@
 )
 )
 
-(defun sort-steps (schema)
+(ldefun sort-steps (schema)
 (block outer
 	; If the schema has steps not yet accounted for in
 	; the :Episode-relations section, assume a linear
@@ -1509,7 +1509,7 @@
 )
 )
 
-(defun rename-constraints-helper (schema tmp-pass)
+(ldefun rename-constraints-helper (schema tmp-pass)
 (block outer
 	(setf new-schema schema)
 
@@ -1536,7 +1536,7 @@
 )
 )
 
-(defun rename-constraints (schema)
+(ldefun rename-constraints (schema)
 	; We're going to do two passes. The first will rename
 	; constraint variables to have two dashes in them, which
 	; we assume won't happen anywhere else. This is because the
@@ -1548,7 +1548,7 @@
 	(rename-constraints-helper (rename-constraints-helper schema t) nil)
 )
 
-(defun do-ka-pred? (p)
+(ldefun do-ka-pred? (p)
 (and
 	(canon-pred? p)
 	(equal (pred-base p) 'do.v)
@@ -1558,7 +1558,7 @@
 )
 )
 
-(defun do-ka-prop? (p)
+(ldefun do-ka-prop? (p)
 (and
 	(canon-prop? p)
 	(equal (prop-pred p) 'DO.V)
@@ -1568,14 +1568,14 @@
 )
 )
 
-(defun ttt-clean-do-kas (schema)
+(ldefun ttt-clean-do-kas (schema)
 	(ttt-replace schema
 		'(DO.V (KA _!))
 		'_!
 	)
 )
 
-(defun clean-do-kas (schema)
+(ldefun clean-do-kas (schema)
 (let (cleaned-schema do-ka-idcs do-ka action)
 (block outer
 	(setf cleaned-schema schema)
@@ -1614,7 +1614,7 @@
 	(return-from outer cleaned-schema)
 )))
 
-(defun load-story-time-model (story)
+(ldefun load-story-time-model (story)
 (block outer
 	(setf story-time-props
 		(loop for phi in (linearize-story story)
@@ -1626,7 +1626,7 @@
 )
 )
 
-(defun old-invokes-schema? (phi)
+(ldefun old-invokes-schema? (phi)
 ; TODO: extend to non-atomic props?
 (let ((pred (if (canon-atomic-prop? phi) (prop-pred phi) nil)))
 	(and
@@ -1639,11 +1639,11 @@
 )
 )
 
-(defun invokes-schema? (phi)
+(ldefun invokes-schema? (phi)
 	(not (null (invoked-schema phi)))
 )
 
-(defun invoked-schema (phi)
+(ldefun invoked-schema (phi)
 (let (
 	(best-score 0)
 	(pred (if (canon-atomic-prop? phi) (prop-pred phi) nil))
@@ -1683,7 +1683,7 @@
 )
 )
 
-(defun get-char-form (ep-id schemas)
+(ldefun get-char-form (ep-id schemas)
 (block outer
 (loop for schema in schemas do (block inner
 	; first, check the header
@@ -1707,7 +1707,7 @@
 )
 
 
-(defun flatten-prop (in-prop)
+(ldefun flatten-prop (in-prop)
 (block outer
 	(setf prop (copy-list in-prop))
 
@@ -1772,12 +1772,12 @@
 )
 )
 
-(defun clean-tags (flat)
+(ldefun clean-tags (flat)
 	(loop for e in flat
 		collect (intern (car (split-str (string e) ".")))
 	)
 )
 
-(defun el-to-english (prop)
+(ldefun el-to-english (prop)
 	(clean-tags (flatten-prop prop))
 )

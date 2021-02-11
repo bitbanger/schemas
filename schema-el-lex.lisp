@@ -1,7 +1,7 @@
 ; This file specifies a context-free grammar for limited EL formulas
 ; in the form of recursive descent rules.
 
-; OPT: a cache for all preds, similar to the cache in (defun mp)
+; OPT: a cache for all preds, similar to the cache in (ldefun mp)
 
 (load "ll-load.lisp")
 
@@ -58,7 +58,7 @@
 	do (setf (gethash kw *KEYWORDS-MAP*) t)
 )
 
-(defun has-ext? (x e)
+(ldefun has-ext? (x e)
 (let (
 	(strx (if (symbolp x) (string x) nil))
 )
@@ -78,7 +78,7 @@
 )
 )
 
-(defun remove-ext (x e)
+(ldefun remove-ext (x e)
 	(if (not (has-ext? x e))
 		x
 
@@ -91,32 +91,32 @@
 	)
 )
 
-(defun lex-attr-pred? (x)
+(ldefun lex-attr-pred? (x)
 (or
 	(has-ext? x ".NN")
 	(has-ext? x ".ATTR")
 )
 )
 
-(defun lex-verb? (x)
+(ldefun lex-verb? (x)
 	(has-ext? x ".V")
 )
 
-(defun retag-as (x ext)
+(ldefun retag-as (x ext)
 (let ((pre (car (split-str (string x) "."))))
 	(intern (format nil "~a.~a" pre (string ext)))
 )
 )
 
-(defun lex-metapred? (x)
+(ldefun lex-metapred? (x)
 	(has-ext? x ".?")
 )
 
-(defun lex-var? (x)
+(ldefun lex-var? (x)
 	(varp x)
 )
 
-(defun exc-varp (s)
+(ldefun exc-varp (s)
 (and
 	(symbolp s)
 	(> (length (string s)) 1)
@@ -124,7 +124,7 @@
 )
 )
 
-(defun lex-gensym? (x)
+(ldefun lex-gensym? (x)
 (and
 	(symbolp x)
 	(has-prefix? (string x) "G")
@@ -132,7 +132,7 @@
 )
 )
 
-(defun lex-naked-var? (x)
+(ldefun lex-naked-var? (x)
 (and
 	(symbolp x)
 	(not (special-str x))
@@ -140,50 +140,50 @@
 )
 )
 
-(defun lex-sk-fn? (x)
+(ldefun lex-sk-fn? (x)
 	(has-ext? x "<-")
 )
 
-(defun lex-fn? (x)
+(ldefun lex-fn? (x)
 (or
 	(has-ext? x ".F")
 	(lex-sk-fn? x)
 )
 )
 
-(defun lex-number? (x)
+(ldefun lex-number? (x)
 	(numberp x)
 )
 
-(defun lex-noun? (x)
+(ldefun lex-noun? (x)
 	(has-ext? x ".N")
 )
 
-(defun lex-p? (x)
+(ldefun lex-p? (x)
 	(has-ext? x ".P")
 )
 
-(defun lex-pred? (x)
+(ldefun lex-pred? (x)
 	(has-ext? x ".PR")
 )
 
-(defun lex-p-arg? (x)
+(ldefun lex-p-arg? (x)
 	(has-ext? x ".P-ARG")
 )
 
-(defun lex-pronoun? (x)
+(ldefun lex-pronoun? (x)
 	(has-ext? x ".PRO")
 )
 
-(defun lex-name? (x)
+(ldefun lex-name? (x)
 	(has-ext? x ".NAME")
 )
 
-(defun lex-skolem? (x)
+(ldefun lex-skolem? (x)
 	(has-ext? x ".SK")
 )
 
-(defun lex-modal? (x)
+(ldefun lex-modal? (x)
 (or
 	(has-ext? x ".AUX-V")
 	(has-ext? x ".AUX-S")
@@ -191,39 +191,39 @@
 )
 )
 
-(defun lex-adj? (x)
+(ldefun lex-adj? (x)
 	(has-ext? x ".A")
 )
 
-(defun lex-sentprep? (x)
+(ldefun lex-sentprep? (x)
 	(has-ext? x ".PS")
 )
 
-(defun lex-det? (x)
+(ldefun lex-det? (x)
 	(has-ext? x ".D")
 )
 
-(defun lex-adv-a? (x)
+(ldefun lex-adv-a? (x)
 	(has-ext? x ".ADV-A")
 )
 
-(defun lex-adv-s? (x)
+(ldefun lex-adv-s? (x)
 	(has-ext? x ".ADV-S")
 )
 
-(defun lex-adv-e? (x)
+(ldefun lex-adv-e? (x)
 	(has-ext? x ".ADV-E")
 )
 
-(defun lex-coord? (x)
+(ldefun lex-coord? (x)
 	(has-ext? x ".CC")
 )
 
-(defun lex-adv-f? (x)
+(ldefun lex-adv-f? (x)
 	(has-ext? x ".ADV-F")
 )
 
-(defun lex-adv? (x)
+(ldefun lex-adv? (x)
 (or
 	(has-ext? x ".ADV")
 	(has-ext? x ".PRT")
@@ -234,7 +234,7 @@
 )
 )
 
-(defun lex-const? (x)
+(ldefun lex-const? (x)
 (or
 	(lex-name? x)
 	(lex-pronoun? x)
@@ -248,14 +248,14 @@
 )
 )
 
-(defun lex-ent? (x)
+(ldefun lex-ent? (x)
 	(and
 		(symbolp x)
 		(alphanum-str? (string x))
 	)
 )
 
-(defun lex-ep-var? (x)
+(ldefun lex-ep-var? (x)
 (and
 	(symbolp x)
 	(has-prefix? (string x) "E")
@@ -264,7 +264,7 @@
 )
 )
 
-(defun lex-schema-ep-var? (x)
+(ldefun lex-schema-ep-var? (x)
 (and
 	(has-prefix? (string x) "?E")
 	(if (> (length (string x)) 2)
@@ -275,7 +275,7 @@
 )
 )
 
-(defun lex-goal-var? (x)
+(ldefun lex-goal-var? (x)
 (and
 	(has-prefix? (string x) "?G")
 	(if (> (length (string x)) 2)
@@ -286,7 +286,7 @@
 )
 )
 
-(defun lex-schema-ep-ref? (x)
+(ldefun lex-schema-ep-ref? (x)
 (or
 	(lex-schema-ep-var? x)
 	(and
@@ -297,7 +297,7 @@
 )
 )
 
-(defun lex-ep-ref? (x)
+(ldefun lex-ep-ref? (x)
 (or
 	(lex-ep-var? x)
 	(and
@@ -308,7 +308,7 @@
 )
 )
 
-(defun lex-ep-const? (x)
+(ldefun lex-ep-const? (x)
 	(and
 		(symbolp x)
 		(has-suffix? (string x) ".SK")
@@ -317,14 +317,14 @@
 )
 
 ; Equal-to-value predicate generator
-(defun id? (e)
+(ldefun id? (e)
 	(list 'id? e)
 )
 
 (setf id-pred-counter 0)
 (setf id-pred-map (make-hash-table :test #'equal))
 (setf id-pred-rev-map (make-hash-table :test #'equal))
-(defun old-id? (e)
+(ldefun old-id? (e)
 (progn
 	(if (null (gethash e id-pred-map))
 		(progn
@@ -342,7 +342,7 @@
 )
 )
 
-(defun uncached-id? (e)
+(ldefun uncached-id? (e)
 (block outer
 	(setf id-pred-name (intern (format nil "ID-PRED-~d" id-pred-counter)))
 	(setf id-pred-counter (+ 1 id-pred-counter))
@@ -352,11 +352,11 @@
 )
 
 ; Use to short-circuit evaluation
-(defun any? (x)
+(ldefun any? (x)
 	t
 )
 
-(defun plus (pred)
+(ldefun plus (pred)
 	(if (plussed? pred)
 		nil
 
@@ -365,7 +365,7 @@
 	)
 )
 
-(defun star (pred)
+(ldefun star (pred)
 	(if (starred? pred)
 		nil
 
@@ -375,19 +375,19 @@
 	)
 )
 
-(defun plussed? (pred)
+(ldefun plussed? (pred)
 	(and
 		(has-ext? pred "+")
 	)
 )
 
-(defun starred? (pred)
+(ldefun starred? (pred)
 	(and
 		(has-ext? pred "*")
 	)
 )
 
-(defun unplus (pluspred)
+(ldefun unplus (pluspred)
 	(if (not (plussed? pluspred))
 		nil
 
@@ -396,7 +396,7 @@
 	)
 )
 
-(defun unstar (starpred)
+(ldefun unstar (starpred)
 	(if (not (starred? starpred))
 		nil
 
@@ -407,7 +407,7 @@
 
 (setf pred-cache (make-hash-table :test #'equal))
 
-(defun cached-funcall (cache func arg)
+(ldefun cached-funcall (cache func arg)
 (block outer
 	; special case for 'id'
 	; (if (listp func) (format t "func list ~s~%" func))
@@ -428,7 +428,7 @@
 )
 )
 
-(defun id-pred-list? (x)
+(ldefun id-pred-list? (x)
 (and
 	(listp x)
 	(equal 2 (length x))
@@ -437,7 +437,7 @@
 )
 
 ; recursive multi-predicate application
-(defun mp (x preds)
+(ldefun mp (x preds)
 (block outer
 	(if (and (null x) (null preds))
 		(return-from outer t)
@@ -535,7 +535,7 @@
 )
 )
 
-(defun ent-list? (x)
+(ldefun ent-list? (x)
 (or
 	(lex-ent? x)
 	(and

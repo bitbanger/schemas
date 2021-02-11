@@ -12,7 +12,7 @@
 ; top-k-el-story-matches uses a heuristic to retrieve the
 ; K best schema candidates for an EL story, and then returns
 ; the best single story-to-schema match for each of them.
-(defun top-k-el-story-matches (story num-shuffles schemas num-schemas num-matches generalize)
+(ldefun top-k-el-story-matches (story num-shuffles schemas num-schemas num-matches generalize)
 	(let (best-bindings best-score best-schemas matches match-scores protoschema k) (block outer
 
 	(setf best-schemas (mapcar (lambda (x) (schema-pred x))
@@ -77,15 +77,15 @@
 )
 )
 
-(defun top-k-story-matches (story schemas num-shuffles num-schemas num-matches form-chains generalize)
+(ldefun top-k-story-matches (story schemas num-shuffles num-schemas num-matches form-chains generalize)
 	(top-k-story-matches-from-els (loop for sent in (parse-story story) collect (loop for wff in sent if (canon-prop? wff) collect wff)) schemas num-shuffles num-schemas num-matches form-chains generalize)
 )
 
-(defun top-k-story-matches-len (story schemas num-shuffles num-schemas num-matches form-chains generalize)
+(ldefun top-k-story-matches-len (story schemas num-shuffles num-schemas num-matches form-chains generalize)
 	(top-k-story-matches-from-els (loop for sent in (len-parse-sents story) collect (loop for wff in sent if (canon-prop? wff) collect wff)) schemas num-shuffles num-schemas num-matches form-chains generalize)
 )
 
-(defun top-k-story-matches-from-els (el-story schemas num-shuffles num-schemas num-matches form-chains generalize)
+(ldefun top-k-story-matches-from-els (el-story schemas num-shuffles num-schemas num-matches form-chains generalize)
 (let ()
 (block outer
 	; Parse the story and filter out invalid ELFs.
@@ -127,14 +127,14 @@
 )
 )
 
-(defun top-story-matches-easy-el (el-story)
+(ldefun top-story-matches-easy-el (el-story)
 	(top-k-story-matches-from-els el-story *PROTOSCHEMAS* 30 3 3 nil nil)
 )
 
-(defun top-story-matches-easy (story)
+(ldefun top-story-matches-easy (story)
 	(top-k-story-matches story *PROTOSCHEMAS* 30 3 3 nil nil)
 )
 
-(defun top-story-matches-easy-len (story)
+(ldefun top-story-matches-easy-len (story)
 	(top-k-story-matches-len story *PROTOSCHEMAS* 30 3 3 nil nil)
 )

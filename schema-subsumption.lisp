@@ -52,7 +52,7 @@
 	((TRAVEL.V LEAVE.V) t) ; leaving is traveling
 )))
 
-(defun get-schema-match-num (pred)
+(ldefun get-schema-match-num (pred)
 (block outer
 	(if (symbolp pred)
 		(setf spl (split-str (format nil "~s" pred) "."))
@@ -68,7 +68,7 @@
 )
 )
 
-(defun get-schema-match-name (pred)
+(ldefun get-schema-match-name (pred)
 (block outer
 	(if (symbolp pred)
 		(setf spl (split-str (format nil "~s" pred) "."))
@@ -94,11 +94,11 @@
 )
 )
 
-(defun subsumes (schema-pred story-pred)
+(ldefun subsumes (schema-pred story-pred)
 	(> (subsumption-score schema-pred story-pred) 0)
 )
 
-(defun subsumption-score (schema-pred story-pred)
+(ldefun subsumption-score (schema-pred story-pred)
 (block outer
 	; If they're equal, schema subsumes story
 	(if (equal schema-pred story-pred)
@@ -216,7 +216,7 @@
 )
 )
 
-(defun word-sym-split (sym)
+(ldefun word-sym-split (sym)
 (let (symstr spl wspl word num pos)
 (block outer
 	(setf symstr (string sym))
@@ -234,7 +234,7 @@
 )
 
 ; Collect wordnet hypernyms and special (manually defined) hypernyms
-(defun all-hypernyms (pred)
+(ldefun all-hypernyms (pred)
 	(remove nil (append
 		(wordnet-hypernyms pred)
 		(loop for ssub being the hash-keys of *SPECIAL-SUBSUMPTIONS*
@@ -245,7 +245,7 @@
 	) :test #'equal)
 )
 
-(defun common-ancestor-no-check (pred1 pred2)
+(ldefun common-ancestor-no-check (pred1 pred2)
 (let
 	(l1 l2 e k)
 (block outer
@@ -312,7 +312,7 @@
 )
 )
 
-(defun common-ancestor-inner (pred1 pred2)
+(ldefun common-ancestor-inner (pred1 pred2)
 (block outer
 	(if (equal pred1 pred2)
 		; then
@@ -330,7 +330,7 @@
 )
 )
 
-(defun common-ancestor (pred1 pred2)
+(ldefun common-ancestor (pred1 pred2)
 	; (listify-nonlists (common-ancestor-inner pred1 pred2))
 	(let ((res (common-ancestor-inner pred1 pred2)))
 		(if (null res)

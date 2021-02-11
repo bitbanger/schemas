@@ -41,7 +41,7 @@
 ; (defparameter *STORY* *FLOWER-STORY*)
 
 ; Determine whether a term needs coreference
-(defun coref? (term kb)
+(ldefun coref? (term kb)
 (or
 	(lex-pronoun? term)
 	(eval-prop (list term 'INDEF.A) kb)
@@ -50,7 +50,7 @@
 
 ; Transform a proposition into an equivalent
 ; one with a single argument curried out.
-(defun curry-prop (prop carg)
+(ldefun curry-prop (prop carg)
 (block cp
 	; Strip charstars
 	(if (canon-charstar? prop)
@@ -72,7 +72,7 @@
 
 ; Generate all possible monadic curry
 ; propositions from an n-adic one
-(defun all-curries (prop)
+(ldefun all-curries (prop)
 	(loop for arg in (prop-all-args prop)
 		collect (curry-prop prop arg)
 	)
@@ -80,7 +80,7 @@
 
 ; Get all terms to which predicates apply that can be
 ; unified with a given predicate
-(defun get-pred-uni-terms (pred kb whole-story)
+(ldefun get-pred-uni-terms (pred kb whole-story)
 (block gput
 	(setf terms (list))
 	(loop for cand-pred being the hash-keys of (kb-pred-ind kb)
@@ -103,7 +103,7 @@
 )
 
 ; Get all predicates that apply to a term
-(defun get-term-preds (term kb)
+(ldefun get-term-preds (term kb)
 (remove-duplicates
 (append
 	(loop for prop in (gethash term (kb-arg-ind kb))
@@ -124,14 +124,14 @@
 ; Get all terms to which a predicate applies
 ; TODO: do this much more efficiently for complex predicates
 ; (e.g. disjunctions)
-(defun get-pred-terms (pred kb)
+(ldefun get-pred-terms (pred kb)
 	(loop for term being the hash-keys of (kb-arg-ind kb)
 		if (eval-prop (list term pred) kb)
 			collect term
 	)
 )
 
-(defun subsumes-prop? (gen-prop spec-prop)
+(ldefun subsumes-prop? (gen-prop spec-prop)
 (block outer
 	(setf gen-papm (prop-args-pred-mods gen-prop))
 	(setf gen-pre (car gen-papm))
@@ -156,11 +156,11 @@
 )
 
 ; Evaluate whether a proposition is true given a knowledge base
-(defun eval-prop (prop kb)
+(ldefun eval-prop (prop kb)
 	(> (eval-prop-score prop kb) 0)
 )
 
-(defun eval-prop-score (prop kb)
+(ldefun eval-prop-score (prop kb)
 (let (arg)
 (block outer
 	; Only lists are propositions
@@ -206,7 +206,7 @@
 	; Handle temporal predicates.
 	(if (time-prop? prop)
 		; then
-		(block eval-time-prop
+		(block do-eval-time-prop
 			(setf story-time-props (loop for p being the hash-keys of (kb-explicit kb) if (time-prop? p) collect p))
 
 			(load-time-model story-time-props)
@@ -311,7 +311,7 @@
 ))
 )
 
-(defun safe-inc (n)
+(ldefun safe-inc (n)
 	(if (null n) 1 (+ n 1))
 )
 
@@ -319,7 +319,7 @@
 	AGENT.N
 ))
 
-(defun irregular-pred? (pred)
+(ldefun irregular-pred? (pred)
 	(not (null (member pred *IRREGULAR-PREDS* :test #'equal)))
 )
 
@@ -353,7 +353,7 @@
 ; Process the story one sentence at a time, so we can do
 ; coreference analysis in one pass. Output the story with
 ; all coreferences resolved.
-(defun process-story-coref (story kb) (let (corefs) (block outer
+(ldefun process-story-coref (story kb) (let (corefs) (block outer
 
 (setf new-story (list))
 

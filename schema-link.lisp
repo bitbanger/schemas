@@ -7,7 +7,7 @@
 ; norm-link.lisp contains functions to link schemas together by their
 ; pre- and post-conditions.
 
-(defun link-schemas-onedir (schema-post schema-pre story)
+(ldefun link-schemas-onedir (schema-post schema-pre story)
 (block outer
 	(setf schema-pre-uniq nil)
 	(setf schema-post-uniq nil)
@@ -80,7 +80,7 @@
 ; Find all pairs of schema matches that link up by
 ; pre/postconds, then find all triples, etc. up to
 ; k-tuples.
-(defun link-matches (matches story k)
+(ldefun link-matches (matches story k)
 (let (match-chains new-match-chains)
 (block outer
 	(setf match-chains (loop for m in matches collect (list m)))
@@ -186,7 +186,7 @@
 ; mk-chain-schema takes a chain of schemas, linked by their pre-
 ; and post-conditions, and creates a superordinate schema with
 ; the chained schemas as steps.
-(defun mk-chain-schema (chain)
+(ldefun mk-chain-schema (chain)
 (block outer
 	(setf comp-preds (loop for m in chain collect (prop-pred (car (second m)))))
 	(setf comp-words (loop for cp in comp-preds collect (remove-ext (get-schema-match-name cp) ".V")))
@@ -283,7 +283,7 @@
 )
 )
 
-(defun compose-schema (roles steps)
+(ldefun compose-schema (roles steps)
 (let (
 	new-schema
 )

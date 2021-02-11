@@ -16,9 +16,10 @@
 (setf story-start-line
 	"I was walking through the woods."
 )
-; (setf story-start-line nil)
+(setf story-start-line nil)
 (setf stories-processed 0)
 
+(let (el-story events schemas headers inds rcs)
 (block process-all-stories
 (loop for roc-story in *ROC*
 	do (block process-story
@@ -137,4 +138,4 @@
 		)
 
 	)
-))
+)))

@@ -380,6 +380,13 @@
 		ADV-A
 	)
 
+	; HAVE.V with ADV-A TO.P KA
+	; should be MUST.AUX
+	(/
+		((ADV-A (FOR.P (KA _*1))) HAVE.V)
+		(MUST.AUX-S _*1)
+	)
+
 	; Kill PRED****.VP
 	;(/
 	;	((!1 vp-shifter?) _+)

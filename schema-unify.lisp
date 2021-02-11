@@ -115,13 +115,18 @@
 	(setf schema-post-args (prop-post-args schema))
 	(setf schema-mods (prop-mods schema))
 
-	(if (not (equal
-				(has-element-pred schema-mods 'lex-modal?)
-				(has-element-pred story-mods 'lex-modal?)))
-		; then
-		(progn
-		(dbg 'unify "cannot unify props ~s and ~s (different modal environments)~%" schema story)
-		(return-from outer nil)
+	; We will actually let these unify, for now,
+	; and solve any problems in a more nuanced
+	; way as they present themselves.
+	(if nil
+		(if (not (equal
+					(has-element-pred schema-mods 'lex-modal?)
+					(has-element-pred story-mods 'lex-modal?)))
+			; then
+			(progn
+			(dbg 'unify "cannot unify props ~s and ~s (different modal environments)~%" schema story)
+			(return-from outer nil)
+			)
 		)
 	)
 
@@ -497,16 +502,22 @@
 										   ; failure is usually OK (but should lower score)
 		)
 	)
-	(if (not (equal
-		(has-element-pred schema-mods 'lex-modal?)
-		(has-element-pred story-mods 'lex-modal?)))
-		
-		; then
-		(progn
-		(dbg 'unify "modifier lists cannot be unified (different modal environments)~%")
-		(return-from outer (list nil nil)) ; this one should actually return a null hash map,
-										   ; to cause a failure. the others don't because this
-										   ; failure is usually OK (but should lower score)
+
+	; We will actually let these unify, for now,
+	; and solve any problems in a more nuanced
+	; way as they present themselves.
+	(if nil
+		(if (not (equal
+			(has-element-pred schema-mods 'lex-modal?)
+			(has-element-pred story-mods 'lex-modal?)))
+			
+			; then
+			(progn
+			(dbg 'unify "modifier lists cannot be unified (different modal environments)~%")
+			(return-from outer (list nil nil)) ; this one should actually return a null hash map,
+											   ; to cause a failure. the others don't because this
+											   ; failure is usually OK (but should lower score)
+			)
 		)
 	)
 

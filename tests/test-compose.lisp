@@ -11,15 +11,20 @@
 (ll-load-superdir "schema-util.lisp")
 (ll-load-superdir "ll-util.lisp")
 
+; (dbg-tag 'match)
+; (dbg-tag 'unify)
+
 ; Optionally only process the story with this
 ; start line.
 (setf story-start-line
-	"I was walking through the woods."
+	"Billy liked this girl."
+	; "The man made a bet."
+	; nil
 )
-(setf story-start-line nil)
 (setf stories-processed 0)
 
-(let (el-story events schemas headers inds rcs)
+; (let (el-story events schemas headers inds rcs)
+(ldefun compose-schemas-from-stories ()
 (block process-all-stories
 (loop for roc-story in *ROC*
 	do (block process-story
@@ -74,8 +79,8 @@
 
 		; (format t "steps: ~%")
 		; (loop for ev in events do (format t "	~s~%" ev))
-		; (format t "schemas: ~%")
-		; (loop for header in headers do (format t "	~s~%" header))
+		(format t "schemas: ~%")
+		(loop for header in headers do (format t "	~s~%" header))
 		; (loop for schema in schemas do (print-schema schema))
 
 		(setf inds (dedupe (intersection
@@ -139,3 +144,5 @@
 
 	)
 )))
+
+(compose-schemas-from-stories)

@@ -111,7 +111,9 @@
 					; then
 					; We've added the match at the beginning of this chain.
 					(block added-before
+						(format t "apply-bindings call ~d~%" 1)
 						(setf new-match (apply-bindings match (car added-before-bindings)))
+						(format t "apply-bindings call ~d~%" 2)
 						(setf new-chain (apply-bindings chain (second added-before-bindings)))
 						(setf new-match-chains
 							(append new-match-chains (list (append (list new-match) new-chain))))
@@ -125,7 +127,9 @@
 					; then
 					; We've added the match at the end of this chain.
 					(block added-after
+						(format t "apply-bindings call ~d~%" 3)
 						(setf new-chain (apply-bindings chain (car added-after-bindings)))
+						(format t "apply-bindings call ~d~%" 4)
 						(setf new-match (apply-bindings match (second added-after-bindings)))
 						(setf new-match-chains
 							(append new-match-chains (list (append new-chain (list new-match)))))
@@ -230,9 +234,11 @@
 				(return-from inv-loop)
 			)
 			(setf inv-pair (expand-nested-schema st new-schema))
+						(format t "apply-bindings call ~d~%" 5)
 			(setf inv-schema (apply-bindings (car inv-pair) (second inv-pair)))
 			(setf except (loop for k  being the hash-keys of (second inv-pair) collect k))
 			(setf deduped-schema (second (uniquify-shared-vars-except new-schema (car inv-pair) except)))
+						(format t "apply-bindings call ~d~%" 6)
 			(setf deduped-schema (apply-bindings deduped-schema (second inv-pair)))
 
 			(if (equal i 0)
@@ -352,15 +358,27 @@
 	(loop for st in (section-formulas (get-section new-schema ':Steps))
 		for i from 0
 		do (block inv-loop
+			; Some unmatched words will invoke schemas; the
+			; key thing to note here is that, if they were
+			; rightly matchable, they'd have been matched
+			; already, before composition. So, we'll only
+			; consider matches with match numbers after
+			; composition time.
+			(if (null (get-schema-match-num (prop-pred (second st))))
+				(return-from inv-loop)
+			)
+
 			(if (not (invokes-schema? (second st)))
 				(return-from inv-loop)
 			)
-			; (format t "expanding nested schema ~s~%" st)
+			(format t "expanding nested schema ~s~%" st)
 			(setf inv-pair (expand-nested-schema st new-schema))
-			; (format t "got inv pair ~s~%" inv-pair)
+			(format t "got inv pair ~s~%" inv-pair)
+						(format t "apply-bindings call ~d~%" 7)
 			(setf inv-schema (apply-bindings (car inv-pair) (second inv-pair)))
-			(setf except (loop for k  being the hash-keys of (second inv-pair) collect k))
+			(setf except (loop for k being the hash-keys of (second inv-pair) collect k))
 			(setf deduped-schema (second (uniquify-shared-vars-except new-schema (car inv-pair) except)))
+						(format t "apply-bindings call ~d~%" 8)
 			(setf deduped-schema (apply-bindings deduped-schema (second inv-pair)))
 
 			;(if (equal i 0)

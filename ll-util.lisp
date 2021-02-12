@@ -511,6 +511,10 @@
 )
 )
 
+(defun ht-contains (ht key)
+	(nth-value 1 (gethash key ht))
+)
+
 (defun ht-count (ht)
 	(if (or (null ht) (not (hashtablep ht)))
 		; then

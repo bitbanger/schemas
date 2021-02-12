@@ -42,14 +42,18 @@
 	; first, check whether phi unifies with the schema's header
 	(if allow-header-match
 	(block check-header
-		(setf new-bindings (unify (car (second schema)) phi nil schema story))
+		(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
+			(setf new-bindings (unify (car (second schema)) phi nil schema story))
+		)
 		; (format t "attempting to unify ~s with header ~s~%" phi (car (second schema)))
 		; Bind episodes to formula IDs as well
 		(if (and (not (null new-bindings)) (canon-charstar? phi))
 			; then
 			; (if (not (bind-if-unbound (car formula) (third phi) new-bindings))
 			(progn
-			(setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
+			(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
+				(setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
+			)
 			(if (null bindings-with-ep-ids)
 				; then
 				(progn
@@ -64,7 +68,10 @@
 				; then
 				(return-from check-header)
 				; else
+				(progn
+				; (format t "attempt successful!~%")
 				(return-from outer (list (car (second schema)) phi new-bindings 1.0))
+				)
 			)
 			)
 		)
@@ -543,7 +550,7 @@
 ))
 )
 
-(ldefun match-formula-to-single-schema (phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match)
+(ldefun unchecked-match-formula-to-single-schema (phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match)
 (block outer
 			; (if (not (canon-charstar? phi))
 			(if (or
@@ -719,6 +726,33 @@
 		)
 )
 
+(ldefun match-formula-to-single-schema (phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match)
+(block outer
+	(setf res (unchecked-match-formula-to-single-schema phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match))
+
+	(return-from outer res)
+
+	; For now, don't do the stuff below;
+	; may not need it
+
+	(if (null res)
+		(return-from outer nil)
+	)
+
+	; (format t "got schema res ~s~%" (car res))
+	(if (schema? (car res))
+		; then
+		(progn
+		(setf score (check-constraints (car res) (list story-formulas)))
+		(if (null score)
+			; (format t "invalid constraints on formula match~%")
+			(return-from outer nil)
+		)
+		)
+	)
+)
+)
+
 (ldefun check-constraints (schema story)
 	(check-constraints-helper schema story (make-hash-table :test #'equal))
 )
@@ -735,7 +769,7 @@
 (ldefun uncached-check-constraints (schema story checked)
 (let (bound-nested phi phi-id phi-pair sec true-count untrue-count)
 (block outer
-	; (format t "checking schema ~s~%" (schema-pred schema))
+	; (format t "checking schema ~s~%" (second schema))
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))
 
@@ -806,9 +840,9 @@
 						;(if (null header-bindings)
 						;	(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
 						;)
-						; (format t "got result ~s~%" header-bindings)
+						(format t "got result ~s~%" header-bindings)
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
-						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
+						(format t "evaluating nested schema ~s~%" nested-schema-bound)
 						(setf old-checked-count (hash-table-count checked))
 						(setf (gethash phi checked) t)
 						; (format t "marking formula ~s as checked~%" phi)
@@ -818,7 +852,7 @@
 						; the whole nest is invalid.
 						(if (null nest-score)
 							(progn
-							; (format t "null nest score on ~s, nulling out~%" (second nested-schema))
+							(format t "null nest score on ~s, nulling out~%" (second nested-schema))
 							(return-from outer nil)
 							)
 						)
@@ -880,7 +914,8 @@
 								(if (>= (get-necessity phi-id schema) 1.0)
 									; then, invalid match
 									(progn
-									; (format t "~s ~s is wrong, but necessary~%" phi-id phi)
+									(format t "~s ~s is wrong, but necessary~%" phi-id phi)
+									(format t "it was wrong even with story ~s~%" story)
 									(return-from outer nil)
 									)
 									; else

@@ -18,10 +18,13 @@
 	(setf best-schemas (mapcar (lambda (x) (schema-pred x))
 		(top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num-schemas)))
 
+	(format t "best schemas are ~s~%" best-schemas)
+
 	(load-story-time-model story)
 
 	(setf matches (make-hash-table :test #'equal))
 	(setf match-scores (make-hash-table :test #'equal))
+	(setf match-bindings (make-hash-table :test #'equal))
 
 	(loop for protoschema in best-schemas do (block match-proto
 		(loop for best-match-res-pair in
@@ -31,6 +34,8 @@
 				(setf best-score (car best-match-res-pair))
 				(setf best-match (second best-match-res-pair))
 				(setf best-bindings (third best-match-res-pair))
+
+				(format t "candidate header is ~s~%" (second best-match))
 				
 				(if (and (schema? best-match) (not (equal '(0 0) best-score)))
 					(progn
@@ -38,7 +43,7 @@
 						(loop for k being the hash-keys of best-bindings
 							do (if (not (contains (car (second (eval protoschema))) k))
 								; then
-								(format nil "	~s~%" (list
+								(format nil "	WHATEVER IS GOING ON HERE YOU NEED TO MAKE IT NOT BE A FORMAT CALL IF IT EVER HAPPENS ~s~%" (list
 									(list
 										(var-to-sk-fn k)
 										(third (second (eval protoschema)))
@@ -53,6 +58,8 @@
 							(append (gethash protoschema matches) (list match)))
 						(setf (gethash protoschema match-scores)
 							(append (gethash protoschema match-scores) (list best-score)))
+						(setf (gethash protoschema match-bindings)
+							(append (gethash protoschema match-bindings) (list best-bindings)))
 					)
 				)
 			)
@@ -62,7 +69,8 @@
 	(setf unsorted-matches (loop for k being the hash-keys of matches append
 		(loop for match in (gethash k matches)
 				for match-score in (gethash k match-scores)
-			collect (list match match-score))
+					for match-binding in (gethash k match-bindings)
+			collect (list match match-score match-binding))
 	))
 
 	(return-from outer (sort unsorted-matches
@@ -103,6 +111,7 @@
 		do (block vet-matches
 			(setf m (car m-pair))
 			(setf score (second m-pair))
+			(setf binds (third m-pair))
 
 			; If the schema's header variable was bound...
 			(if (not (varp (third (second m))))
@@ -116,6 +125,13 @@
 					; ...but if no header or step episode
 					; variables were bound, we'll do nothing.
 					(progn
+						(format t "I discriminate against vars so I'm doing nothing~%")
+						(print-schema m)
+						(print-ht binds)
+						(if (ht-contains binds (third (second m)))
+							; then
+							(format t "plus the bindings show the episode is bound anyway, just to a var~%")
+						)
 					)
 				)
 			)

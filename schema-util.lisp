@@ -1142,7 +1142,8 @@
 
 (ldefun linearize-story (story)
 	(loop for sent in story
-		append sent)
+			append sent
+	)
 )
 
 ; check-temporal-constraints takes a schema match and verifies

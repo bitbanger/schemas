@@ -492,7 +492,7 @@
 	'(epi-schema ((?x ((adv-a (on.p ?s)) ((adv-a (in.p ?s)) sit.v))) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?s inanimate_object.n))
+			(!r2 (not (?s agent.n)))
 			(!r3 (?s furniture.n))
 			(!r4 (?l location.n))
 		)
@@ -520,11 +520,13 @@
 			(!r2 (?t toy.n))
 			(!r3 (?t inanimate_object.n))
 			(!r4 (?g game.n))
+			(!r5 (not (?g agent.n)))
 		)
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
 			(!n2 (!r3 necessary-to-degree 1.0))
+			(!n3 (!r5 necessary-to-degree 1.0))
 		)
 
 		(:Goals

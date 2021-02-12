@@ -4,6 +4,23 @@
 (ll-load "schema-subsumption.lisp")
 (ll-load "schema-util.lisp")
 
+; This is a global variable used to temporarily disable
+; constraint checking for unification calls. Disabling
+; it is necessary when an expanded schema step is being
+; filled in, because it's filled in with unification but
+; without the entire story + knowledge base, so the
+; constraints can't be checked. However, because expanded
+; schemas are valid by definition (they were checked
+; during the matching process), it's OK not to validate
+; the constraints here.
+; ...
+; So, why is it a global variable, you ask? Good question!
+; Because threading an optional variable through all of the
+; unify calls without breaking anything would send me into
+; a complete mental breakdown tonight.
+; TODO: make this non-global later.
+(defparameter *UNIFY-SHOULD-CHECK-CONSTRAINTS* t)
+
 (ldefun bind-if-unbound (key val bindings)
 (block outer
 	; (format t "binding ~s to ~s in ~s~%" key val (ht-to-str bindings))
@@ -17,6 +34,7 @@
 		)
 		; else
 		(progn
+			; (format t "bound ~s to ~s~%" key val)
 			(setf (gethash key bindings) val)
 			t
 		)
@@ -320,7 +338,7 @@
 )
 )
 
-(ldefun unify-individuals (schema story old-bindings whole-schema whole-story)
+(ldefun unchecked-unify-individuals (schema story old-bindings whole-schema whole-story)
 	;(check (canon-individual? schema))
 	;(check (canon-individual? story))
 (let ((bindings (ht-copy old-bindings)))
@@ -462,6 +480,33 @@
 		)
 	)
 )
+)
+)
+
+(ldefun unify-individuals (schema story old-bindings whole-schema whole-story)
+(block outer
+	(setf res (unchecked-unify-individuals schema story old-bindings whole-schema whole-story))
+
+	(if (null res)
+		(return-from outer res)
+	)
+
+	; Apply the new bindings to the schema and check
+	; the constraints; if they're invalid, we can't
+	; do this binding.
+	(if (and *UNIFY-SHOULD-CHECK-CONSTRAINTS* (schema? whole-schema))
+		(progn
+			(setf bound-schema (apply-bindings whole-schema res))
+			(if (null (check-constraints bound-schema (list whole-story)))
+				(progn
+					(format t "abandoning binding; unifying ~s and ~s breaks constraints of ~s~%" schema story (second whole-schema))
+					(return-from outer nil)
+				)
+			)
+		)
+	)
+
+	(return-from outer res)
 )
 )
 
@@ -723,10 +768,13 @@ bind-pred
 	; pred.
 
 	; Verify argument lists are parallel.
-	(if (not (equal (length schema-args) (length story-args)))
-		; then
-		(progn
-		(dbg 'unify "predicates ~s and ~s cannot be unified (different #s of arguments)~%" schema story)
+	; ...actually, maybe it's OK if they aren't!
+	(if nil
+		(if (not (equal (length schema-args) (length story-args)))
+			; then
+			(progn
+			(dbg 'unify "predicates ~s and ~s cannot be unified (different #s of arguments)~%" schema story)
+			)
 		)
 	)
 

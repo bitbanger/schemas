@@ -98,6 +98,7 @@
 (ldefun canon-attr? (x)
 (or
 	(equal x 'PLUR)
+	(equal x 'SET-OF)
 	(mp x (list (list 'id? 'ATTR) 'canon-pred?))
 	(mp x (list (list 'id? 'NN) 'canon-pred?))
 	(lex-attr-pred? x)
@@ -183,7 +184,10 @@
 (and
 	(listp x)
 	(equal 2 (length x))
-	(equal 'PLUR (car x))
+	(or
+		(equal 'PLUR (car x))
+		(equal 'SET-OF (car x))
+	)
 	(canon-pred? (second x))
 )
 )
@@ -290,6 +294,11 @@
 	)
 
 	(if (mp pred (list 'canon-mod? 'canon-pred?))
+		; then
+		(return-from outer (pred-base (second pred)))
+	)
+
+	(if (mp pred (list 'canon-attr? 'canon-pred?))
 		; then
 		(return-from outer (pred-base (second pred)))
 	)
@@ -413,7 +422,7 @@
 	(if (> pred-idx 0)
 		(setf pre-args (subseq prop 0 pred-idx))
 	)
-	(setf arged-pred  (nth pred-idx prop))
+	(setf arged-pred (nth pred-idx prop))
 	(setf pred (pred-without-post-args (nth pred-idx prop)))
 	; (format t "pred without: ~s~%" pred)
 

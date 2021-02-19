@@ -27,7 +27,6 @@
 	CERTAIN-TO-DEGREE
 	NECESSARY-TO-DEGREE
 	HAS-EFFECT
-	SET-OF
 	MEMBER-OF
 ))
 
@@ -46,11 +45,14 @@
 	ATTR
 	NN
 	PLUR
+	PERF
+	PROG
 	N+PREDS
 	L
 	:R
 	IND
 	ADV
+	SET-OF
 )))
 
 (defparameter *KEYWORDS-MAP* (make-hash-table :test #'equal))
@@ -186,7 +188,7 @@
 (ldefun lex-modal? (x)
 (or
 	(has-ext? x ".AUX-V")
-	(has-ext? x ".AUX-S")
+	(has-ext? x ".AUX")
 	(has-ext? x ".MD")
 )
 )
@@ -200,15 +202,14 @@
 )
 
 (ldefun lex-det? (x)
+(or
 	(has-ext? x ".D")
+	(has-ext? x ".DET")
+)
 )
 
 (ldefun lex-adv-a? (x)
 	(has-ext? x ".ADV-A")
-)
-
-(ldefun lex-adv-s? (x)
-	(has-ext? x ".ADV-S")
 )
 
 (ldefun lex-adv-e? (x)
@@ -229,7 +230,6 @@
 	(has-ext? x ".PRT")
 	(lex-adv-a? x)
 	(lex-adv-e? x)
-	(lex-adv-s? x)
 	(lex-adv-f? x)
 )
 )

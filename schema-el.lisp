@@ -89,6 +89,8 @@
 	(mp x (list 'lex-p-arg? 'canon-individual?))
 	(mp x (list (list 'id? 'THAT) 'canon-prop?))
 
+	(mp x (list 'lex-det? 'canon-pred?))
+
 	; SET-OF with individual arguments is an individual.
 	; SET-OF with a predicate argument is a predicate.
 	(mp x (list (list 'id? 'SET-OF) 'canon-individual?+))
@@ -161,6 +163,17 @@
 )
 )
 
+(ldefun canon-sent-mod? (x)
+(or
+	(has-ext? x ".AUX-S")
+	(has-ext? x ".ADV-S")
+	(equal x 'NOT)
+	(equal x 'PROG)
+	(equal x 'PERF)
+	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))
+)
+)
+
 (ldefun canon-mod? (x)
 (or
 	(lex-adv? x)
@@ -168,11 +181,9 @@
 	(lex-modal? x)
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
-	(equal x 'NOT)
 	(mp x (list (list 'id? 'ADV) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-A) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
-	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-F) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? ':R) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ATTR) 'canon-pred-or-mod?))
@@ -205,6 +216,9 @@
 
 	; Special case for * and **
 	(canon-charstar? x)
+
+	; Sentential modifiers
+	(mp x (list 'canon-sent-mod? 'canon-prop?))
 
 	; This is like the similar serial argument rule in canon-pred?, but
 	; it allows the pred to be flattened with the subject (prefixed) and "curried" args (postfixed).
@@ -447,7 +461,7 @@
 	(if (and (not (null embedded-post-args)) (not (null flat-post-args)))
 		; then
 		(progn
-		(format t "WEIRDNESS ERROR: prop ~s has both embedded postfix args and flat, serial ones!~%" prop)
+		(format t "WEIRDNESS ERROR: prop ~s (pred ~s) has both embedded postfix args and flat, serial ones!~%" prop arged-pred)
 		(return-from outer nil)
 		)
 	)

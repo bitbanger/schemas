@@ -18,7 +18,7 @@
 	(setf best-schemas (mapcar (lambda (x) (schema-pred x))
 		(top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num-schemas)))
 
-	(format t "best schemas are ~s~%" best-schemas)
+	; (format t "best schemas are ~s~%" best-schemas)
 
 	(load-story-time-model story)
 
@@ -35,7 +35,7 @@
 				(setf best-match (second best-match-res-pair))
 				(setf best-bindings (third best-match-res-pair))
 
-				(format t "candidate header is ~s~%" (second best-match))
+				; (format t "candidate header is ~s~%" (second best-match))
 				
 				(if (and (schema? best-match) (not (equal '(0 0) best-score)))
 					(progn
@@ -125,13 +125,13 @@
 					; ...but if no header or step episode
 					; variables were bound, we'll do nothing.
 					(progn
-						(format t "I discriminate against vars so I'm doing nothing~%")
-						(print-schema m)
-						(print-ht binds)
-						(if (ht-contains binds (third (second m)))
+						; (format t "I discriminate against vars so I'm doing nothing~%")
+						; (print-schema m)
+						; (print-ht binds)
+						;(if (ht-contains binds (third (second m)))
 							; then
-							(format t "plus the bindings show the episode is bound anyway, just to a var~%")
-						)
+							;(format t "plus the bindings show the episode is bound anyway, just to a var~%")
+						;)
 					)
 				)
 			)

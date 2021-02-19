@@ -158,6 +158,34 @@
 )
 )
 
+(ldefun verbify! (x)
+	(retag-as x "V")
+)
+
+(ldefun be-aux? (x)
+(let ((be (remove-idx-tag x)))
+(or
+	(equal be 'BE.AUX)
+	(equal be 'ARE.AUX)
+	(equal be 'IS.AUX)
+	(equal be 'WAS.AUX)
+	(equal be 'WERE.AUX)
+)))
+
+(ldefun be-verb? (x)
+(let ((be (remove-idx-tag x)))
+(or
+	(equal be 'BE.V)
+	(equal be 'ARE.V)
+	(equal be 'IS.V)
+	(equal be 'WAS.V)
+	(equal be 'WERE.V)
+)))
+
+(ldefun equal? (x y)
+	(equal x y)
+)
+
 (defparameter *SCHEMA-CLEANUP-RULES* (curry-ttt-rules '(
 	; The case with only one argument
 	; (/ (KA (L _!1 (_!1 _!2)))
@@ -339,8 +367,10 @@
 	; for now (Gene says it's OK!). Change when
 	; Len adds aux-identification back into parser.
 	(/
-		BE.AUX
-		BE.V
+		; BE.AUX
+		; BE.V
+		(!1 be-aux?)
+		(verbify! !1)
 	)
 
 	; Auxiliary "have" without a verb predicate
@@ -352,8 +382,9 @@
 
 	; To BE.V, or not to BE.V?
 	(/
-		((!1 ~ THERE.PRO) (BE.V (!2 probably-pred?)))
-		(!1 !2)
+		; ((!1 ~ THERE.PRO) ((!2 be-verb?) (!3 probably-pred?)))
+		((!1 ~ (ll-curry equal? THERE.PRO)) ((!2 be-verb?) (!3 probably-pred?)))
+		(!1 !3)
 	)
 
 	; comma-and becomes and
@@ -364,8 +395,8 @@
 
 	; "There is X" => "X is"
 	(/
-		(THERE.PRO (BE.V (= _!1)))
-		(_!1 BE.V)
+		(THERE.PRO ((!1 be-verb?) (= _!2)))
+		(_!2 !1)
 	)
 
 	; Fix non-auxiliary HAVE.AUX
@@ -423,6 +454,7 @@
 )))
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
+	; correct-nonverbal-aux ; run this before skolemize-adets
 	pull-out-lambda-advs ; run this before lambda splitters
 	skolemize-adets
 	split-and-eps
@@ -593,7 +625,7 @@
 
 		(setf noun-sym (extract-noun-sym (second form)))
 
-		(setf constraints (loop for form2 in phi if (and (equal (length form2) 2) (equal (car form2) (car form))) collect form2))
+		(setf constraints (loop for form2 in phi if (and (listp form2) (equal (length form2) 2) (equal (car form2) (car form))) collect form2))
 
 		(if (and
 				(listp form)
@@ -710,6 +742,9 @@
 	(setf phi-copy (copy-item phi))
 
 	(loop for form in phi do (block inner
+		(if (not (listp form))
+			(return-from inner))
+
 		(if (contains form 'DO.AUX)
 			; then
 			(setf phi-copy (replace-vals form (remove 'DO.AUX form :test #'equal) phi-copy))
@@ -778,6 +813,7 @@
 	(loop for e in phi-copy
 		if (and
 			; (canon-charstar? e)   [it won't be a valid prop]
+			(listp e)
 			(equal 3 (length e))
 			(equal '** (second e))
 			(canon-individual? (third e))
@@ -812,6 +848,46 @@
 
 			)
 	)
+
+	(return-from outer phi-copy)
+)
+)
+
+(ldefun correct-nonverbal-aux (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	; (format t "got phi ~s~%" phi)
+
+	(setf need-fixing (get-elements-pred phi-copy
+		(lambda (x)
+			(and
+				(canon-pred? x)
+				(not (lex-verb? (pred-base x)))
+				(loop for m in (pred-mods x)
+					thereis (lex-modal? m))
+			)
+		)
+	))
+
+	(loop for pred in need-fixing
+		do (block fix-pred
+			(setf new-pred (copy-item pred))
+
+			(loop for m in (pred-mods pred)
+				if (lex-modal? m)
+					do (setf new-pred (replace-vals m (retag-as m "V") new-pred))
+			)
+
+			(setf phi-copy (replace-vals pred new-pred phi-copy))
+		)
+	)
+
+	; (format t "~s need fixing~%" need-fixing)
+
+	; (if (not (equal phi phi-copy))
+		; (format t "replaced ~s with ~s~%" phi phi-copy)
+	; )
 
 	(return-from outer phi-copy)
 )
@@ -1469,7 +1545,9 @@
 		)
 
 		; Strip propositional modifiers and NOT.
-		(loop while (and (>= (length form) 2) (or (equal (car form) 'NOT) (canon-mod? (car form))))
+		; (loop while (and (>= (length form) 2) (or (equal (car form) 'NOT) (canon-mod? (car form))))
+		; Strip sentential modifiers.
+		(loop while (and (>= (length form) 2) (or (equal (car form) 'NOT) (canon-sent-mod? (car form))))
 			do (progn
 			(setf pr-mods (append (list (car form)) pr-mods))
 			; (setf form (second form))
@@ -1893,6 +1971,7 @@
 			; (format t "body is ~s~%" (second adet))
 
 			; Replace the THE-clause with the Skolem name
+			; (format t "replacing ~s with ~s~%" (get-element-idx phi adet-idx) new-skolem)
 			(setf phi-copy (replace-element-idx phi adet-idx new-skolem))
 
 			; Add the atemporal Skolem propositions to the conjunction
@@ -2262,6 +2341,7 @@
 			; (format t "applying func ~s~%" func)
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
+
 			; (format t "got new phi ~s~%" new-phi-copy)
 			;(if (not (same-list-unordered old-phi-copy new-phi-copy))
 			;	(progn
@@ -2269,18 +2349,30 @@
 			;	 (format t "new phi: ~s~%~%" new-phi-copy)
 			;	)
 			;)
-			(if (and (has-element old-phi-copy 'NOT$2$.ADV) (not (has-element new-phi-copy 'NOT$2$.ADV)))
-				(format t "func ~s removed NOT to give ~s~%" func new-phi-copy)
+			;(if (and (has-element old-phi-copy 'NOT$2$.ADV) (not (has-element new-phi-copy 'NOT$2$.ADV)))
+				;(format t "func ~s removed NOT to give ~s~%" func new-phi-copy)
+			;)
+
+
+			; Remove any "naked" symbols left over from any
+			; processing bugs that can't be easily fixed.
+			; (but still put out a warning)
+			(if (and (loop for form in old-phi-copy never (symbolp form)) (loop for form in new-phi-copy thereis (symbolp form)))
+				(dbg 'bug-warning "func ~s left naked symbols ~s after processing ~s~%" func (loop for form in new-phi-copy if (symbolp form) collect form) old-phi-copy)
 			)
-			(setf phi-copy new-phi-copy)
-			(if (null phi-copy)
+
+			; (if (loop for e in new-phi-copy never (listp e)) (format t "new-phi-copy ~s was invalid~%" new-phi-copy))
+			(if (null new-phi-copy)
 				(if (null phi)
 					; then
-					(format t "func ~s gave null phi, BUT phi was null going in~%" func)
+					(dbg 'bug-warning "func ~s gave null phi, BUT phi was null going in~%" func)
 					; else
-					(format t "func ~s gave null phi~%" func)
+					(dbg 'bug-warning "func ~s gave null phi~%" func)
 				)
 			)
+
+			(setf new-phi-copy (loop for e in new-phi-copy if (listp e) collect e))
+			(setf phi-copy new-phi-copy)
 		)
 	)
 	(return-from outer phi-copy)
@@ -2333,7 +2425,9 @@
 (ldefun schema-parse (sent)
 	(progn
 	(setf *glob-idx* 0) ; for multi-sentence parser word indexing
-	(schema-cleanup (interpret sent))
+	(setf interp (interpret sent))
+	(format t "interpretation: ~s~%" interp)
+	(schema-cleanup interp)
 	)
 )
 
@@ -2380,16 +2474,18 @@
 		(setf new-sents (loop for sent in sents
 			for pre-ulf in pre-ulfs
 			; do (format t "original interpretation: ~s~%" (interpret-lf pre-ulf))
-			collect (schema-cleanup
-			(interpret-lf pre-ulf)
+			collect (let ((interp (interpret-lf pre-ulf))) (progn
+				; (format t "interp of ~s with pre-ULF ~s was ~s~%" sent pre-ulf interp)
+				(schema-cleanup interp)
 			)
-		))
+		)))
 		; else
 		(setf new-sents (loop for sent in sents
-			collect (schema-cleanup
-			(interpret sent)
+			collect (let ((interp (interpret sent))) (progn
+				; (format t "interp was ~s~%" interp)
+				(schema-cleanup interp)
 			)
-		))
+		)))
 	)
 	; (format t "finished initial parse~%")
 	; (format t "new-sents is: ~s~%" new-sents)

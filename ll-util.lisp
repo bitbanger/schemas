@@ -129,7 +129,7 @@
 	;(format t "good? ~s~%" (funcall pred cur-elem))
 
 	(if (funcall pred cur-elem)
-		(return-from outer (list (clean-idcs (car lst)) (second lst))))
+		(return-from outer (list (list (clean-idcs (car lst)) (second lst)))))
 
 	(if (not (listp cur-elem))
 		(return-from outer nil))

@@ -42,18 +42,18 @@
 	; first, check whether phi unifies with the schema's header
 	(if allow-header-match
 	(block check-header
-		(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
+		;(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
 			(setf new-bindings (unify (car (second schema)) phi nil schema story))
-		)
+		;)
 		; (format t "attempting to unify ~s with header ~s~%" phi (car (second schema)))
 		; Bind episodes to formula IDs as well
 		(if (and (not (null new-bindings)) (canon-charstar? phi))
 			; then
 			; (if (not (bind-if-unbound (car formula) (third phi) new-bindings))
 			(progn
-			(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
+			;(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
 				(setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
-			)
+			;)
 			(if (null bindings-with-ep-ids)
 				; then
 				(progn
@@ -83,6 +83,7 @@
 	(setf best-sub-score -1)
 
 	(setf match-sections (if (canon-charstar? phi) (fluent-sections schema) (nonfluent-sections schema)))
+
 	; (loop for sec in (nonmeta-sections schema)
 	; (loop for sec in (fluent-sections schema)
 	(loop for sec in match-sections
@@ -237,7 +238,8 @@
 	(setf sorted-formulas (append story1 story2))
 
 
-	(loop for phi in sorted-formulas do (block uni-loop
+	(loop for phi in sorted-formulas
+		do (block uni-loop
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
 		(if (null fm-res) (return-from uni-loop))
 
@@ -836,13 +838,16 @@
 							; then
 							(setf check-phi (car check-phi))
 						)
-						(setf header-bindings (third (unify-with-schema check-phi nested-schema (linearize-story story))))
-						;(if (null header-bindings)
-						;	(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
-						;)
-						(format t "got result ~s~%" header-bindings)
+					
+						(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
+							(setf header-bindings (third (unify-with-schema check-phi nested-schema (linearize-story story))))
+						)
+						(if (null header-bindings)
+							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
+						)
+						; (format t "got result ~s~%" header-bindings)
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
-						(format t "evaluating nested schema ~s~%" nested-schema-bound)
+						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
 						(setf old-checked-count (hash-table-count checked))
 						(setf (gethash phi checked) t)
 						; (format t "marking formula ~s as checked~%" phi)
@@ -852,7 +857,7 @@
 						; the whole nest is invalid.
 						(if (null nest-score)
 							(progn
-							(format t "null nest score on ~s, nulling out~%" (second nested-schema))
+							; (format t "null nest score on ~s, nulling out~%" (second nested-schema))
 							(return-from outer nil)
 							)
 						)
@@ -914,8 +919,8 @@
 								(if (>= (get-necessity phi-id schema) 1.0)
 									; then, invalid match
 									(progn
-									(format t "~s ~s is wrong, but necessary~%" phi-id phi)
-									(format t "it was wrong even with story ~s~%" story)
+									; (format t "~s ~s is wrong, but necessary~%" phi-id phi)
+									; (format t "it was wrong even with story ~s~%" story)
 									(return-from outer nil)
 									)
 									; else
@@ -1110,7 +1115,9 @@
 	(setf invoked-schema (invoked-schema (second invoker)))
 
 	; (format t "trying to unify ~s with ~s~%" (list (second invoker) '** (car invoker)) invoked-schema)
-	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+	(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
+		(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+	)
 	; NOTE: the following "WEIRD BUG" can happen because wordnet, especially without
 	; sense numbers, gives weird invoke relations for words that fit different schemas
 	; w/ different argument structures.

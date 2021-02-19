@@ -11,24 +11,28 @@
 (ll-load-superdir "schema-util.lisp")
 (ll-load-superdir "ll-util.lisp")
 
+; 400 total ROCstories in set so far
+(defparameter *NUM-DEV-STORIES* 150)
+
 ; (dbg-tag 'match)
 ; (dbg-tag 'unify)
 
 ; Optionally only process the story with this
 ; start line.
 (setf story-start-line
-	"Billy liked this girl."
+	; "Billy liked this girl."
 	; "The man made a bet."
-	; nil
+	; "A little girl was born."
+	nil
 )
 (setf stories-processed 0)
 
 ; (let (el-story events schemas headers inds rcs)
 (ldefun compose-schemas-from-stories ()
 (block process-all-stories
-(loop for roc-story in *ROC*
+(loop for roc-story in (subseq *MCGUFFEY* 50)
 	do (block process-story
-		(if (>= stories-processed 50)
+		(if (>= stories-processed *NUM-DEV-STORIES*)
 			; then
 			(return-from process-all-stories)
 			; else
@@ -48,9 +52,14 @@
 		(setf events nil)
 		(setf schemas nil)
 
-		;(handler-case
+		(handler-case
 		(block parse-story
 			(setf el-story (len-parse-sents roc-story))
+
+			(setf el-story-invalid
+				(loop for sent in el-story
+					collect (loop for wff in sent if (not (canon-prop? wff)) collect wff)))
+
 			(setf el-story
 				(loop for sent in el-story
 					collect (loop for wff in sent if (canon-prop? wff) collect wff)))
@@ -58,21 +67,36 @@
 			(format t "story: ~%")
 			(loop for eng-sent in roc-story
 					for el-sent in el-story
+					for invalid-sent in el-story-invalid
 						do (format t "	~s~%" eng-sent)
-						; do (loop for wff in el-sent
-							;do (format t "		~s~%" wff))
+
+						do (if nil (block print-story-el
+						(format t "	VALID:~%")
+						(loop for wff in el-sent
+							do (format t "		~s~%" wff))
+
+						(if (> (length invalid-sent) 0)
+							(progn
+								(format t "	INVALID:~%")
+								(loop for wff in invalid-sent
+									do (format t "		~s~%" wff))
+							))
+						))
+
+						; Some padding between this and the next
+						; story's output block
+						do (format t "~%")
 			)
 
 			(setf events (loop for sent in el-story append (loop for wff in sent if (canon-charstar? wff) collect wff)))
 
 			(setf schemas (loop for schema in (top-story-matches-easy-el el-story)
 				collect (car schema)))
-			;) (error ()
-				;(progn
-					;(format t "story processing error~%")
-					;(return-from process-story)
-				;)
-			;))
+			) (error ()
+				(progn
+					(format t "story processing error~%")
+					(return-from process-story)
+				))
 			)
 
 		(setf headers (loop for schema in schemas collect (schema-header schema)))

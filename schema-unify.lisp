@@ -499,7 +499,7 @@
 			(setf bound-schema (apply-bindings whole-schema res))
 			(if (null (check-constraints bound-schema (list whole-story)))
 				(progn
-					(format t "abandoning binding; unifying ~s and ~s breaks constraints of ~s~%" schema story (second whole-schema))
+					; (format t "abandoning binding; unifying ~s and ~s breaks constraints of ~s~%" schema story (second whole-schema))
 					(return-from outer nil)
 				)
 			)

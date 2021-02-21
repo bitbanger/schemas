@@ -1,5 +1,7 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
+(setf *random-state* (make-random-state t))
+
 (load "../ll-load.lisp")
 
 (load "../stories/roc-mcguffey-stories.lisp")
@@ -23,6 +25,7 @@
 	; "Billy liked this girl."
 	; "The man made a bet."
 	; "A little girl was born."
+	; "It was snowing outside Tom's house one day."
 	nil
 )
 (setf stories-processed 0)
@@ -30,11 +33,15 @@
 ; (let (el-story events schemas headers inds rcs)
 (ldefun compose-schemas-from-stories ()
 (block process-all-stories
-(loop for roc-story in (subseq *MCGUFFEY* 50)
-	do (block process-story
+(loop for roc-story in (shuffle *ROC-MCGUFFEY*)
+	do (process-one-story roc-story)
+)))
+
+(ldefun process-one-story (roc-story)
+	(block process-story
 		(if (>= stories-processed *NUM-DEV-STORIES*)
 			; then
-			(return-from process-all-stories)
+			(return-from process-story)
 			; else
 			(setf stories-processed (+ stories-processed 1))
 		)
@@ -167,6 +174,6 @@
 		)
 
 	)
-)))
+)
 
 (compose-schemas-from-stories)

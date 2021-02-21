@@ -28,8 +28,8 @@
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
-			(!n2 (!r2 necessary-to-degree 1.0))
-			(!n3 (!r4 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 0.9))
+			(!n3 (!r4 necessary-to-degree 0.9))
 		)
 
 		(:Goals
@@ -56,7 +56,7 @@
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
-			(!n2 (!r2 necessary-to-degree 1.0))
+			; (!n2 (!r2 necessary-to-degree 0.5))
 		)
 
 		(:Goals

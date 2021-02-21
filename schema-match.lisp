@@ -238,6 +238,7 @@
 	(setf sorted-formulas (append story1 story2))
 
 
+	(setf is-first t)
 	(loop for phi in sorted-formulas
 		do (block uni-loop
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
@@ -962,6 +963,7 @@
 	(setf linear-story (linearize-story story))
 
 	(loop for i from 1 to num_shuffles do (block shuffle-block
+		(setf linear-story (shuffle linear-story))
 		(if (equal 0 (mod i 10))
 			; then
 			(progn
@@ -969,7 +971,7 @@
 				(dbg 'shuffle-match "	best score is ~s~%" best-score)
 			)
 		)
-			
+
 		(setf cur-match-triple (match-story-to-schema linear-story schema nil))
 		; (format t "got triple ~s~%" cur-match-triple)
 		(setf cur-match (car cur-match-triple))
@@ -1070,8 +1072,6 @@
 				)
 			)
 		)
-	
-		(setf linear-story (shuffle linear-story))
 	))
 
 	; (format t "made it here 2~%")

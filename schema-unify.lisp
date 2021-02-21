@@ -195,6 +195,12 @@
 	; (format t "bindings are now2 ~s~%" (ht-to-str bindings))
 	; (dbg 'unify "packaged schema pred: ~s~%" packaged-schema-pred)
 	; (if (not (unify-preds packaged-schema-pred packaged-story-pred bindings))
+	(if (equal story '(TOM.NAME (MAKE.V SNOWMAN11.SK)))
+		; (dbg 'tom "trying to unify ~s with ~s~%" story schema)
+		(if (equal (prop-pred schema) 'MAKE.V)
+			(dbg 'tom2 "trying to unify ~s with ~s~%" story schema)
+		)
+	)
 	(if (null bindings)
 		; then
 		(progn

@@ -113,14 +113,27 @@
 	(list
 		(if is-valid
 			; then
-			(list (list 'COLOR "green") (format nil "(valid) ~a" eng))
+			(list (list 'COLOR "green") (format nil "~a" eng))
 			; else
-			(list (list 'COLOR "red") (format nil "(INVALID) ~a" eng))
+			(list (list 'COLOR "red") (format nil "~a (has invalid wffs)" eng))
 		)
 		nil
 
 		(loop for pair in parse-pairs
-			collect (list (car pair) (second pair) nil)
+			if (equal (length pair) 2)
+				collect (list (car pair) (second pair) nil)
+			else
+				collect (list (car pair) (second pair)
+					; children (WFFs)
+					(loop for child in (third pair)
+						if (car child)
+							; valid
+							collect (list (list '(COLOR "green") (second child)) "valid WFF" nil)
+						else
+							; invalid
+							collect (list (list '(COLOR "red") (second child)) "invalid WFF" nil)
+					)
+				)
 		)
 	)
 )
@@ -154,6 +167,8 @@
 )
 )
 
+
+(if nil (progn
 (format t *COLLAPSE-PAGE-OPENER*)
 (print-story "Story 1"
 	'(
@@ -193,7 +208,12 @@
 			; pairs
 			(
 				("ULF" "This is the ULF")
-				("EL" "This is the EL")
+				("EL" "Individual WFFs:"
+					(
+						(t "this is a WFF")
+						(nil "this is another WFF")
+					)
+				)
 			)
 		)
 		; Sent 2
@@ -239,3 +259,4 @@
 )
 
 (format t *COLLAPSE-PAGE-CLOSER*)
+))

@@ -68,9 +68,15 @@
 (block outer
 	(setf sent-trees (list))
 
-	(setf sents (len-parse-sents story))
+	; (setf sents (len-parse-sents story))
+
+	(setf ulf-el-sents (len-ulfs-and-els story))
+	(setf ulf-sents (mapcar #'car ulf-el-sents))
+	(setf sents (mapcar #'second ulf-el-sents))
+
 	(loop for eng-sent in story
 			for el-sent in sents
+				for ulf-sent in ulf-sents
 				do (block wff-loop
 					(setf sent-tree (list eng-sent))
 
@@ -92,6 +98,11 @@
 						(setf sent-tree (append sent-tree (list t)))
 					)
 
+					(setf parse-pair-tree (list))
+
+
+					(setf ulf-tree (list "ULF" ulf-sent))
+					(setf parse-pair-tree (append parse-pair-tree (list ulf-tree)))
 
 					(setf el-tree (list "EL" "Individual WFFs:"
 						(append
@@ -101,8 +112,10 @@
 								collect (list nil wff))
 						)
 					))
+					(setf parse-pair-tree (append parse-pair-tree (list el-tree)))
+					; (setf sent-tree (append sent-tree (list (list el-tree))))
 
-					(setf sent-tree (append sent-tree (list (list el-tree))))
+					(setf sent-tree (append sent-tree (list parse-pair-tree)))
 
 					(setf sent-trees (append sent-trees (list sent-tree)))
 

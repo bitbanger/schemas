@@ -15,7 +15,7 @@
 
 (defparameter *PRINT-OUTPUT* t)
 
-(defparameter *USE-DEBUG-STORIES* t)
+(defparameter *USE-DEBUG-STORIES* nil)
 
 (defparameter *SHUFFLE-STORIES* t)
 
@@ -27,6 +27,7 @@
 
 (defparameter *FILTER-INVISIBLE-PREDS* t)
 
+(defparameter *STORY-START* 0)
 (defparameter *STORY-LIMIT* 150)
 
 ; (setf stories *MCGUFFEY*)
@@ -54,7 +55,7 @@
 )
 
 (if (not (null *STORY-LIMIT*))
-	(setf stories (subseq stories 0 (min (length stories) *STORY-LIMIT*)))
+	(setf stories (subseq stories *STORY-START* (min (length stories) (+ *STORY-START* *STORY-LIMIT*))))
 )
 
 (ldefun invisible? (wff)
@@ -174,12 +175,11 @@
 ))
 
 (dbg 'ulf-html *COLLAPSE-PAGE-OPENER*)
-(let (sent-trees)
 (loop for story in stories
 		for i from 1
 	if *HANDLE-ERRORS*
 		do (handler-case (progn
-							(setf sent-trees (print-story-wffs story))
+							(setf outer-sent-trees (print-story-wffs story))
 							; (format nil "~%~%==================~%~%")
 						)
 				(error ()
@@ -195,11 +195,10 @@
 		; do (len-parse-sents story)
 		; do (get-len-ulfs story)
 		do (progn
-				(setf sent-trees (print-story-wffs story))
+				(setf outer-sent-trees (print-story-wffs story))
 				; (format nil "~%~%==================~%~%")
 			)
 
-	do (print-story (format nil "Story ~d of ~d" i (length stories)) sent-trees)
-)
+	do (print-story (format nil "Story ~d of ~d" i (length stories)) outer-sent-trees)
 )
 (dbg 'ulf-html *COLLAPSE-PAGE-CLOSER*)

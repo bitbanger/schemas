@@ -182,6 +182,14 @@
 	(equal be 'WERE.V)
 )))
 
+(ldefun have-aux? (x)
+(let ((be (remove-idx-tag x)))
+(or
+	(equal be 'HAVE.AUX)
+	(equal be 'HAD.AUX)
+	(equal be 'HAS.AUX)
+)))
+
 (ldefun equal? (x y)
 	(equal x y)
 )
@@ -376,8 +384,8 @@
 	; Auxiliary "have" without a verb predicate
 	; after it can be a verb.
 	(/
-		(HAVE.AUX (!1 ~ verb-pred?))
-		(HAVE.V !1)
+		(_*1 (!2 have-aux?) (!3 ~ verb-pred?))
+		(_*1 (verbify! !2) !3)
 	)
 
 	; To BE.V, or not to BE.V?
@@ -1581,9 +1589,9 @@
 		; if it has modifiers floating in its top level.
 		(if (and
 				(equal (length form) 2)
-				(not (canon-mod? (second form)))
+				(not (canon-any-mod? (second form)))
 				(listp (second form))
-				(loop for e in (second form) thereis (canon-mod? e))
+				(loop for e in (second form) thereis (canon-any-mod? e))
 			)
 			; then
 			(if (listp (second form))
@@ -1626,7 +1634,7 @@
 			; Mods are allowed in the first slot
 			; of a (mod pred) pair, but nowhere
 			; else.
-			((canon-mod? el)
+			((canon-any-mod? el)
 				(if (not (equal i 0))
 					; then
 					(progn
@@ -1656,7 +1664,7 @@
 		(loop while (and
 						(listp new-uf-pred)
 						(equal (length new-uf-pred) 2)
-						(canon-mod? (car new-uf-pred)))
+						(canon-any-mod? (car new-uf-pred)))
 			do (progn
 				(setf existing-mods (append (list (car new-uf-pred)) existing-mods))
 				(setf new-uf-pred (second new-uf-pred))
@@ -1674,23 +1682,29 @@
 				(listp new-uf-pred))
 			; then
 			(progn
-				(setf inner-pred-mods (loop for e in new-uf-pred if (canon-mod? e) collect e))
+				(setf inner-pred-mods (loop for e in new-uf-pred if (canon-any-mod? e) collect e))
 				(if (and
 						(not (null inner-pred-mods))
 						; A mod's not floating if the length is 2
 						; and the mod is the first element.
-						(not (and (equal (length new-uf-pred) 2) (canon-mod? (car new-uf-pred))))
+						(not (and (equal (length new-uf-pred) 2) (canon-ant-mod? (car new-uf-pred))))
 					)
 					; then
 					(progn
 						(setf uf-mods (append inner-pred-mods uf-mods))
-						(setf new-uf-pred (unwrap-singletons (loop for e in new-uf-pred if (not (canon-mod? e)) collect e)))
+						(setf new-uf-pred (unwrap-singletons (loop for e in new-uf-pred if (not (canon-any-mod? e)) collect e)))
 					)
 				)
 			)
 		)
 
 		; (format t "now it's ~s~%" uf-mods)
+
+		; Split out any propositional modifiers that still got caught in the
+		; predicate, and put them with the others from the front.
+		(setf caught-prop-mods (loop for m in uf-mods if (canon-sent-mod? m) collect m))
+		(setf uf-mods (set-difference uf-mods caught-prop-mods :test #'equal))
+		(setf pr-mods (append pr-mods caught-prop-mods))
 
 		; Stack the floating mods on the predicate.
 		(loop for m in uf-mods

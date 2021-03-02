@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(setf *random-state* (make-random-state t))
+; (setf *random-state* (make-random-state t))
 
 (load "../ll-load.lisp")
 

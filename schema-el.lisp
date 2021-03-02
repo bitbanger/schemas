@@ -174,6 +174,13 @@
 )
 )
 
+(ldefun canon-any-mod? (x)
+(or
+	(canon-sent-mod? x)
+	(canon-mod? x)
+)
+)
+
 (ldefun canon-mod? (x)
 (or
 	(lex-adv? x)

@@ -147,13 +147,6 @@
 		)
 	)
 
-	(if (loop for sent in sents always (second sent))
-		(progn
-			; (print-separator (format nil "~a (all sentences valid!)" story-name))
-			; (return-from outer nil)
-		)
-	)
-
 	(print-separator story-name)
 	(if (loop for sent in sents always (second sent))
 		(dbg 'ulf-html *COLLAPSE-ENTRY-OPENER* "No invalid parses; view sentences anyway?" "")

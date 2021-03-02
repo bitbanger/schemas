@@ -40,6 +40,7 @@ repaired_doc = res["document"][:]
 replaced = defaultdict(bool)
 fresh_outer = True
 print("(", end='')
+print("(", end='')
 for cluster in res["clusters"]:
     ent_name = non_pronoun(res["document"], cluster).upper().replace(" ", "_")
     # print("entity %d:" % (i))
@@ -67,5 +68,14 @@ for cluster in res["clusters"]:
                 replaced[i] = True
     print(")", end='')
 print(")", end='')
+
+# Next, just print the document tokenization to use for alignment
+print("(", end='')
+for tok in res["document"]:
+	# print('|.|' if tok == '.' else tok, end=' ')
+	print('"%s"' % (tok), end=' ')
+print(")", end='')
+
+print(")")
 
 # print(' '.join([x for x in repaired_doc if x != "_PAD_"]))

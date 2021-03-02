@@ -26,7 +26,7 @@
 
 (setq *show-stages* nil)
 
-(defun max-tag (ulf)
+(ldefun max-tag (ulf)
 (block outer
 	(setf len-ulf-max-tag 0)
 
@@ -43,9 +43,19 @@
 (let (len-ulfs len-ulf tag)
 (block outer
 	(setf tag 1)
+	
+	; Get the AllenNLP coref tokenization so we know how to
+	; align the ULF tokens for later resolution.
+	(setf tok-sents (split-lst (coref-toks (join-str-list " " sents)) "."))
+	; (setf tok-sents (coref-toks (join-str-list " " sents)))
+	(setf tok-sents (loop for sent in tok-sents
+		collect (loop for word in sent
+			collect (intern (string-upcase word)))))
+
 	(loop for sent in sents
+			for tok-sent in tok-sents
 		do (block inner
-			(setf len-ulf (len-ulf-with-word-tags sent tag))
+			(setf len-ulf (len-ulf-with-word-tags sent tag tok-sent))
 			(setf len-ulfs (append len-ulfs (list len-ulf)))
 			(setf tag (+ (max-tag len-ulf) 1))
 		)
@@ -57,7 +67,7 @@
 ; Same as english-to-ulf, except it re-tags the words
 ; to correspond better to the sentence for coreference
 ; analysis.
-(defun len-ulf-with-word-tags (sent start-tag)
+(ldefun len-ulf-with-word-tags (sent start-tag allen-coref-toks)
 (let (ulf ulf-words words word)
 (block outer
 	(setf ulf (english-to-ulf sent))
@@ -68,16 +78,20 @@
 		collect (intern (car (split-str (string (car (split-str (string word) "."))) "~")))
 	))
 
-	(setf cleaned-sent (loop for word in (split-str sent " ")
-		collect (intern (string-upcase (join-str-list "" (loop for c across word
-			if (alphanumericp c) collect (string c)))))
-	))
+	; (setf cleaned-sent (loop for word in (split-str sent " ")
+		; collect (intern (string-upcase (join-str-list "" (loop for c across word
+			; if (alphanumericp c) collect (string c)))))
+	; ))
+
+	(setf cleaned-sent allen-coref-toks)
 
 	;(loop for word in words
 
 	(setf sent-word-idx (- start-tag 1))
 	(setf sent-tags (list))
+	; (format t "ulf sent: ~s~%" ulf-words)
 	; (format t "sent: ~s~%" words)
+	; (setf cleaned-sent '(ALLIE ONE ONE ONE WATCH A SHOW YESTERDAY))
 	; (format t "parse words: ~s~%" cleaned-sent)
 
 	(loop while (> (length words) 0)
@@ -111,6 +125,29 @@
 						(setf mpairs (list (min 1 (length words)) (min 1 (length cleaned-sent))))
 					)
 
+					; We need to handle the case where N words correspond to
+					; M>N unequal words. Consider "Allie A B C a sandwich" and
+					; "Allie just ate a sandwich". If we don't do anything, the
+					; three tokens "A B C" and the two tokens "just ate" will all
+					; be tagged with the same number, and sent-word-idx will only
+					; advance by 1. So, in this case, we will advance sent-word-idx
+					; for each of the first N words, giving each index to the first
+					; N of the M words The remainder of the M words will repeat.
+					; This ensures that substitutions are only ever of one word, and
+					; that spans of N words and N words that are unequal only due to
+					; conjugation issues will still be numbered correctly (however,
+					; we should still amend the equality predicate to account for
+					; this, I think; big TODO!)
+
+					(if (and (> (car mpairs) 1) (> (second mpairs) 1))
+						(setf mpairs '(1 1))
+					)
+
+
+
+
+					; Increment one here for the first word tag, and then increment any
+					; remainder to puff up the next word tag, if it needs it.
 					(if (not (null cleaned-sent))
 						; then
 						(setf sent-word-idx (+ sent-word-idx 1))
@@ -123,8 +160,17 @@
 						do (setf sent-tags (append sent-tags (list sent-word-idx)))
 					)
 
+					; (format t "equating ~s with ~s~%" (subseq cleaned-sent 0 (second mpairs)) (subseq words 0 (car mpairs)))
 					(setf words (subseq words (car mpairs) (length words)))
 					(setf cleaned-sent (subseq cleaned-sent (second mpairs) (length cleaned-sent)))
+					; (format t "set cleaned-sent to ~s~%" cleaned-sent)
+
+					; If there were more text words that got skipped in the ULF, advance the next word
+					; such that it skips over all of them.
+					(if (not (null cleaned-sent))
+						; then
+						(setf sent-word-idx (+ sent-word-idx (max 0 (- (second mpairs) 1))))
+					)
 				)
 				; else
 				(progn
@@ -144,6 +190,7 @@
 		for tag in sent-tags
 		do (block rplc
 			(setf retagged (intern (format nil "~a~~~d" (car (split-str (string word) "~")) tag)))
+			; (format t "replacing ~s with ~s~%" word retagged)
 			(setf ulf (replace-vals word retagged ulf))
 		)
 	)

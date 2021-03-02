@@ -2,19 +2,24 @@
 
 (load "ll-load.lisp")
 
+
 (ll-load "new-ulf-parser.lisp")
 (ll-load-subdir "stories" "roc-mcguffey-stories.lisp")
 (ll-load-subdir "stories" "school-roc-stories.lisp")
 
 (ll-load-subdir "parse-webpage" "collapse-html.lisp")
 
+; (dbg-tag 'coref)
+
 ; (setf *random-state* (make-random-state t))
 
-(defparameter *USE-DEBUG-STORIES* nil)
+(defparameter *PRINT-OUTPUT* t)
+
+(defparameter *USE-DEBUG-STORIES* t)
 
 (defparameter *SHUFFLE-STORIES* t)
 
-(defparameter *HANDLE-ERRORS* t)
+(defparameter *HANDLE-ERRORS* nil)
 
 (defparameter *PRINT-VALID-SENTS* t)
 
@@ -28,21 +33,18 @@
 ; (setf stories *ROC*)
 (setf stories *ROC-MCGUFFEY*)
 
+(if *PRINT-OUTPUT*
+	(dbg-tag 'ulf-html)
+)
+
 (if *USE-DEBUG-STORIES*
 	; then
 	(setf stories '((
-        "These are the little birds."
-        "How many are there?"
-        "Their mouths are open."
-        "They are hungry."
-        "The mother bird will feed them."
-        "She has a grasshopper in her mouth."
-        "Can the little birds fly?"
-        "No they are too young."
-        "If they try to fly, they will fall."
-        "Soon they will be stronger."
-        "Then their mother will teach them to fly."
-        "She will teach them to sing, too."
+		"Allie was watching a show yesterday."
+		"It was very funny."
+		"Allie laughed out loud."
+		"She didn't know how to keep it in."
+		"She wanted to watch it again."
 	)))
 )
 
@@ -52,7 +54,7 @@
 )
 
 (if (not (null *STORY-LIMIT*))
-	(setf stories (subseq stories 0 *STORY-LIMIT*))
+	(setf stories (subseq stories 0 (min (length stories) *STORY-LIMIT*)))
 )
 
 (ldefun invisible? (wff)
@@ -171,7 +173,7 @@
 	; (print-story "Story" sent-trees)
 ))
 
-(format t *COLLAPSE-PAGE-OPENER*)
+(dbg 'ulf-html *COLLAPSE-PAGE-OPENER*)
 (let (sent-trees)
 (loop for story in stories
 		for i from 1
@@ -200,4 +202,4 @@
 	do (print-story (format nil "Story ~d of ~d" i (length stories)) sent-trees)
 )
 )
-(format t *COLLAPSE-PAGE-CLOSER*)
+(dbg 'ulf-html *COLLAPSE-PAGE-CLOSER*)

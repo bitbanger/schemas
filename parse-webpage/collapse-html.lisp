@@ -75,7 +75,7 @@
 ))
 
 (defun print-separator (txt)
-(format t "
+(dbg 'ulf-html "
   <div data-role='header'>
    <h1>~a</h1>
   </div>
@@ -84,20 +84,20 @@
 
 (defun mk-collapsible-page (tree)
 (block outer
-	(format t *COLLAPSE-PAGE-OPENER*)
+	(dbg 'ulf-html *COLLAPSE-PAGE-OPENER*)
 	(print-separator "Story 1")
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
 	(print-separator "Story 2")
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
-	(format t "~a" (print-collapsible tree))
-	(format t *COLLAPSE-PAGE-CLOSER*)
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html "~a" (print-collapsible tree))
+	(dbg 'ulf-html *COLLAPSE-PAGE-CLOSER*)
 )
 )
 
@@ -156,20 +156,20 @@
 
 	(print-separator story-name)
 	(if (loop for sent in sents always (second sent))
-		(format t *COLLAPSE-ENTRY-OPENER* "No invalid parses; view sentences anyway?" "")
+		(dbg 'ulf-html *COLLAPSE-ENTRY-OPENER* "No invalid parses; view sentences anyway?" "")
 	)
 	(loop for sent in sents
-		do (format t "~a" (print-collapsible (mk-sent-tree (car sent) (second sent) (third sent))))
+		do (dbg 'ulf-html "~a" (print-collapsible (mk-sent-tree (car sent) (second sent) (third sent))))
 	)
 	(if (loop for sent in sents always (second sent))
-		(format t *COLLAPSE-ENTRY-CLOSER*)
+		(dbg 'ulf-html *COLLAPSE-ENTRY-CLOSER*)
 	)
 )
 )
 
 
 (if nil (progn
-(format t *COLLAPSE-PAGE-OPENER*)
+(dbg 'ulf-html *COLLAPSE-PAGE-OPENER*)
 (print-story "Story 1"
 	'(
 		; Sent 1
@@ -258,5 +258,5 @@
 	)
 )
 
-(format t *COLLAPSE-PAGE-CLOSER*)
+(dbg 'ulf-html *COLLAPSE-PAGE-CLOSER*)
 ))

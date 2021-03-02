@@ -838,6 +838,18 @@ is replaced with replacement."
 	)
 )
 
+(defun starry-global? (x)
+(and
+	(symbolp x)
+	(let ((str-x (format nil "~s" x)))
+		(and
+			(has-prefix? str-x "*")
+			(has-suffix? str-x "*")
+		)
+	)
+)
+)
+
 ; Automatically scopes all setfs introduced inside
 ; a function to be local, without requiring the
 ; programmer to manually add let-bindings.
@@ -845,7 +857,11 @@ is replaced with replacement."
 (block ldefun-outer
 	(setf setf-vars
 		(dedupe (loop for el in (get-elements-pred body
-			(lambda (x) (and (listp x) (equal (car x) 'setf))))
+			(lambda (x) (and
+						(listp x)
+						(equal (car x) 'setf))
+						(not (starry-global? (second x)))
+			))
 				if (symbolp (second el))
 					collect (second el)
 		))

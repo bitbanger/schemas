@@ -22,16 +22,42 @@
 	EXPECT.V
 ))
 
-(ldefun coref-pairs (text)
+; Keep a cheap global LRU cache of size 1, since we'll
+; be calling coreference twice in a row: once just for
+; tokenization when generating the ULFs, and once when
+; actually resolving coreference in the EL postprocessing
+; stage. (TODO: just do coref in the ULF stage?)
+(defparameter *COREF-CACHE* (list nil nil))
+
+(ldefun coref-pairs-and-toks (text)
 (block outer
+	(if (equal (rechash text) (car *COREF-CACHE*))
+		; then
+		(return-from outer (second *COREF-CACHE*))
+	)
+
+	(setf retval nil)
+
 	; (this file is being run from the parent directory, so we prepend the PWD to the call)
 	(let ((strm (sb-ext:process-output (sb-ext:run-program (concat-strs (format nil "~a" *ROOT-PATH*) "/allen-coref/allen_coref.sh") (list text) :output :stream :wait nil))))
 		(loop for line = (read-line strm nil)
 			while line
-			do (return-from outer (read-from-string line))
+			do (progn
+				(setf retval (read-from-string line))
+				(setf *COREF-CACHE* (list (rechash text) retval))
+				(return-from outer retval)
+			)
 		)
 	)
 )
+)
+
+(ldefun coref-pairs (text)
+	(car (coref-pairs-and-toks text))
+)
+
+(ldefun coref-toks (text)
+	(second (coref-pairs-and-toks text))
 )
 
 (ldefun max-word-tag (el)
@@ -95,6 +121,8 @@
 	; Run coreference.
 	(setf one-of-it-clusters (coref-pairs (join-str-list " " one-of-it-story)))
 
+	(dbg 'coref "Reducing idx numbers for things with tags > ~d~%" one-tag-num)
+
 	; Anything with an index greater than one-tag-num
 	; needs to have its index reduced by 2. This will
 	; make the "it" alias with "one", and correct any
@@ -157,10 +185,10 @@
 			)
 		)
 	)) :test #'equal))
-	; (format t "got initial parse ~s~%" el-sents)
+	(dbg 'coref  "got initial parse ~s~%" el-sents)
 	(setf needs-res-numbers (loop for e in needs-res collect (parse-integer (second (split-str (format nil "~s" e) "$")))))
 	(setf needs-res-pairs (loop for e1 in needs-res for e2 in needs-res-numbers collect (list e1 e2)))
-	; (format t "individuals that need resolving: ~s~%" needs-res-pairs)
+	(dbg 'coref "individuals that need resolving: ~s~%" needs-res-pairs)
 
 
 	; INTERMISSION: sometimes, multiple unique Skolem constants will have been
@@ -205,10 +233,11 @@
 	(dbg 'coref "all coref pairs: ~s~%" all-coref-pairs)
 	(loop for acp in all-coref-pairs
 		do (loop for ind-pair in needs-res-pairs
-			; do (format t "considering ind ~s for pair ~s~%" ind-pair acp)
+			; do (dbg 'coref "	considering ind ~s for pair ~s~%" ind-pair acp)
 			do (if (and (in-span (second ind-pair) acp) (null (member (car ind-pair) claimed-inds :test #'equal)))
 				; then
 				(progn
+					; (dbg 'coref "		ind ~s accepted~%" ind-pair)
 					(setf (gethash acp coref-pair-to-ind) (car ind-pair))
 					(setf claimed-inds (append claimed-inds (list (car ind-pair))))
 				)
@@ -242,6 +271,8 @@
 			)
 		)
 	)
+
+	(dbg 'coref "needs res ones: ~s~%" needs-res-ones)
 
 	; TODO: do all "one" => "one of it" replacements in same pass?
 	; Or would that change results?
@@ -309,8 +340,8 @@
 
 			(setf pronouns (loop for e in cluster if (lex-pronoun? e) collect e))
 			(setf non-pronouns (loop for e in cluster if (not (lex-pronoun? e)) collect e))
-			; (format t "cluster ~d, pronouns ~s, others ~s~%" i pronouns non-pronouns)
-			; (format t "cluster was ~s~%" cluster)
+			; (dbg 'coref "cluster ~d, pronouns ~s, others ~s~%" i pronouns non-pronouns)
+			(dbg 'coref "cluster was ~s~%" cluster)
 			(setf rep-name (car (append non-pronouns pronouns)))
 			(setf agent-constrs (list))
 			(if (lex-pronoun? rep-name)
@@ -318,7 +349,7 @@
 				(progn
 				(setf old-rep-name (intern (concat-strs (car (split-str (string rep-name) ".")) ".PRO")))
 				(setf rep-name (new-skolem! (intern (car (split-str (format nil "~s" rep-name) ".")))))
-				; (format t "picking new rep name ~s for pronoun ~s~%" rep-name old-rep-name)
+				(dbg 'coref "picking new rep name ~s for pronoun ~s~%" rep-name old-rep-name)
 				(if (personal-pronoun? old-rep-name)
 					; then
 					(setf agent-constrs (append agent-constrs (list (list rep-name 'AGENT.N))))

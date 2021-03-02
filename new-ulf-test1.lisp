@@ -70,13 +70,28 @@
 
 	; (setf sents (len-parse-sents story))
 
-	(setf ulf-el-sents (len-ulfs-and-els story))
-	(setf ulf-sents (mapcar #'car ulf-el-sents))
-	(setf sents (mapcar #'second ulf-el-sents))
+	; (setf ulf-el-sents (len-ulfs-and-els story))
+	; (setf ulf-sents (mapcar #'car ulf-el-sents))
+	; (setf sents (mapcar #'second ulf-el-sents))
+	(setf parser-full-output (full-debug-sents story))
+	(setf pso parser-full-output) ; shorthand
+
+	(setf raw-len-ulfs (nth 0 pso))
+	(setf ulf-sents (nth 1 pso))
+	(setf raw-interps (nth 2 pso))
+	(setf cleaned-interps (nth 3 pso))
+	(setf resolved-interps (nth 4 pso))
+	(setf no-idx-interps (nth 5 pso))
+	(setf sents (nth 6 pso))
 
 	(loop for eng-sent in story
+			for raw-ulf-sent in raw-len-ulfs
+			for ulf-sent in ulf-sents
+			for raw-el-sent in raw-interps
+			for cleaned-el-sent in cleaned-interps
+			for coref-el-sent in resolved-interps
+			for stripped-el-sent in no-idx-interps
 			for el-sent in sents
-				for ulf-sent in ulf-sents
 				do (block wff-loop
 					(setf sent-tree (list eng-sent))
 
@@ -101,10 +116,17 @@
 					(setf parse-pair-tree (list))
 
 
-					(setf ulf-tree (list "ULF" ulf-sent))
+					(setf raw-ulf-tree (list "ULF (Len's parser's raw output)" raw-ulf-sent))
+					(setf parse-pair-tree (append parse-pair-tree (list raw-ulf-tree)))
+
+					(setf ulf-tree (list "ULF (post-processed by Lane's code)" ulf-sent))
 					(setf parse-pair-tree (append parse-pair-tree (list ulf-tree)))
 
-					(setf el-tree (list "EL" "Individual WFFs:"
+
+					(setf raw-el-tree (list "EL (Len's parser's raw conversion of post-processed ULF)" raw-el-sent))
+					(setf parse-pair-tree (append parse-pair-tree (list raw-el-tree)))
+
+					(setf el-tree (list "EL (post-processed by Lane's code)" "Individual WFFs:"
 						(append
 							(loop for wff in valid-wffs
 								collect (list t wff))

@@ -2466,7 +2466,7 @@
 )
 )
 
-(ldefun parse-story-maybe-from-ulf (sents pre-ulfs)
+(ldefun interp-story-maybe-from-ulf (sents pre-ulfs)
 (block outer
 	(setf *glob-idx* 0)
 	(if (not (null pre-ulfs))
@@ -2474,39 +2474,51 @@
 		(setf new-sents (loop for sent in sents
 			for pre-ulf in pre-ulfs
 			; do (format t "original interpretation: ~s~%" (interpret-lf pre-ulf))
-			collect (let ((interp (interpret-lf pre-ulf))) (progn
-				; (format t "interp of ~s with pre-ULF ~s was ~s~%" sent pre-ulf interp)
-				(schema-cleanup interp)
-			)
-		)))
+			collect (interpret-lf pre-ulf)
+		))
 		; else
 		(setf new-sents (loop for sent in sents
-			collect (let ((interp (interpret sent))) (progn
-				; (format t "interp was ~s~%" interp)
-				(schema-cleanup interp)
-			)
-		)))
+			collect (interpret sent)
+		))
 	)
+
+	(return-from outer new-sents)
+)
+)
+
+(ldefun parse-story-maybe-from-ulf-full-output (sents pre-ulfs)
+(block outer
+	(setf raw-interps (interp-story-maybe-from-ulf sents pre-ulfs))
+
+	(setf cleaned-interps (mapcar #'schema-cleanup raw-interps))
+
 	; (format t "finished initial parse~%")
 	; (format t "new-sents is: ~s~%" new-sents)
 
 
 	; PERFORM COREFERENCE
-	(setf new-sents (resolve-coreference sents new-sents))
-
+	(setf resolved-interps (resolve-coreference sents cleaned-interps))
 
 	; (format t "individual-mapped coref clusters: ~s~%" clusters)
 	; (format t "resolved parse: ~s~%" new-sents)
 
-	(setf new-sents (clean-idx-tags new-sents))
+	(setf no-idx-interps (clean-idx-tags resolved-interps))
 
 	; (format t "number-cleaned, final parse: ~s~%" new-sents)
 
 	; call schema-cleanup one more time, as the coref tags
 	; interfere with the cleanup procedures sometimes
 	; TODO: find out why & fix it
-	(return-from outer (mapcar #'schema-cleanup new-sents))
+	(setf final-interps (mapcar #'schema-cleanup no-idx-interps))
+
+	(return-from outer (list
+		raw-interps cleaned-interps resolved-interps no-idx-interps final-interps
+	))
 )
+)
+
+(ldefun parse-story-maybe-from-ulf (sents pre-ulfs)
+	(fifth (parse-story-maybe-from-ulf-full-output sents pre-ulfs))
 )
 
 (ldefun filtered-parse-story (story)

@@ -308,6 +308,18 @@
 )
 )
 
+(ldefun full-debug-sents (sents)
+(block outer
+	(setf raw-len-ulfs (increment-tilde-tags (len-ulfs-with-word-tags sents)))
+
+	(setf processed-len-ulfs (mapcar #'prepare-new-ulf-for-parser raw-len-ulfs))
+
+	(setf el-parse-output (parse-story-maybe-from-ulf-full-output sents processed-len-ulfs))
+
+	(return-from outer (append (list raw-len-ulfs) (list processed-len-ulfs) el-parse-output))
+)
+)
+
 (defun len-ulfs-and-els (sents)
 (let ((ulfs (len-ulfs sents)))
 	; (list ulfs (parse-story-maybe-from-ulf sents ulfs))

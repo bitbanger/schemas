@@ -1,0 +1,120 @@
+NIL
+<!-- Nested collapsible page code taken from: https://www.w3schools.com/jquerymobile/tryit.asp?filename=tryjqmob_collapsible_nested -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css'>
+<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
+<script src='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
+</head>
+<body>
+
+<div data-role='page' id='pageone'>
+  <div data-role='header'>
+    <h1>Stories with at least one invalid ELF parse</h1>
+  </div>
+
+  <div data-role='main' class='ui-content'>
+  <div data-role='header'>
+   <h1>Story 1</h1>
+  </div>
+
+<div data-role='collapsible'>
+      <h1><span style='color:green'>(valid) This is the sentence.</span></h1>
+      <p>
+
+<div data-role='collapsible'>
+      <h1>ULF</h1>
+      <p>This is the ULF</p>
+</div>
+
+<div data-role='collapsible'>
+      <h1>EL</h1>
+      <p>This is the EL</p>
+</div></p>
+</div>
+<div data-role='collapsible'>
+      <h1><span style='color:red'>(INVALID) This is the sentence.</span></h1>
+      <p>
+
+<div data-role='collapsible'>
+      <h1>ULF</h1>
+      <p>This is the ULF</p>
+</div></p>
+</div>
+  <div data-role='header'>
+   <h1>Story 2</h1>
+  </div>
+
+<div data-role='collapsible'>
+      <h1><span style='color:red'>(INVALID) This is the sentence.</span></h1>
+      <p>
+
+<div data-role='collapsible'>
+      <h1>ULF</h1>
+      <p>This is the ULF</p>
+</div>
+
+<div data-role='collapsible'>
+      <h1>EL</h1>
+      <p>Individual WFFs:
+
+<div data-role='collapsible'>
+      <h1><span style='color:green'>EL</span></h1>
+      <p></p>
+</div>
+
+<div data-role='collapsible'>
+      <h1><span style='color:red'>EL</span></h1>
+      <p></p>
+</div></p>
+</div></p>
+</div>
+<div data-role='collapsible'>
+      <h1><span style='color:green'>(valid) This is the sentence.</span></h1>
+      <p>
+
+<div data-role='collapsible'>
+      <h1>ULF</h1>
+      <p>This is the ULF</p>
+</div></p>
+</div>
+  <div data-role='header'>
+   <h1>Story 3 (PARSER CRASHED)</h1>
+  </div>
+
+  <div data-role='header'>
+   <h1>Story 4</h1>
+  </div>
+
+<div data-role='collapsible'>
+      <h1>No invalid parses; view sentences anyway?</h1>
+      <p></p>
+<div data-role='collapsible'>
+      <h1><span style='color:green'>(valid) This is the sentence.</span></h1>
+      <p>
+
+<div data-role='collapsible'>
+      <h1>ULF</h1>
+      <p>This is the ULF</p>
+</div>
+
+<div data-role='collapsible'>
+      <h1>EL</h1>
+      <p>This is the EL</p>
+</div></p>
+</div>
+<div data-role='collapsible'>
+      <h1><span style='color:green'>(valid) This is the sentence.</span></h1>
+      <p>
+
+<div data-role='collapsible'>
+      <h1>ULF</h1>
+      <p>This is the ULF</p>
+</div></p>
+</div>
+</div>
+</body>
+</html>

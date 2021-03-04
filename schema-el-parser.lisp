@@ -371,6 +371,16 @@
 		!1
 	)
 
+	; Stacked lex-preds can be split like conjunctions,
+	; for now, BUT, TODO:
+	;	1. make them proper predicate modifiers
+	;	2. figure out if/when it's OK to do this with
+	;	   composite, non-lexical preds?
+	(/
+		((!1 canon-individual?) (+ lex-pred?))
+		(!1 (AND (+)))
+	)
+
 	; Auxiliary "be" can always be a copula,
 	; for now (Gene says it's OK!). Change when
 	; Len adds aux-identification back into parser.
@@ -452,8 +462,8 @@
 
 	; Strip out some coordinating conjunctions.
 	(/
-		((!1 (ll-curry eq-no-idx-tags? BUT.CC)) _*2)
-		(_*2)
+		(_*1 (!1 (ll-curry eq-no-idx-tags? BUT.CC)) _*2)
+		(AND _*1 _*2)
 	)
 	(/
 		((!1 (ll-curry eq-no-idx-tags? SO.CC)) _*2)

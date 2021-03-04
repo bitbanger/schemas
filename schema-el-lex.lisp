@@ -44,6 +44,7 @@
 	IF
 	ATTR
 	NN
+	PASV
 	PLUR
 	PERF
 	PROG

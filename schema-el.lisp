@@ -114,7 +114,9 @@
 )
 )
 
-(ldefun canon-pred? (x)
+; Anything that can be returned from pred-base, i.e., no
+; args or mods.
+(ldefun atomic-pred? (x)
 (or
 	; Explicitly marked predicates are predicates
 	(lex-pred? x)
@@ -125,6 +127,9 @@
 
 	; Just for right now.
 	; (lex-det? x)
+
+	; Lambda functions are predicates
+	(canon-lambda? x)
 
 	; Some special symbols are predicates
 	(not (null (member x *KEYWORD-PREDS* :test #'equal)))
@@ -137,6 +142,13 @@
 	(lex-adj? x)
 	(lex-p? x)
 
+	(mp x (list (id? 'PASV) 'lex-verb?))
+)
+)
+
+(ldefun canon-pred? (x)
+(or
+	(atomic-pred? x)
 	; (mp x (list 'lex-modal? 'canon-pred?))
 
 	; Allow attributes, like ((attr happy.a) boy.n)
@@ -145,8 +157,6 @@
 	; Allow serialized arguments for e.g. verb phrases
 	(mp x (list 'canon-pred? 'canon-individual?+))
 
-	; Lambda functions are predicates
-	(canon-lambda? x)
 
 	; Prepositions with individual complements are predicates
 	; (mp x (list 'lex-p? 'canon-individual?))
@@ -298,14 +308,17 @@
 (ldefun adj-pred? (pred)
 (and
 	(canon-pred? pred)
-	(lex-adj? (pred-base pred))
+	(or
+		(lex-adj? (pred-base pred))
+		(mp (pred-base pred) (list (id? 'PASV) 'lex-verb?))
+	)
 )
 )
 
 (ldefun pred-base (pred)
 	(check #'canon-pred? pred)
 (block outer
-	(if (canon-lambda? pred)
+	(if (atomic-pred? pred)
 		(return-from outer pred)
 	)
 
@@ -341,7 +354,7 @@
 (ldefun naked-pred-without-post-args (naked-pred)
 	; TODO: handle or, and, not, etc.
 (block outer
-	(if (canon-lambda? naked-pred)
+	(if (atomic-pred? naked-pred)
 		(return-from outer naked-pred)
 	)
 
@@ -363,7 +376,7 @@
 	(check #'canon-pred? pred)
 (let (mods base-pred)
 (block outer
-	(if (canon-lambda? pred)
+	(if (atomic-pred? pred)
 		(return-from outer pred)
 	)
 
@@ -435,7 +448,7 @@
 	)
 
 	; default case: prefix args, pred, postfix args
-	(setf pred-idx (position-if #'canon-pred? prop))
+	(setf pred-idx (position-if #'canon-pred? prop :from-end t))
 	(if (null pred-idx)
 		; It's a conjunction
 		(return-from outer nil)
@@ -445,7 +458,6 @@
 	)
 	(setf arged-pred (nth pred-idx prop))
 	(setf pred (pred-without-post-args (nth pred-idx prop)))
-	; (format t "pred without: ~s~%" pred)
 
 	; special case: if the pred has postfix args in it already, we won't allow
 	; "flat" postfix args

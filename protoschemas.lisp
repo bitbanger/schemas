@@ -15,6 +15,9 @@
 	find.v
 	drink.v
 	put_in_container.v
+	tell_information.v
+	request_action.v
+	watch.v
 ))
 
 (defparameter put_in_container.v
@@ -636,6 +639,36 @@
 
 		(:Steps
 			(?e1 (?x (tell.v ?y ?i)))
+		)
+
+		(:Postconds
+			(?p1 (?y (know.v ?i)))
+		)
+	)
+)
+
+(defparameter watch.v
+	'(epi-schema ((?x watch.v ?y) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?y entity.n))
+			(!r3 (?i information.n))
+			(!r4 (?i pertain-to ?y))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r4 necessary-to-degree 0.5))
+			(!n3 (!g1 necessary-to-degree 0.5))
+			(!n4 (!p1 necessary-to-degree 0.5))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (?x (know.v ?i))))))
+		)
+
+		(:Preconds
+			(?i1 (?x (can.md (see.v ?y))))
 		)
 
 		(:Postconds

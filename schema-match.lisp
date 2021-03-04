@@ -130,7 +130,6 @@
 					;(setf sub-score 2.0)) ; 2x bonus points for exact matches
 
 				; (format t "~s variables in schema~%" 
-				; (format t "~s~%" (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal))
 				(setf sub-score (+ sub-score
 					(/ (ht-count new-bindings) (length (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal)))
 				))

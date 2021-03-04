@@ -495,6 +495,7 @@
 	remove-aux-do-did
 	retag-det-preds
 	split-whens
+	adv-ify-temporals
 ))
 
 (ldefun extract-noun-sym (form)
@@ -616,6 +617,59 @@
 
 	(return-from outer nil)
 )
+)
+)
+
+(ldefun temporal-arg? (arg)
+(contains
+	'(
+		(K YESTERDAY.N)
+		(K TODAY.N)
+	)
+	arg
+)
+)
+
+(ldefun adv-ify-temporals (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for form in phi do (block loop-outer
+		(if (not (canon-prop? form))
+			(return-from loop-outer)
+		)
+
+		(setf stripped-form (copy-item form))
+		(if (canon-charstar? form)
+			(setf stripped-form (car stripped-form)))
+
+		(setf post-args (prop-post-args stripped-form))
+		(setf temporals (loop for pa in post-args if (temporal-arg? pa) collect pa))
+
+		(if (null temporals)
+			(return-from loop-outer))
+
+		(setf stripped-form (remove-prop-post-args stripped-form temporals))
+		(setf temporal-mods (loop for temp in temporals
+			if (and (canon-kind? temp) (symbolp (second temp)))
+				collect (retag-as (second temp) "ADV-E")
+			if (and (canon-kind? temp) (not (symbolp (second temp))))
+				collect (list 'ADV-E (second temp))
+			if (not (canon-kind? temp))
+				collect (list 'ADV-E temp)
+		))
+
+		(setf stripped-form (add-prop-mods stripped-form temporal-mods))
+
+		(if (canon-charstar? form)
+			; then
+			(setf stripped-form (list stripped-form '** (third form)))
+		)
+
+		(format t "replacing ~s with ~s~%" form stripped-form)
+		(setf phi-copy (replace-vals form stripped-form phi-copy))
+	))
+
+	(return-from outer phi-copy)
 )
 )
 

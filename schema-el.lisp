@@ -177,10 +177,12 @@
 (or
 	(has-ext? x ".AUX-S")
 	(has-ext? x ".ADV-S")
+	(has-ext? x ".ADV-E")
 	(equal x 'NOT)
 	(equal x 'PROG)
 	(equal x 'PERF)
 	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
 )
 )
 
@@ -200,7 +202,6 @@
 	(equal x 'PLUR)
 	(mp x (list (list 'id? 'ADV) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-A) 'canon-pred-or-mod?+))
-	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-F) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? ':R) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ATTR) 'canon-pred-or-mod?))
@@ -442,6 +443,13 @@
 			nil)) ; no mods
 	)
 
+	; strip propositional modifiers off first
+	(setf sent-mods (list))
+	(loop while (canon-sent-mod? (car prop))
+		do (setf sent-mods (append sent-mods (list (car prop))))
+		do (setf prop (second prop))
+	)
+
 	; special case: strip nots
 	(if (equal (car prop) 'NOT)
 		(return-from outer (prop-args-pred-mods (second prop)))
@@ -485,7 +493,12 @@
 		)
 	)
 
+	; group the pred and prop mods together, for now
+	; they'll get sorted out later
+	; TODO: sort them out explicitly and make a new
+	;		breakdown field!
 	(setf mods (pred-mods pred))
+	(setf mods (append sent-mods mods))
 
 	(return-from outer (list pre-args (pred-base pred) post-args mods))
 )
@@ -537,18 +550,38 @@
 	)
 )
 
+(ldefun remove-prop-post-args (prop post-args)
+	(render-prop
+		(prop-pre-args prop)
+		(prop-pred prop)
+		(set-difference (prop-post-args prop) post-args :test #'equal)
+		(append (prop-mods prop) mods)
+	)
+)
+
 (ldefun render-prop (pre-args pred post-args mods)
 (block outer
 	(setf wrapped-pred pred)
-	(loop for m in mods
+
+	(setf pred-mods (loop for m in mods if (not (canon-sent-mod? m)) collect m))
+	(setf prop-mods (set-difference mods pred-mods :test #'equal))
+
+	(loop for m in pred-mods
 		do (setf wrapped-pred (list m wrapped-pred))
 	)
 
-	(return-from outer (append
+
+	(setf wrapped-prop (append
 		pre-args
 		(list wrapped-pred)
 		post-args
 	))
+
+	(loop for m in prop-mods
+		do (setf wrapped-prop (list m wrapped-prop))
+	)
+
+	(return-from outer wrapped-prop)
 )
 )
 

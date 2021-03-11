@@ -307,7 +307,7 @@
 		(if (not (has-lst-prefix? match-rcs orig-rcs))
 			; then
 			(progn
-				(format t "WARNING: schema constraints ~s weren't a prefix of match constraints ~s - why did some get erased?~%")
+				(format t "WARNING: schema constraints ~s weren't a prefix of match constraints ~s - why did some get erased?~%" orig-rcs match-rcs)
 				(return-from generalize-new-constraints)
 			)
 		)
@@ -1100,6 +1100,11 @@
 		(setf cur-match (car cur-match-triple))
 		(setf cur-bindings (second cur-match-triple))
 		(setf bound-header (third cur-match-triple))
+
+		; Make sure that general constraints subsuming
+		; more specific ones in the schema are removed,
+		; as they're redundant.
+		(setf cur-match (remove-subsuming-rcs cur-match))
 
 		
 		;(print-schema cur-match)

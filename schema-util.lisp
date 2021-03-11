@@ -1415,6 +1415,96 @@
 )
 )
 
+(ldefun remove-subsuming-rcs (schema)
+(block outer
+	(setf constrs-to-remove (list))
+
+	; We'll keep a hash-graph of subsumptions so we
+	; can replace all general constraints with the
+	; *most* specific version of them, and then let
+	; the deduplication step clean up the rest.
+	(setf child-graph (make-hash-table :test #'equal))
+
+	(loop for constr1 in (section-formulas (get-section schema ':Roles))
+		do (block check-against-1
+			(setf phi1 (prop-args-pred-mods (second constr1)))
+			; no post-args allowed
+			(if (> (length (third phi1)) 0)
+				(return-from check-against-1)
+			)
+			; no mods allowed
+			(if (> (length (fourth phi1)) 0)
+				(return-from check-against-1)
+			)
+			(loop for constr2 in (section-formulas (get-section schema ':Roles))
+				do (block check-pair
+					(setf phi2 (prop-args-pred-mods (second constr2)))
+
+					; Subject arg needs to be equal for subsumption
+					(if (not (equal (car phi1) (car phi2)))
+						(return-from check-pair)
+					)
+
+					; no post-args allowed
+					(if (> (length (third phi2)) 0)
+						(return-from check-pair)
+					)
+					; no mods allowed
+					(if (> (length (fourth phi2)) 0)
+						(return-from check-pair)
+					)
+
+					; equal preds can be/already were handled by dedupe
+					(if (equal (second phi1) (second phi2))
+						(return-from check-pair)
+					)
+
+					; If 1 subsumes 2, we don't want to keep 1
+					(if (subsumes (second phi1) (second phi2))
+						(progn
+							(setf (gethash constr1 child-graph) constr2)
+							(if (not (contains constrs-to-remove constr1))
+								(setf constrs-to-remove (append constrs-to-remove (list constr1)))
+							)
+
+							; We won't break the loop yet, since we'd
+							; like to mark all subsumed constraints in
+							; the child graph for proper resolution.
+						)
+					)
+				)
+			)
+		)
+	)
+
+	(setf new-schema (copy-item schema))
+	(loop for rc in constrs-to-remove
+		do (block remove-rc
+			; Get the most specific version of the
+			; constraint from the child graph for
+			; replacement.
+			(setf child-rc rc)
+			(loop while (not (null (gethash child-rc child-graph)))
+				do (setf child-rc (gethash child-rc child-graph))
+			)
+
+			(if (equal child-rc rc)
+				(progn
+					(format t "ERROR: subsumption check marked general role constraint ~s for removal, but couldn't identify a more specific version in the schema: ~%" rc)
+					(print-schema schema)
+					(return-from outer schema)
+				)
+			)
+
+			(setf new-schema (replace-vals (second rc) (second child-rc) new-schema))
+		)
+	)
+
+	(return-from outer (dedupe-sections new-schema))
+
+	)
+)
+
 (ldefun topsort-steps-helper (time-graph ep-lst)
 (block outer
 	; base case

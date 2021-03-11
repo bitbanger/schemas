@@ -27,14 +27,6 @@
 	(setf match-bindings (make-hash-table :test #'equal))
 
 	(loop for protoschema in best-schemas do (block match-proto
-		(if (equal protoschema 'MAKE.V)
-			(progn
-				; (format t "doing make now~%")
-				; (dbg-tag 'match)
-				; (dbg-tag 'unify)
-				(dbg-tag 'tom)
-			)
-		)
 		(loop for best-match-res-pair in
 			(top-k-story-schema-matches story (eval protoschema) num-shuffles generalize num-matches)
 			do (block process-each

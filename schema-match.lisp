@@ -1122,6 +1122,11 @@
 
 		; Added constraints shouldn't count toward our score, because we know
 		; they'll be satisfied.
+		; TODO: original constraints may have been further
+		; specified by hyponym matches, but the score we get
+		; for matching it really shouldn't be based on the new,
+		; more specific pred, but rather the old one; fix this
+		; somehow?
 		(setf cur-match-old-constrs (copy-list cur-match))
 		(loop for sec in (nonmeta-sections cur-match)
 			do (block prune

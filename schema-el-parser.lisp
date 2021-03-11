@@ -496,6 +496,7 @@
 	retag-det-preds
 	split-whens
 	adv-ify-temporals
+	atemporalize-adj-preds
 	; reify-pred-args
 ))
 
@@ -522,6 +523,23 @@
 	)
 
 	(return-from outer last-noun)
+)
+)
+
+(ldefun atemporalize-adj-preds (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for form in phi do (block loop-outer
+		(if (and
+				(canon-charstar? form)
+				(lex-adj? (pred-base (prop-pred (car form))))
+			)
+			; then
+			(setf phi-copy (replace-vals form (car form) phi-copy))
+		)
+	))
+
+	(return-from outer phi-copy)
 )
 )
 

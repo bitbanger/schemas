@@ -152,15 +152,18 @@
 
 		(setf rcs (dedupe rcs))
 
+
+
 		; (format t "all constraints being added: ~%")
-		(loop for constr in rcs
+		; (loop for constr in rcs
 			; do (format t "	~s~%" constr)
-		)
+		; )
 
 		(setf new-schema (compose-schema rcs (append events headers)))
 		(print-schema new-schema)
 
 		; At this point, we're going to compile all of the role constraints and events into a set of EL formulas, then let the EL-to-English code work its magic.
+
 		(setf els-for-eng (append
 			; Get all role constraints
 			(mapcar #'second (section-formulas (get-section new-schema ':Roles)))

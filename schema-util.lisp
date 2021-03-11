@@ -359,7 +359,7 @@
 )
 
 (ldefun sort-sections (secs)
-	(sort secs (lambda (s1 s2)
+	(sort (copy-list secs) (lambda (s1 s2)
 		(> (length (member (car s1) *SEC-NAMES* :test #'equal)) (length (member (car s2) *SEC-NAMES* :test #'equal)))
 	))
 )
@@ -565,7 +565,7 @@
 					; if (or show-invisibles (not (invisible-prop? (second elem))))
 						do (format t "		~s~%" elem))
 				(format t "	)~%")
-		)
+			)
 	)
 	(format t ")~%")
 )

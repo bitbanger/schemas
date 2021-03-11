@@ -496,6 +496,7 @@
 	retag-det-preds
 	split-whens
 	adv-ify-temporals
+	; reify-pred-args
 ))
 
 (ldefun extract-noun-sym (form)
@@ -521,6 +522,46 @@
 	)
 
 	(return-from outer last-noun)
+)
+)
+
+(ldefun reify-pred-args (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(loop for form in phi do (block loop-outer
+		(if (not (canon-prop? form))
+			(return-from loop-outer))
+
+		(setf stripped-form (copy-item form))
+		(setf stripped-eps (list))
+		(if (canon-charstar? stripped-form)
+			(progn
+				; (setf stripped-form (car stripped-form)))
+				(setf stp (strip-charstar-eps stripped-form))
+				(setf stripped-form (car stp))
+				(setf stripped-eps (second stp))
+			)
+		)
+
+		(if (be-verb? (prop-pred stripped-form))
+			(return-from loop-outer))
+
+		(setf new-form (copy-item stripped-form))
+		(loop for arg in (prop-post-args stripped-form)
+			if (canon-pred? arg)
+				do (setf new-form (replace-vals arg (list 'KJ arg) new-form))
+		)
+
+		;(if (not (equal stripped-form form))
+			;(setf new-form (list new-form '** (third form))))
+		(if (not (null stripped-eps))
+			(setf new-form (apply-charstar-eps new-form stripped-eps))
+		)
+
+		(setf phi-copy (replace-vals form new-form phi-copy))
+	))
+
+	(return-from outer phi-copy)
 )
 )
 
@@ -639,8 +680,15 @@
 		)
 
 		(setf stripped-form (copy-item form))
+		(setf stripped-eps (list))
 		(if (canon-charstar? form)
-			(setf stripped-form (car stripped-form)))
+			; (setf stripped-form (car stripped-form)))
+			(progn
+				(setf stp (strip-charstar-eps form))
+				(setf stripped-form (car stp))
+				(setf stripped-eps (second stp))
+			)
+		)
 
 		(setf post-args (prop-post-args stripped-form))
 		(setf temporals (loop for pa in post-args if (temporal-arg? pa) collect pa))
@@ -660,12 +708,15 @@
 
 		(setf stripped-form (add-prop-mods stripped-form temporal-mods))
 
-		(if (canon-charstar? form)
+		;(if (canon-charstar? form)
 			; then
-			(setf stripped-form (list stripped-form '** (third form)))
+			;(setf stripped-form (list stripped-form '** (third form)))
+		;)
+		(if (not (null stripped-eps))
+			(setf stripped-form (apply-charstar-eps stripped-form stripped-eps))
 		)
 
-		(format t "replacing ~s with ~s~%" form stripped-form)
+		; (format t "replacing ~s with ~s~%" form stripped-form)
 		(setf phi-copy (replace-vals form stripped-form phi-copy))
 	))
 

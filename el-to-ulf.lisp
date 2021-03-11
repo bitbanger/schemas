@@ -16,6 +16,14 @@
 (ql:quickload "standardize-ulf")
 (use-package :standardize-ulf)
 
+(defparameter *EL-TO-ULF-MAIN* nil)
+
+(defparameter *SHOW-ENG* t)
+(defparameter *SHOW-ULF* nil)
+(defparameter *SHOW-EL* t)
+(defparameter *SHOW-BACK-ULF* nil)
+(defparameter *SHOW-BACK-ENG* t)
+
 (defun now-rel? (phi)
 	(has-element-pred phi (lambda (x)
 		(and
@@ -248,46 +256,76 @@ do (block unmake-sk
 )
 
 
-(if nil (block main-program
-	(loop for story in *ROC*
+(if *EL-TO-ULF-MAIN* (block main-program
+	(loop for story in (append (list (list "She felt dizzy.")) *ROC*)
 
-	do (block per-story
+	do
+		; (handler-case
+		(block per-story
 
 
+	(if *SHOW-ENG* (progn
 		(format t "~%~%~%ENGLISH:~%")
 		(loop for sent in story
 			do (format t "	~s~%" sent))
+	))
 
 	(setf pairs (len-ulfs-and-els story))
 	; (setf els (len-parse-sents story))
 	(setf ulfs (mapcar #'car pairs))
 	(setf els (mapcar #'second pairs))
 
-	(format t "ULF (parsed):~%")
-	(loop for ulf in ulfs
-		do (format t "	~s~%" ulf)
-	)
+	(if *SHOW-ULF* (progn
+		(format t "ULF (parsed):~%")
+		(loop for ulf in ulfs
+			do (format t "	~s~%" ulf)
+		)
+	))
 
 	(setf els (loop for sent in els append sent))
 
-	(format t "EL (converted):~%")
-	(loop for sent in els
-		do (format t "	~s~%" sent)
-	)
+	(if *SHOW-EL* (progn
+
+		(setf print-els (loop for el in els if (canon-prop? el) collect el))
+
+		(setf charstars (loop for el in print-els if (canon-charstar? el) collect el))
+		(setf times (loop for el in print-els if (time-prop? el) collect el))
+		(setf constrs (loop for el in print-els if (and (not (has-element el 'HAS-DET.PR)) (not (has-element el 'ORIENTS))) collect el))
+		(setf constrs (set-difference constrs times :test #'equal))
+		(setf constrs (set-difference constrs charstars :test #'equal))
+
+		(setf print-els (append constrs charstars))
+
+		(format t "EL (converted):~%")
+		(loop for sent in print-els
+			do (format t "	~s~%" sent)
+		)
+	))
 
 	(setf converted-ulfs (el-to-ulf els))
-	(format t "ULF (converted back):~%")
-	(loop for ulf in converted-ulfs
-		do (format t "		~s~%" ulf)
-	)
+	(if *SHOW-BACK-ULF* (progn
+		(format t "ULF (converted back):~%")
+		(loop for ulf in converted-ulfs
+			do (format t "		~s~%" ulf)
+		)
+	))
 
-
+	(if *SHOW-BACK-ENG* (progn
 		(format t "ENGLISH (converted back):~%")
 		(loop for ulf in converted-ulfs
 			do (handler-case (format t "	~s~%" (ulf-to-eng ulf)) (error () (format t "; ulf2english error~%")))
 			; do (format t "	~s~%" (ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english)))
 			; do (format t "	~s~%" (ulf2english:ulf2english ulf))
 		)
-
 	))
-))
+
+	)
+
+;(error () (progn
+		;(format t "parser crashed on story :(~%")
+;))
+
+)
+)
+)
+

@@ -282,8 +282,115 @@
 
 
 
-	(dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
-	(dbg 'match "total matches: ~s~%" total-matches)
+	; (dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
+	; (dbg 'match "total matches: ~s~%" total-matches)
+
+
+
+	; Several new constraints may have been added to the schema match from the story.
+	; We need to check to see if any of them can be generalized with existing
+	; constraints in the input schema, and update certainties if so: the more general
+	; constraint should be more certain than the more specific one. Also, if both
+	; constraints generalize into a third, unique common ancestor, we need to add that
+	; new, more general constraint to the final schema and give it the more certain score.
+	(block generalize-new-constraints
+		; Make sure to apply the match bindings to the input schema so that the
+		; specific values in the constraints are shared with the matched schema.
+		(setf orig-rcs (section-formulas (get-section (apply-bindings in-schema all-bindings) ':Roles)))
+		; Also make sure to fully clean (and dedupe) the match schema, but not
+		; generalize its individuals, to ensure parity with the generalized
+		; *and* clean schema we're outputting later.
+		(setf match-rcs (section-formulas (get-section (fully-clean-schema-no-gen test-schema) ':Roles)))
+
+		; The original role constraints should be a prefix of the new ones,
+		; i.e., we should only have added constraints.
+		(if (not (has-lst-prefix? match-rcs orig-rcs))
+			; then
+			(progn
+				(format t "WARNING: schema constraints ~s weren't a prefix of match constraints ~s - why did some get erased?~%")
+				(return-from generalize-new-constraints)
+			)
+		)
+
+		(setf added-constraints (subseq match-rcs (length orig-rcs) (length match-rcs)))
+		(loop for added-rc in added-constraints
+			do (loop for orig-rc in orig-rcs
+				do (block try-generalize
+
+
+(if (not (and (equal 2 (length added-rc)) (equal 2 (length orig-rc))))
+	; We can't generalize multi-arg predicates, or those with
+	; modifiers.
+	(return-from try-generalize)
+)
+
+(if (not (equal (car (second added-rc)) (car (second orig-rc))))
+	; These propositions are about different individuals
+	; and can't be generalized.
+	(return-from try-generalize)
+)
+
+(setf added-rc-pred (prop-pred (second added-rc)))
+(setf orig-rc-pred (prop-pred (second orig-rc)))
+
+(setf ancestor-pred (car (common-ancestor added-rc-pred orig-rc-pred)))
+
+(if (null ancestor-pred)
+	(return-from try-generalize)
+)
+
+; At this point, we've generalized ancestor-pred and determined
+; that these two preds do overlap.
+(setf most-general-rc-id nil)
+(setf most-specific-rc-ids (list))
+
+; Check whether an existing role constraint is the most general.
+(if (equal ancestor-pred orig-rc-pred)
+	; then
+	(progn
+		(setf most-general-rc-id (car orig-rc))
+		; (setf most-specific-rc-ids (list (car added-rc)))
+	)
+	; else
+	(if (equal ancestor-pred added-rc-pred)
+		(progn
+			(setf most-general-rc-id (car added-rc))
+			; (setf most-specific-rc-ids (list (car orig-rc)))
+		)
+	)
+)
+
+; The existing preds generalized to a third, unique pred.
+
+; If the general third pred is already in the schema, set
+; its ID now.
+(setf most-general-rc-id (get-id-by-formula test-schema (list (car (second added-rc)) ancestor-pred)))
+
+; Otherwise, we'll have to add a new constraint.
+(if (null most-general-rc-id)
+	; then
+	; The existing preds generalized to a third,
+	; unique pred, which we must now add.
+	(block add-gen-rc
+		(setf test-schema (add-role-constraint test-schema (list (car (second added-rc)) ancestor-pred)))
+		(setf most-general-rc-id (car (last (section-formulas (get-section test-schema ':Roles)))))
+	)
+)
+
+
+; (format t "ancestor of ~s and ~s was ~s~%" orig-rc added-rc ancestor-pred)
+; (format t "most general pred is ~s ~s~%" most-general-rc-id (get-formula-by-id test-schema most-general-rc-id))
+
+(setf most-specific-rc-ids (set-difference (list (car added-rc) (car orig-rc)) (list most-general-rc-id) :test #'equal))
+; (format t "general ~s, specifics ~s~%" most-general-rc-id most-specific-rc-ids)
+
+
+
+
+				)
+			)
+		)
+	)
 
 
 
@@ -655,6 +762,8 @@
 
 
 	
+					; (format t "initial constraints for go-match-schema: ~s~%" (loop for rc in (section-formulas (get-section go-match-schema ':Roles)) collect (second rc)))
+					; (format t "will add constraints ~s~%" constraints)
 					(loop for const in constraints do (block const-add
 						(if (time-prop? const)
 							; then
@@ -704,9 +813,24 @@
 											(setf gen-constr-cert (list '/ (+ 1 (second schema-spec-constr-cert)) (+ 1 (third schema-spec-constr-cert))))
 											(setf new-schema-spec-constr-cert (list '/ (second schema-spec-constr-cert) (+ 1 (third schema-spec-constr-cert))))
 
-											(setf go-match-schema (set-certainty gen-constr-id (second gen-constr-cert) (third gen-constr-cert) go-match-schema))
-											(setf go-match-schema (set-certainty schema-spec-constr-id (second new-schema-spec-constr-cert) (third new-schema-spec-constr-cert) go-match-schema))
-											(setf go-match-schema (set-certainty story-spec-constr-id 1 (third new-schema-spec-constr-cert) go-match-schema))
+
+											; UHHHH, actually, don't set certainties here!
+											; correctly updating the denominators requires knowledge
+											; of whether the added constraint is from the same story
+											; or not, which we can't do this low-down in the matching
+											; process, because we don't know what the schema was before
+											; we matched this story to it. We can set certainties accurately
+											; given just the original schema and the final match, way up the
+											; call tree from here.
+											; TODO: factor all of the certainty-related code out of this
+											; section.
+
+
+
+											; (format t "setting certainties for ~s, ~s, and ~s~%" gen-constr-id schema-spec-constr-id story-spec-constr-id)
+											; (setf go-match-schema (set-certainty gen-constr-id (second gen-constr-cert) (third gen-constr-cert) go-match-schema))
+											; (setf go-match-schema (set-certainty schema-spec-constr-id (second new-schema-spec-constr-cert) (third new-schema-spec-constr-cert) go-match-schema))
+											; (setf go-match-schema (set-certainty story-spec-constr-id 1 (third new-schema-spec-constr-cert) go-match-schema))
 										)
 									)
 								)

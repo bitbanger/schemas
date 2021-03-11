@@ -16,8 +16,8 @@
 		; else
 		(progn
 			; (format t "loading ~s~%" filename)
-			(load filename)
 			(setf (gethash filename *LL-LOADED*) t)
+			(load filename)
 		)
 	)
 )

@@ -155,7 +155,7 @@
 	; (mp x (list 'canon-attr? 'canon-pred?))
 
 	; Allow serialized arguments for e.g. verb phrases
-	(mp x (list 'canon-pred? 'canon-individual?+))
+	(mp x (list 'canon-pred? 'canon-arg?+))
 
 
 	; Prepositions with individual complements are predicates
@@ -183,6 +183,32 @@
 	(equal x 'PERF)
 	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
+)
+)
+
+(ldefun strip-charstar-eps (phi)
+(block outer
+	(setf eps (list))
+	(loop while (canon-charstar? phi)
+		do (progn
+			(setf eps (append eps (list (third phi))))
+			(setf phi (car phi))
+		)
+	)
+
+	(return-from outer (list phi (reverse eps)))
+)
+)
+
+(ldefun apply-charstar-eps (phi eps)
+(block outer
+	(setf new-phi (copy-item phi))
+
+	(loop for ep in eps
+		do (setf new-phi (list new-phi '** ep))
+	)
+
+	(return-from outer new-phi)
 )
 )
 
@@ -228,6 +254,14 @@
 )
 )
 
+(ldefun canon-arg? (x)
+(or
+	(canon-pred? x)
+	(canon-prop? x)
+	(canon-individual? x)
+)
+)
+
 (ldefun canon-atomic-prop? (x)
 (or
 	(mp x (list 'canon-individual?+ 'canon-pred?))
@@ -240,7 +274,7 @@
 
 	; This is like the similar serial argument rule in canon-pred?, but
 	; it allows the pred to be flattened with the subject (prefixed) and "curried" args (postfixed).
-	(mp x (list 'canon-individual?+ 'canon-pred? 'canon-individual?+))
+	(mp x (list 'canon-individual?+ 'canon-pred? 'canon-arg?+))
 
 	; CERTAIN-TO-DEGREE and NECESSARY-TO-DEGREE don't
 	; follow normal prop rules; best to add exceptions
@@ -420,8 +454,8 @@
 	; Now loop to get all the args. We'll assume the base
 	; pred doesn't nest another set of them, because that'd
 	; be crazy.
-	(return-from outer (loop for e in pred
-		if (canon-individual? e)
+	(return-from outer (loop for e in (cdr pred)
+		if (canon-arg? e)
 			collect e
 	))
 )

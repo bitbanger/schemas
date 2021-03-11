@@ -14,7 +14,7 @@
 (ll-load-superdir "ll-util.lisp")
 
 ; 400 total ROCstories in set so far
-(defparameter *NUM-DEV-STORIES* 150)
+(defparameter *NUM-DEV-STORIES* (length *ROC-MCGUFFEY*))
 
 ; (dbg-tag 'match)
 ; (dbg-tag 'unify)
@@ -26,7 +26,8 @@
 	; "The man made a bet."
 	; "A little girl was born."
 	; "It was snowing outside Tom's house one day."
-	nil
+	"Allie was watching a show yesterday."
+	; nil
 )
 (setf stories-processed 0)
 
@@ -34,7 +35,11 @@
 (ldefun compose-schemas-from-stories ()
 (block process-all-stories
 (loop for roc-story in (shuffle *ROC-MCGUFFEY*)
-	do (process-one-story roc-story)
+	if (or
+			(null story-start-line)
+			(equal story-start-line (car roc-story)))
+		; then
+		do (process-one-story roc-story)
 )))
 
 (ldefun process-one-story (roc-story)
@@ -59,7 +64,7 @@
 		(setf events nil)
 		(setf schemas nil)
 
-		(handler-case
+		; (handler-case
 		(block parse-story
 			(setf el-story (len-parse-sents roc-story))
 
@@ -99,20 +104,20 @@
 
 			(setf schemas (loop for schema in (top-story-matches-easy-el el-story)
 				collect (car schema)))
-			) (error ()
-				(progn
-					(format t "story processing error~%")
-					(return-from process-story)
-				))
 			)
+			;(error ()
+				;(progn
+					;(format t "story processing error~%")
+					;(return-from process-story)
+				;)))
 
 		(setf headers (loop for schema in schemas collect (schema-header schema)))
 
 		; (format t "steps: ~%")
 		; (loop for ev in events do (format t "	~s~%" ev))
 		(format t "schemas: ~%")
-		(loop for header in headers do (format t "	~s~%" header))
-		; (loop for schema in schemas do (print-schema schema))
+		; (loop for header in headers do (format t "	~s~%" header))
+		(loop for schema in schemas do (print-schema (fully-clean-schema schema)))
 
 		(setf inds (dedupe (intersection
 						(union

@@ -15,11 +15,11 @@
 
 (defparameter *PRINT-OUTPUT* t)
 
-(defparameter *USE-DEBUG-STORIES* nil)
+(defparameter *USE-DEBUG-STORIES* t)
 
 (defparameter *SHUFFLE-STORIES* t)
 
-(defparameter *HANDLE-ERRORS* nil)
+(defparameter *HANDLE-ERRORS* t)
 
 (defparameter *PRINT-VALID-SENTS* t)
 
@@ -41,6 +41,7 @@
 (if *USE-DEBUG-STORIES*
 	; then
 	(setf stories '((
+		"Allie felt dizzy."
 		"Allie was watching a show yesterday."
 		"It was very funny."
 		"Allie laughed out loud."

@@ -4,6 +4,10 @@
 (ll-load "schema-subsumption.lisp")
 (ll-load "schema-util.lisp")
 
+; This would create a cycle, but for the magic
+; of ll-load :)
+(ll-load "schema-match.lisp")
+
 ; This is a global variable used to temporarily disable
 ; constraint checking for unification calls. Disabling
 ; it is necessary when an expanded schema step is being

@@ -344,6 +344,18 @@
 	(not (has-element-pred lst pred))
 )
 
+(defun has-lst-prefix? (l pre)
+(and
+	(listp l)
+	(listp pre)
+	(>= (length l) (length pre))
+	(equal
+		(subseq l 0 (length pre))
+		pre
+	)
+)
+)
+
 (defun has-prefix? (s pre)
 (and
 	(stringp s)

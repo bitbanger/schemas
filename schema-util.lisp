@@ -92,6 +92,7 @@
 
 (ldefun register-schema (schema)
 (block outer
+	; (format t "~d schemas registered~%" (ht-count *PREDS-BY-SCHEMA*))
 	(setf (gethash (schema-pred schema) *SCHEMAS-BY-PRED*) schema)
 	(set (schema-pred schema) schema)
 
@@ -551,16 +552,20 @@
 )))
 
 ; print-schema prints a schema with proper formatting, for readability purposes.
-(ldefun print-schema (schema)
+(ldefun print-schema (schema &optional show-invisibles)
 (block outer
 	(check #'schema? schema)
 
 	(format t "(~s ~s~%" (car schema) (second schema))
 	(loop for sec in (sort-sections (schema-sections schema))
-		do (format t "	(~s~%" (section-name sec))
-		do (loop for elem in (cdr sec)
-			do (format t "		~s~%" elem))
-		do (format t "	)~%")
+		if (> (length (section-formulas sec)) 0)
+			do (block print-sec
+				(format t "	(~s~%" (section-name sec))
+				(loop for elem in (cdr sec)
+					; if (or show-invisibles (not (invisible-prop? (second elem))))
+						do (format t "		~s~%" elem))
+				(format t "	)~%")
+		)
 	)
 	(format t ")~%")
 )
@@ -856,6 +861,10 @@
 
 (ldefun remove-invisible-rcs (schema)
 (block outer
+	; (format t "schema is ~s~%" schema)
+
+	(setf removed-constr-ids (list))
+
 	(setf cleaned-rcs
 		(loop for rc in (section-formulas (get-section schema ':Roles))
 			if (not 
@@ -866,20 +875,55 @@
 					)
 				)
 				collect rc
+			else
+				do (setf removed-constr-ids (append removed-constr-ids (list (car rc))))
 		)
 	)
 
+	; (format t "removed constraint ids ~s~%" removed-constr-ids)
+
 	(setf new-roles-sec (append (list ':Roles) cleaned-rcs))
-	(return-from outer (set-section schema ':Roles new-roles-sec))
+	(setf ret-schema (set-section schema ':Roles new-roles-sec))
+
+	; Remove all certainty/necessity formulas about the
+	; removed constraints. This doesn't need to be recursive,
+	; as the cert/necess formulas aren't mentioned anywhere
+	; else.
+	(setf keep-cert (list))
+	(loop for cf in (section-formulas (get-section ret-schema ':Certainties))
+		if (contains removed-constr-ids (car (second cf)))
+			do (progn
+				; (format t "removing cert ~s~%" cf)
+				)
+		else
+			do (setf keep-cert (append keep-cert (list cf)))
+	)
+	(setf keep-necess (list))
+	(loop for nf in (section-formulas (get-section ret-schema ':Necessities))
+		if (contains removed-constr-ids (car (second nf)))
+			do (progn
+				; (format t "removing necess ~s~%" nf)
+			)
+		else
+			do (setf keep-necess (append keep-necess (list nf)))
+	)
+
+	(setf new-cert-sec (append (list ':Certainties) keep-cert))
+	(setf new-necess-sec (append (list ':Necessities) keep-necess))
+
+	(setf ret-schema (set-section ret-schema ':Certainties new-cert-sec))
+	(setf ret-schema (set-section ret-schema ':Necessities new-necess-sec))
+
+	(return-from outer ret-schema)
 )
 )
 
 (ldefun fully-clean-schema (schema)
-	(clean-do-kas (rename-constraints (remove-invisible-rcs (sort-steps (linearize-unspecified-steps (generalize-schema-constants schema))))))
+	(fully-clean-schema-no-gen (generalize-schema-constants schema))
 )
 
 (ldefun fully-clean-schema-no-gen (schema)
-	(clean-do-kas (rename-constraints (remove-invisible-rcs (sort-steps (linearize-unspecified-steps schema)))))
+	(clean-do-kas (rename-constraints (dedupe-sections (remove-invisible-rcs (sort-steps (linearize-unspecified-steps schema))))))
 )
 
 (ldefun generalize-schema-constants (schema)
@@ -910,7 +954,15 @@
 	)
 
 	(loop for si in (extract-schema-small-individuals schema) do (block gen-block
+		; Don't abstract individuals with the "IND" type-shifter,
+		; as these are bits of information carried through from
+		; the source text.
+		(if (and (listp si) (equal (length si) 2) (equal (car si) 'IND))
+			(return-from gen-block)
+		)
+
 		; (format t "small ind ~s~%" si)
+		(if nil
 		(loop for constr in (schema-term-constraints schema si)
 			do (block cc
 				(if (and
@@ -926,6 +978,7 @@
 					)
 				)
 			)
+		)
 		)
 
 		(loop while (has-element gen-schema (intern gen-cursor))
@@ -980,7 +1033,11 @@
 	(setf replaced nil)
 	(if (not (null (get-section new-schema ':Certainties)))
 		(loop for c in (section-formulas (get-section new-schema ':Certainties))
-			do (if (equal (car (second c)) (var-to-exc constr-id))
+			do (if (or
+					(equal (car (second c)) (var-to-exc constr-id))
+					; also replace separate certainty constraints for duplicate formulas
+					(equal (get-formula-by-id schema constr-id) (get-formula-by-id new-schema (car (second c))))
+				)
 				; then
 				(block replace-cert
 					(setf new-cert (replace-vals (third (second c)) (list '/ num denom) c))
@@ -993,7 +1050,10 @@
 
 	(if (null replaced)
 		; then
-		(setf new-schema (add-constraint new-schema ':Certainties (list (var-to-exc constr-id) 'CERTAIN-TO-DEGREE (list '/ num denom))))
+		(progn
+			; (format t "added cert about ~s to certs about ~s~%" (var-to-exc constr-id) (loop for c in (section-formulas (get-section new-schema ':Certainties)) collect (car (second c))))
+			(setf new-schema (add-constraint new-schema ':Certainties (list (var-to-exc constr-id) 'CERTAIN-TO-DEGREE (list '/ num denom))))
+		)
 	)
 
 	(return-from outer new-schema)
@@ -1313,7 +1373,7 @@
 		(setf deduped-name-map (make-hash-table :test #'equal))
 		(loop for pair in (section-formulas sec) do (setf (gethash (second pair) deduped-name-map) (car pair)))
 
-		(setf deduped-constrs (remove-duplicates (mapcar #'second (section-formulas sec)) :test #'equal))
+		(setf deduped-constrs (remove-duplicates (mapcar #'second (section-formulas sec)) :test #'equal :from-end t))
 
 		; Blank out the section in the schema and
 		; add the constraints back in one by one
@@ -1347,7 +1407,7 @@
 	; here (necessarily), so we'll just dedupe episode/characterizer
 	; pairs in their entireties.
 	(loop for sec in (fluent-sections schema) do (block sec-loop-2
-		(setf new-sec (append (list (section-name sec)) (remove-duplicates (section-formulas sec) :test #'equal)))
+		(setf new-sec (append (list (section-name sec)) (remove-duplicates (section-formulas sec) :test #'equal :from-end t)))
 		(setf deduped-schema (set-section deduped-schema (section-name sec) new-sec))
 	))
 
@@ -1512,7 +1572,7 @@
 
 (ldefun rename-constraints-helper (schema tmp-pass)
 (block outer
-	(setf new-schema schema)
+	(setf new-schema (copy-item schema))
 
 	(loop for sec in (schema-sections schema) do (block sec-block
 		(setf new-sec (list (section-name sec)))
@@ -1538,6 +1598,7 @@
 )
 
 (ldefun rename-constraints (schema)
+(block outer
 	; We're going to do two passes. The first will rename
 	; constraint variables to have two dashes in them, which
 	; we assume won't happen anywhere else. This is because the
@@ -1546,7 +1607,15 @@
 	; the rename will have a different ?E3. With two passes, we can
 	; avoid that aliasing issue (just like using a temp variable for
 	; swaps).
-	(rename-constraints-helper (rename-constraints-helper schema t) nil)
+	(setf ret-val (rename-constraints-helper (rename-constraints-helper schema t) nil))
+
+	; (setf c1-covered (loop for c1 in (section-formulas (get-section schema ':Certainties)) collect (car (second c1))))
+	; (setf c2-covered (loop for c2 in (section-formulas (get-section ret-val ':Certainties)) collect (car (second c2))))
+
+	; (format t "constraint rename had certainty coverage ~s into ~s~%" c1-covered c2-covered)
+
+	(return-from outer ret-val)
+)
 )
 
 (ldefun do-ka-pred? (p)

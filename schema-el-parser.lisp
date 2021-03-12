@@ -497,6 +497,7 @@
 	split-whens
 	adv-ify-temporals
 	atemporalize-adj-preds
+	past-tense-story-to-present
 	; reify-pred-args
 ))
 
@@ -523,6 +524,52 @@
 	)
 
 	(return-from outer last-noun)
+)
+)
+
+; The BEFORE relation is not as restrictive as the
+; AT-ABOUT relation, so for stories in the past tense,
+; we're unable to construct an ordering of the sentences
+; just given an ordering of the NOW-relations they're each
+; related to. So, we'll assume that the past-tense story
+; can just be shifted forward in time to "NOW".
+(ldefun past-tense-story-to-present (phi)
+(block outer
+	(setf phi-copy (copy-list phi))
+	(setf now-props
+		(loop for form in phi
+			if (and
+					(time-prop? form)
+					(not (null (get-elements-pred form #'is-now?))))
+				; then
+				collect form))
+
+	; The BEFORE props may not all be valid yet,
+	; or may not all have been extracted from
+	; invalid structures yet. We'll know it's
+	; ready when the number of now-props equals
+	; the number of NOW-symbols in the entire story.
+	(if (not (equal
+				(length now-props) 
+				(length (get-elements-pred phi #'is-now?))))
+		; then
+		(return-from outer phi-copy)
+	)
+
+	(if (loop for now-prop in now-props
+			always (equal (prop-pred now-prop) 'BEFORE))
+		; then
+		(loop for now-prop in now-props
+			do (block replace-past-tense
+				(setf new-now-prop
+					(replace-vals 'BEFORE 'AT-ABOUT now-prop))
+				(setf phi-copy
+					(replace-vals now-prop new-now-prop phi-copy))
+			)
+		)
+	)
+
+	(return-from outer phi-copy)
 )
 )
 

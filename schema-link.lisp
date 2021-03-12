@@ -289,7 +289,7 @@
 )
 )
 
-(ldefun compose-schema (roles steps)
+(ldefun compose-schema (roles steps ep-rels)
 (let (
 	new-schema
 )
@@ -343,6 +343,15 @@
 		)
 	)
 
+	; Add the episode relations for temporal
+	; sorting.
+	(loop for ep-rel in ep-rels
+		do (setf new-schema
+			(add-constraint new-schema ':Episode-relations ep-rel))
+	)
+
+	(load-time-model ep-rels)
+
 	; Sort the steps and clean up the schema.
 	; Don't generalize it, though, as we'll be
 	; doing more non-generalized insertions, and
@@ -350,6 +359,53 @@
 	; constants.
 	; (setf new-schema (fully-clean-schema new-schema))
 	(setf new-schema (fully-clean-schema-no-gen new-schema))
+
+	; Forget about the "now" episodes so that
+	; we can just extract the direct ep-ep
+	; temporal relations.
+	(setf eps-we-care-about
+		(loop for ep-rel in ep-rels
+			append (prop-all-args ep-rel)))
+	(setf eps-we-care-about
+		(loop for ep in eps-we-care-about
+			if (not (is-now? ep))
+				collect ep))
+
+	; Get the direct ep-ep relations by
+	; iterating over the topsort and
+	; saving the first "before" relation
+	; that holds true for each ep.
+	; TODO: extend this to non-point step
+	; times.
+	; TODO: do this at the parsing stage,
+	; rather than at the composition stage?
+	(setf direct-step-rels (list))
+	(setf step-ids
+		(mapcar #'car (section-formulas
+			(get-section new-schema ':Steps))))
+	(loop for step1 in (subseq step-ids 0 (- (length step-ids) 1))
+			for i from 0
+		do (block check-against-step1
+			(loop for step2 in (subseq step-ids (+ i 1) (length step-ids))
+				do (block check-step2
+					(setf bf-rel (list step1 (list 'BEFORE step2)))
+					(if (eval-time-prop bf-rel)
+						(setf direct-step-rels
+							(append direct-step-rels (list bf-rel)))
+					)
+				)
+			)
+		)
+	)
+
+	; Replace the ep-rels section in the
+	; new, more direct rels.
+	(setf new-schema (set-section new-schema ':Episode-relations
+		(list ':Episode-relations)))
+	(loop for step-rel in direct-step-rels
+		do (setf new-schema
+			(add-constraint new-schema ':Episode-relations step-rel)))
+
 
 	; If we have matches embedded as steps, we're going to move their role constraints
 	; and pre/postconditions into the embedding schema. This is largely for clarity and
@@ -367,6 +423,13 @@
 			(if (null (get-schema-match-num (prop-pred (second st))))
 				(return-from inv-loop)
 			)
+
+			; TODO: make sure subordinate constraints are
+			; considered here, if we really want to do this
+			; right, as this won't bind everything in the
+			; subordinate schemas (just header variables).
+			; That said, this *is* currently an optional
+			; step for clarity, so....
 
 			(if (not (invokes-schema? (second st)))
 				(return-from inv-loop)

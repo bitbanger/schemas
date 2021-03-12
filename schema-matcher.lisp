@@ -116,12 +116,12 @@
 			; If the schema's header variable was bound...
 			(if (not (varp (third (second m))))
 				; ...then we can just add it...
-				(setf story-matches (append story-matches (list (list m score))))
+				(setf story-matches (append story-matches (list (list m score binds))))
 				; ...otherwise, if any of the step episode
 				; variables were bound...
 				(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
 					; ...then we can still add it...
-					(setf story-matches (append story-matches (list (list m score))))
+					(setf story-matches (append story-matches (list (list m score binds))))
 					; ...but if no header or step episode
 					; variables were bound, we'll do nothing.
 					(progn

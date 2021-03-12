@@ -62,7 +62,7 @@
 
 		(setf el-story nil)
 		(setf events nil)
-		(setf schemas nil)
+		(setf schema-match-tuples nil)
 
 		; (handler-case
 		(block parse-story
@@ -102,8 +102,7 @@
 
 			(setf events (loop for sent in el-story append (loop for wff in sent if (canon-charstar? wff) collect wff)))
 
-			(setf schemas (loop for schema in (top-story-matches-easy-el el-story)
-				collect (car schema)))
+			(setf schema-match-tuples (top-story-matches-easy-el el-story))
 			)
 			;(error ()
 				;(progn
@@ -111,13 +110,34 @@
 					;(return-from process-story)
 				;)))
 
-		(setf headers (loop for schema in schemas collect (schema-header schema)))
+		(setf schemas (mapcar #'car schema-match-tuples))
+		(setf bound-schemas (loop for tuple in schema-match-tuples
+			collect (apply-bindings (car tuple) (third tuple))
+		))
+
+		; (setf headers (loop for schema in schemas collect (schema-header schema)))
+		(setf headers (loop for schema in bound-schemas collect (schema-header schema)))
 
 		; (format t "steps: ~%")
 		; (loop for ev in events do (format t "	~s~%" ev))
 		(format t "schemas: ~%")
 		; (loop for header in headers do (format t "	~s~%" header))
-		(loop for schema in schemas do (print-schema (fully-clean-schema schema)))
+		; (loop for schema in schemas do (print-schema (fully-clean-schema schema)))
+		(loop for tuple in schema-match-tuples do (block get-bound-eps
+			(setf bound-match (apply-bindings (car tuple) (third tuple)))
+
+			; if any story eps are bound to the header, they can be excused
+			; from the steps section
+			(setf used-eps (list (third (second bound-match))))
+
+			; also, if any story eps are bound to step IDs, they can be
+			; excused as well
+			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-match ':Steps)))) :test #'equal))
+
+			; (format t "using episodes ~s: ~%" used-eps)
+			(print-schema (fully-clean-schema (car tuple)))
+			; (format t "~%")
+		))
 
 		(setf inds (dedupe (intersection
 						(union
@@ -159,7 +179,47 @@
 			; do (format t "	~s~%" constr)
 		; )
 
-		(setf new-schema (compose-schema rcs (append events headers)))
+		; Collect all story event episodes that are either
+		; bound to header episodes or step episodes in
+		; matched schemas; these don't need to be steps in
+		; the composite schema.
+		(setf used-eps (list))
+		(loop for schema in bound-schemas
+			do (block get-eps
+				; add the header episode
+				(setf used-eps (append used-eps (list (third (second schema)))))
+
+				; add all step episodes
+				(setf used-eps (append used-eps (mapcar #'car (section-formulas (get-section schema ':Steps)))))
+
+				; deduplicate
+				(setf used-eps (dedupe used-eps))
+			)
+		)
+
+		; Remove the matched episodes from the events list.
+		(setf events
+			(loop for event in events
+				if (not (contains used-eps (third event)))
+					collect event
+			)
+		)
+
+		; Collect episode relations from the story,
+		; and inferred ones from the schemas, and
+		; provide them to the composer to order the
+		; steps correctly.
+		(setf story-ep-rels (loop for phi in (linearize-story el-story) if (time-prop? phi) collect phi))
+
+		(setf matched-schema-ep-rels (loop for bound-schema in bound-schemas
+			append (mapcar #'second (section-formulas (get-section bound-schema ':Episode-relations)))))
+
+		(setf ep-rels (dedupe (append story-ep-rels matched-schema-ep-rels)))
+		; (setf ep-rels (append ep-rels (list '(NOW1 (BEFORE E6.SK)))))
+
+		; Compose a schema from the matched schemas,
+		; story events, and story constraints
+		(setf new-schema (compose-schema rcs (append events headers) ep-rels))
 		(print-schema new-schema)
 
 		; At this point, we're going to compile all of the role constraints and events into a set of EL formulas, then let the EL-to-English code work its magic.

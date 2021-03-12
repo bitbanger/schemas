@@ -166,6 +166,10 @@
 ; and returns its equivalent Allen relation form.
 (ldefun convert-time-prop (prop)
 (block outer
+	(if (not (canon-prop? prop))
+		(return-from outer nil)
+	)
+
 	(setf pred (prop-pred prop))
 
 	(if (not (time-pred? pred))

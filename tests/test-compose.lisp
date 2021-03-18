@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-; (setf *random-state* (make-random-state t))
+(setf *random-state* (make-random-state t))
 
 (load "../ll-load.lisp")
 
@@ -26,7 +26,9 @@
 	; "The man made a bet."
 	; "A little girl was born."
 	; "It was snowing outside Tom's house one day."
-	"Allie was watching a show yesterday."
+	; "Allie was watching a show yesterday."
+	; "Susie say a girl was playing ball."
+	"The girls went to the pond."
 	; nil
 )
 (setf stories-processed 0)
@@ -135,7 +137,16 @@
 			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-match ':Steps)))) :test #'equal))
 
 			; (format t "using episodes ~s: ~%" used-eps)
-			(print-schema (fully-clean-schema (car tuple)))
+			(setf final-learned-schema (fully-clean-schema (car tuple)))
+
+			(print-schema final-learned-schema)
+
+			; We should also register the schema, so it can
+			; be expanded as a nested step in the composed
+			; schema, and just so it can be used later as
+			; a learned schema on its own.
+			(register-schema final-learned-schema)
+
 			; (format t "~%")
 		))
 

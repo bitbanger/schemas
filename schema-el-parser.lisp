@@ -577,13 +577,19 @@
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for form in phi do (block loop-outer
-		(if (and
-				(canon-charstar? form)
-				(lex-adj? (pred-base (prop-pred (car form))))
-			)
-			; then
-			(setf phi-copy (replace-vals form (car form) phi-copy))
+		(if (not (canon-charstar? form))
+			(return-from loop-outer)
 		)
+
+		(setf stp (strip-charstar-eps stripped-form))
+		(setf stripped-form (car stp))
+		(setf stripped-eps (second stp))
+
+		(if (not (lex-adj? (pred-base (prop-pred stripped-form))))
+			(return-from loop-outer)
+		)
+
+		(setf phi-copy (replace-vals form stripped-form phi-copy))
 	))
 
 	(return-from outer phi-copy)

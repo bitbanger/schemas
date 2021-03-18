@@ -1326,7 +1326,7 @@
 		)
 	)
 
-	(setf schema-scores (sort schema-scores (lambda (x y) (> (second x) (second y)))))
+	(setf schema-scores (sort (copy-item schema-scores) (lambda (x y) (> (second x) (second y)))))
 	(return-from outer (mapcar #'car (subseq-safe schema-scores 0 k)))
 )
 )
@@ -1464,7 +1464,10 @@
 						(progn
 							(setf (gethash constr1 child-graph) constr2)
 							(if (not (contains constrs-to-remove constr1))
+								(progn
 								(setf constrs-to-remove (append constrs-to-remove (list constr1)))
+								; (format t "replacing general ~s with specific ~s~%" constr1 constr2)
+								)
 							)
 
 							; We won't break the loop yet, since we'd

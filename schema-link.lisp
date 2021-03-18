@@ -435,7 +435,17 @@
 				(return-from inv-loop)
 			)
 			; (format t "expanding nested schema ~s~%" st)
+			; (format t "it invokes ~s~%" (invoked-schema (second st)))
 			(setf inv-pair (expand-nested-schema st new-schema))
+
+			; For some reason, no exact schema was found
+			; to for the word, and unification was impossible
+			; without a full matching phase. See the "weird bug"
+			; discussed in the invoked-schema function definition.
+			(if (null inv-pair)
+				(return-from inv-loop)
+			)
+
 			; (format t "got inv pair ~s~%" inv-pair)
 						; (format t "apply-bindings call ~d~%" 7)
 			(setf inv-schema (apply-bindings (car inv-pair) (second inv-pair)))

@@ -296,7 +296,7 @@
 	(block generalize-new-constraints
 		; Make sure to apply the match bindings to the input schema so that the
 		; specific values in the constraints are shared with the matched schema.
-		(setf orig-rcs (section-formulas (get-section (apply-bindings in-schema all-bindings) ':Roles)))
+		(setf orig-rcs (section-formulas (get-section (fully-clean-schema-no-gen (apply-bindings in-schema all-bindings)) ':Roles)))
 		; Also make sure to fully clean (and dedupe) the match schema, but not
 		; generalize its individuals, to ensure parity with the generalized
 		; *and* clean schema we're outputting later.

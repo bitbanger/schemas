@@ -619,8 +619,8 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?g1 cause-of e1))
-			(!w2 (?e1 cause-of e2))
+			(!w1 (?g1 cause-of ?e1))
+			(!w2 (?e1 cause-of ?e2))
 		)
 	)
 )

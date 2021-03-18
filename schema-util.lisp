@@ -1415,6 +1415,110 @@
 )
 )
 
+; TODO: factor this and remove-subsuming-rcs
+; to share code; I haven't done that yet, even
+; though it's surely possible, because I didn't
+; convince myself in time that ignoring the
+; constraint IDs would be safe in a factored
+; subsumption replacer, and I had limited
+; cognitive bandwidth.
+(ldefun remove-subsuming-rcs-list (rcs)
+(block outer
+	(setf constrs-to-remove (list))
+
+	; We'll keep a hash-graph of subsumptions so we
+	; can replace all general constraints with the
+	; *most* specific version of them, and then let
+	; the deduplication step clean up the rest.
+	(setf child-graph (make-hash-table :test #'equal))
+
+	(loop for constr1 in rcs
+		for i from 0
+		do (block check-against-1
+			(setf phi1 (prop-args-pred-mods constr1))
+			; no post-args allowed
+			(if (> (length (third phi1)) 0)
+				(return-from check-against-1)
+			)
+			; no mods allowed
+			(if (> (length (fourth phi1)) 0)
+				(return-from check-against-1)
+			)
+			(loop for constr2 in rcs
+				for j from 0
+				do (block check-pair
+					(if (equal i j)
+						(return-from check-pair))
+
+					(setf phi2 (prop-args-pred-mods constr2))
+
+					; Subject arg needs to be equal for subsumption
+					(if (not (equal (car phi1) (car phi2)))
+						(return-from check-pair)
+					)
+
+					; no post-args allowed
+					(if (> (length (third phi2)) 0)
+						(return-from check-pair)
+					)
+					; no mods allowed
+					(if (> (length (fourth phi2)) 0)
+						(return-from check-pair)
+					)
+
+					; equal preds can be/already were handled by dedupe
+					(if (equal (second phi1) (second phi2))
+						(return-from check-pair)
+					)
+
+					; If 1 subsumes 2, we don't want to keep 1
+					(if (subsumes (second phi1) (second phi2))
+						(progn
+							(setf (gethash constr1 child-graph) constr2)
+							(if (not (contains constrs-to-remove constr1))
+								(progn
+								(setf constrs-to-remove (append constrs-to-remove (list constr1)))
+								; (format t "replacing general ~s with specific ~s~%" constr1 constr2)
+								)
+							)
+
+							; We won't break the loop yet, since we'd
+							; like to mark all subsumed constraints in
+							; the child graph for proper resolution.
+						)
+					)
+				)
+			)
+		)
+	)
+
+	(setf new-rcs (copy-list rcs))
+
+	(loop for rc in constrs-to-remove
+		do (block remove-rc
+			; Get the most specific version of the
+			; constraint from the child graph for
+			; replacement.
+			(setf child-rc rc)
+			(loop while (not (null (gethash child-rc child-graph)))
+				do (setf child-rc (gethash child-rc child-graph))
+			)
+
+			(if (equal child-rc rc)
+				(progn
+					(format t "ERROR: subsumption check marked general role constraint ~s for removal, but couldn't identify a more specific version in the rc list: ~%" rcs rc)
+					(return-from outer rcs)
+				)
+			)
+
+			(setf new-rcs (replace-vals rc child-rc new-rcs))
+		)
+	)
+
+	(return-from outer (dedupe new-rcs))
+)
+)
+
 (ldefun remove-subsuming-rcs (schema)
 (block outer
 	(setf constrs-to-remove (list))
@@ -1802,11 +1906,11 @@
 )
 )
 
-(ldefun invokes-schema? (phi)
-	(not (null (invoked-schema phi)))
+(ldefun invokes-schema? (phi &optional strict-name-match)
+	(not (null (invoked-schema phi strict-name-match)))
 )
 
-(ldefun invoked-schema (phi)
+(ldefun invoked-schema (phi &optional strict-name-match)
 (let (
 	(best-score 0)
 	(pred (if (canon-atomic-prop? phi) (prop-pred phi) nil))
@@ -1824,6 +1928,10 @@
 	(if (and (boundp pred) (schema? (eval pred)))
 		(return-from outer (eval pred))
 	)
+
+	; If it doesn't, and we're doing a "strict" match,
+	; fail out.
+	(return-from outer nil)
 
 	; Otherwise, loop over known schemas and return the one
 	; with the highest subsumption score.

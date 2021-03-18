@@ -233,6 +233,11 @@
 		(setf new-schema (compose-schema rcs (append events headers) ep-rels))
 		(print-schema new-schema)
 
+		(format t "flattened composite schema: ~%")
+		(loop for phi in (flatten-schema new-schema t)
+			do (format t "	~s~%" phi)
+		)
+
 		; At this point, we're going to compile all of the role constraints and events into a set of EL formulas, then let the EL-to-English code work its magic.
 
 		(setf els-for-eng (append

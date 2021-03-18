@@ -81,7 +81,7 @@
 
 	(setf best-bindings nil)
 	(setf best-formula nil)
-	(setf best-sub-score -1)
+	(setf best-sub-score 0)
 
 	(setf match-sections (if (canon-charstar? phi) (fluent-sections schema) (nonfluent-sections schema)))
 
@@ -110,22 +110,37 @@
 					(setf pred2 (prop-pred (car phi)))
 				)
 
-				(if (and (not (null new-bindings)) (not (null (common-ancestor pred1 pred2))))
-					; then
-					(progn
-						; (format t "now less sure of ~s, and more sure of ~s~%" (second formula) (list (car (second formula)) (car (common-ancestor pred1 pred2))))
-						; (setf schema (add-role-constraint schema (replace-vals pred1 (car (common-ancestor pred1 pred2)) (second formula))))
-					)
-				)
-
-				(if (and (not (null new-bindings)) (not (equal pred1 pred2)) (not (subsumes pred1 pred2)))
-					(progn
-					; (format t "bound unidentical predicates ~s and ~s for bindings ~s~%" pred1 pred2 (ht-to-str new-bindings))
-					; (print-schema (apply-bindings schema new-bindings))
-					)
-				)
-
 				(setf sub-score (max (subsumption-score pred1 pred2) (* 0.75 (subsumption-score pred2 pred1))))
+
+				; excludes entity.n, object.n, etc.
+				(setf ica (interesting-common-ancestor pred1 pred2))
+
+				; TODO: make common-ancestor unification
+				; trigger a general schema creation and
+				; re-make the parent graph? We might need
+				; to do two runs, one without CA unification
+				; and one with it, to see whether we'd get
+				; a better score by making a new schema or
+				; just denying the match? I think this could
+				; just be a bit tricky because the code isn't
+				; really set up to handle a match to the schema
+				; other than the one plugged in, so we'd need
+				; to figure that out.
+				(if (<= sub-score 0)
+					; then
+					(if (not (null ica))
+						; then
+						; Partial points for having a common ancestor?
+						(setf sub-score (* 0.5 (+
+							(* 0.5 (subsumption-score ica pred1))
+							(* 0.5 (subsumption-score ica pred2))
+						)))
+						; else
+						; We won't unify two predicates with absolutely no
+						; subsumption relationship.
+						(return-from uni)
+					)
+				)
 
 				;(if (>= sub-score 1.0)
 					;(setf sub-score 2.0)) ; 2x bonus points for exact matches
@@ -135,11 +150,6 @@
 					(/ (ht-count new-bindings) (length (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal)))
 				))
 
-				(if (and (not (null new-bindings)) (not (equal pred1 pred2)) (not (subsumes pred1 pred2)))
-					(progn
-					; (format t "sub score was ~s against best ~s~%" sub-score best-sub-score)
-					)
-				)
 				; (format t "subsumption score + # of bindings between ~s and ~s was ~s~%" pred1 pred2 sub-score)
 
 				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))
@@ -238,7 +248,7 @@
 	(setf sorted-formulas (append story1 story2))
 
 
-	(setf is-first t)
+	; Match each formula, one by one.
 	(loop for phi in sorted-formulas
 		do (block uni-loop
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
@@ -249,7 +259,6 @@
 		(setf total-matches (third fm-res))
 		(setf bound-header (fourth fm-res))
 		(setf sub-score (fifth fm-res))
-		
 	))
 
 
@@ -334,7 +343,7 @@
 (setf added-rc-pred (prop-pred (second added-rc)))
 (setf orig-rc-pred (prop-pred (second orig-rc)))
 
-(setf ancestor-pred (car (common-ancestor added-rc-pred orig-rc-pred)))
+(setf ancestor-pred (common-ancestor added-rc-pred orig-rc-pred))
 
 (if (null ancestor-pred)
 	(return-from try-generalize)
@@ -787,8 +796,8 @@
 													(not (null (common-ancestor (second rc) (second const)))))
 												; then
 												(progn
-												; (format t "generalizing ~s and ~s to ~s~%" rc const (list (car rc) (car (common-ancestor (second rc) (second const)))))
-												(setf gen-constr (list (car rc) (car (common-ancestor (second rc) (second const)))))
+												; (format t "generalizing ~s and ~s to ~s~%" rc const (list (car rc) (common-ancestor (second rc) (second const))))
+												(setf gen-constr (list (car rc) (common-ancestor (second rc) (second const))))
 												(setf gen-constrs (append gen-constrs (list (list gen-constr (car rc-pair)))))
 												)
 											)

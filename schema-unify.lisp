@@ -507,7 +507,8 @@
 	(if (and *UNIFY-SHOULD-CHECK-CONSTRAINTS* (schema? whole-schema))
 		(progn
 			(setf bound-schema (apply-bindings whole-schema res))
-			(if (null (check-constraints bound-schema (list whole-story)))
+			(setf post-bind-score (check-constraints bound-schema (list whole-story)))
+			(if (null post-bind-score)
 				(progn
 					; (format t "abandoning binding; unifying ~s and ~s breaks constraints of ~s~%" schema story (second whole-schema))
 					(return-from outer nil)

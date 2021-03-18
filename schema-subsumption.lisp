@@ -312,7 +312,7 @@
 )
 )
 
-(ldefun common-ancestor-inner (pred1 pred2)
+(ldefun common-ancestor (pred1 pred2)
 (block outer
 	(if (equal pred1 pred2)
 		; then
@@ -326,23 +326,31 @@
 	)
 
 
-	(return-from outer (common-ancestor-no-check pred1 pred2))
+	(setf retval (common-ancestor-no-check pred1 pred2))
+
+	(if (equal retval pred1)
+		(return-from outer pred1))
+	(if (equal retval pred2)
+		(return-from outer pred2))
+
+	(if (or
+			(not (listp retval))
+			(loop for e in retval thereis (not (canon-pred? e))))
+		; then
+		(return-from outer retval)
+	)
+
+	(return-from outer (car retval))
 )
 )
 
-(ldefun common-ancestor (pred1 pred2)
-	; (listify-nonlists (common-ancestor-inner pred1 pred2))
-	(let ((res (common-ancestor-inner pred1 pred2)))
-		(if (null res)
+(ldefun interesting-common-ancestor (pred1 pred2)
+	(let ((ca (common-ancestor pred1 pred2)))
+		(if (contains '(PHYSICAL_ENTITY.N ENTITY.N OBJECT.N) ca)
 			; then
-			res
+			nil
 			; else
-			(if (canon-pred? res)
-				; then
-				(list res)
-				; else
-				res
-			)
+			ca
 		)
 	)
 )

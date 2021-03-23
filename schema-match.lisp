@@ -251,11 +251,14 @@
 	; Match each formula, one by one.
 	(loop for phi in sorted-formulas
 		do (block uni-loop
+		; (format t "going to try to bind ~s to ~s~%" phi (second test-schema))
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
 		(if (null fm-res) (return-from uni-loop))
 
 		(setf test-schema (car fm-res))
 		(setf all-bindings (second fm-res))
+		; (format t "successfully bound ~s to ~s~%" phi (second test-schema))
+		; (format t "all bindings: ~s~%" (ht-to-str all-bindings))
 		(setf total-matches (third fm-res))
 		(setf bound-header (fourth fm-res))
 		(setf sub-score (fifth fm-res))
@@ -889,23 +892,22 @@
 )
 )
 
-(ldefun check-constraints (schema story)
-	(check-constraints-helper schema story (make-hash-table :test #'equal))
+(ldefun check-constraints (schema story &optional depth)
+	(check-constraints-helper schema story (make-hash-table :test #'equal) depth)
 )
 
-(ldefun check-constraints-helper (schema story checked)
-	(uncached-check-constraints schema story checked)
+(ldefun check-constraints-helper (schema story checked &optional depth)
+	(uncached-check-constraints schema story checked depth)
 	; (ll-cache 'uncached-check-constraints (list schema story checked) 5)
 )
 
-(ldefun uncached-check-constraints (schema story checked)
-	(uncached-check-constraints-helper schema story checked)
+(ldefun uncached-check-constraints (schema story checked &optional depth)
+	(uncached-check-constraints-helper schema story checked depth)
 )
 
-(ldefun uncached-check-constraints (schema story checked)
-(let (bound-nested phi phi-id phi-pair sec true-count untrue-count)
+(ldefun uncached-check-constraints (schema story checked &optional depth)
+; (let (bound-nested phi phi-id phi-pair phi-pair-idx sec true-count untrue-count sc header-bindings key val)
 (block outer
-	; (format t "checking schema ~s~%" (second schema))
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))
 
@@ -915,12 +917,16 @@
 	; (loop for sec in (nonmeta-sections schema)
 		; do (loop for phi in (mapcar #'second (section-formulas sec))
 		; do (loop for phi-pair in (section-formulas sec)
-		(loop for phi-pair in (append
+		(setf all-phi-pairs (append
 			(list (list (third (second schema)) (car (second schema))))
 			(loop for sec in (nonmeta-sections schema) append (section-formulas sec)))
+		)
 
+		(loop for phi-pair in all-phi-pairs
+				for phi-pair-idx from 1
 			do (block check-constr
 				(setf phi-id (car phi-pair))
+				(setf old-phi-id phi-id)
 				(setf phi (second phi-pair))
 				(if (and (has-element-pred phi #'varp) (or (exc-varp phi-id) (varp phi-id)))
 					; then
@@ -944,12 +950,17 @@
 
 				(setf invoked (invoked-schema phi))
 				; Check nested invoked schemas, unless we're examining the header itself.
+				; TODO: factor this and expand-nested-schema together, resolve the
+				; difference with _PARENT (too exhausted to factor them right now
+				; and figure out whether we need/can have the _PARENT dealiasing
+				; in expand-nested-schema)
 				(if (and (not (equal (third (second schema)) phi-id)) (not (null invoked)))
 					; then
 					(progn
 						(setf nested-schema-name (schema-pred invoked))
 						(setf nested-schema invoked)
-						; (format t "evaluating nested schema ~s invoked by ~s~%" nested-schema-name phi)
+						; (format t "(~d / ~d) evaluating nested schema ~s invoked by (~s ~s)~%" phi-pair-idx (length all-phi-pairs) nested-schema-name phi-id phi)
+						; (print-schema nested-schema)
 
 						; NOTE: if we're evaluating the
 						; consistency of a prop with an
@@ -973,20 +984,62 @@
 							(setf check-phi (car check-phi))
 						)
 					
-						(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
-							(setf header-bindings (third (unify-with-schema check-phi nested-schema (linearize-story story))))
-						)
+						(setf old-uscc *UNIFY-SHOULD-CHECK-CONSTRAINTS*)
+						(setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* nil)
+						(setf header-bindings (third (unify-with-schema check-phi nested-schema (linearize-story story))))
+						(setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* old-uscc)
+
 						(if (null header-bindings)
-							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" phi nested-schema-name)
+							(progn
+							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" check-phi nested-schema-name)
+							; (dbg-tag 'unify)
+							; (setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* nil)
+							; (unify-with-schema check-phi nested-schema (linearize-story story))
+							)
 						)
-						; (format t "got result ~s~%" header-bindings)
+
+						; Now bind subordinate constraints
+						; (format t "looking for scs in this schema: ~%")
+						; (print-schema schema)
+						(loop for sc in (section-formulas (get-section schema ':Subordinate-constraints))
+								; do (format t "got sc ~s~%" sc)
+								if (equal old-phi-id (second (car (second sc))))
+									do (block apply-subord
+										(setf key (remove-ext (car (car (second sc))) "<-"))
+										(setf val (third (second sc)))
+
+										; For the same reasoning as phi-id,
+										; we'll make this value unique if it's
+										; a variable scoped to this parent, so
+										; that it won't interfere with any
+										; identical variable names in the child
+										; schema, e.g. ?E.
+										(if (varp val)
+											(setf val (intern (format nil "~s_PARENT" val)))
+										)
+
+										(if (not (bind-if-unbound key val header-bindings))
+											; then
+											(progn
+											(error "Weird subordinate constraint expansion bug (see TODO)")
+											(return-from outer nil)
+											)
+											; else
+											; (format t "bound key ~s to val ~s~%" key val)
+										)
+									)
+						)
+
+						; (format t "got result ~s~%" (ht-to-str header-bindings))
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
 						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
 						(setf old-checked-count (hash-table-count checked))
 						(setf (gethash phi checked) t)
 						; (format t "marking formula ~s as checked~%" phi)
 						; (format t "marking ~s as checked~%" phi)
-						(setf nest-score (check-constraints-helper nested-schema-bound story checked))
+						; (format t "recursively calling (entering depth ~d)~%" (+ (length depth) 1))
+						(setf nest-score (check-constraints-helper nested-schema-bound story checked (append depth (list 'a))))
+						; (format t "recursive call over! back to depth ~d~%" (length depth))
 						; If a nested schema breaks a necessity-1 constraint,
 						; the whole nest is invalid.
 						(if (null nest-score)
@@ -1071,13 +1124,14 @@
 				)
 			)
 		)
+
 	; )
 
 	; (format t "returning ~s~%" (list true-count untrue-count))
 	(return-from outer (list true-count untrue-count))
 )
 )
-)
+;)
 
 (ldefun best-story-schema-match (story schema num_shuffles generalize)
 	(car (top-k-story-schema-matches story schema num_shuffles generalize 1))

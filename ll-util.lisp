@@ -28,15 +28,6 @@
 	(make-hash-table :test #'equal)
 )
 
-(defun varp (v)
-	(cond
-		((not (symbolp v)) nil)
-		((not (> (length (string v)) 1)) nil)
-		((not (equal "?" (subseq (string v) 0 1))) nil)
-		(t t)
-	)
-)
-
 (defun neg-pred (pred)
 	(lambda (x) (not (funcall pred x)))
 )
@@ -410,6 +401,16 @@
 				(- (length s) (length suf))
 				(length s)))
 )
+)
+
+(defun varp (v)
+	(cond
+		((not (symbolp v)) nil)
+		((not (> (length (string v)) 1)) nil)
+		((not (equal "?" (subseq (string v) 0 1))) nil)
+		((has-suffix? (string v) "<-") nil) ; subordinate skolems
+		(t t)
+	)
 )
 
 (defun remove-prefix (s pre)
@@ -868,14 +869,30 @@ is replaced with replacement."
 (defmacro ldefun (fname lambda-list &rest body)
 (block ldefun-outer
 	(setf setf-vars
-		(dedupe (loop for el in (get-elements-pred body
+		(dedupe (loop for element in (get-elements-pred body
 			(lambda (x) (and
 						(listp x)
-						(equal (car x) 'setf))
+						(equal (car x) 'setf)
 						(not (starry-global? (second x)))
+			)))
+				if (symbolp (second element))
+					collect (second element)
+		))
+	)
+
+	(setf loop-vars
+		(dedupe (loop for loop-elem in (get-elements-pred body
+			(lambda (x) (and
+						(listp x)
+						(equal (car x) 'loop))
 			))
-				if (symbolp (second el))
-					collect (second el)
+				;if (symbolp (second el))
+					;collect (second el)
+				append (loop for in-loop-elem in loop-elem
+								for i from 0
+					if (equal in-loop-elem 'for)
+						collect (nth (+ i 1) loop-elem)
+				)
 		))
 	)
 
@@ -885,7 +902,7 @@ is replaced with replacement."
 					if (and (listp lt) (symbolp (car lt)))
 						collect (car lt)))
 
-	(setf unscoped-vars setf-vars)
+	(setf unscoped-vars (union setf-vars loop-vars :test #'equal))
 	(setf unscoped-vars (set-difference unscoped-vars lambda-list :test #'equal))
 	(setf unscoped-vars (set-difference unscoped-vars bound-vars :test #'equal))
 	(setf unscoped-vars (loop for uv in unscoped-vars if (not (boundp uv)) collect uv))

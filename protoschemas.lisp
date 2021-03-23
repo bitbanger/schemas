@@ -417,6 +417,10 @@
 		(:Postconds
 			(?p1 (?x (find.v ?o)))
 		)
+
+		(:Subordinate-constraints
+			(!s1 ((?i3<- ?p1) = ?e))
+		)
 	)
 )
 
@@ -442,6 +446,10 @@
 		(:Postconds
 			(?p1 (?x (know.v (that (?o (at.p ?l))))))
 			(?p2 (?x (have.v ?o)))
+		)
+
+		(:Subordinate-constraints
+			(!s1 ((?p1<- ?i3) = ?e))
 		)
 	)
 )

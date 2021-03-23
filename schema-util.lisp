@@ -517,7 +517,6 @@
 ; apply-bindings returns a schema where all variables have been replaced with
 ; their bound referents, given by the bindings map.
 (ldefun apply-bindings (schema bindings)
-(let (val)
 (block outer
 	(setf cursor schema)
 
@@ -549,7 +548,7 @@
 		(setf cursor (replace-vals alias-val old-val cursor))
 	))
 	(return-from outer cursor)
-)))
+))
 
 ; print-schema prints a schema with proper formatting, for readability purposes.
 (ldefun print-schema (schema &optional show-invisibles)
@@ -1693,22 +1692,43 @@
 )
 )
 
-(ldefun topsort-ep-list (all-ep-rels unfiltered-ep-ids)
+(ldefun topsort-ep-list (all-ep-rels ep-ids)
 (block outer
 	(load-time-model all-ep-rels)
 	; (format t "all-ep-rels: ~s~%" all-ep-rels)
-	; (format t "unfiltered-ep-ids: ~s~%" unfiltered-ep-ids)
+	; (format t "ep-ids: ~s~%" ep-ids)
 
-	(setf ep-ids (loop for ep-id in unfiltered-ep-ids
-		if (has-element all-ep-rels ep-id)
-			collect ep-id
-	))
+	; For any ep-ids not related to anything, we'll treat
+	; them as coming sequentially as they appear in the
+	; list. (Unless there's only one episode.)
+	(if (> (length ep-ids) 1)
+		(loop for ep-id in ep-ids
+				for i from 0
+			if (not (has-element all-ep-rels ep-id))
+				do (block insert-ep-rel
+					(if (< i (- (length ep-ids) 1))
+						; then
+						; Link the ep forward in the list.
+						(setf all-ep-rels (append all-ep-rels (list
+							(list ep-id (list 'BEFORE (nth (+ i 1) ep-ids)))
+						)))
+						; else
+						; This unrelated ep is the last in
+						; the list, so we need to link it
+						; backward instead.
+						(setf all-ep-rels (append all-ep-rels (list
+							(list (nth (- i 1) ep-ids) (list 'BEFORE ep-id))
+						)))
+					)
+				)
+		)
+	)
 
 	; all-ep-rels won't have any step names if there's
 	; only one unique one, so we'll have to add it in
 	; that case.
-	(if (equal 1 (length (dedupe unfiltered-ep-ids)))
-		(setf ep-ids (list (car unfiltered-ep-ids)))
+	(if (equal 1 (length (dedupe ep-ids)))
+		(setf ep-ids (list (car ep-ids)))
 	)
 
 	(setf time-graph (make-hash-table :test #'equal))
@@ -1759,8 +1779,12 @@
 
 	(setf steps (section-formulas (get-section schema ':Steps)))
 	(setf sorted-step-ids (topsort-steps (list schema)))
-	; (format t "steps: ~s~%" steps)
-	; (format t "sorted-step-ids: ~s~%" sorted-step-ids)
+	; (if (or (not (null steps)) (not (null sorted-step-ids)))
+		; (progn
+			; (format t "steps: ~s~%" steps)
+			; (format t "sorted-step-ids: ~s~%" sorted-step-ids)
+		; )
+	; )
 	(setf sorted-steps (sort (copy-seq steps) (lambda (x y) (< (position x sorted-step-ids) (position y sorted-step-ids))) :key #'car))
 	(setf new-steps-sec (append (list ':Steps) sorted-steps))
 	(return-from outer (set-section schema ':Steps new-steps-sec))
@@ -1926,12 +1950,15 @@
 
 	; If it invokes a schema directly, return that one.
 	(if (and (boundp pred) (schema? (eval pred)))
+		; then
 		(return-from outer (eval pred))
+		; else
+		; If it doesn't, and we're doing a "strict" match,
+		; fail out.
+		(if strict-name-match
+			(return-from outer nil)
+		)
 	)
-
-	; If it doesn't, and we're doing a "strict" match,
-	; fail out.
-	(return-from outer nil)
 
 	; Otherwise, loop over known schemas and return the one
 	; with the highest subsumption score.

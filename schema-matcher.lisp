@@ -9,6 +9,8 @@
 (ll-load "schema-match.lisp")
 (ll-load "protoschemas.lisp")
 
+(defparameter *DEFAULT-SHUFFLES* 10)
+
 ; top-k-el-story-matches uses a heuristic to retrieve the
 ; K best schema candidates for an EL story, and then returns
 ; the best single story-to-schema match for each of them.
@@ -117,9 +119,9 @@
 			(if (not (varp (third (second m))))
 				; ...then we can just add it...
 				(setf story-matches (append story-matches (list (list m score binds))))
-				; ...otherwise, if any of the step episode
+				; ...otherwise, if any fluent episode
 				; variables were bound...
-				(if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
+				(if (loop for fluent-sec in (fluent-sections m) thereis (loop for v in (mapcar #'car (section-formulas fluent-sec)) thereis (not (varp v))))
 					; ...then we can still add it...
 					(setf story-matches (append story-matches (list (list m score binds))))
 					; ...but if no header or step episode
@@ -144,13 +146,13 @@
 )
 
 (ldefun top-story-matches-easy-el (el-story)
-	(top-k-story-matches-from-els el-story *PROTOSCHEMAS* 30 3 3 nil nil)
+	(top-k-story-matches-from-els el-story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* 3 3 nil nil)
 )
 
 (ldefun top-story-matches-easy (story)
-	(top-k-story-matches story *PROTOSCHEMAS* 30 3 3 nil nil)
+	(top-k-story-matches story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* 3 3 nil nil)
 )
 
 (ldefun top-story-matches-easy-len (story)
-	(top-k-story-matches-len story *PROTOSCHEMAS* 30 3 3 nil nil)
+	(top-k-story-matches-len story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* 3 3 nil nil)
 )

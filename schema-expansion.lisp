@@ -15,12 +15,13 @@
 (ldefun expand-nested-schema (invoker parent-schema)
 (block outer
 	; (setf invoked-schema (eval (prop-pred (second invoker))))
-	(setf invoked-schema (invoked-schema (second invoker)))
+	(setf invoked-schema (invoked-schema (second invoker) t))
 
 	; (format t "trying to unify ~s with ~s~%" (list (second invoker) '** (car invoker)) invoked-schema)
-	(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
-		(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
-	)
+	(setf old-uscc *UNIFY-SHOULD-CHECK-CONSTRAINTS*)
+	(setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* nil)
+	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+	(setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* old-uscc)
 	; NOTE: the following "WEIRD BUG" can happen because wordnet, especially without
 	; sense numbers, gives weird invoke relations for words that fit different schemas
 	; w/ different argument structures.
@@ -36,12 +37,14 @@
 	; )
 
 	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
+			do (format t "got sc ~s~%" sc)
 			if (equal (car invoker) (second (car (second sc))))
 				do (block apply-subord
 					(setf key (remove-ext (car (car (second sc))) "<-"))
 					(setf val (third (second sc)))
 					; (setf (gethash key header-bindings) val)
 					(if (not (bind-if-unbound key val header-bindings))
+						; then
 						(progn
 						; (format t "WEIRD EXPANSION BUG: subordinate constraint ~s can't bind over existing bound value ~s~%" sc (gethash key header-bindings))
 						; (format t "invoker is ~s~%" invoker)
@@ -54,6 +57,8 @@
 						(error "Weird subordinate constraint expansion bug (see TODO)")
 						(return-from outer nil)
 						)
+						; else
+						(format t "bound key ~s to val ~s~%" key val)
 					)
 				)
 	)
@@ -99,9 +104,16 @@
 				if (invokes-schema? (second form) t)
 					append
 						(let ((exp-pair (expand-nested-schema form schema)))
+							(progn
+							(if (null (car exp-pair))
+								(format t "why the HECK didn't invoked schema ~s bind to ~s~%" (invoked-schema (second form) t) form)
+							)
+
 							(flatten-schema
 								(apply-bindings (car exp-pair) (second exp-pair))
-								only-roles-and-steps))
+								only-roles-and-steps)
+							)
+						)
 			)
 		)
 	)

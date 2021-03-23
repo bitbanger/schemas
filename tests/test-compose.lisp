@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(setf *random-state* (make-random-state t))
+; (setf *random-state* (make-random-state t))
 
 (load "../ll-load.lisp")
 
@@ -28,7 +28,9 @@
 	; "It was snowing outside Tom's house one day."
 	; "Allie was watching a show yesterday."
 	; "Susie say a girl was playing ball."
-	"The girls went to the pond."
+	; "The girls went to the pond."
+	; "Kim needed some new chairs."
+	"Tom got a kitten."
 	; nil
 )
 (setf stories-processed 0)
@@ -84,7 +86,7 @@
 					for invalid-sent in el-story-invalid
 						do (format t "	~s~%" eng-sent)
 
-						do (if nil (block print-story-el
+						do (if t (block print-story-el
 						(format t "	VALID:~%")
 						(loop for wff in el-sent
 							do (format t "		~s~%" wff))
@@ -112,10 +114,28 @@
 					;(return-from process-story)
 				;)))
 
-		(setf schemas (mapcar #'car schema-match-tuples))
-		(setf bound-schemas (loop for tuple in schema-match-tuples
-			collect (apply-bindings (car tuple) (third tuple))
-		))
+		; Sometimes a story just has only atemporal
+		; formulas; we can't really make a schema from
+		; that, and it probably indicates a serious
+		; parser failure anyway, so we probably don't
+		; even want to try.
+		(if (null events)
+			(progn
+				(format t "story had no temporal formulas~%")
+				(return-from process-story)
+			)
+		)
+
+		(setf schemas (mapcar #'fully-clean-schema (mapcar #'car schema-match-tuples)))
+		(setf bound-schemas
+			(loop for tuple in schema-match-tuples
+					for schema in schemas
+				collect (apply-bindings schema (third tuple)))
+		)
+
+		; Make sure shared vars are resolved so that all matched schemas can
+		; share a scope!
+		(setf bound-schemas (uniquify-shared-vars-chain bound-schemas nil))
 
 		; (setf headers (loop for schema in schemas collect (schema-header schema)))
 		(setf headers (loop for schema in bound-schemas collect (schema-header schema)))
@@ -125,8 +145,10 @@
 		(format t "schemas: ~%")
 		; (loop for header in headers do (format t "	~s~%" header))
 		; (loop for schema in schemas do (print-schema (fully-clean-schema schema)))
-		(loop for tuple in schema-match-tuples do (block get-bound-eps
-			(setf bound-match (apply-bindings (car tuple) (third tuple)))
+		(loop for tuple in schema-match-tuples
+				for schema in schemas
+			do (block get-bound-eps
+				(setf bound-match (apply-bindings schema (third tuple)))
 
 			; if any story eps are bound to the header, they can be excused
 			; from the steps section
@@ -136,10 +158,10 @@
 			; excused as well
 			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-match ':Steps)))) :test #'equal))
 
+			(print-schema bound-match)
 			; (format t "using episodes ~s: ~%" used-eps)
 			(setf final-learned-schema (fully-clean-schema (car tuple)))
 
-			(print-schema final-learned-schema)
 
 			; We should also register the schema, so it can
 			; be expanded as a nested step in the composed

@@ -581,7 +581,7 @@
 			(return-from loop-outer)
 		)
 
-		(setf stp (strip-charstar-eps stripped-form))
+		(setf stp (strip-charstar-eps form))
 		(setf stripped-form (car stp))
 		(setf stripped-eps (second stp))
 

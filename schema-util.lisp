@@ -917,8 +917,19 @@
 )
 )
 
-(ldefun fully-clean-schema (schema)
-	(fully-clean-schema-no-gen (generalize-schema-constants schema))
+(ldefun fully-clean-schema (schema &optional return-gen-map)
+(block outer
+	(setf gen-schema-pair (mapped-generalize-schema-constants schema))
+	(setf cleaned-schema (fully-clean-schema-no-gen (second gen-schema-pair)))
+
+	(if return-gen-map
+		; then
+		(return-from outer
+			(list cleaned-schema (car gen-schema-pair)))
+		; else
+		(return-from outer cleaned-schema)
+	)
+)
 )
 
 (ldefun fully-clean-schema-no-gen (schema)

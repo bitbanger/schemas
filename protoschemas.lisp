@@ -418,6 +418,10 @@
 			(?p1 (?x (find.v ?o)))
 		)
 
+		(:Episode-relations
+			(!w1 (?p1 after ?e))
+		)
+
 		(:Subordinate-constraints
 			(!s1 ((?i3<- ?p1) = ?e))
 		)
@@ -446,6 +450,10 @@
 		(:Postconds
 			(?p1 (?x (know.v (that (?o (at.p ?l))))))
 			(?p2 (?x (have.v ?o)))
+		)
+
+		(:Episode-relations
+			(!w1 (?i3 before ?e))
 		)
 
 		(:Subordinate-constraints

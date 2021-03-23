@@ -126,12 +126,26 @@
 			)
 		)
 
-		(setf schemas (mapcar #'fully-clean-schema (mapcar #'car schema-match-tuples)))
+		; (setf schemas (mapcar #'fully-clean-schema (mapcar #'car schema-match-tuples)))
+		(setf schemas (mapcar #'car schema-match-tuples))
+
+		; Clean and generalize constants in the schemas.
+		; This procedure can rename some of the variables,
+		; so we'll have to re-organize the bindings to use
+		; the new variables names on the LHS.
+		(setf schema-clean-pairs
+			(loop for schema in schemas
+				collect (fully-clean-schema schema t)))
+
+		(setf schemas (mapcar #'car schema-clean-pairs))
+
+		(setf schema-post-clean-maps
+			(mapcar #'second schema-clean-pairs))
+
 		(setf bound-schemas
-			(loop for tuple in schema-match-tuples
-					for schema in schemas
-				collect (apply-bindings schema (third tuple)))
-		)
+			(loop for scp in schema-clean-pairs
+				collect
+					(apply-bindings (car scp) (second scp))))
 
 		; Make sure shared vars are resolved so that all matched schemas can
 		; share a scope!
@@ -147,18 +161,17 @@
 		; (loop for schema in schemas do (print-schema (fully-clean-schema schema)))
 		(loop for tuple in schema-match-tuples
 				for schema in schemas
+					for bound-schema in bound-schemas
 			do (block get-bound-eps
-				(setf bound-match (apply-bindings schema (third tuple)))
-
 			; if any story eps are bound to the header, they can be excused
 			; from the steps section
-			(setf used-eps (list (third (second bound-match))))
+			(setf used-eps (list (third (second bound-schema))))
 
 			; also, if any story eps are bound to step IDs, they can be
 			; excused as well
-			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-match ':Steps)))) :test #'equal))
+			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-schema ':Steps)))) :test #'equal))
 
-			(print-schema bound-match)
+			(print-schema bound-schema)
 			; (format t "using episodes ~s: ~%" used-eps)
 			(setf final-learned-schema (fully-clean-schema (car tuple)))
 

@@ -978,10 +978,13 @@
 
 						; (format t "attempting to unify prop ~s with header ~s~%" (list phi '** phi-id) nested-schema)
 						(setf check-phi (list phi '** phi-id))
-						; don't characterize an !-variable
+
+						; non-fluents can't match to epi-schema
+						; headers they invoked
 						(if (exc-varp phi-id)
 							; then
-							(setf check-phi (car check-phi))
+							; (setf check-phi (car check-phi))
+							(return-from outer nil)
 						)
 					
 						(setf old-uscc *UNIFY-SHOULD-CHECK-CONSTRAINTS*)
@@ -992,6 +995,7 @@
 						(if (null header-bindings)
 							(progn
 							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" check-phi nested-schema-name)
+							(return-from outer nil)
 							; (dbg-tag 'unify)
 							; (setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* nil)
 							; (unify-with-schema check-phi nested-schema (linearize-story story))

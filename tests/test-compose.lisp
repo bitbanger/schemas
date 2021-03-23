@@ -27,10 +27,10 @@
 	; "A little girl was born."
 	; "It was snowing outside Tom's house one day."
 	; "Allie was watching a show yesterday."
-	; "Susie say a girl was playing ball."
+	"Susie say a girl was playing ball."
 	; "The girls went to the pond."
 	; "Kim needed some new chairs."
-	"Tom got a kitten."
+	; "Tom got a kitten."
 	; nil
 )
 (setf stories-processed 0)
@@ -276,8 +276,11 @@
 		; At this point, we're going to compile all of the role constraints and events into a set of EL formulas, then let the EL-to-English code work its magic.
 
 		(setf els-for-eng (append
-			; Get all role constraints
-			(mapcar #'second (section-formulas (get-section new-schema ':Roles)))
+			; Get all role constraints (sort by first arg)
+			(sort
+				(mapcar #'second (section-formulas (get-section new-schema ':Roles)))
+				(lambda (x y)
+					(< (rechash (car (prop-pre-args x))) (rechash (car (prop-pre-args y))))))
 
 			; Get all steps
 			(loop for st in (section-formulas (get-section new-schema ':Steps))

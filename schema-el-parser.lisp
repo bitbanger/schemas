@@ -498,8 +498,72 @@
 	adv-ify-temporals
 	atemporalize-adj-preds
 	past-tense-story-to-present
+	liberate-starred-prop-args
 	; reify-pred-args
 ))
+
+; For nested characterized episodes, like
+; ((I say ((you said that) ** E2)) ** E1),
+; split out the inner episode to be
+; independently floating alongside the outer
+; one, and leave the argument in the outer
+; one as (for now---corresponding with Len
+; about a better option) an unstarred copy
+; of the same inner prop.
+(ldefun liberate-starred-prop-args (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+	(loop for form in phi-copy
+		if (and
+			(canon-charstar? form)
+			(canon-charstar? (car form)))
+			; then
+			do (block liberate-inner
+				; These returned stripped-eps are in the depth-first
+				; ordering as originally fetched from the embedded
+				; props
+				(setf stp (strip-charstar-eps form))
+				(setf stripped-form (car stp))
+				(setf all-stripped-eps (second stp))
+
+				; We don't need the outermost ep
+				(setf stripped-eps
+					(subseq all-stripped-eps 0 (- (length all-stripped-eps) 1)))
+
+				; These come in depth-first order, and so can go
+				; directly with the eps
+				(setf inner-charstar-args
+					(get-elements-pred
+						(prop-all-args stripped-form)
+						#'canon-prop?))
+
+				; No args are also props, and were likely
+				; never characterized by the multiple episodes
+				(if (not (equal (length inner-charstar-args) (length stripped-eps)))
+					; then
+					(return-from liberate-inner)
+				)
+
+				; Add the "liberated" inner ** props back as siblings
+				(loop for inner in inner-charstar-args
+						for inner-ep in stripped-eps
+							do (setf phi-copy
+								(append phi-copy (list (list inner '** inner-ep))))
+				)
+				
+
+				; Re-characterize the outermost formula with only its
+				; own episode
+				(setf phi-copy (replace-vals
+					form 
+					(list stripped-form '** (car (last all-stripped-eps)))
+					phi-copy))
+			)
+	)
+
+	(return-from outer phi-copy)
+)
+)
 
 (ldefun extract-noun-sym (form)
 (block outer
@@ -2533,12 +2597,41 @@
 			:rule-order :slow-forward))
 )
 
+(ldefun all-duplicate-eps (phi)
+	(loop for form1 in phi for i from 0
+		append (loop for form2 in phi for j from 0
+			if (and
+				(> j i)
+				(canon-charstar? form1)
+				(canon-charstar? form2)
+				(equal (car form1) (car form2)))
+				collect (list form1 form2)
+		)
+	)
+)
+
+(ldefun fake-charstar? (phi)
+	(and
+		(listp phi)
+		(equal 3 (length phi))
+		(equal '** (second phi))
+	)
+)
+
+(ldefun all-double-charstars (phi)
+	(get-elements-pred phi
+		(lambda (x) (and
+			(fake-charstar? x)
+			(fake-charstar? (car x)))))
+)
+
 (ldefun schema-cleanup-lisp (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 	(loop for func in *SCHEMA-CLEANUP-FUNCS*
 		do (block inner
 			; (format t "applying func ~s~%" func)
+
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
 
@@ -2552,7 +2645,6 @@
 			;(if (and (has-element old-phi-copy 'NOT$2$.ADV) (not (has-element new-phi-copy 'NOT$2$.ADV)))
 				;(format t "func ~s removed NOT to give ~s~%" func new-phi-copy)
 			;)
-
 
 			; Remove any "naked" symbols left over from any
 			; processing bugs that can't be easily fixed.
@@ -2589,6 +2681,7 @@
 		; (format t "here1~%")
 		; (format t "doing a cleanup pass of ~s~%" phi)
 		(setf phi-copy (remove-duplicates (schema-cleanup-ttt phi-copy) :test #'equal))
+
 		;(if (and (has-element last-phi-copy 'NOT$2$.ADV) (not (has-element phi-copy 'NOT$2$.ADV)))
 		;	(format t "TTT removed NOT to give ~s~%" phi-copy)
 		;)
@@ -2603,6 +2696,8 @@
 			; (format t "last phi ~s didn't equal phi ~s~%" last-phi-copy phi-copy)
 			; (format t "last phi-copy minus phi-copy: ~s~%" (set-difference last-phi-copy phi-copy :test #'equal))
 			; (format t "phi-copy minus last phi-copy: ~s~%" (set-difference phi-copy last-phi-copy :test #'equal))
+
+
 			(setf last-phi-copy (copy-list phi-copy))
 			)
 		)

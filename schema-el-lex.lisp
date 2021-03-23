@@ -235,6 +235,12 @@
 )
 )
 
+(ldefun lex-speech? (x)
+(or
+	(has-ext? x ".X")
+)
+)
+
 (ldefun lex-const? (x)
 (or
 	(lex-name? x)

@@ -69,6 +69,7 @@
 (not (equal ':R x)) ; string renders of ':R sometimes omit :
 (or
 	(numberp x)
+	(lex-speech? x)
 	(lex-skolem? x)
 	(lex-pronoun? x)
 	(lex-name? x)
@@ -248,9 +249,16 @@
 )
 
 (ldefun canon-charstar? (x)
+(and
+; these speed everything up by ensuring we never
+; call canon-prop on things without ** operators
+(listp x)
+(contains x '**)
+
 (or
 	(mp x (list 'canon-prop? (list 'id? '*) 'canon-individual?))
 	(mp x (list 'canon-prop? (list 'id? '**) 'canon-individual?))
+)
 )
 )
 

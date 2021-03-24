@@ -27,11 +27,13 @@
 	; "A little girl was born."
 	; "It was snowing outside Tom's house one day."
 	; "Allie was watching a show yesterday."
-	"Susie say a girl was playing ball."
+	; "Susie say a girl was playing ball."
 	; "The girls went to the pond."
 	; "Kim needed some new chairs."
 	; "Tom got a kitten."
-	; nil
+	; "Mary wanted to stop working."
+	; "I see one dog and two cats."
+	nil
 )
 (setf stories-processed 0)
 
@@ -128,28 +130,38 @@
 
 		; (setf schemas (mapcar #'fully-clean-schema (mapcar #'car schema-match-tuples)))
 		(setf schemas (mapcar #'car schema-match-tuples))
+		(setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (third x))) schema-match-tuples))
+		; (format t "orig bound schemas:~%")
+		; (loop for bs in bound-schemas
+			;do (print-schema bs))
+
+		(setf coscoped-tup (fully-clean-coscoped-schemas bound-schemas t))
+		(setf coscoped-pairs (car coscoped-tup))
+		(setf coscoped-bindings (second coscoped-tup))
+		(setf schemas (mapcar #'car coscoped-pairs))
+		(setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (second x))) coscoped-pairs))
+
+		; Make sure shared vars are resolved so that all matched schemas can
+		; share a scope!
+		; (setf bound-schemas (uniquify-shared-vars-chain bound-schemas nil))
 
 		; Clean and generalize constants in the schemas.
 		; This procedure can rename some of the variables,
 		; so we'll have to re-organize the bindings to use
 		; the new variables names on the LHS.
-		(setf schema-clean-pairs
-			(loop for schema in schemas
-				collect (fully-clean-schema schema t)))
+		;(setf schema-clean-pairs
+			;(loop for schema in schemas
+				;collect (fully-clean-schema schema t)))
 
-		(setf schemas (mapcar #'car schema-clean-pairs))
+		;(setf schemas (mapcar #'car schema-clean-pairs))
 
-		(setf schema-post-clean-maps
-			(mapcar #'second schema-clean-pairs))
+		;(setf schema-post-clean-maps
+			;(mapcar #'second schema-clean-pairs))
 
-		(setf bound-schemas
-			(loop for scp in schema-clean-pairs
-				collect
-					(apply-bindings (car scp) (second scp))))
-
-		; Make sure shared vars are resolved so that all matched schemas can
-		; share a scope!
-		(setf bound-schemas (uniquify-shared-vars-chain bound-schemas nil))
+		;(setf bound-schemas
+			;(loop for scp in schema-clean-pairs
+				;collect
+					;(apply-bindings (car scp) (second scp))))
 
 		; (setf headers (loop for schema in schemas collect (schema-header schema)))
 		(setf headers (loop for schema in bound-schemas collect (schema-header schema)))
@@ -161,6 +173,7 @@
 		; (loop for schema in schemas do (print-schema (fully-clean-schema schema)))
 		(loop for tuple in schema-match-tuples
 				for schema in schemas
+				for tup in schema-match-tuples
 					for bound-schema in bound-schemas
 			do (block get-bound-eps
 			; if any story eps are bound to the header, they can be excused
@@ -171,8 +184,13 @@
 			; excused as well
 			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-schema ':Steps)))) :test #'equal))
 
-			(print-schema bound-schema)
+			; (format t "unbound:~%")
+			; (print-schema schema)
+			; (format t "bound:~%")
+			; (print-schema bound-schema)
+			; (format t "~%~%")
 			; (format t "using episodes ~s: ~%" used-eps)
+
 			(setf final-learned-schema (fully-clean-schema (car tuple)))
 
 

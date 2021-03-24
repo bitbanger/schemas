@@ -193,7 +193,7 @@
 	(setf packaged-story-pred (unwrap-singletons (norm-singletons (append (list (apply-mods story-mods story-pred)) story-post-args))))
 	 (dbg 'unify "packaged schema pred: ~s~%" packaged-schema-pred)
 	 ;(dbg 'unify "is pred? ~s~%" (canon-pred? packaged-schema-pred))
-	 ;(dbg 'unify "packaged story pred: ~s~%" packaged-story-pred)
+	 (dbg 'unify "packaged story pred: ~s~%" packaged-story-pred)
 	 ;(dbg 'unify "is pred? ~s~%" (canon-pred? packaged-story-pred))
 	(setf bindings (unify-preds packaged-schema-pred packaged-story-pred bindings whole-schema whole-story))
 	; (format t "bindings are now2 ~s~%" (ht-to-str bindings))
@@ -366,6 +366,39 @@
 			(return-from outer nil)
 		)
 		)
+	)
+
+	; If the two individuals are sets, we have to try to find a
+	; permutation of alignable elements, which is not tractable,
+	; so we'll just try to do the arguments in order.
+	(if (and (listp schema) (equal (car schema) 'set-of)
+			(listp story) (equal (car story) 'set-of))
+		; then
+		(block unify-sets
+			(if (not (equal (length schema) (length story)))
+				(progn
+					(dbg 'unify "sets ~s and ~s cannot be unified (mismatched cardinalities)~%" schema story)
+					(return-from outer nil)
+				)
+			)
+
+			(loop for schema-elem in (cdr schema)
+					for story-elem in (cdr story)
+				do (block unify-elems
+					(setf bindings (unify-individuals 
+						schema-elem story-elem bindings whole-schema whole-story)
+					)
+					(if (null bindings)
+						(progn
+							(dbg 'unify "sets ~s and ~s cannot be unified (elements ~s and ~s cannot be unified)~%" schema story schema-elem story-elem)
+							(return-from outer nil)
+						)
+					)
+				)
+			)
+
+			(return-from outer bindings)
+		) ; end block unify-sets
 	)
 
 	; If the two individuals are episodes, we have to unify the
@@ -780,11 +813,13 @@ bind-pred
 
 	; Verify argument lists are parallel.
 	; ...actually, maybe it's OK if they aren't!
-	(if nil
+	; ...or maybe it's not OK. Depends on my mood.
+	(if t ; nil
 		(if (not (equal (length schema-args) (length story-args)))
 			; then
 			(progn
 			(dbg 'unify "predicates ~s and ~s cannot be unified (different #s of arguments)~%" schema story)
+			(return-from outer nil)
 			)
 		)
 	)
@@ -807,8 +842,8 @@ bind-pred
 				(if (null tmp-bindings2)
 					; then
 					(progn
-					;(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify arguments)~%" schema story)
-					;(return-from outer nil)
+					(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify arguments)~%" schema story)
+					(return-from outer nil)
 					)
 					; else
 					(progn

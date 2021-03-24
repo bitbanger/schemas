@@ -106,7 +106,11 @@
 						(let ((exp-pair (expand-nested-schema form schema)))
 							(progn
 							(if (null (car exp-pair))
-								(format t "why the HECK didn't invoked schema ~s bind to ~s~%" (invoked-schema (second form) t) form)
+								(progn
+									(format t "why the HECK didn't invoked schema ~s bind to ~s~%" (invoked-schema (second form) t) form)
+									(dbg-tag 'unify)
+									(expand-nested-schema form schema)
+								)
 							)
 
 							(flatten-schema

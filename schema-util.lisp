@@ -917,6 +917,127 @@
 )
 )
 
+(ldefun fully-clean-coscoped-schemas (schemas &optional return-gen-maps)
+(block outer
+	; Before we clean up constants, we'll "uniquify" all
+	; existing, unabstracted variables, to ensure each
+	; schema has its own scope, and that we're in control
+	; of which variables cross those scopes.
+	(setf schemas (uniquify-shared-vars-chain schemas))
+
+	; Collect all of those unabstracted variables now,
+	; to ensure the new variables names we create don't
+	; conflict with any of them.
+	(setf existing-vars
+		(dedupe (get-elements-pred schemas #'varp)))
+
+	; Abstract all constants to variables, and maintain
+	; maps from the new variables to the constants they
+	; abstracted as well.
+	(setf cleaned-schema-pairs
+		(loop for schema in schemas
+			collect (fully-clean-schema schema t)))
+
+	(setf cleaned-schemas (mapcar #'car cleaned-schema-pairs))
+	(setf cleaned-bindings (mapcar #'second cleaned-schema-pairs))
+
+	; Keep these binding maps as lists, too, for later replacement
+	; of their keys and re-conversion into the final maps.
+	(setf cleaned-bindings-lists
+		(loop for bindings in cleaned-bindings
+			collect (loop for k being the hash-keys of bindings
+				collect (list k (gethash k bindings)))))
+
+	; Get all variables used to abstract individuals across
+	; each schema.
+	(setf all-ind-vars
+		(dedupe (loop for bindings in cleaned-bindings
+			append (loop for k being the hash-keys of bindings
+				collect k))))
+
+	; Get all individuals that have been abstracted to (possibly
+	; unique) variables in each schema.
+	(setf all-bound-inds
+		(dedupe (loop for bindings in cleaned-bindings
+			append (loop for k being the hash-keys of bindings
+				collect (gethash k bindings)))))
+
+	; Build a reverse map of all abstracted constants to lists
+	; of their abstracting variables across all schemas.
+	(setf ind-to-vars-map (make-hash-table :test #'equal))
+	(loop for bindings in cleaned-bindings
+		do (loop for var being the hash-keys of bindings
+			do (let ((ind (gethash var bindings)))
+				(setf (gethash ind ind-to-vars-map)
+					(append (gethash ind ind-to-vars-map) (list var)))
+			)))
+
+	; For utility, we'll also build a map of all shared
+	; bindings, to exclude all schema-specific bindings.
+	(setf outer-scope-bindings (make-hash-table :test #'equal))
+
+	; Give each individual a single abstracted variable name,
+	; to be shared across all of these co-scoped schemas.
+
+	; TODO: we need to account for these variables potentially
+	; colliding with the existing abstracted vars, since that
+	; makes pair-by-pair replacement less trivial. For now,
+	; these can start with V and those can start with X, but
+	; this should really temp-ify those, first, to ensure no
+	; collisions during replacement.
+	(setf gen-cursor "?V_A")
+	(loop for ind in all-bound-inds do (block gen-ind
+		; Advance gen-cursor until it no longer collides with
+		; any non-abstracted vars in any schema.
+		(loop while (has-element existing-vars (intern gen-cursor))
+			do (setf gen-cursor (next-str gen-cursor)))
+
+		; Replace all other variables for this
+		; individual across all schemas, and in
+		; the keys of all schema binding maps.
+		(loop for old-ind-var in (gethash ind ind-to-vars-map)
+			; Replace in schemas
+			do (setf cleaned-schemas
+				(replace-vals old-ind-var (intern gen-cursor) cleaned-schemas))
+
+			; Replace in binding maps
+			do (setf cleaned-bindings-lists
+				(replace-vals old-ind-var (intern gen-cursor) cleaned-bindings-lists))
+		)
+
+		; Add the binding in the final cross-schema
+		; map, too.
+		(setf
+			(gethash (intern gen-cursor) outer-scope-bindings)
+			ind)
+
+		; Advance the cursor.
+		(setf gen-cursor (next-str gen-cursor))
+
+	))
+
+	; Construct the new bindings maps from the doctored
+	; lists.
+	(setf final-bindings
+		(loop for cbl in cleaned-bindings-lists
+			collect (mk-hashtable cbl)))
+
+	(if return-gen-maps
+		; then
+		(return-from outer
+			(list
+				; (schema, bindings-for-schema) pairs
+				(loop for cleaned-schema in cleaned-schemas
+						for bindings in final-bindings
+							collect (list cleaned-schema bindings))
+				; outer scope bindings for shared vars
+				outer-scope-bindings))
+		; else
+		(return-from outer cleaned-schemas)
+	)
+)
+)
+
 (ldefun fully-clean-schema (schema &optional return-gen-map)
 (block outer
 	(setf gen-schema-pair (mapped-generalize-schema-constants schema))
@@ -933,7 +1054,8 @@
 )
 
 (ldefun fully-clean-schema-no-gen (schema)
-	(clean-do-kas (rename-constraints (dedupe-sections (remove-invisible-rcs (sort-steps (linearize-unspecified-steps schema))))))
+	; (clean-do-kas (rename-constraints (dedupe-sections (remove-invisible-rcs (sort-steps (linearize-unspecified-steps schema))))))
+	(clean-do-kas (dedupe-sections (remove-invisible-rcs (sort-steps (linearize-unspecified-steps schema)))))
 )
 
 (ldefun generalize-schema-constants (schema)
@@ -1102,7 +1224,7 @@
 )
 )
 
-(ldefun uniquify-shared-vars-chain (schemas except-in)
+(ldefun uniquify-shared-vars-chain (schemas &optional except-in)
 (block outer
 	(if (equal 1 (length schemas))
 		(return-from outer schemas)

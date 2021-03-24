@@ -123,7 +123,11 @@
 				; variables were bound...
 				(if (loop for fluent-sec in (fluent-sections m) thereis (loop for v in (mapcar #'car (section-formulas fluent-sec)) thereis (not (varp v))))
 					; ...then we can still add it...
-					(setf story-matches (append story-matches (list (list m score binds))))
+					(progn
+						(setf bound-fluent-vars (loop for fluent-sec in (fluent-sections m) append (loop for v in (mapcar #'car (section-formulas fluent-sec)) if (not (varp v)) collect v)))
+						; (format t "bound fluent vars: ~s~%" bound-fluent-vars)
+						(setf story-matches (append story-matches (list (list m score binds))))
+					)
 					; ...but if no header or step episode
 					; variables were bound, we'll do nothing.
 					(progn

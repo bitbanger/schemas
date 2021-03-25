@@ -33,7 +33,8 @@
 	; "Tom got a kitten."
 	; "Mary wanted to stop working."
 	; "I see one dog and two cats."
-	nil
+	"Tom had a cabin near a river."
+	; nil
 )
 (setf stories-processed 0)
 
@@ -70,7 +71,7 @@
 		(setf events nil)
 		(setf schema-match-tuples nil)
 
-		; (handler-case
+		(handler-case
 		(block parse-story
 			(setf el-story (len-parse-sents roc-story))
 
@@ -110,11 +111,11 @@
 
 			(setf schema-match-tuples (top-story-matches-easy-el el-story))
 			)
-			;(error ()
-				;(progn
-					;(format t "story processing error~%")
-					;(return-from process-story)
-				;)))
+			(error ()
+				(progn
+					(format t "story processing error~%")
+					(return-from process-story)
+				)))
 
 		; Sometimes a story just has only atemporal
 		; formulas; we can't really make a schema from
@@ -131,15 +132,16 @@
 		; (setf schemas (mapcar #'fully-clean-schema (mapcar #'car schema-match-tuples)))
 		(setf schemas (mapcar #'car schema-match-tuples))
 		(setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (third x))) schema-match-tuples))
+		(setf schemas-with-bindings (loop for tup in schema-match-tuples collect (list (car tup) (third tup))))
 		; (format t "orig bound schemas:~%")
 		; (loop for bs in bound-schemas
 			;do (print-schema bs))
 
-		(setf coscoped-tup (fully-clean-coscoped-schemas bound-schemas t))
-		(setf coscoped-pairs (car coscoped-tup))
-		(setf coscoped-bindings (second coscoped-tup))
-		(setf schemas (mapcar #'car coscoped-pairs))
-		(setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (second x))) coscoped-pairs))
+		; (setf coscoped-tup (fully-clean-coscoped-schemas bound-schemas t))
+		; (setf coscoped-pairs (car coscoped-tup))
+		; (setf coscoped-bindings (second coscoped-tup))
+		; (setf schemas (mapcar #'car coscoped-pairs))
+		; (setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (second x))) coscoped-pairs))
 
 		; Make sure shared vars are resolved so that all matched schemas can
 		; share a scope!
@@ -168,7 +170,7 @@
 
 		; (format t "steps: ~%")
 		; (loop for ev in events do (format t "	~s~%" ev))
-		(format t "schemas: ~%")
+		(format t "schemas (w/ bound vars): ~%")
 		; (loop for header in headers do (format t "	~s~%" header))
 		; (loop for schema in schemas do (print-schema (fully-clean-schema schema)))
 		(loop for tuple in schema-match-tuples
@@ -184,21 +186,12 @@
 			; excused as well
 			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-schema ':Steps)))) :test #'equal))
 
-			; (format t "unbound:~%")
-			; (print-schema schema)
-			; (format t "bound:~%")
-			; (print-schema bound-schema)
+			;(format t "unbound:~%")
+			;(print-schema schema)
+			;(format t "bound:~%")
+			(print-schema bound-schema)
 			; (format t "~%~%")
 			; (format t "using episodes ~s: ~%" used-eps)
-
-			(setf final-learned-schema (fully-clean-schema (car tuple)))
-
-
-			; We should also register the schema, so it can
-			; be expanded as a nested step in the composed
-			; schema, and just so it can be used later as
-			; a learned schema on its own.
-			(register-schema final-learned-schema)
 
 			; (format t "~%")
 		))
@@ -206,7 +199,7 @@
 		(setf inds (dedupe (intersection
 						(union
 							(get-elements-pred events #'canon-small-individual?)
-							(get-elements-pred schemas #'canon-small-individual?)
+							(get-elements-pred bound-schemas #'canon-small-individual?)
 							:test #'equal
 						)
 						(get-elements-pred el-story #'canon-small-individual?) :test #'equal)))
@@ -283,7 +276,8 @@
 
 		; Compose a schema from the matched schemas,
 		; story events, and story constraints
-		(setf new-schema (compose-schema rcs (append events headers) ep-rels))
+		; (setf new-schema (compose-schema rcs (append events headers) ep-rels))
+		(setf new-schema (compose-schema rcs events schemas-with-bindings story-ep-rels))
 		(print-schema new-schema)
 
 		(format t "flattened composite schema: ~%")
@@ -298,7 +292,7 @@
 			(sort
 				(mapcar #'second (section-formulas (get-section new-schema ':Roles)))
 				(lambda (x y)
-					(< (rechash (car (prop-pre-args x))) (rechash (car (prop-pre-args y))))))
+					(< (rechash (prop-pre-args x)) (rechash (prop-pre-args y)))))
 
 			; Get all steps
 			(loop for st in (section-formulas (get-section new-schema ':Steps))

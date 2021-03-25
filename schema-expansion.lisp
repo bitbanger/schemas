@@ -37,7 +37,7 @@
 	; )
 
 	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
-			do (format t "got sc ~s~%" sc)
+			; do (format t "got sc ~s~%" sc)
 			if (equal (car invoker) (second (car (second sc))))
 				do (block apply-subord
 					(setf key (remove-ext (car (car (second sc))) "<-"))
@@ -58,7 +58,7 @@
 						(return-from outer nil)
 						)
 						; else
-						(format t "bound key ~s to val ~s~%" key val)
+						; (format t "bound key ~s to val ~s~%" key val)
 					)
 				)
 	)
@@ -103,13 +103,14 @@
 				; and flatten that schema recursively...
 				if (invokes-schema? (second form) t)
 					append
-						(let ((exp-pair (expand-nested-schema form schema)))
+						(block expand (let ((exp-pair (expand-nested-schema form schema)))
 							(progn
 							(if (null (car exp-pair))
 								(progn
-									(format t "why the HECK didn't invoked schema ~s bind to ~s~%" (invoked-schema (second form) t) form)
-									(dbg-tag 'unify)
-									(expand-nested-schema form schema)
+									(format t "invoked schema ~s didn't bind to invoker ~s~%" (invoked-schema (second form) t) form)
+									(return-from expand)
+									; (dbg-tag 'unify)
+									; (expand-nested-schema form schema)
 								)
 							)
 
@@ -117,7 +118,7 @@
 								(apply-bindings (car exp-pair) (second exp-pair))
 								only-roles-and-steps)
 							)
-						)
+						))
 			)
 		)
 	)
@@ -127,10 +128,25 @@
 	(sort
 		(copy-list (dedupe
 			(flatten-schema-unsorted schema only-roles-and-steps)))
-		(lambda (x y)
-			(and
-				(not (equal (canon-charstar? x) (canon-charstar? y)))
-				(canon-charstar? y))))
+		(lambda (x y) (block sort-props
+			; (and
+				; (not (equal (canon-charstar? x) (canon-charstar? y)))
+				; (canon-charstar? y))))
+			(setf x-charstar? (canon-charstar? x))
+			(setf y-charstar? (canon-charstar? y))
+
+			; Both are fluent events
+			(if (and x-charstar? y-charstar?)
+				(return-from sort-props (< (rechash x) (rechash y))))
+
+			; Only one is a fluent event
+			(if (not (equal x-charstar? y-charstar?))
+				(return-from sort-props y-charstar?))
+
+			; Both are nonfluents (sort by prefix args)
+			(return-from sort-props
+				(< (rechash (prop-pre-args x)) (rechash (prop-pre-args y))))
+		)))
 )
 
 (ldefun flatten-schema (schema &optional only-roles-and-steps)

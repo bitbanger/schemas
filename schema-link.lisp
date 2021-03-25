@@ -289,7 +289,7 @@
 )
 )
 
-(ldefun compose-schema (roles steps ep-rels)
+(ldefun compose-schema (roles events schema-event-tups story-ep-rels)
 (let (
 	new-schema
 )
@@ -303,6 +303,66 @@
 	; arguments of the header, and the most frequent
 	; prefix argument of the steps as the prefix argument
 	; of the header.
+
+	(setf schema-events (mapcar #'car schema-event-tups))
+	(setf bound-schema-events
+		(loop for tup in schema-event-tups
+			collect (apply-bindings (car tup) (second tup))))
+
+	(setf subord-constrs (list))
+	(setf subschema-step-num 0)
+	(setf steps (copy-list events))
+	(loop for bs in bound-schema-events
+			for tup in schema-event-tups do (block sl
+		(setf true-step-name (third (schema-header bs)))
+		(if (varp (third (schema-header bs)))
+			; then
+			(progn
+				(setf subschema-step-num (+ subschema-step-num 1))
+				(setf true-step-name (intern (format nil "~s_~d" (third (schema-header bs)) subschema-step-num)))
+			)
+		)
+
+		; Add the schema header as a step in the list
+		(if (not (varp (third (schema-header bs))))
+			; then
+			(setf steps (append steps (list (schema-header bs))))
+			; else
+			; the header ep wasn't bound,
+			; and is probably just ?E, so we
+			; should make sure it has a unique
+			; name in the embedding schema, so
+			; we can absorb its ep rels to the
+			; outer level unambiguously before
+			; renaming steps
+			(setf steps (append steps (list (list
+				(car (schema-header bs))
+				'**
+				true-step-name
+			))))
+		)
+
+		; Pull out ep-rels
+		(setf bs-ep-rels (mapcar #'second (section-formulas (get-section bs ':Episode-relations))))
+		(if (varp (third (schema-header bs)))
+			(setf bs-ep-rels
+				(replace-vals
+					(third (schema-header bs))
+					true-step-name
+					bs-ep-rels)))
+		(setf ep-rels (append ep-rels bs-ep-rels))
+
+		; Pull out subordinate constraints from
+		; the bindings for all variables not bound
+		; by the header.
+		(setf subord-binding-pairs (list))
+		(loop for var being the hash-keys of (second tup)
+			if (not (has-element (schema-header (car tup)) var))
+				do (setf subord-binding-pairs (append subord-binding-pairs
+					(list (list var (gethash var (second tup))))))
+		)
+		(setf subord-constrs (append subord-constrs (list (list true-step-name subord-binding-pairs))))
+	))
 
 	; Find the most frequent prefix argument.
 	(setf new-prefix-arg
@@ -341,6 +401,19 @@
 					(third st)
 				)
 		)
+	)
+
+	; Add the nested schema subordinate constraints to the new schema.
+	(loop for subord-constr-list in subord-constrs
+		do (loop for constr in (second subord-constr-list) do (block add-subord
+			(setf substep-name (car subord-constr-list))
+			(setf constr-var (car constr))
+			(setf constr-ind (second constr))
+
+			(setf sk-fn-name (intern (concat-two-strs (string constr-var) "<-")))
+			(setf constr-prop (list (list sk-fn-name substep-name) '= constr-ind))
+			(setf new-schema (add-constraint new-schema ':Subordinate-constraints constr-prop))
+		))
 	)
 
 	; Add the episode relations for temporal

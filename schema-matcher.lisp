@@ -114,17 +114,19 @@
 			(setf m (car m-pair))
 			(setf score (second m-pair))
 			(setf binds (third m-pair))
+			(setf bound-m (apply-bindings m binds))
 
 			; If the schema's header variable was bound...
-			(if (not (varp (third (second m))))
+			(if (not (varp (third (second bound-m))))
 				; ...then we can just add it...
 				(setf story-matches (append story-matches (list (list m score binds))))
 				; ...otherwise, if any fluent episode
 				; variables were bound...
-				(if (loop for fluent-sec in (fluent-sections m) thereis (loop for v in (mapcar #'car (section-formulas fluent-sec)) thereis (not (varp v))))
+				(if (loop for fluent-sec in (fluent-sections bound-m) thereis (loop for v in (mapcar #'car (section-formulas fluent-sec)) thereis (not (varp v))))
+				; (if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
 					; ...then we can still add it...
 					(progn
-						(setf bound-fluent-vars (loop for fluent-sec in (fluent-sections m) append (loop for v in (mapcar #'car (section-formulas fluent-sec)) if (not (varp v)) collect v)))
+						; (setf bound-fluent-vars (loop for fluent-sec in (fluent-sections bound-m) append (loop for v in (mapcar #'car (section-formulas fluent-sec)) if (not (varp v)) collect v)))
 						; (format t "bound fluent vars: ~s~%" bound-fluent-vars)
 						(setf story-matches (append story-matches (list (list m score binds))))
 					)

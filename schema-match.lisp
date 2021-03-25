@@ -414,12 +414,19 @@
 	;(setf test-schema (set-header test-schema new-match-header))
 	;(setf gen-match (set-header gen-match new-gen-header))
 	;(register-schema gen-match)
-	(setf new-gen-name (create-from-match test-schema))
-	(setf test-schema (replace-vals (schema-pred test-schema) new-gen-name test-schema))
+
+	(setf clean-pair (fully-clean-schema test-schema t))
+	(setf gen-test-schema (car clean-pair))
+	(setf gen-test-bindings (second clean-pair))
+
+	(setf new-gen-name (create-from-match-maybe-gen gen-test-schema nil))
+	; (setf test-schema (replace-vals (schema-pred test-schema) new-gen-name test-schema))
 
 
 
-	(return-from outer (list test-schema all-bindings bound-header))
+	; (return-from outer (list test-schema all-bindings bound-header))
+	; (return-from outer (list (eval new-gen-name) all-bindings bound-header))
+	(return-from outer (list (eval new-gen-name) gen-test-bindings bound-header))
 )
 )
 
@@ -541,13 +548,18 @@
 	(setf matched-bindings nil)
 	(if (not matched-sub)
 		; then
+		; We matched this schema via the header
 		(progn
 		(setf all-bindings best-bindings)
 			; (format t "UN-generalized sub-match is:~%")
 			; (print-schema (car best-single-res))
 		(setf test-schema (car best-single-res))
 		)
+
+
+
 		; else
+		; We matched a sub-schema, not this schema
 		(block gen-sub-match
 			; (format t "generalizing with bindings ~s~%" (ht-to-str best-bindings))
 			(setf gen-match-pair (mapped-generalize-schema-constants (apply-bindings (car best-single-res) best-bindings)))

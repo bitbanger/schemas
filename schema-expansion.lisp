@@ -46,7 +46,7 @@
 					(if (not (bind-if-unbound key val header-bindings))
 						; then
 						(progn
-						; (format t "WEIRD EXPANSION BUG: subordinate constraint ~s can't bind over existing bound value ~s~%" sc (gethash key header-bindings))
+						(format t "WEIRD EXPANSION BUG: subordinate constraint ~s can't bind over existing bound value ~s~%" sc (gethash key header-bindings))
 						; (format t "invoker is ~s~%" invoker)
 						; (print-schema parent-schema)
 						; We're going to just cause an error here and make

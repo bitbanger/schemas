@@ -122,8 +122,8 @@
 				(setf story-matches (append story-matches (list (list m score binds))))
 				; ...otherwise, if any fluent episode
 				; variables were bound...
-				(if (loop for fluent-sec in (fluent-sections bound-m) thereis (loop for v in (mapcar #'car (section-formulas fluent-sec)) thereis (not (varp v))))
-				; (if (loop for v in (mapcar #'car (section-formulas (get-section m ':Steps))) thereis (not (varp v)))
+				; (if (loop for fluent-sec in (fluent-sections bound-m) thereis (loop for v in (mapcar #'car (section-formulas fluent-sec)) thereis (not (varp v))))
+				(if (loop for v in (mapcar #'car (section-formulas (get-section bound-m ':Steps))) thereis (not (varp v)))
 					; ...then we can still add it...
 					(progn
 						; (setf bound-fluent-vars (loop for fluent-sec in (fluent-sections bound-m) append (loop for v in (mapcar #'car (section-formulas fluent-sec)) if (not (varp v)) collect v)))

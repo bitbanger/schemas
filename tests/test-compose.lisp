@@ -33,8 +33,9 @@
 	; "Tom got a kitten."
 	; "Mary wanted to stop working."
 	; "I see one dog and two cats."
-	"Tom had a cabin near a river."
-	; nil
+	; "Tom had a cabin near a river."
+	; "The couple worked out."
+	nil
 )
 (setf stories-processed 0)
 
@@ -46,7 +47,11 @@
 			(null story-start-line)
 			(equal story-start-line (car roc-story)))
 		; then
-		do (process-one-story roc-story)
+		do (handler-case
+				(process-one-story roc-story)
+			(error ()
+				(format t "error composing story schemas~%")
+			))
 )))
 
 (ldefun process-one-story (roc-story)
@@ -170,7 +175,7 @@
 
 		; (format t "steps: ~%")
 		; (loop for ev in events do (format t "	~s~%" ev))
-		(format t "schemas (w/ bound vars): ~%")
+		(format t "schemas (w/ unbound vars): ~%")
 		; (loop for header in headers do (format t "	~s~%" header))
 		; (loop for schema in schemas do (print-schema (fully-clean-schema schema)))
 		(loop for tuple in schema-match-tuples
@@ -187,9 +192,9 @@
 			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-schema ':Steps)))) :test #'equal))
 
 			;(format t "unbound:~%")
-			;(print-schema schema)
+			(print-schema schema)
 			;(format t "bound:~%")
-			(print-schema bound-schema)
+			;(print-schema bound-schema)
 			; (format t "~%~%")
 			; (format t "using episodes ~s: ~%" used-eps)
 

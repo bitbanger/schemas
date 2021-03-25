@@ -357,7 +357,13 @@
 		; by the header.
 		(setf subord-binding-pairs (list))
 		(loop for var being the hash-keys of (second tup)
-			if (not (has-element (schema-header (car tup)) var))
+			if (and
+					(not (has-element (schema-header (car tup)) var))
+					(has-element (car tup) var) ; we also need to check whether
+												; it's just a spurious binding
+												; for a var not in the schema,
+												; which happens sometimes?
+					)
 				do (setf subord-binding-pairs (append subord-binding-pairs
 					(list (list var (gethash var (second tup))))))
 		)

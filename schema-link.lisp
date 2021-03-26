@@ -289,7 +289,7 @@
 )
 )
 
-(ldefun compose-schema (roles events schema-event-tups story-ep-rels)
+(ldefun compose-schema (roles events schema-event-tups story-ep-rels &optional should-add-subords)
 (let (
 	new-schema
 )
@@ -418,7 +418,9 @@
 
 			(setf sk-fn-name (intern (concat-two-strs (string constr-var) "<-")))
 			(setf constr-prop (list (list sk-fn-name substep-name) '= constr-ind))
-			(setf new-schema (add-constraint new-schema ':Subordinate-constraints constr-prop))
+			(if should-add-subords
+				(setf new-schema (add-constraint new-schema ':Subordinate-constraints constr-prop))
+			)
 		))
 	)
 

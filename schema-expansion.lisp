@@ -137,7 +137,8 @@
 
 			; Both are fluent events
 			(if (and x-charstar? y-charstar?)
-				(return-from sort-props (< (rechash x) (rechash y))))
+				; (return-from sort-props (< (rechash x) (rechash y))))
+				(return-from sort-props nil))
 
 			; Only one is a fluent event
 			(if (not (equal x-charstar? y-charstar?))

@@ -254,7 +254,7 @@
 )
 
 (defparameter receiving_verb.?
-	'(epi-schema ((?x receiving_verb.? ?o (at.p-arg ?l)) ** ?e)
+	'(epi-schema ((?x receiving_verb.? ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?o inanimate_object.n))

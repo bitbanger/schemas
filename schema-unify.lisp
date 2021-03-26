@@ -814,7 +814,8 @@ bind-pred
 	; Verify argument lists are parallel.
 	; ...actually, maybe it's OK if they aren't!
 	; ...or maybe it's not OK. Depends on my mood.
-	(if t ; nil
+	; (if t
+	(if nil
 		(if (not (equal (length schema-args) (length story-args)))
 			; then
 			(progn

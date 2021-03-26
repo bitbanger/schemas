@@ -2672,6 +2672,55 @@
 )
 
 (ldefun schema-cleanup (phi)
+(block outer
+	(setf cleaned-phi (schema-cleanup-until-convergence phi))
+	(setf reified-phi (copy-item cleaned-phi))
+
+	(loop for form in cleaned-phi do (block reify-args
+		(if (not (canon-prop? form))
+			(return-from reify-args)
+		)
+
+		(setf new-form (copy-item form))
+
+		; strip ** ep
+		(setf charstar-ep nil)
+		(if (canon-charstar? new-form)
+			(progn
+				(setf charstar-ep (third new-form))
+				(setf new-form (car new-form))
+			)
+		)
+
+		; reify prop/pred args
+		(setf args (prop-all-args new-form))
+		(loop for arg in args do (block reify-arg
+			(if (canon-prop? arg)
+				(setf new-form (replace-vals arg (list 'KE arg) new-form))
+			)
+
+			(if (canon-pred? arg)
+				(if (lex-verb? (pred-base arg))
+					(setf new-form (replace-vals arg (list 'KA arg) new-form))
+					; else
+					(setf new-form (replace-vals arg (list 'K arg) new-form))
+				)
+			)
+		))
+
+		; add back charstar (if applicable)
+		(if (not (null charstar-ep))
+			(setf new-form (list new-form '** charstar-ep))
+		)
+
+		(setf reified-phi (replace-vals form new-form reified-phi))
+	))
+
+	(return-from outer reified-phi)
+)
+)
+
+(ldefun schema-cleanup-until-convergence (phi)
 (let (last-phi-copy phi-copy)
 (block outer
 	; until convergence

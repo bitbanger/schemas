@@ -35,20 +35,35 @@
 	; "I see one dog and two cats."
 	; "Tom had a cabin near a river."
 	; "The couple worked out."
+	; "Michael was very shy."
 	nil
 )
 (setf stories-processed 0)
 
+(defparameter start-st (parse-integer (second sb-ext:*posix-argv*)))
+(defparameter end-st (parse-integer (third sb-ext:*posix-argv*)))
+
 ; (let (el-story events schemas headers inds rcs)
 (ldefun compose-schemas-from-stories ()
 (block process-all-stories
+(setf first-story-hit nil)
 (loop for roc-story in (shuffle *ROC-MCGUFFEY*)
-	if (or
+		for story-num from 0
+	if (and (or
 			(null story-start-line)
-			(equal story-start-line (car roc-story)))
+			(equal story-start-line (car roc-story))
+			first-story-hit
+		)
+		(>= story-num start-st)
+		(< story-num end-st)
+		)
 		; then
 		do (handler-case
-				(process-one-story roc-story)
+				(progn
+					(if (equal story-start-line (car roc-story))
+						(setf first-story-hit t))
+					(process-one-story roc-story)
+				)
 			(error ()
 				(format t "error composing story schemas~%")
 			))
@@ -63,13 +78,13 @@
 			(setf stories-processed (+ stories-processed 1))
 		)
 
-		(if (and
-				(not (null story-start-line))
-				(not (equal (car roc-story) story-start-line))
-			)
+		;(if (and
+				;(not (null story-start-line))
+				;(not (equal (car roc-story) story-start-line))
+			;)
 			; then
-			(return-from process-story)
-		)
+			;(return-from process-story)
+		;)
 			
 
 		(setf el-story nil)

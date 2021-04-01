@@ -105,6 +105,10 @@
 		(return-from outer 1.0)
 	)
 
+	; Strip match numbers.
+	(setf schema-pred (get-schema-match-name schema-pred))
+	(setf story-pred (get-schema-match-name story-pred))
+
 	; ...Or if the story pred has attrs over the schema pred.
 	(if (equal schema-pred (pred-base story-pred))
 		(return-from outer 0.95)
@@ -133,15 +137,6 @@
 	)
 	; (or for free if both)
 
-	; If the story pred is a specification of the schema pred,
-	; then schema subsumes story
-	; TODO: proper hierarchy for inheritance
-	(if (and (not (null (get-schema-match-num story-pred)))
-			(equal (get-schema-match-name story-pred) schema-pred))
-		; then
-		(return-from outer 0.9)
-	)
-
 	(loop for k being the hash-keys of *SUBSUMPTION-CATEGORIES* do (block cat
 		(if (and (equal schema-pred k)
 				(not (null (member story-pred (gethash k *SUBSUMPTION-CATEGORIES*) :test #'equal))))
@@ -167,12 +162,6 @@
 				(return-from outer 0.9)
 			)
 		)
-	)
-
-	(if (and (not (null (get-schema-match-num story-pred)))
-			(equal (get-schema-match-name story-pred) schema-pred))
-		; then
-		(return-from outer 0.9)
 	)
 
 

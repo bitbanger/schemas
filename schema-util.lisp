@@ -348,7 +348,10 @@
 )
 
 (ldefun schema-name (schema)
-	(prop-pred (car (second schema)))
+	(handler-case
+		(prop-pred (car (second schema)))
+	(error ()
+		nil))
 )
 
 (ldefun schema-sections (schema)

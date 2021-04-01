@@ -318,6 +318,17 @@
 	(remove-duplicates lst :test #'equal)
 )
 
+(defun dedupe-except (lst except)
+	(remove-duplicates lst :test
+		(lambda (x y)
+			(and
+				(equal x y)
+				(not (contains except x))
+			)
+		)
+	)
+)
+
 ; A convenience function for a single element in a flat list.
 (defun contains (lst elem)
 	(not (null (member elem lst :test #'equal)))

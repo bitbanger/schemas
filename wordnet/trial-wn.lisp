@@ -1,4 +1,5 @@
 (load "trial-wn-data.lisp")
+(load "wn-basic-levels.lisp")
 
 (defun wordnet-hypernyms (el)
 (block outer

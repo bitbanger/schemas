@@ -343,3 +343,13 @@
 		)
 	)
 )
+
+(ldefun basic-level (el)
+	(cond
+		((lex-noun? el)
+			(gethash el *NOUN-BASIC-LEVELS*))
+		((lex-verb? el)
+			(gethash el *VERB-BASIC-LEVELS*))
+		(t nil)
+	)
+)

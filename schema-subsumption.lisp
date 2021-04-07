@@ -344,12 +344,23 @@
 	)
 )
 
-(ldefun basic-level (el)
+(ldefun basic-level-maybe-nil (el)
 	(cond
 		((lex-noun? el)
 			(gethash el *NOUN-BASIC-LEVELS*))
 		((lex-verb? el)
 			(gethash el *VERB-BASIC-LEVELS*))
 		(t nil)
+	)
+)
+
+(ldefun basic-level (el)
+	(let ((bl (basic-level-maybe-nil el)))
+		(if (null bl)
+			; then
+			el
+			; else
+			bl
+		)
 	)
 )

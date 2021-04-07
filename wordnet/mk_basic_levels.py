@@ -13,8 +13,19 @@ verb_blcs = dict()
 for line in open(blc_noun_file, 'r'):
 	if not line.strip() or line[0] == "#":
 		continue
-	(non_basic, basic) = [lemma_to_el(wn.of2ss(num+'n').lemmas()[0]) for num in line.split()[:2]]
-	noun_blcs[non_basic] = basic
+
+	lemmas = [wn.of2ss(num+'n').lemmas() for num in line.split()[:2]]
+	nonbasic_lemmas = lemmas[0]
+	basic_lemma = lemmas[1][0]
+
+	if "'" in str(lemma_to_el(basic_lemma)):
+		continue
+
+	for i in range(len(nonbasic_lemmas)):
+		nonbasic_lemma = nonbasic_lemmas[i]
+		if "'" in str(lemma_to_el(nonbasic_lemma)):
+			continue
+		noun_blcs[lemma_to_el(nonbasic_lemma)] = lemma_to_el(basic_lemma)
 
 for line in open(blc_verb_file, 'r'):
 	if not line.strip() or line[0] == "#":
@@ -39,7 +50,12 @@ print("""
 (defparameter *NOUN-BASIC-LEVELS* (make-hash-table :test #'equal))
 
 (loop for pair in *NOUN-BASIC-LEVELS-LST*
-	do (setf (gethash (car pair) *NOUN-BASIC-LEVELS*) (second pair)))
+	; if (not (null (gethash (car pair) *NOUN-BASIC-LEVELS*)))
+		; do (format t "overwriting ~s BL ~s with ~s~%" (car pair) (gethash (car pair) *NOUN-BASIC-LEVELS*) (second pair))
+	; Until word senses are in, we'll just not overwrite
+	; anything.
+	if (null (gethash (car pair) *NOUN-BASIC-LEVELS*))
+		do (setf (gethash (car pair) *NOUN-BASIC-LEVELS*) (second pair)))
 
 (defparameter *VERB-BASIC-LEVELS* (make-hash-table :test #'equal))
 

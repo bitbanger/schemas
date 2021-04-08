@@ -227,6 +227,14 @@
 	(lex-modal? x)
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
+
+	; Sometimes sentential modifiers
+	; get caught in predicate modifier
+	; nests, so we'll allow them to be
+	; "valid" here, but then float them
+	; upward during postprocessing.
+	(canon-sent-mod? x)
+
 	(mp x (list (list 'id? 'ADV) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-A) 'canon-pred-or-mod?+))
 	(mp x (list (list 'id? 'ADV-F) 'canon-pred-or-mod?+))

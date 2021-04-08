@@ -500,8 +500,18 @@
 	past-tense-story-to-present
 	liberate-starred-prop-args
 	fix-ka-be-pre-arg
+	bubble-up-sent-mods
 	; reify-pred-args
 ))
+
+(ldefun bubble-up-sent-mods (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+	; (loop for form in phi-copy
+
+	(return-from outer phi-copy)
+)
+)
 
 ; Sometimes there's a (KA BE.V) in the prefix
 ; arg list as an extra arg, when it really
@@ -510,9 +520,26 @@
 (ldefun fix-ka-be-pre-arg (phi)
 (block outer
 	(setf phi-copy (copy-item phi))
-	;(loop for form in phi-copy
-		;(
-	;)
+	(loop for form in phi-copy do (block fix-form
+		(if (not (canon-prop? form))
+			(return-from fix-form))
+
+		(setf pre-args (prop-pre-args form))
+
+		(if (< (length pre-args) 2)
+			(return-from fix-form))
+
+		(if (equal (car (last pre-args)) '(KA BE.V))
+			(progn
+				(setf new-form (render-prop
+					(subseq pre-args 0 (- (length pre-args) 1))
+					(prop-pred form)
+					(prop-post-args form)
+					(prop-mods form)))
+				(setf phi-copy (replace-vals form new-form phi-copy))
+			)
+		)
+	))
 
 	(return-from outer phi-copy)
 )

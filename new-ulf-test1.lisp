@@ -19,7 +19,7 @@
 
 (defparameter *SHUFFLE-STORIES* t)
 
-(defparameter *HANDLE-ERRORS* t)
+(defparameter *HANDLE-ERRORS* nil)
 
 (defparameter *PRINT-VALID-SENTS* t)
 

@@ -7,6 +7,7 @@
 (ll-load-superdir "schema-el.lisp")
 (ll-load-superdir "schema-util.lisp")
 (ll-load-superdir "ll-util.lisp")
+(ll-load-superdir "schema-el-parser.lisp")
 
 (loop for protoschema in *PROTOSCHEMAS*
 	do (register-schema (eval protoschema)))
@@ -237,6 +238,7 @@
 		; (print-schema comp)
 		(setf rcs (mapcar #'second (section-formulas (get-section comp ':Roles))))
 		(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
+		(setf steps (schema-cleanup steps))
 
 		(loop for rc in rcs
 			do (format t "~s~%" rc))

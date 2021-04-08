@@ -499,8 +499,24 @@
 	atemporalize-adj-preds
 	past-tense-story-to-present
 	liberate-starred-prop-args
+	fix-ka-be-pre-arg
 	; reify-pred-args
 ))
+
+; Sometimes there's a (KA BE.V) in the prefix
+; arg list as an extra arg, when it really
+; should just be a copula (and then be processed
+; out later, of course!).
+(ldefun fix-ka-be-pre-arg (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+	;(loop for form in phi-copy
+		;(
+	;)
+
+	(return-from outer phi-copy)
+)
+)
 
 ; For nested characterized episodes, like
 ; ((I say ((you said that) ** E2)) ** E1),
@@ -796,13 +812,36 @@
 )
 )
 
-(ldefun temporal-arg? (arg)
-(contains
-	'(
-		(K YESTERDAY.N)
-		(K TODAY.N)
+(ldefun temporal-arg? (arg &optional story)
+(block outer
+	(setf temporal-preds '(
+		DAY.N
+		YESTERDAY.N
+		TODAY.N
+		NIGHT.N
+	))
+
+	(if (loop for tp in temporal-preds
+		thereis (has-element arg (list 'K tp)))
+		; then
+		(return-from outer t)
 	)
-	arg
+
+	(if (null story)
+		(return-from outer nil))
+
+	(setf arg-rcs (loop for phi in story
+		if (and (equal (length phi) 2) (equal (car phi) arg))
+			collect (second phi)))
+
+	(if (loop for rc in arg-rcs thereis
+			(loop for tp in temporal-preds thereis
+				(contains (listify-nonlists rc) tp)))
+		; then
+		(return-from outer t)
+	)
+
+	(return-from outer nil)
 )
 )
 
@@ -826,20 +865,39 @@
 		)
 
 		(setf post-args (prop-post-args stripped-form))
-		(setf temporals (loop for pa in post-args if (temporal-arg? pa) collect pa))
+		(setf post-temporals (loop for pa in post-args if (temporal-arg? pa phi) collect pa))
 
-		(if (null temporals)
-			(return-from loop-outer))
+		(if (not (null post-temporals))
+			(setf stripped-form (remove-prop-post-args stripped-form post-temporals))
+		)
 
-		(setf stripped-form (remove-prop-post-args stripped-form temporals))
+		(setf temporals post-temporals)
+
+		; If there are multiple prefix args, remove
+		; all of the temporal ones.
+		(setf pre-args (prop-pre-args stripped-form))
+		(setf pre-temporals (loop for pa in pre-args if (temporal-arg? pa phi) collect pa))
+		(if (and
+				(not (null pre-temporals))
+				(> (length pre-args) (length pre-temporals)))
+			; then
+			(progn
+				(setf stripped-form (remove-prop-pre-args stripped-form pre-temporals))
+				(setf temporals (append pre-temporals temporals))
+			)
+		)
+
+
+		;(setf temporal-mods (loop for temp in temporals
+		;	if (and (canon-kind? temp) (symbolp (second temp)))
+		;		collect (retag-as (second temp) "ADV-E")
+		;	if (and (canon-kind? temp) (not (symbolp (second temp))))
+		;		collect (list 'ADV-E (second temp))
+		;	if (not (canon-kind? temp))
+		;		collect (list 'ADV-E temp)
+		;))
 		(setf temporal-mods (loop for temp in temporals
-			if (and (canon-kind? temp) (symbolp (second temp)))
-				collect (retag-as (second temp) "ADV-E")
-			if (and (canon-kind? temp) (not (symbolp (second temp))))
-				collect (list 'ADV-E (second temp))
-			if (not (canon-kind? temp))
-				collect (list 'ADV-E temp)
-		))
+			collect (list 'ADV-E (list 'during temp))))
 
 		(setf stripped-form (add-prop-mods stripped-form temporal-mods))
 

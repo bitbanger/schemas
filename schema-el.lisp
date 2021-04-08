@@ -592,12 +592,23 @@
 	)
 )
 
+(ldefun remove-prop-pre-args (prop pre-args)
+	(render-prop
+		(remove-if (lambda (x) (contains pre-args x))
+			(prop-pre-args prop))
+		(prop-pred prop)
+		(prop-post-args prop)
+		(prop-mods prop)
+	)
+)
+
 (ldefun remove-prop-post-args (prop post-args)
 	(render-prop
 		(prop-pre-args prop)
 		(prop-pred prop)
-		(set-difference (prop-post-args prop) post-args :test #'equal)
-		(append (prop-mods prop) mods)
+		(remove-if (lambda (x) (contains post-args x))
+			(prop-post-args prop))
+		(prop-mods prop)
 	)
 )
 
@@ -623,6 +634,9 @@
 		do (setf wrapped-prop (list m wrapped-prop))
 	)
 
+	; (format t "pred mods were ~s~%" pred-mods)
+	; (format t "prop mods were ~s~%" prop-mods)
+	; (format t "wrapped it up as ~s~%" wrapped-prop)
 	(return-from outer wrapped-prop)
 )
 )

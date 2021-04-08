@@ -41,12 +41,12 @@
 (if *USE-DEBUG-STORIES*
 	; then
 	(setf stories '((
-		"Allie felt dizzy."
-		"Allie was watching a show yesterday."
-		"It was very funny."
-		"Allie laughed out loud."
-		"She didn't know how to keep it in."
-		"She wanted to watch it again."
+		"The man folded the clothes."
+		"He put them away."
+		"The next day they were gone."
+		"He went to look for them."
+		"Yesterday he saw them."
+		"His wife was refolding them."
 	)))
 )
 
@@ -178,8 +178,10 @@
 (dbg 'ulf-html *COLLAPSE-PAGE-OPENER*)
 (loop for story in stories
 		for i from 1
-	if *HANDLE-ERRORS*
-		do (handler-case (progn
+	do (block pr-st
+	(setf outer-sent-trees nil)
+	(if *HANDLE-ERRORS*
+		(handler-case (progn
 							(setf outer-sent-trees (print-story-wffs story))
 							; (format nil "~%~%==================~%~%")
 						)
@@ -192,14 +194,16 @@
 					; (setf sent-tree (list (format nil "Story ~d of ~d" i (length stories)))
 					
 				))
-	if (not *HANDLE-ERRORS*)
+	)
+	(if (not *HANDLE-ERRORS*)
 		; do (len-parse-sents story)
 		; do (get-len-ulfs story)
-		do (progn
+		(progn
 				(setf outer-sent-trees (print-story-wffs story))
 				; (format nil "~%~%==================~%~%")
 			)
+	)
 
-	do (print-story (format nil "Story ~d of ~d" i (length stories)) outer-sent-trees)
-)
+	(print-story (format nil "Story ~d of ~d" i (length stories)) outer-sent-trees)
+))
 (dbg 'ulf-html *COLLAPSE-PAGE-CLOSER*)

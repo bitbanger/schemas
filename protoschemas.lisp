@@ -14,7 +14,7 @@
 	search.v
 	find.v
 	drink.v
-	put_in_container.v
+	put.v
 	tell_information.v
 	request_action.v
 	watch.v

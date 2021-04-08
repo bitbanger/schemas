@@ -20,13 +20,14 @@
 	watch.v
 ))
 
-(defparameter put_in_container.v
-	'(epi-schema ((?x put_in_container.v ?o ?c) ** ?e)
+(defparameter put.v
+	'(epi-schema ((?x ((adv-a (in.p ?c)) put.v) ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?o inanimate_object.n))
 			(!r3 (?c container.n))
 			(!r4 (?c inanimate_object.n))
+			(!r5 (?o smaller-than ?c))
 		)
 
 		(:Necessities
@@ -41,7 +42,6 @@
 
 		(:Preconds
 			(?i1 (not (?o (in.p ?c))))
-			(?i2 (?o (smaller-than.n ?c)))
 		)
 
 		(:Postconds

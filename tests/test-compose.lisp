@@ -58,7 +58,8 @@
 		(< story-num end-st)
 		)
 		; then
-		do (handler-case
+		do
+			(handler-case
 				(progn
 					(if (equal story-start-line (car roc-story))
 						(setf first-story-hit t))
@@ -93,7 +94,9 @@
 
 		(handler-case
 		(block parse-story
+			(format t "parsing~%")
 			(setf el-story (len-parse-sents roc-story))
+			(format t "done parsing~%")
 
 			(setf el-story-invalid
 				(loop for sent in el-story

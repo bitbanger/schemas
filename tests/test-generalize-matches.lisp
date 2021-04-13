@@ -190,7 +190,9 @@
 						))
 
 						(setf all-learned-props (append all-learned-props (list (append rc-pre-args rc-post-args))))
+						; flatten the props
 
+						; (format t "	~s~%" prop-with-rc-args)
 						(format t "	~s~%" prop-with-rc-args)
 					)
 				)
@@ -204,6 +206,8 @@
 				else
 					do (setf duped-learned-props (dedupe (append duped-learned-props (list lp))))
 			)
+
+
 			; (format t "~s~%" duped-learned-props)
 			(format t "-------------------")
 			(format t "-------------------")
@@ -230,6 +234,8 @@
 
 (ldefun analyze-composites ()
 (block outer
+	(setf basic-map (make-hash-table :test #'equal))
+
 	(setf comps (loop for sch in *LEARNED-SCHEMAS*
 		if (has-prefix? (string (schema-name (car sch))) "COMPOSITE")
 			collect (car sch)))
@@ -238,7 +244,7 @@
 		; (print-schema comp)
 		(setf rcs (mapcar #'second (section-formulas (get-section comp ':Roles))))
 		(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
-		(setf steps (schema-cleanup steps))
+		; (setf steps (schema-cleanup steps))
 
 		(loop for rc in rcs
 			do (format t "~s~%" rc))
@@ -312,11 +318,48 @@
 				rc-mods
 			))
 
-			(format t "~s~%" prop-with-rc-args)
+			(setf flat-prop prop-with-rc-args)
+			(setf flat-prop-no-mods prop-with-rc-args)
+			(if (canon-prop? prop-with-rc-args) (progn
+				(setf flat-prop
+				(if (not (null (prop-mods prop-with-rc-args)))
+					(append (prop-pre-args prop-with-rc-args) (list (list (car (prop-mods prop-with-rc-args)) (prop-pred prop-with-rc-args))) (prop-post-args prop-with-rc-args))
+				; else
+					(append (prop-pre-args prop-with-rc-args) (list (prop-pred prop-with-rc-args)) (prop-post-args prop-with-rc-args))
+				)
+				)
+				(setf flat-prop-no-mods
+					(append (prop-pre-args prop-with-rc-args) (list (get-schema-match-name (pred-base (prop-pred prop-with-rc-args)))) (prop-post-args prop-with-rc-args))
+				)
+			))
+
+			(setf flat-prop-no-mods (loop for e in flat-prop-no-mods append (listify-nonlists e)))
+
+			; make a basic-level gen
+			(setf basic-flat-prop (copy-item flat-prop-no-mods))
+			(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods #'lex-noun?))
+				do (setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop))
+				do (setf (gethash basic-flat-prop basic-map) (append (gethash basic-flat-prop basic-map) (list flat-prop)))
+			)
+
+
+			(format t "~s~%" flat-prop)
+			(format t "	~s~%" basic-flat-prop)
 		))
 
 		(format t "~%----------~%~%")
 	))
+
+	(loop for basic being the hash-keys of basic-map
+		if (> (length (gethash basic basic-map)) 1)
+		do (block print-basic
+			(format t "~s~%" basic)
+			(loop for spec in (gethash basic basic-map)
+				do (format t "	~s~%" spec))
+		)
+	)
+			
+
 )
 )
 

@@ -26,6 +26,9 @@ for line in open(blc_noun_file, 'r'):
 		if "'" in str(lemma_to_el(nonbasic_lemma)):
 			continue
 		noun_blcs[lemma_to_el(nonbasic_lemma)] = lemma_to_el(basic_lemma)
+		print("mapping %s to %s" % (lemma_to_el(nonbasic_lemma), lemma_to_el(basic_lemma)))
+		# print("	line was %s" % (line))
+		print("	words were %s and %s" % (nonbasic_lemma, basic_lemma))
 
 for line in open(blc_verb_file, 'r'):
 	if not line.strip() or line[0] == "#":

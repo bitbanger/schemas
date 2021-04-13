@@ -106,8 +106,12 @@
 	)
 
 	; Strip match numbers.
-	(setf schema-pred (get-schema-match-name schema-pred))
-	(setf story-pred (get-schema-match-name story-pred))
+	(let ((schema-pred-no-num (get-schema-match-name schema-pred)))
+		(if (not (null schema-pred-no-num))
+			(setf schema-pred schema-pred-no-num)))
+	(let ((story-pred-no-num (get-schema-match-name story-pred)))
+		(if (not (null story-pred-no-num))
+			(setf story-pred story-pred-no-num)))
 
 	; ...Or if the story pred has attrs over the schema pred.
 	(if (equal schema-pred (pred-base story-pred))

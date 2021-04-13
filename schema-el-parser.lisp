@@ -500,7 +500,7 @@
 	past-tense-story-to-present
 	liberate-starred-prop-args
 	fix-ka-be-pre-arg
-	bubble-up-sent-mods
+	; bubble-up-sent-mods
 	; reify-pred-args
 ))
 
@@ -536,6 +536,7 @@
 					(prop-pred form)
 					(prop-post-args form)
 					(prop-mods form)))
+				(format t "replaced ~s with ~s~%" form new-form)
 				(setf phi-copy (replace-vals form new-form phi-copy))
 			)
 		)
@@ -936,8 +937,10 @@
 			(setf stripped-form (apply-charstar-eps stripped-form stripped-eps))
 		)
 
-		; (format t "replacing ~s with ~s~%" form stripped-form)
-		(setf phi-copy (replace-vals form stripped-form phi-copy))
+		(if (not (equal form stripped-form)) (progn
+			; (format t "replacing ~s with ~s~%" form stripped-form)
+			(setf phi-copy (replace-vals form stripped-form phi-copy))
+		))
 	))
 
 	(return-from outer phi-copy)
@@ -2676,10 +2679,15 @@
 )
 
 (ldefun schema-cleanup-ttt (phi)
-	(unhide-ttt-ops
+(block outer
+	; (format t "ttt cleanup~%")
+	(setf result (unhide-ttt-ops
 		(old-ttt:apply-rules *SCHEMA-CLEANUP-RULES*
 			(hide-ttt-ops phi)
-			:rule-order :slow-forward))
+			:rule-order :slow-forward)))
+	; (format t "done with ttt cleanup~%")
+	(return-from outer result)
+)
 )
 
 (ldefun all-duplicate-eps (phi)
@@ -2720,12 +2728,13 @@
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
 
-			; (format t "got new phi ~s~%" new-phi-copy)
+			;(format t "got new phi ~s~%" new-phi-copy)
 			;(if (not (same-list-unordered old-phi-copy new-phi-copy))
-			;	(progn
-			;	 (format t "func ~s updated~%" func)
-			;	 (format t "new phi: ~s~%~%" new-phi-copy)
-			;	)
+				;(progn
+				 ;(format t "func ~s updated~%" func)
+				 ;(format t "old phi: ~s~%~%" old-phi-copy)
+				 ;(format t "new phi: ~s~%~%" new-phi-copy)
+				;)
 			;)
 			;(if (and (has-element old-phi-copy 'NOT$2$.ADV) (not (has-element new-phi-copy 'NOT$2$.ADV)))
 				;(format t "func ~s removed NOT to give ~s~%" func new-phi-copy)
@@ -2815,6 +2824,8 @@
 		; (format t "here1~%")
 		; (format t "doing a cleanup pass of ~s~%" phi)
 		(setf phi-copy (remove-duplicates (schema-cleanup-ttt phi-copy) :test #'equal))
+		;(if (not (same-list-unordered phi-copy last-phi-copy))
+			;(format t "ttt turned ~s into ~s~%" last-phi-copy phi-copy))
 
 		;(if (and (has-element last-phi-copy 'NOT$2$.ADV) (not (has-element phi-copy 'NOT$2$.ADV)))
 		;	(format t "TTT removed NOT to give ~s~%" phi-copy)

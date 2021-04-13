@@ -596,7 +596,7 @@
 		(prop-pre-args prop)
 		(prop-pred prop)
 		(prop-post-args prop)
-		(append (prop-mods prop) mods)
+		(append mods (prop-mods prop))
 	)
 )
 
@@ -627,17 +627,28 @@
 	(setf pred-mods (loop for m in mods if (not (canon-sent-mod? m)) collect m))
 	(setf prop-mods (set-difference mods pred-mods :test #'equal))
 
-	(loop for m in pred-mods
+	(loop for m in (reverse pred-mods)
 		do (setf wrapped-pred (list m wrapped-pred))
 	)
 
 
 	(setf wrapped-prop (append
 		pre-args
-		(list wrapped-pred)
-		post-args
+		;(unwrap-singletons (list (append
+			;(list wrapped-pred)
+			;post-args
+		;)))
+		(if (not (null post-args))
+			(list
+				(append
+					(list wrapped-pred)
+					post-args))
+			; else
+			(list wrapped-pred)
+		)
 	))
 
+	; (loop for m in (reverse prop-mods)
 	(loop for m in prop-mods
 		do (setf wrapped-prop (list m wrapped-prop))
 	)

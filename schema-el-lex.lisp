@@ -28,6 +28,7 @@
 	NECESSARY-TO-DEGREE
 	HAS-EFFECT
 	MEMBER-OF
+	SMALLER-THAN
 ))
 
 ; TODO: give these extensions

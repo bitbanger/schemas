@@ -1,9 +1,9 @@
+(load "ll-load.lisp")
+
 ; Include guard for load-mats.lisp, which isn't nicely
 ; reloadable due to constant symbol redefinitions.
 (if (not (boundp 'AIA-MATS-LOADED))
 	(progn (ll-load-subdir "allen-time" "load-mats.lisp") (setf AIA-MATS-LOADED t)))
-
-(load "ll-load.lisp")
 
 (ll-load "ll-util.lisp")
 (ll-load "schema-el.lisp")
@@ -64,6 +64,10 @@
 	(
 		after
 		(pi mi oi)
+	)
+	(
+		right-after
+		(mi)
 	)
 	(
 		during

@@ -3,7 +3,6 @@ import re
 from mk_lisp_wn import lemma_to_el
 
 from nltk.corpus import wordnet as wn
-from nltk.util import binary_search_file as _binary_search_file
 
 # Basic level files obtained from:
 # https://github.com/rubenIzquierdo/basic_level_concepts
@@ -22,6 +21,7 @@ def denum_str(s):
 indfile = wn.open('index.sense')
 
 def lemma_sense_num(lemma):
+	from nltk.util import binary_search_file as _binary_search_file
 	spl = _binary_search_file(indfile, lemma.key())
 	if not spl:
 		return None

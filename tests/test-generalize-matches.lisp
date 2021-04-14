@@ -8,6 +8,7 @@
 (ll-load-superdir "schema-util.lisp")
 (ll-load-superdir "ll-util.lisp")
 (ll-load-superdir "schema-el-parser.lisp")
+(ll-load-superdir "el-to-ulf.lisp")
 
 (loop for protoschema in *PROTOSCHEMAS*
 	do (register-schema (eval protoschema)))
@@ -231,6 +232,185 @@
 	)
 )
 
+(ldefun basic-step (st comp basic-map rcs steps &optional orig-child-name)
+(block outer
+	(setf step-vars (dedupe (get-elements-pred steps #'varp)))
+	; (format t "step vars: ~s~%" step-vars)
+
+	(setf args-rcs (get-args-rcs (prop-all-args st) comp))
+	;(setf args-rcs (loop for arg-rcs in args-rcs
+		;collect (loop for rc in arg-rcs
+		;if (or (not (canon-pred? rc)) (null (pred-args rc)))
+			;collect rc)))
+
+	(setf rc-pre-args
+		(loop for pre-arg in (prop-pre-args st)
+			for i from 0
+				collect (car (loop for elem in (nth i args-rcs)
+								if (lex-noun? elem)
+									; collect (basic-level elem)))))
+									collect (if (null elem) post-arg elem)
+								if (and (plur? elem) (lex-noun? (second elem)))
+										collect (if (null (second elem)) post-arg (second elem))
+		))))
+	(setf rc-pre-args
+		(loop for pre-arg in (prop-pre-args st)
+				for collected in rc-pre-args
+					if (null collected) collect pre-arg
+					else collect collected))
+
+	(setf rc-post-args
+		(loop for post-arg in (prop-post-args st)
+			for i from (length rc-pre-args)
+				; do (format t "considering arg ~s~%" (loop for elem in (nth i novel-child-args-rcs) if (lex-noun? elem) collect elem))
+				collect (car (last (loop for elem in (nth i args-rcs)
+								if (lex-noun? elem)
+									; collect (basic-level elem)))))
+										collect (if (null elem) post-arg elem)
+								if (and (plur? elem) (lex-noun? (second elem)))
+										collect (if (null (second elem)) post-arg (second elem))
+							)))))
+	(setf rc-post-args
+		(loop for post-arg in (prop-post-args st)
+				for collected in rc-post-args
+					if (null collected) collect post-arg
+					else collect collected))
+
+	(setf arg-to-rc-map (make-hash-table :test #'equal))
+	(loop for orig-arg in (prop-all-args st)
+			for rc-arg in (append rc-pre-args rc-post-args)
+				do (setf (gethash orig-arg arg-to-rc-map) orig-arg))
+
+	(setf rc-mods (list (car (prop-mods st))))
+	(if (equal rc-mods (list nil))
+		(setf rc-mods nil))
+	; (loop for orig-arg in (prop-all-args st)
+			; for rc-arg in (append rc-pre-args rc-post-args)
+	(loop for orig-var in step-vars
+				; do (setf rc-mods (replace-vals orig-arg rc-arg rc-mods))
+				; do (format t "replacing ~s with ~s in mods~%" orig-var (get-filtered-arg-rcs orig-var comp))
+				do (setf rc-mods (replace-vals orig-var (get-filtered-arg-rcs orig-var comp) rc-mods))
+	)
+
+	(setf prop-with-rc-args (render-prop
+		rc-pre-args
+		(prop-pred st)
+		rc-post-args
+		rc-mods
+	))
+
+	(setf flat-prop prop-with-rc-args)
+	(setf flat-prop-no-mods prop-with-rc-args)
+	(if (canon-prop? prop-with-rc-args) (progn
+		(setf flat-prop
+		(if (not (null (prop-mods prop-with-rc-args)))
+			(append (prop-pre-args prop-with-rc-args) (list (list (car (prop-mods prop-with-rc-args)) (prop-pred prop-with-rc-args))) (prop-post-args prop-with-rc-args))
+		; else
+			(append (prop-pre-args prop-with-rc-args) (list (prop-pred prop-with-rc-args)) (prop-post-args prop-with-rc-args))
+		)
+		)
+		(setf flat-prop-no-mods
+			(append (prop-pre-args prop-with-rc-args) (list (get-schema-match-name (pred-base (prop-pred prop-with-rc-args)))) (prop-post-args prop-with-rc-args))
+		)
+	))
+	; also it may not (probably won't) be a canon-prop,
+	; so we'll do this too
+	; (format t "turning ~s into " flat-prop-no-mods)
+	(setf flat-prop-no-mods (append (list (car flat-prop-no-mods)) (loop for elem in (second flat-prop-no-mods)
+		if (and (listp elem) (equal 2 (length elem)) (equal 1 (length (get-elements-pred elem #'lex-verb?))))
+			collect (car (get-elements-pred elem #'lex-verb?))
+		else
+			collect elem
+	) (cddr flat-prop-no-mods)))
+	; (format t "~s~%" flat-prop-no-mods)
+
+	(setf flat-prop-no-mods (loop for e in flat-prop-no-mods append (listify-nonlists e)))
+
+	; make a basic-level gen
+	(setf basic-flat-prop (copy-item flat-prop-no-mods))
+	(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods #'lex-noun?))
+		do (setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop))
+		do (setf index-flat-prop (copy-list basic-flat-prop))
+		if (and (not (null orig-child-name)) (loop for e in basic-flat-prop thereis (lex-verb? e)))
+			do (setf index-flat-prop (replace-vals (car (loop for e in basic-flat-prop if (lex-verb? e) collect e))
+										orig-child-name index-flat-prop))
+		; do (format t "using index prop ~s~%" index-flat-prop)
+		do (setf (gethash index-flat-prop basic-map) (append (gethash index-flat-prop basic-map) (list flat-prop)))
+	)
+
+
+	;(format t "~s~%" flat-prop)
+	;(format t "	~s~%" basic-flat-prop)
+)
+)
+
+(ldefun basic-proto-header (proto basic-map &optional orig-child-name)
+(block outer
+	(setf rcs (mapcar #'second (section-formulas (get-section proto ':Roles))))
+	(setf steps (mapcar #'second (section-formulas (get-section proto ':Steps))))
+
+	(basic-step (car (schema-header proto)) proto basic-map rcs steps orig-child-name)
+)
+)
+
+(ldefun clean-roles (schema)
+(block outer
+	(setf bad-preds '(PERTAIN-TO ORIENTS IMPINGES-ON))
+	(setf new-schema (copy-item schema))
+	(loop for rc in
+		(mapcar #'prop-pred (mapcar #'second
+			(section-formulas (get-section
+				schema ':Roles))))
+		if (or (time-pred? rc) (contains bad-preds rc))
+			do (setf new-schema (remove rc new-schema)))
+
+	(return-from outer new-schema)
+)
+)
+
+(ldefun clean-steps (schema)
+(block outer
+	(setf new-schema (copy-item schema))
+	(loop for st in
+		(mapcar #'second (section-formulas
+			(get-section schema ':Steps)))
+		if (>= (length (prop-mods st)) 3)
+			do (setf new-schema (replace-vals
+				st
+				(render-prop
+					(prop-pre-args st)
+					(prop-pred st)
+					(prop-post-args st)
+					(list (car (prop-mods st))))
+				new-schema)))
+
+	(return-from outer new-schema)
+)
+)
+
+(ldefun schema-to-eng (schema)
+(block outer
+	(setf els-for-eng (append
+		; Get all role constraints (sort by first arg)
+		(sort
+			(mapcar #'second (section-formulas (get-section schema ':Roles)))
+			(lambda (x y)
+				(< (rechash (prop-pre-args x)) (rechash (prop-pre-args y)))))
+
+		; Get all steps
+		(loop for st in (section-formulas (get-section schema ':Steps))
+			collect (list (second st) '** (car st))
+		)
+	))
+
+	(setf ulfs-for-eng (el-to-ulf els-for-eng))
+
+	(format t "Schema in English (prototype): ~%")
+	(loop for eng in (el-to-eng els-for-eng)
+		do (format t "  ~s~%" eng)
+	)
+)
+)
 
 (ldefun analyze-composites ()
 (block outer
@@ -243,112 +423,66 @@
 	(loop for comp in comps do (block print-comp
 		; (print-schema comp)
 		(setf rcs (mapcar #'second (section-formulas (get-section comp ':Roles))))
-		(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
+		;(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
 		; (setf steps (schema-cleanup steps))
+		(setf new-comp (copy-item comp))
 
-		(loop for rc in rcs
-			do (format t "~s~%" rc))
-		(format t "~%")
+		(loop for rc in rcs do (block gen-rc
+			(if (not (lex-noun? (pred-base (prop-pred rc))))
+				(return-from gen-rc))
+
+			(setf noun (pred-base (prop-pred rc)))
+			(if (plur? noun)
+				(setf noun (second noun)))
+			(setf basic-noun (basic-level noun))
+			(setf new-rc (replace-vals noun basic-noun rc))
+			(setf new-comp (replace-vals rc new-rc new-comp))
+		))
+
+		(setf new-comp (remove (get-section new-comp ':Episode-relations) new-comp))
+		(setf new-comp (clean-roles new-comp))
+		(setf new-comp (clean-steps new-comp))
+
+		(print-schema new-comp)
+		(schema-to-eng new-comp)
+
+		;(loop for rc in rcs
+			;do (format t "~s~%" rc))
+		;(format t "~%")
 		;(loop for st in steps
 			;do (format t "~s~%" st))
 
-		(setf step-vars (dedupe (get-elements-pred steps #'varp)))
-		(format t "step vars: ~s~%" step-vars)
-
-		(loop for st in steps do (block print-step
-			(setf args-rcs (get-args-rcs (prop-all-args st) comp))
-			;(setf args-rcs (loop for arg-rcs in args-rcs
-				;collect (loop for rc in arg-rcs
-				;if (or (not (canon-pred? rc)) (null (pred-args rc)))
-					;collect rc)))
-
-			(setf rc-pre-args
-				(loop for pre-arg in (prop-pre-args st)
-					for i from 0
-						collect (car (loop for elem in (nth i args-rcs)
-										if (lex-noun? elem)
-											; collect (basic-level elem)))))
-											collect (if (null elem) post-arg elem)
-										if (and (plur? elem) (lex-noun? (second elem)))
-												collect (if (null (second elem)) post-arg (second elem))
-				))))
-			(setf rc-pre-args
-				(loop for pre-arg in (prop-pre-args st)
-						for collected in rc-pre-args
-							if (null collected) collect pre-arg
-							else collect collected))
-
-			(setf rc-post-args
-				(loop for post-arg in (prop-post-args st)
-					for i from (length rc-pre-args)
-						; do (format t "considering arg ~s~%" (loop for elem in (nth i novel-child-args-rcs) if (lex-noun? elem) collect elem))
-						collect (car (loop for elem in (nth i args-rcs)
-										if (lex-noun? elem)
-											; collect (basic-level elem)))))
-												collect (if (null elem) post-arg elem)
-										if (and (plur? elem) (lex-noun? (second elem)))
-												collect (if (null (second elem)) post-arg (second elem))
-									))))
-			(setf rc-post-args
-				(loop for post-arg in (prop-post-args st)
-						for collected in rc-post-args
-							if (null collected) collect post-arg
-							else collect collected))
-
-			(setf arg-to-rc-map (make-hash-table :test #'equal))
-			(loop for orig-arg in (prop-all-args st)
-					for rc-arg in (append rc-pre-args rc-post-args)
-						do (setf (gethash orig-arg arg-to-rc-map) orig-arg))
-
-			(setf rc-mods (list (car (prop-mods st))))
-			(if (equal rc-mods (list nil))
-				(setf rc-mods nil))
-			; (loop for orig-arg in (prop-all-args st)
-					; for rc-arg in (append rc-pre-args rc-post-args)
-			(loop for orig-var in step-vars
-						; do (setf rc-mods (replace-vals orig-arg rc-arg rc-mods))
-						; do (format t "replacing ~s with ~s in mods~%" orig-var (get-filtered-arg-rcs orig-var comp))
-						do (setf rc-mods (replace-vals orig-var (get-filtered-arg-rcs orig-var comp) rc-mods))
-			)
-
-			(setf prop-with-rc-args (render-prop
-				rc-pre-args
-				(prop-pred st)
-				rc-post-args
-				rc-mods
-			))
-
-			(setf flat-prop prop-with-rc-args)
-			(setf flat-prop-no-mods prop-with-rc-args)
-			(if (canon-prop? prop-with-rc-args) (progn
-				(setf flat-prop
-				(if (not (null (prop-mods prop-with-rc-args)))
-					(append (prop-pre-args prop-with-rc-args) (list (list (car (prop-mods prop-with-rc-args)) (prop-pred prop-with-rc-args))) (prop-post-args prop-with-rc-args))
-				; else
-					(append (prop-pre-args prop-with-rc-args) (list (prop-pred prop-with-rc-args)) (prop-post-args prop-with-rc-args))
-				)
-				)
-				(setf flat-prop-no-mods
-					(append (prop-pre-args prop-with-rc-args) (list (get-schema-match-name (pred-base (prop-pred prop-with-rc-args)))) (prop-post-args prop-with-rc-args))
-				)
-			))
-
-			(setf flat-prop-no-mods (loop for e in flat-prop-no-mods append (listify-nonlists e)))
-
-			; make a basic-level gen
-			(setf basic-flat-prop (copy-item flat-prop-no-mods))
-			(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods #'lex-noun?))
-				do (setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop))
-				do (setf (gethash basic-flat-prop basic-map) (append (gethash basic-flat-prop basic-map) (list flat-prop)))
-			)
-
-
-			(format t "~s~%" flat-prop)
-			(format t "	~s~%" basic-flat-prop)
-		))
+		;(loop for st in steps do (block basic-step
+		;))
+		;(loop for st in steps do (basic-step st comp basic-map rcs steps))
 
 		(format t "~%----------~%~%")
 	))
+
+	;(loop for basic being the hash-keys of basic-map
+		;if (> (length (gethash basic basic-map)) 1)
+		;do (block print-basic
+			;(format t "~s~%" basic)
+			;(loop for spec in (gethash basic basic-map)
+				;do (format t "	~s~%" spec))
+		;)
+	;)
+			
+
+)
+)
+
+(defun analyze-protos ()
+(block outer
+	(setf basic-map (make-hash-table :test #'equal))
+
+	(loop for proto being the hash-keys of matches-for-protos
+		; if (not (has-prefix? (string (schema-name (car sch))) "COMPOSITE"))
+			do (loop for match in (gethash proto matches-for-protos)
+				do (basic-proto-header match basic-map proto)
+			)
+	)
+			
 
 	(loop for basic being the hash-keys of basic-map
 		if (> (length (gethash basic basic-map)) 1)
@@ -358,11 +492,10 @@
 				do (format t "	~s~%" spec))
 		)
 	)
-			
-
 )
 )
 
+;(run-proto-match-collector)
+;(analyze-protos)
 (analyze-composites)
 
-; (run-proto-match-collector)

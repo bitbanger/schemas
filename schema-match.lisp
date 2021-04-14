@@ -45,16 +45,11 @@
 	(block check-header
 		;(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
 			(setf new-bindings (unify (car (second schema)) phi nil schema story))
-		;)
-		; (format t "attempting to unify ~s with header ~s~%" phi (car (second schema)))
-		; Bind episodes to formula IDs as well
+
 		(if (and (not (null new-bindings)) (canon-charstar? phi))
 			; then
-			; (if (not (bind-if-unbound (car formula) (third phi) new-bindings))
 			(progn
-			;(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
 				(setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
-			;)
 			(if (null bindings-with-ep-ids)
 				; then
 				(progn
@@ -70,7 +65,6 @@
 				(return-from check-header)
 				; else
 				(progn
-				; (format t "attempt successful!~%")
 				(return-from outer (list (car (second schema)) phi new-bindings 1.0))
 				)
 			)
@@ -85,17 +79,11 @@
 
 	(setf match-sections (if (canon-charstar? phi) (fluent-sections schema) (nonfluent-sections schema)))
 
-	; (loop for sec in (nonmeta-sections schema)
-	; (loop for sec in (fluent-sections schema)
 	(loop for sec in match-sections
 		do (dbg 'match "	schema sec ~s~%" (section-name sec))
 		do (loop for formula in (section-formulas sec) do
 			(block uni
 				(dbg 'match "		schema ~s~%" (second formula))
-
-				;(if (invokes-schema? (second formula))
-				;	(format t "matching to ~s, which invokes a schema~%" formula)
-				;)
 
 				(setf new-bindings (unify (second formula) phi nil schema story))
 				(setf pred1 (prop-pred (second formula)))
@@ -142,29 +130,19 @@
 					)
 				)
 
-				;(if (>= sub-score 1.0)
-					;(setf sub-score 2.0)) ; 2x bonus points for exact matches
-
-				; (format t "~s variables in schema~%" 
 				(setf sub-score (+ sub-score
 					(/ (ht-count new-bindings) (length (remove-duplicates (get-elements-pred (eval (schema-pred schema)) #'varp) :test #'equal)))
 				))
 
-				; (format t "subsumption score + # of bindings between ~s and ~s was ~s~%" pred1 pred2 sub-score)
-
-				; (format t "unify gave bindings ~s~%" (ht-to-str new-bindings))
-
 				; Bind episodes to formula IDs as well
 				(if (and (not (null new-bindings)) (canon-charstar? phi) (equal (section-type sec) 'FLUENT))
 					; then
-					; (if (not (bind-if-unbound (car formula) (third phi) new-bindings))
 					(progn
 					(setf bindings-with-ep-ids (unify-individuals (car formula) (third phi) new-bindings schema story))
 					(if (null bindings-with-ep-ids)
 						; then
 						(progn
 						(dbg 'match "~s already bound; cannot bind!~%" (car formula))
-						; (format t "~s already bound; cannot bind!~%" (car formula))
 						(return-from uni)
 						)
 						; else
@@ -177,10 +155,8 @@
 					; then
 					nil
 					; else
-					; (return-from outer (list (second formula) phi new-bindings))
 					(if (> sub-score best-sub-score)
 						(progn
-							; (format t "setting best bindings to ~s~%" (ht-to-str best-bindings))
 							(setf best-sub-score sub-score)
 							(setf best-bindings new-bindings)
 							(setf best-formula formula)
@@ -190,8 +166,6 @@
 			)
 		)
 	)
-
-	; (format t "best bindings are ~s with score ~s~%" (ht-to-str best-bindings) best-sub-score)
 
 	(if (not (null best-formula))
 		; then
@@ -231,8 +205,6 @@
 	(setf all-bindings (make-hash-table :test #'equal))
 	(setf total-matches 0)
 
-	; (setf story-formulas (linearize-story story))
-
 
 	; Put all the charstar formulas first
 	(setf story1 (list))
@@ -251,14 +223,11 @@
 	; Match each formula, one by one.
 	(loop for phi in sorted-formulas
 		do (block uni-loop
-		; (format t "going to try to bind ~s to ~s~%" phi (second test-schema))
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
 		(if (null fm-res) (return-from uni-loop))
 
 		(setf test-schema (car fm-res))
 		(setf all-bindings (second fm-res))
-		; (format t "successfully bound ~s to ~s~%" phi (second test-schema))
-		; (format t "all bindings: ~s~%" (ht-to-str all-bindings))
 		(setf total-matches (third fm-res))
 		(setf bound-header (fourth fm-res))
 		(setf sub-score (fifth fm-res))
@@ -282,7 +251,6 @@
 				(prop-pred header-bound-form))
 		)
 		; then
-		; (format t "bound ~s to header ~s~%" header-bound-form (car (second in-schema)))
 		(block replace-schema-name
 			; If we match a more specific predicate from the story
 			; to a more general one in the schema, we'll replace the name
@@ -291,14 +259,6 @@
 			(setf test-schema (replace-vals old-name new-name test-schema))
 		)
 	)
-
-
-
-
-	; (dbg 'match "all bindings: ~s~%" (ht-to-str all-bindings))
-	; (dbg 'match "total matches: ~s~%" total-matches)
-
-
 
 	; Several new constraints may have been added to the schema match from the story.
 	; We need to check to see if any of them can be generalized with existing
@@ -362,13 +322,11 @@
 	; then
 	(progn
 		(setf most-general-rc-id (car orig-rc))
-		; (setf most-specific-rc-ids (list (car added-rc)))
 	)
 	; else
 	(if (equal ancestor-pred added-rc-pred)
 		(progn
 			(setf most-general-rc-id (car added-rc))
-			; (setf most-specific-rc-ids (list (car orig-rc)))
 		)
 	)
 )
@@ -391,11 +349,7 @@
 )
 
 
-; (format t "ancestor of ~s and ~s was ~s~%" orig-rc added-rc ancestor-pred)
-; (format t "most general pred is ~s ~s~%" most-general-rc-id (get-formula-by-id test-schema most-general-rc-id))
-
 (setf most-specific-rc-ids (set-difference (list (car added-rc) (car orig-rc)) (list most-general-rc-id) :test #'equal))
-; (format t "general ~s, specifics ~s~%" most-general-rc-id most-specific-rc-ids)
 
 
 
@@ -405,27 +359,12 @@
 		)
 	)
 
-
-
-	;(setf gen-match (generalize-schema-constants test-schema))
-	;(setf new-name (new-schema-match-name (schema-pred test-schema)))
-	;(setf new-gen-header (replace-vals (schema-pred gen-match) new-name (car (schema-header gen-match))))
-	;(setf new-match-header (replace-vals (schema-pred test-schema) new-name (car (schema-header test-schema))))
-	;(setf test-schema (set-header test-schema new-match-header))
-	;(setf gen-match (set-header gen-match new-gen-header))
-	;(register-schema gen-match)
-
 	(setf clean-pair (fully-clean-schema test-schema t))
 	(setf gen-test-schema (car clean-pair))
 	(setf gen-test-bindings (second clean-pair))
 
 	(setf new-gen-name (create-from-match-maybe-gen gen-test-schema nil))
-	; (setf test-schema (replace-vals (schema-pred test-schema) new-gen-name test-schema))
 
-
-
-	; (return-from outer (list test-schema all-bindings bound-header))
-	; (return-from outer (list (eval new-gen-name) all-bindings bound-header))
 	(return-from outer (list (eval new-gen-name) gen-test-bindings bound-header))
 )
 )
@@ -451,21 +390,17 @@
 			collect (expand-nested-schema st test-schema)
 	))
 
-	; (format t "also considering subschemas ~s~%" subschemas)
-
 	; TODO: consider subschemas in Goals, preconds, etc. as well
 	; TODO: subschemas embedded in propositions? intensions, different polarities, etc.?
 
 	; The parent schema has its bindings applied already, so any expanded schema
 	; bindings don't need to have the parent bindings applied.
 	(setf expanded-schemas (append (list (list test-schema (ht-copy all-bindings))) subschemas))
-	; (setf expanded-schemas (list (car expanded-schemas)))
 
 	(setf best-single-res nil)
 	(setf best-schema nil)
 	(setf best-bindings nil)
 	(setf best-expanded-bindings nil)
-	; (setf all-scores nil)
 
 	(setf matched-sub nil)
 
@@ -480,7 +415,6 @@
 			(setf expanded-bindings (second expanded-schema-pair))
 
 			(if (null expanded-bindings)
-				; (format t "null expanded bindings for subschema ~s~%" expanded-schema)
 				(return-from match-block)
 			)
 			(setf old-expanded-bindings (ht-copy expanded-bindings))
@@ -493,10 +427,6 @@
 				(return-from match-block)
 			)
 
-			; (format t "phi ~s~%" phi)
-			; (format t "exp-schema ~s~%" (second expanded-schema))
-			; (format t "single res ~s~%" single-res)
-
 			(if (and
 					; make sure we have novel bindings
 					(not (ht-eq (second single-res) old-expanded-bindings))
@@ -508,42 +438,19 @@
 				)
 				; then
 				(progn
-				; (format t "our fifth (~s) was greater than best fifth (~s)~%" (fifth single-res) (fifth best-single-res))
-				; (format t "setting best bindings ~s~%" (ht-to-str (second single-res)))
-				; (format t "started with expanded bindings ~s~%" (ht-to-str old-expanded-bindings))
-				; (format t "~%")
-				; (format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
 				(setf best-expanded-bindings old-expanded-bindings)
 				(setf best-bindings (second single-res))
-				; (setf best-schema (apply-bindings expanded-schema best-bindings))
 				(setf best-schema (car single-res))
 				(setf best-single-res single-res)
 				(setf matched-sub (> i 0))
-				; (setf all-scores (append all-scores (list (fifth best-single-res))))
 				)
 			)
 		)
 	)
 
-	(if matched-sub
-	(progn
-	; (format t "best binding for ~s was in ~s of ~s~%" phi expanded-schema test-schema)
-	; (format t "bindings were ~s on schema ~s~%" (ht-to-str (second best-single-res)) (car best-single-res))
-	; (format t "gen schema is ~s~%" (schema-pred (eval (car best-single-res))))
-	; (format t "best bindings are ~s~%" (ht-to-str best-bindings))
-	; (format t "best expanded bindings are ~s~%" (ht-to-str best-expanded-bindings))
-	)
-	)
-
-	; (format t "sub-match? ~s~%" matched-sub)
-
 	(if (or (null (fifth best-single-res)) (<= (fifth best-single-res) 0) (null best-schema))
 		(return-from outer nil)
 	)
-
-	; (print-schema (eval (schema-pred (car best-single-res))))
-
-	; (format t "matched ~s to ~s (score ~s)~%" phi (second (car best-single-res)) (fifth best-single-res))
 
 	(setf matched-bindings nil)
 	(if (not matched-sub)
@@ -551,8 +458,6 @@
 		; We matched this schema via the header
 		(progn
 		(setf all-bindings best-bindings)
-			; (format t "UN-generalized sub-match is:~%")
-			; (print-schema (car best-single-res))
 		(setf test-schema (car best-single-res))
 		)
 
@@ -561,32 +466,13 @@
 		; else
 		; We matched a sub-schema, not this schema
 		(block gen-sub-match
-			; (format t "generalizing with bindings ~s~%" (ht-to-str best-bindings))
 			(setf gen-match-pair (mapped-generalize-schema-constants (apply-bindings (car best-single-res) best-bindings)))
-			; (format t "generalized subschema is ~s~%" (second gen-match-pair))
-			; (format t "generalized rebindings are ~s~%" (ht-to-str (car gen-match-pair)))
 			(setf matched-bindings (car gen-match-pair))
-			; (format t "pre-correction, got matched bindings ~s~%" (ht-to-str matched-bindings))
-			; (format t "matched bindings are ~s~%" (ht-to-str matched-bindings))
-			; (setf gen-match (clean-do-kas (rename-constraints (sort-steps (dedupe-sections (second gen-match-pair))))))
 			(setf gen-match (second gen-match-pair))
-
-			;(format t "UN-generalized sub-match is:~%")
-			;(print-schema (car best-single-res))
-			;(format t "generalized sub-match is:~%")
-			;(print-schema gen-match)
-
 
 			; We've created a new name for our subschema match, and it has its own variables.
 			; We're going to replace the subschema's step in the parent schema with a step using
 			; its new name.
-			; (setf new-name (new-schema-match-name (schema-pred (car best-single-res))))
-			; (setf gen-match (replace-vals (schema-pred (car best-single-res)) new-name gen-match))
-			; (format t "renamed gen subschema is ~s~%" gen-match)
-
-
-			; (set new-name gen-match)
-			; (register-schema gen-match)
 
 			(setf new-name (create-from-match-maybe-gen gen-match nil))
 
@@ -595,7 +481,6 @@
 				do (if (equal (car st) (third (second (car best-single-res))))
 					; then
 					(setf new-sec (append new-sec (list (list (car st) (replace-vals (schema-pred (car best-single-res)) new-name (car (second (car best-single-res))))))))
-					; (setf new-sec (append new-sec (list (list (car st) (car (second gen-match))))))
 					; else
 					(setf new-sec (append new-sec (list st)))
 				)
@@ -637,36 +522,20 @@
 
 			(setf test-schema (set-section test-schema ':Steps new-sec))
 
-			; (format t "rebinding with parent rebindings ~s~%" (ht-to-str parent-rebindings))
 			(setf test-schema (apply-bindings test-schema parent-rebindings))
-			; (format t "renamed in framing schema: ~s~%" test-schema)
 		)
 	)
 
-	; (format t "bindings ~s~%" (ht-to-str (second best-single-res)))
-	(if (and (not (null matched-bindings)) (> (hash-table-count matched-bindings) 0))
-		(progn
-		; (format t "original bindings: ~s~%" (ht-to-str best-bindings))
-		; (format t "matched bindings: ~s~%" (ht-to-str matched-bindings))
-		; (format t "parent re-bindings: ~s~%" (ht-to-str parent-rebindings))
-		; (format t "current subordinate constraints: ~s~%" (get-section test-schema ':Subordinate-constraints))
-		)
-	)
 	(setf out-schema test-schema)
 	(if matched-sub
-	; (if (and nil matched-sub)
 	(loop for k being the hash-keys of matched-bindings
-		;do (format t "((~s<- ~s) = ~s)~%" k (third (second best-schema)) (gethash k (second best-single-res)))
-		; if matched-sub
 		do (block add-subord-constr
 			(setf sk-fn-name (intern (concat-two-strs (string k) "<-")))
 			(setf constr (list (list sk-fn-name (third (second (car best-single-res)))) '= (gethash k matched-bindings)))
 			(setf out-schema (add-constraint out-schema ':Subordinate-constraints constr))
 		)
 	))
-	; (format t "all bindings: ~s~%" (ht-to-str all-bindings))
 	(setf best-single-res (list
-		; (apply-bindings out-schema all-bindings)
 		out-schema
 		all-bindings
 		(third best-single-res)
@@ -686,7 +555,6 @@
 
 (ldefun unchecked-match-formula-to-single-schema (phi test-schema all-bindings total-matches bound-header story-formulas allow-header-match)
 (block outer
-			; (if (not (canon-charstar? phi))
 			(if (or
 					(time-prop? phi)
 					(equal (prop-pred phi) 'ORIENTS)
@@ -712,36 +580,23 @@
 			(if (not (null go-match))
 				; then
 				(block print-go-match
-
-					; (format t "matched pred is ~s, schema pred was ~s~%" (prop-pred-strip-charstars matched-story) (prop-pred-strip-charstars matched-schema))
-
-
 					(if (not (null (gethash (third (second test-schema)) go-match)))
 						; then
-						(progn
-							; (format t "matched header for ~s with bindings ~s~%" (car (second test-schema)) (ht-to-str go-match))
-							(setf bound-header t)
-						)
+						(setf bound-header t)
 					)
 	
 					(dbg 'match "bound to story formula ~s~%" phi)
 					(setf unbound-prop-mods (list))
 					(if (and (not (equal matched-schema phi)) (canon-charstar? phi))
 						(loop for md in (prop-mods (car phi))
-							; (format t "bound schema formula ~s to story formula ~s in base schema~%~s~%" matched-schema phi test-schema)
-							; do (format t "story formula bound to ~s had prop mod ~s~%" matched-schema md)
 							if (loop for scmd in (prop-mods matched-schema) always (null (unify-mods md scmd go-match test-schema story-formulas)))
-								; do (format t "unbound prop mod ~s after matching to ~s~%" md matched-schema)
 								do (setf unbound-prop-mods (append unbound-prop-mods (list md)))
 						)
 					)
-					; (format t "produced bindings ~s~%" (ht-to-str go-match))
 					(setf total-matches (+ total-matches 1))
-					; (dbg 'match "Extra constraints: ~s~%" constraints)
 
 					; Accumulate all bindings
 					(loop for key being the hash-keys of go-match
-						;	do (setf (gethash key all-bindings) (gethash key go-match))
 						do (if (null (bind-if-unbound key (gethash key go-match) all-bindings))
 							; then
 							(return-from outer nil)
@@ -749,13 +604,9 @@
 					)
 	
 					(setf go-match-schema (apply-bindings test-schema go-match))
-					; (format t "applied bindings ~s~%" (ht-to-str go-match))
 
 					; Add incidental/unbound mods to the matched schema
 					(if (not (null unbound-prop-mods)) (block add-prop-mods
-						; (format t "big schema ")
-						; (print-schema go-match-schema)
-						; (format t "looking for formula ~s~%" (apply-bindings matched-schema go-match))
 						(setf matched-prop (apply-bindings matched-schema go-match))
 						(setf prop-breakdown (prop-args-pred-mods matched-prop))
 						(setf new-prop (render-prop
@@ -783,12 +634,6 @@
 					))
 
 
-
-
-
-	
-					; (format t "initial constraints for go-match-schema: ~s~%" (loop for rc in (section-formulas (get-section go-match-schema ':Roles)) collect (second rc)))
-					; (format t "will add constraints ~s~%" constraints)
 					(loop for const in constraints do (block const-add
 						(if (time-prop? const)
 							; then
@@ -811,7 +656,6 @@
 													(not (null (common-ancestor (second rc) (second const)))))
 												; then
 												(progn
-												; (format t "generalizing ~s and ~s to ~s~%" rc const (list (car rc) (common-ancestor (second rc) (second const))))
 												(setf gen-constr (list (car rc) (common-ancestor (second rc) (second const))))
 												(setf gen-constrs (append gen-constrs (list (list gen-constr (car rc-pair)))))
 												)
@@ -850,8 +694,6 @@
 											; TODO: factor all of the certainty-related code out of this
 											; section.
 
-
-
 											; (format t "setting certainties for ~s, ~s, and ~s~%" gen-constr-id schema-spec-constr-id story-spec-constr-id)
 											; (setf go-match-schema (set-certainty gen-constr-id (second gen-constr-cert) (third gen-constr-cert) go-match-schema))
 											; (setf go-match-schema (set-certainty schema-spec-constr-id (second new-schema-spec-constr-cert) (third new-schema-spec-constr-cert) go-match-schema))
@@ -863,15 +705,10 @@
 						)
 					))
 
-					; (format t "schema with constraints added: ~s~%" go-match-schema)
-					; (dbg 'match "test-schema match + generalization:~%~s~%" "")
-					; (print-schema go-match-schema)
-					; (return-from outer go-match-schema)
 					(setf test-schema go-match-schema)
 				)
 			)
 
-		; (format t "go match triple ~s~%" go-match-triple)
 		(return-from outer (list test-schema all-bindings total-matches bound-header (fourth go-match-triple)))
 
 		)
@@ -890,13 +727,11 @@
 		(return-from outer nil)
 	)
 
-	; (format t "got schema res ~s~%" (car res))
 	(if (schema? (car res))
 		; then
 		(progn
 		(setf score (check-constraints (car res) (list story-formulas)))
 		(if (null score)
-			; (format t "invalid constraints on formula match~%")
 			(return-from outer nil)
 		)
 		)
@@ -910,7 +745,6 @@
 
 (ldefun check-constraints-helper (schema story checked &optional depth)
 	(uncached-check-constraints schema story checked depth)
-	; (ll-cache 'uncached-check-constraints (list schema story checked) 5)
 )
 
 (ldefun uncached-check-constraints (schema story checked &optional depth)
@@ -918,7 +752,6 @@
 )
 
 (ldefun uncached-check-constraints (schema story checked &optional depth)
-; (let (bound-nested phi phi-id phi-pair phi-pair-idx sec true-count untrue-count sc header-bindings key val)
 (block outer
 	(load-story-time-model story)
 	(setf story-kb (story-to-kb (linearize-story story)))
@@ -926,9 +759,6 @@
 	(setf true-count 0)
 	(setf untrue-count 0)
 
-	; (loop for sec in (nonmeta-sections schema)
-		; do (loop for phi in (mapcar #'second (section-formulas sec))
-		; do (loop for phi-pair in (section-formulas sec)
 		(setf all-phi-pairs (append
 			(list (list (third (second schema)) (car (second schema))))
 			(loop for sec in (nonmeta-sections schema) append (section-formulas sec)))
@@ -953,7 +783,6 @@
 
 				(if (not (null (gethash phi checked)))
 					(progn
-					; (format t "skipping checked formula ~s~%" phi)
 					(return-from check-constr)
 					)
 				)
@@ -971,8 +800,6 @@
 					(progn
 						(setf nested-schema-name (schema-pred invoked))
 						(setf nested-schema invoked)
-						; (format t "(~d / ~d) evaluating nested schema ~s invoked by (~s ~s)~%" phi-pair-idx (length all-phi-pairs) nested-schema-name phi-id phi)
-						; (print-schema nested-schema)
 
 						; NOTE: if we're evaluating the
 						; consistency of a prop with an
@@ -988,14 +815,12 @@
 						)
 
 
-						; (format t "attempting to unify prop ~s with header ~s~%" (list phi '** phi-id) nested-schema)
 						(setf check-phi (list phi '** phi-id))
 
 						; non-fluents can't match to epi-schema
 						; headers they invoked
 						(if (exc-varp phi-id)
 							; then
-							; (setf check-phi (car check-phi))
 							(return-from outer nil)
 						)
 					
@@ -1008,17 +833,11 @@
 							(progn
 							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" check-phi nested-schema-name)
 							(return-from outer nil)
-							; (dbg-tag 'unify)
-							; (setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* nil)
-							; (unify-with-schema check-phi nested-schema (linearize-story story))
 							)
 						)
 
 						; Now bind subordinate constraints
-						; (format t "looking for scs in this schema: ~%")
-						; (print-schema schema)
 						(loop for sc in (section-formulas (get-section schema ':Subordinate-constraints))
-								; do (format t "got sc ~s~%" sc)
 								if (equal old-phi-id (second (car (second sc))))
 									do (block apply-subord
 										(setf key (remove-ext (car (car (second sc))) "<-"))
@@ -1040,33 +859,21 @@
 											(error "Weird subordinate constraint expansion bug (see TODO)")
 											(return-from outer nil)
 											)
-											; else
-											; (format t "bound key ~s to val ~s~%" key val)
 										)
 									)
 						)
 
-						; (format t "got result ~s~%" (ht-to-str header-bindings))
 						(setf nested-schema-bound (apply-bindings nested-schema header-bindings))
-						; (format t "evaluating nested schema ~s~%" nested-schema-bound)
 						(setf old-checked-count (hash-table-count checked))
 						(setf (gethash phi checked) t)
-						; (format t "marking formula ~s as checked~%" phi)
-						; (format t "marking ~s as checked~%" phi)
-						; (format t "recursively calling (entering depth ~d)~%" (+ (length depth) 1))
 						(setf nest-score (check-constraints-helper nested-schema-bound story checked (append depth (list 'a))))
-						; (format t "recursive call over! back to depth ~d~%" (length depth))
 						; If a nested schema breaks a necessity-1 constraint,
 						; the whole nest is invalid.
 						(if (null nest-score)
-							(progn
-							; (format t "null nest score on ~s, nulling out~%" (second nested-schema))
 							(return-from outer nil)
-							)
 						)
 
 						(setf new-checked-count (hash-table-count checked))
-						; (format t "score of ~s for nested schema ~s~%" nest-score nested-schema-name)
 
 						; There's a (probably cache-related) bug where the count
 						; can increase for a nested call even if no new formulas
@@ -1090,7 +897,6 @@
 				(if (and (null (gethash phi checked)) (not bound-nested))
 					; then
 					(progn
-						; (setf eval-score (eval-prop-score phi story-kb))
 						(setf eval-score (expt (eval-prop-score phi story-kb) 2))
 						(if (and (not (exc-varp phi-id)) (not (varp phi-id)))
 							(setf eval-score 1.0)
@@ -1108,27 +914,19 @@
 
 						(if (> eval-score 0)
 							; then
-							(progn
 							(setf true-count (+ true-count eval-score))
-							; (format t "	true: ~s~%" phi)
-							)
 
 							; else
-							; (format t "time model: ~s~%" *TIME-MODEL*)
 							(if (not (has-element-pred phi #'varp))
 								; then
 								(progn
-								; (format t "	untrue: ~s~%" phi)
 								(if (>= (get-necessity phi-id schema) 1.0)
 									; then, invalid match
 									(progn
-									; (format t "~s ~s is wrong, but necessary~%" phi-id phi)
-									; (format t "it was wrong even with story ~s~%" story)
 									(return-from outer nil)
 									)
 									; else
 									(progn
-									; (format t "~s is untrue~%" phi)
 									(setf untrue-count (+ untrue-count 1))
 									)
 								)
@@ -1141,13 +939,9 @@
 			)
 		)
 
-	; )
-
-	; (format t "returning ~s~%" (list true-count untrue-count))
 	(return-from outer (list true-count untrue-count))
 )
 )
-;)
 
 (ldefun best-story-schema-match (story schema num_shuffles generalize)
 	(car (top-k-story-schema-matches story schema num_shuffles generalize 1))
@@ -1156,7 +950,6 @@
 (ldefun top-k-story-schema-matches (story schema num_shuffles generalize k)
 (let (best-bindings best-score)
 (block outer
-	; (dbg 'match "matching to schema ~s~%" schema)
 	(setf best-score '(0 0))
 	(setf best-match nil)
 	(setf best-bindings nil)
@@ -1176,7 +969,6 @@
 		)
 
 		(setf cur-match-triple (match-story-to-schema linear-story schema nil))
-		; (format t "got triple ~s~%" cur-match-triple)
 		(setf cur-match (car cur-match-triple))
 		(setf cur-bindings (second cur-match-triple))
 		(setf bound-header (third cur-match-triple))
@@ -1185,20 +977,6 @@
 		; more specific ones in the schema are removed,
 		; as they're redundant.
 		(setf cur-match (remove-subsuming-rcs cur-match))
-
-		
-		;(print-schema cur-match)
-		
-		;(setf score-pair (check-temporal-constraints cur-match))
-		; (format t "score: ~s~%" score)
-		; (setf score (- (car score-pair) (second score-pair)))
-
-		; Always take one with fewer inconsistencies, but break ties with
-		; number of explicit consistencies.
-		;(setf invalid-score (second score-pair))
-		; (format t "tick~%")
-		; (format t "invalid temporal score: ~s~%" score-pair)
-		; (format t "~s~%" (get-section cur-match ':Episode-relations))
 
 		; Added constraints shouldn't count toward our score, because we know
 		; they'll be satisfied.
@@ -1215,10 +993,6 @@
 					(progn
 					(setf new-sec (copy-list sec))
 					(setf new-sec (subseq new-sec 0 (length (get-section schema (car sec)))))
-					; (format t "ref schema is:~%")
-					; (print-schema schema)
-					; (format t "cut sec ~s down to new sec ~s~%" sec new-sec)
-
 					; If the old section was null, then we can just remove it.
 					; Otherwise, replace it with the truncated version.
 					(if (null (get-section schema (car sec)))
@@ -1232,16 +1006,12 @@
 			)
 		)
 
-		; (format t "checking old constrs in cur match:~%")
-		; (print-schema cur-match-old-constrs)
-
 		(setf score-pair (check-constraints cur-match-old-constrs story))
 		; A null score indicates that a constraint with necessity
 		; 1 was broken, and that the match is invalid by definition.
 		(if (null score-pair)
 			(return-from shuffle-block)
 		)
-		; (format t "score pair is ~s~%" score-pair)
 
 		
 		(if (null (member (list score-pair cur-match cur-bindings bound-header) all-matches :test (lambda (a b) (ht-eq (third a) (third b)))))
@@ -1249,25 +1019,15 @@
 			(setf all-matches (append all-matches (list (list score-pair cur-match cur-bindings bound-header))))
 		)
 
-		; (format t "made it here 0~%")
-
 
 		(setf valid-score (car score-pair))
-		; (format t "made it here 0.1~%")
 		(setf invalid-score (second score-pair))
-		; (format t "made it here 0.2~%")
-		; (format t "best score is ~s~%" best-score)
 		(setf better-than-best (< invalid-score (second best-score)))
-		; (format t "made it here 0.3~%")
 		(if (and (equal invalid-score (second best-score))
 			 (> valid-score (car best-score)))
 			; then
 			(setf better-than-best t)
 		)
-
-		; (format t "made it here 1~%")
-
-		; (if better-than-best (format t "BEST~%"))
 	
 		(if (or
 				(null best-match)
@@ -1276,7 +1036,6 @@
 			)
 			; then
 			(progn
-				; (format t "setting best-score to pair ~s~%" score-pair)
 				(setf best-score score-pair)
 				(setf best-match cur-match)
 				(setf best-bindings cur-bindings)
@@ -1286,8 +1045,6 @@
 			)
 		)
 	))
-
-	; (format t "made it here 2~%")
 
 	(setf sorted-matches (sort all-matches
 		(lambda (a b)
@@ -1302,21 +1059,13 @@
 			(if (and a-bound-header (not b-bound-header)) (return-from lb t))
 			(if (and b-bound-header (not a-bound-header)) (return-from lb nil))
 
-			;(setf a-better (< a-invalid b-invalid))
-			;(if (and (equal a-invalid b-invalid) (> a-valid b-valid))
-			;	(setf a-better t)
-			;)
 			(setf a-better (> (- a-valid a-invalid) (- b-valid b-invalid)))
 
 			(return-from lb a-better)
 		)
 		)
 	))
-	; (format t "sorted matches are ~s~%" (loop for x in sorted-matches collect (list (car x) (second x) (ht-to-str (third x)) (fourth x))))
 
-	; (format t "return val is ~s~%" (mapcar (lambda (x) (subseq x 0 3)) (subseq-safe sorted-matches 0 k)))
-
-	; (return-from outer (list best-score best-match best-bindings))
 	(return-from outer (mapcar (lambda (x) (subseq x 0 3)) (subseq-safe sorted-matches 0 k)))
 )
 )

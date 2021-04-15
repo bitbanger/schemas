@@ -1006,7 +1006,7 @@
 			)
 		)
 
-		(setf score-pair (check-constraints cur-match-old-constrs story))
+		(setf score-pair (check-constraints (apply-bindings cur-match-old-constrs cur-bindings) story))
 		; A null score indicates that a constraint with necessity
 		; 1 was broken, and that the match is invalid by definition.
 		(if (null score-pair)

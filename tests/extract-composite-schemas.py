@@ -8,6 +8,8 @@ comp_num = 0
 
 verb_nums = defaultdict(lambda: 1)
 
+fn_fmt_str = 'apr-9-mtg-%d.txt'
+
 schema_name_remap = dict()
 
 def extract_schemas(fn, eng_taken):
@@ -42,6 +44,9 @@ def extract_schemas(fn, eng_taken):
 				except:
 					pass
 			if skip_iter:
+				continue
+
+			if line.strip() == "parsing" or line.strip() == "done parsing":
 				continue
 
 			result = re.search('[a-zA-Z]+\.\d+\.V', line)
@@ -116,7 +121,7 @@ taken = []
 eng_taken = []
 for fnum in range(0, int(sys.argv[1])+1):
 	fnum = int(fnum) # just as a sanity check
-	fn = 'mar-26-mtg-%d.txt' % fnum
+	fn = fn_fmt_str % fnum
 	taken_pair = extract_schemas(fn, eng_taken)
 	schemas_taken = taken_pair[0]
 	pair_eng_taken = taken_pair[1]

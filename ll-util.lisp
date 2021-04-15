@@ -1001,6 +1001,14 @@ is replaced with replacement."
 	)
 )
 
+(defun list-of-n? (lst n)
+	(and (listp lst) (equal (length lst) n))
+)
+
+(defun list-at-least-n? (lst n)
+	(and (listp lst) (>= (length lst) n))
+)
+
 (defun first-n (lst n)
 (cond
 	((< n 0) nil)

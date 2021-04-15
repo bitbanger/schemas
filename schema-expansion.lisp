@@ -107,7 +107,7 @@
 							(progn
 							(if (null (car exp-pair))
 								(progn
-									(format t "invoked schema ~s didn't bind to invoker ~s~%" (invoked-schema (second form) t) form)
+									(dbg 'expansion "invoked schema ~s didn't bind to invoker ~s~%" (invoked-schema (second form) t) form)
 									(return-from expand)
 									; (dbg-tag 'unify)
 									; (expand-nested-schema form schema)

@@ -431,6 +431,9 @@
 			(add-constraint new-schema ':Episode-relations ep-rel))
 	)
 
+	; Add the story ep-rels.
+	(setf ep-rels (append ep-rels story-ep-rels))
+
 	(load-time-model ep-rels)
 
 	; Sort the steps and clean up the schema.
@@ -440,6 +443,7 @@
 	; constants.
 	; (setf new-schema (fully-clean-schema new-schema))
 	(setf new-schema (fully-clean-schema-no-gen new-schema))
+	(setf new-schema (sort-steps new-schema))
 
 	; Forget about the "now" episodes so that
 	; we can just extract the direct ep-ep

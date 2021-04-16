@@ -16,6 +16,8 @@
 ; 400 total ROCstories in set so far
 (defparameter *NUM-DEV-STORIES* (length *ROC-MCGUFFEY*))
 
+(defparameter *HANDLE-ERRORS* t)
+
 ; (dbg-tag 'match)
 ; (dbg-tag 'unify)
 
@@ -36,7 +38,10 @@
 	; "Tom had a cabin near a river."
 	; "The couple worked out."
 	; "Michael was very shy."
-	nil
+	; "I was walking through the woods."
+	; "Three birds are in the tree."
+	"The woman kissed a man."
+	; nil
 )
 (setf stories-processed 0)
 
@@ -59,15 +64,21 @@
 		)
 		; then
 		do
-			(handler-case
+			(if *HANDLE-ERRORS*
+				; then
+				(handler-case
+				(progn
+					(if (equal story-start-line (car roc-story))
+						(setf first-story-hit t))
+					(process-one-story roc-story)
+				) (error () (format t "error composing story schemas~%")))
+				; else
 				(progn
 					(if (equal story-start-line (car roc-story))
 						(setf first-story-hit t))
 					(process-one-story roc-story)
 				)
-			(error ()
-				(format t "error composing story schemas~%")
-			))
+			)
 )))
 
 (ldefun process-one-story (roc-story)
@@ -92,7 +103,7 @@
 		(setf events nil)
 		(setf schema-match-tuples nil)
 
-		(handler-case
+		;(handler-case
 		(block parse-story
 			(format t "parsing~%")
 			(setf el-story (len-parse-sents roc-story))
@@ -134,11 +145,11 @@
 
 			(setf schema-match-tuples (top-story-matches-easy-el el-story))
 			)
-			(error ()
-				(progn
-					(format t "story processing error~%")
-					(return-from process-story)
-				)))
+			;(error ()
+				;(progn
+					;(format t "story processing error~%")
+					;(return-from process-story)
+				;)))
 
 		; Sometimes a story just has only atemporal
 		; formulas; we can't really make a schema from

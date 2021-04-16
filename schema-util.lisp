@@ -30,6 +30,13 @@
 	:Subordinate-constraints
 ))
 
+(defparameter *META-SECS* '(
+	:Subordinate-constraints
+	:Paraphrases
+	:Necessities
+	:Certainties
+))
+
 (defparameter *SCHEMAS-BY-PRED* (make-hash-table :test #'equal))
 ; (format t "resetting preds-by-schema~%")
 (defparameter *PREDS-BY-SCHEMA* (make-hash-table :test #'equal))
@@ -176,7 +183,7 @@
 		((equal sec-name ':Postconds)
 			(return-from outer "?P"))
 		((equal sec-name ':Paraphrases)
-			(return-from outer "?PAR"))
+			(return-from outer "?H"))
 		((equal sec-name ':Steps)
 			(return-from outer "?E"))
 		((equal sec-name ':Episode-relations)
@@ -319,19 +326,17 @@
 ; nonfluent conditions, or FLUENT if it contains all fluent
 ; conditions.
 (ldefun section-type (sec)
-(progn
+(block outer
 	(check #'schema-section? sec)
-	(if (nonfluent-cond? (car (section-formulas sec)))
-		; then
-		'NONFLUENT
-		; else
-		(if (fluent-cond? (car (section-formulas sec)))
-			; then
-			'FLUENT
-			; else
-			'META
-		)
-	)
+	(setf sec-prefix (sec-formula-prefix (section-name sec)))
+	(if (contains *META-SECS* (section-name sec))
+		(return-from outer 'META))
+	(if (has-prefix? sec-prefix "?")
+		(return-from outer 'FLUENT))
+	(if (has-prefix? sec-prefix "!")
+		(return-from outer 'NONFLUENT))
+
+	(return-from outer nil)
 )
 )
 
@@ -371,7 +376,7 @@
 	(loop for sec in (schema-sections schema)
 		if (and (or (equal (section-type sec) 'NONFLUENT)
 			   (equal (section-type sec) 'FLUENT))
-				(not (equal (car sec) ':Subordinate-constraints)))
+				(not (contains *META-SECS* (car sec))))
 			; then
 			collect sec
 	)
@@ -384,24 +389,33 @@
 	)
 )
 
-(ldefun get-schema-ep-var-char (schema v)
+(ldefun get-schema-ep-var-chars (schema v)
 (block outer
+	(setf char-forms (list))
+
 	; Check if it characterizes the header formula, first.
 	(if (equal (third (schema-header schema)) v)
 		; then
-		(return-from outer (car (schema-header schema)))
+		(setf char-forms
+			(append char-forms
+				(list (car (schema-header schema)))))
 	)
 
 	(loop for sec in (fluent-sections schema)
 		do (loop for form in (section-formulas sec)
-			if (equal (car form) v) do (return-from outer (second form))
+			if (equal (car form) v)
+				do (setf char-forms
+					(append char-forms
+						(list (second form))))
 		)
 	)
+
+	(return-from outer char-forms)
 )
 )
 
 (ldefun schema-ep-var? (schema v)
-	(not (null (get-schema-ep-var-char schema v)))
+	(not (null (get-schema-ep-var-chars schema v)))
 )
 
 (ldefun fluent-sections (schema)
@@ -861,6 +875,13 @@
 )
 )
 
+(ldefun invisible-prop? (prop)
+	(or
+		(has-element prop 'HAS-DET.PR)
+		(has-element prop 'ORIENTS)
+	)
+)
+
 (ldefun remove-invisible-rcs (schema)
 (block outer
 	; (format t "schema is ~s~%" schema)
@@ -869,13 +890,7 @@
 
 	(setf cleaned-rcs
 		(loop for rc in (section-formulas (get-section schema ':Roles))
-			if (not 
-					(or
-						(has-element rc 'HAS-DET.PR)
-						(has-element rc 'ORIENTS)
-						(time-prop? (second rc))
-					)
-				)
+			if (not (or (time-prop? (second rc)) (invisible-prop? (second rc))))
 				collect rc
 			else
 				do (setf removed-constr-ids (append removed-constr-ids (list (car rc))))

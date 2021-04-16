@@ -7,6 +7,7 @@
 (ll-load "schema-el-parser.lisp")
 (ll-load "new-ulf-parser.lisp")
 (ll-load "schema-link.lisp")
+(ll-load "schema-util.lisp")
 (ll-load "schema-match.lisp")
 (ll-load "protoschemas.lisp")
 
@@ -21,7 +22,14 @@
 	(setf best-schemas (mapcar (lambda (x) (schema-pred x))
 		(top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num-schemas)))
 
-	; (format t "best schemas are ~s~%" best-schemas)
+
+	; Remove junk propositions from the story; they slow
+	; down matching.
+	(setf story (copy-item story))
+	(setf story (loop for sent in story collect
+					(loop for wff in sent
+						if (not (invisible-prop? wff))
+							collect wff)))
 
 	(load-story-time-model story)
 
@@ -38,8 +46,6 @@
 				(setf best-match (second best-match-res-pair))
 				(setf best-bindings (third best-match-res-pair))
 
-				; (format t "candidate header is ~s~%" (second best-match))
-				
 				(if (and (schema? best-match) (not (equal '(0 0) best-score)))
 					(progn
 						(setf match (dedupe-sections best-match))
@@ -99,6 +105,14 @@
 (ldefun top-k-story-matches-from-els (el-story schemas num-shuffles num-schemas num-matches form-chains generalize)
 (let ()
 (block outer
+	; Remove junk propositions from the story; they slow
+	; down matching.
+	(setf story (copy-item story))
+	(setf story (loop for sent in story collect
+					(loop for wff in sent
+						if (not (invisible-prop? wff))
+							collect wff)))
+
 	; Parse the story and filter out invalid ELFs.
 	; TODO: use Len's new ULF parser, as it's used
 	; in new-ulf-test1.lisp

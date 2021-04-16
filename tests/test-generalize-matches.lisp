@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "mtg-schemas.lisp")
+(load "new-mtg-schemas.lisp")
 (load "../ll-load.lisp")
 
 (ll-load-superdir "protoschemas.lisp")
@@ -389,7 +389,7 @@
 )
 
 (ldefun schema-to-eng (schema)
-(block outer
+(handler-case (block outer
 	(setf els-for-eng (append
 		; Get all role constraints (sort by first arg)
 		(sort
@@ -403,13 +403,16 @@
 		)
 	))
 
+	(setf els-for-eng (loop for el in els-for-eng if (canon-prop? el) collect el))
 	(setf ulfs-for-eng (el-to-ulf els-for-eng))
 
 	(format t "Schema in English (prototype): ~%")
 	(loop for eng in (el-to-eng els-for-eng)
 		do (format t "  ~s~%" eng)
 	)
-)
+) (error ()
+	(format nil "")
+))
 )
 
 (ldefun analyze-composites ()
@@ -439,9 +442,24 @@
 			(setf new-comp (replace-vals rc new-rc new-comp))
 		))
 
-		(setf new-comp (remove (get-section new-comp ':Episode-relations) new-comp))
+		; (setf new-comp (remove (get-section new-comp ':Episode-relations) new-comp))
 		(setf new-comp (clean-roles new-comp))
 		(setf new-comp (clean-steps new-comp))
+
+		(setf comp-steps (get-section new-comp ':Steps))
+		(setf new-comp (replace-vals
+			comp-steps
+			(remove-duplicates comp-steps :test (lambda (x y)
+				(if (or (not (list-at-least-n? x 2)) (not (list-at-least-n? x 2)))
+					; then
+					(equal x y)
+					; else
+					(or
+						; equal episodes, or...
+						(equal (car x) (car y))
+						; ...equal formulas
+						(equal (second x) (second y))))))
+			new-comp))
 
 		(print-schema new-comp)
 		(schema-to-eng new-comp)

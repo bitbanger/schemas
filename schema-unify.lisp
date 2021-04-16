@@ -302,8 +302,8 @@
 	(setf cur-bindings bindings)
 
 		(dbg 'unify "var is ~s~%" schema-ep)
-		(setf schema-form (get-schema-ep-var-char schema schema-ep))
-		(dbg 'unify "	and schema formula ~s characterizes it~%" schema-form)
+		(setf schema-forms (get-schema-ep-var-chars schema schema-ep))
+		(dbg 'unify "	and each of the schema formulas ~s characterize it~%" schema-forms)
 
 		(dbg 'unify "story ep is ~s~%" story-ep)
 		(loop for phi in story do (block story-loop
@@ -319,29 +319,39 @@
 
 		; Don't bind an unspecified episode from the story to one in the schema.
 		; We need evidence that they can unify.
-		(if (and (not (null schema-form)) (null story-form))
+		(if (and (not (null schema-forms)) (null story-form))
 			(return-from outer nil)
 		)
 
-		(if (and (not (null schema-form)) (not (null story-form)))
-			; then
-			(progn
-			(dbg 'unify "	can they unify?~%")
-			(setf new-bindings (unify schema-form story-form cur-bindings schema story))
-			(if (not (null new-bindings))
+		(setf matching-form nil)
+		(block check-forms
+		(loop for schema-form in schema-forms do (block check-form
+			(if (and (not (null schema-form)) (not (null story-form)))
 				; then
 				(progn
-				(dbg 'unify "		YES!~%")
-				(setf cur-bindings new-bindings)
+				(dbg 'unify "	can they unify?~%")
+				(setf new-bindings (unify schema-form story-form cur-bindings schema story))
+				(if (not (null new-bindings))
+					; then
+					(progn
+					(dbg 'unify "		YES!~%")
+					(setf cur-bindings new-bindings)
+					(setf matching-form schema-form)
+					(return-from check-forms)
+					)
+					; else
+					(progn
+					(dbg 'unify "		no :(~%")
+					(return-from check-form)
+					)
 				)
-				; else
-				(progn
-				(dbg 'unify "		no :(~%")
-				(return-from outer nil)
 				)
 			)
-			)
-		)
+		)))
+
+	(if (null matching-form)
+		(return-from outer nil)
+	)
 
 	(return-from outer cur-bindings)
 )
@@ -403,19 +413,27 @@
 
 	; If the two individuals are episodes, we have to unify the
 	; characterizing formulas as well.
-	(if (and (varp schema) (schema-ep-var? whole-schema schema) (canon-small-individual? story))
+	(if (and (varp schema) (schema-ep-var? whole-schema schema))
 		; then
-		(progn
-		(dbg 'unify "unifying eps ~s and ~s~%" schema story)
-		; (format t "gotta unify eps ~s and ~s~%" schema story)
-		(setf bindings (can-unify-episodes schema story whole-schema whole-story bindings))
-		(if (null bindings)
+		(if (canon-small-individual? story)
 			; then
 			(progn
-			(dbg 'unify "individuals ~s and ~s cannot be unified~%" schema story)
+			(dbg 'unify "unifying eps ~s and ~s~%" schema story)
+			; (format t "gotta unify eps ~s and ~s~%" schema story)
+			(setf bindings (can-unify-episodes schema story whole-schema whole-story bindings))
+			(if (null bindings)
+				; then
+				(progn
+				(dbg 'unify "individuals ~s and ~s cannot be unified~%" schema story)
+				(return-from outer nil)
+				)
+			)
+			)
+			; else
+			(progn
+			(dbg 'unify "~s isn't a valid episode to bind to ~s~%" story schema)
 			(return-from outer nil)
 			)
-		)
 		)
 	)
 
@@ -540,6 +558,13 @@
 	(if (and *UNIFY-SHOULD-CHECK-CONSTRAINTS* (schema? whole-schema))
 		(progn
 			(setf bound-schema (apply-bindings whole-schema res))
+			(if (not (schema? bound-schema))
+				(progn
+					(format t "bindings ~s fucked up this schema: ~%" (ht-to-str res))
+					(print-schema whole-schema)
+					(format t "char-forms for ~s are ~s~%" '?G1 (get-schema-ep-var-chars whole-schema '?G1))
+				)
+			)
 			(setf post-bind-score (check-constraints bound-schema (list whole-story)))
 			(if (null post-bind-score)
 				(progn

@@ -16,6 +16,8 @@
 (block outer
 	; (setf invoked-schema (eval (prop-pred (second invoker))))
 	(setf invoked-schema (invoked-schema (second invoker) t))
+	(if (null invoked-schema)
+		(return-from outer nil))
 
 	; (format t "trying to unify ~s with ~s~%" (list (second invoker) '** (car invoker)) invoked-schema)
 	(setf old-uscc *UNIFY-SHOULD-CHECK-CONSTRAINTS*)

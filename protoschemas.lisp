@@ -15,7 +15,7 @@
 	find.v
 	drink.v
 	put.v
-	tell_information.v
+	inform.v
 	request_action.v
 	watch.v
 ))
@@ -414,6 +414,10 @@
 			(?g2 (?x (want.v (ka (have.v ?o)))))
 		)
 
+		(:Paraphrases
+			(?e (?x ((adv-a (for.p ?o)) look.v)))
+		)
+
 		(:Postconds
 			(?p1 (?x (find.v ?o)))
 		)
@@ -641,8 +645,13 @@
 	)
 )
 
-(defparameter tell_information.v
-	'(epi-schema ((?x tell_information.v ?y ?i) ** ?e)
+(defparameter inform.v
+	'(epi-schema ((?x inform.v ?y ?i) ** ?e)
+		(:Paraphrases
+			(!h1 ((?x tell.v ?y ?i) ** ?e))
+			(!h2 ((?x let.v ?y ?i) ** ?e))
+		)
+
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?y agent.n))

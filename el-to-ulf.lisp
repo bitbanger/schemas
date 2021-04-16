@@ -230,7 +230,11 @@ do (block unmake-sk
 ))
 
 (defun ulf-to-eng (ulf)
-	(ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english))
+	(handler-case 
+		(ulf2english:ulf2english (standardize-ulf ulf :pkg :ulf2english))
+	(error ()
+		"ULF to English error"
+	))
 )
 
 (defun el-to-eng (els)

@@ -142,7 +142,7 @@
 					(if (null bindings-with-ep-ids)
 						; then
 						(progn
-						(dbg 'match "~s already bound; cannot bind!~%" (car formula))
+						(dbg 'match "~s already bound to ~s; cannot bind to ~s!~%" (car formula) (gethash (car formula) new-bindings) (third phi))
 						(return-from uni)
 						)
 						; else
@@ -831,7 +831,7 @@
 
 						(if (null header-bindings)
 							(progn
-							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" check-phi nested-schema-name)
+							; (format t "BUG: ~s invoked ~s, but couldn't unify!~%" check-phi nested-schema-name)
 							(return-from outer nil)
 							)
 						)
@@ -1003,6 +1003,13 @@
 					)
 					)
 				)
+			)
+		)
+
+		(if (and (schema? cur-match-old-constrs) (not (schema? (apply-bindings cur-match-old-constrs cur-bindings))))
+			(progn
+				(format t "bindings ~s fucked up this schema: ~%" (ht-to-str cur-bindings))
+				(print-schema cur-match-old-constrs)
 			)
 		)
 

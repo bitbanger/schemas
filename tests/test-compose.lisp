@@ -40,8 +40,8 @@
 	; "Michael was very shy."
 	; "I was walking through the woods."
 	; "Three birds are in the tree."
-	"The woman kissed a man."
-	; nil
+	; "The woman kissed a man."
+	nil
 )
 (setf stories-processed 0)
 

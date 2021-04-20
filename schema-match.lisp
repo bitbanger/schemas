@@ -78,6 +78,7 @@
 	(setf best-sub-score 0)
 
 	(setf match-sections (if (canon-charstar? phi) (fluent-sections schema) (nonfluent-sections schema)))
+	; (setf match-sections (nonmeta-sections schema))
 
 	(loop for sec in match-sections
 		do (dbg 'match "	schema sec ~s~%" (section-name sec))

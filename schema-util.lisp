@@ -32,7 +32,6 @@
 
 (defparameter *META-SECS* '(
 	:Subordinate-constraints
-	:Paraphrases
 	:Necessities
 	:Certainties
 ))

@@ -20,13 +20,20 @@ def denum_str(s):
 
 indfile = wn.open('index.sense')
 
+sense_num_cache = dict()
+
 def lemma_sense_num(lemma):
+	#if lemma in sense_num_cache:
+		#return sense_num_cache[lemma]
+
 	from nltk.util import binary_search_file as _binary_search_file
 	spl = _binary_search_file(indfile, lemma.key())
 	if not spl:
 		return None
 	if len(spl) < 3:
 		return None
+
+	#sense_num_cache[lemma] = spl.split()[2]
 	return spl.split()[2]
 
 def fix_split_words(grp):
@@ -49,6 +56,33 @@ def fix_split_words(grp):
 
 	return grp
 
+true_basics = set([
+	wn.synset('location.n.01'),
+	wn.synset('animal.n.01'),
+	wn.synset('person.n.01'),
+	wn.synset('act.n.01')
+])
+hyp_cache = dict()
+def best_basic_ss(ss):
+	if ss in hyp_cache:
+		return hyp_cache[ss]
+	if ss in true_basics:
+		return ss
+
+	res = [ss] + list(basic_ss.closure(lambda s: s.hypernyms()))
+	res_lems = [x.lemmas() for x in res]
+	res_lems = [max(lems, key=lambda x: x.count()) for lems in res_lems]
+	res_ss = ss
+	options = [(res_lems[i], i) for i in range(len(res_lems)) if res_lems[i].count() >= 20]
+	if len(options) > 2:
+		res_ss = res[options[1][1]]
+	elif len(options) > 0:
+		if res_lems[0].count() < 20:
+			res_ss = res[options[0][1]]
+
+	hyp_cache[ss] = res_ss
+	return res_ss
+
 for line in open(blc_noun_file, 'r'):
 	if not line.strip() or line[0] == "#":
 		continue
@@ -64,17 +98,52 @@ for line in open(blc_noun_file, 'r'):
 		nonbasic_grp = str(nbl)[7:-2].split('.')
 		nonbasic_grp = fix_split_words(nonbasic_grp)
 
-		basic_grp = str(basic_ss.lemmas()[0])[7:-2].split('.')
-		basic_grp = fix_split_words(basic_grp)
-
 		nonbasic_sense_num = lemma_sense_num(nbl)
 		if not nonbasic_sense_num:
 			continue
+
+		nonbasic_lem = "%s%d.%s" % (nonbasic_grp[3], int(nonbasic_sense_num), nonbasic_grp[1])
+
+
+		basic_grp = str(basic_ss.lemmas()[0])[7:-2].split('.')
+		basic_grp = fix_split_words(basic_grp)
+
+
 		basic_sense_num = lemma_sense_num(basic_ss.lemmas()[0])
 		if not basic_sense_num:
 			continue_outer = True
 			continue
-		nonbasic_lem = "%s%d.%s" % (nonbasic_grp[3], int(nonbasic_sense_num), nonbasic_grp[1])
+
+		basic_word = str(basic_ss.lemmas()[0])[7:-2].split('.')[0]
+		best_count = -1
+
+		# basic_choices = [basic_ss] + list(basic_ss.closure(lambda s: s.hypernyms()))
+		# basic_choices = [x.lemmas() for x in basic_choices]
+		# basic_choices = [max(lems, key=lambda x: x.count()) for lems in basic_choices]		
+		# basic_freqs = [x.count() for x in basic_choices]
+		# basic_words = [str(x)[7:-2].split('.')[0] for x in basic_choices]
+		basic_fixed = max(best_basic_ss(basic_ss).lemmas(), key=lambda z: z.count())
+		basic_grp = str(basic_fixed)[7:-2].split('.')
+		basic_grp = fix_split_words(basic_grp)
+		basic_sense_num = lemma_sense_num(basic_fixed)
+		if not basic_sense_num:
+			continue_outer = True
+			continue
+		# print(basic_ss, basic_fixed)
+		'''for i in range(1, len(basic_choices)):
+			if basic_choices[i].count() - basic_choices[i-1].count() > 20:
+				basic_grp = fix_split_words(str(basic_choices[i])[7:-2].split('.'))
+				basic_sense_num = lemma_sense_num(basic_choices[i])
+				basic_word = basic_words[i]
+				basic_count = basic_freqs[i]
+				break
+		if nonbasic_grp[3] == 'cow' or nonbasic_grp[3] == 'dog':
+			print(nonbasic_lem)
+			print(list(zip(basic_words, basic_freqs)))
+			print(basic_word, basic_count)
+			print('\n')'''
+
+
 		basic_lem = "%s%d.%s" % (basic_grp[3], int(basic_sense_num), basic_grp[1])
 		# nonbasic_lem = "%s.%s" % (nonbasic_grp[3], nonbasic_grp[1])
 		# basic_lem = "%s.%s" % (basic_grp[3], basic_grp[1])

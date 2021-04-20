@@ -18,16 +18,47 @@
 	inform.v
 	request_action.v
 	watch.v
+	enjoy_action.v
 ))
+
+(defparameter enjoy_action.v
+	'(epi-schema ((?x enjoy_action.v ?a) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?a action.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+		)
+
+		(:Paraphrases
+			(?e (?x (want.v ?a)))
+			(?e (?x (like.v ?a)))
+			(?e (?x (love.v ?a)))
+			(?e (?x (enjoy.v ?a)))
+		)
+
+		(:Preconds
+			(?i1 (?x (think.v (that (?a fun.a)))))
+		)
+	)
+)
 
 (defparameter put.v
 	'(epi-schema ((?x ((adv-a (in.p ?c)) put.v) ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?o inanimate_object.n))
+			(!r2 (not (?o agent.n)))
 			(!r3 (?c container.n))
-			(!r4 (?c inanimate_object.n))
+			(!r4 (not (?c agent.n)))
 			(!r5 (?o smaller-than ?c))
+		)
+
+		(:Paraphrases
+			(?e (?x ((adv-a (into.p ?c)) put.v) ?o))
+			(?e (?x ((adv-a (inside.p ?c)) put.v) ?o))
 		)
 
 		(:Necessities
@@ -54,7 +85,7 @@
 	'(epi-schema ((?x make.v ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?o inanimate_object.n))
+			(!r2 (not (?o agent.n)))
 		)
 
 		(:Necessities
@@ -227,7 +258,7 @@
 	'(epi-schema ((?x ((adv-a (to.p ?y)) give.v) ?y ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?o inanimate_object.n))
+			(!r2 (not (?o agent.n)))
 			(!r3 (?y agent.n))
 		)
 
@@ -257,7 +288,7 @@
 	'(epi-schema ((?x receiving_verb.? ?o) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
-			(!r2 (?o inanimate_object.n))
+			(!r2 (not (?o agent.n)))
 			(!r3 (?l location.n))
 			(!r4 (not (?x = ?o)))
 		)
@@ -537,13 +568,18 @@
 )
 
 (defparameter play.v
-	'(epi-schema ((?x ((adv-a (with.p ?t)) play.v) ?g) ** ?e)
+	'(epi-schema ((?x play.v) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?t toy.n))
-			(!r3 (?t inanimate_object.n))
+			(!r3 (not (?t agent.n)))
 			(!r4 (?g game.n))
 			(!r5 (not (?g agent.n)))
+		)
+
+		(:Paraphrases
+			(?e (?x ((adv-a (with.p ?t)) play.v)))
+			(?e (?x play.v ?g))
 		)
 
 		(:Necessities
@@ -572,12 +608,18 @@
 
 (defparameter travel.v
 	;'(epi-schema ((?x travel.v (from.p-arg ?l1) (to.p-arg ?l2) ?l2) ** ?e)
-	'(epi-schema ((?x ((adv-a (for.p ?l2)) ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v))) ?l2) ** ?e)
+	; '(epi-schema ((?x ((adv-a (for.p ?l2)) ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v))) ?l2) ** ?e)
+	'(epi-schema ((?x ((adv-a (from.p ?l1)) travel.v) ?l2) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?l1 location.n))
 			(!r3 (?l2 location.n))
 			(!r4 (not (?l1 = ?l2)))
+		)
+
+		(:Paraphrases
+			(?e (?x ((adv-a (for.p ?l2)) ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v))) ?l2))
+			(?e (?x ((adv-a (for.p ?l2)) ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v)))))
 		)
 
 		(:Necessities
@@ -634,7 +676,6 @@
 
 		(:Steps
 			(?e1 (?x (ask.v ?y ?a)))
-
 			(?e2 (?y (do.v ?a)))
 		)
 
@@ -648,8 +689,8 @@
 (defparameter inform.v
 	'(epi-schema ((?x inform.v ?y ?i) ** ?e)
 		(:Paraphrases
-			(!h1 ((?x tell.v ?y ?i) ** ?e))
-			(!h2 ((?x let.v ?y ?i) ** ?e))
+			(?e ((?x tell.v ?y ?i) ** ?e))
+			(?e ((?x let.v ?y (ka (know.v ?i))) ** ?e))
 		)
 
 		(:Roles
@@ -660,10 +701,6 @@
 
 		(:Goals
 			(?g1 (?x (want.v (that (?y (know.v ?i))))))
-		)
-
-		(:Steps
-			(?e1 (?x (tell.v ?y ?i)))
 		)
 
 		(:Postconds

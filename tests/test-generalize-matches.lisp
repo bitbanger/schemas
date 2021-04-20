@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "new-mtg-schemas.lisp")
+(load "mtg-apr-16-schemas.lisp")
 (load "../ll-load.lisp")
 
 (ll-load-superdir "protoschemas.lisp")
@@ -16,6 +16,7 @@
 
 (setf proto-matches (loop for sp in *LEARNED-SCHEMAS*
 						if (and (not (null (car sp))) (null (second sp))) collect (car sp)))
+
 
 (setf matches-for-protos (make-hash-table :test #'equal))
 
@@ -174,14 +175,16 @@
 								for i from 0
 									collect (car (loop for elem in (nth i novel-child-args-rcs)
 													if (lex-noun? elem)
-														collect (basic-level elem)))))
+														; collect (basic-level elem)))))
+														collect elem))))
 						(setf rc-post-args
 							(loop for post-arg in (prop-post-args child-prop)
 								for i from (length rc-pre-args)
 									; do (format t "considering arg ~s~%" (loop for elem in (nth i novel-child-args-rcs) if (lex-noun? elem) collect elem))
 									collect (car (loop for elem in (nth i novel-child-args-rcs)
 													if (lex-noun? elem)
-														collect (basic-level elem)))))
+														; collect (basic-level elem)))))
+														collect elem))))
 
 						(setf prop-with-rc-args (render-prop
 							rc-pre-args
@@ -316,7 +319,7 @@
 	; also it may not (probably won't) be a canon-prop,
 	; so we'll do this too
 	; (format t "turning ~s into " flat-prop-no-mods)
-	(setf flat-prop-no-mods (append (list (car flat-prop-no-mods)) (loop for elem in (second flat-prop-no-mods)
+	(setf flat-prop-no-mods (append (list (car flat-prop-no-mods)) (loop for elem in (listify-nonlists (second flat-prop-no-mods))
 		if (and (listp elem) (equal 2 (length elem)) (equal 1 (length (get-elements-pred elem #'lex-verb?))))
 			collect (car (get-elements-pred elem #'lex-verb?))
 		else
@@ -328,15 +331,21 @@
 
 	; make a basic-level gen
 	(setf basic-flat-prop (copy-item flat-prop-no-mods))
-	(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods #'lex-noun?))
-		do (setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop))
-		do (setf index-flat-prop (copy-list basic-flat-prop))
-		if (and (not (null orig-child-name)) (loop for e in basic-flat-prop thereis (lex-verb? e)))
-			do (setf index-flat-prop (replace-vals (car (loop for e in basic-flat-prop if (lex-verb? e) collect e))
-										orig-child-name index-flat-prop))
+	(setf index-flat-prop (copy-item basic-flat-prop))
+	(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods #'lex-noun?)) do (block basic-ify
+		(setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop))
+		(setf index-flat-prop (copy-item basic-flat-prop))
+		(if (and (not (null orig-child-name)) (loop for e in basic-flat-prop thereis (lex-verb? e)))
+			(setf index-flat-prop (replace-vals (car (loop for e in basic-flat-prop if (lex-verb? e) collect e))
+										orig-child-name index-flat-prop)))
 		; do (format t "using index prop ~s~%" index-flat-prop)
-		do (setf (gethash index-flat-prop basic-map) (append (gethash index-flat-prop basic-map) (list flat-prop)))
-	)
+		; (setf (gethash index-flat-prop basic-map) (append (gethash index-flat-prop basic-map) (list flat-prop)))
+	))
+	; (format t "adding ~s to basic map~%" index-flat-prop)
+	; (setf idx-pred (get-elements-pred index-flat-prop (lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x)))))))
+	; (setf stripped-idx-pred (get-schema-match-name idx-pred))
+	; (setf index-flat-prop (replace-vals idx-pred stripped-idx-pred index-flat-prop))
+	(setf (gethash index-flat-prop basic-map) (append (gethash index-flat-prop basic-map) (list flat-prop)))
 
 
 	;(format t "~s~%" flat-prop)
@@ -442,7 +451,7 @@
 			(setf new-comp (replace-vals rc new-rc new-comp))
 		))
 
-		; (setf new-comp (remove (get-section new-comp ':Episode-relations) new-comp))
+		(setf new-comp (remove (get-section new-comp ':Episode-relations) new-comp))
 		(setf new-comp (clean-roles new-comp))
 		(setf new-comp (clean-steps new-comp))
 
@@ -497,23 +506,78 @@
 	(loop for proto being the hash-keys of matches-for-protos
 		; if (not (has-prefix? (string (schema-name (car sch))) "COMPOSITE"))
 			do (loop for match in (gethash proto matches-for-protos)
+				; do (format t "proto pred ~s, orig name ~s~%" (schema-name match) proto)
 				do (basic-proto-header match basic-map proto)
 			)
 	)
-			
+
+	; Register learned protos so we can get their
+	; headers for the generalization tree display
+	(loop for match in proto-matches
+		do (register-schema match))
 
 	(loop for basic being the hash-keys of basic-map
-		if (> (length (gethash basic basic-map)) 1)
+		; if (> (length (gethash basic basic-map)) 1)
 		do (block print-basic
+			(setf specs (gethash basic basic-map))
+
+			(setf specs (remove-duplicates specs :test
+				(lambda (x y) (block test-lm
+
+					(setf x-pred (car
+						(get-elements-pred x
+							(lambda (z) (and (lex-verb? z) (not (null (get-schema-match-num z))))))))
+
+					(setf y-pred (car
+						(get-elements-pred y
+							(lambda (z) (and (lex-verb? z) (not (null (get-schema-match-num z))))))))
+
+					(return-from test-lm (equal
+						(replace-vals x-pred (get-schema-match-name x-pred) x)
+						(replace-vals y-pred (get-schema-match-name y-pred) y)
+					))
+			))))
+
+			;(if (<= (length specs)) 1
+				; then
+				;(return-from print-basic)
+			;)
+
 			(format t "~s~%" basic)
-			(loop for spec in (gethash basic basic-map)
-				do (format t "	~s~%" spec))
+
+			; Now break the specs down by predicate
+			(setf specs-by-pred (make-hash-table :test #'equal))
+			(loop for spec in specs do (block idx-spec
+				(setf spec-pred (car (get-elements-pred spec (lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x))))))))
+				(setf spec-pred (get-schema-match-name spec-pred))
+				(setf (gethash spec-pred specs-by-pred)
+					(append (gethash spec-pred specs-by-pred) (list spec)))
+			))
+
+			(loop for pred being the hash-keys of specs-by-pred
+				do (format t "	~s~%" pred)
+				do (loop for spec in (gethash pred specs-by-pred) do (block print-spec
+					; (format t "		~s~%" spec)
+					(setf spec-pred (car (get-elements-pred spec (lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x))))))))
+
+					(setf spec-vars (dedupe (get-elements-pred spec #'varp)))
+					(loop for sv in spec-vars
+						do (setf spec (replace-vals sv (car (get-arg-rcs sv (eval spec-pred))) spec)))
+
+					; (format t "			~s~%" (car (schema-header (eval spec-pred))))
+					(format t "		~s~%" spec)
+				))
+				do (format t "~%~%")
+			)
+
+			;(loop for spec in specs
+				;do (format t "	~s~%" spec))
 		)
 	)
 )
 )
 
-;(run-proto-match-collector)
-;(analyze-protos)
+(run-proto-match-collector)
+; (analyze-protos)
 (analyze-composites)
 

@@ -127,6 +127,30 @@
 		)
 	)
 
+	; Handle ANDs and ORs
+	(if (and
+			(or
+				(equal (car schema) 'AND)
+				(equal (car schema) 'OR)
+			)
+			(equal (car story) (car schema))
+			(equal (length schema) (length story)))
+		; then
+		(progn
+			(loop for schema-elem in (cdr schema)
+					for story-elem in (cdr story)
+				do (progn
+					(setf bindings (unify-props schema-elem story-elem bindings whole-schema whole-story))
+
+					(if (null bindings)
+						(return-from outer nil))
+				)
+			)
+
+			(return-from outer bindings)
+		)
+	)
+
 	; step 2: break the props down into their component parts
 	(setf story-pre-args (prop-pre-args story))
 	(setf story-pred (prop-pred story))
@@ -554,6 +578,16 @@
 
 (ldefun unify-individuals (schema story old-bindings whole-schema whole-story)
 (block outer
+	; Sometimes, both "individuals" are actually pred
+	; or prop arguments, so we'll dispatch those out
+	; here.
+	(if (and (canon-pred? schema) (canon-pred? story))
+		(return-from outer (unify-preds schema story
+			old-bindings whole-schema whole-story)))
+	(if (and (canon-prop? schema) (canon-prop? story))
+		(return-from outer (unify-props schema story
+			old-bindings whole-schema whole-story)))
+
 	(setf res (unchecked-unify-individuals schema story old-bindings whole-schema whole-story))
 
 	(if (null res)

@@ -435,6 +435,18 @@
 )
 )
 
+(ldefun renumber-schema-name (name num)
+(block outer
+	(setf spl (split-str (string name) "."))
+	(if (equal 3 (length spl))
+		(setf spl (list (car spl) (third spl))))
+
+	(return-from outer (intern
+		(format nil "~a.~d.~a" 
+			(car spl) num (second spl))))
+)
+)
+
 (ldefun set-header (schema new-header)
 	(append (list
 		'epi-schema

@@ -49,15 +49,23 @@
 		(if (and (not (null new-bindings)) (canon-charstar? phi))
 			; then
 			(progn
-				(setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
-			(if (null bindings-with-ep-ids)
+				; (setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
+
+			; Don't use unify-individuals to bind the
+			; episodes, since we've already confirmed
+			; that the characterizing formulas do unify.
+			; We'll just try to manually bind them.
+
+			;(if (null bindings-with-ep-ids)
+			(if (not (bind-if-unbound (third (second schema))
+				(third phi) new-bindings))
 				; then
 				(progn
 				(dbg 'match "~s already bound; cannot bind!~%" (third (second schema)))
 				(return-from check-header)
 				)
 				; else
-				(setf new-bindings bindings-with-ep-ids)
+				;(setf new-bindings bindings-with-ep-ids)
 			)
 
 			(if (null new-bindings)

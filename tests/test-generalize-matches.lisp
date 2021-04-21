@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "mtg-apr-16-schemas.lisp")
+(load "mtg-apr-21-schemas.lisp")
 (load "../ll-load.lisp")
 
 (ll-load-superdir "protoschemas.lisp")
@@ -9,9 +9,88 @@
 (ll-load-superdir "ll-util.lisp")
 (ll-load-superdir "schema-el-parser.lisp")
 (ll-load-superdir "el-to-ulf.lisp")
+(ll-load-superdir "schema-expansion.lisp")
 
 (loop for protoschema in *PROTOSCHEMAS*
 	do (register-schema (eval protoschema)))
+
+
+
+; Correct the learned schemas, now, to fix duplicate
+; names:
+;	1. Do a pass to find the duped names
+;	2. Find one new unique number for each
+;		duplicate of each pred
+;	3. For each definition of each duped
+;		name, rename it with the unique
+;		number, and replace its name in
+;		all schemas up until, and including,
+;		the next composite.
+; TODO: figure out why there are duplicate names?
+; 1
+(setf all-names (loop for sch in *LEARNED-SCHEMAS*
+		collect (prop-pred (car (schema-header (car sch))))))
+(setf duped-names (dupes all-names))
+(setf duped-names-no-nums
+	(dedupe (loop for name in duped-names
+		collect (get-schema-match-name name))))
+; 2
+(setf max-numbers (make-hash-table :test #'equal))
+(loop for name in (dedupe all-names) do (block mn
+	(setf match-name (get-schema-match-name name))
+	(if (not (contains duped-names-no-nums match-name))
+		(return-from mn))
+	(setf match-num (get-schema-match-num name))
+
+	(if (null (gethash match-name max-numbers))
+		; then
+		(setf (gethash match-name max-numbers) match-num)
+		; else
+		(if (> match-num (gethash match-name max-numbers))
+			(setf (gethash match-name max-numbers) match-num))
+	)
+))
+; 3
+(setf replace-pairs nil)
+(setf new-learned-schemas nil)
+(loop for sch in *LEARNED-SCHEMAS* do (block repl
+	(setf sch-name (prop-pred (car (schema-header (car sch)))))
+	(if (contains duped-names sch-name)
+		; then
+		(block rename
+			(setf new-num (+ 1
+				(gethash (get-schema-match-name sch-name)
+					max-numbers)))
+			(setf (gethash
+				(get-schema-match-name sch-name) max-numbers)
+				new-num)
+			(setf new-name
+				(renumber-schema-name sch-name new-num))
+			(setf replace-pairs
+				(append replace-pairs (list
+					(list sch-name new-name))))
+		)
+	)
+
+	; Now, make all replacements in this
+	; entry.
+	(loop for rp in replace-pairs
+		do (setf sch (replace-vals
+			(car rp) (second rp) sch)))
+	(setf new-learned-schemas (append
+		new-learned-schemas (list sch)))
+
+	; Clear replacement pairs if we hit a composite
+	; schema.
+	(if (has-prefix? (string (schema-name (car sch))) "COMPOSITE")
+		(setf replace-pairs nil)
+	)
+))
+
+(setf *LEARNED-SCHEMAS* new-learned-schemas)
+
+
+
 
 
 (setf proto-matches (loop for sp in *LEARNED-SCHEMAS*
@@ -25,15 +104,16 @@
 )
 
 (defun get-arg-rcs (arg schema)
-	(let ((result (loop for rc in
+	(if (canon-kind? arg) (list arg) (let ((result (loop for rc in
 		(section-formulas (get-section schema ':Roles))
 		if (equal (car (second rc)) arg)
 			collect (unwrap-singletons (cdr (second rc))))))
 		; post-let
 		(progn
 		; (if (null result) (format t "couldn't find RC for ~s in ~s~%" arg (loop for rc in (section-formulas (get-section schema ':Roles)) collect (car (second rc)))))
-		(if (null result) nil result)
-		))
+		; (if (null result) nil result)
+		(if (null result) (list arg) result)
+		)))
 )
 
 (defun get-args-rcs (args schema)
@@ -96,7 +176,7 @@
 
 			; (format t "~s~%" (car (schema-header (eval parent-name))))
 			(setf parent-args-rcs (get-args-rcs parent-args parent))
-			(format t "~s~%~%" parent-name)
+			; (format t "~s~%~%" parent-name)
 
 
 			(loop for parent-rcs in parent-args-rcs
@@ -123,24 +203,24 @@
 						; (dedupe-except child-rcs-to-print (list nil)))
 
 					; (format t "-------------------~%")
-					(format t "	~s~%" parent-rcs)
+					; (format t "	~s~%" parent-rcs)
 
-					(loop for rcs in child-rcs-to-print
-							for k from 1
-						if (< k 10)
-							do (format t "		 ~d. " k)
-						else
-							do (format t "		~d. " k)
-						if (not (null rcs))
-							do (format t "~s~%" rcs)
-						else
-							do (format t "~~~%")
-					)
+					;(loop for rcs in child-rcs-to-print
+							;for k from 1
+						;if (< k 10)
+							; do (format t "		 ~d. " k)
+						;else
+							;do (format t "		~d. " k)
+						;if (not (null rcs))
+							;do (format t "~s~%" rcs)
+						;else
+							;do (format t "~~~%")
+					;)
 
 			))
 
 					; now print all actual headers, deduped
-					(format t "~s~%" parent-name)
+					;(format t "~s~%" parent-name)
 					(loop for child in children do (block print-child-header-with-rcs
 						(setf child-prop (car (schema-header child)))
 
@@ -197,7 +277,7 @@
 						; flatten the props
 
 						; (format t "	~s~%" prop-with-rc-args)
-						(format t "	~s~%" prop-with-rc-args)
+						; (format t "	~s~%" prop-with-rc-args)
 					)
 				)
 
@@ -213,11 +293,11 @@
 
 
 			; (format t "~s~%" duped-learned-props)
-			(format t "-------------------")
-			(format t "-------------------")
-			(format t "-------------------")
-			(format t "-------------------~%")
-			(format t "~%~%")
+			;(format t "-------------------")
+			;(format t "-------------------")
+			;(format t "-------------------")
+			;(format t "-------------------~%")
+			;(format t "~%~%")
 
 
 		)
@@ -304,6 +384,8 @@
 	))
 
 	(setf flat-prop prop-with-rc-args)
+
+	(if nil (block ifnil
 	(setf flat-prop-no-mods prop-with-rc-args)
 	(if (canon-prop? prop-with-rc-args) (progn
 		(setf flat-prop
@@ -328,12 +410,23 @@
 	) (cddr flat-prop-no-mods)))
 	; (format t "~s~%" flat-prop-no-mods)
 
-	(setf flat-prop-no-mods (loop for e in flat-prop-no-mods append (listify-nonlists e)))
+	; (setf flat-prop-no-mods (loop for e in flat-prop-no-mods append (listify-nonlists e)))
+	;(setf flat-prop-no-mods (loop for e in flat-prop-no-mods
+		;if (canon-kind? e)
+			;append (list e)
+		;else
+			;append (listify-nonlists e)))
+	))
+
+	(setf flat-prop-no-mods (append rc-pre-args (listify-nonlists (prop-pred st)) rc-post-args))
+	(format t "		~s~%" flat-prop-no-mods)
 
 	; make a basic-level gen
 	(setf basic-flat-prop (copy-item flat-prop-no-mods))
 	(setf index-flat-prop (copy-item basic-flat-prop))
-	(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods #'lex-noun?)) do (block basic-ify
+	(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods
+		(lambda (x) (or (lex-noun? x) (canon-kind? x)))))
+			do (block basic-ify
 		(setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop))
 		(setf index-flat-prop (copy-item basic-flat-prop))
 		(if (and (not (null orig-child-name)) (loop for e in basic-flat-prop thereis (lex-verb? e)))
@@ -453,6 +546,9 @@
 
 (ldefun analyze-composites ()
 (block outer
+	(loop for match in proto-matches
+		do (register-schema match))
+
 	(setf basic-map (make-hash-table :test #'equal))
 
 	(setf comps (loop for sch in *LEARNED-SCHEMAS*
@@ -465,6 +561,8 @@
 		;(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
 		; (setf steps (schema-cleanup steps))
 		(setf new-comp (copy-item comp))
+		(setf orig-comp (copy-item new-comp))
+		(setf orig-comp-steps (section-formulas (get-section new-comp ':Steps)))
 
 		(loop for rc in rcs do (block gen-rc
 			(if (not (lex-noun? (pred-base (prop-pred rc))))
@@ -499,8 +597,56 @@
 
 		(setf new-comp (basic-schema new-comp))
 
-		(print-schema new-comp)
-		(schema-to-eng new-comp)
+		; (print-schema new-comp)
+		; (schema-to-eng new-comp)
+		(setf full-steps (section-formulas (get-section new-comp ':Steps)))
+		(setf steps (mapcar #'second (section-formulas (get-section new-comp ':Steps))))
+		(setf flat-steps (loop for st in steps
+			collect (let ((spl (prop-args-pred-mods st)))
+				(append
+					(car spl)
+					(list (stack-nest (second spl) (fourth spl)))
+					(third spl)
+				)
+			)))
+		(setf step-vars (dedupe (get-elements-pred flat-steps #'varp)))
+		(setf var-rcs (get-args-rcs step-vars new-comp))
+		(loop for var in step-vars
+			for rcs in var-rcs
+				do (setf flat-steps (replace-vals
+					var rcs flat-steps)))
+
+		; For each nested schema step with unresolved
+		; vars, expand and check for constraints on
+		; those vars inside the nested schema.
+		(loop for st in orig-comp-steps
+			for flat-step in flat-steps do (block fix-expand-vars
+			(if (null (get-schema-match-num (prop-pred (second st))))
+				(return-from fix-expand-vars))
+
+			(setf vars (dedupe (get-elements-pred (second st) #'varp)))
+			(setf nested-schema-pair
+				(expand-nested-schema st orig-comp))
+			(if (null nested-schema-pair)
+				(format t "couldn't expand ~s~%" st))
+			(setf nested-schema (apply-bindings
+				(car nested-schema-pair)
+				(second nested-schema-pair)))
+			(setf nested-schema (basic-schema nested-schema))
+
+			(setf nested-arg-rcs (get-args-rcs vars nested-schema))
+			(setf new-flat-step (copy-item flat-step))
+			(loop for var in vars
+				for rcs in nested-arg-rcs
+					do (setf new-flat-step (replace-vals
+						var rcs new-flat-step)))
+			(setf flat-steps (replace-vals
+				flat-step new-flat-step flat-steps))
+		))
+
+
+		(loop for fs in flat-steps
+			do (format t "	~s~%" fs))
 
 		;(loop for rc in rcs
 			;do (format t "~s~%" rc))

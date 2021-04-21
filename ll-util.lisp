@@ -314,6 +314,17 @@
 	)
 )
 
+(defun dupes (lst)
+	(dedupe (let ((dupe-map (make-hash-table :test #'equal)))
+		(loop for e in lst
+			if (not (null (gethash e dupe-map)))
+				collect e
+			else
+				do (setf (gethash e dupe-map) t)
+		)
+	))
+)
+
 (defun dedupe (lst)
 	(remove-duplicates lst :test #'equal)
 )
@@ -1111,3 +1122,20 @@ is replaced with replacement."
 
 	(return-from outer new-ulf-rules)
 )))
+
+(defun stack-nest (base stack &optional reverse)
+	(if (null stack)
+		; then
+		base
+		; else
+		(if reverse
+			; then
+			(list (car (last stack))
+				(stack-nest base
+					(subseq stack 0 (- (length stack) 1)) t))
+			; else
+			(list (car stack)
+				(stack-nest base (cdr stack)))
+		)
+	)
+)

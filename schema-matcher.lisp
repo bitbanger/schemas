@@ -13,6 +13,8 @@
 (ll-load "protoschemas.lisp")
 
 (defparameter *DEFAULT-SHUFFLES* 10)
+(defparameter *MAX-NUM-SCHEMAS* 10)
+(defparameter *MAX-NUM-MATCHES* 3)
 
 ; top-k-el-story-matches uses a heuristic to retrieve the
 ; K best schema candidates for an EL story, and then returns
@@ -46,6 +48,7 @@
 				(setf best-score (car best-match-res-pair))
 				(setf best-match (second best-match-res-pair))
 				(setf best-bindings (third best-match-res-pair))
+				
 
 				(if (and (schema? best-match) (not (equal '(0 0) best-score)))
 					(progn
@@ -82,6 +85,12 @@
 					for match-binding in (gethash k match-bindings)
 			collect (list match match-score match-binding))
 	))
+
+	(setf unsorted-matches (remove-duplicates unsorted-matches
+		:test (lambda (x y)
+			(schemas-about-equal?
+				(apply-bindings (car x) (third x))
+				(apply-bindings (car y) (third y))))))
 
 	(return-from outer (sort unsorted-matches
 		(lambda (a b)
@@ -169,13 +178,13 @@
 )
 
 (ldefun top-story-matches-easy-el (el-story)
-	(top-k-story-matches-from-els el-story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* 3 3 nil nil)
+	(top-k-story-matches-from-els el-story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )
 
 (ldefun top-story-matches-easy (story)
-	(top-k-story-matches story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* 3 3 nil nil)
+	(top-k-story-matches story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )
 
 (ldefun top-story-matches-easy-len (story)
-	(top-k-story-matches-len story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* 3 3 nil nil)
+	(top-k-story-matches-len story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )

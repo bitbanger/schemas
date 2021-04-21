@@ -77,6 +77,36 @@
 	(lambdify-preds-maybe-colon ps t)
 )
 
+(ldefun schemas-about-equal? (schema1 schema2)
+(block outer
+	(loop for sec in *SEC-NAMES* do (block compare-sec
+		(if (contains *META-SECS* sec)
+			(return-from compare-sec))
+
+		(setf sec1 (get-section schema1 sec))
+		(setf sec2 (get-section schema2 sec))
+
+		(setf forms1 (section-formulas sec1))
+		(setf forms2 (section-formulas sec2))
+		
+		(if (and (null forms1) (null forms2))
+			(return-from compare-sec))
+		(if (or (null forms1) (null forms2))
+			(return-from outer nil))
+
+		(if (not (equal 'FLUENT (section-type sec1)))
+			(progn
+				(setf forms1 (mapcar #'second forms1))
+				(setf forms2 (mapcar #'second forms2))))
+
+		(if (not (same-list-unordered forms1 forms2))
+			(return-from outer nil))
+	))
+
+	(return-from outer t)
+)
+)
+
 (ldefun lambdify-preds-maybe-colon-with-sym (ps colon sym)
 (let ((tmp-sym sym))
 	(list

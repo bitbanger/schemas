@@ -307,12 +307,14 @@
 
 
 (ldefun filter-arg-rcs (rcs)
-	(loop for rc in rcs
+	(let ((res (loop for rc in rcs
 		if (lex-noun? rc)
 			collect rc
 		if (and (plur? rc) (lex-noun? (second rc)))
 			collect (second rc)
-	)
+		if (canon-kind? rc)
+			collect rc
+	))) (if (null res) rcs res))
 )
 
 (ldefun basic-step (st comp basic-map rcs steps &optional orig-child-name)
@@ -611,6 +613,9 @@
 			)))
 		(setf step-vars (dedupe (get-elements-pred flat-steps #'varp)))
 		(setf var-rcs (get-args-rcs step-vars new-comp))
+		; (format t "~s~%" var-rcs)
+		(setf var-rcs (mapcar #'unwrap-singletons
+			(mapcar #'filter-arg-rcs var-rcs)))
 		(loop for var in step-vars
 			for rcs in var-rcs
 				do (setf flat-steps (replace-vals
@@ -634,7 +639,10 @@
 				(second nested-schema-pair)))
 			(setf nested-schema (basic-schema nested-schema))
 
-			(setf nested-arg-rcs (get-args-rcs vars nested-schema))
+			(setf nested-arg-rcs (mapcar #'unwrap-singletons
+				(mapcar #'filter-arg-rcs
+					(get-args-rcs vars nested-schema))))
+
 			(setf new-flat-step (copy-item flat-step))
 			(loop for var in vars
 				for rcs in nested-arg-rcs

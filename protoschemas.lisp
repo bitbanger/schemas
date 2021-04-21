@@ -633,6 +633,8 @@
 			(?e (?x ((adv-a (destination_prep.? ?l2)) travel.v)))
 			(?e (?x ((adv-a (from.p ?l1)) ((adv-a (destination_prep.? ?l2)) travel.v))))
 			(?e (?x ((adv-a (destination_prep.? ?l2)) travel.v) ?l2))
+			(?e (?x travel.v))
+			(?e (?x travel.v ?l2))
 			(?e (?x (location_adv.? travel.v)))
 		)
 
@@ -709,8 +711,8 @@
 (defparameter inform.v
 	'(epi-schema ((?x inform.v ?y ?i) ** ?e)
 		(:Paraphrases
-			(?e ((?x tell.v ?y ?i) ** ?e))
-			(?e ((?x let.v ?y (ka (know.v ?i))) ** ?e))
+			(?e (?x tell.v ?y ?i))
+			(?e (?x let.v ?y (ka (know.v ?i))))
 		)
 
 		(:Roles

@@ -22,6 +22,13 @@
 	receive.v
 ))
 
+(defparameter *DEST-PREPS* '(
+	toward.p
+	towards.p
+	to.p
+	for.p
+))
+
 (defparameter *ENJOY-PREDS* '(
 	like.v
 	enjoy.v
@@ -33,6 +40,10 @@
 		receiving_verb.?
 		,*RECEIVING-PREDS*
 	)
+	(
+		destination_prep.?
+		,*DEST-PREPS*
+	)
 	;(
 	;	movement_verb.v
 	;	,*MOVEMENT-PREDS*
@@ -41,7 +52,46 @@
 		enjoy_verb.?
 		,*ENJOY-PREDS*
 	)
+	(
+		location_adv.?
+		location-adv?
+	)
 )))
+
+(ldefun get-subsumption-categories (pred)
+	(loop for k being the hash-keys of *SUBSUMPTION-CATEGORIES*
+		if (listp (gethash k *SUBSUMPTION-CATEGORIES*))
+			if (contains (gethash k *SUBSUMPTION-CATEGORIES*) pred)
+				collect k
+		if (and (symbolp (gethash k *SUBSUMPTION-CATEGORIES*)) (fboundp (gethash k *SUBSUMPTION-CATEGORIES*)))
+			if (funcall (gethash k *SUBSUMPTION-CATEGORIES*) pred)
+				collect k
+	)
+)
+
+(ldefun is-category? (pred cat-name)
+(block outer
+	(setf cat (gethash cat-name *SUBSUMPTION-CATEGORIES*))
+	(if (null cat)
+		(return-from outer nil))
+
+	(if (listp cat)
+		(return-from outer (contains cat pred)))
+
+	(if (and (symbolp cat) (fboundp cat))
+		(return-from outer (funcall cat pred)))
+
+	(return-from outer nil)
+)
+)
+
+(ldefun location-adv? (adv)
+(and
+	(symbolp adv)
+	(subsumes 'LOCATION.N
+		(retag-as adv 'N))
+)
+)
 
 (defparameter *SPECIAL-SUBSUMPTIONS* (mk-hashtable '(
 	((AGENT.N ANIMAL.N) t) ; animals are causal agents
@@ -142,11 +192,19 @@
 	; (or for free if both)
 
 	(loop for k being the hash-keys of *SUBSUMPTION-CATEGORIES* do (block cat
-		(if (and (equal schema-pred k)
-				(not (null (member story-pred (gethash k *SUBSUMPTION-CATEGORIES*) :test #'equal))))
-			; then
-			(return-from outer 0.9)
-		)
+		(if (not (equal schema-pred k))
+			(return-from cat))
+
+		(setf category (gethash k *SUBSUMPTION-CATEGORIES*))
+
+		(if (listp category)
+			(if (contains category story-pred)
+				(return-from outer 0.9)))
+
+		(if (and (symbolp category) (fboundp category))
+			(if (funcall category story-pred)
+				(return-from outer 0.9)))
+
 	))
 
 	; Check explicit special cases
@@ -246,11 +304,12 @@
 	(setf closest-ancestor-len -1)
 
 	; First, check whether they're in the same "class".
-	(loop for k being the hash-keys of *SUBSUMPTION-CATEGORIES*
-		if (let ((cat (gethash k *SUBSUMPTION-CATEGORIES*)))
-			(and (contains cat pred1) (contains cat pred2)))
-		; then
-		do (return-from outer k)
+	(setf shared-categories (intersection
+		(get-subsumption-categories pred1)
+		(get-subsumption-categories pred2)
+		:test #'equal))
+	(if (not (null shared-categories))
+		(return-from outer (car shared-categories))
 	)
 
 	; Next, check the WordNet hypernym ladders.

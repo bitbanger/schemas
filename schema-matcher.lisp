@@ -9,6 +9,7 @@
 (ll-load "schema-link.lisp")
 (ll-load "schema-util.lisp")
 (ll-load "schema-match.lisp")
+(ll-load "schema-postprocess.lisp")
 (ll-load "protoschemas.lisp")
 
 (defparameter *DEFAULT-SHUFFLES* 10)
@@ -127,6 +128,7 @@
 		do (setf matchcnt (+ 1 matchcnt))
 		do (block vet-matches
 			(setf m (car m-pair))
+			(setf m (postprocess-schema m))
 			(setf score (second m-pair))
 			(setf binds (third m-pair))
 			(setf bound-m (apply-bindings m binds))

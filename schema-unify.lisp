@@ -243,9 +243,17 @@
 				; then
 				(return-from outer bindings)
 				; else
-				(progn
-				(dbg 'unify "predicate modifiers ~s and ~s cannot be unified (neither is a list, and they aren't equal)~%" schema story)
-				(return-from outer nil)
+				(if (and (lex-metapred? schema) (is-category? story schema))
+					; then
+					(progn
+						(setf (gethash schema bindings) story)
+						(return-from outer bindings)
+					)
+					; else
+					(progn
+					(dbg 'unify "predicate modifiers ~s and ~s cannot be unified (neither is a list, and they aren't equal)~%" schema story)
+					(return-from outer nil)
+					)
 				)
 			)
 			; else
@@ -655,13 +663,13 @@
 		))
 	))
 
-	;(if (< unified-mods (length schema-mods))
+	(if (< unified-mods (length schema-mods))
 		; then
-	;	(progn
-	;	(dbg 'unify "modifier lists cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%")
-	;	(return-from outer (list nil bindings))
-	;	)
-	;)
+		(progn
+		(dbg 'unify "modifier lists cannot be unified (not all predicate modifiers in the former can be unified to any in the latter)~%")
+		(return-from outer (list nil nil))
+		)
+	)
 
 	(setf bindings tmp-bindings)
 	(return-from outer (list bound bindings))

@@ -1115,6 +1115,17 @@
 	(second (mapped-generalize-schema-constants schema))
 )
 
+(ldefun next-safe-cursor (schema)
+(block outer
+	(setf gen-cursor "?X_A")
+
+	(loop while (has-element schema (intern gen-cursor))
+		do (setf gen-cursor (next-str gen-cursor)))
+
+	(return-from outer (intern gen-cursor))
+)
+)
+
 (ldefun mapped-generalize-schema-constants (in-schema)
 (block outer
 	(setf gen-cursor "?X_A")

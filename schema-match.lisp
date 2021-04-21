@@ -614,7 +614,7 @@
 							(car prop-breakdown)
 							(second prop-breakdown)
 							(third prop-breakdown)
-							(append (fourth prop-breakdown) unbound-prop-mods)
+							(dedupe (append (fourth prop-breakdown) unbound-prop-mods))
 						))
 
 						(setf go-match-schema (replace-vals matched-prop new-prop go-match-schema))

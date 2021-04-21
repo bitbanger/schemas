@@ -22,6 +22,14 @@ indfile = wn.open('index.sense')
 
 sense_num_cache = dict()
 
+manual_basics = {
+	'person.n': 'agent.n',
+	'location.n': 'location.n',
+	'food.n': 'food.n',
+	'act.n': 'act.n',
+	'animal.n': 'animal.n'
+}
+
 def lemma_sense_num(lemma):
 	#if lemma in sense_num_cache:
 		#return sense_num_cache[lemma]
@@ -191,7 +199,9 @@ noun_blcs = dict()
 for lhs in new_lhs_words:
 	if denum_str(lhs) != ".":
 		noun_blcs[denum_str(lhs)] = denum_str(old_noun_blcs[lhs])
-	
+
+for k in manual_basics:
+	noun_blcs[k] = manual_basics[k]
 
 
 for line in open(blc_verb_file, 'r'):

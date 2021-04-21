@@ -330,6 +330,13 @@
 			(!r3 (?o smaller-than.n ?x))
 			(!r4 (?l1 location.n))
 			(!r5 (?l2 location.n))
+			(!r6 (?l2 destination.n))
+		)
+
+		(:Paraphrases
+			(?e (?x ((adv-a (to.p ?l2)) take.v) ?o))
+			(?e (?x ((adv-a (to.p ?l2)) carry.v) ?o))
+			(?e (?x ((adv-a (to.p ?l2)) bring.v) ?o))
 		)
 
 		(:Necessities
@@ -432,6 +439,10 @@
 			(!r1 (?x agent.n))
 			(!r2 (?lx location.n))
 			(!r3 (?lo location.n))
+		)
+
+		(:Paraphrases
+			(?e (?x ((adv-a (for.p ?o)) look.v)))
 		)
 
 		(:Preconds
@@ -615,11 +626,14 @@
 			(!r2 (?l1 location.n))
 			(!r3 (?l2 location.n))
 			(!r4 (not (?l1 = ?l2)))
+			(!r5 (?l2 destination.n))
 		)
 
 		(:Paraphrases
-			(?e (?x ((adv-a (for.p ?l2)) ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v))) ?l2))
-			(?e (?x ((adv-a (for.p ?l2)) ((adv-a (from.p ?l1)) ((adv-a (to.p ?l2)) travel.v)))))
+			(?e (?x ((adv-a (destination_prep.? ?l2)) travel.v)))
+			(?e (?x ((adv-a (from.p ?l1)) ((adv-a (destination_prep.? ?l2)) travel.v))))
+			(?e (?x ((adv-a (destination_prep.? ?l2)) travel.v) ?l2))
+			(?e (?x (location_adv.? travel.v)))
 		)
 
 		(:Necessities
@@ -663,6 +677,12 @@
 			(!r3 (?a action.n))
 		)
 
+		(:Paraphrases
+			(?e (?x (ask.v ?y ?a)))
+			(?e (?x (tell.v ?y ?a)))
+			(?e (?x (make.v ?y ?a)))
+		)
+
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
 			(!n2 (!r2 necessary-to-degree 1.0))
@@ -697,6 +717,11 @@
 			(!r1 (?x agent.n))
 			(!r2 (?y agent.n))
 			(!r3 (?i information.n)) ; TODO: add any "that"-reified prop as information.n in prop eval?
+			(!r4 (not (?i action.n)))
+		)
+
+		(:Necessities
+			(!n1 (!r4 necessary-to-degree 1.0))
 		)
 
 		(:Goals

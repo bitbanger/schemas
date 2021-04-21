@@ -284,7 +284,8 @@
 			for rc-arg in (append rc-pre-args rc-post-args)
 				do (setf (gethash orig-arg arg-to-rc-map) orig-arg))
 
-	(setf rc-mods (list (car (prop-mods st))))
+	; (setf rc-mods (list (car (prop-mods st))))
+	(setf rc-mods (prop-mods st))
 	(if (equal rc-mods (list nil))
 		(setf rc-mods nil))
 	; (loop for orig-arg in (prop-all-args st)
@@ -307,7 +308,7 @@
 	(if (canon-prop? prop-with-rc-args) (progn
 		(setf flat-prop
 		(if (not (null (prop-mods prop-with-rc-args)))
-			(append (prop-pre-args prop-with-rc-args) (list (list (car (prop-mods prop-with-rc-args)) (prop-pred prop-with-rc-args))) (prop-post-args prop-with-rc-args))
+			(append (prop-pre-args prop-with-rc-args) (list (prop-mods prop-with-rc-args) (prop-pred prop-with-rc-args)) (prop-post-args prop-with-rc-args))
 		; else
 			(append (prop-pre-args prop-with-rc-args) (list (prop-pred prop-with-rc-args)) (prop-post-args prop-with-rc-args))
 		)
@@ -362,6 +363,31 @@
 )
 )
 
+(ldefun basic-schema (schema)
+(block outer
+	(setf new-schema (copy-item schema))
+
+	(setf rcs (mapcar #'second (section-formulas (get-section schema ':Roles))))
+	(setf steps (mapcar #'second (section-formulas (get-section schema ':Steps))))
+
+	(loop for rc in rcs do (block basic-rc
+		(if (not (lex-noun? (prop-pred rc)))
+			(return-from basic-rc))
+
+		(setf new-schema (replace-vals
+			rc
+			(replace-vals
+				(prop-pred rc)
+				(basic-level (prop-pred rc))
+				rc)
+			new-schema))
+	))
+
+
+	(return-from outer new-schema)
+)
+)
+
 (ldefun clean-roles (schema)
 (block outer
 	(setf bad-preds '(PERTAIN-TO ORIENTS IMPINGES-ON))
@@ -390,7 +416,8 @@
 					(prop-pre-args st)
 					(prop-pred st)
 					(prop-post-args st)
-					(list (car (prop-mods st))))
+					; (list (car (prop-mods st))))
+					(prop-mods st))
 				new-schema)))
 
 	(return-from outer new-schema)
@@ -469,6 +496,8 @@
 						; ...equal formulas
 						(equal (second x) (second y))))))
 			new-comp))
+
+		(setf new-comp (basic-schema new-comp))
 
 		(print-schema new-comp)
 		(schema-to-eng new-comp)

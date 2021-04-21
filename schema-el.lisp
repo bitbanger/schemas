@@ -225,6 +225,7 @@
 	(lex-adv? x)
 	(lex-attr-pred? x)
 	(lex-modal? x)
+	(lex-metapred? x)
 	(equal x 'BE.PASV)
 	(equal x 'PLUR)
 

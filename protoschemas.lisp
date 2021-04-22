@@ -19,6 +19,7 @@
 	request_action.v
 	watch.v
 	enjoy_action.v
+	transport_object.v
 ))
 
 (defparameter enjoy_action.v
@@ -317,11 +318,10 @@
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time ?e))
-			(!w2 (?i1 precond-of ?e))
-			(!w3 (?i2 precond-of ?e))
-			(!w4 (?i3 precond-of ?e))
-			(!w5 (?p1 postcond-of ?e))
+			(!w1 (?i1 precond-of ?e))
+			(!w2 (?i2 precond-of ?e))
+			(!w3 (?i3 precond-of ?e))
+			(!w4 (?p1 postcond-of ?e))
 		)
 	)
 )
@@ -341,6 +341,9 @@
 			(?e (?x ((adv-a (to.p ?l2)) take.v) ?o))
 			(?e (?x ((adv-a (to.p ?l2)) carry.v) ?o))
 			(?e (?x ((adv-a (to.p ?l2)) bring.v) ?o))
+			(?e (?x (location_adv.? take.v) ?o))
+			(?e (?x (location_adv.? carry.v) ?o))
+			(?e (?x (location_adv.? bring.v) ?o))
 		)
 
 		(:Necessities
@@ -355,18 +358,13 @@
 			(?i1 (?o ((adv-a (at.p ?l1)) be.v)))
 		)
 
-		(:Steps
-			(?e1 (?x (((adv-a (to.p ?l2)) ((adv-a (from.p ?l1)) take.v)) ?o)))
-		)
-
 		(:Postconds
 			(?p1 (?o ((adv-a (at.p ?l2)) be.v)))
 		)
 
 		(:Episode-relations
-			(!w1 (?e1 same-time ?e))
-			(!w2 (?i1 precond-of ?e))
-			(!w3 (?p1 postcond-of ?e))
+			(!w1 (?i1 precond-of ?e))
+			(!w2 (?p1 postcond-of ?e))
 		)
 	)
 )
@@ -613,10 +611,6 @@
 
 		(:Postconds
 			(?p1 (?x experience.v (k pleasure.n)))
-		)
-
-		(:Episode-relations
-			(!w1 (?e1 same-time ?e2))
 		)
 	)
 )

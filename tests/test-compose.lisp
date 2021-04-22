@@ -17,6 +17,7 @@
 (defparameter *NUM-DEV-STORIES* (length *ROC-MCGUFFEY*))
 
 (defparameter *HANDLE-ERRORS* t)
+(defparameter *PRINT-TRACES* t)
 
 ;(dbg-tag 'match)
 ;(dbg-tag 'unify)
@@ -41,6 +42,7 @@
 	; "I was walking through the woods."
 	; "Three birds are in the tree."
 	; "The woman kissed a man."
+	; "It was snowing outside Tom's house one day."
 	nil
 )
 (setf stories-processed 0)
@@ -66,12 +68,18 @@
 		do
 			(if *HANDLE-ERRORS*
 				; then
-				(handler-case
+				;(handler-case
+				(handler-case (handler-bind ((error (lambda (c) (if *PRINT-TRACES* (sb-debug:backtrace) nil))))
 				(progn
 					(if (equal story-start-line (car roc-story))
 						(setf first-story-hit t))
 					(process-one-story roc-story)
-				) (error () (format t "error composing story schemas~%")))
+				)
+				) (error () (format nil "~%")))
+				;) (error ()
+					;(format t "error composing story schemas~%")
+					;(format t "~s~%" (sb-debug:list-backtrace))
+				;))
 				; else
 				(progn
 					(if (equal story-start-line (car roc-story))

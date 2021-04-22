@@ -18,8 +18,8 @@
 
 (defparameter *HANDLE-ERRORS* t)
 
-; (dbg-tag 'match)
-; (dbg-tag 'unify)
+;(dbg-tag 'match)
+;(dbg-tag 'unify)
 
 ; Optionally only process the story with this
 ; start line.

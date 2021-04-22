@@ -223,12 +223,6 @@
 	; (format t "bindings are now2 ~s~%" (ht-to-str bindings))
 	; (dbg 'unify "packaged schema pred: ~s~%" packaged-schema-pred)
 	; (if (not (unify-preds packaged-schema-pred packaged-story-pred bindings))
-	(if (equal story '(TOM.NAME (MAKE.V SNOWMAN11.SK)))
-		; (dbg 'tom "trying to unify ~s with ~s~%" story schema)
-		(if (equal (prop-pred schema) 'MAKE.V)
-			(dbg 'tom2 "trying to unify ~s with ~s~%" story schema)
-		)
-	)
 	(if (null bindings)
 		; then
 		(progn
@@ -495,12 +489,17 @@
 				(block sub
 					; (if (varp story)
 						; (format t "bound schema var ~s to story var ~s~%" schema story))
+					(dbg 'unify "BOUND ~s TO ~s~%" schema story)
+					(dbg 'unify "bindings: ~s~%" (ht-to-str bindings))
 					(return-from outer bindings)
 				)
 				; else
 				(if (equal (gethash schema bindings) story)
 					; then
-					(return-from outer bindings)
+					(progn
+						(dbg 'unify "BOUND2 ~s TO ~s~%" schema story)
+						(return-from outer bindings)
+					)
 					; else
 					(progn
 					(dbg 'unify "cannot bind var ~s to formula ~s; already bound to ~s~%" schema story (gethash schema bindings))
@@ -582,16 +581,19 @@
 	; or prop arguments, so we'll dispatch those out
 	; here.
 	(if (and (canon-pred? schema) (canon-pred? story))
-		(return-from outer (unify-preds schema story
-			old-bindings whole-schema whole-story)))
+		(progn (format t "predding ~s and ~s~%" schema story) (return-from outer (unify-preds schema story
+			(ht-copy old-bindings) whole-schema whole-story))))
 	(if (and (canon-prop? schema) (canon-prop? story))
-		(return-from outer (unify-props schema story
-			old-bindings whole-schema whole-story)))
+		(progn (format t "propping ~s and ~s~%" schema story) (return-from outer (unify-props schema story
+			(ht-copy old-bindings) whole-schema whole-story))))
 
 	(setf res (unchecked-unify-individuals schema story old-bindings whole-schema whole-story))
 
 	(if (null res)
-		(return-from outer res)
+		(progn
+			(dbg 'unify "could not unify ~s and ~s~%" schema story)
+			(return-from outer res)
+		)
 	)
 
 	; Apply the new bindings to the schema and check
@@ -602,7 +604,7 @@
 			(setf bound-schema (apply-bindings whole-schema res))
 			(if (not (schema? bound-schema))
 				(progn
-					(format t "bindings ~s fucked up this schema: ~%" (ht-to-str res))
+					(format t "bindings ~s messed up this schema: ~%" (ht-to-str res))
 					(print-schema whole-schema)
 					(format t "char-forms for ~s are ~s~%" '?G1 (get-schema-ep-var-chars whole-schema '?G1))
 				)
@@ -610,7 +612,7 @@
 			(setf post-bind-score (check-constraints bound-schema (list whole-story)))
 			(if (null post-bind-score)
 				(progn
-					; (format t "abandoning binding; unifying ~s and ~s breaks constraints of ~s~%" schema story (second whole-schema))
+					(dbg 'unify "abandoning binding; unifying ~s and ~s breaks constraints of ~s~%" schema story (second whole-schema))
 					(return-from outer nil)
 				)
 			)
@@ -906,7 +908,9 @@ bind-pred
 					(return-from uargs)
 				)
 
+				(dbg 'unify "trying to bind args ~s and ~s in map ~s~%" schema-arg story-arg (ht-to-str tmp-bindings))
 				(setf tmp-bindings2 (unify-individuals schema-arg story-arg tmp-bindings whole-schema whole-story))
+				(dbg 'unify "result was ~s~%" (ht-to-str tmp-bindings2))
 				(if (null tmp-bindings2)
 					; then
 					(progn

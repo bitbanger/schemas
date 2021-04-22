@@ -255,11 +255,15 @@
 )
 
 (defparameter give.v
-	'(epi-schema ((?x ((adv-a (to.p ?y)) give.v) ?y ?o) ** ?e)
+	'(epi-schema ((?x (give.v ?y ?o)) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (not (?o agent.n)))
 			(!r3 (?y agent.n))
+		)
+
+		(:Paraphrases
+			(?e (?x ((adv-a (to.p ?y)) (give.v ?o))))
 		)
 
 		(:Necessities

@@ -43,29 +43,23 @@
 	; first, check whether phi unifies with the schema's header
 	(if allow-header-match
 	(block check-header
-		;(let ((*UNIFY-SHOULD-CHECK-CONSTRAINTS* nil))
 			(setf new-bindings (unify (car (second schema)) phi nil schema story))
 
-		(if (and (not (null new-bindings)) (canon-charstar? phi))
-			; then
-			(progn
-				; (setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
-
-			; Don't use unify-individuals to bind the
-			; episodes, since we've already confirmed
-			; that the characterizing formulas do unify.
-			; We'll just try to manually bind them.
-
-			;(if (null bindings-with-ep-ids)
-			(if (not (bind-if-unbound (third (second schema))
-				(third phi) new-bindings))
+			(if (and (not (null new-bindings)) (canon-charstar? phi))
 				; then
 				(progn
-				(dbg 'match "~s already bound; cannot bind!~%" (third (second schema)))
-				(return-from check-header)
+					(setf bindings-with-ep-ids (unify-individuals (third (second schema)) (third phi) new-bindings schema story))
+
+					(if (null bindings-with-ep-ids)
+						; then
+						(progn
+						(dbg 'match "~s already bound; cannot bind!~%" (third (second schema)))
+						(return-from check-header)
+						)
+						; else
+						(setf new-bindings bindings-with-ep-ids)
+					)
 				)
-				; else
-				;(setf new-bindings bindings-with-ep-ids)
 			)
 
 			(if (null new-bindings)
@@ -76,8 +70,6 @@
 				(return-from outer (list (car (second schema)) phi new-bindings 1.0))
 				)
 			)
-			)
-		)
 	)
 	)
 
@@ -232,8 +224,11 @@
 	; Match each formula, one by one.
 	(loop for phi in sorted-formulas
 		do (block uni-loop
+		; (format t "old bindings: ~s~%" (ht-to-str all-bindings))
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
 		(if (null fm-res) (return-from uni-loop))
+
+		; (format t "matched ~s to get new bindings ~s~%" phi (ht-to-str all-bindings))
 
 		(setf test-schema (car fm-res))
 		(setf all-bindings (second fm-res))
@@ -263,6 +258,7 @@
 		(block replace-schema-name
 			; If we match a more specific predicate from the story
 			; to a more general one in the schema, we'll replace the name
+			; TODO: deal with paraphrases? Do we have to?
 			(setf old-name (prop-pred (car (second in-schema))))
 			(setf new-name (prop-pred header-bound-form))
 			(setf test-schema (replace-vals old-name new-name test-schema))
@@ -289,6 +285,7 @@
 		(if (not (has-lst-prefix? match-rcs orig-rcs))
 			; then
 			(progn
+				(format t "bindings are ~s~%" (ht-to-str all-bindings))
 				(format t "WARNING: schema constraints ~s weren't a prefix of match constraints ~s - why did some get erased?~%" orig-rcs match-rcs)
 				(return-from generalize-new-constraints)
 			)
@@ -1017,7 +1014,7 @@
 
 		(if (and (schema? cur-match-old-constrs) (not (schema? (apply-bindings cur-match-old-constrs cur-bindings))))
 			(progn
-				(format t "bindings ~s fucked up this schema: ~%" (ht-to-str cur-bindings))
+				(format t "bindings ~s messed up this schema: ~%" (ht-to-str cur-bindings))
 				(print-schema cur-match-old-constrs)
 			)
 		)

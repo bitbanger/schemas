@@ -249,6 +249,12 @@
 					I.PRO
 					ME.PRO
 					YOU.PRO
+					HIM.PRO
+					HER.PRO
+					THEY.PRO
+					THEM.PRO
+					WE.PRO
+					US.PRO
 				) :test #'equal)
 			))
 			(if (equal pred 'AGENT.N)

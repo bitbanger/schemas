@@ -22,7 +22,8 @@
 	; (format t "trying to unify ~s with ~s~%" (list (second invoker) '** (car invoker)) invoked-schema)
 	(setf old-uscc *UNIFY-SHOULD-CHECK-CONSTRAINTS*)
 	(setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* nil)
-	(setf header-bindings (third (unify-with-schema (list (second invoker) '** (car invoker)) invoked-schema nil)))
+	(setf starred-invoker (list (second invoker) '** (car invoker)))
+	(setf header-bindings (third (unify-with-schema starred-invoker invoked-schema (list starred-invoker))))
 	(setf *UNIFY-SHOULD-CHECK-CONSTRAINTS* old-uscc)
 	; NOTE: the following "WEIRD BUG" can happen because wordnet, especially without
 	; sense numbers, gives weird invoke relations for words that fit different schemas

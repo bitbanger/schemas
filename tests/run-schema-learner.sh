@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATE=apr-22
+DATE=apr-22-round2
 
 mkdir $DATE-output
 sbcl --dynamic-space-size 10240 --script test-compose.lisp 0 30 | tee $DATE-output/$DATE-mtg-0.txt

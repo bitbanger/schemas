@@ -12,9 +12,9 @@
 (ll-load "schema-postprocess.lisp")
 (ll-load "protoschemas.lisp")
 
-(defparameter *DEFAULT-SHUFFLES* 10)
-(defparameter *MAX-NUM-SCHEMAS* 10)
-(defparameter *MAX-NUM-MATCHES* 3)
+(defparameter *DEFAULT-SHUFFLES* 5)
+(defparameter *MAX-NUM-SCHEMAS* 5)
+(defparameter *MAX-NUM-MATCHES* 2)
 
 ; top-k-el-story-matches uses a heuristic to retrieve the
 ; K best schema candidates for an EL story, and then returns

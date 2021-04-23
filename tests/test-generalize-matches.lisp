@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "mtg-apr-21-schemas.lisp")
+(load "round2.lisp")
 (load "../ll-load.lisp")
 
 (ll-load-superdir "protoschemas.lisp")
@@ -104,7 +104,19 @@
 )
 
 (defun get-arg-rcs (arg schema)
-	(if (canon-kind? arg) (list arg) (let ((result (loop for rc in
+	(if (canon-kind? arg)
+		(if (equal 'K (car arg))
+			; then
+			(list (second arg))
+			; else
+			(list arg)
+		)
+		; else
+		(if (mp arg (list 'lex-det? 'lex-noun?))
+		; then
+		(list (second arg))
+		; else
+		(let ((result (loop for rc in
 		(section-formulas (get-section schema ':Roles))
 		if (equal (car (second rc)) arg)
 			collect (unwrap-singletons (cdr (second rc))))))
@@ -113,7 +125,7 @@
 		; (if (null result) (format t "couldn't find RC for ~s in ~s~%" arg (loop for rc in (section-formulas (get-section schema ':Roles)) collect (car (second rc)))))
 		; (if (null result) nil result)
 		(if (null result) (list arg) result)
-		)))
+		))))
 )
 
 (defun get-args-rcs (args schema)
@@ -307,14 +319,14 @@
 
 
 (ldefun filter-arg-rcs (rcs)
-	(let ((res (loop for rc in rcs
+	(dedupe (let ((res (loop for rc in rcs
 		if (lex-noun? rc)
 			collect rc
 		if (and (plur? rc) (lex-noun? (second rc)))
 			collect (second rc)
 		if (canon-kind? rc)
 			collect rc
-	))) (if (null res) rcs res))
+	))) (if (null res) rcs res)))
 )
 
 (ldefun basic-step (st comp basic-map rcs steps &optional orig-child-name)
@@ -368,6 +380,22 @@
 
 	; (setf rc-mods (list (car (prop-mods st))))
 	(setf rc-mods (prop-mods st))
+	(setf mod-vars (dedupe (get-elements-pred rc-mods #'varp)))
+	(setf mod-var-rcs (get-args-rcs mod-vars comp))
+	(loop for mod-var in mod-vars
+			for mod-var-rcs in mod-var-rcs
+			do (block annotate-mod-args
+				(setf mod-rcs (loop for elem in mod-var-rcs
+					if (lex-noun? elem)
+						collect elem
+					if (and (plur? elem) (lex-noun? (second elem)))
+						collect (second elem)))
+
+				(if (not (null mod-rcs))
+					(setf rc-mods (replace-vals mod-var mod-rcs rc-mods)))
+			)
+	)
+
 	(if (equal rc-mods (list nil))
 		(setf rc-mods nil))
 	; (loop for orig-arg in (prop-all-args st)
@@ -378,12 +406,17 @@
 				do (setf rc-mods (replace-vals orig-var (get-filtered-arg-rcs orig-var comp) rc-mods))
 	)
 
-	(setf prop-with-rc-args (render-prop
+	;(setf prop-with-rc-args (render-prop
+		;rc-pre-args
+		;(prop-pred st)
+		;rc-post-args
+		;rc-mods
+	;))
+	
+	(setf prop-with-rc-args (append
 		rc-pre-args
-		(prop-pred st)
-		rc-post-args
-		rc-mods
-	))
+		(listify-nonlists (stack-nest (prop-pred st) rc-mods))
+		rc-post-args))
 
 	(setf flat-prop prop-with-rc-args)
 
@@ -421,7 +454,7 @@
 	))
 
 	(setf flat-prop-no-mods (append rc-pre-args (listify-nonlists (prop-pred st)) rc-post-args))
-	(format t "		~s~%" flat-prop-no-mods)
+	; (format t "		~s~%" flat-prop-no-mods)
 
 	; make a basic-level gen
 	(setf basic-flat-prop (copy-item flat-prop-no-mods))
@@ -633,7 +666,8 @@
 			(setf nested-schema-pair
 				(expand-nested-schema st orig-comp))
 			(if (null nested-schema-pair)
-				(format t "couldn't expand ~s~%" st))
+				(format t "; couldn't expand ~s~%" st))
+			(return-from fix-expand-vars)
 			(setf nested-schema (apply-bindings
 				(car nested-schema-pair)
 				(second nested-schema-pair)))
@@ -682,6 +716,10 @@
 )
 )
 
+(ldefun strictly-subsumes (a b)
+	(and (not (equal a b)) (subsumes a b))
+)
+
 (defun analyze-protos ()
 (block outer
 	(setf basic-map (make-hash-table :test #'equal))
@@ -698,6 +736,8 @@
 	; headers for the generalization tree display
 	(loop for match in proto-matches
 		do (register-schema match))
+
+	(setf all-arrows (list))
 
 	(loop for basic being the hash-keys of basic-map
 		; if (> (length (gethash basic basic-map)) 1)
@@ -726,7 +766,79 @@
 				;(return-from print-basic)
 			;)
 
-			(format t "~s~%" basic)
+			; (setf gen-graph-map (make-hash-table :test #'equal))
+			(setf arrows (list))
+			(loop for spec in (gethash basic basic-map)
+				do (progn
+					(setf spec-mods (loop for e in spec
+						if (and (listp e) (equal 'ADV-A (car e)))
+							collect (second e)
+						if (and (symbolp e) (has-suffix? (string e) "ADV-A"))
+							collect e
+						if (and (symbolp e) (has-suffix? (string e) "ADV"))
+							collect e))
+					(setf spec (loop for e in spec
+					if (and
+							(not (and (listp e) (equal 'ADV-A (car e))))
+							(not (and (symbolp e) (has-suffix? (string e) "ADV-A")))
+							(not (and (symbolp e) (has-suffix? (string e) "ADV")))) collect e))
+					(setf spec (append spec spec-mods))
+
+					(setf spec-ks (get-elements-pred spec (lambda (x) (and (canon-kind? x) (equal (car x) 'K)))))
+					(loop for spec-k in spec-ks
+						do (setf spec (replace-vals spec-k (second spec-k) spec)))
+
+					(setf spec-kas (get-elements-pred spec #'canon-ka?))
+					(loop for spec-ka in spec-kas
+						do (setf spec (replace-vals spec-ka (list 'TO (second spec-ka)) spec)))
+
+					(setf spec-match-verbs (dedupe (get-elements-pred spec
+						(lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x))))))))
+					(loop for smv in spec-match-verbs
+						do (setf spec (replace-vals smv (get-schema-match-name smv) spec)))
+					; (setf spec (flatten spec))
+
+				(if (not (contains arrows (list basic spec)))
+					(setf arrows (append arrows
+						(list (list basic spec))))
+				)
+				)
+			)
+
+			; (format t "~s~%" basic)
+			(loop for basic2 being the hash-keys of basic-map do (block print-subsumed-basics
+				(if (equal basic basic2)
+					(return-from print-subsumed-basics))
+
+				(if (not (subsumes (second basic) (second basic2)))
+					(return-from print-subsumed-basics))
+
+				(handler-case 
+				(if (and
+						(equal (length basic) (length basic2))
+						(loop for elem1 in basic
+							for elem2 in basic2
+								thereis (strictly-subsumes elem1 elem2))
+						(loop for elem1 in basic
+							for elem2 in basic2
+								always (subsumes elem1 elem2))
+						(loop for elem1 in basic
+							for elem2 in basic2
+								never (strictly-subsumes elem2 elem1)))
+					; then
+					(progn
+					(setf arrows (append arrows (list (list basic basic2))))
+					)
+				)
+				(error () nil))
+			))
+
+			(setf all-arrows (dedupe (append all-arrows arrows)))
+			; (setf arrows (min-graph arrows))
+
+			
+
+			(return-from print-basic)
 
 			; Now break the specs down by predicate
 			(setf specs-by-pred (make-hash-table :test #'equal))
@@ -757,10 +869,29 @@
 				;do (format t "	~s~%" spec))
 		)
 	)
+
+		(setf all-arrows (min-graph all-arrows))
+
+		(setf graph-map (mk-hashtable all-arrows t))
+		(setf all-nodes (dedupe (loop for arr in all-arrows append arr)))
+		(setf roots (loop for node in all-nodes
+			if (loop for arr in all-arrows
+					never (equal node (second arr)))
+						collect node))
+
+		(loop for root-sch in roots do (block print-tree
+			(if (<= (length (get-descendants root-sch all-arrows)) 1)
+				(return-from print-tree))
+
+			(print-dfs root-sch graph-map)
+			(format t "~%~%")
+		))
+		; (format t "~s~%" all-arrows)
+		; (setf graph-map (mk-hashtable all-arrows))
 )
 )
 
 (run-proto-match-collector)
-; (analyze-protos)
-(analyze-composites)
+(analyze-protos)
+; (analyze-composites)
 

@@ -98,7 +98,8 @@
 			(setf modded-preds (get-elements-pred new-schema (lambda (x) (and (listp x) (canon-pred? x) (has-element x place-mod)))))
 			(loop for mp in modded-preds
 				do (setf new-schema (replace-vals mp
-					(unwrap-singletons (rec-remove mp place-mod))
+					(unwrap-singletons
+						(mapcar #'unwrap-singletons (rec-remove mp place-mod)))
 					new-schema))
 			)
 		)

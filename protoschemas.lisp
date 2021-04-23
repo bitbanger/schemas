@@ -445,6 +445,7 @@
 
 		(:Paraphrases
 			(?e (?x ((adv-a (for.p ?o)) look.v)))
+			(?e (?x search.v))
 		)
 
 		(:Preconds

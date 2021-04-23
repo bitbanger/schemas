@@ -160,6 +160,11 @@
 	(> (eval-prop-score prop kb) 0)
 )
 
+; Evaluate whether a proposition is true given no knowledge base
+(ldefun eval-single-prop (prop)
+	(> (eval-prop-score prop *KB*) 0)
+)
+
 (ldefun eval-prop-score (prop kb)
 (let (arg)
 (block outer

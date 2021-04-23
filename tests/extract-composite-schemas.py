@@ -8,7 +8,7 @@ comp_num = 0
 
 verb_nums = defaultdict(lambda: 1)
 
-fn_fmt_str = 'apr-22-mtg-%d.txt'
+fn_fmt_str = 'apr-22-round2-output/apr-22-round2-mtg-%d.txt'
 
 schema_name_remap = dict()
 
@@ -20,13 +20,26 @@ def extract_schemas(fn, eng_taken):
 	taken = []
 
 	with open(fn, 'r') as f:
-		lines = [x.strip('\n') for x in f.readlines()]
+		raw_lines = [x.strip('\n') for x in f.readlines()]
 
+		lines = []
+		skipping_weirdness = False
+		for rl in raw_lines:
+			if skipping_weirdness:
+				if 'serial ones' in rl:
+					skipping_weirdness = False
+					continue
+			if 'WEIRDNESS' in rl:
+				skipping_weirdness = True
+				continue
+
+			lines.append(rl)
 
 		taken_buf = []
 		eng_taken_buf = []
 		taking = False
 		eng_taking = False
+
 
 		skip_iter = False
 		for i in range(0, len(lines)):
@@ -136,24 +149,29 @@ print("(defparameter *LEARNED-SCHEMAS* '(")
 total_stories = 0
 eng_idx = 0
 for schema in taken:
-	is_composite = False
-	print('(')
-	for line in schema:
-		if 'COMPOSITE' in line:
-			is_composite = True
-			total_stories += 1
-		print('\t' + line)
+	buf = []
+	try:
+		is_composite = False
+		buf.append('(')
+		for line in schema:
+			if 'COMPOSITE' in line:
+				is_composite = True
+				total_stories += 1
+			buf.append('\t' + line)
 
-	if is_composite:
-		print('\t(')
-		for line in eng_taken[eng_idx]:
-			print('\t\t' + line)
-		eng_idx += 1
-		print('\t)')
-	else:
-		print('\tnil')
-	print(')')
-	print('\n\n')
+		if is_composite:
+			buf.append('\t(')
+			for line in eng_taken[eng_idx]:
+				buf.append('\t\t' + line)
+			eng_idx += 1
+			buf.append('\t)')
+		else:
+			buf.append('\tnil')
+		buf.append(')')
+		buf.append('\n\n')
+	except:
+		continue
+	print('\n'.join(buf))
 
 print('))')
 

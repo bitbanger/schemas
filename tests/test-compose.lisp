@@ -31,7 +31,6 @@
 	; "It was snowing outside Tom's house one day."
 	; "Allie was watching a show yesterday."
 	; "Susie say a girl was playing ball."
-	; "The girls went to the pond."
 	; "Kim needed some new chairs."
 	; "Tom got a kitten."
 	; "Mary wanted to stop working."
@@ -43,6 +42,7 @@
 	; "Three birds are in the tree."
 	; "The woman kissed a man."
 	; "It was snowing outside Tom's house one day."
+	; "The girls went to the pond."
 	nil
 )
 (setf stories-processed 0)

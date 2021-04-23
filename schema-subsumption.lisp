@@ -427,7 +427,12 @@
 			; then
 			el
 			; else
-			bl
+			(if (equal bl 'PERSON.N)
+				; then
+				'AGENT.N
+				; else
+				bl
+			)
 		)
 	)
 )

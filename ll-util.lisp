@@ -653,7 +653,7 @@
 	)
 )
 
-(defun mk-hashtable (pairs)
+(defun mk-hashtable (pairs &optional allow-multi)
 (cond
 	((equal pairs t) t)
 
@@ -662,7 +662,13 @@
 	(t (progn
 		(setf want-bind (make-hash-table :test #'equal))
 		(loop for pair in pairs
-			do (setf (gethash (car pair) want-bind) (second pair))
+			if allow-multi
+				do (setf (gethash (car pair) want-bind)
+					(append (gethash (car pair) want-bind)
+						(list (second pair))))
+			else
+				do (setf (gethash (car pair) want-bind)
+					(second pair))
 		)
 		want-bind
 	))
@@ -1138,4 +1144,115 @@ is replaced with replacement."
 				(stack-nest base (cdr stack)))
 		)
 	)
+)
+
+(ldefun topsort (arrows)
+(block outer
+	(setf all (list))
+	(setf children (list))
+	(loop for arrow in arrows
+		do (setf all (append all arrow))
+		do (setf children (append children (cdr arrow)))
+	)
+	(setf children (dedupe children))
+	(setf all (dedupe all))
+	(format t "all are ~s~%" all)
+	(format t "children are ~s~%" children)
+
+	(if (null children)
+		(return-from outer arrows))
+
+	(setf free (set-difference
+		all children
+		:test #'equal))
+
+	(format t "removing free nodes ~s~%" free)
+	(if (null free)
+		(return-from outer nil))
+
+	(setf new-arrows
+		(loop for arrow in arrows
+			if (not (contains free (car arrow)))
+				collect arrow))
+
+	(setf orphans
+		(dedupe (loop for arrow in arrows
+			if (contains free (car arrow))
+				collect (second arrow))))
+
+	(return-from outer (dedupe (append
+		free
+		orphans
+		(topsort new-arrows))))
+)
+)
+
+(ldefun min-graph (es)
+(block outer
+	(setf vs (dedupe
+		(loop for e in es append e)))
+
+	(setf new-es (loop for v in vs
+		append (loop for dd in (get-direct-descendants v es)
+			collect (list v dd))))
+
+	(return-from outer new-es)
+)
+)
+
+(ldefun get-direct-descendants (v es)
+(block outer
+	(setf naive-direct (dedupe
+		(loop for e in es if (equal v (car e))
+			collect (second e))))
+
+	(setf indirect (dedupe
+		(loop for d in naive-direct
+			append (get-descendants d es))))
+
+	(return-from outer (set-difference
+		naive-direct indirect :test #'equal))
+)
+)
+
+(ldefun get-descendants (v es &optional seen)
+(block outer
+	(if (null seen)
+		(setf seen (make-hash-table :test #'equal)))
+
+	(setf (gethash v seen) t)
+
+	(setf desc (list))
+	(loop for e in es
+		if (equal v (car e))
+		if (and (equal v (car e))
+			(not (gethash (second e) seen)))
+				do (progn
+				(setf new-desc
+					(get-descendants (second e) es seen))
+				(setf desc (append desc (list (second e)) new-desc))
+				)
+	)
+
+	(return-from outer desc)
+)
+)
+
+(ldefun print-dfs (root graph-map &optional seen depth)
+(block outer
+	(if (null seen)
+		(setf seen (make-hash-table :test #'equal)))
+	(if (null depth)
+		(setf depth 0))
+
+	(setf (gethash root seen) t)
+
+	(format t "~a~s~%" (repeat-str "   " depth) root)
+
+	(loop for child in (gethash root graph-map)
+		if (not (gethash child seen)) do (progn
+			(print-dfs child graph-map seen (+ depth 1))
+		)
+	)
+)
 )

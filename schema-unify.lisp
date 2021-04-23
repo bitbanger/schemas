@@ -441,7 +441,7 @@
 	; characterizing formulas as well.
 	(if (and (varp schema) (schema-ep-var? whole-schema schema))
 		; then
-		(if (canon-small-individual? story)
+		(if (or (canon-small-individual? story) (varp story))
 			; then
 			(progn
 			(dbg 'unify "unifying eps ~s and ~s~%" schema story)
@@ -581,10 +581,10 @@
 	; or prop arguments, so we'll dispatch those out
 	; here.
 	(if (and (canon-pred? schema) (canon-pred? story))
-		(progn (format t "predding ~s and ~s~%" schema story) (return-from outer (unify-preds schema story
+		(progn (return-from outer (unify-preds schema story
 			(ht-copy old-bindings) whole-schema whole-story))))
 	(if (and (canon-prop? schema) (canon-prop? story))
-		(progn (format t "propping ~s and ~s~%" schema story) (return-from outer (unify-props schema story
+		(progn (return-from outer (unify-props schema story
 			(ht-copy old-bindings) whole-schema whole-story))))
 
 	(setf res (unchecked-unify-individuals schema story old-bindings whole-schema whole-story))

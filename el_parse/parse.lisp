@@ -5,9 +5,9 @@
 ;; Example:
 ;; (parse "This is a test.")
 
-; (load "ll-load.lisp")
+(load "../ll-load.lisp")
 
-; (ll-load "ll-util.lisp")
+(ll-load "ll-util.lisp")
 
 ; (defparameter *parser* "/p/nl/tools/bllip-parser/first-stage/PARSE/parseIt")
 (defparameter *parser* "/Users/l/Code/bllip-parser/first-stage/PARSE/parseIt")
@@ -20,6 +20,9 @@
 ;;         parser is still in nl
 ; (defparameter *pdata* "/p/nl/tools/reranking-parser/first-stage/DATA/EN/")
 (defparameter *pdata* "/Users/l/Code/bllip-parser/newdata/DATA/EN/")
+
+(defparameter *PLACEHOLDER-NAME*
+	(intern "Gonzaaalo"))
 
 (defun parse-all (str)
 ; Here we allow str to consist of multiple sentences separated by
@@ -54,18 +57,67 @@
 ;; and delete it at the end.
   (let ((filename (format nil "~a.txt" (gensym)))
         (result))
+
+	(setf name-toks (mistagged-names str))
+	(setf name-tok-idxs (mapcar #'car name-toks))
+
     (with-open-file (to-parse filename :direction :output
                                        :if-exists :supersede)
-      (format to-parse (preproc-for-parse str)))
-    (setf result (lispify-parser-output
-                  (output-from-cmd (format nil "~a ~a ~a"
-                                           *parser* *pdata* filename))))
+      (format to-parse (preproc-for-parse str name-tok-idxs)))
+
+	(setf str-result (output-from-cmd (format nil "~a ~a ~a"
+										*parser* *pdata* filename)))
+	(setf result (lispify-parser-output str-result))
+
+	; Replace each placeholder name with the original
+	; mistagged name it stood in for.
+	(setf placeholder-idxs (get-elements-pred-idx result
+		(lambda (x) (equal x
+			(upcase-symbols *PLACEHOLDER-NAME*)))))
+
+	(if (not (equal (length placeholder-idxs)
+		(length name-toks)))
+		; then
+		(format t "ERROR: number of mistagged names (~d) and number of placeholders (~d) do not match in parse~%" (length placeholder-idxs) (length names))
+	)
+
+	(loop for name-tok in name-toks
+			for placeholder-idx in placeholder-idxs
+		do (setf result (replace-element-idx result
+				placeholder-idx
+				(upcase-symbols (second name-tok)))))
+
     (delete-file filename)
     result))
 
+(defun mistagged-names (str)
+	(loop for tok in (tokenize-simply str)
+			for i from 0
+		if (and (> i 0)
+				(> (length (string tok)) 1)
+				(alpha-str? (subseq (string tok) 0 1))
+				(all-caps? (subseq (string tok) 0 1))
+				(contains (append *male-names* *female-names*)
+					(upcase-symbols tok)))
+			collect (list i tok))
+)
+
 ;; prefix sentence string with <s>, postfix with </s>
-(defun preproc-for-parse (str)
-  (format nil "<s> ~a </s>" str))
+(defun preproc-for-parse (str &optional name-tok-idxs)
+(block outer
+	(setf new-str (loop for tok in (tokenize-simply str)
+			for i from 0
+		if (contains name-tok-idxs i)
+			collect *PLACEHOLDER-NAME*
+		else
+			collect tok))
+
+	(setf new-str
+		(join-str-list "" (mapcar #'string new-str)))
+
+	(format nil "<s> ~a </s>" new-str)
+)
+)
 
 
 

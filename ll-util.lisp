@@ -480,6 +480,13 @@
 	)
 )
 
+(defun alpha-str? (s)
+	(and
+		(stringp s)
+		(loop for c across s always (alpha-char-p c))
+	)
+)
+
 (defun alphanum-str? (s)
 	(and
 		(stringp s)
@@ -1255,4 +1262,27 @@ is replaced with replacement."
 		)
 	)
 )
+)
+
+(ldefun upcase-symbols (form)
+(block outer
+	(setf form-copy (copy-item form))
+
+	(setf cased-syms (dedupe (get-elements-pred
+		form-copy (lambda (x)
+			(and (symbolp x)
+				(not (equal (string x)
+					(string-upcase (string x)))))))))
+
+	(loop for cs in cased-syms
+		do (setf form-copy (replace-vals
+			cs (intern (string-upcase (string cs)))
+				form-copy)))
+
+	(return-from outer form-copy)
+)
+)
+
+(ldefun all-caps? (str)
+	(equal str (string-upcase str))
 )

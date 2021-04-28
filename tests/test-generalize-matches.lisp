@@ -14,6 +14,25 @@
 (loop for protoschema in *PROTOSCHEMAS*
 	do (register-schema (eval protoschema)))
 
+; fix transports
+(setf *LEARNED-SCHEMAS* (loop for sch in *LEARNED-SCHEMAS*
+	; do (format t "~s~%" (get-schema-match-name (prop-pred (car (schema-header (car sch))))))
+	if (and (equal 3 (length (car (schema-header (car sch))))) (equal (get-schema-match-name (prop-pred (car (schema-header (car sch))))) 'TRANSPORT_OBJECT.V))
+		; then
+		collect (block fix-transport
+			(setf header (car (schema-header (car sch))))
+			(setf dest (car (loop for rc in (mapcar #'second (section-formulas (get-section (car sch) ':Roles)))
+				if (equal (second rc) 'DESTINATION.N)
+					collect (car rc))))
+			(setf new-header (append header (list dest)))
+			(setf new-sch (replace-vals header new-header sch))
+			(return-from fix-transport new-sch)
+		)
+		; else
+		collect sch
+))
+
+
 
 
 ; Correct the learned schemas, now, to fix duplicate
@@ -467,10 +486,11 @@
 		(if (and (not (null orig-child-name)) (loop for e in basic-flat-prop thereis (lex-verb? e)))
 			(setf index-flat-prop (replace-vals (car (loop for e in basic-flat-prop if (lex-verb? e) collect e))
 										orig-child-name index-flat-prop)))
-		; do (format t "using index prop ~s~%" index-flat-prop)
+		; (format t "using index prop ~s~%" index-flat-prop)
 		; (setf (gethash index-flat-prop basic-map) (append (gethash index-flat-prop basic-map) (list flat-prop)))
 	))
-	; (format t "adding ~s to basic map~%" index-flat-prop)
+	;(format t "adding ~s to basic map~%" index-flat-prop)
+	;(format t "	for spec ~s~%" flat-prop)
 	; (setf idx-pred (get-elements-pred index-flat-prop (lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x)))))))
 	; (setf stripped-idx-pred (get-schema-match-name idx-pred))
 	; (setf index-flat-prop (replace-vals idx-pred stripped-idx-pred index-flat-prop))

@@ -43,7 +43,8 @@
 	; "The woman kissed a man."
 	; "It was snowing outside Tom's house one day."
 	; "The girls went to the pond."
-	nil
+	"Ben's dog Skip was very old."
+	; nil
 )
 (setf stories-processed 0)
 

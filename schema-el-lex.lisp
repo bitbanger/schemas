@@ -6,6 +6,7 @@
 (load "ll-load.lisp")
 
 (ll-load "ll-util.lisp")
+(ll-load "ll-cache.lisp")
 
 (defparameter *KEYWORD-PREDS* '(
 	=
@@ -63,6 +64,10 @@
 )
 
 (ldefun has-ext? (x e)
+	(ll-cache #'u-has-ext? (list x e) 100 nil)
+)
+
+(ldefun u-has-ext? (x e)
 (let (
 	(strx (if (symbolp x) (string x) nil))
 )
@@ -427,6 +432,8 @@
 		)
 	)
 
+	; (return-from outer (funcall func arg))
+
 	(if (null (gethash (list func arg) cache))
 		(setf (gethash (list func arg) cache)
 			(funcall func arg))
@@ -446,6 +453,10 @@
 
 ; recursive multi-predicate application
 (ldefun mp (x preds)
+	(ll-cache #'u-mp (list x preds) 100 nil)
+)
+
+(ldefun u-mp (x preds)
 (block outer
 	(if (and (null x) (null preds))
 		(return-from outer t)

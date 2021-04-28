@@ -1,6 +1,7 @@
 (load "ll-load.lisp")
 
 (ll-load "ll-util.lisp")
+(ll-load "ll-cache.lisp")
 (ll-load "schema-el.lisp")
 (ll-load "schema-unify.lisp")
 (ll-load "schema-el-lex.lisp")
@@ -132,6 +133,11 @@
 )
 
 (ldefun subsumes-prop? (gen-prop spec-prop)
+	(ll-cache #'u-subsumes-prop?
+		(list gen-prop spec-prop) 100 nil)
+)
+
+(ldefun u-subsumes-prop? (gen-prop spec-prop)
 (block outer
 	(setf gen-papm (prop-args-pred-mods gen-prop))
 	(setf gen-pre (car gen-papm))

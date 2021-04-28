@@ -64,6 +64,11 @@
 )
 
 (ldefun canon-small-individual? (x)
+	(ll-cache #'u-canon-small-individual?
+		(list x) 100 nil)
+)
+
+(ldefun u-canon-small-individual? (x)
 (and
 (symbolp x)
 (not (equal ':R x)) ; string renders of ':R sometimes omit :
@@ -148,6 +153,10 @@
 )
 
 (ldefun canon-pred? (x)
+	(ll-cache #'u-canon-pred? (list x) 100 nil)
+)
+
+(ldefun u-canon-pred? (x)
 (or
 	(atomic-pred? x)
 	; (mp x (list 'lex-modal? 'canon-pred?))
@@ -258,6 +267,11 @@
 )
 
 (ldefun canon-charstar? (x)
+	(ll-cache #'u-canon-charstar?
+		(list x) 100 nil)
+)
+
+(ldefun u-canon-charstar? (x)
 (and
 ; these speed everything up by ensuring we never
 ; call canon-prop on things without ** operators
@@ -302,6 +316,15 @@
 )
 
 (ldefun canon-prop? (x)
+	(ll-cache
+		#'u-canon-prop?
+		(list x)
+		100
+		nil
+	)
+)
+
+(ldefun u-canon-prop? (x)
 (or
 	(canon-atomic-prop? x)
 
@@ -479,6 +502,15 @@
 )
 
 (ldefun prop-args-pred-mods (prop)
+	(ll-cache
+		#'u-prop-args-pred-mods
+		(list prop)
+		100
+		nil
+	)
+)
+
+(ldefun u-prop-args-pred-mods (prop)
 	(check #'canon-prop? prop)
 (let (pred-idx pre-args pred embedded-post-args flat-post-args post-args mods)
 (block outer

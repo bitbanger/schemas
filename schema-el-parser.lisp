@@ -5,6 +5,7 @@
 (ll-load "old-ttt/src/load")
 (ll-load-subdir "el_parse" "init1.lisp")
 (ll-load "ll-util.lisp")
+(ll-load "ll-cache.lisp")
 (ll-load "schema-el-lex.lisp")
 (ll-load "schema-el.lisp")
 (ll-load "schema-coref.lisp")
@@ -30,6 +31,8 @@
 
 			(setf old-phi-copy (copy-list phi-copy))
 			(setf new-phi-copy (funcall func phi-copy))
+			;(setf new-phi-copy (ll-cache
+				;func (list phi-copy) 100 nil))
 
 			;(if (not (same-list-unordered old-phi-copy new-phi-copy))
 				;(progn

@@ -3,6 +3,8 @@
 (ll-load "old-ttt/src/load")
 (ll-load-subdir "el_parse" "process-sentence1.lisp") ; for hide-ttt-ops and unhide-ttt-ops
 
+(ll-load "ll-cache.lisp")
+
 (defparameter *DBG-TAGS* (list
 	; put debug tags you want here
 	;'matched-wffs
@@ -26,6 +28,69 @@
 
 (defparameter *EMPTY-HT*
 	(make-hash-table :test #'equal)
+)
+
+(defparameter *LDEFUN-CALLS* (make-hash-table :test #'equal))
+
+; Automatically scopes all setfs introduced inside
+; a function to be local, without requiring the
+; programmer to manually add let-bindings.
+(defmacro ldefun (fname lambda-list &rest body)
+(block ldefun-outer
+	(setf setf-vars
+		(dedupe (loop for element in (get-elements-pred body
+			(lambda (x) (and
+						(listp x)
+						(equal (car x) 'setf)
+						(not (starry-global? (second x)))
+			)))
+				if (symbolp (second element))
+					collect (second element)
+		))
+	)
+
+	(setf loop-vars
+		(dedupe (loop for loop-elem in (get-elements-pred body
+			(lambda (x) (and
+						(listp x)
+						(equal (car x) 'loop))
+			))
+				;if (symbolp (second el))
+					;collect (second el)
+				append (loop for in-loop-elem in loop-elem
+								for i from 0
+					if (equal in-loop-elem 'for)
+						collect (nth (+ i 1) loop-elem)
+				)
+		))
+	)
+
+	(setf bound-vars (list))
+	(loop for lt in (get-elements-pred body (lambda (x) (and (listp x) (equal (car x) 'let))))
+		append (loop for binding in (second lt)
+					if (and (listp lt) (symbolp (car lt)))
+						collect (car lt)))
+
+	(setf unscoped-vars (union setf-vars loop-vars :test #'equal))
+	(setf unscoped-vars (set-difference unscoped-vars lambda-list :test #'equal))
+	(setf unscoped-vars (set-difference unscoped-vars bound-vars :test #'equal))
+	(setf unscoped-vars (loop for uv in unscoped-vars if (not (boundp uv)) collect uv))
+
+	; TODO: maybe do some "static analysis" to warn
+	; about variables that may be evaluated before
+	; they're defined in this scope?
+
+	(setf body (append (list 'let unscoped-vars) body))
+
+	;(setf log-call
+		;`(let ((ldfc (gethash ',fname *LDEFUN-CALLS*)))
+			;(if (null ldfc)
+				;(setf (gethash ',fname *LDEFUN-CALLS*) 1)
+				;(setf (gethash ',fname *LDEFUN-CALLS*) (+ 1 ldfc)))))
+	;(setf body (list 'PROGN log-call body))
+
+	`(defun ,fname ,lambda-list ,body)
+)
 )
 
 (defun neg-pred (pred)
@@ -532,9 +597,10 @@
 	((not (listp data))
 		(sxhash data))
 
-	(t (sxhash (loop for e in data
-		if (listp e) collect (rechash e)
-		else collect e)))
+	;(t (sxhash (loop for e in data
+	;	if (listp e) collect (rechash e)
+	;	else collect e)))
+	(t (sxhash (mapcar (lambda (x) (if (listp x) (rechash x) x)) data)))
 )
 )
 
@@ -588,6 +654,11 @@
 	)
 )
 
+(defun ht-pairs (ht)
+	(loop for k being the hash-keys of ht
+		collect (list k (gethash k ht)))
+)
+
 (defun rec-equal (l1 l2)
 (block outer
 	(if (and (not (listp l1)) (not (listp l2)))
@@ -613,9 +684,10 @@
 )
 
 (defun dbg (tag fmt-str &rest args)
-	(if (or *DBG-ALL* (member tag *DBG-TAGS* :test #'equal))
-		(apply #'format (append (list t fmt-str) args))
-	)
+	nil
+	;(if (or *DBG-ALL* (member tag *DBG-TAGS* :test #'equal))
+		;(apply #'format (append (list t fmt-str) args))
+	;)
 )
 
 (defun dbg-tag (tag)
@@ -895,64 +967,6 @@ is replaced with replacement."
 			(has-suffix? str-x "*")
 		)
 	)
-)
-)
-
-; Automatically scopes all setfs introduced inside
-; a function to be local, without requiring the
-; programmer to manually add let-bindings.
-(defmacro ldefun (fname lambda-list &rest body)
-(block ldefun-outer
-	(setf setf-vars
-		(dedupe (loop for element in (get-elements-pred body
-			(lambda (x) (and
-						(listp x)
-						(equal (car x) 'setf)
-						(not (starry-global? (second x)))
-			)))
-				if (symbolp (second element))
-					collect (second element)
-		))
-	)
-
-	(setf loop-vars
-		(dedupe (loop for loop-elem in (get-elements-pred body
-			(lambda (x) (and
-						(listp x)
-						(equal (car x) 'loop))
-			))
-				;if (symbolp (second el))
-					;collect (second el)
-				append (loop for in-loop-elem in loop-elem
-								for i from 0
-					if (equal in-loop-elem 'for)
-						collect (nth (+ i 1) loop-elem)
-				)
-		))
-	)
-
-	(setf bound-vars (list))
-	(loop for lt in (get-elements-pred body (lambda (x) (and (listp x) (equal (car x) 'let))))
-		append (loop for binding in (second lt)
-					if (and (listp lt) (symbolp (car lt)))
-						collect (car lt)))
-
-	(setf unscoped-vars (union setf-vars loop-vars :test #'equal))
-	(setf unscoped-vars (set-difference unscoped-vars lambda-list :test #'equal))
-	(setf unscoped-vars (set-difference unscoped-vars bound-vars :test #'equal))
-	(setf unscoped-vars (loop for uv in unscoped-vars if (not (boundp uv)) collect uv))
-
-	; TODO: maybe do some "static analysis" to warn
-	; about variables that may be evaluated before
-	; they're defined in this scope?
-
-	;(if (equal fname 'schema-cleanup-lisp)
-	;	(format t "unscoped vars for cleanup function are: ~s~%" unscoped-vars)
-	;)
-
-	(setf body (append (list 'let unscoped-vars) body))
-
-	`(defun ,fname ,lambda-list ,body)
 )
 )
 
@@ -1289,4 +1303,122 @@ is replaced with replacement."
 
 (ldefun in-span (num span)
 	(and (>= num (car span)) (<= num (second span)))
+)
+
+(ldefun sum (nums)
+	(reduce #'+ nums)
+)
+
+(ldefun avg-mean (nums)
+	(if (equal 0 (length nums))
+		; then
+		0
+		; else
+		(/ (sum nums) (length nums))
+	)
+)
+
+(ldefun avg-median (nums)
+	(if (equal 0 (length nums))
+		; then
+		0
+		; else
+		(nth (floor (length nums) 2)
+			(sort num #'<))
+	)
+)
+
+(ldefun avg-mode (nums)
+	(unwrap-singletons
+		(k-most-freq nums 1))
+)
+
+(ldefun min-all (l)
+	(reduce #'min l)
+)
+
+(ldefun max-all (l &optional key)
+(block outer
+	(setf m (car l))
+	(loop for e in l do (block mloop
+		(if (not (null key))
+			; then
+			(if (> (funcall key e) (funcall key m))
+				(setf m e))
+			; else
+			(if (> e m)
+				(setf m e)))
+	))
+
+	(return-from outer m)
+)
+)
+
+(ldefun unflatten-tree (pairs)
+(block outer
+	; Find the root
+	(setf root (caar (loop for pair in pairs
+						for i from 0
+		if (loop for pair2 in pairs
+				for j from 0
+			never (equal i (second pair2)))
+			collect pair)))
+
+	; Make a child graph
+	(setf graph (make-hash-table :test #'equal))
+	(loop for pair in pairs
+		if (not (null (second pair)))
+			do (setf (gethash (car pair) graph)
+					(append (gethash (car pair) graph)
+						(list
+							(second pair)
+						))))
+
+	; Do a DFS
+	(return-from outer (unflatten-tree-helper
+		root pairs graph (make-hash-table :test #'equal)))
+)
+)
+
+(ldefun unflatten-tree-helper (root pairs graph seen)
+(block outer
+	(setf (gethash root seen) t)
+
+	(if (null (gethash root graph))
+		(return-from outer root))
+
+	(setf children (loop for child-idx in
+		(gethash root graph)
+			collect (car (nth child-idx pairs))))
+
+	(return-from outer (list root
+		(loop for child in children
+			if (not (gethash child seen))
+				collect (unflatten-tree-helper
+					child pairs graph seen))))
+)
+)
+
+(ldefun print-nested-dfs (root &optional seen depth)
+(block outer
+	(if (null seen)
+		(setf seen (make-hash-table :test #'equal)))
+	(if (null depth)
+		(setf depth 0))
+	(setf root (listify-nonlists root))
+
+	(setf (gethash root seen) t)
+
+	(format t "~a~s~%"
+		(repeat-str "  " depth)
+		(car root))
+
+	(if (> (length root) 1)
+		(loop for child in (second root)
+			if (not (gethash child seen))
+				do (print-nested-dfs
+					child
+					seen
+					(+ depth 1))))
+)
 )

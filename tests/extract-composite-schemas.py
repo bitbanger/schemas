@@ -8,7 +8,7 @@ comp_num = 0
 
 verb_nums = defaultdict(lambda: 1)
 
-fn_fmt_str = 'apr-22-round2-output/apr-22-round2-mtg-%d.txt'
+fn_fmt_str = 'apr-27-output/apr-27-mtg-%d.txt'
 
 schema_name_remap = dict()
 

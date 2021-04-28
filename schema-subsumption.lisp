@@ -3,6 +3,7 @@
 (ll-load "schema-el-lex.lisp")
 (ll-load "schema-el.lisp")
 (ll-load "ll-util.lisp")
+(ll-load "ll-cache.lisp")
 (ll-load-subdir "wordnet" "trial-wn.lisp")
 
 (defparameter *MOVEMENT-PREDS* '(
@@ -57,6 +58,24 @@
 		location-adv?
 	)
 )))
+
+(ldefun cached-wordnet-synonyms (pred)
+	(ll-cache
+		#'wordnet-synonyms
+		(list pred)
+		100
+		nil
+	)
+)
+
+(ldefun cached-wordnet-hypernyms (pred)
+	(ll-cache
+		#'wordnet-hypernyms
+		(list pred)
+		100
+		nil
+	)
+)
 
 (ldefun get-subsumption-categories (pred)
 	(loop for k being the hash-keys of *SUBSUMPTION-CATEGORIES*
@@ -149,6 +168,15 @@
 )
 
 (ldefun subsumption-score (schema-pred story-pred)
+	(ll-cache
+		#'u-subsumption-score
+		(list schema-pred story-pred)
+		100
+		nil
+	)
+)
+
+(ldefun u-subsumption-score (schema-pred story-pred)
 (block outer
 	; If they're equal, schema subsumes story
 	(if (equal schema-pred story-pred)
@@ -170,8 +198,8 @@
 
 	; ...Or if they're synonyms
 	(if (or
-			(member schema-pred (wordnet-synonyms story-pred) :test #'equal)
-			(member story-pred (wordnet-synonyms schema-pred) :test #'equal))
+			(member schema-pred (cached-wordnet-synonyms story-pred) :test #'equal)
+			(member story-pred (cached-wordnet-synonyms schema-pred) :test #'equal))
 		; then
 		(progn
 		; (format t "~s and ~s are synonyms~%" schema-pred story-pred)
@@ -249,7 +277,7 @@
 	;	(return-from outer t)
 	;	)
 	;)
-	(loop for ladder in (wordnet-hypernyms wn-story-pred)
+	(loop for ladder in (cached-wordnet-hypernyms wn-story-pred)
 		do (block ladder-eval
 			(if (and (> (length ladder) 0) (not (null (member wn-schema-pred ladder :test (lambda (a b) (member a b :test #'equal))))))
 			(return-from outer
@@ -287,7 +315,7 @@
 ; Collect wordnet hypernyms and special (manually defined) hypernyms
 (ldefun all-hypernyms (pred)
 	(remove nil (append
-		(wordnet-hypernyms pred)
+		(cached-wordnet-hypernyms pred)
 		(loop for ssub being the hash-keys of *SPECIAL-SUBSUMPTIONS*
 			if (equal (second ssub) pred)
 				; then

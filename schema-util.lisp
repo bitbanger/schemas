@@ -2,11 +2,11 @@
 
 (ll-load "old-ttt/src/load")
 (ll-load "schema-el.lisp")
+(ll-load "ll-cache.lisp")
 (ll-load "ll-util.lisp")
 (ll-load "schema-kb.lisp")
 (ll-load "schema-subsumption.lisp")
 (ll-load "schema-time.lisp")
-(ll-load "ll-cache.lisp")
 
 (defparameter *BLANK-SCHEMA*
 	'(epi-schema ((?x blank.v) ** ?E) (:Roles))
@@ -256,6 +256,11 @@
 ; constraints on the individuals in the schema. Nonfluent
 ; conditions are atemporal, i.e. eternal.
 (ldefun schema-cond? (phi fluent)
+	(ll-cache #'u-schema-cond? (list phi fluent)
+		100 nil)
+)
+
+(ldefun u-schema-cond? (phi fluent)
 (and
 	(equal 2 (length phi))
 	(symbolp (car phi))
@@ -321,6 +326,10 @@
 ; section, properly named and populated with valid schema
 ; conditions (fluent or nonfluent).
 (ldefun schema-section? (sec)
+	(ll-cache #'u-schema-section? (list sec) 100 nil)
+)
+
+(ldefun u-schema-section? (sec)
 (and
 	(> (length sec) 0)
 	(not (null (member (car sec) *SEC-NAMES*)))

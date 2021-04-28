@@ -87,22 +87,6 @@
 			(fake-charstar? (car x)))))
 )
 
-(ldefun has-ext? (x e)
-    (and
-        (symbolp x)
-        (stringp e)
-        (>= (length (string x)) (length e))
-        (equal
-            e
-            (subseq
-                (string x)
-                (- (length (string x)) (length e))
-                (length (string x))
-            )
-        )
-    )
-)
-
 (ldefun lex-noun? (x)
 	(has-ext? x ".N")
 )

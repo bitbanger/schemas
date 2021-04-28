@@ -7,7 +7,7 @@
 
 (load "../ll-load.lisp")
 
-(ll-load "ll-util.lisp")
+(ll-load-superdir "ll-util.lisp")
 
 ; (defparameter *parser* "/p/nl/tools/bllip-parser/first-stage/PARSE/parseIt")
 (defparameter *parser* "/Users/l/Code/bllip-parser/first-stage/PARSE/parseIt")

@@ -30,6 +30,16 @@
 	DISLIKE.V
 ))
 
+(defparameter *TEMPORAL-PREDS* '(
+	DAY.N
+	YESTERDAY.N
+	TODAY.N
+	NIGHT.N
+	EVENING.N
+	MORNING.N
+	AFTERNOON.N
+))
+
 (ldefun has-ext? (x e)
     (and
         (symbolp x)
@@ -213,6 +223,12 @@
 	; Get rid of monadic lambda predicates.
 	(/ (_*1 (L _!.2 (_!.2 _+3)) _*4)
 		(_*1 (_+3) _*4)
+	)
+
+	; Fix wrongly reified THAT.P
+	(/
+		(K (THAT.P _*1))
+		(THAT _*1)
 	)
 
 	; Split out conjoined verb predications w/
@@ -436,6 +452,14 @@
 		(MUST.AUX-S _*1)
 	)
 
+	; Skolem-name pairs should take
+	; an NP+PREDS form to be fixed
+	; by a Lisp rule.
+	(/
+		((!1 lex-skolem?) (!2 lex-name?))
+		(NP+PREDS !1 (= !2))
+	)
+
 	; Kill PRED****.VP
 	;(/
 	;	((!1 vp-shifter?) _+)
@@ -473,6 +497,7 @@
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
 	; correct-nonverbal-aux ; run this before skolemize-adets
+	split-marked-lists
 	pull-out-lambda-advs ; run this before lambda splitters
 	skolemize-adets
 	split-and-eps
@@ -500,6 +525,8 @@
 	past-tense-story-to-present
 	liberate-starred-prop-args
 	fix-ka-be-pre-arg
+	fix-apostrophe-poss
+	rename-np-preds-skolems
 	; bubble-up-sent-mods
 	; reify-pred-args
 ))
@@ -507,7 +534,89 @@
 (ldefun bubble-up-sent-mods (phi)
 (block outer
 	(setf phi-copy (copy-item phi))
-	; (loop for form in phi-copy
+	; (loop for form in phi-copy do (block fix
+	; ))
+
+	(return-from outer phi-copy)
+)
+)
+
+(ldefun split-marked-lists (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf split-parents (get-elements-pred phi-copy
+		(lambda (x) (and (listp x)
+			(loop for y in x
+				thereis (and (listp y) (equal (car y) 'LL-SPLIT)))))))
+
+	(loop for parent in split-parents
+		do (block split
+			(setf new-parent (loop for e in parent
+				if (and (listp e) (equal (car e) 'LL-SPLIT))
+					append (cdr e)
+				else
+					collect e
+			))
+
+			(setf phi-copy (replace-vals parent
+				new-parent phi-copy))
+		)
+	)
+
+	(return-from outer phi-copy)
+)
+)
+
+(ldefun rename-np-preds-skolems (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf nps (get-elements-pred phi (lambda (x)
+		(mp x (list (id? 'NP+PREDS) 'lex-skolem?
+			(list (id? '=) 'lex-name?))))))
+	(loop for np in nps do (block fix-np
+		(setf sk-name (second np))
+		(setf name (second (third np)))
+
+		; If the unnamed Skolem is actually a
+		; Skolemized temporal pred, we'll
+		; flatten it and bail out so that
+		; another rule can adv-ify it.
+		(if (temporal-arg? sk-name phi)
+			; then
+			(block flatten-temporal
+				(setf phi-copy (replace-vals np
+					; mark this to be split
+					(list 'LL-SPLIT sk-name name)
+					phi-copy))
+				(return-from fix-np)
+			)
+		)
+
+		(setf phi-copy (replace-vals np name phi-copy))
+		(setf phi-copy (replace-vals sk-name name phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
+
+(ldefun fix-apostrophe-poss (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf possessed (get-elements-pred phi-copy
+		(lambda (x) (mp x (list
+			(list 'canon-small-individual? (id? '|'S|))
+			'canon-pred?)))))
+
+	(loop for poss in possessed
+		do (setf phi-copy (replace-vals poss
+			`(SOME.D (L (X) (AND
+				(X PERTAIN-TO ,(caar poss))
+				(X ,(second poss)))))
+			phi-copy)))
 
 	(return-from outer phi-copy)
 )
@@ -842,18 +951,18 @@
 
 (ldefun temporal-arg? (arg &optional story)
 (block outer
-	(setf temporal-preds '(
-		DAY.N
-		YESTERDAY.N
-		TODAY.N
-		NIGHT.N
-	))
-
-	(if (loop for tp in temporal-preds
-		thereis (has-element arg (list 'K tp)))
+	(if (loop for tp in *TEMPORAL-PREDS*
+		thereis (has-element (car (clean-idx-tags (list arg))) (list 'K tp)))
 		; then
 		(return-from outer t)
 	)
+
+	(if (loop for tp in *TEMPORAL-PREDS*
+		thereis (has-element-pred (car (clean-idx-tags (list arg)))
+			(lambda (x) (mp x (list
+				'lex-det? (id? tp))))))
+		; then
+		(return-from outer t))
 
 	(if (null story)
 		(return-from outer nil))
@@ -863,8 +972,8 @@
 			collect (second phi)))
 
 	(if (loop for rc in arg-rcs thereis
-			(loop for tp in temporal-preds thereis
-				(contains (listify-nonlists rc) tp)))
+			(loop for tp in *TEMPORAL-PREDS* thereis
+				(contains (car (clean-idx-tags (list (listify-nonlists rc)))) tp)))
 		; then
 		(return-from outer t)
 	)
@@ -1091,17 +1200,21 @@
 		(if (not (listp form))
 			(return-from inner))
 
-		(if (contains form 'DO.AUX)
+		(if (has-element form 'DO.AUX)
 			; then
-			(setf phi-copy (replace-vals form (remove 'DO.AUX form :test #'equal) phi-copy))
+			(setf phi-copy (replace-vals form (rec-remove form 'DO.AUX) phi-copy))
+		)
+		(if (has-element form 'DOES.AUX)
+			; then
+			(setf phi-copy (replace-vals form (rec-remove form 'DOES.AUX) phi-copy))
 		)
 
 		; Re-orient the episode backward in time.
-		(if (contains form 'DID.AUX)
+		(if (has-element form 'DID.AUX)
 			; then
 			(block did1
 				; Remove DID.AUX.
-				(setf new-form (remove 'DID.AUX form :test #'equal))
+				(setf new-form (rec-remove form 'DID.AUX))
 
 				; If there's an episode, replace the
 				; episode in the formula with a new one,

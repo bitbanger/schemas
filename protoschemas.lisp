@@ -327,7 +327,7 @@
 )
 
 (defparameter transport_object.v
-	'(epi-schema ((?x transport_object.v ?o) ** ?e)
+	'(epi-schema ((?x transport_object.v ?o ?l2) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?o entity.n))

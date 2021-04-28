@@ -1361,7 +1361,7 @@ is replaced with replacement."
 						for i from 0
 		if (loop for pair2 in pairs
 				for j from 0
-			never (equal i (second pair2)))
+			never (contains (second pair2) i))
 			collect pair)))
 
 	; Make a child graph
@@ -1370,9 +1370,8 @@ is replaced with replacement."
 		if (not (null (second pair)))
 			do (setf (gethash (car pair) graph)
 					(append (gethash (car pair) graph)
-						(list
 							(second pair)
-						))))
+						)))
 
 	; Do a DFS
 	(return-from outer (unflatten-tree-helper
@@ -1421,4 +1420,14 @@ is replaced with replacement."
 					seen
 					(+ depth 1))))
 )
+)
+
+(ldefun tree-leaves (root)
+	(if (and (<= (length root) 8) (>= (length root) 4))
+		; then
+		(list (car root))
+		; else
+		(loop for c in (second root)
+			append (tree-leaves c))
+	)
 )

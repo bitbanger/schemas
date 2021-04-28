@@ -3,6 +3,8 @@
 (ll-load-superdir "ll-util.lisp")
 (ll-load-superdir "schema-subsumption.lisp")
 
+(defparameter *MIN-CLUSTER-SIZE* 1)
+
 (ldefun wn-pred-dist (x y)
 (block outer
 	(setf ancestor (common-ancestor x y))
@@ -65,11 +67,13 @@
 	; We need to iterate |points|-1 times
 	; to fully divide the tree
 	(loop for i from 2 to (length points) do (block split
+		; (format t "~d / ~d~%" (- i 1) (- (length points) 1))
+
 		; Select the cluster with maximum diameter
 		(setf max-cluster-idx (car (max-all
 			(loop for cluster in clusters
 					for j from 0
-				if (and (null (second cluster)) (> (length (car cluster)) 1))
+				if (and (null (second cluster)) (> (length (car cluster)) *MIN-CLUSTER-SIZE*))
 					collect (list j (diameter
 						(car cluster) cached-metric)))
 			; key for max (diameter in second slot):
@@ -77,16 +81,19 @@
 
 		; No more splits are possible.
 		(if (null max-cluster-idx)
-			(return-from outer (unflatten-tree clusters)))
+			(return-from outer clusters))
 
 		(setf max-cluster
 			(nth max-cluster-idx clusters))
 
 		(setf child-cluster (list (list) nil))
+		(setf leftover-child-cluster (list (car max-cluster) nil))
 
 		; While the most dissimilar point in the
 		; cluster should still be moved, move it.
-		(block move-points (loop while t do (block move-point
+		(block move-points
+		(setf moved (make-hash-table :test #'equal))
+		(loop while t do (block move-point
 			;(setf rebel-pair (most-dissimilar
 			;	(car max-cluster) cached-metric t))
 			;(setf rebel-point (car rebel-pair))
@@ -104,20 +111,22 @@
 			;(if (>= dist-from-child-cluster rebel-dist)
 				;(return-from move-points))
 
-			(setf rebel-pairs (loop for pt in (car max-cluster)
-				collect (list pt (-
-					(inner-dissimilarity pt (car max-cluster) cached-metric)
-					(inner-dissimilarity pt (car child-cluster) cached-metric)))))
+			(setf rebel-pairs (loop for pt in (car leftover-child-cluster)
+				if (null (gethash pt moved))
+					collect (list pt (-
+						(inner-dissimilarity pt (car leftover-child-cluster) cached-metric)
+						(inner-dissimilarity pt (car child-cluster) cached-metric)))))
 
-			(format t "~s~%" rebel-pairs)
+			; Could we get an edge case here where everything has been moved?
+			(if (equal 0 (length rebel-pairs))
+				(format t "no rebel pairs to move (~s moved, choices ~s)~%" (ht-to-str moved) (car max-cluster)))
 
-			(setf rebel-pair (max-all (loop for pt in (car max-cluster)
-				collect (list pt (-
-					(inner-dissimilarity pt (car max-cluster) cached-metric)
-					(inner-dissimilarity pt (car child-cluster) cached-metric)))) #'second))
+			(setf rebel-pair (max-all rebel-pairs #'second))
 
 			(if (<= (second rebel-pair) 0)
 				(return-from move-points))
+
+			(setf (gethash (car rebel-pair) moved) t)
 
 			(setf rebel-point (car rebel-pair))
 
@@ -126,20 +135,26 @@
 				(append (car child-cluster) (list rebel-point))
 				(second child-cluster)
 			))
-			(setf max-cluster (list
-				(remove rebel-point (car max-cluster)
-					:test #'equal :count 1)
-				(second max-cluster)))
+			(setf leftover-child-cluster (list
+				(remove rebel-point (car leftover-child-cluster) :test #'equal)
+				(second leftover-child-cluster)))
+
 		)))
+
 
 		; Add the child cluster to the list and set the
 		; parent cluster's child pointer.
-		(setf clusters (append clusters (list child-cluster)))
-		(setf max-cluster (list (car max-cluster) (- (length clusters) 1)))
+		(setf clusters (append clusters (list child-cluster leftover-child-cluster)))
+		(setf max-cluster (list (car max-cluster)
+			(list
+				(- (length clusters) 2)
+				(- (length clusters) 1)
+			)
+		))
 		(setf (nth max-cluster-idx clusters) max-cluster) ; DESTRUCTIVE (but it's ok)
 	))
 
-	(return-from outer (unflatten-tree clusters))
+	(return-from outer clusters)
 )
 )
 
@@ -160,7 +175,7 @@
 )
 
 (ldefun inner-dissimilarity (point cluster metric)
-(let ((cluster (remove point cluster :test #'equal :count 1)))
+(let ((cluster (remove point cluster :test #'equal)))
 	(avg-mean (loop for point2 in cluster
 		collect (funcall metric point point2)))
 )

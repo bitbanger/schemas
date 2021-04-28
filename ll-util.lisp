@@ -1286,3 +1286,7 @@ is replaced with replacement."
 (ldefun all-caps? (str)
 	(equal str (string-upcase str))
 )
+
+(ldefun in-span (num span)
+	(and (>= num (car span)) (<= num (second span)))
+)

@@ -354,7 +354,8 @@
 							; then
 							(setf e (listify-nonlists e))
 						)
-						(setf memb (member e l2 :test (lambda (a b) (not (null (intersection (listify-nonlists a) (listify-nonlists b) :test #'equal))))))
+						; (setf memb (member e l2 :test (lambda (a b) (not (null (intersection (listify-nonlists a) (listify-nonlists b) :test #'equal))))))
+						(setf memb (member e l2 :test #'equal))
 						(if (null memb)
 							; then
 							(return-from mem)
@@ -426,7 +427,7 @@
 
 (ldefun interesting-common-ancestor (pred1 pred2)
 	(let ((ca (common-ancestor pred1 pred2)))
-		(if (contains '(PHYSICAL_ENTITY.N ENTITY.N OBJECT.N) ca)
+		(if (contains '(PHYSICAL_ENTITY.N ENTITY.N OBJECT.N ACT.V) ca)
 			; then
 			nil
 			; else

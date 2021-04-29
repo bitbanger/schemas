@@ -722,7 +722,9 @@
 		)
 
 		(:Necessities
-			(!n1 (!r4 necessary-to-degree 1.0))
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+			(!n3 (!r4 necessary-to-degree 1.0))
 		)
 
 		(:Goals

@@ -846,14 +846,14 @@ bind-pred
 		; then
 		(if (not (subsumes story-pred schema-pred))
 			; then
-			(if (not (common-ancestor story-pred schema-pred))
+			(if (null (interesting-common-ancestor story-pred schema-pred))
 				; then
 				(progn
 				(dbg 'unify "predicates ~s and ~s cannot be unified~%" schema-pred story-pred)
 				(return-from outer nil)
 				)
 				; else
-				(dbg 'match "unified schema ~s with unequal story ~s~%" schema-pred story-pred)
+				(dbg 'match "unified schema ~s with unequal story ~s (ica ~s)~%" schema-pred story-pred (interesting-common-ancestor story-pred schema-pred))
 			)
 		)
 		; else

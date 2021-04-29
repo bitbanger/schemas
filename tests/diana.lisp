@@ -25,10 +25,12 @@
 (ldefun wn-metric (x y)
 (block outer
 	(setf x (loop for e in x
-		if (and (symbolp e) (canon-pred? e))
+		; if (and (symbolp e) (canon-pred? e))
+		if (lex-noun? e)
 			collect e))
 	(setf y (loop for e in y
-		if (and (symbolp e) (canon-pred? e))
+		; if (and (symbolp e) (canon-pred? e))
+		if (lex-noun? e)
 			collect e))
 
 	(if (not (equal (length x) (length y)))

@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "round2.lisp")
+(load "apr-27-schemas.lisp")
 (load "../ll-load.lisp")
 
 (ll-load-superdir "protoschemas.lisp")
@@ -11,29 +11,11 @@
 (ll-load-superdir "el-to-ulf.lisp")
 (ll-load-superdir "schema-expansion.lisp")
 
+(defparameter *NEST-SPEC-SUBSUMPTIONS* nil)
+(defparameter *NEST-BASIC-SUBSUMPTIONS* nil)
+
 (loop for protoschema in *PROTOSCHEMAS*
 	do (register-schema (eval protoschema)))
-
-; fix transports
-(setf *LEARNED-SCHEMAS* (loop for sch in *LEARNED-SCHEMAS*
-	; do (format t "~s~%" (get-schema-match-name (prop-pred (car (schema-header (car sch))))))
-	if (and (equal 3 (length (car (schema-header (car sch))))) (equal (get-schema-match-name (prop-pred (car (schema-header (car sch))))) 'TRANSPORT_OBJECT.V))
-		; then
-		collect (block fix-transport
-			(setf header (car (schema-header (car sch))))
-			(setf dest (car (loop for rc in (mapcar #'second (section-formulas (get-section (car sch) ':Roles)))
-				if (equal (second rc) 'DESTINATION.N)
-					collect (car rc))))
-			(setf new-header (append header (list dest)))
-			(setf new-sch (replace-vals header new-header sch))
-			(return-from fix-transport new-sch)
-		)
-		; else
-		collect sch
-))
-
-
-
 
 ; Correct the learned schemas, now, to fix duplicate
 ; names:
@@ -122,20 +104,55 @@
 	(filter-arg-rcs (get-arg-rcs arg schema))
 )
 
-(defun get-arg-rcs (arg schema)
+(defun probably-lambda? (l)
+(and
+	(listp l)
+	(equal 3 (length l))
+	(equal (car l) 'L)
+)
+)
+
+(ldefun get-arg-rcs (arg schema)
+(block outer
+	(setf res (unfiltered-get-arg-rcs arg schema))
+
+	(setf better-res (copy-item res))
+	(setf better-res (remove 'LOCATION.N better-res :test #'equal))
+	(setf better-res (remove 'DESTINATION.N better-res :test #'equal))
+	(setf better-res (remove 'ENTITY.N better-res :test #'equal))
+	(setf better-res (remove 'INANIMATE_OBJECT.N better-res :test #'equal))
+	(setf better-res (remove 'OBJECT.N better-res :test #'equal))
+	(setf better-res (remove 'AGENT.N better-res :test #'equal))
+
+	(if (> (length better-res) 0)
+		(return-from outer better-res))
+
+	(return-from outer res)
+)
+)
+
+(ldefun unfiltered-get-arg-rcs (arg schema)
+(block outer
+	(if (mp arg (list 'lex-det? 'any?))
+		(return-from outer (unfiltered-get-arg-rcs (second arg) schema)))
+
 	(if (canon-kind? arg)
 		(if (equal 'K (car arg))
 			; then
-			(list (second arg))
+			(return-from outer (unfiltered-get-arg-rcs (second arg) schema))
 			; else
-			(list arg)
+			(return-from outer (list arg))
 		)
-		; else
-		(if (mp arg (list 'lex-det? 'lex-noun?))
+	)
+
+	(if (and (probably-lambda? arg) (not (null (get-elements-pred arg 'lex-noun?))))
+		(return-from outer (list (car (last (get-elements-pred arg 'lex-noun?))))))
+
+	(if (mp arg (list 'lex-det? 'lex-noun?))
 		; then
-		(list (second arg))
+		(return-from outer (list (second arg)))
 		; else
-		(let ((result (loop for rc in
+		(return-from outer (let ((result (loop for rc in
 		(section-formulas (get-section schema ':Roles))
 		if (equal (car (second rc)) arg)
 			collect (unwrap-singletons (cdr (second rc))))))
@@ -143,8 +160,9 @@
 		(progn
 		; (if (null result) (format t "couldn't find RC for ~s in ~s~%" arg (loop for rc in (section-formulas (get-section schema ':Roles)) collect (car (second rc)))))
 		; (if (null result) nil result)
-		(if (null result) (list arg) result)
-		))))
+		(if (null result) (list arg) result))))
+	)
+)
 )
 
 (defun get-args-rcs (args schema)
@@ -284,18 +302,18 @@
 						(setf rc-pre-args
 							(loop for pre-arg in (prop-pre-args child-prop)
 								for i from 0
-									collect (car (loop for elem in (nth i novel-child-args-rcs)
+									collect (car (last (loop for elem in (nth i novel-child-args-rcs)
 													if (lex-noun? elem)
 														; collect (basic-level elem)))))
-														collect elem))))
+														collect elem)))))
 						(setf rc-post-args
 							(loop for post-arg in (prop-post-args child-prop)
 								for i from (length rc-pre-args)
 									; do (format t "considering arg ~s~%" (loop for elem in (nth i novel-child-args-rcs) if (lex-noun? elem) collect elem))
-									collect (car (loop for elem in (nth i novel-child-args-rcs)
+									collect (car (last (loop for elem in (nth i novel-child-args-rcs)
 													if (lex-noun? elem)
 														; collect (basic-level elem)))))
-														collect elem))))
+														collect elem)))))
 
 						(setf prop-with-rc-args (render-prop
 							rc-pre-args
@@ -404,11 +422,11 @@
 	(loop for mod-var in mod-vars
 			for mod-var-rcs in mod-var-rcs
 			do (block annotate-mod-args
-				(setf mod-rcs (loop for elem in mod-var-rcs
+				(setf mod-rcs (car (last (loop for elem in mod-var-rcs
 					if (lex-noun? elem)
 						collect elem
 					if (and (plur? elem) (lex-noun? (second elem)))
-						collect (second elem)))
+						collect (second elem)))))
 
 				(if (not (null mod-rcs))
 					(setf rc-mods (replace-vals mod-var mod-rcs rc-mods)))
@@ -436,6 +454,12 @@
 		rc-pre-args
 		(listify-nonlists (stack-nest (prop-pred st) rc-mods))
 		rc-post-args))
+
+	; If any vars are left, replace them with ENTITY.N
+	(setf remaining-vars (dedupe (get-elements-pred prop-with-rc-args #'varp)))
+	(loop for var in remaining-vars
+		do (setf prop-with-rc-args (replace-vals
+			var 'ENTITY.N prop-with-rc-args)))
 
 	(setf flat-prop prop-with-rc-args)
 
@@ -473,6 +497,10 @@
 	))
 
 	(setf flat-prop-no-mods (append rc-pre-args (listify-nonlists (prop-pred st)) rc-post-args))
+	(setf remaining-vars (dedupe (get-elements-pred flat-prop-no-mods #'varp)))
+	(loop for var in remaining-vars
+		do (setf flat-prop-no-mods (replace-vals
+			var 'ENTITY.N flat-prop-no-mods)))
 	; (format t "		~s~%" flat-prop-no-mods)
 
 	; make a basic-level gen
@@ -496,6 +524,8 @@
 	; (setf index-flat-prop (replace-vals idx-pred stripped-idx-pred index-flat-prop))
 	(setf (gethash index-flat-prop basic-map) (append (gethash index-flat-prop basic-map) (list flat-prop)))
 
+	(return-from outer index-flat-prop)
+
 
 	;(format t "~s~%" flat-prop)
 	;(format t "	~s~%" basic-flat-prop)
@@ -507,7 +537,7 @@
 	(setf rcs (mapcar #'second (section-formulas (get-section proto ':Roles))))
 	(setf steps (mapcar #'second (section-formulas (get-section proto ':Steps))))
 
-	(basic-step (car (schema-header proto)) proto basic-map rcs steps orig-child-name)
+	(return-from outer (basic-step (car (schema-header proto)) proto basic-map rcs steps orig-child-name))
 )
 )
 
@@ -740,6 +770,76 @@
 	(and (not (equal a b)) (subsumes a b))
 )
 
+(ldefun probably-mod? (m)
+(or
+	(and (listp m) (contains '(ADV-A ADV ADV-E ADV-S) m))
+	(lex-adv? m)
+)
+)
+
+(ldefun basic-subsumes (b1 b2)
+(block outer
+	; not a strict subsumption
+	(if (equal b1 b2)
+		(return-from outer nil))
+
+	(setf b1-mods (loop for e in b1
+		if (probably-mod? e) collect e))
+	(setf b1-no-mods (loop for e in b1
+		if (not (probably-mod? e)) collect e))
+
+	(setf b2-mods (loop for e in b2
+		if (probably-mod? e) collect e))
+	(setf uniq-b2-mods (set-difference b2-mods b1-mods :test #'equal))
+	(setf b2-no-mods (loop for e in b2
+		if (not (probably-mod? e)) collect e))
+
+	; b1 mods should all be present in b2
+	(if (and (not (null b1-mods))
+			(not (loop for m in b1-mods always (contains b2-mods m))))
+		(return-from outer nil))
+
+	; b1 is b2 with fewer mods
+	(if (equal b1-no-mods b2-no-mods)
+		(return-from outer t))
+
+	; verbs don't nest
+	;(if (not (subsumes (second b1-no-mods) (second b2-no-mods)))
+		;(return-from outer nil))
+
+	(if (and (equal (length b1-no-mods) (length b2-no-mods))
+			(loop for elem1 in b1-no-mods for elem2 in b2-no-mods
+				thereis (strictly-subsumes elem1 elem2))
+			(loop for elem1 in b1-no-mods for elem2 in b2-no-mods
+				always (subsumes elem1 elem2))
+			(loop for elem1 in b1-no-mods for elem2 in b2-no-mods
+				never (strictly-subsumes elem2 elem1)))
+		(return-from outer t)
+	)
+
+	(return-from outer nil)
+)
+)
+
+(ldefun clean-spec (spec)
+(block outer
+	(setf spec-ks (get-elements-pred spec (lambda (x) (and (canon-kind? x) (equal (car x) 'K)))))
+	(loop for spec-k in spec-ks
+		do (setf spec (replace-vals spec-k (second spec-k) spec)))
+
+	;(setf spec-kas (get-elements-pred spec #'canon-ka?))
+	;(loop for spec-ka in spec-kas
+		;do (setf spec (replace-vals spec-ka (list 'TO (second spec-ka)) spec)))
+
+	(setf spec-match-verbs (dedupe (get-elements-pred spec
+		(lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x))))))))
+	(loop for smv in spec-match-verbs
+		do (setf spec (replace-vals smv (get-schema-match-name smv) spec)))
+
+	(return-from outer spec)
+)
+)
+
 (defun analyze-protos ()
 (block outer
 	(setf basic-map (make-hash-table :test #'equal))
@@ -790,61 +890,71 @@
 			(setf arrows (list))
 			(loop for spec in (gethash basic basic-map)
 				do (progn
-					(setf spec-mods (loop for e in spec
-						if (and (listp e) (equal 'ADV-A (car e)))
-							collect (second e)
-						if (and (symbolp e) (has-suffix? (string e) "ADV-A"))
-							collect e
-						if (and (symbolp e) (has-suffix? (string e) "ADV"))
-							collect e))
-					(setf spec (loop for e in spec
-					if (and
-							(not (and (listp e) (equal 'ADV-A (car e))))
-							(not (and (symbolp e) (has-suffix? (string e) "ADV-A")))
-							(not (and (symbolp e) (has-suffix? (string e) "ADV")))) collect e))
-					(setf spec (append spec spec-mods))
+					(if nil (block ifnil
+						(setf spec-mods (loop for e in spec
+							if (and (listp e) (equal 'ADV-A (car e)))
+								collect (second e)
+							if (and (symbolp e) (has-suffix? (string e) "ADV-A"))
+								collect e
+							if (and (symbolp e) (has-suffix? (string e) "ADV"))
+								collect e))
+						(setf spec (loop for e in spec
+						if (and
+								(not (and (listp e) (equal 'ADV-A (car e))))
+								(not (and (symbolp e) (has-suffix? (string e) "ADV-A")))
+								(not (and (symbolp e) (has-suffix? (string e) "ADV")))) collect e))
+						(setf spec (append spec spec-mods))
+					))
 
 					(setf spec-ks (get-elements-pred spec (lambda (x) (and (canon-kind? x) (equal (car x) 'K)))))
 					(loop for spec-k in spec-ks
 						do (setf spec (replace-vals spec-k (second spec-k) spec)))
 
-					(setf spec-kas (get-elements-pred spec #'canon-ka?))
-					(loop for spec-ka in spec-kas
-						do (setf spec (replace-vals spec-ka (list 'TO (second spec-ka)) spec)))
+					;(setf spec-kas (get-elements-pred spec #'canon-ka?))
+					;(loop for spec-ka in spec-kas
+						;do (setf spec (replace-vals spec-ka (list 'TO (second spec-ka)) spec)))
 
-					(setf spec-match-verbs (dedupe (get-elements-pred spec
-						(lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x))))))))
-					(loop for smv in spec-match-verbs
-						do (setf spec (replace-vals smv (get-schema-match-name smv) spec)))
-					; (setf spec (flatten spec))
+					(setf unclean-spec (copy-item spec))
 
-				(if (not (contains arrows (list basic spec)))
+					;(setf spec-match-verbs (dedupe (get-elements-pred spec
+						;(lambda (x) (and (lex-verb? x) (not (null (get-schema-match-num x))))))))
+					;(loop for smv in spec-match-verbs
+						;do (setf spec (replace-vals smv (get-schema-match-name smv) spec)))
+
+					(setf spec (flatten spec))
+
+				(if (not (contains arrows (list basic unclean-spec)))
 					(setf arrows (append arrows
-						(list (list basic spec))))
+						(list (list basic unclean-spec))))
 				)
+
+				;(if (not (contains arrows (list spec unclean-spec)))
+					;(setf arrows (append arrows (list (list spec unclean-spec)))))
+
 				)
 			)
 
+			; Let specs subsume each other, too.
+			(if *NEST-SPEC-SUBSUMPTIONS* (block nest-spec
+				(loop for spec1 in (mapcar #'clean-spec (gethash basic basic-map))
+				do (loop for spec2 in (mapcar #'clean-spec (gethash basic basic-map))
+				do (block spec-subsume
+					(handler-case 
+					(if (basic-subsumes spec1 spec2)
+						; then
+						(progn
+						(setf arrows (append arrows (list (list spec1 spec2))))
+						)
+					)
+					(error () nil))
+				)))
+			))
+
 			; (format t "~s~%" basic)
+			(if *NEST-BASIC-SUBSUMPTIONS* (block nest-basic
 			(loop for basic2 being the hash-keys of basic-map do (block print-subsumed-basics
-				(if (equal basic basic2)
-					(return-from print-subsumed-basics))
-
-				(if (not (subsumes (second basic) (second basic2)))
-					(return-from print-subsumed-basics))
-
 				(handler-case 
-				(if (and
-						(equal (length basic) (length basic2))
-						(loop for elem1 in basic
-							for elem2 in basic2
-								thereis (strictly-subsumes elem1 elem2))
-						(loop for elem1 in basic
-							for elem2 in basic2
-								always (subsumes elem1 elem2))
-						(loop for elem1 in basic
-							for elem2 in basic2
-								never (strictly-subsumes elem2 elem1)))
+				(if (basic-subsumes basic basic2)
 					; then
 					(progn
 					(setf arrows (append arrows (list (list basic basic2))))
@@ -852,6 +962,11 @@
 				)
 				(error () nil))
 			))
+			))
+
+			(loop for basic being the hash-keys of basic-map
+				do (setf all-arrows (append all-arrows
+					(list (list (second basic) basic)))))
 
 			(setf all-arrows (dedupe (append all-arrows arrows)))
 			; (setf arrows (min-graph arrows))
@@ -906,12 +1021,48 @@
 			(print-dfs root-sch graph-map)
 			(format t "~%~%")
 		))
+
+
+		; Get distribution of direct children
+		(setf child-dist (loop for node being the hash-keys of graph-map
+			if (>= (length (gethash node graph-map)) 5)
+				collect (list node (length (gethash node graph-map)))))
+		(setf child-dist (sort child-dist #'< :key #'second))
+		(loop for child in child-dist
+			do (format t "~s (~d)~%" (car child) (second child)))
+		
+
 		; (format t "~s~%" all-arrows)
 		; (setf graph-map (mk-hashtable all-arrows))
 )
 )
 
+(ldefun new-analyze-composites ()
+(block outer
+	(loop for match in proto-matches
+		do (register-schema match))
+
+	(setf comps (loop for sch in *LEARNED-SCHEMAS*
+		if (has-prefix? (string (schema-name (car sch))) "COMPOSITE")
+			collect (car sch)))
+
+	(loop for comp in comps
+	do (block print-comp
+		(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
+		(setf proto-steps (loop for st in steps
+			if (not (null (get-schema-match-num (prop-pred st))))
+				collect (eval (prop-pred st))))
+		(loop for ps in proto-steps
+			do (format t "~s~%" (basic-proto-header ps (make-hash-table :test #'equal))))
+
+		(if (> (length proto-steps) 0)
+			(format t "~%~%"))
+	)
+	)
+)
+)
+
 (run-proto-match-collector)
-(analyze-protos)
-; (analyze-composites)
+; (analyze-protos)
+(new-analyze-composites)
 

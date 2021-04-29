@@ -411,7 +411,13 @@
 (setf diana-clusters (diana headers #'wn-metric))
 (setf diana-tree (unflatten-tree diana-clusters))
 
+(setf diams (loop for cl in diana-clusters
+	if (> (length (car cl)) 1)
+		collect (diameter (car cl) #'wn-metric)))
+; (format t "~s~%" (sort diams #'<))
+
 (loop for cl in diana-clusters
-	if (or (equal (length (car cl)) 8)
-		(equal (length (car cl)) 9))
+	; if (or (equal (length (car cl)) 8)
+		; (equal (length (car cl)) 9))
+	if (and (> (length (car cl)) 1) (<= (diameter (car cl) #'wn-metric) 3))
 			do (format t "~s~%" cl))

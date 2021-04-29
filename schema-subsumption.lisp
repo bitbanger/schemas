@@ -444,23 +444,28 @@
 		((mp el (list (list 'id? 'K) 'lex-noun?))
 			(gethash (second el) *NOUN-BASIC-LEVELS*))
 		((canon-ka? el)
-			'act.n)
+			'action.n)
 		(t nil)
 	)
 )
 
+(setf special-basic-levels (mk-hashtable '(
+	(PERSON.N AGENT.N)
+	(FOOD.N FOOD.N)
+)))
+
 (ldefun basic-level (el)
-	(let ((bl (basic-level-maybe-nil el)))
-		(if (null bl)
-			; then
-			el
-			; else
-			(if (equal bl 'PERSON.N)
-				; then
-				'AGENT.N
-				; else
-				bl
-			)
-		)
-	)
+(block outer
+	(setf bl (basic-level-maybe-nil el))
+	(if (null bl)
+		(return-from outer el))
+
+	(if (not (null (gethash el special-basic-levels)))
+		(return-from outer (gethash el special-basic-levels)))
+
+	(if (not (null (gethash bl special-basic-levels)))
+		(return-from outer (gethash bl special-basic-levels)))
+
+	(return-from outer bl)
+)
 )

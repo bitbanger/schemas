@@ -1,3 +1,5 @@
+(require :sb-sprof)
+
 (declaim (sb-ext:muffle-conditions cl:warning))
 
 ; (setf *random-state* (make-random-state t))
@@ -12,6 +14,7 @@
 (ll-load-superdir "schema-link.lisp")
 (ll-load-superdir "schema-util.lisp")
 (ll-load-superdir "ll-util.lisp")
+(ll-load-superdir "ll-cache.lisp")
 
 ; 400 total ROCstories in set so far
 (defparameter *NUM-DEV-STORIES* (length *ROC-MCGUFFEY*))
@@ -43,8 +46,8 @@
 	; "The woman kissed a man."
 	; "It was snowing outside Tom's house one day."
 	; "The girls went to the pond."
-	"Ben's dog Skip was very old."
-	; nil
+	; "Ben's dog Skip was very old."
+	nil
 )
 (setf stories-processed 0)
 
@@ -98,6 +101,8 @@
 			; else
 			(setf stories-processed (+ stories-processed 1))
 		)
+
+		(clear-ll-func-cache)
 
 		;(if (and
 				;(not (null story-start-line))
@@ -323,6 +328,8 @@
 		(setf new-schema (compose-schema rcs events schemas-with-bindings story-ep-rels))
 		(print-schema new-schema)
 
+		(return-from process-story)
+
 		(format t "flattened composite schema: ~%")
 		(loop for phi in (flatten-schema new-schema t)
 			do (format t "	~s~%" phi)
@@ -353,4 +360,19 @@
 	)
 )
 
-(compose-schemas-from-stories)
+;(sb-sprof:with-profiling
+;	(:max-samples 10000
+;	  :max-depth 3
+;	  :mode :alloc
+;	  :report :graph)
+(block profiled
+
+	(compose-schemas-from-stories)
+
+)
+;)
+
+; (print-ht *LDEFUN-CALLS*)
+;(setf sorted-calls (sort (ht-pairs *LDEFUN-CALLS*) (lambda (x y) (> (second x) (second y)))))
+;(loop for sc in sorted-calls
+	;do (format t "~s: ~d~%" (car sc) (second sc)))

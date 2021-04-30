@@ -796,6 +796,7 @@
 				(setf bound-nested nil)
 
 				(setf invoked (invoked-schema phi))
+				(setf invoked nil) ; Disable nested schema checking. I just can't debug this right now. (4/29/2021)
 				; Check nested invoked schemas, unless we're examining the header itself.
 				; TODO: factor this and expand-nested-schema together, resolve the
 				; difference with _PARENT (too exhausted to factor them right now
@@ -837,7 +838,7 @@
 
 						(if (null header-bindings)
 							(progn
-							; (format t "BUG: ~s invoked ~s, but couldn't unify!~%" check-phi nested-schema-name)
+							(format t "BUG: ~s invoked ~s, but couldn't unify!~%" check-phi nested-schema-name)
 							(return-from outer nil)
 							)
 						)
@@ -929,6 +930,7 @@
 								(if (>= (get-necessity phi-id schema) 1.0)
 									; then, invalid match
 									(progn
+									(dbg 'match "necessary constraint ~s was broken~%" phi-id)
 									(return-from outer nil)
 									)
 									; else

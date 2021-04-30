@@ -4078,8 +4078,8 @@ I threw them out."
 		"Joe needed a new sliding door."
 		"His old was broken."
 		"So Joe went to the store to look for another one."
-		"Joe found a very nice one,
-Joe loved his new door ."
+		"Joe found a very nice one."
+		"Joe loved his new door."
 	)
 	(
 		"Today I went to lunch."

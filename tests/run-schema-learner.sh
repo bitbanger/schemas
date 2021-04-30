@@ -1,7 +1,15 @@
 #!/bin/bash
 
-DATE=apr-27
+DATE=apr-30
 
+NUMSECTORS=3906000 # a sector is 512 bytes
+mydev=`hdiutil attach -nomount ram://$NUMSECTORS`
+newfs_hfs $mydev
+mkdir /tmp/mymount
+mount -t hfs $mydev /tmp/mymount
+cp ../allen-coref/coref-spanbert-large-2020.02.27.tar.gz /tmp/mymount
+
+rm -rf $DATE-output
 mkdir $DATE-output
 sbcl --dynamic-space-size 10240 --script test-compose.lisp 0 30 | tee $DATE-output/$DATE-mtg-0.txt
 sbcl --dynamic-space-size 10240 --script test-compose.lisp 30 60 | tee $DATE-output/$DATE-mtg-1.txt
@@ -16,3 +24,11 @@ sbcl --dynamic-space-size 10240 --script test-compose.lisp 270 300 | tee $DATE-o
 sbcl --dynamic-space-size 10240 --script test-compose.lisp 300 330 | tee $DATE-output/$DATE-mtg-10.txt
 sbcl --dynamic-space-size 10240 --script test-compose.lisp 330 360 | tee $DATE-output/$DATE-mtg-11.txt
 sbcl --dynamic-space-size 10240 --script test-compose.lisp 360 390 | tee $DATE-output/$DATE-mtg-12.txt
+sbcl --dynamic-space-size 10240 --script test-compose.lisp 390 420 | tee $DATE-output/$DATE-mtg-13.txt
+sbcl --dynamic-space-size 10240 --script test-compose.lisp 420 450 | tee $DATE-output/$DATE-mtg-14.txt
+sbcl --dynamic-space-size 10240 --script test-compose.lisp 450 480 | tee $DATE-output/$DATE-mtg-15.txt
+sbcl --dynamic-space-size 10240 --script test-compose.lisp 480 510 | tee $DATE-output/$DATE-mtg-16.txt
+sbcl --dynamic-space-size 10240 --script test-compose.lisp 510 540 | tee $DATE-output/$DATE-mtg-17.txt
+sbcl --dynamic-space-size 10240 --script test-compose.lisp 540 560 | tee $DATE-output/$DATE-mtg-18.txt
+
+sudo umount -l /tmp/mymount

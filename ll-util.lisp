@@ -684,10 +684,9 @@
 )
 
 (defun dbg (tag fmt-str &rest args)
-	nil
-	;(if (or *DBG-ALL* (member tag *DBG-TAGS* :test #'equal))
-		;(apply #'format (append (list t fmt-str) args))
-	;)
+	(if (or *DBG-ALL* (member tag *DBG-TAGS* :test #'equal))
+		(apply #'format (append (list t fmt-str) args))
+	)
 )
 
 (defun dbg-tag (tag)
@@ -1067,6 +1066,10 @@ is replaced with replacement."
 )
 )
 
+(defun remove-last (lst)
+	(subseq lst 0 (- (length lst) 1))
+)
+
 (defun rec-remove (lst x)
 	(remove x
 		(loop for e in lst
@@ -1245,7 +1248,6 @@ is replaced with replacement."
 
 	(setf desc (list))
 	(loop for e in es
-		if (equal v (car e))
 		if (and (equal v (car e))
 			(not (gethash (second e) seen)))
 				do (progn
@@ -1430,4 +1432,8 @@ is replaced with replacement."
 		(loop for c in (second root)
 			append (tree-leaves c))
 	)
+)
+
+(defun mkht ()
+	(make-hash-table :test #'equal)
 )

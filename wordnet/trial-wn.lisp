@@ -16,7 +16,7 @@
 	; For some reason, we don't recognize all synonyms as
 	; words in their own right, so we'll let them use their
 	; fellow synonyms's ladders here.
-	(if (and (null ladders) (loop for s in (wordnet-synonyms el) thereis (not (equal s el))))
+	(if (and (null (unwrap-singletons ladders)) (loop for s in (wordnet-synonyms el) thereis (not (equal s el))))
 		(loop for syn in (wordnet-synonyms el)
 			if (and (not (equal syn el)))
 				do (progn

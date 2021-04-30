@@ -19,6 +19,7 @@
 	request_action.v
 	watch.v
 	enjoy_action.v
+	like.v
 	transport_object.v
 ))
 
@@ -43,6 +44,34 @@
 
 		(:Preconds
 			(?i1 (?x (think.v (that (?a fun.a)))))
+		)
+	)
+)
+
+(defparameter like.v
+	'(epi-schema ((?x like.v ?o) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (not (?o action.n)))
+			(!r3 (not (?o agent.n)))
+			(!r4 (?o object.n))
+		)
+
+		(:Paraphrases
+			(?e (?x want.v ?o))
+			(?e (?x (want.v ?o)))
+			(?e (?x (like.v ?o)))
+			(?e (?x (love.v ?o)))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+			(!n2 (!r3 necessary-to-degree 1.0))
+		)
+
+		(:Postconds
+			(?p1 (?x (want.v (ka (have.v ?o)))))
 		)
 	)
 )
@@ -294,17 +323,22 @@
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (not (?o agent.n)))
-			(!r3 (?l location.n))
-			(!r4 (not (?x = ?o)))
+			(!r3 (not (?o action.n)))
+			(!r4 (?l location.n))
+			(!r5 (not (?x = ?o)))
 		)
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
-			(!n2 (!r4 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+			(!n3 (!r3 necessary-to-degree 1.0))
+			(!n4 (!r5 necessary-to-degree 1.0))
 		)
 
 		(:Goals
 			(?g1 (?x (want.v (that (?x (have.v ?o))))))
+			(?g2 (?x (need.v ?o)))
+			(?g3 (?x (want.v ?o)))
 		)
 
 		(:Preconds
@@ -356,6 +390,7 @@
 
 		(:Preconds
 			(?i1 (?o ((adv-a (at.p ?l1)) be.v)))
+			(?i2 (?x (have.v ?o)))
 		)
 
 		(:Postconds
@@ -441,6 +476,7 @@
 			(!r1 (?x agent.n))
 			(!r2 (?lx location.n))
 			(!r3 (?lo location.n))
+			(!r4 (?o entity.n))
 		)
 
 		(:Paraphrases
@@ -482,6 +518,7 @@
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (?l location.n))
+			(!r3 (?o entity.n))
 		)
 
 		(:Necessities
@@ -557,12 +594,16 @@
 )
 
 (defparameter sit.v
-	'(epi-schema ((?x ((adv-a (on.p ?s)) ((adv-a (in.p ?s)) sit.v))) ** ?e)
+	'(epi-schema ((?x ((adv-a (on.p ?s)) sit.v)) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))
 			(!r2 (not (?s agent.n)))
 			(!r3 (?s furniture.n))
 			(!r4 (?l location.n))
+		)
+
+		(:Paraphrases
+			(?e (?x ((adv-a (in.p ?s)) sit.v)))
 		)
 
 		(:Necessities
@@ -676,18 +717,19 @@
 			(!r1 (?x agent.n))
 			(!r2 (?y agent.n))
 			(!r3 (?a action.n))
+			(!r4 (not (?x = ?y)))
 		)
 
 		(:Paraphrases
 			(?e (?x (ask.v ?y ?a)))
 			(?e (?x (tell.v ?y ?a)))
-			(?e (?x (make.v ?y ?a)))
 		)
 
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
 			(!n2 (!r2 necessary-to-degree 1.0))
 			(!n3 (!r3 necessary-to-degree 1.0))
+			(!n4 (!r4 necessary-to-degree 1.0))
 		)
 
 		(:Goals

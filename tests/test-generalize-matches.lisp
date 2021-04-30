@@ -1,6 +1,6 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "apr-27-schemas.lisp")
+(load "apr-30-schemas.lisp")
 (load "../ll-load.lisp")
 
 (ll-load-superdir "protoschemas.lisp")
@@ -11,8 +11,8 @@
 (ll-load-superdir "el-to-ulf.lisp")
 (ll-load-superdir "schema-expansion.lisp")
 
-(defparameter *NEST-SPEC-SUBSUMPTIONS* nil)
-(defparameter *NEST-BASIC-SUBSUMPTIONS* nil)
+(defparameter *NEST-SPEC-SUBSUMPTIONS* t)
+(defparameter *NEST-BASIC-SUBSUMPTIONS* t)
 
 (loop for protoschema in *PROTOSCHEMAS*
 	do (register-schema (eval protoschema)))
@@ -99,6 +99,7 @@
 
 
 (setf matches-for-protos (make-hash-table :test #'equal))
+(setf parents-for-matches (mkht))
 
 (defun get-filtered-arg-rcs (arg schema)
 	(filter-arg-rcs (get-arg-rcs arg schema))
@@ -189,6 +190,9 @@
 
 		(setf (gethash proto-parent matches-for-protos)
 				(append (gethash proto-parent matches-for-protos) (list pm)))
+
+		(setf (gethash (schema-name pm) parents-for-matches)
+			proto-parent)
 
 	))
 
@@ -366,7 +370,7 @@
 	))) (if (null res) rcs res)))
 )
 
-(ldefun basic-step (st comp basic-map rcs steps &optional orig-child-name)
+(ldefun basic-step (st comp basic-map rcs steps &optional orig-child-name no-basic)
 (block outer
 	(setf step-vars (dedupe (get-elements-pred steps #'varp)))
 	; (format t "step vars: ~s~%" step-vars)
@@ -509,7 +513,10 @@
 	(loop for noun in (dedupe (get-elements-pred flat-prop-no-mods
 		(lambda (x) (or (lex-noun? x) (canon-kind? x)))))
 			do (block basic-ify
-		(setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop))
+
+		(if (not no-basic)
+			(setf basic-flat-prop (replace-vals noun (basic-level noun) basic-flat-prop)))
+
 		(setf index-flat-prop (copy-item basic-flat-prop))
 		(if (and (not (null orig-child-name)) (loop for e in basic-flat-prop thereis (lex-verb? e)))
 			(setf index-flat-prop (replace-vals (car (loop for e in basic-flat-prop if (lex-verb? e) collect e))
@@ -532,12 +539,12 @@
 )
 )
 
-(ldefun basic-proto-header (proto basic-map &optional orig-child-name)
+(ldefun basic-proto-header (proto basic-map &optional orig-child-name no-basic)
 (block outer
 	(setf rcs (mapcar #'second (section-formulas (get-section proto ':Roles))))
 	(setf steps (mapcar #'second (section-formulas (get-section proto ':Steps))))
 
-	(return-from outer (basic-step (car (schema-header proto)) proto basic-map rcs steps orig-child-name))
+	(return-from outer (basic-step (car (schema-header proto)) proto basic-map rcs steps orig-child-name no-basic))
 )
 )
 
@@ -772,13 +779,60 @@
 
 (ldefun probably-mod? (m)
 (or
-	(and (listp m) (contains '(ADV-A ADV ADV-E ADV-S) m))
+	(and (listp m) (contains '(ADV-A ADV ADV-E ADV-S) (car m)))
 	(lex-adv? m)
+)
+)
+
+(ldefun basic-mod-subsumes (m1 m2 &optional strict)
+(block outer
+	(setf m1-nouns (get-elements-pred m1 #'lex-noun?))
+	(setf m2-nouns (get-elements-pred m2 #'lex-noun?))
+
+	; Should have the same number of nouns
+	(if (not (equal (length m1-nouns) (length m2-nouns)))
+		(return-from outer nil))
+
+	; If all nouns are blanked out, the structures
+	; should be equal
+	(setf blanked-m1 (copy-item m1))
+	(loop for n in m1-nouns
+		do (setf blanked-m1 (replace-vals
+			n 'NOUN.N blanked-m1)))
+	(setf blanked-m2 (copy-item m2))
+	(loop for n in m2-nouns
+		do (setf blanked-m2 (replace-vals
+			n 'NOUN.N blanked-m2)))
+
+	(if (not (equal
+		blanked-m1 blanked-m2))
+		; then
+		(return-from outer nil))
+
+	; All nouns in m1 should subsume
+	; parallel nouns in m2.
+	(loop for n1 in m1-nouns do
+		(loop for n2 in m2-nouns do (block check
+			; NOTE: this assumes one noun per mod,
+			; i.e. I gave up on generalizing that,
+			; because it'll basically never happen
+			; and I'm on a deadline and missing that
+			; isn't so bad.
+			(if (strictly-subsumes n1 n2)
+				(return-from outer t))
+			(if (and (subsumes n1 n2) (not strict))
+				(return-from outer t))
+		)))
+
+	(return-from outer nil)
 )
 )
 
 (ldefun basic-subsumes (b1 b2)
 (block outer
+	(setf b1 (clean-spec b1))
+	(setf b2 (clean-spec b2))
+
 	; not a strict subsumption
 	(if (equal b1 b2)
 		(return-from outer nil))
@@ -794,10 +848,19 @@
 	(setf b2-no-mods (loop for e in b2
 		if (not (probably-mod? e)) collect e))
 
-	; b1 mods should all be present in b2
+	; b1 mods should all be present in,
+	; or subsume, mods in b2
 	(if (and (not (null b1-mods))
-			(not (loop for m in b1-mods always (contains b2-mods m))))
+			; (not (loop for m in b1-mods always (contains b2-mods m))))
+			(not (loop for m1 in b1-mods always
+				(loop for m2 in b2-mods thereis
+					(basic-mod-subsumes m1 m2)))))
 		(return-from outer nil))
+
+	(setf strict-mod-subsume
+		(loop for m1 in b1-mods always
+			(loop for m2 in b2-mods thereis
+				(basic-mod-subsumes m1 m2 t))))
 
 	; b1 is b2 with fewer mods
 	(if (equal b1-no-mods b2-no-mods)
@@ -809,7 +872,7 @@
 
 	(if (and (equal (length b1-no-mods) (length b2-no-mods))
 			(loop for elem1 in b1-no-mods for elem2 in b2-no-mods
-				thereis (strictly-subsumes elem1 elem2))
+				thereis (or strict-mod-subsume (strictly-subsumes elem1 elem2)))
 			(loop for elem1 in b1-no-mods for elem2 in b2-no-mods
 				always (subsumes elem1 elem2))
 			(loop for elem1 in b1-no-mods for elem2 in b2-no-mods
@@ -818,6 +881,26 @@
 	)
 
 	(return-from outer nil)
+)
+)
+
+(ldefun fill-vars (phi schema)
+(block outer
+	(setf phi-vars (dedupe (get-elements-pred phi #'varp)))
+
+	(setf rcs (mapcar #'car (get-args-rcs phi-vars schema)))
+
+	(loop for var in phi-vars for rc in rcs
+		do (setf phi (replace-vals var rc phi)))
+
+	(setf phi (loop for form in phi
+		if (not (and (listp form)
+			(equal 2 (length form))
+			(equal (car form) (second form))))
+			; then
+			collect form))
+
+	(return-from outer phi)
 )
 )
 
@@ -921,7 +1004,7 @@
 					;(loop for smv in spec-match-verbs
 						;do (setf spec (replace-vals smv (get-schema-match-name smv) spec)))
 
-					(setf spec (flatten spec))
+					; (setf spec (flatten spec))
 
 				(if (not (contains arrows (list basic unclean-spec)))
 					(setf arrows (append arrows
@@ -1015,8 +1098,8 @@
 						collect node))
 
 		(loop for root-sch in roots do (block print-tree
-			(if (<= (length (get-descendants root-sch all-arrows)) 1)
-				(return-from print-tree))
+			;(if (<= (length (get-descendants root-sch all-arrows)) 1)
+				;(return-from print-tree))
 
 			(print-dfs root-sch graph-map)
 			(format t "~%~%")
@@ -1042,27 +1125,97 @@
 	(loop for match in proto-matches
 		do (register-schema match))
 
+	(setf schemas-by-pairs (mkht))
+
 	(setf comps (loop for sch in *LEARNED-SCHEMAS*
 		if (has-prefix? (string (schema-name (car sch))) "COMPOSITE")
 			collect (car sch)))
 
 	(loop for comp in comps
 	do (block print-comp
+		(setf rcs (mapcar #'second (section-formulas (get-section comp ':Roles))))
 		(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
-		(setf proto-steps (loop for st in steps
-			if (not (null (get-schema-match-num (prop-pred st))))
-				collect (eval (prop-pred st))))
-		(loop for ps in proto-steps
-			do (format t "~s~%" (basic-proto-header ps (make-hash-table :test #'equal))))
 
-		(if (> (length proto-steps) 0)
-			(format t "~%~%"))
+		(setf all-steps (list))
+		(setf all-basic-steps (list))
+		(loop for st in steps do (block print-step
+
+			(if (not (null (get-schema-match-num (prop-pred st))))
+			; then
+			(block proto-step
+				(setf proto-name (prop-pred st))
+				(setf proto (eval proto-name))
+
+				(setf proto-parent-name
+					(gethash proto-name parents-for-matches))
+
+				(setf basic-st (basic-proto-header
+					proto (mkht)))
+
+				(setf st (basic-proto-header
+					proto (mkht) nil t))
+				(setf all-steps (append all-steps (list st)))
+
+				(if (not (null proto-parent-name))
+					(setf basic-st (replace-vals proto-name
+						proto-parent-name basic-st)))
+				(setf all-basic-steps (append all-basic-steps (list basic-st)))
+			)
+			; else
+			(block prop-step
+				(setf basic-st (basic-step
+					st comp (mkht) rcs steps))
+				(setf all-basic-steps (append all-basic-steps (list basic-st)))
+
+				(setf st (basic-step
+					st comp (mkht) rcs steps nil t))
+				(setf all-steps (append all-steps (list st)))
+			)
+			))
+		)
+		; Get all length-2 subsequences and index
+		; the story by them.
+
+		; (setf all-basic-steps (mapcar #'second all-basic-steps))
+
+		; (setf clean-rcs (dedupe (fill-vars rcs comp)))
+		(setf clean-rcs rcs)
+
+		(loop for st1 in (remove-last all-basic-steps) for i from 0
+		do (loop for st2 in (subseq all-basic-steps
+			(+ i 1) (length all-basic-steps))
+			do (block index-pair
+				; (setf pair (list st1 st2))
+				(setf pair (list st1))
+				(setf pair-hash (rechash pair))
+				(setf (gethash pair-hash schemas-by-pairs)
+					(dedupe (append (gethash pair-hash schemas-by-pairs)
+						(list (list pair (append all-steps clean-rcs))))))
+		)))
+	))
+
+	(setf composite-matches 0)
+	(loop for kh being the hash-keys of schemas-by-pairs
+		if (> (length (gethash kh schemas-by-pairs)) 1)
+		do (block print-schemas
+			(setf composite-matches
+				(+ composite-matches 1))
+			(format t "~s~%"
+				(car (car (gethash kh schemas-by-pairs))))
+			(loop for ps in (gethash kh schemas-by-pairs)
+				do (loop for st in (second ps)
+					do (format t "	~s~%" st))
+				do (format t "~%")
+			)
+
+			(format t "~%")
+		)
 	)
-	)
+
+	(format t "~d composite matches found~%" composite-matches)
 )
 )
 
 (run-proto-match-collector)
 ; (analyze-protos)
 (new-analyze-composites)
-

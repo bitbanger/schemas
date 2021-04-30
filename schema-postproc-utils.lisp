@@ -32,6 +32,7 @@
 	EVENING.N
 	MORNING.N
 	AFTERNOON.N
+	WHILE.N
 ))
 
 (ldefun clean-idx-tags (el-sents)

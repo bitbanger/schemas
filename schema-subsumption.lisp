@@ -183,6 +183,12 @@
 		(return-from outer 1.0)
 	)
 
+	(if (and
+		(equal schema-pred 'ACT.V)
+		(lex-verb? story-pred))
+		; then
+		(return-from outer 0.75))
+
 	; Strip match numbers.
 	(let ((schema-pred-no-num (get-schema-match-name schema-pred)))
 		(if (not (null schema-pred-no-num))
@@ -376,12 +382,12 @@
 	)
 	(if (and
 			(not (null closest-ancestor))
-			(or
+			;(and nil (or ; NOTE: disabled, use interesting-common-ancestor
 				; The last three for nouns are usually very
 				; general.
-				(not (lex-noun? closest-ancestor))
-				(> closest-ancestor-len 3)
-			)
+				;(not (lex-noun? closest-ancestor))
+				;(> closest-ancestor-len 3)
+			;))
 		)
 		; then
 		(progn

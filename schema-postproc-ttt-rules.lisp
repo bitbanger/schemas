@@ -2,6 +2,14 @@
 
 (ll-load "ll-util.lisp")
 
+(defun implicature? (x)
+	(contains '(
+		BEGIN.V
+		START.V
+		DECIDE.V
+	) x)
+)
+
 (defparameter *SCHEMA-CLEANUP-RULES* (curry-ttt-rules '(
 	; The case with only one argument
 	; (/ (KA (L _!1 (_!1 _!2)))
@@ -290,5 +298,10 @@
 	(/
 		((!1 (ll-curry eq-no-idx-tags? SO.CC)) _*2)
 		(_*2)
+	)
+	; Strip off "decide to"
+	(/
+		(_*1 (implicature? (KA _*2)))
+		(_*1 _*2)
 	)
 )))

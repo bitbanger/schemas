@@ -3,6 +3,7 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
 ; (setf *random-state* (make-random-state t))
+(setf *random-state* (make-random-state t))
 
 (load "../ll-load.lisp")
 
@@ -328,12 +329,12 @@
 		(setf new-schema (compose-schema rcs events schemas-with-bindings story-ep-rels))
 		(print-schema new-schema)
 
-		(return-from process-story)
+		; (return-from process-story)
 
-		(format t "flattened composite schema: ~%")
-		(loop for phi in (flatten-schema new-schema t)
-			do (format t "	~s~%" phi)
-		)
+		;(format t "flattened composite schema: ~%")
+		;(loop for phi in (flatten-schema new-schema t)
+			;do (format t "	~s~%" phi)
+		;)
 
 		; At this point, we're going to compile all of the role constraints and events into a set of EL formulas, then let the EL-to-English code work its magic.
 

@@ -7,7 +7,8 @@ from collections import defaultdict
 my_dir = os.path.dirname(os.path.realpath(__file__))
 
 # predictor = Predictor.from_path("coref-model-2018.02.05.tar.gz")
-predictor = Predictor.from_path("%s/coref-spanbert-large-2020.02.27.tar.gz" % (my_dir))
+# predictor = Predictor.from_path("%s/coref-spanbert-large-2020.02.27.tar.gz" % (my_dir))
+predictor = Predictor.from_path("/tmp/mymount/coref-spanbert-large-2020.02.27.tar.gz")
 # predictor._dataset_reader._token_indexers['token_characters']._min_padding_length = 5
 # print("document is %s" % sys.argv[1])
 res = predictor.predict(document=sys.argv[1])

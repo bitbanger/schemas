@@ -1,6 +1,7 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
 (load "apr-30-schemas.lisp")
+(load "all-stories.lisp")
 (load "../ll-load.lisp")
 
 (ll-load-superdir "protoschemas.lisp")
@@ -10,12 +11,33 @@
 (ll-load-superdir "schema-el-parser.lisp")
 (ll-load-superdir "el-to-ulf.lisp")
 (ll-load-superdir "schema-expansion.lisp")
+(ll-load "diana.lisp")
 
 (defparameter *NEST-SPEC-SUBSUMPTIONS* t)
 (defparameter *NEST-BASIC-SUBSUMPTIONS* t)
 
 (loop for protoschema in *PROTOSCHEMAS*
 	do (register-schema (eval protoschema)))
+
+(setf *ALL-LEARNED-SCHEMAS* (shuffle *LEARNED-SCHEMAS* 2))
+
+(setf *LEARNED-SCHEMAS* (subseq *ALL-LEARNED-SCHEMAS*
+	0 (floor (length *ALL-LEARNED-SCHEMAS*) 2)))
+
+(setf *UNSEEN-SCHEMAS* (subseq *ALL-LEARNED-SCHEMAS*
+	(floor (length *ALL-LEARNED-SCHEMAS*) 2)
+	(length *ALL-LEARNED-SCHEMAS*)))
+
+(setf *SEEN-SCHEMA-NAMES* (loop for sch in *LEARNED-SCHEMAS*
+	collect (prop-pred (car (schema-header (car sch))))))
+
+;(setf *UNSEEN-STORIES* (subseq *ALL-STORIES*
+	;(floor (length *ALL-STORIES*) 2)
+	;(length *ALL-STORIES*)))
+(setf *UNSEEN-STORIES* (loop for story in *ALL-STORIES*
+	if (loop for sch in (second story)
+		never (contains *SEEN-SCHEMA-NAMES* sch))
+			collect story))
 
 ; Correct the learned schemas, now, to fix duplicate
 ; names:
@@ -89,7 +111,6 @@
 ))
 
 (setf *LEARNED-SCHEMAS* new-learned-schemas)
-
 
 
 
@@ -1006,10 +1027,13 @@
 
 					; (setf spec (flatten spec))
 
-				(if (not (contains arrows (list basic unclean-spec)))
-					(setf arrows (append arrows
-						(list (list basic unclean-spec))))
-				)
+				;(if (not (contains arrows (list basic unclean-spec)))
+					;(setf arrows (append arrows
+						;(list (list basic unclean-spec))))
+				;)
+				(setf arrows (remove-duplicates (append arrows
+					(list (list basic unclean-spec)))
+					:test (lambda (x y) (equal (clean-spec (second x)) (clean-spec (second y))))))
 
 				;(if (not (contains arrows (list spec unclean-spec)))
 					;(setf arrows (append arrows (list (list spec unclean-spec)))))
@@ -1053,7 +1077,6 @@
 
 			(setf all-arrows (dedupe (append all-arrows arrows)))
 			; (setf arrows (min-graph arrows))
-
 			
 
 			(return-from print-basic)
@@ -1089,6 +1112,13 @@
 	)
 
 		(setf all-arrows (min-graph all-arrows))
+		; Correct prefix arguments
+		(setf all-arrows (loop for arrow in all-arrows
+			collect (loop for el in arrow
+				if (and (listp el) (equal 'ENTITY.N (car el)))
+					collect (append (list 'AGENT.N) (cdr el))
+				else
+					collect el)))
 
 		(setf graph-map (mk-hashtable all-arrows t))
 		(setf all-nodes (dedupe (loop for arr in all-arrows append arr)))
@@ -1097,28 +1127,76 @@
 					never (equal node (second arr)))
 						collect node))
 
-		(loop for root-sch in roots do (block print-tree
-			;(if (<= (length (get-descendants root-sch all-arrows)) 1)
-				;(return-from print-tree))
+		(block basic-level-tree
+			(loop for root-sch in roots do (block print-tree
+				;(if (<= (length (get-descendants root-sch all-arrows)) 1)
+					;(return-from print-tree))
 
-			(print-dfs root-sch graph-map)
-			(format t "~%~%")
-		))
+				(print-dfs root-sch graph-map)
+
+				(format t "~%~%")
+			))
 
 
-		; Get distribution of direct children
-		(setf child-dist (loop for node being the hash-keys of graph-map
-			if (>= (length (gethash node graph-map)) 5)
-				collect (list node (length (gethash node graph-map)))))
-		(setf child-dist (sort child-dist #'< :key #'second))
-		(loop for child in child-dist
-			do (format t "~s (~d)~%" (car child) (second child)))
-		
+			; Get distribution of direct children
+			(setf child-dist (loop for node being the hash-keys of graph-map
+				if (>= (length (gethash node graph-map)) 5)
+					collect (list node (length (gethash node graph-map)))))
+			(setf child-dist (sort child-dist #'< :key #'second))
+			(loop for child in child-dist
+				do (format t "~s (~d)~%" (car child) (second child)))
+		)
 
-		; (format t "~s~%" all-arrows)
+		(setf specs (dedupe
+			(loop for k being the hash-keys of basic-map
+				append (loop for spec in (gethash k basic-map)
+				collect (loop for s in (clean-spec spec)
+						if (or (lex-noun? s) (lex-verb? s)) collect s
+					)))))
+
+		; (format t "~s~%" specs)
 		; (setf graph-map (mk-hashtable all-arrows))
+
+		(return-from outer all-arrows)
 )
 )
+
+(ldefun comp-formulas (comp)
+(block outer
+	(setf rcs (mapcar #'second (section-formulas (get-section comp ':Roles))))
+	(setf step-eps (mapcar #'car (section-formulas (get-section comp ':Steps))))
+	(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
+	(setf new-steps (copy-item steps))
+	(loop for st in steps
+			for ep in step-eps
+		if (not (null (get-schema-match-num (prop-pred st))))
+		do (block expand
+			(setf expanded (expand-nested-schema
+				(list st '** ep) comp))
+			(if (null expanded)
+				(return-from expand))
+
+			(setf sub-steps (append
+				(mapcar #'second (section-formulas (get-section expanded ':Goals)))
+				(mapcar #'second (section-formulas (get-section expanded ':Preconds)))
+				(mapcar #'second (section-formulas (get-section expanded ':Steps)))
+				(mapcar #'second (section-formulas (get-section expanded ':Postconds)))
+			))
+
+			(setf sub-steps (loop for st in sub-steps
+				collect (basic-step st expanded (mkht) (mapcar #'second (section-formulas (get-section expanded ':Roles))) sub-steps nil t)))
+
+			(setf new-steps (append new-steps sub-steps))
+		)
+	)
+
+	(setf new-steps
+		(loop for st in new-steps
+			for ep in step-eps
+				collect (list st '** ep)))
+
+	(return-from outer (list new-steps rcs))
+))
 
 (ldefun new-analyze-composites ()
 (block outer
@@ -1134,12 +1212,37 @@
 	(loop for comp in comps
 	do (block print-comp
 		(setf rcs (mapcar #'second (section-formulas (get-section comp ':Roles))))
+		(setf step-eps (mapcar #'car (section-formulas (get-section comp ':Steps))))
 		(setf steps (mapcar #'second (section-formulas (get-section comp ':Steps))))
+		(setf new-steps (copy-item steps))
+		(loop for st in steps
+				for ep in step-eps
+			if (not (null (get-schema-match-num (prop-pred st))))
+			do (block expand
+				(setf expanded (expand-nested-schema
+					(list st '** ep) comp))
+				(if (null expanded)
+					(return-from expand))
+
+				(setf sub-steps (append
+					(mapcar #'second (section-formulas (get-section expanded ':Goals)))
+					(mapcar #'second (section-formulas (get-section expanded ':Preconds)))
+					(mapcar #'second (section-formulas (get-section expanded ':Steps)))
+					(mapcar #'second (section-formulas (get-section expanded ':Postconds)))
+				))
+
+				(setf sub-steps (loop for st in sub-steps
+					collect (basic-step st expanded (mkht) (mapcar #'second (section-formulas (get-section expanded ':Roles))) sub-steps nil t)))
+
+				(setf new-steps (append new-steps sub-steps))
+			)
+		)
+
+		(setf steps (dedupe new-steps))
 
 		(setf all-steps (list))
 		(setf all-basic-steps (list))
 		(loop for st in steps do (block print-step
-
 			(if (not (null (get-schema-match-num (prop-pred st))))
 			; then
 			(block proto-step
@@ -1185,8 +1288,8 @@
 		do (loop for st2 in (subseq all-basic-steps
 			(+ i 1) (length all-basic-steps))
 			do (block index-pair
-				; (setf pair (list st1 st2))
-				(setf pair (list st1))
+				(setf pair (list st1 st2))
+				; (setf pair (list st1))
 				(setf pair-hash (rechash pair))
 				(setf (gethash pair-hash schemas-by-pairs)
 					(dedupe (append (gethash pair-hash schemas-by-pairs)
@@ -1216,6 +1319,153 @@
 )
 )
 
+(ldefun prop-match-num (prop)
+(block outer
+	(setf pred (car (get-elements-pred prop
+		(lambda (x) (not (null (get-schema-match-num x)))))))
+
+	(return-from outer (get-schema-match-num pred))
+)
+)
+
 (run-proto-match-collector)
-; (analyze-protos)
-(new-analyze-composites)
+; (new-analyze-composites)
+(setf schema-arrows (analyze-protos))
+(setf graph-map (mk-hashtable schema-arrows t))
+(setf reverse-graph-map (mk-hashtable
+	(loop for arrow in schema-arrows
+		if (not (symbolp (car arrow)))
+			collect (list (second arrow) (car arrow))) t))
+
+(setf comps (loop for sch in *LEARNED-SCHEMAS*
+	if (has-prefix? (string (schema-name (car sch))) "COMPOSITE")
+		collect (car sch)))
+(setf unseen-comps (loop for sch in *UNSEEN-SCHEMAS*
+	if (has-prefix? (string (schema-name (car sch))) "COMPOSITE")
+		collect (car sch)))
+
+(ldefun get-matches (schema graph-map)
+(block outer
+	(setf index-header (clean-spec (basic-proto-header schema (mkht))))
+
+	(if (equal 0 (length (gethash index-header graph-map)))
+		(return-from outer nil))
+
+	(setf matches (gethash index-header graph-map))
+	(setf matches (loop for m in matches
+		if (not (null (prop-match-num m)))
+			collect m))
+	(setf matches (remove-duplicates matches :test
+		(lambda (x y)
+			(< (abs (-
+				(prop-match-num x)
+				(prop-match-num y))) 3)
+		)))
+
+	(return-from outer matches)
+))
+
+(setf all-proto-matches (loop for sp in *ALL-LEARNED-SCHEMAS*
+						if (and (not (null (car sp))) (null (second sp))) collect (car sp)))
+(loop for match in all-proto-matches
+	do (register-schema match))
+
+(loop for unseen in *ALL-STORIES* do (block see
+	(setf known-schemas (second unseen))
+	(if (null known-schemas)
+		(return-from see))
+
+	(if (loop for ks in known-schemas
+		thereis (contains *SEEN-SCHEMA-NAMES* ks))
+			(return-from see))
+
+	(setf matches (loop for ks in known-schemas
+		append (get-matches (eval ks) graph-map)))
+	(setf matches (loop for m in matches
+		if (not (null (prop-match-num m)))
+			collect m))
+	(setf matches (remove-duplicates matches :test
+		(lambda (x y)
+			(< (abs (-
+				(prop-match-num x)
+				(prop-match-num y))) 3)
+		)))
+
+	(if (equal 0 (length matches))
+		(return-from see))
+
+
+	(loop for sent in (car unseen)
+		do (format t "~s~%" sent))
+
+	(format t "~%")
+
+	;(loop for ks in known-schemas
+		;do (format t "~s~%" ks))
+	; (format t "~%")
+
+	(loop for m in matches
+		do (format t "	~s~%" m))
+
+	(format t "===============~%")
+
+	; Get similar schemas to each of these from the graph
+
+))
+
+
+(loop for unseen in (mapcar #'car *UNSEEN-SCHEMAS*) if nil do (block see
+	(setf index-header (clean-spec (basic-proto-header unseen (mkht))))
+
+
+	(if (equal 0 (length (gethash index-header graph-map)))
+		(return-from see))
+	;(if (equal 0 (length (gethash index-header reverse-graph-map)))
+		;(return-from see))
+
+	(setf matches (gethash index-header graph-map))
+	(setf matches (loop for m in matches
+		if (not (null (prop-match-num m)))
+			collect m))
+	(setf matches (remove-duplicates matches :test
+		(lambda (x y)
+			(< (abs (-
+				(prop-match-num x)
+				(prop-match-num y))) 3)
+		)))
+
+	(if (equal 0 (length matches))
+		(return-from see))
+
+
+
+
+	; Find composite schema with this schema in it:
+	(format t "schema pred is ~s~%" (prop-pred (car (schema-header unseen))))
+	(setf comp (car (loop for c in unseen-comps
+		if (has-element c (prop-pred (car (schema-header unseen))))
+			collect c
+		)))
+	(format t "from comp ~s~%" (car (schema-header comp)))
+
+	(setf steps (mapcar #'second (section-formulas (get-section unseen ':Steps))))
+	(setf rcs (mapcar #'second (section-formulas (get-section unseen ':Roles))))
+
+	(if (not (null comp)) (progn
+		(setf steps-and-rcs (comp-formulas comp))
+		(setf steps (car steps-and-rcs))
+		(setf rcs (second steps-and-rcs))
+	))
+	;(loop for form in (append steps rcs)
+		;do (format t "~s~%" form))
+	(format t "~s~%" (schema-header unseen))
+
+
+	(format t "~%~s~%" (basic-proto-header unseen (mkht) nil t))
+	(format t "~s~%" index-header)
+	(loop for child in matches
+		do (format t "	~s~%" child))
+	;(loop for parent in (gethash index-header reverse-graph-map)
+		;do (format t "	~s~%" parent))
+))
+	

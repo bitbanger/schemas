@@ -62,7 +62,7 @@ def extract_schemas(fn, eng_taken):
 			if line.strip() == "parsing" or line.strip() == "done parsing":
 				continue
 
-			result = re.search('[a-zA-Z]+\.\d+\.V', line)
+			result = re.search('[a-zA-Z_]+\.\d+\.V', line)
 			if result:
 				schema_name = result.group(0)
 				tmp_schema_name = 'TMP_%s' % schema_name

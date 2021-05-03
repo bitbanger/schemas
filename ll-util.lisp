@@ -1090,7 +1090,17 @@ is replaced with replacement."
 	)
 )
 
-(defun shuffle (lst)
+(defun shuffle (lst &optional iters)
+	(if (or (null iters) (equal iters 0))
+		; then
+		(shuffle-once lst)
+		; else
+		(shuffle-once
+			(shuffle lst (- iters 1)))
+	)
+)
+
+(defun shuffle-once (lst)
 (let (old-lst new-lst)
 (block outer
 	(setf old-lst (copy-list lst))
@@ -1270,7 +1280,35 @@ is replaced with replacement."
 
 	(setf (gethash root seen) t)
 
-	(format t "~a~s~%" (repeat-str "   " depth) root)
+	(setf root-str (format nil "~s" root))
+	(setf matched-preds
+		(get-elements-pred root
+			(lambda (x)
+				(and (lex-verb? x)
+					(not (null (get-schema-match-num x)))))))
+	(if (not (null matched-preds))
+		; then
+		(progn
+			(setf cleaned-root (copy-item root))
+			(setf nums (list))
+			(loop for m in matched-preds
+				do (setf nums (append nums (list (format nil "~d" (get-schema-match-num m)))))
+				do (setf cleaned-root (replace-vals
+					m (get-schema-match-name m)
+					cleaned-root)))
+
+			(setf root-str (string-downcase
+				(format nil "~s [~a]" cleaned-root
+					(join-str-list ", " nums))))
+		)
+	)
+
+	(if (equal (length (gethash root graph-map)) 1)
+		; then
+		(setf depth (max 0 (- depth 1)))
+		; else
+		(format t "~a~a~%" (repeat-str "   " depth) root-str)
+	)
 
 	(loop for child in (gethash root graph-map)
 		if (not (gethash child seen)) do (progn

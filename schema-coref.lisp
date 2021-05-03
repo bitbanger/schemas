@@ -352,7 +352,7 @@
 				(dbg 'coref "picking new rep name ~s for pronoun ~s~%" rep-name old-rep-name)
 				(if (personal-pronoun? old-rep-name)
 					; then
-					(setf agent-constrs (append agent-constrs (list (list rep-name 'AGENT.N))))
+					(progn (setf agent-constrs (append agent-constrs (list (list rep-name 'AGENT.N)))) (format t "adding constraint ~s~%" (list rep-name 'AGENT.N)))
 					; else
 					(if (has-prefix? old-rep-name "IT$")
 						; then

@@ -3,7 +3,9 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
 ; (setf *random-state* (make-random-state t))
-(setf *random-state* (make-random-state t))
+; (setf *random-state* (make-random-state t))
+
+(setf *SEED* 2)
 
 (load "../ll-load.lisp")
 
@@ -55,11 +57,19 @@
 (defparameter start-st (parse-integer (second sb-ext:*posix-argv*)))
 (defparameter end-st (parse-integer (third sb-ext:*posix-argv*)))
 
+(ldefun n-shuffles (lst seed)
+	(if (equal seed 1)
+		; then
+		(shuffle lst)
+		; else
+		(shuffle (n-shuffles lst (- seed 1))))
+)
+
 ; (let (el-story events schemas headers inds rcs)
 (ldefun compose-schemas-from-stories ()
 (block process-all-stories
 (setf first-story-hit nil)
-(loop for roc-story in (shuffle *ROC-MCGUFFEY*)
+(loop for roc-story in (n-shuffles *ROC-MCGUFFEY* *SEED*)
 		for story-num from 0
 	if (and (or
 			(null story-start-line)

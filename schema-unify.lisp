@@ -25,6 +25,8 @@
 ; TODO: make this non-global later.
 (defparameter *UNIFY-SHOULD-CHECK-CONSTRAINTS* t)
 
+(defparameter *DEBUG-UNIFY-INEXACT-MODS* nil)
+
 (ldefun bind-if-unbound (key val bindings)
 (block outer
 	; (format t "binding ~s to ~s in ~s~%" key val (ht-to-str bindings))
@@ -937,10 +939,13 @@ bind-pred
 	(if (null tmp-bindings)
 		(progn
 		(dbg 'unify "predicates ~s and ~s cannot be unified (cannot unify all modifiers in the former with any in the latter)~%" schema story)
-		(return-from outer nil)
+		(if (not *DEBUG-UNIFY-INEXACT-MODS*)
+			(return-from outer nil)
 		)
+		)
+		; else
+		(setf bindings tmp-bindings)
 	)
-	(setf bindings tmp-bindings)
 
 	(return-from outer bindings)
 )

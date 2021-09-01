@@ -30,14 +30,13 @@
 	adv-ify-temporals
 	atemporalize-adj-preds
 	past-tense-story-to-present
-	liberate-starred-prop-args
+	; liberate-starred-prop-args ; TODO: fix this so that it looks at args, not stacked charstars
 	fix-ka-be-pre-arg
 	fix-apostrophe-poss
 	rename-np-preds-skolems
 	; bubble-up-sent-mods
 	; reify-pred-args
 ))
-
 
 (ldefun bubble-up-sent-mods (phi)
 (block outer
@@ -177,6 +176,7 @@
 		if (and
 			(canon-charstar? form)
 			(canon-charstar? (car form)))
+			; (loop for arg in (prop-all-args (car form)) thereis (canon-charstar? arg))
 			; then
 			do (block liberate-inner
 				; These returned stripped-eps are in the depth-first
@@ -1249,9 +1249,19 @@
 			; then
 			(block loop-inner
 				(setf form (car (car e)))
-				(setf add1 (list form '** (third (car e))))
+				; (setf add1 (list form '** (third (car e))))
 				(setf add2 (list form '** (third e)))
-				(setf phi-copy (append (list add1 add2) phi-copy))
+
+				; Constrain both episodes to be the same time
+				; (setf add2 (list (third (car e)) 'SAME-TIME (third e)))
+
+				; TODO: determine whether we can just get away with
+				; taking the outer episode and throwing the other one
+				; out like this. Is the inner one ever worthy of being
+				; split out, or just a byproduct of parser errors?
+
+				(setf phi-copy (append (list add2) phi-copy))
+
 				(setf phi-copy (remove e phi-copy :test #'equal))
 			)
 		)
@@ -1619,7 +1629,7 @@
 						(not (null inner-pred-mods))
 						; A mod's not floating if the length is 2
 						; and the mod is the first element.
-						(not (and (equal (length new-uf-pred) 2) (canon-ant-mod? (car new-uf-pred))))
+						(not (and (equal (length new-uf-pred) 2) (canon-any-mod? (car new-uf-pred))))
 					)
 					; then
 					(progn

@@ -40,9 +40,11 @@
 	; )
 
 	(loop for sc in (section-formulas (get-section parent-schema ':Subordinate-constraints))
+			; do (format t "invoker ~s~%" invoker)
 			; do (format t "got sc ~s~%" sc)
 			if (equal (car invoker) (second (car (second sc))))
 				do (block apply-subord
+					; (format t "in here~%")
 					(setf key (remove-ext (car (car (second sc))) "<-"))
 					(setf val (third (second sc)))
 					; (setf (gethash key header-bindings) val)
@@ -64,6 +66,8 @@
 						; (format t "bound key ~s to val ~s~%" key val)
 					)
 				)
+			; else
+				; do (progn (format t "invoker ~s mismatch with scssc ~s~%" (car invoker) (second (car (second sc)))))
 	)
 
 	; (setf invoked-schema-bound (apply-bindings invoked-schema header-bindings))

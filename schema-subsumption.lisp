@@ -460,6 +460,9 @@
 (setf special-basic-levels (mk-hashtable '(
 	(PERSON.N AGENT.N)
 	(FOOD.N FOOD.N)
+	(WATER.N WATER.N)
+	(AGENT.N AGENT.N)
+	(OBJECT.N OBJECT.N)
 )))
 
 (ldefun basic-level (el)

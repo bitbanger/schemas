@@ -9,6 +9,8 @@
 (ll-load "schema-expansion.lisp")
 (ll-load "ll-cache.lisp")
 
+(defparameter *DEBUG-NO-MATCH-RENAME* nil)
+
 ; Match outline:
 ;	- first, modify schema syntax to have char formulas AND * formulas for ?eNs
 ;	- next, modify schema syntax to give certainty scores to certain formulas
@@ -369,9 +371,17 @@
 	(setf gen-test-schema (car clean-pair))
 	(setf gen-test-bindings (second clean-pair))
 
+	(if (not *DEBUG-NO-MATCH-RENAME*)
+	; then
+	(progn
 	(setf new-gen-name (create-from-match-maybe-gen gen-test-schema nil))
-
 	(return-from outer (list (eval new-gen-name) gen-test-bindings bound-header))
+	)
+	; else
+	(progn
+		(return-from outer (list gen-test-schema gen-test-bindings bound-header))
+	)
+	)
 )
 )
 

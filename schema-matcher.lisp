@@ -177,14 +177,14 @@
 )
 )
 
-(ldefun top-story-matches-easy-el (el-story)
-	(top-k-story-matches-from-els el-story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
+(ldefun top-story-matches-easy-el (el-story &optional schemas)
+	(top-k-story-matches-from-els el-story (if (null schemas) *PROTOSCHEMAS* schemas) *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )
 
-(ldefun top-story-matches-easy (story)
-	(top-k-story-matches story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
+(ldefun top-story-matches-easy (story &optional schemas)
+	(top-k-story-matches story (if (null schemas) *PROTOSCHEMAS* schemas) *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )
 
-(ldefun top-story-matches-easy-len (story)
-	(top-k-story-matches-len story *PROTOSCHEMAS* *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
+(ldefun top-story-matches-easy-len (story &optional schemas)
+	(top-k-story-matches-len story (if (null schemas) *PROTOSCHEMAS* schemas) *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )

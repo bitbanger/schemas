@@ -34,13 +34,13 @@
 			;(setf new-phi-copy (ll-cache
 				;func (list phi-copy) 100 nil))
 
-			;(if (not (same-list-unordered old-phi-copy new-phi-copy))
-				;(progn
-				 ;(format t "func ~s updated~%" func)
-				 ;(format t "old phi: ~s~%~%" old-phi-copy)
-				 ;(format t "new phi: ~s~%~%" new-phi-copy)
-				;)
-			;)
+			(if (not (same-list-unordered old-phi-copy new-phi-copy))
+				(progn
+				 (dbg 'schema-postproc "func ~s updated~%" func)
+				 (dbg 'schema-postproc "old phi: ~s~%~%" old-phi-copy)
+				 (dbg 'schema-postproc "new phi: ~s~%~%" new-phi-copy)
+				)
+			)
 
 			; Remove any "naked" symbols left over from any
 			; processing bugs that can't be easily fixed.

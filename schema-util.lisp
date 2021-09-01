@@ -808,6 +808,14 @@
 	)
 )
 
+(ldefun schema-term-type-constraints (schema term)
+	(loop for constr in (schema-term-constraints schema term)
+		if (and
+				(equal 1 (length (prop-all-args (second constr))))
+				(equal term (car (second constr))))
+			collect constr)
+)
+
 (ldefun new-schema-match-name (pred)
 (block outer
 	(setf spl (split-str (format nil "~s" pred) "."))
@@ -2180,6 +2188,27 @@
 
 (ldefun invokes-schema? (phi &optional strict-name-match)
 	(not (null (invoked-schema phi strict-name-match)))
+)
+
+(ldefun invoked-proto (phi)
+(block outer
+	(setf pred (if (canon-atomic-prop? phi) (prop-pred phi) nil))
+
+	(setf best-invoked nil)
+	(setf best-score 0)
+	(loop for proto-name in *PROTOSCHEMAS* do (block b
+		(setf cand-score (subsumption-score proto-name pred))
+		(if (> cand-score best-score)
+			; then
+			(progn
+				(setf best-invoked (eval proto-name))
+				(setf best-score cand-score)
+			)
+		)
+	))
+
+	(return-from outer best-invoked)
+)
 )
 
 (ldefun invoked-schema (phi &optional strict-name-match)

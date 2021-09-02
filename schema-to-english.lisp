@@ -82,7 +82,7 @@
 		; the "interesting" set.
 		(setf interesting-var-types
 			(loop for e in var-types
-				if (not (member e '(LOCATION.N DESTINATION.N OBJECT.N ENTITY.N PHYSICAL_ENTITY.N) :test #'equal))
+				if (and (noun-pred? e) (not (member e '(LOCATION.N DESTINATION.N OBJECT.N ENTITY.N PHYSICAL_ENTITY.N) :test #'equal)))
 					collect e))
 
 		(if (> (length interesting-var-types) 0)
@@ -144,6 +144,16 @@
 					(list var 'OF.N (second c))
 					steps))))
 
+	; Pull out adjectives
+	(setf var-adjs (make-hash-table :test #'equal))
+	(loop for var being the hash-keys of var-types-with-owners
+		do (setf (gethash var var-adjs)
+			(dedupe (append (gethash var var-adjs)
+				(loop for tp in (gethash var var-types-with-owners)
+					if (adj-pred? tp) collect tp)))))
+	(loop for var being the hash-keys of var-types-with-owners
+		do (format t "adjectives of ~s: ~s~%" var (gethash var var-adjs)))
+
 	; Replace each var with (THE.D <VAR>), unless
 	; it's possessed by another entity.
 	(loop for var being the hash-keys of var-types-with-owners
@@ -154,7 +164,7 @@
 				steps)))
 
 	; Replace the first occurrence of each (THE.D <VAR>)
-	; with (A.D <VAR>).
+	; with (A.D <VAR>), and add adjectives.
 	(loop for var being the hash-keys of var-types-with-owners
 		do (block a-ify-thes
 			(setf the-idcs (get-elements-pred-idx
@@ -165,13 +175,20 @@
 					(equal (car x) 'THE.D)
 					(equal (second x) var)))))
 
+			(setf new-val (list 'A.D var))
+			(if (> (length (gethash var var-adjs)) 0)
+				(setf new-val (flatten (list
+					'A.D
+					(gethash var var-adjs)
+					var))))
+
 			; Find the THE with the smallest index...
 			(setf first-the-idx (min-all the-idcs))
 
 			; ...and replace it.
 			(setf steps (replace-element-idx
 				steps first-the-idx
-				(list 'A.D var)))
+				new-val))
 		)
 	)
 

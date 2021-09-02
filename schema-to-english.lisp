@@ -203,6 +203,10 @@
 		'(_!1 OF.N _!2)
 		'(_!2 \'S _!1)))
 
+	; Note all the tree indices of schema-invoking
+	; predicates.
+	(setf schema-sym-idcs (get-elements-pred-idx steps #'schema-match-pred?))
+
 	; Replace all symbols with their undotted versions.
 	(setf all-syms (dedupe (get-elements-pred steps #'symbolp)))
 	(loop for sym in all-syms
@@ -210,6 +214,14 @@
 				sym
 				(intern (car (split-str (string sym) ".")))
 				steps)))
+
+	; Replace all the schema-invoking predicates, at
+	; the remembered indices, with bracketed versions.
+	(loop for schema-idx in schema-sym-idcs
+		do (setf steps (replace-element-idx steps
+			schema-idx
+			(intern (concat-strs
+						"<" (string (get-element-idx steps schema-idx)) ">")))))
 
 	; Remove type shifters.
 	(setf steps (ttt-replace steps

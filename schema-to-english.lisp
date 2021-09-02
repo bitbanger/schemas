@@ -6,71 +6,6 @@
 (ll-load "schema-util.lisp")
 (ll-load "schema-expansion.lisp")
 
-(defparameter *TESTSCHEMAS* '(
-    (EPI-SCHEMA ((?X_O (COMPOSITE-SCHEMA-362.PR ?X_I ?X_N ?X_D ?X_P)) ** ?E)
-        (:ROLES
-            (!R1 (?X_D BOOT.N))
-            (!R2 (?X_I FISH.N))
-            (!R3 (?X_N ROD.N))
-            (!R4 (?X_N (PERTAIN-TO ?X_O)))
-            (!R5 (?X_O AGENT.N))
-            (!R6 (?X_P DESTINATION.N))
-            (!R7 (?X_P POND.N))
-        )
-        (:STEPS
-            (?X_M (?X_O ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_P))
-            (?X_A (?X_O (((ADV-A (IN.P ?X_P)) CAST.V) ?X_N)))
-            (?X_H (?X_O (CATCH.V ?X_I)))
-            (?X_F (?X_O ((UP.ADV PULL.V) ?X_N)))
-            (?X_C (?X_N ((ACTUALLY.ADV BE.V) ?X_D)))
-        )
-		(:SUBORDINATE-CONSTRAINTS
-			(!S1 ((?X_A<- ?X_M) = ?X_N))
-			(!S2 ((?X_C<- ?X_M) = ?X_P))
-		)
-    )
-
-	(EPI-SCHEMA ((?X_B ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_C) ** ?X_D)
-		(:ROLES
-			(!R1 (?X_B AGENT.N))
-			(!R2 (?L1 LOCATION.N))
-			(!R3 (?X_C DESTINATION.N))
-			(!R4 (NOT (?L1 = ?X_C)))
-			(!R5 (?X_C POND.N))
-			(!R6 (?X_A ROD.N))
-			(!R7 (?X_A (PERTAIN-TO ?X_B)))
-		)
-		(:GOALS
-			(?G1 (?X_B (WANT.V (KA ((ADV-A (AT.P ?X_C)) BE.V)))))
-		)
-		(:PRECONDS
-			(?I1 (?X_B (AT.P ?L1)))
-			(?I2 (NOT (?X_B (AT.P ?X_C))))
-		)
-		(:POSTCONDS
-			(?P1 (NOT (?X_B (AT.P ?L1))))
-			(?P2 (?X_B (AT.P ?X_C)))
-		)
-		(:PARAPHRASES
-			(?X_D
-	   (?X_B ((ADV-A (DESTINATION_PREP.? ?X_C)) ((ADV-A (TO.P ?X_C)) GO.3.V))))
-			(?X_D
-	   (?X_B ((ADV-A (FROM.P ?L1)) ((ADV-A (DESTINATION_PREP.? ?X_C)) GO.3.V))))
-			(?X_D (?X_B ((ADV-A (DESTINATION_PREP.? ?X_C)) GO.3.V) ?X_C))
-			(?X_D (?X_B GO.3.V))
-			(?X_D (?X_B GO.3.V ?X_C))
-			(?X_D (?X_B (LOCATION_ADV.? GO.3.V)))
-		)
-	)
-
-
-))
-
-(loop for sch in *TESTSCHEMAS*
-	do (register-schema sch))
-
-
-
 (ldefun schema-var-types (schema &optional include-ownership)
 (block outer
 	; Get all vars typed in the roles section
@@ -86,7 +21,12 @@
 	; Get all types of vars in nested schemas, too
 	(loop for st in (section-formulas (get-section schema ':Steps))
 		do (block expand
-			(setf res (expand-nested-schema st schema))
+			(setf res nil)
+
+			(handler-case
+				(setf res (expand-nested-schema st schema))
+				(error () nil))
+
 			(if (null res)
 				(return-from expand))
 
@@ -133,29 +73,23 @@
 (block outer
 	(setf types (schema-var-types schema))
 
-	; We're only going to take one type per
-	; variable; if the first letter of the
-	; type is the same as the variable's last
-	; letter, we'll prefer that one. Otherwise,
-	; or if more than one such type exists,
-	; arbitrarily select the last one to break
-	; ties.
 	(setf interesting-types (make-hash-table :test #'equal))
 
 	(loop for var being the hash-keys of types do (block l1
 		(setf var-types (gethash var types))
-		(setf same-letter-var-types
-			(loop for tp in var-types
-				if (has-suffix? (string var)
-					(subseq (string tp) 0 1))
-					; then
-					collect tp))
 
-		(if (> (length same-letter-var-types) 0)
+		; Remove some uninteresting designations from
+		; the "interesting" set.
+		(setf interesting-var-types
+			(loop for e in var-types
+				if (not (member e '(LOCATION.N DESTINATION.N OBJECT.N ENTITY.N PHYSICAL_ENTITY.N) :test #'equal))
+					collect e))
+
+		(if (> (length interesting-var-types) 0)
 			; then
-			; (return-from outer (car (last same-letter-var-types)))
+			; (return-from outer (car (last interesting-var-types)))
 			(setf (gethash var interesting-types)
-				(car (last same-letter-var-types)))
+				(car (last interesting-var-types)))
 			; else
 			(setf (gethash var interesting-types)
 				(car (last var-types)))
@@ -198,20 +132,55 @@
 	(setf steps (mapcar #'refloat-modifiers steps))
 
 	; Add ownership markings to all variables.
-	(setf var-types (schema-var-types schema t))
-	(loop for var being the hash-keys of var-types
-		do (loop for c in (gethash var var-types)
+	(setf var-types-with-owners (schema-var-types schema t))
+	(setf var-owners (make-hash-table :test #'equal))
+	(loop for var being the hash-keys of var-types-with-owners
+		do (loop for c in (gethash var var-types-with-owners)
+			if (has-element c 'PERTAIN-TO)
+				do (setf (gethash var var-owners) (second c))
 			if (has-element c 'PERTAIN-TO)
 				do (setf steps (replace-vals
 					var
 					(list var 'OF.N (second c))
 					steps))))
 
+	; Replace each var with (THE.D <VAR>), unless
+	; it's possessed by another entity.
+	(loop for var being the hash-keys of var-types-with-owners
+		if (null (gethash var var-owners))
+			do (setf steps (replace-vals
+				var
+				(list 'THE.D var)
+				steps)))
+
+	; Replace the first occurrence of each (THE.D <VAR>)
+	; with (A.D <VAR>).
+	(loop for var being the hash-keys of var-types-with-owners
+		do (block a-ify-thes
+			(setf the-idcs (get-elements-pred-idx
+				steps
+				(lambda (x) (and
+					(listp x)
+					(equal 2 (length x))
+					(equal (car x) 'THE.D)
+					(equal (second x) var)))))
+
+			; Find the THE with the smallest index...
+			(setf first-the-idx (min-all the-idcs))
+
+			; ...and replace it.
+			(setf steps (replace-element-idx
+				steps first-the-idx
+				(list 'A.D var)))
+		)
+	)
+
 	; Get the type predicates for each variable
 	; and substitute them in.
 	(setf types (interesting-schema-var-types schema))
 	(loop for var being the hash-keys of types
-		do (setf steps (replace-vals var (gethash var types) steps)))
+			do (setf steps (replace-vals var (gethash var types) steps))
+	)
 
 	; Replace the EL-valid OF.N syntax with an apostophe-S
 	; syntax.
@@ -229,11 +198,14 @@
 
 	; Remove type shifters.
 	(setf steps (ttt-replace steps
-		'((!1 lex-type-shifter?) _!2)
+		'((!1 lex-removable-for-english?) _!2)
 		'_!2))
 
 	; Replace AGENT with PERSON.
 	(setf steps (replace-vals 'AGENT 'PERSON steps))
+
+	; Replace KA with TO.
+	(setf steps (replace-vals 'KA 'TO steps))
 
 	; Flatten the sentences.
 	(setf steps (mapcar #'flatten steps))

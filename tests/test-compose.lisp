@@ -18,6 +18,9 @@
 (ll-load-superdir "schema-util.lisp")
 (ll-load-superdir "ll-util.lisp")
 (ll-load-superdir "ll-cache.lisp")
+(ll-load-superdir "schema-to-english.lisp")
+
+; (dbg-tag 'schema-postproc)
 
 ; 400 total ROCstories in set so far
 (defparameter *NUM-DEV-STORIES* (length *ROC-MCGUFFEY*))
@@ -50,6 +53,7 @@
 	; "It was snowing outside Tom's house one day."
 	; "The girls went to the pond."
 	; "Ben's dog Skip was very old."
+	; "Gary went to the pond."
 	nil
 )
 (setf stories-processed 0)
@@ -364,9 +368,11 @@
 		(setf ulfs-for-eng (el-to-ulf els-for-eng))
 
 		(format t "Schema in English (prototype): ~%")
-		(loop for eng in (el-to-eng els-for-eng)
-			do (format t "	~s~%" eng)
-		)
+		;(loop for eng in (el-to-eng els-for-eng)
+			;do (format t "	~s~%" eng)
+		;)
+		(loop for eng in (schema-to-english new-schema)
+			do (format t "	~a~%" eng))
 
 	)
 )

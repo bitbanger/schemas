@@ -151,8 +151,6 @@
 			(dedupe (append (gethash var var-adjs)
 				(loop for tp in (gethash var var-types-with-owners)
 					if (adj-pred? tp) collect tp)))))
-	(loop for var being the hash-keys of var-types-with-owners
-		do (format t "adjectives of ~s: ~s~%" var (gethash var var-adjs)))
 
 	; Replace each var with (THE.D <VAR>), unless
 	; it's possessed by another entity.
@@ -223,6 +221,29 @@
 
 	; Replace KA with TO.
 	(setf steps (replace-vals 'KA 'TO steps))
+
+	; Replace (PLUR <VAR>) with <VAR>s.
+	(setf plurs (get-elements-pred steps (lambda (x)
+		(and (listp x) (equal (car x) 'PLUR)))))
+	(loop for plur in plurs do (block replace-plur
+		; Replace the last noun in the noun phrase
+		; with a pluralized version.
+		(setf new-val (second plur))
+
+		(setf last-noun new-val)
+		(if (listp new-val)
+			(setf last-noun (car (last new-val))))
+
+		; TODO: real pluralization rules here
+		(setf last-noun-plur (intern (concat-strs (string last-noun) "S")))
+		(setf new-val (replace-vals last-noun last-noun-plur new-val))
+
+		; First, replace the "A" phrase with "SOME".
+		(setf steps (replace-vals (list 'A plur) (list 'SOME plur) steps))
+
+		; Then, replace the plur pairs with the actual pluralizations.
+		(setf steps (replace-vals plur new-val steps))
+	))
 
 	; Flatten the sentences.
 	(setf steps (mapcar #'flatten steps))

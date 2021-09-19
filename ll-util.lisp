@@ -1373,8 +1373,21 @@ is replaced with replacement."
 		(k-most-freq nums 1))
 )
 
-(ldefun min-all (l)
-	(reduce #'min l)
+(ldefun min-all (l &optional key)
+(block outer
+	(setf m (car l))
+	(loop for e in l do (block mloop
+		(if (not (null key))
+			; then
+			(if (< (funcall key e) (funcall key m))
+				(setf m e))
+			; else
+			(if (< e m)
+				(setf m e)))
+	))
+
+	(return-from outer m)
+)
 )
 
 (ldefun max-all (l &optional key)

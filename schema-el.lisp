@@ -373,6 +373,13 @@
 )
 )
 
+(ldefun noun-pred? (pred)
+(and
+	(canon-pred? pred)
+	(lex-noun? (pred-base pred))
+)
+)
+
 (ldefun verb-pred? (pred)
 (and
 	(canon-pred? pred)

@@ -107,6 +107,20 @@
 )
 )
 
+(ldefun lex-removable-for-english? (x)
+(member x '(
+	IND
+	ADV
+	ADV-A
+	ADV-E
+	ADV-F
+	ADV-S
+	KE
+	K
+	KJ
+) :test #'equal)
+)
+
 (ldefun lex-verb? (x)
 	(has-ext? x ".V")
 )

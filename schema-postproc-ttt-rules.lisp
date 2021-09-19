@@ -304,4 +304,10 @@
 		(_*1 (implicature? (KA _*2)))
 		(_*1 _*2)
 	)
+
+	; Remove any commas left
+	(/
+		((<> _*1 (!2 is-comma?) _*2))
+		(_*1 _*2)
+	)
 )))

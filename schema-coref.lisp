@@ -348,7 +348,7 @@
 				; then
 				(progn
 				(setf old-rep-name (intern (concat-strs (car (split-str (string rep-name) ".")) ".PRO")))
-				(setf rep-name (new-skolem! (intern (car (split-str (format nil "~s" rep-name) ".")))))
+				(setf rep-name (new-skolem! (intern (concat-strs (car (split-str (format nil "~s" rep-name) ".")) "-PRO"))))
 				(dbg 'coref "picking new rep name ~s for pronoun ~s~%" rep-name old-rep-name)
 				(if (personal-pronoun? old-rep-name)
 					; then

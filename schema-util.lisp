@@ -808,12 +808,22 @@
 	)
 )
 
-(ldefun schema-term-type-constraints (schema term)
+(ldefun schema-term-type-constraints (schema term &optional include-ownership)
 	(loop for constr in (schema-term-constraints schema term)
 		if (and
-				(equal 1 (length (prop-all-args (second constr))))
+				(or
+					(equal 1 (length (prop-all-args (second constr))))
+					(and include-ownership
+						(equal (prop-pred (second constr)) 'PERTAIN-TO))
+				)
+
 				(equal term (car (second constr))))
 			collect constr)
+)
+
+(ldefun schema-terms-type-constraints (schema terms &optional include-ownership)
+	(loop for term in terms
+		append (schema-term-type-constraints schema term include-ownership))
 )
 
 (ldefun new-schema-match-name (pred)

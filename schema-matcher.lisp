@@ -14,7 +14,7 @@
 
 (defparameter *DEFAULT-SHUFFLES* 5)
 (defparameter *MAX-NUM-SCHEMAS* 5)
-(defparameter *MAX-NUM-MATCHES* 2)
+(defparameter *MAX-NUM-MATCHES* 5)
 
 ; top-k-el-story-matches uses a heuristic to retrieve the
 ; K best schema candidates for an EL story, and then returns
@@ -181,7 +181,7 @@
 	(top-k-story-matches-from-els el-story (if (null schemas) *PROTOSCHEMAS* schemas) *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )
 
-(ldefun top-story-matches-easy (story &optional schemas)
+(ldefun top-story-matches-easy (story &optional schemas k)
 	(top-k-story-matches story (if (null schemas) *PROTOSCHEMAS* schemas) *DEFAULT-SHUFFLES* *MAX-NUM-SCHEMAS* *MAX-NUM-MATCHES* nil nil)
 )
 

@@ -137,6 +137,10 @@
 )
 )
 
+(ldefun schema-match-pred? (pred)
+	(not (null (get-schema-match-num pred)))
+)
+
 (ldefun get-schema-match-name (pred)
 (block outer
 	(if (symbolp pred)

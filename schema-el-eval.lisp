@@ -39,6 +39,20 @@
 (defparameter *KB-PRED-IND* (make-hash-table :test #'equal))
 (defparameter *KB* (list *KB-EXPLICIT* *KB-ARG-IND* *KB-PRED-IND*))
 
+(defparameter *AGENT-PRONOUNS* '(
+	HE.PRO
+	SHE.PRO
+	I.PRO
+	ME.PRO
+	YOU.PRO
+	HIM.PRO
+	HER.PRO
+	THEY.PRO
+	THEM.PRO
+	WE.PRO
+	US.PRO
+))
+
 ; (defparameter *STORY* *FLOWER-STORY*)
 
 ; Determine whether a term needs coreference
@@ -171,6 +185,16 @@
 	(> (eval-prop-score prop *KB*) 0)
 )
 
+(ldefun skolemized-agent-pronoun? (arg)
+(let ((no-nums (intern (join-str-list "" (loop for c across (string arg) if (not (is-digit? c)) collect (string c))))))
+(and
+	(lex-skolem? no-nums)
+	(equal (car (last (split-str (string no-nums) "-"))) "PRO.SK")
+	(not (null (member (intern (concat-strs (car (split-str (string no-nums) "-")) ".PRO")) *AGENT-PRONOUNS* :test #'equal)))
+)
+)
+)
+
 (ldefun eval-prop-score (prop kb)
 (let (arg)
 (block outer
@@ -254,19 +278,9 @@
 		; He and she pronouns refer to agents.
 		; TODO: handle "they"
 		(if (and (symbolp arg) (or
-				(member arg '(
-					HE.PRO
-					SHE.PRO
-					I.PRO
-					ME.PRO
-					YOU.PRO
-					HIM.PRO
-					HER.PRO
-					THEY.PRO
-					THEM.PRO
-					WE.PRO
-					US.PRO
-				) :test #'equal)
+				(member arg *AGENT-PRONOUNS* :test #'equal)
+				; Might be a Skolemized pronoun
+				(skolemized-agent-pronoun? arg)
 			))
 			(if (equal pred 'AGENT.N)
 				(return-from outer 1.0))

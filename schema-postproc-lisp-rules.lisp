@@ -34,9 +34,44 @@
 	fix-ka-be-pre-arg
 	fix-apostrophe-poss
 	rename-np-preds-skolems
+	temporalize-naked-verb-props
 	; bubble-up-sent-mods
 	; reify-pred-args
 ))
+
+(ldefun temporalize-naked-verb-props (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	; Find all unstarred verb propositions
+	(setf unstarred-verb-props
+		(loop for form in phi-copy
+			if (and (canon-prop? form)
+					(not (canon-charstar? form))
+					(verb-pred? (prop-pred form)))
+				; then
+				collect form))
+
+	; Find the NOW-time of the sentence
+	(setf now (car
+		(get-elements-pred phi-copy #'is-now?)))
+
+	(loop for uvp in unstarred-verb-props do (block inner
+		; Make a new episode and orient it to the
+		; NOW symbol.
+		(setf new-ep (new-skolem! 'E))
+		(setf phi-copy (append phi-copy
+			(list (list new-ep 'AT-ABOUT now))))
+
+		; Star the prop with the new ep
+		(setf phi-copy (replace-vals uvp
+			(list uvp '** new-ep)
+			phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (ldefun bubble-up-sent-mods (phi)
 (block outer
@@ -772,10 +807,10 @@
 
 				(setf after-ep (third e))
 				; create a new episode for the "when..."
-				; framing proposition, oriented before
+				; framing proposition, oriented at-about
 				; the existing episode.
 				(setf before-ep (new-skolem! 'E))
-				(setf phi-copy (append phi-copy (list (list after-ep 'AFTER before-ep))))
+				(setf phi-copy (append phi-copy (list (list after-ep 'AT-ABOUT before-ep))))
 
 				(setf before-prop (list before-prop '** before-ep))
 				(setf after-prop (list after-prop '** after-ep))

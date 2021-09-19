@@ -13,7 +13,7 @@
 (ll-load "protoschemas.lisp")
 
 (defparameter *DEFAULT-SHUFFLES* 5)
-(defparameter *MAX-NUM-SCHEMAS* 5)
+(defparameter *MAX-NUM-SCHEMAS* (length *PROTOSCHEMAS*))
 (defparameter *MAX-NUM-MATCHES* 5)
 
 ; top-k-el-story-matches uses a heuristic to retrieve the
@@ -24,7 +24,6 @@
 
 	(setf best-schemas (mapcar (lambda (x) (schema-pred x))
 		(top-k-schemas (get-single-word-preds story) (mapcar #'eval schemas) num-schemas)))
-
 
 	; Remove junk propositions from the story; they slow
 	; down matching.

@@ -53,6 +53,7 @@ def extract_stories(fn):
 
 						new_num = verb_nums[schema_verb]
 						new_schema_name = '%s.%d.V' % (schema_verb, new_num)
+						print('renaming %s to %s' % (schema_name, new_schema_name))
 						schema_name_remap[tmp_schema_name] = new_schema_name
 
 						verb_nums[schema_verb] = new_num + 1

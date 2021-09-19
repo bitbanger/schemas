@@ -420,4 +420,5 @@
 	; if (or (equal (length (car cl)) 8)
 		; (equal (length (car cl)) 9))
 	if (and (> (length (car cl)) 1) (<= (diameter (car cl) #'wn-metric) 3))
-			do (format t "~s~%" cl))
+			do (loop for c in cl
+				do (format t "~s~%" c)))

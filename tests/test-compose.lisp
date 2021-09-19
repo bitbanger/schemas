@@ -54,7 +54,11 @@
 	; "The girls went to the pond."
 	; "Ben's dog Skip was very old."
 	; "Gary went to the pond."
-	nil
+	; "I went to this new pizza place yesterday."
+	; "We just bought a new house."
+	; "John found a kid crying on a bench."
+	"My mother gave me a new book."
+	; nil
 )
 (setf stories-processed 0)
 
@@ -367,12 +371,20 @@
 
 		(setf ulfs-for-eng (el-to-ulf els-for-eng))
 
+		(format t "Story: ~%")
+		(loop for sent in roc-story
+			do (format t "	~s~%" sent))
+
+		(format t "~%")
+
 		(format t "Schema in English (prototype): ~%")
 		;(loop for eng in (el-to-eng els-for-eng)
 			;do (format t "	~s~%" eng)
 		;)
+		(format t "<<<<<~%")
 		(loop for eng in (schema-to-english new-schema)
 			do (format t "	~a~%" eng))
+		(format t ">>>>>~%")
 
 	)
 )

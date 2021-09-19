@@ -230,8 +230,6 @@
 		(setf fm-res (match-formula-to-schema phi test-schema all-bindings total-matches bound-header story-formulas))
 		(if (null fm-res) (return-from uni-loop))
 
-		(format t "matched ~s to get new bindings ~s~%" phi (ht-to-str (second fm-res)))
-
 		(setf test-schema (car fm-res))
 		(setf all-bindings (second fm-res))
 		(setf total-matches (third fm-res))
@@ -280,7 +278,6 @@
 		; Also make sure to fully clean (and dedupe) the match schema, but not
 		; generalize its individuals, to ensure parity with the generalized
 		; *and* clean schema we're outputting later.
-		(print-schema test-schema)
 		(setf match-rcs (section-formulas (get-section (fully-clean-schema-no-gen test-schema) ':Roles)))
 
 		; The original role constraints should be a prefix of the new ones,

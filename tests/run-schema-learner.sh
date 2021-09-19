@@ -1,6 +1,11 @@
 #!/bin/bash
 
-DATE=apr-30
+DATE=${1}
+
+if [ ! ${1} ]; then
+	echo "Please provide a folder name for output."
+	exit
+fi
 
 NUMSECTORS=3906000 # a sector is 512 bytes
 mydev=`hdiutil attach -nomount ram://$NUMSECTORS`

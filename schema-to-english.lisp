@@ -107,6 +107,10 @@
 			(prop-mods phi))))
 )
 
+(ldefun hyphenate-syms (syms)
+	(intern (join-str-list "-" (mapcar #'princ-to-string syms)))
+)
+
 (ldefun merge-possessives (sent)
 (block outer
 	(remove '\'S (loop for i from 0 to (- (length sent) 1)
@@ -256,6 +260,29 @@
 		; Then, replace the plur pairs with the actual pluralizations.
 		(setf steps (replace-vals plur new-val steps))
 	))
+
+	; Flatten out lambdas into each predicate inside, but hyphenate
+	; them for transparency
+	(loop for lam in (get-elements-pred steps
+		(lambda (x) (and
+					(listp x) (equal (length x) 3) (equal (car x) 'L)
+					(listp (third x)) (and
+						(>= (length (third x)) 2)
+						(equal (car (third x)) 'AND)))))
+
+			do (setf steps (replace-vals lam
+					(hyphenate-syms
+						(mapcar #'second (cdr (third lam))))
+					steps)))
+
+	; Flatten out N+PREDS, like we did with the lambdas
+	(loop for npp in (get-elements-pred steps
+		(lambda (x) (and (listp x) (>= (length x) 2)
+						(or (equal (car x) 'N+PREDS) (equal (car x) 'N+PRED)))))
+
+			do (setf steps (replace-vals npp
+							(hyphenate-syms (cdr npp))
+								steps)))
 
 	; Flatten the sentences.
 	(setf steps (mapcar #'flatten steps))

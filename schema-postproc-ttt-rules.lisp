@@ -193,6 +193,12 @@
 		!1
 	)
 
+	; Unwrap singleton propositions.
+	(/
+		((!1 canon-prop?))
+		!1
+	)
+
 	; Stacked lex-preds can be split like conjunctions,
 	; for now, BUT, TODO:
 	;	1. make them proper predicate modifiers

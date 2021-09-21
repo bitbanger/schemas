@@ -1,28 +1,26 @@
+;; Copied over from "elf-from-sentences.lisp"                      Sep 20/20
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Run Charniak parser
 ;; Jonathan Gordon, 2011-12-19
 ;; parse-all and sep-sentences added by LKS
+;; *syntactic-parser-fn-alist* extention to add other parsers added by GLK
 
 ;; Example:
 ;; (parse "This is a test.")
 
-(load "../ll-load.lisp")
-
-(ll-load-superdir "ll-util.lisp")
-
-; (defparameter *parser* "/p/nl/tools/bllip-parser/first-stage/PARSE/parseIt")
 (defparameter *parser* "/Users/l/Code/bllip-parser/first-stage/PARSE/parseIt")
 ;                         ^^^^ changed back from krr (Jan 12); nl had been out of space
 
 ;; This is the traditional Charniak language model.
 ;; McClosky's (slower to load but more accurate) model is
-;;   /p/nl/tools/bllip-parser/first-stage/DATA/
+;;   /Users/l/Code/bllip-parser/first-stage/DATA/
 ;;      ^^ now krr, at least until nl is enlarged; but the reranking
 ;;         parser is still in nl
-; (defparameter *pdata* "/p/nl/tools/reranking-parser/first-stage/DATA/EN/")
-(defparameter *pdata* "/Users/l/Code/bllip-parser/newdata/DATA/EN/")
+(defparameter *pdata* "/Users/l/Code/reranking-parser/first-stage/DATA/EN/")
 
-(defparameter *PLACEHOLDER-NAME*
-	(intern "Gonzaaalo"))
+;; An association list from syntactic parser name to parser function call.
+(defparameter *syntactic-parser-fn-alist*
+  '(("BLLIP" . parse-bllip)))
 
 (defun parse-all (str)
 ; Here we allow str to consist of multiple sentences separated by
@@ -51,84 +49,49 @@
  )); end of sep-sentences
 
 
-(defun parse (str)
-;; Here str (a string) is assumed to be a single sentence
-;; We create a new file via a 'let', to be used for the stream,
-;; and delete it at the end.
+(defun parse-bllip (str)
+  ;; We create a new file via a 'let', to be used for the stream,
+  ;; and delete it at the end.
   (let ((filename (format nil "~a.txt" (gensym)))
         (result))
-
-	(setf name-toks (mistagged-names str))
-	(setf name-tok-idxs (mapcar #'car name-toks))
-
     (with-open-file (to-parse filename :direction :output
                                        :if-exists :supersede)
-      (format to-parse (preproc-for-parse str name-tok-idxs)))
-
-	(setf str-result (output-from-cmd (format nil "~a ~a ~a"
-										*parser* *pdata* filename)))
-	(setf result (lispify-parser-output str-result))
-
-	; Replace each placeholder name with the original
-	; mistagged name it stood in for.
-	(setf placeholder-idxs (get-elements-pred-idx result
-		(lambda (x) (equal x
-			(upcase-symbols *PLACEHOLDER-NAME*)))))
-
-	(if (not (equal (length placeholder-idxs)
-		(length name-toks)))
-		; then
-		(format t "ERROR: number of mistagged names (~d) and number of placeholders (~d) do not match in parse~%" (length placeholder-idxs) (length names))
-	)
-
-	(loop for name-tok in name-toks
-			for placeholder-idx in placeholder-idxs
-		do (setf result (replace-element-idx result
-				placeholder-idx
-				(upcase-symbols (second name-tok)))))
-
+      (format to-parse (preproc-for-parse str)))
+    (setf result (lispify-parser-output
+                  (output-from-cmd (format nil "~a ~a ~a"
+                                           *parser* *pdata* filename))))
     (delete-file filename)
     result))
 
-(defun mistagged-names (str)
-	(loop for tok in (tokenize-simply str)
-			for i from 0
-		if (and (> i 0)
-				(> (length (string tok)) 1)
-				(alpha-str? (subseq (string tok) 0 1))
-				(all-caps? (subseq (string tok) 0 1))
-				(contains (append *male-names* *female-names*)
-					(upcase-symbols tok)))
-			collect (list i tok))
-)
+(defun parse (str &key (parser "BLLIP"))
+;; Here str (a string) is assumed to be a single sentence
+;; The keyword argument can be "bllip", "k&k", or "k&m" case-insensitive.
+  (flet ((str-compare (x y) (equal (string-upcase x)
+                                   (string-upcase y))))
+    (if (assoc parser *syntactic-parser-fn-alist*
+               :test #'str-compare)
+      (funcall (cdr (assoc parser *syntactic-parser-fn-alist*
+                           :test #'str-compare))
+               str)
+      (error "Unknown parser selection: ~a~%" parser))))
 
 ;; prefix sentence string with <s>, postfix with </s>
-(defun preproc-for-parse (str &optional name-tok-idxs)
-(block outer
-	(setf new-str (loop for tok in (tokenize-simply str)
-			for i from 0
-		if (contains name-tok-idxs i)
-			collect *PLACEHOLDER-NAME*
-		else
-			collect tok))
+(defun preproc-for-parse (str)
+  (format nil "<s> ~a </s>" str))
 
-	(setf new-str
-		(join-str-list "" (mapcar #'string new-str)))
-
-	(format nil "<s> ~a </s>" new-str)
-)
-)
-
-
+(defun split-str (str sep)
+	(cond
+		((null (search sep str))
+		 (list str))
+		(t (append
+				 (list (subseq str 0 (search sep str)))
+				 (split-str (subseq str (+ 1 (search sep str)) (length str)) sep)))))
 
 (defun exec-from-command (command)
-	(car (split-str command " "))
-)
+	(car (split-str command " ")))
 
 (defun args-from-command (command)
-	(cdr (split-str command " "))
-)
-
+	(cdr (split-str command " ")))
 
 ;; Adapted from 'port.lisp' from 'asdf-install'.
 ;; Comment by LKS: The loop syntax here is an extension of the basic
@@ -146,12 +109,37 @@
                                 ;; bracketed by <s> ... </s>)
   "Returns a string containing the result of executing the command."
   (with-output-to-string (out-stream)
-    ;(let ((stream (excl:run-shell-command command :output :stream
-    ;                                              :wait nil)))
-	(let ((stream (sb-ext:process-output (sb-ext:run-program (exec-from-command command) (args-from-command command) :output :stream :wait nil :directory *default-pathname-defaults*))))
+    #+SBCL
+    (let* ((process (sb-ext:run-program
+                      (exec-from-command command)
+                      (args-from-command command)
+                      :output :stream :wait nil :directory *default-pathname-defaults*))
+           (stream (sb-ext:process-output process)))
       (loop for line = (read-line stream nil)
-         while line
-         do (write-line line out-stream)))))
+            while line
+            do (write-line line out-stream))
+      ;; Wait for process to finish before closing stream.
+      (sb-ext:process-wait process)
+      (close stream))
+
+    #+ALLEGRO
+    (multiple-value-bind
+      (stream error-stream pid)
+      (excl:run-shell-command command :output :stream :wait nil)
+      (progn
+        (loop for line = (read-line stream nil)
+              while line
+              do
+              (write-line line out-stream))
+
+        ;; Reap parsing subprocess.  Wait if necessary.
+        ;; Shouldn't need to wait long since we've read the full
+        ;; stream from its output already, so the process should
+        ;; be close to completing.
+        (sys:reap-os-subprocess :pid pid :wait t)
+
+        ;; Close stream.
+        (close stream)))))
 
 
 ;; Note: I'd actually use 'tree-from-string' in epik/tools/lisp/utils, but
@@ -172,3 +160,4 @@
                   (push #\\ result) (push ch result) )
                  (T (push ch result)) ))
         (coerce (reverse result) 'string)))
+

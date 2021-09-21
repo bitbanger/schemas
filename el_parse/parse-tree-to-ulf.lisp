@@ -71,10 +71,22 @@
 
 (defun parse-tree-to-ulf (tree)
 ;`````````````````````````````
-; preprocess tree to allow more direct conversion to ULF;
+; tree: a parse tree in the form annotated in the Brown corpus, or 
+;       produced by the Charniak parser, BLLIP. These are very 
+;       similar, but for example auxiliaries in the Brown corpus look
+;       like this: (AUX (VBD had)), (AUX (TO to)), (AUX (MD would)), ...
+;       whereas BLLIP produces (AUX had), (TO to), (MD would), ...
+;       (really a cheat, discarding tense for 'have', 'be' auxiliaries).
+;       A better way: (AUXD had), (AUX have), (AUXZ have), (TO to),
+;       (AUXF would), where AUXF means finite, i.e., pres/past/cf
+;       (where 'cf' means "counterfactual" or subjunctive)
+;
+; Preprocess parse-tree to allow more direct conversion to ULF;
 ; then apply 'parse-tree-to-raw-ulf; then postprocess the ULF
-; to fill in anything systematically missing (e.g., *h or **h varaibles)
-; or systematically incorrect or requiring further decomposition
+; to fill in anything systematically missing (e.g., *h or **h 
+; variables, assuming this isn't handled in preprocessing and that
+; we use **h for subdeletion), or systematically incorrect or 
+; requiring further decomposition.
 ;
  (let ((tree1 tree))
       (setq *word-index* 0)
@@ -87,16 +99,18 @@
 (defun parse-tree-to-raw-ulf (tree)
 ;`````````````````````````````````
   (cond ((null tree) nil); to allow empty cdr upon recursion
-        ((atom tree); unexpected
-         (format t "~%** Invalid input ~a to 'parse-tree-to-raw-ulf'" tree))
+        ((atom tree); unexpected, because no recursion descends to the atomic
+                    ; level, just to the (<atom> <atom>) level (exc. for nil)
+         (format t "~%** Invalid input ~s to 'parse-tree-to-raw-ulf'" tree))
         ((and (listp (car tree)) (null (cdr tree))); double bracketing (Brown)?
          (parse-tree-to-raw-ulf (car tree))); drop the outer brackets
         ((and (eq (car tree) 'S1) (null (cddr tree))); (S1 (...)) (BLLIP)?
          (parse-tree-to-raw-ulf (second tree))); drop the (S1 (...)) wrapper
-        ((simple-tree tree)
-         (simple-tree-to-raw-ulf tree)); e.g., (AUX (VBD were))
+        ((simple-tree tree) ; of form (<atom> (<atom> <atom>))?
+         (simple-tree-to-raw-ulf tree)); e.g., (AUX (VBD were)) -> (past be.aux~3)
         ((eq (car tree) 'MD) ; BLLIP fails to wrap (AUX ...) around modals
-         (pos+word-to-raw-ulf (list (aux-inflection 'MD (cadr tree)) (cadr tree))))
+         (pos+word-to-raw-ulf 
+                (list (inflect-aux! `(MD ,(cadr tree))) (cadr tree))))
         ((pos+word tree) (pos+word-to-raw-ulf tree)); e.g., (NN safety)
         (t (if (atom (car tree)); drop initial atom (nonterminal category)
                                 ; and "recurse downwand" on (cdr tree)
@@ -111,7 +125,8 @@
 (defun simple-tree (tree)
 ;```````````````````````
 ; Is the tree shape (<atomic-cat> (<atomic-cat> <word>))?
- (and (listp tree) (cdr tree) (null (cddr tree)) (listp (second tree)) 
+ (and (listp tree) (atom (car tree)) (cdr tree) (null (cddr tree)) 
+      (listp (second tree)) (atom (car (second tree))) 
       (atom (second (second tree)))))
 
 
@@ -124,17 +139,22 @@
 
 (defun simple-tree-to-raw-ulf (tree)
 ;``````````````````````````````````
+; This is intended for occasional single-lexeme phrases where the phrase 
+; type can't be dropped without losing information needed for mapping to ULF. 
 ; Inputs must be of form (atomic-cat (atomic-pos word)), o/w an error will occur.
-; The "oddball" cases in Treebank trees are ones with atomic-cat AUX or PRT; for
-; the rest, we can ignore the atomic-cat, getting the ULF from (atomic-pos word).
 ;
-; e.g., (AUX (TO to)) --> to~4 ; NB: preposition "to" is also coded as (TO to)!
-; e.g., (AUX (VBD were)) --> (past be.aux~5) {assuming *word-index* was 4}
-;       this may become (past be.aux-v~5), (past be.aux-s~5), (past prog~5),
-;       or (cf be.aux-s~5) in contextual postprocessing (e.g., if its operand
-;       is (pasv <word>.v)), or even (past be.v~5), (cf be.v~5) depending
-;       on semantic type coherence processing (e.g., if its operand is a
-;       predicate), as in "if I were rich") ** more thought needed abt this...
+; For example, (ADJP (VBG curving)) gets interpreted as an adjective, whereas
+; (VBG curving) alone would be interpreted as a progressive verb. Similarly,
+; (PRT (RP on)) is interpreted as a particle, whereas (RP ...) can also occur
+; as an adverb or preposition in the Brown corpus.
+;
+; For most single lexemes there's no such ambiguity, e.g., (NNS people) is
+; always a plural noun. with the unique ULF (plur person.n).
+;
+; Note that this program is used *after* application of preprocessing rules,
+; so we could have regularized the types of the single-lexeme phrases via
+; preprocessing rules (as we do for Brown auxiliaries like (AUX (VBZ has))).
+;
 ; e.g., (PRT (IN on)) --> on.prt~16, , with ULF alternatives for 'on' attached
 ;       to on.prt~16, viz., (on.a~16 on.adv-a~16); these alternatives are
 ;       relevant to "The concert is on", "The concert went on"
@@ -154,25 +174,24 @@
  (let ((cat (car tree)) (pos+word (second tree)) (pos (caadr tree)) 
        (word (cadadr tree)))
       (case cat 
-            (AUX 
-                 (if (equal pos+word '(TO to))
-                     (pos+word-to-raw-ulf '(AUX to)); only a word index is added
-                     ; NB: all remaining '(TO to)' are then really (IN to)
-                     ; assuming auxiliary (TO to) always has (AUX ...) as wrapper
-                     (pos+word-to-raw-ulf (list (aux-inflection pos word) word))))
-                ; e.g., (aux-inflection 'VBD) = AUXD
-                ; e.g., (AUXD were) -> (past be.5.aux-v), with ULF
-                ; alternatives for 'were' attached to be.5.aux-v,
-                ; viz., ((past prog) (past be.5.v) (cf be.5.v))
+            ; Originally, this allowed for simple trees like (AUX (VBD had)),
+            ; (AUX (MD would)), (AUX (TO to)), as they occur in Brown trees,
+            ; but these are now mapped in preprocessing to forms like 
+            ; (AUXD had), (AUXF would), and (TO to).
             (PRT (pos+word-to-raw-ulf (list 'PRT word)))
-                ; e.g., (PRT on) -> on.16.prt, with ULF alternatives
-                ; for 'on' attached to on.16.prt, viz.,
-                ; (on.16.a on.16.adv-a)
+                ; e.g., (PRT (RP on)) --> (PRT on) -> on.16.prt; 
+                ; BLLIP tends to treat all isolated "on" instances as PRT,
+                ; though sometimes (wrongly) as ADV, as in "The switch is on",
+                ; and sometimes (wrongly) as P, as in "The light was on."
+                ; Ideally we'd want interpretations indicated sense numbers,
+                ; say, on.16.prt, on.17.a on.18.adv-a
             (ADJP (if (not (find pos '(JJ JJR JJS)))
                       ; e.g., (ADJP (VBG curving)) -- want 'curving.a'
                       (pos+word-to-raw-ulf (list 'JJ word))
                       (pos+word-to-raw-ulf pos+word)))
-            (ADVP (pos+word-to-raw-ulf (list 'RB word)))
+            (ADVP (if (eq pos 'PS)
+                      (pos+word-to-raw-ulf pos+word)
+                      (pos+word-to-raw-ulf (list 'RB word))))
             (NP (if (eq pos 'CD) 
                     (pos+word-to-raw-ulf (list 'NNP word)) 
                     (pos+word-to-raw-ulf pos+word)))
@@ -186,32 +205,4 @@
 ;;    and of ambiguous POS's (like (DT that)) that can be uniformly interpreted;
 ;;    e.g., in (NP (-NONE- T/*/0)), the lexeme becomes *h/Ka/tht respectively.
 ;;    e.g., remaining (WDT <word>) instances will be uniformly interpretable 
-;;          (either as determiners, or as relative pronouns, whichever I
-;;          find easier for preprocessing); similarly (WP <word>), etc.
-       
-
-(defun aux-inflection (pos word)
-;```````````````````````````````
-; pos: One of {TO MD VB VBZ VBP VBD VBN VBEN VBG VB-CF}
-; word: usually a form of 'be', 'have', or 'do', 'to', or a modal auxiliary
-;       more rarely, 'dare', 'need', 'better', 'had better', 'had best'
-; Result: One of {TO AUX AUXZ AUXP AUXD AUXF AUXN AUXEN AUXG AUX-CF}
-;                                       ```` finite: pres, past, or cf
- (let ( )
-      (case pos
-        (TO 'TO)
-        (MD (case word
-              ((will shall may can) 'AUXZ)
-              ((could would should might must ought better) 'AUXF)))
-        ; ** "had better" is assumed to be handled as two words;
-        ;     how does Brown represent these?
-        (VB 'AUX)
-        (VBZ 'AUXZ)
-        (VBP 'AUXP)
-        (VBD 'AUXD)
-        (VBN 'AUXN)
-        (VBEN 'AUXEN) 
-        (VBG 'AUXG)
-        (VB-CF 'AUX-CF); can be the right POS for "had" or "were"
-        (t 'AUX))
- )); end of aux-inflection
+;;          (either as determiners, or as relative pronouns, whichever turns

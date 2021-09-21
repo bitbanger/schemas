@@ -14,6 +14,14 @@
 (ll-load-subdir "el_parse" "stem.lisp")
 (ll-load-subdir "el_parse" "tt.lisp")
 (ll-load-subdir "el_parse" "postprocess-ulf-tree.lisp")
+(ll-load-subdir "el_parse" "parse.lisp")
+(ll-load-subdir "el_parse" "tt-match-predicates.lisp")
+(ll-load-subdir "el_parse" "lexical-features.lisp")
+(ll-load-subdir "el_parse" "transitivity-lists.lisp")
+(ll-load-subdir "el_parse" "isa.lisp")
+(ll-load-subdir "el_parse" "postprocessing-rules.lisp")
+(ll-load-subdir "el_parse" "insert-gaps.lisp")
+(ll-load-subdir "el_parse" "subcat-pref.lisp")
 
 (ll-load "ll-util.lisp")
 

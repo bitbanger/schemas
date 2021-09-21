@@ -13,6 +13,14 @@
 	(ITS.PRO IT)
 	; (MY.PRO I)
 	(OUR.PRO WE)
+	(YOUR.PRO YOU)
+	(HIS.D HE)
+	(HER.D SHE)
+	(THEIR.D THEY)
+	(ITS.D IT)
+	; (MY.D I)
+	(OUR.D WE)
+	(YOUR.D YOU)
 )))
 
 (defun poss-pronoun? (sym)
@@ -20,7 +28,10 @@
 )
 
 (defun my-pronoun? (sym)
+(or
 	(equal (remove-idx-tag sym) 'MY.PRO)
+	(equal (remove-idx-tag sym) 'MY.D)
+)
 )
 
 (defun nominalize-poss-pronoun! (pro)
@@ -234,7 +245,19 @@
 
 	; Apply missing keywords.
 	(setf new-ulf (add-missing-keywords-to new-ulf))
-	
+
+	; Unwrap singletons.
+	(block unwrap-singletons-outer
+	(loop while t do (block unwrap-singletons-inner
+		(setf singletons (get-elements-pred new-ulf
+			(lambda (x) (and (listp x) (equal (length x) 1)
+							(listp (car x))))))
+		(if (null singletons)
+			(return-from unwrap-singletons-outer))
+
+		; Only replace one at a time, so order won't matter.
+		(setf new-ulf (replace-vals (car singletons) (caar singletons) new-ulf))
+	)))
 
 	(return-from outer new-ulf)
 )

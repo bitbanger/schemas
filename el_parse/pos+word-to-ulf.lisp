@@ -47,30 +47,33 @@
 
        (if (find (car pos+word) '(\. \, \; ! ? \: \` \' |``| |''| - --))
            (return (second pos+word))); use punct'n itself as ULF, w/o index
-       (incf *word-index*)
        (setq pos (car pos+word))
        (setq word (second pos+word)); **In future, there may be further words
+       (if (eq pos '-SYMB-) (return word); -SYMB- signals an added symbol
+           (incf *word-index*)); -SYMB-: added symbol
+           ; Note: Preprocessing creates some -SYMB- items that supply *h or
+           ; tacit operators (like 'sub' or 'k') as the word, e.g., (-SYMB- k)
        (setq stem (stem pos+word))  ; usually a symbol, but possibly a number
                                     ; (or perhaps even a string);
-       (if (eq pos '-NONE-)
-           ; Note: Preprocessing creates some -NONE- items that supply tacit
-           ; operators (like 'sub' or 'k') as the word, e.g., (-NONE- k)
+       (if (eq pos '-NONE-); -NONE-: certain empty Treebank constituents
            (return 
              (if (eq word t) '*h ; Treebank uses (-NONE- t) for "trace"
                  (case word (* 'Ka) (0 'tht) (t word)))))
                                              ;`````` a special added symbol (eg k)
-  ;; TBC: want stem-str "perf" (with no word index??) for auxil. "have"
-  ;;  We also need preprocessing for auxiliary "be" (prog w/ VP-scope or pasv
-  ;;  with V-scope; maybe I should leave perf-have as "have"; and progressive
-  ;;  tenseless "be" be.aux-s, and passive tenseless "be" be.aux-v = identity
-  ;;  operator. See "test...pos+word-to-ulf.lisp" for some desired rsults.
-  ;;  Currently e.g., "running" gives (prog run.i.v), but then prog fails to get
-  ;;  VP scope, and it's not a scopable operator -- or do we treat it as aux-s,
-  ;;  as just suggested?
+  ;;  I decided to leave perf-have as have.aux-s; progressive "be" as be.aux-s,
+  ;;  and passive "be" as be.aux-v = identity operator. We attribute the 'perf'
+  ;;  or 'pasv' operator to the past/passive participle (e.g., "seen" in "has
+  ;;  seen" is (perf see.v), and in "was seen" is (pasv see.v)). The present
+  ;;  "-ing" participle always gives a 'prog' operator, e.g., "running" gives 
+  ;;  (prog run.i.v). Scoping takes care of giving 'perf' and 'prog' (but not
+  ;;  'pasv') S-level scope. 
+  ;;  
        (setq stem-str 
              (if (numberp stem) 
                  (format nil "~s" stem) 
-                 (case stem (\' "foot2") (|''| "inch") (t (string stem)))))
+                 (case stem (\' (case pos (pos "'s") (t "foot2") ))
+                                     ;```````````` e.g., Willis' --> (POS \')
+                            (|''| "inch") (t (string stem)))))
        ; Previously this used  (stringify stem "_", but this changes constants
        ; like | Mr. Smith| to "_Mr._Smith"
 
@@ -82,7 +85,7 @@
        ; adv to adv-s, adv-e, adv-f, adv-v, mod-a, or mod-n; p to p-arg, ps,
        ; or pq, d to a (e.g., for "many"), etc.
        (setq type-tag
-          (case pos
+          (case pos ; NB: -SYMB- and -NONE- don't get a type tag
              (CC (if (member word '(and or)) nil 'cc))
              ((VB VBD VBG VBN VBEN VBP VBZ VB-CF) 'v)
              (MOD 'aux); **UNEXPECTED, BUT APPEARS IN SOME VERSIONS
@@ -90,12 +93,16 @@
              ((AUXZ AUXP AUXD AUXF AUXG AUXEN AUX-CF) 'aux); postprocessing
                                       ; should change this to 'aux-v'|'aux-s'
               ; NB: AUXN (passive participle of an auxiliary) doesn't exist
-             (TO 'p); after casting (AUX (TO to)) as (AUX to), (TO to) is (IN to)
+             (TO nil); (AUX (TO to)) was changed to (TO to) (o/w (TO to) is (IN to)
              ((NN NNS) 'n)
-             ((NNP NNPS) nil) ; we use pipes | Xyz| instead of a suffix for names
+             ((NNP NNPS) ; we expect pipes | Xyz| for NNP{S} in the input tree
+                         ; instead of a suffix for names -- except that if
+                         ; the pipes are missing, we add 'name
+               (if (equal (string-upcase stem-str) stem-str) 'name nil))
              ((JJ JJR JJS) 'a)
              (IN 'p); may become 'ps'
-             (PS 'ps); some preprocessing rules (for "with[out]") change IN to PS 
+             (PS 'ps); some preproc'g rules (e.g., "with[out]") change IN/WRB to PS 
+             (PQ 'pq); e.g., "WHEN did it rain?"
              ((DT CD) 'd); may be changed to 'a'
              (EX 'pro); existential "there" -- we treat it as a pronoun
              (FW 'fw) ; temporary -- to be replaced by quotes or perhaps a type
@@ -174,7 +181,11 @@
 
 ;      (format t "~%For ~s, type-tag = ~s, op = ~s" pos+word type-tag op); DEBUG
 
-       (setq log-atom-str
+       (if (find pos+word '((CC and) (CC or)) :test 'equal)
+           (setq type-tag 'CC))
+       (if (find pos+word '((IN that) (RB not) (RB n\'t) (PS that)) :test 'equal)
+           (setq type-tag nil)); "that" complementizer, booleans: no tag
+       (setq log-atom-str ; NB: -NONE- and -SYMB- constituents don't get an index
              (if type-tag
                (concatenate 'string stem-str "." (string type-tag) 
                                              "~" (format nil "~a" *word-index*))

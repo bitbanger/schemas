@@ -316,4 +316,13 @@
 		((<> _*1 (!2 is-comma?) _*2))
 		(_*1 _*2)
 	)
+
+	; Adverbs paired up with prep-preds,
+	; e.g. "(late.adv (at.p (k night.n)))",
+	; should be split up & have the prep-
+	; pred turned into an adverb as well.
+	(/
+		(_*1 ((!2 canon-adv?) (!3 canon-prep?)) _*4)
+		(_*1 !2 (ADV-A !3) _*4)
+	)
 )))

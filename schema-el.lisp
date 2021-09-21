@@ -229,6 +229,18 @@
 )
 )
 
+(ldefun canon-adv? (x)
+(or
+	(lex-adv? x)
+
+	(mp x (list (list 'id? 'ADV) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-A) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-F) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-E) 'canon-pred-or-mod?+))
+	(mp x (list (list 'id? 'ADV-S) 'canon-pred-or-mod?+))
+)
+)
+
 (ldefun canon-mod? (x)
 (or
 	(lex-adv? x)

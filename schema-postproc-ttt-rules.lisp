@@ -186,6 +186,14 @@
 		(AND (+ canon-individual?))
 		(SET-OF +)
 	)
+	(/
+		((!1 canon-individual?) AND (!2 canon-individual?))
+		(SET-OF !1 !2)
+	)
+	(/
+		((!1 canon-individual?) AND.CC (!2 canon-individual?))
+		(SET-OF !1 !2)
+	)
 
 	; Unwrap singleton individual lists.
 	(/

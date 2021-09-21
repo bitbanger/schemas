@@ -57,8 +57,8 @@
 	; "I went to this new pizza place yesterday."
 	; "We just bought a new house."
 	; "John found a kid crying on a bench."
-	"My mother gave me a new book."
-	; nil
+	; "My mother gave me a new book."
+	nil
 )
 (setf stories-processed 0)
 
@@ -66,7 +66,7 @@
 (defparameter end-st (parse-integer (third sb-ext:*posix-argv*)))
 
 (ldefun n-shuffles (lst seed)
-	(if (equal seed 1)
+	(if (<= seed 1)
 		; then
 		(shuffle lst)
 		; else

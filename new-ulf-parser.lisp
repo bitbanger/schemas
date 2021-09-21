@@ -317,7 +317,7 @@
 			(len-ulfs-with-word-tags sents)))
 )
 
-(defun len-parse-sents (sents)
+(ldefun len-parse-sents (sents &optional only-canon)
 (let ((ulfs))
 (block outer
 	(setf ulfs (len-ulfs sents))
@@ -326,7 +326,13 @@
 	; (loop for ulf in ulfs
 		; do (format t "	~s~%" ulf))
 
-	(return-from outer (parse-story-maybe-from-ulf sents ulfs))
+	(setf els (parse-story-maybe-from-ulf sents ulfs))
+	(if only-canon
+		; then
+		(return-from outer (loop for sent in sents collect
+			(loop for el in sent if (canon-prop? el) collect el)))
+		; else
+		(return-from outer els))
 )
 )
 )

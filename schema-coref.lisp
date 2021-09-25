@@ -39,7 +39,7 @@
 	(setf retval nil)
 
 	; (this file is being run from the parent directory, so we prepend the PWD to the call)
-	(let ((strm (sb-ext:process-output (sb-ext:run-program (concat-strs (format nil "~a" *ROOT-PATH*) "/allen-coref/allen_coref.sh") (list text) :output :stream :wait nil))))
+	(let ((strm (sb-ext:process-output (sb-ext:run-program (concat-strs (format nil "~a" (schema-root-dir)) "/allen-coref/allen_coref.sh") (list text) :output :stream :wait nil))))
 		(loop for line = (read-line strm nil)
 			while line
 			do (progn
@@ -173,7 +173,7 @@
 )
 )
 
-(ldefun resolve-coreference (txt-sents el-sents)
+(ldefun resolve-coreference-return-all (txt-sents el-sents)
 (block outer
 	(setf needs-res (remove-duplicates (get-elements-pred el-sents (lambda (x)
 		(let ((spl (split-str (format nil "~s" x) "$")))
@@ -330,6 +330,8 @@
 
 	(setf ones-to-clusters-map (make-hash-table :test #'equal))
 
+	(setf rep-names (list))
+
 	(loop for orig-cluster in clusters
 		for i from 0
 		do (block alias-block
@@ -367,6 +369,7 @@
 			)
 
 			; (format t "picking representative name ~s~%" rep-name)
+			(setf rep-names (append rep-names (list rep-name)))
 			(loop for e in cluster
 				if (not (equal e rep-name))
 					do (setf el-sents (replace-vals e rep-name el-sents))
@@ -488,6 +491,10 @@
 		)
 	)
 
-	(return-from outer el-sents)
+	(return-from outer (list el-sents clusters rep-names))
 )
+)
+
+(ldefun resolve-coreference (txt-sents el-sents)
+	(car (resolve-coreference-return-all txt-sents el-sents))
 )

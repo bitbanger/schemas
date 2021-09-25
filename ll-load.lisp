@@ -1,4 +1,13 @@
-(defparameter *ROOT-PATH* #P"/Users/l/Code/schemas")
+;(defparameter *ROOT-PATH* #P"/Users/l/Code/schemas")
+
+;(setf path-comps (cdr (pathname-directory *load-pathname*)))
+;(format t "~s~%" (member "schemas" path-comps :test #'equal))
+;(setf path-comps (subseq path-comps 0
+;	(- (length path-comps) (- (length (member "schemas" path-comps :test #'equal)) 1))))
+;(setf path-str "")
+;(loop for comp in path-comps
+;	do (setf path-str (format nil "~a/~a" path-str comp)))
+;(format t "root path: ~s~%" path-str)
 
 (if (not (boundp '*LL-LOADED*))
 	(progn

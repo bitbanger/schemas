@@ -52,6 +52,26 @@
 )
 )
 
+(ldefun canon-ke? (x)
+(or
+	(mp x (list (list 'id? 'KE) 'canon-prop?))
+)
+)
+
+(ldefun canon-that? (x)
+(or
+	(mp x (list (list 'id? 'THAT) 'canon-prop?))
+	(mp x (list (list 'id? 'THT) 'canon-prop?))
+)
+)
+
+(ldefun canon-event? (x)
+(or
+	(canon-ke? x)
+	(canon-that? x)
+)
+)
+
 (ldefun canon-kind? (x)
 (or
 	; TODO: restrictions on VP/non-VP preds for KA/K?
@@ -94,6 +114,7 @@
 											   ; 0 args?
 	(mp x (list 'lex-p-arg? 'canon-individual?))
 	(mp x (list (list 'id? 'THAT) 'canon-prop?))
+	(mp x (list (list 'id? 'THT) 'canon-prop?))
 
 	(mp x (list 'lex-det? 'canon-pred?))
 
@@ -275,6 +296,14 @@
 		(equal 'SET-OF (car x))
 	)
 	(canon-pred? (second x))
+)
+)
+
+(ldefun pseudo-charstar? (x)
+(and
+	(listp x)
+	(equal (length x) 3)
+	(equal (second x) '**)
 )
 )
 

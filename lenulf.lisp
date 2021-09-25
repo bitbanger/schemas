@@ -54,6 +54,7 @@
 	
 	; Get the AllenNLP coref tokenization so we know how to
 	; align the ULF tokens for later resolution.
+	; TODO: more punctuation?
 	(setf tok-sents (split-lst (coref-toks (join-str-list " " sents)) "."))
 	; (setf tok-sents (coref-toks (join-str-list " " sents)))
 	(setf tok-sents (loop for sent in tok-sents
@@ -72,29 +73,8 @@
 	(return-from outer len-ulfs)
 )))
 
-; Same as english-to-ulf, except it re-tags the words
-; to correspond better to the sentence for coreference
-; analysis.
-(ldefun len-ulf-with-word-tags (sent start-tag allen-coref-toks)
-(let (ulf ulf-words words word)
+(ldefun align-tokens (words cleaned-sent start-tag)
 (block outer
-	(setf ulf (english-to-ulf sent))
-
-	(setf ulf-words (get-elements-pred ulf (lambda (x) (and (symbolp x) (> (length (split-str (string x) "~")) 1)))))
-
-	(setf words (loop for word in ulf-words
-		collect (intern (car (split-str (string (car (split-str (string word) "."))) "~")))
-	))
-
-	; (setf cleaned-sent (loop for word in (split-str sent " ")
-		; collect (intern (string-upcase (join-str-list "" (loop for c across word
-			; if (alphanumericp c) collect (string c)))))
-	; ))
-
-	(setf cleaned-sent allen-coref-toks)
-
-	;(loop for word in words
-
 	(setf sent-word-idx (- start-tag 1))
 	(setf sent-tags (list))
 	; (format t "ulf sent: ~s~%" ulf-words)
@@ -193,6 +173,35 @@
 			)
 		)
 	)
+
+	(return-from outer sent-tags)
+))
+
+; Same as english-to-ulf, except it re-tags the words
+; to correspond better to the sentence for coreference
+; analysis.
+(ldefun len-ulf-with-word-tags (sent start-tag allen-coref-toks)
+(let (ulf ulf-words words word)
+(block outer
+	(setf ulf (english-to-ulf sent))
+
+	(setf ulf-words (get-elements-pred ulf (lambda (x) (and (symbolp x) (> (length (split-str (string x) "~")) 1)))))
+
+	(setf words (loop for word in ulf-words
+		collect (intern (car (split-str (string (car (split-str (string word) "."))) "~")))
+	))
+
+	; (setf cleaned-sent (loop for word in (split-str sent " ")
+		; collect (intern (string-upcase (join-str-list "" (loop for c across word
+			; if (alphanumericp c) collect (string c)))))
+	; ))
+
+	(setf cleaned-sent allen-coref-toks)
+
+	;(loop for word in words
+
+
+	(setf sent-tags (align-tokens words cleaned-sent start-tag))
 
 	(loop for word in ulf-words
 		for tag in sent-tags

@@ -5,6 +5,8 @@
 
 (ll-load "ll-cache.lisp")
 
+(defparameter *MY-LOAD-PATHNAME* *load-pathname*)
+
 (defparameter *DBG-TAGS* (list
 	; put debug tags you want here
 	;'matched-wffs
@@ -171,7 +173,7 @@
 )
 
 (defun get-elements-pred-helper (lst pred)
-(let (cur-elem tmp-res)
+(let (cur-elem tmp-res final-results)
 (block outer
 	; (format t "~s is index pair? ~s~%" lst (index-pair? lst))
 
@@ -184,22 +186,27 @@
 	;(format t "pred is ~s~%" pred)
 	;(format t "good? ~s~%" (funcall pred cur-elem))
 
+	(setf final-results nil)
+
 	(if (funcall pred cur-elem)
-		(return-from outer (list (list (clean-idcs (car lst)) (second lst)))))
+		; (return-from outer (list (list (clean-idcs (car lst)) (second lst)))))
+		(setf final-results (list (list (clean-idcs (car lst)) (second lst)))))
 
 	(if (not (listp cur-elem))
-		(return-from outer nil))
+		(return-from outer final-results))
 
 	;(format t "list is: ~s~%" cur-elem)
 
-	(loop for e in (car lst)
+	(setf final-results (append final-results (loop for e in (car lst)
 		do (setf cur-elem (clean-idcs (car e)))
 		do (setf tmp-res (get-elements-pred-helper e pred))
 		if (and (index-pair? tmp-res) (not (null (car tmp-res))))
 			do (setf tmp-res (list tmp-res))
 		if (not (null (car tmp-res)))
 			append tmp-res
-	)
+	)))
+
+	(return-from outer final-results)
 )
 )
 )
@@ -1487,4 +1494,26 @@ is replaced with replacement."
 
 (defun mkht ()
 	(make-hash-table :test #'equal)
+)
+
+(ldefun schema-root-dir ()
+(block outer
+	(setf path-components (cdr (pathname-directory *MY-LOAD-PATHNAME*)))
+	(setf path-components (append
+		(car (split-lst path-components "schemas"))
+		(list "schemas")))
+	(return-from outer (concat-strs "/" (join-str-list "/" path-components)))
+)
+)
+
+(ldefun force-str (obj)
+	(format nil "~a" obj)
+)
+
+(ldefun n-shuffles (lst seed)
+	(if (<= seed 1)
+		; then
+		(shuffle lst)
+		; else
+		(shuffle (n-shuffles lst (- seed 1))))
 )

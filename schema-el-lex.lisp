@@ -40,6 +40,7 @@
 	KE
 	KJ
 	THAT
+	THT
 	NOT
 	OR
 	AND

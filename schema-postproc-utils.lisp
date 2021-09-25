@@ -35,6 +35,26 @@
 	WHILE.N
 ))
 
+(ldefun is-idx-tagged (sym)
+(let ((spl (split-str (format nil "~s" sym) "$")))
+	(and
+		(symbolp sym)
+		(and
+			(equal 3 (length spl))
+			(num-str? (second spl)))
+	)
+)
+)
+
+(ldefun get-idx-tag (sym)
+(if (not (is-idx-tagged sym))
+	; then
+	nil
+	; else
+	(parse-integer (second (split-str (format nil "~s" sym) "$")))
+)
+)
+
 (ldefun clean-idx-tags (el-sents)
 (block outer
 	(setf needs-cleaning (remove-duplicates (get-elements-pred el-sents (lambda (x)

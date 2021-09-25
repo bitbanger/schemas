@@ -65,14 +65,6 @@
 (defparameter start-st (parse-integer (second sb-ext:*posix-argv*)))
 (defparameter end-st (parse-integer (third sb-ext:*posix-argv*)))
 
-(ldefun n-shuffles (lst seed)
-	(if (<= seed 1)
-		; then
-		(shuffle lst)
-		; else
-		(shuffle (n-shuffles lst (- seed 1))))
-)
-
 ; (let (el-story events schemas headers inds rcs)
 (ldefun compose-schemas-from-stories ()
 (block process-all-stories

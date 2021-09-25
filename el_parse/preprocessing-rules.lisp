@@ -394,7 +394,7 @@
 
 (defrule *remove-inserted-you-in-a-larger-vp*
 ; e.g., "I want you to MAKE IT VERY SPICY"
-  '((VP (TO to) (S (NP (-SYMB- {you}.pro)) +expr) *expr)
+  '((VP +expr (S (NP (-SYMB- {you}.pro)) +expr) *expr)
     (VP 2 3.3 4)))
 
 (defrule *reunite-prep-with-whnp-in-sbar*

@@ -176,7 +176,52 @@
 	(setf cleaned-interps (mapcar #'schema-cleanup raw-interps))
 
 	; PERFORM COREFERENCE
-	(setf resolved-interps (resolve-coreference sents cleaned-interps))
+	(setf coref-res (resolve-coreference-return-all sents cleaned-interps))
+
+	(setf coref-map (make-hash-table :test #'equal))
+	(loop for cluster in (second coref-res)
+		for rep-name in (third coref-res)
+		do (loop for elem in cluster
+			do (setf (gethash (get-idx-tag elem) coref-map)
+				(get-idx-tag rep-name))))
+
+	; (print-ht coref-map)
+
+	(setf resolved-interps (car coref-res))
+
+	(setf all-tagged (get-elements-pred resolved-interps #'is-idx-tagged))
+
+	(setf all-tagged (dedupe all-tagged))
+
+	(setf all-tags (dedupe (mapcar #'get-idx-tag all-tagged)))
+
+	(setf all-tags (dedupe (append all-tags
+		(loop for k being the hash-keys of coref-map collect k))))
+
+	(loop for tag in all-tags
+		if (null (gethash tag coref-map))
+			do (setf (gethash tag coref-map) tag))
+
+	(setf syms-for-tok-nums (make-hash-table :test #'equal))
+
+	(loop for tag in all-tags
+		do (setf (gethash tag syms-for-tok-nums)
+			(append (gethash tag syms-for-tok-nums)
+				(loop for tagged in all-tagged
+					if (equal (gethash tag coref-map) (get-idx-tag tagged))
+						collect tagged))))
+
+	(setf verbs-for-tok-nums (make-hash-table :test #'equal))
+	(setf episodes-for-tok-nums (make-hash-table :test #'equal))
+	(loop for tag being the hash-keys of syms-for-tok-nums do (block get-eps
+		(setf syms (gethash tag syms-for-tok-nums))
+		(setf syms (loop for sym in syms if (lex-verb? sym) collect sym))
+		(setf eps (mapcar #'third (get-elements-pred resolved-interps (lambda (x)
+			(and (pseudo-charstar? x) (has-element x (car syms)))))))
+		(setf (gethash tag episodes-for-tok-nums) (car eps))
+		(setf (gethash tag verbs-for-tok-nums) (car syms))
+	))
+
 
 	(setf no-idx-interps (clean-idx-tags resolved-interps))
 
@@ -185,8 +230,55 @@
 	; TODO: find out why & fix it
 	(setf final-interps (mapcar #'schema-cleanup no-idx-interps))
 
+	(setf final-eps-for-tok-nums (make-hash-table :test #'equal))
+
+	; Episodes mapped to tok nums before the final cleanup may no longer
+	; be canonical, that is, they may have been split. We'll take those
+	; episodes and find all concurrent episodes in the final, canonical
+	; ELs, then disambiguate based on predicate identity.
+	(loop for tag being the hash-keys of episodes-for-tok-nums do (block disamb
+		(setf ep (gethash tag episodes-for-tok-nums))
+		(if (not (null (get-elements-pred final-interps (lambda (x) (and (canon-charstar? x) (equal (third x) ep))))))
+			(progn
+			(setf (gethash tag final-eps-for-tok-nums) ep)
+			(return-from disamb)
+			)
+		)
+
+		(setf during-eps (mapcar #'car (get-elements-pred final-interps (lambda (x) (and
+			(listp x) (equal (length x) 2) (equal (second x) (list 'DURING ep)))))))
+
+		(setf during-charstars (mapcar #'third (get-elements-pred final-interps (lambda (x) (and (canon-charstar? x) (contains during-eps (third x)) (equal (prop-pred (car x)) (clean-idx-tags (gethash tag verbs-for-tok-nums))))))))
+
+		(setf (gethash tag final-eps-for-tok-nums) (car during-charstars))
+	))
+
+	(setf kas-for-tok-nums (make-hash-table :test #'equal))
+	(loop for tag being the hash-keys of verbs-for-tok-nums do (block get-kas
+		(setf kas (get-elements-pred resolved-interps (lambda (x)
+			(and (canon-ka? x) (equal (get-idx-tag (pred-base (second x))) (gethash tag coref-map))))))
+		; (format t "ka for ~s is ~s~%" tag kas)
+		(setf (gethash tag kas-for-tok-nums) (clean-idx-tags kas))
+	))
+
+	(setf kes-for-tok-nums (make-hash-table :test #'equal))
+	(loop for tag being the hash-keys of verbs-for-tok-nums do (block get-kes
+		(setf kes (get-elements-pred resolved-interps (lambda (x)
+			(and (canon-event? x) (equal (get-idx-tag (prop-pred (second x))) (gethash tag coref-map))))))
+		; (format t "ke for ~s is ~s~%" tag kes)
+		(setf (gethash tag kes-for-tok-nums) (clean-idx-tags kes))
+	))
+
+	; (print-ht final-eps-for-tok-nums)
+
+	(setf inds-for-tok-nums (make-hash-table :test #'equal))
+	(loop for tag in all-tags
+		do (setf (gethash tag inds-for-tok-nums) (clean-idx-tags (dedupe (get-elements-pred resolved-interps (lambda (x)
+			(and (canon-individual? x) (has-element-pred x (lambda (y)
+				(and (is-idx-tagged y) (equal (get-idx-tag y) (gethash tag coref-map))))))))))))
+
 	(return-from outer (list
-		raw-interps cleaned-interps resolved-interps no-idx-interps final-interps
+		raw-interps cleaned-interps resolved-interps no-idx-interps final-interps final-eps-for-tok-nums kas-for-tok-nums inds-for-tok-nums coref-map kes-for-tok-nums
 	))
 )
 )
@@ -231,3 +323,33 @@
 		)
 	))))
 ))
+
+(ldefun print-story-with-els (story els)
+(block outer
+	(if (not (equal (length story) (length els)))
+		(return-from outer nil))
+
+	(if (not (loop for el in els always (listp el)))
+		(return-from outer nil))
+
+	(loop for sent in story
+		for el-sent in els
+		do (block inner
+			(setf valid (list))
+			(setf invalid (list))
+			(loop for phi in el-sent
+				if (canon-prop? phi)
+					do (setf valid (append valid (list phi)))
+				else
+					do (setf invalid (append invalid (list phi))))
+			(format t "~s~%" sent)
+			(format t "VALID:~%")
+			(loop for valid-el in valid
+				do (format t "	~s~%" valid-el))
+			(format t "INVALID:~%")
+			(loop for invalid-el in invalid
+				do (format t "	~s~%" invalid-el))))
+
+		
+)
+)

@@ -36,6 +36,11 @@
 	:Certainties
 ))
 
+(defparameter *UNINTERESTING-PREDS* '(
+	HAS-DET.PR
+	ORIENTS
+))
+
 (defparameter *SCHEMAS-BY-PRED* (make-hash-table :test #'equal))
 ; (format t "resetting preds-by-schema~%")
 (defparameter *PREDS-BY-SCHEMA* (make-hash-table :test #'equal))
@@ -624,7 +629,10 @@
 
 	(format t "(~s ~s~%" (car schema) (second schema))
 	(loop for sec in (sort-sections (schema-sections schema))
-		if (> (length (section-formulas sec)) 0)
+		if (and
+			(not (equal (section-name sec) ':Paraphrases))
+			(> (length (section-formulas sec)) 0))
+			; then
 			do (block print-sec
 				(format t "	(~s~%" (section-name sec))
 				(loop for elem in (cdr sec)
@@ -709,6 +717,21 @@
 		if (canon-prop? wff)
 			collect wff
 	)
+)
+
+(ldefun interesting-constr? (constraint)
+(and
+	(canon-prop? constraint)
+	(not (time-prop? constraint))
+	(not (contains *UNINTERESTING-PREDS*
+		(prop-pred constraint)))
+)
+)
+
+(ldefun story-select-interesting-term-constraints (story terms)
+	(loop for sc in (story-select-term-constraints story terms)
+		if (interesting-constr? sc)
+			collect sc)
 )
 
 ; story-select-term-constraints takes a story and a list of individual

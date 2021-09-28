@@ -91,7 +91,7 @@
 )
 )
 
-(ldefun get-frames-to-map (story)
+(ldefun get-frames-to-map (story &optional)
 (block outer
 	(setf raw-len-ulfs (increment-tilde-tags (len-ulfs-with-word-tags (car story))))
 
@@ -249,14 +249,18 @@
 
 	))
 
-	(return-from outer frames-ready-to-map)
+	(return-from outer (list frames-ready-to-map parse))
 
 )
 )
 
 ;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
 (loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
-	(setf frames-for-mapping (get-frames-to-map story))
+	(setf frames-for-mapping-pair (get-frames-to-map story))
+	(setf frames-for-mapping (car frames-for-mapping-pair))
+	(setf parse (second frames-for-mapping-pair))
+	(setf el-sents (fifth parse))
+	(setf el-story (linearize-story el-sents))
 
 	(loop for sent in (car story)
 		do (format t "; ~s~%" sent))
@@ -273,7 +277,21 @@
 		(if (< (ht-count bindings) 2)
 			(return-from print-schema))
 
-		(print-schema (apply-bindings schema-template bindings))
+		(setf bound (dedupe (loop for k being the hash-keys of bindings
+			collect (gethash k bindings))))
+		(setf story-constrs (dedupe
+			(story-select-interesting-term-constraints el-story bound)))
+
+		;(format t "bound: ~s~%" bound)
+		;(format t "new constrs:~%")
+		;(loop for sc in story-constrs do (format t "	~s~%" sc))
+
+		(loop for sc in story-constrs
+			do (setf schema-template
+				(add-role-constraint schema-template sc)))
+
+		(print-schema (fully-clean-schema-no-gen
+			(apply-bindings schema-template bindings)))
 	))
 		;do (format t "~s~%" (second (car frame)))
 		;do (print-ht (map-frame frame))

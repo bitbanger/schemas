@@ -68,6 +68,12 @@
 
 (ldefun frame-to-schema (frame)
 (block outer
+	(setf invoker-ep nil)
+	(setf invoker (third (car frame)))
+	(if (not (or (canon-ka? invoker) (canon-ke? invoker)))
+		(setf invoker-ep (second invoker))
+	)
+
 	(setf rules (gethash (second (car frame)) *MAPPING-RULES-BY-NAME*))
 	(if (null rules)
 		(return-from outer nil))
@@ -75,8 +81,23 @@
 	; Take the first match
 	(loop for rule in rules do (block inner
 		(setf res (map-frame-rule frame rule))
-		(if (not (null res))
-			(return-from outer res))
+		(setf schema-name (car res))
+		(setf bindings (second res))
+
+		(if (null res)
+			(return-from inner))
+
+		(if (not (null invoker-ep))
+			(setf (gethash '?e bindings) invoker-ep))
+
+		(setf registered-schema-pair (create-from-match
+			(apply-bindings (eval schema-name) bindings)
+			t))
+
+		(setf reg-schema-name (car registered-schema-pair))
+		(setf reg-schema-bindings (second registered-schema-pair))
+
+		(return-from outer (list reg-schema-name reg-schema-bindings))
 	))
 
 	(return-from outer nil)

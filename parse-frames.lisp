@@ -272,9 +272,17 @@
 
 	(loop for frame in frames-for-mapping do (block print-schema
 		(setf map-pair (frame-to-schema frame))
+		(if (null map-pair)
+			(return-from print-schema))
+
 		(setf schema-template (eval (car map-pair)))
 		(setf bindings (second map-pair))
-		(if (< (ht-count bindings) 2)
+
+		(setf bound-vars (dedupe (loop for k being the hash-keys of bindings
+			collect k)))
+		(setf bound-vars (remove '?e bound-vars :test #'equal))
+
+		(if (< (length bound-vars) 2)
 			(return-from print-schema))
 
 		(setf bound (dedupe (loop for k being the hash-keys of bindings

@@ -160,20 +160,25 @@
 ;	3. registers the generalized schema under
 ;		the new name
 ;	4. returns the generalized schema name
-(ldefun create-from-match (match)
-	(create-from-match-maybe-gen match t)
+(ldefun create-from-match (match &optional return-bindings)
+	(create-from-match-maybe-gen match t return-bindings)
 )
 
-(ldefun create-from-match-maybe-gen (match should-gen)
+(ldefun create-from-match-maybe-gen (match should-gen &optional return-bindings)
 (block outer
 	(setf is-new-schema nil)
 
 	; (maybe) generalize the schema
 	(setf new-schema match)
+	(setf new-bindings nil)
 	(if should-gen
 		; then
 		; (setf new-schema (clean-do-kas (rename-constraints (sort-steps (generalize-schema-constants new-schema)))))
-		(setf new-schema (fully-clean-schema match))
+		(progn
+			(setf new-schema-pair (fully-clean-schema match t))
+			(setf new-schema (car new-schema-pair))
+			(setf new-bindings (second new-schema-pair))
+		)
 	)
 
 	; check whether we know the generalized schema
@@ -195,7 +200,12 @@
 		(register-schema new-schema)
 	)
 
-	(return-from outer new-schema-name)
+	(if return-bindings
+		; then
+		(return-from outer (list new-schema-name new-bindings))
+		; else
+		(return-from outer new-schema-name)
+	)
 )
 )
 

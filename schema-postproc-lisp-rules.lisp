@@ -2222,9 +2222,8 @@
 
 (ldefun split-top-level-ands (phi)
 (block outer
-
 	(if (null phi)
-		(format t "stla got null phi~%")
+		(dbg 'parse "stla got null phi~%")
 	)
 
 	(setf phi-copy (copy-list phi))

@@ -21,6 +21,9 @@
 	enjoy_action.v
 	like.v
 	transport_object.v
+	clean.v
+	wear.v
+	possess.v
 ))
 
 (defparameter enjoy_action.v
@@ -71,7 +74,7 @@
 		)
 
 		(:Postconds
-			(?p1 (?x (want.v (ka (have.v ?o)))))
+			(?p1 (?x (want.v (ka (possess.v ?o)))))
 		)
 	)
 )
@@ -125,7 +128,7 @@
 
 		(:Goals
 			(?g1 (?x (want.v (that (?o exist.v)))))
-			(?g2 (?x (want.v (ka (have.v ?o)))))
+			(?g2 (?x (want.v (ka (possess.v ?o)))))
 		)
 
 		(:Preconds
@@ -134,7 +137,7 @@
 
 		(:Postconds
 			(?p1 (?o exist.v))
-			(?p2 (?x (have.v ?o)))
+			(?p2 (?x (possess.v ?o)))
 		)
 	)
 )
@@ -265,7 +268,7 @@
 		)
 
 		(:Preconds
-			(?i1 (?x (have.v ?t)))
+			(?i1 (?x (possess.v ?t)))
 			(?i2 (?t (suitable_for.p ?a))) ; the "telic" preposition suitable_for.a
 											; will appear in prior object knowledge
 		)
@@ -303,17 +306,17 @@
 		)
 
 		(:Goals
-			(?g1 (?x (want.v (that (?y (have.v ?o))))))
+			(?g1 (?x (want.v (that (?y (possess.v ?o))))))
 		)
 
 		(:Preconds
-			(?i1 (?x have.v ?o))
-			(?i2 (not (?y have.v ?o)))
+			(?i1 (?x possess.v ?o))
+			(?i2 (not (?y possess.v ?o)))
 		)
 
 		(:Postconds
-			(?p1 (not (?x have.v ?o)))
-			(?p2 (?y have.v ?o))
+			(?p1 (not (?x possess.v ?o)))
+			(?p2 (?y possess.v ?o))
 		)
 	)
 )
@@ -336,19 +339,19 @@
 		)
 
 		(:Goals
-			(?g1 (?x (want.v (that (?x (have.v ?o))))))
+			(?g1 (?x (want.v (that (?x (possess.v ?o))))))
 			(?g2 (?x (need.v ?o)))
 			(?g3 (?x (want.v ?o)))
 		)
 
 		(:Preconds
-			(?i1 (not (?x have.v ?o)))
+			(?i1 (not (?x possess.v ?o)))
 			(?i2 (?x (at.p ?l)))
 			(?i3 (?o (at.p ?l)))
 		)
 
 		(:Postconds
-			(?p1 (?x have.v ?o))
+			(?p1 (?x possess.v ?o))
 		)
 
 		(:Episode-relations
@@ -390,7 +393,7 @@
 
 		(:Preconds
 			(?i1 (?o ((adv-a (at.p ?l1)) be.v)))
-			(?i2 (?x (have.v ?o)))
+			(?i2 (?x (possess.v ?o)))
 		)
 
 		(:Postconds
@@ -420,12 +423,12 @@
 		)
 
 		(:Preconds
-			(?i1 (?x have.v ?f))
+			(?i1 (?x possess.v ?f))
 			(?i2 (?x hungry.a))
 		)
 
 		(:Postconds
-			(?p1 (not (?x (have.v ?f))))
+			(?p1 (not (?x (possess.v ?f))))
 			(?p2 (not (?x hungry.a)))
 		)
 
@@ -453,12 +456,12 @@
 		)
 
 		(:Preconds
-			(?i1 (?x have.v ?f))
+			(?i1 (?x possess.v ?f))
 			(?i2 (?x thirsty.a))
 		)
 
 		(:Postconds
-			(?p1 (not (?x (have.v ?f))))
+			(?p1 (not (?x (possess.v ?f))))
 			(?p2 (not (?x thirsty.a)))
 		)
 
@@ -491,7 +494,7 @@
 
 		(:Goals
 			(?g1 (?x (want.v (ka (find.v ?o)))))
-			(?g2 (?x (want.v (ka (have.v ?o)))))
+			(?g2 (?x (want.v (ka (possess.v ?o)))))
 		)
 
 		(:Paraphrases
@@ -529,12 +532,12 @@
 			(?i2 (?o (at.p ?l)))
 			(?i3 (?x ((adv-a (for.p ?o)) search.v)))
 			(?i4 (not (?x (know.v (that (?o (at.p ?l)))))))
-			(?i5 (not (?x (have.v ?o))))
+			(?i5 (not (?x (possess.v ?o))))
 		)
 
 		(:Postconds
 			(?p1 (?x (know.v (that (?o (at.p ?l))))))
-			(?p2 (?x (have.v ?o)))
+			(?p2 (?x (possess.v ?o)))
 		)
 
 		(:Episode-relations
@@ -573,7 +576,7 @@
 		)
 
 		(:Preconds
-			(?i1 (?x have.v ?f))
+			(?i1 (?x possess.v ?f))
 			(?i2 (?y hungry.a))
 		)
 
@@ -582,7 +585,7 @@
 		)
 
 		(:Postconds
-			(?p1 (not (?x (have.v ?f))))
+			(?p1 (not (?x (possess.v ?f))))
 			(?p2 (not (?y hungry.a)))
 		)
 
@@ -647,7 +650,7 @@
 		)
 
 		(:Preconds
-			(?i1 (?x have.v ?t))
+			(?i1 (?x possess.v ?t))
 		)
 
 		(:Postconds
@@ -804,6 +807,180 @@
 
 		(:Postconds
 			(?p1 (?y (know.v ?i)))
+		)
+	)
+)
+
+(defparameter clean.v
+	'(epi-schema ((?x clean.v ?y) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (not (?y dirty.a))))))
+		)
+
+		(:Preconds
+			(?i1 (?y dirty.a))
+			(?i2 (not (?y clean.a)))
+		)
+
+		(:Postconds
+			(?p1 (not (?y dirty.a)))
+			(?p2 (?y clean.a))
+		)
+	)
+)
+
+(defparameter wear.v
+	'(epi-schema ((?x wear.v ?o) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?o object.n))
+			(!r3 (not (?o agent.n)))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n3 (!r3 necessary-to-degree 3.0))
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter need.v
+	'(epi-schema ((?x need.v ?a) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?a action.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ka (do.v ?a)))))
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter try.v
+	'(epi-schema ((?x try.v ?a) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?a action.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ka (do.v ?a)))))
+		)
+
+		(:Preconds
+			(?i1 (not (?x (know.v (that (?x (can.md (do.v ?a))))))))
+			(?i2 (not (?x (know.v (that (not (?x (can.md (do.v ?a)))))))))
+		)
+
+		(:Steps
+			; TODO: uncertainty and/or disjunction here
+			(?e1 (?x (do.v ?a)))
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter possess.v
+	'(epi-schema ((?x possess.v ?o) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?o object.n))
+			(!r3 (?l location.n))
+			(!r4 (?x (at.p ?l)))
+			(!r5 (?o (at.p ?l)))
+		)
+
+		(:Paraphrases
+			(?e (?o (pertain-to ?x)))
+		)
+
+		(:Necessities
+			(!n1 (!r4 necessary-to-degree 0.5))
+			(!n2 (!r5 necessary-to-degree 0.5))
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter .v
+	'(epi-schema ((?x .v) ** ?e)
+		(:Roles
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
 		)
 	)
 )

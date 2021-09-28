@@ -37,6 +37,11 @@
 		(?x pre-arg experiencer)
 		(?a (post-arg (1 of 1) (if event)) (content (if event)))
 	)
+
+	(ingestion eat.v
+		(?x pre-arg ingestor)
+		(?f (post-arg (1 of any)) ingestibles)
+	)
 ))
 
 (defparameter *MAPPING-RULES-BY-NAME*

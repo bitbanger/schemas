@@ -13,6 +13,189 @@
 )
 )
 
+(defparameter *MAPPING-RULES* '(
+	(self_motion travel.v
+		(?x pre-arg self_mover)
+		(?l1 adv-from (source (if not event)))
+		(?l2 adv-to (post-arg (1 of any)) (goal (if not event)))
+	)
+
+	(motion travel.v
+		(?x pre-arg theme)
+		(?l1 adv-from (source (if not event)))
+		(?l2 adv-to (goal (if not event)))
+	)
+
+	(bringing transport_object.v
+		(?x pre-arg agent)
+		(?o (post-arg (1 of 1)) (post-arg (2 of 2)) theme)
+		(?l1 adv-from (source (if not event)))
+		(?l2 adv-to (goal (if not event)))
+	)
+
+	(experiencer_focus enjoy_action.v
+		(?x pre-arg experiencer)
+		(?a (post-arg (1 of 1) (if event)) (content (if event)))
+	)
+))
+
+(defparameter *MAPPING-RULES-BY-NAME*
+	(make-hash-table :test #'equal))
+(loop for rule in *MAPPING-RULES*
+	do (setf (gethash (car rule) *MAPPING-RULES-BY-NAME*)
+		(append (gethash (car rule) *MAPPING-RULES-BY-NAME*)
+			(list rule))))
+
+(ldefun post-arg-bounds? (x)
+(and
+	(listp x)
+	(equal (length x) 3)
+	(numberp (car x))
+	(>= (car x) 1)
+	(equal (second x) 'of)
+	(or
+		(equal (third x) 'any)
+
+		(and (numberp (third x))
+			(>= (third x) (car x))))
+)
+)
+
+(ldefun frame-to-schema (frame)
+(block outer
+	(setf rules (gethash (second (car frame)) *MAPPING-RULES-BY-NAME*))
+	(if (null rules)
+		(return-from outer nil))
+
+	; Take the first match
+	(loop for rule in rules do (block inner
+		(setf res (map-frame-rule frame rule))
+		(if (not (null res))
+			(return-from outer res))
+	))
+
+	(return-from outer nil)
+)
+)
+
+(ldefun map-frame-rule (frame rule)
+(block outer
+	(setf bindings (make-hash-table :test #'equal))
+
+	(loop for var in (mapcar #'car (cddr rule))
+		do (let ((mapping (map-frame-var-rule frame var rule)))
+			(if (not (null mapping))
+				(setf (gethash var bindings)
+					mapping))))
+
+	(if (> (ht-count bindings) 0)
+		(return-from outer (list (second rule) bindings)))
+
+	(return-from outer nil)
+)
+)
+
+(ldefun map-frame-var-rule (frame var rule)
+(block outer
+	(setf options (cdr (car (loop for var-rule in (cddr rule)
+		if (equal (car var-rule) var)
+			collect var-rule))))
+
+	(loop for option in options do (block inner
+		(setf best-option-cands nil)
+
+		(setf option-core option)
+		(setf option-constraints nil)
+		(if (listp option) (progn
+			(setf option-core (car option))
+			(setf option-constraints (cdr option))
+		))
+
+		; pre-arg
+		(if (equal option-core 'pre-arg) (block do-pre-arg
+			(if (not (null (second frame)))
+				(setf best-option-cands (list (second frame)))
+			)
+		))
+
+		; If the rule requests a post-arg, process that
+		; here
+		(if (equal option-core 'post-arg) (block do-post-arg
+			; collect bounds
+			(setf post-arg-bounds (car (loop for c in option-constraints
+				if (post-arg-bounds? c) collect c)))
+			(if (null post-arg-bounds)
+				(return-from inner))
+
+			; enforce bounds
+			(setf post-args (third frame))
+			(if (not (or (equal (third post-arg-bounds) (length post-args)) (equal (third post-arg-bounds) 'any)))
+				(return-from inner))
+
+			; select the chosen arg
+			(setf best-option-cands
+				(list (nth (- (car post-arg-bounds) 1)
+					post-args)))
+		))
+
+		; adv-to
+		(if (equal option-core 'adv-to) (block do-adv-to
+			(setf best-option-cands (loop for pmod in (fourth frame)
+				if (and (listp pmod) (equal (car (second pmod)) 'TO.P))
+					collect (second (second pmod))))
+		))
+
+		; adv-from
+		(if (equal option-core 'adv-from) (block do-adv-from
+			(setf best-option-cands (loop for pmod in (fourth frame)
+				if (and (listp pmod) (equal (car (second pmod)) 'FROM.P))
+					collect (second (second pmod))))
+		))
+
+		; fallback: framenet arg name
+		(if (null best-option-cands) (block do-fn-arg
+			(setf best-option-cands (car (loop for fn-arg in (fifth frame)
+				if (equal (car fn-arg) option-core)
+					collect (second fn-arg))))
+		))
+
+		; If we haven't gotten anything by now, we just
+		; can't bind this option
+		(if (null best-option-cands)
+			(return-from inner))
+
+		(setf final-option-cands nil)
+
+		(loop for cand in best-option-cands do (block filter-cands
+			; Filter by "if" rules
+			(setf ifs (loop for c in option-constraints
+				if (and (listp c) (equal (car c) 'if))
+					collect c))
+
+			; Apply "if" rules
+			(loop for ifr in ifs do (block apply-if
+				(setf neg (equal (second ifr) 'not))
+
+				; handle event if rules
+				(if (equal (car (last ifr)) 'event)
+					(if (or (canon-ka? cand) (canon-event? cand))
+						; then
+						(if neg (return-from filter-cands))
+						; else
+						(if (not neg) (return-from filter-cands))
+					)
+				)
+			))
+
+			; If we're here, add it to the final option list.
+			(setf final-option-cands (append final-option-cands (list cand)))
+		))
+
+		(if (not (null final-option-cands))
+			(return-from outer (car final-option-cands)))
+	))
+))
+
 (ldefun bring (frame)
 (block outer
 	(setf frame-name (second (car frame)))
@@ -38,7 +221,7 @@
 		(setf non-event-args '(THEME GOAL AGENT))
 		(setf event-args '(PURPOSE))
 
-		(if (contains non-event-args (car arg)) do (block prune
+		(if (contains non-event-args (car arg)) (block prune
 			(setf non-events (loop for cand in (second arg)
 				if (not (reified-event? cand)) collect cand))
 
@@ -50,7 +233,7 @@
 			(return-from farg)
 		))
 
-		(if (contains event-args (car arg)) do (block prune
+		(if (contains event-args (car arg)) (block prune
 			(setf events (loop for cand in (second arg)
 				if (reified-event? cand) collect cand))
 

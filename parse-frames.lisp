@@ -7,6 +7,7 @@
 (ll-load "ll-util.lisp")
 (ll-load "schema-util.lisp")
 (ll-load "framenet-to-schema-mapper.lisp")
+(ll-load "protoschemas.lisp")
 
 (if (>= (length sb-ext:*posix-argv*) 3)
 	; then
@@ -265,9 +266,21 @@
 	(loop for frame in frames-for-mapping
 		do (print-frame frame))
 
-	(loop for frame in frames-for-mapping
-		if (equal (second (car frame)) 'BRINGING)
-			do (print-schema (bring frame)))
+	(loop for frame in frames-for-mapping do (block print-schema
+		(setf map-pair (frame-to-schema frame))
+		(setf schema-template (eval (car map-pair)))
+		(setf bindings (second map-pair))
+		(if (< (ht-count bindings) 2)
+			(return-from print-schema))
+
+		(print-schema (apply-bindings schema-template bindings))
+	))
+		;do (format t "~s~%" (second (car frame)))
+		;do (print-ht (map-frame frame))
+		;do (format t "~%~%")
+		;if (equal (second (car frame)) 'BRINGING)
+			; do (print-schema (bring frame)))
+			;do (print-ht (map-frame frame)))
 		;if (equal (second (car frame)) 'SELF_MOTION)
 			; do (format t "~s~%" frame))
 			;do (print-frame frame))

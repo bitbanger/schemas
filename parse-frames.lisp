@@ -254,13 +254,16 @@
 )
 )
 
-;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
-(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
+(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
+;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
 	(setf frames-for-mapping-pair (get-frames-to-map story))
 	(setf frames-for-mapping (car frames-for-mapping-pair))
 	(setf parse (second frames-for-mapping-pair))
 	(setf el-sents (fifth parse))
 	(setf el-story (linearize-story el-sents))
+	(setf el-story (loop for prop in el-story
+		if (canon-prop? prop)
+			collect prop))
 
 	(loop for sent in (car story)
 		do (format t "; ~s~%" sent))
@@ -312,5 +315,5 @@
 			;do (print-frame frame))
 
 	(format t "~%------------------~%~%")
-))
-;) (error () (format t "error~%"))))
+;))
+) (error () (format t "error~%"))))

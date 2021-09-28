@@ -22,8 +22,8 @@
 
 	(motion travel.v
 		(?x pre-arg theme)
-		(?l1 adv-from (source (if not event)))
-		(?l2 adv-to (goal (if not event)))
+		(?l1 adv-from (source (if not event)) path)
+		(?l2 adv-to (goal (if not event)) path)
 	)
 
 	(bringing transport_object.v
@@ -41,6 +41,16 @@
 	(ingestion eat.v
 		(?x pre-arg ingestor)
 		(?f (post-arg (1 of any)) ingestibles)
+	)
+
+	(locating find.v
+		(?x pre-arg perceiver)
+		(?o (post-arg (1 of 1)) (post-arg (2 of 2)) sought_entity)
+	)
+
+	(have_associated possess.v
+		(?x pre-arg topical_entity)
+		(?o (post-arg (1 of 1)) entity)
 	)
 ))
 

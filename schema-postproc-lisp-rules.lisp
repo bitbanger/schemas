@@ -38,7 +38,27 @@
 	; bubble-up-sent-mods
 	; reify-pred-args
 	skolemize-kinds ; This is a bad idea, but I'm doing it anyway.
+	fix-subs
 ))
+
+(ldefun fix-subs (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf subs (get-elements-pred phi-copy (lambda (x)
+		(and (listp x)
+			(equal (length x) 3)
+			(equal (car x) 'SUB)))))
+
+	(loop for sub in subs do (block fix-sub
+		(setf hole-form (third sub))
+		(setf fixed-form (replace-vals '*H (second sub) hole-form))
+		(setf phi-copy (replace-vals sub fixed-form phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (ldefun skolemize-kinds (phi)
 (block outer
@@ -601,7 +621,8 @@
 
 		(if (and
 				(listp form)
-				(canon-charstar? form)
+				; (canon-charstar? form)
+				(pseudo-charstar? form)
 				(lex-skolem? (third form))
 				; (has-prefix? (format nil "~s" (third form)) "OBJECT")
 				(has-skolem-prefix? (third form) "OBJECT")

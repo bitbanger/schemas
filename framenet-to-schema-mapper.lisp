@@ -33,7 +33,7 @@
 	(motion travel.v
 		(?x
 			pre-arg
-			theme
+			(theme (if not event))
 		)
 		(?l1
 			adv-from
@@ -112,6 +112,17 @@
 		)
 	)
 
+	(possession possess.v
+		(?x
+			pre-arg
+			(owner (if not event))
+		)
+		(?o
+			(post-arg (1 of 1))
+			(possession (if not event))
+		)
+	)
+
 	(retaining possess.v
 		(?x
 			pre-arg
@@ -143,6 +154,17 @@
 		(?a
 			(post-arg (1 of any) (if event))
 			(activity (if event))
+		)
+	)
+
+	(perception_experience witness.v
+		(?x
+			pre-arg
+			(perceiver_passive (if not event))
+		)
+		(?h
+			(post-arg (1 of any) (if event))
+			(phenomenon (if event))
 		)
 	)
 
@@ -267,6 +289,16 @@
 			(theme (if not event))
 		)
 	)
+
+	(residence reside.v
+		(?x
+			pre-arg
+			(resident (if not event))
+		)
+		(?l
+			(location (if not event))
+		)
+	)
 ))
 
 (defparameter *MAPPING-RULES-BY-NAME*
@@ -291,7 +323,7 @@
 )
 )
 
-(ldefun frame-to-schema (frame)
+(ldefun frame-to-schema (frame el-story)
 (block outer
 	(setf invoker-ep nil)
 	(setf invoker (third (car frame)))
@@ -315,8 +347,19 @@
 		(if (not (null invoker-ep))
 			(setf (gethash '?e bindings) invoker-ep))
 
+		(setf schema (eval schema-name))
+
+		; Fix the witness.v schema with our special
+		; case function, if we generated it.
+		(if (equal schema-name 'witness.v)
+			(setf schema (process-witness-schema
+				(apply-bindings schema bindings)
+				bindings
+				el-story)))
+				
+
 		(setf registered-schema-pair (create-from-match
-			(apply-bindings (eval schema-name) bindings)
+			(apply-bindings schema bindings)
 			t))
 
 		(setf reg-schema-name (car registered-schema-pair))
@@ -343,6 +386,14 @@
 		(return-from outer (list (second rule) bindings)))
 
 	(return-from outer nil)
+)
+)
+
+(ldefun nest-pair? (cand)
+(and
+	(listp cand)
+	(equal (length cand) 2)
+	(numberp (car cand))
 )
 )
 
@@ -437,13 +488,26 @@
 				if (and (listp c) (equal (car c) 'if))
 					collect c))
 
+			; Default to "if not event" for brevity
+			(if (and (not (contains option-constraints 'ifs-ok))
+				(not (contains ifs '(if event)))
+				(not (contains ifs '(if not event))))
+				; then
+				(progn
+				(setf ifs (append ifs (list '(if not event))))
+				; (format t "added if not event~%")
+				)
+			)
+
 			; Apply "if" rules
 			(loop for ifr in ifs do (block apply-if
 				(setf neg (equal (second ifr) 'not))
 
+				; (format t "looking at cand ~s with if rule ~s~%" cand ifr)
+
 				; handle event if rules
 				(if (equal (car (last ifr)) 'event)
-					(if (or (canon-ka? cand) (canon-event? cand))
+					(if (or (canon-ka? cand) (canon-event? cand) (nest-pair? cand))
 						; then
 						(if neg (return-from filter-cands))
 						; else
@@ -451,6 +515,12 @@
 					)
 				)
 			))
+
+			; Wrap frame references up so they're valid EL---
+			; we'll replace them with the true references in
+			; a second pass
+			(if (nest-pair? cand)
+				(setf cand (list 'IND cand)))
 
 			; If we're here, add it to the final option list.
 			(setf final-option-cands (append final-option-cands (list cand)))

@@ -646,6 +646,10 @@
 	(car (prop-args-pred-mods prop))
 )
 
+(ldefun prop-pre-arg (prop)
+	(car (prop-pre-args prop))
+)
+
 (ldefun prop-pred (prop)
 	(second (prop-args-pred-mods prop))
 )

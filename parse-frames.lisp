@@ -16,6 +16,14 @@
 	(load "all-story-frames.lisp")
 )
 
+; (setf *DEBUG-SENTENCE* "She saw Rover run off with the hat.")
+(setf *DEBUG-SENTENCE* nil)
+
+(if (not (null *DEBUG-SENTENCE*))
+	(setf *ALL-STORY-FRAMES* (loop for frame in *ALL-STORY-FRAMES*
+		if (equal (car (car frame)) *DEBUG-SENTENCE*)
+			collect frame)))
+
 (ldefun print-frame (frame)
 (block outer
 	(format t "~d. ~s <- ~s [~a]~%"
@@ -105,11 +113,13 @@
 
 	(setf parse (parse-story-maybe-from-ulf-full-output (car story) processed-len-ulfs))
 
-
 	(setf tok-eps (sixth parse))
 	(setf tok-kas (seventh parse))
 	(setf tok-inds (eighth parse))
 	(setf tok-kes (tenth parse))
+
+	; (print-ht tok-eps)
+	; (format t "~s~%" (fifth parse))
 
 	(setf frames (second story))
 
@@ -134,6 +144,8 @@
 
 		(setf invoked nil)
 
+		; (format t "invoker is ~s~%" (gethash invoker-idx words-for-tags))
+
 		(if (not (null (car (gethash invoker-idx tok-kas))))
 			; then
 			(setf invoked (car (gethash invoker-idx tok-kas)))
@@ -146,7 +158,10 @@
 					; then
 					(setf invoked (gethash invoker-idx tok-eps))
 					; else
-					(return-from process-frame))))
+					(progn
+					; (format t "no ka, ke, or episode characterizes~%")
+					(return-from process-frame)
+					))))
 
 
 		(if (symbolp invoked)
@@ -257,8 +272,8 @@
 )
 )
 
-(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
-;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
+;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
+(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
 	(setf frames-for-mapping-pair (get-frames-to-map story))
 	(setf frames-for-mapping (car frames-for-mapping-pair))
 	(setf parse (second frames-for-mapping-pair))
@@ -277,7 +292,7 @@
 		do (print-frame frame))
 
 	(loop for frame in frames-for-mapping do (block print-schema
-		(setf map-pair (frame-to-schema frame))
+		(setf map-pair (frame-to-schema frame el-story))
 		(if (null map-pair)
 			(return-from print-schema))
 
@@ -318,5 +333,5 @@
 			;do (print-frame frame))
 
 	(format t "~%------------------~%~%")
-;))
-) (error () (format t "error~%"))))
+))
+; ) (error () (format t "error~%"))))

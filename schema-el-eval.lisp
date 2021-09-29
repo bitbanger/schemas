@@ -293,6 +293,14 @@
 			; then
 			(return-from outer 0.25)
 		)
+
+		; KE-abstractions are events.
+		(if (and (equal pred 'EVENT.N)
+				 (canon-kind? arg)
+				 (equal (car arg) 'KE))
+			; then
+			(return-from outer 0.25)
+		)
 	))
 
 	; Check computable predicates

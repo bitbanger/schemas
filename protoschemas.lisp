@@ -28,6 +28,8 @@
 	see.v
 	hide.v
 	place.v
+	reside.v
+	witness.v
 ))
 
 (defparameter enjoy_action.v
@@ -979,14 +981,14 @@
 		)
 
 		(:Preconds
-			(?i1 (?x (do.v (ka ?a))))
+			(?i1 (?x (do.v ?a)))
 		)
 
 		(:Steps
 		)
 
 		(:Postconds
-			(?p1 (?x (not (do.v (ka ?a)))))
+			(?p1 (?x (not (do.v ?a))))
 		)
 
 		(:Episode-relations
@@ -1088,6 +1090,66 @@
 		)
 
 		(:Episode-relations
+		)
+	)
+)
+
+(defparameter reside.v
+	'(epi-schema ((?x reside.v ?l) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?l location.n))
+			(!r3 (?d shelter.n))
+			(!r4 (?d (at.p ?l)))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter witness.v
+	'(epi-schema ((?x witness.v ?h) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?h event.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+			(?i1 (?x (near.p (actor-of.f ?h))))
+		)
+
+		(:Steps
+			(?e1 (?h happen.v))
+		)
+
+		(:Postconds
+			(?p1 (?x (know.v (ke-to-that.f ?h))))
+		)
+
+		(:Episode-relations
+			(!w1 (?e1 during ?e))
 		)
 	)
 )

@@ -354,6 +354,8 @@
 		(equal (car sec) ':Certainties)
 
 		(loop for phi in (cdr sec)
+			if (not (or (nonfluent-cond? phi) (fluent-cond? phi)))
+				do (format t "phi ~s is invalid~%" phi)
 			always (or (nonfluent-cond? phi) (fluent-cond? phi)))
 	)
 ))
@@ -2398,4 +2400,37 @@
 
 (ldefun el-to-english (prop)
 	(clean-tags (flatten-prop prop))
+)
+
+(ldefun process-witness-schema (match bindings story)
+(block outer
+	(setf event (gethash '?h bindings))
+
+	(setf new-schema (copy-item match))
+	(setf new-schema (set-section new-schema ':Steps
+		(list ':Steps (list '?e1 (second event)))))
+
+	(setf event-entities (prop-all-args (second event)))
+
+	(setf new-entity-rcs (story-select-interesting-term-constraints story (dedupe event-entities)))
+	(loop for rc in new-entity-rcs
+		do (setf new-schema (add-role-constraint
+			new-schema rc)))
+
+	(setf new-rcs (loop for rc in (mapcar #'second (section-formulas
+		(get-section new-schema ':Roles)))
+			if (not (equal (car rc) event))
+				collect rc))
+
+	(setf new-schema (set-section new-schema ':Roles '(:Roles)))
+	(loop for new-rc in new-rcs
+		do (setf new-schema (add-role-constraint
+			new-schema new-rc)))
+
+	(setf new-schema (replace-vals (list 'actor-of.f event) (prop-pre-arg (second event)) new-schema))
+
+	(setf new-schema (replace-vals (list 'ke-to-that.f event) (list 'THAT (second event)) new-schema))
+
+	(return-from outer new-schema)
+)
 )

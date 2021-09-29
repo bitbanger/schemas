@@ -213,11 +213,13 @@
 
 	(setf verbs-for-tok-nums (make-hash-table :test #'equal))
 	(setf episodes-for-tok-nums (make-hash-table :test #'equal))
+	; (format t "~s~%" resolved-interps)
 	(loop for tag being the hash-keys of syms-for-tok-nums do (block get-eps
 		(setf syms (gethash tag syms-for-tok-nums))
 		(setf syms (loop for sym in syms if (lex-verb? sym) collect sym))
 		(setf eps (mapcar #'third (get-elements-pred resolved-interps (lambda (x)
 			(and (pseudo-charstar? x) (has-element x (car syms)))))))
+		; (format t "tag ~s, syms ~s, eps ~s~%" tag syms eps)
 		(setf (gethash tag episodes-for-tok-nums) (car eps))
 		(setf (gethash tag verbs-for-tok-nums) (car syms))
 	))

@@ -15,42 +15,257 @@
 
 (defparameter *MAPPING-RULES* '(
 	(self_motion travel.v
-		(?x pre-arg self_mover)
-		(?l1 adv-from (source (if not event)))
-		(?l2 adv-to (post-arg (1 of any)) (goal (if not event)))
+		(?x
+			pre-arg
+			self_mover
+		)
+		(?l1
+			adv-from
+			(source (if not event))
+		)
+		(?l2
+			adv-to
+			(post-arg (1 of any))
+			(goal (if not event))
+		)
 	)
 
 	(motion travel.v
-		(?x pre-arg theme)
-		(?l1 adv-from (source (if not event)) path)
-		(?l2 adv-to (goal (if not event)) path)
+		(?x
+			pre-arg
+			theme
+		)
+		(?l1
+			adv-from
+			(source (if not event))
+			path
+		)
+		(?l2
+			adv-to
+			(goal (if not event))
+			path
+		)
 	)
 
 	(bringing transport_object.v
-		(?x pre-arg agent)
-		(?o (post-arg (1 of 1)) (post-arg (2 of 2)) theme)
-		(?l1 adv-from (source (if not event)))
-		(?l2 adv-to (goal (if not event)))
+		(?x
+			pre-arg
+			agent
+		)
+		(?o
+			(post-arg (1 of 1))
+			(post-arg (2 of 2))
+			theme
+		)
+		(?l1
+			adv-from
+			(source (if not event))
+		)
+		(?l2
+			adv-to
+			(goal (if not event))
+		)
 	)
 
 	(experiencer_focus enjoy_action.v
-		(?x pre-arg experiencer)
-		(?a (post-arg (1 of 1) (if event)) (content (if event)))
+		(?x
+			pre-arg
+			experiencer
+		)
+		(?a
+			(post-arg (1 of 1) (if event))
+			(content (if event))
+		)
 	)
 
 	(ingestion eat.v
-		(?x pre-arg ingestor)
-		(?f (post-arg (1 of any)) ingestibles)
+		(?x
+			pre-arg
+			ingestor
+		)
+		(?f
+			(post-arg (1 of any))
+			ingestibles
+		)
 	)
 
 	(locating find.v
-		(?x pre-arg perceiver)
-		(?o (post-arg (1 of 1)) (post-arg (2 of 2)) sought_entity)
+		(?x
+			pre-arg
+			perceiver
+		)
+		(?o
+			(post-arg (1 of 1))
+			(post-arg (2 of 2))
+			sought_entity
+		)
 	)
 
 	(have_associated possess.v
-		(?x pre-arg topical_entity)
-		(?o (post-arg (1 of 1)) entity)
+		(?x
+			pre-arg
+			topical_entity
+		)
+		(?o
+			(post-arg (1 of 1))
+			entity
+		)
+	)
+
+	(retaining possess.v
+		(?x
+			pre-arg
+			agent
+		)
+		(?o
+			(post-arg (1 of 1))
+			(theme (if not event))
+		)
+	)
+
+	(grooming clean.v
+		(?x
+			pre-arg
+			agent
+		)
+		(?y
+			(post-arg (1 of 1))
+			(body_part (if not event))
+			(patient (if not event))
+		)
+	)
+
+	(activity_stop stop_activity.v
+		(?x
+			pre-arg
+			(agent (if not event))
+		)
+		(?a
+			(post-arg (1 of any) (if event))
+			(activity (if event))
+		)
+	)
+
+	(perception_experience see.v
+		(?x
+			pre-arg
+			(perceiver_passive (if not event))
+		)
+		(?y
+			(post-arg (1 of any) (if not event))
+			(phenomenon (if not event))
+		)
+	)
+
+	(wearing wear.v
+		(?x
+			pre-arg
+			(wearer (if not event))
+		)
+		(?o
+			(post-arg (1 of any))
+			(clothing (if not event))
+		)
+	)
+
+	(hiding_objects hide.v
+		(?x
+			pre-arg
+			(agent (if not event))
+		)
+		(?y
+			(post-arg (1 of any))
+			pre-arg ; if no post args available
+		)
+		(?f
+			adv-from
+			(potential_observer (if not event))
+		)
+		(?l
+			adv-in
+			(hiding_place (if not event))
+		)
+	)
+
+	(placing place.v
+		(?x
+			pre-arg
+			(agent (if not event))
+		)
+		(?y
+			(post-arg (1 of any))
+			(theme (if not event))
+		)
+		(?l
+			adv-in
+			(goal (if not event))
+		)
+	)
+
+	(request request_action.v
+		(?x
+			pre-arg
+			(speaker (if not event))
+		)
+		(?y
+			(post-arg (1 of any) (if not event))
+			(post-arg (2 of 2) (if not event))
+			(addressee (if not event))
+		)
+		(?a
+			(post-arg (2 of 2) (if event))
+			(post-arg (1 of any) (if event))
+			(message (if event))
+			
+		)
+	)
+
+	(departing travel.v
+		(?x
+			pre-arg
+			(theme (if not event))
+		)
+		(?l1
+			adv-from
+			(source (if not event))
+		)
+		(?l2
+			adv-to
+			(goal (if not event))
+			(journey (if not event))
+		)
+	)
+
+	(arriving travel.v
+		(?x
+			pre-arg
+			(theme (if not event))
+		)
+		(?l1
+			adv-from
+			(source (if not event))
+		)
+		(?l2
+			adv-to
+			(goal (if not event))
+		)
+	)
+
+	(giving give.v
+		(?x
+			pre-arg
+			(donor (if not event))
+		)
+		(?y
+			adv-to
+			(post-arg (1 of 2))
+			(recipient (if not event))
+		)
+		(?o
+			(post-arg (1 of 1))
+			(post-arg (2 of 2))
+			(theme (if not event))
+		)
 	)
 ))
 
@@ -185,6 +400,20 @@
 		(if (equal option-core 'adv-from) (block do-adv-from
 			(setf best-option-cands (loop for pmod in (fourth frame)
 				if (and (listp pmod) (equal (car (second pmod)) 'FROM.P))
+					collect (second (second pmod))))
+		))
+
+		; adv-about
+		(if (equal option-core 'adv-about) (block do-adv-about
+			(setf best-option-cands (loop for pmod in (fourth frame)
+				if (and (listp pmod) (equal (car (second pmod)) 'ABOUT.P))
+					collect (second (second pmod))))
+		))
+
+		; adv-in
+		(if (equal option-core 'adv-in) (block do-adv-in
+			(setf best-option-cands (loop for pmod in (fourth frame)
+				if (and (listp pmod) (equal (car (second pmod)) 'IN.P))
 					collect (second (second pmod))))
 		))
 

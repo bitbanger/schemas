@@ -72,11 +72,17 @@
 )
 )
 
+(ldefun canon-k? (x)
+(or
+	(mp x (list (list 'id? 'K) 'canon-pred?))
+	(mp x (list (list 'id? 'K) 'canon-pred? 'canon-individual?+))
+)
+)
+
 (ldefun canon-kind? (x)
 (or
 	; TODO: restrictions on VP/non-VP preds for KA/K?
-	(mp x (list (list 'id? 'K) 'canon-pred?))
-	(mp x (list (list 'id? 'K) 'canon-pred? 'canon-individual?+))
+	(canon-k? x)
 	(canon-ka? x)
 	(mp x (list (list 'id? 'KE) 'canon-prop?))
 	(mp x (list (list 'id? 'KJ) 'adj-pred?))

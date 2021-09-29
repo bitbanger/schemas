@@ -24,6 +24,10 @@
 	clean.v
 	wear.v
 	possess.v
+	stop_activity.v
+	see.v
+	hide.v
+	place.v
 ))
 
 (defparameter enjoy_action.v
@@ -953,6 +957,134 @@
 		)
 
 		(:Postconds
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter stop_activity.v
+	'(epi-schema ((?x stop_activity.v ?a) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?a action.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+			(?g1 (not (?x (want.v (ka (do.v ?a))))))
+		)
+
+		(:Preconds
+			(?i1 (?x (do.v (ka ?a))))
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+			(?p1 (?x (not (do.v (ka ?a)))))
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter see.v
+	'(epi-schema ((?x see.v ?y) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?y entity.n))
+			(!r3 (?l location.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+			(?i1 (?x (at.p ?l)))
+			(?i2 (?y (at.p ?l)))
+			(?i3 (?y (near.p ?x)))
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+			(?p1 (?x (know.v (that (?y (at.p ?l))))))
+			(?p2 (?x (know.v (that (?y (near.p ?x))))))
+			(?p3 (?y (near.p ?x)))
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter .v
+	'(epi-schema ((?x hide.v ?y) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?y entity.n))
+			(!r3 (?f agent.n))
+			(!r4 (?l location.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (ke (?f (find.v ?y))))))
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+			(?e1 (?x (place.v ?y ?l)))
+		)
+
+		(:Postconds
+			(?p1 (?x (believe.v (that (not (?f (can.md (find.v ?y))))))))
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter place.v
+	'(epi-schema ((?x place.v ?y ?l) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?y entity.n))
+			(!r3 (?l location.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (?y (at.p ?l))))))
+		)
+
+		(:Preconds
+			(?i1 (?x (possess.v ?y)))
+			(?i2 (?y (not (at.p ?l))))
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+			(?p1 (?y (at.p ?l)))
 		)
 
 		(:Episode-relations

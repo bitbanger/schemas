@@ -175,7 +175,10 @@
 
 				; If the invoking formula has a negative polarity,
 				; note that.
-				(if (contains (prop-mods ep-phi) 'NOT)
+				(if (or
+					(contains (prop-mods ep-phi) 'NOT)
+					(contains (prop-mods ep-phi) 'NEVER.ADV)
+					)
 					; then
 					(setf negative t))
 			)

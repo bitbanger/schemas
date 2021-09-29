@@ -37,7 +37,26 @@
 	temporalize-naked-verb-props
 	; bubble-up-sent-mods
 	; reify-pred-args
+	skolemize-kinds ; This is a bad idea, but I'm doing it anyway.
 ))
+
+(ldefun skolemize-kinds (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf kinds (dedupe (get-elements-pred phi-copy #'canon-k?)))
+
+	(loop for kind in kinds do (block skk
+		(setf kind-pred (second kind))
+		(setf new-name (new-skolem! 'OBJECT))
+		(setf phi-copy (replace-vals kind new-name phi-copy))
+		(setf phi-copy (append phi-copy
+			(list (list new-name kind-pred))))
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (ldefun temporalize-naked-verb-props (phi)
 (block outer

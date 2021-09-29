@@ -333,4 +333,17 @@
 		(_*1 ((!2 canon-adv?) (!3 canon-prep?)) _*4)
 		(_*1 !2 (ADV-A !3) _*4)
 	)
+
+	; (= (a.d pred)) should just be pred
+	(/
+		(_*1 (= ((ll-curry eq-no-idx-tags? a.d) (!2 canon-pred?))))
+		(_*1 !2)
+	)
+
+	; Noun "type" predications shouldn't be
+	; fluent.
+	(/
+		((_*1 (!2 noun-pred?)) [**] _!3)
+		(_*1 !2)
+	)
 )))

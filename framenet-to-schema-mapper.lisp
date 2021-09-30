@@ -20,11 +20,11 @@
 			self_mover
 		)
 		(?l1
-			adv-from
+			(adv from.p)
 			(source (if not event))
 		)
 		(?l2
-			adv-to
+			(adv to.p)
 			(post-arg (1 of any))
 			(goal (if not event))
 		)
@@ -36,12 +36,12 @@
 			(theme (if not event))
 		)
 		(?l1
-			adv-from
+			(adv from.p)
 			(source (if not event))
 			path
 		)
 		(?l2
-			adv-to
+			(adv to.p)
 			(goal (if not event))
 			path
 		)
@@ -58,11 +58,11 @@
 			theme
 		)
 		(?l1
-			adv-from
+			(adv from.p)
 			(source (if not event))
 		)
 		(?l2
-			adv-to
+			(adv to.p)
 			(goal (if not event))
 		)
 	)
@@ -95,7 +95,7 @@
 			cognizer_agent
 		)
 		(?o
-			adv-for
+			(adv for.p)
 			(post-arg (1 of any))
 			sought_entity
 		)
@@ -223,11 +223,11 @@
 			pre-arg ; if no post args available
 		)
 		(?f
-			adv-from
+			(adv from.p)
 			(potential_observer (if not event))
 		)
 		(?l
-			adv-in
+			(adv in.p)
 			(hiding_place (if not event))
 		)
 	)
@@ -242,7 +242,7 @@
 			(theme (if not event))
 		)
 		(?l
-			adv-in
+			(adv in.p)
 			(goal (if not event))
 		)
 	)
@@ -258,7 +258,7 @@
 		)
 		(?a
 			(content (if event))
-			(adv-for (if event))
+			(adv for.p (if event))
 		)
 	)
 
@@ -286,11 +286,11 @@
 			(theme (if not event))
 		)
 		(?l1
-			adv-from
+			(adv from.p)
 			(source (if not event))
 		)
 		(?l2
-			adv-to
+			(adv to.p)
 			(goal (if not event))
 			(journey (if not event))
 		)
@@ -302,11 +302,11 @@
 			(theme (if not event))
 		)
 		(?l1
-			adv-from
+			(adv from.p)
 			(source (if not event))
 		)
 		(?l2
-			adv-to
+			(adv to.p)
 			(goal (if not event))
 		)
 	)
@@ -317,7 +317,7 @@
 			(donor (if not event))
 		)
 		(?y
-			adv-to
+			(adv to.p)
 			(post-arg (1 of 2))
 			(recipient (if not event))
 		)
@@ -484,31 +484,10 @@
 					post-args)))
 		))
 
-		; adv-to
-		(if (equal option-core 'adv-to) (block do-adv-to
+		(if (equal option-core 'adv) (block do-adv
+			(setf adv-type (car option-constraints))
 			(setf best-option-cands (loop for pmod in (fourth frame)
-				if (and (listp pmod) (equal (car (second pmod)) 'TO.P))
-					collect (second (second pmod))))
-		))
-
-		; adv-from
-		(if (equal option-core 'adv-from) (block do-adv-from
-			(setf best-option-cands (loop for pmod in (fourth frame)
-				if (and (listp pmod) (equal (car (second pmod)) 'FROM.P))
-					collect (second (second pmod))))
-		))
-
-		; adv-about
-		(if (equal option-core 'adv-about) (block do-adv-about
-			(setf best-option-cands (loop for pmod in (fourth frame)
-				if (and (listp pmod) (equal (car (second pmod)) 'ABOUT.P))
-					collect (second (second pmod))))
-		))
-
-		; adv-in
-		(if (equal option-core 'adv-in) (block do-adv-in
-			(setf best-option-cands (loop for pmod in (fourth frame)
-				if (and (listp pmod) (equal (car (second pmod)) 'IN.P))
+				if (and (listp pmod) (equal (car (second pmod)) adv-type))
 					collect (second (second pmod))))
 		))
 

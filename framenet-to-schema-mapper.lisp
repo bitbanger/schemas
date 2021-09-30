@@ -14,7 +14,7 @@
 )
 
 (defparameter *MAPPING-RULES* '(
-	(self_motion travel.v
+	(self_motion * -> travel.v
 		(?x
 			pre-arg
 			self_mover
@@ -30,7 +30,7 @@
 		)
 	)
 
-	(motion travel.v
+	(motion * -> travel.v
 		(?x
 			pre-arg
 			(theme (if not event))
@@ -47,7 +47,7 @@
 		)
 	)
 
-	(bringing transport_object.v
+	(bringing * -> transport_object.v
 		(?x
 			pre-arg
 			agent
@@ -67,7 +67,7 @@
 		)
 	)
 
-	(experiencer_focus enjoy_action.v
+	(experiencer_focus * -> enjoy_action.v
 		(?x
 			pre-arg
 			experiencer
@@ -78,7 +78,7 @@
 		)
 	)
 
-	(ingestion eat.v
+	(ingestion * -> eat.v
 		(?x
 			pre-arg
 			ingestor
@@ -89,7 +89,7 @@
 		)
 	)
 
-	(seeking search.v
+	(seeking * -> search.v
 		(?x
 			pre-arg
 			cognizer_agent
@@ -101,7 +101,7 @@
 		)
 	)
 
-	(losing lose.v
+	(losing * -> lose.v
 		(?x
 			pre-arg
 			owner
@@ -112,7 +112,7 @@
 		)
 	)
 
-	(locating find.v
+	(locating * -> find.v
 		(?x
 			pre-arg
 			perceiver
@@ -124,7 +124,7 @@
 		)
 	)
 
-	(have_associated possess.v
+	(have_associated * -> possess.v
 		(?x
 			pre-arg
 			topical_entity
@@ -135,7 +135,7 @@
 		)
 	)
 
-	(possession possess.v
+	(possession * -> possess.v
 		(?x
 			pre-arg
 			(owner (if not event))
@@ -146,7 +146,7 @@
 		)
 	)
 
-	(retaining possess.v
+	(retaining * -> possess.v
 		(?x
 			pre-arg
 			agent
@@ -157,7 +157,7 @@
 		)
 	)
 
-	(grooming clean.v
+	(grooming * -> clean.v
 		(?x
 			pre-arg
 			agent
@@ -169,7 +169,7 @@
 		)
 	)
 
-	(activity_stop stop_activity.v
+	(activity_stop * -> stop_activity.v
 		(?x
 			pre-arg
 			(agent (if not event))
@@ -180,7 +180,7 @@
 		)
 	)
 
-	(perception_experience witness.v
+	(perception_experience * -> witness.v
 		(?x
 			pre-arg
 			(perceiver_passive (if not event))
@@ -191,7 +191,7 @@
 		)
 	)
 
-	(perception_experience see.v
+	(perception_experience * -> see.v
 		(?x
 			pre-arg
 			(perceiver_passive (if not event))
@@ -202,7 +202,7 @@
 		)
 	)
 
-	(wearing wear.v
+	(wearing * -> wear.v
 		(?x
 			pre-arg
 			(wearer (if not event))
@@ -213,7 +213,7 @@
 		)
 	)
 
-	(hiding_objects hide.v
+	(hiding_objects * -> hide.v
 		(?x
 			pre-arg
 			(agent (if not event))
@@ -232,7 +232,7 @@
 		)
 	)
 
-	(placing place.v
+	(placing * -> place.v
 		(?x
 			pre-arg
 			(agent (if not event))
@@ -247,7 +247,7 @@
 		)
 	)
 
-	(attempt_suasion request_action.v
+	(attempt_suasion * -> request_action.v
 		(?x
 			pre-arg
 			speaker
@@ -262,7 +262,7 @@
 		)
 	)
 
-	(request request_action.v
+	(request * -> request_action.v
 		(?x
 			pre-arg
 			(speaker (if not event))
@@ -280,7 +280,7 @@
 		)
 	)
 
-	(departing travel.v
+	(departing * -> travel.v
 		(?x
 			pre-arg
 			(theme (if not event))
@@ -296,7 +296,7 @@
 		)
 	)
 
-	(arriving travel.v
+	(arriving * -> travel.v
 		(?x
 			pre-arg
 			(theme (if not event))
@@ -311,7 +311,7 @@
 		)
 	)
 
-	(giving give.v
+	(giving * -> give.v
 		(?x
 			pre-arg
 			(donor (if not event))
@@ -328,7 +328,7 @@
 		)
 	)
 
-	(residence reside.v
+	(residence * -> reside.v
 		(?x
 			pre-arg
 			(resident (if not event))
@@ -337,13 +337,41 @@
 			(location (if not event))
 		)
 	)
+
+	(earnings_and_losses lose.v -> lose.v
+		(?x
+			pre-arg
+			earner
+		)
+		(?o
+			(post-arg (1 of 1))
+			(post-arg (2 of 2))
+			earnings
+		)
+	)
 ))
+
+(ldefun rule-source-frame (rule)
+	(car rule)
+)
+
+(ldefun rule-source-verb (rule)
+	(second rule)
+)
+
+(ldefun rule-protoschema (rule)
+	(fourth rule)
+)
+
+(ldefun rule-args (rule)
+	(cddddr rule)
+)
 
 (defparameter *MAPPING-RULES-BY-NAME*
 	(make-hash-table :test #'equal))
 (loop for rule in *MAPPING-RULES*
-	do (setf (gethash (car rule) *MAPPING-RULES-BY-NAME*)
-		(append (gethash (car rule) *MAPPING-RULES-BY-NAME*)
+	do (setf (gethash (rule-source-frame rule) *MAPPING-RULES-BY-NAME*)
+		(append (gethash (rule-source-frame rule) *MAPPING-RULES-BY-NAME*)
 			(list rule))))
 
 (ldefun post-arg-bounds? (x)
@@ -414,14 +442,14 @@
 (block outer
 	(setf bindings (make-hash-table :test #'equal))
 
-	(loop for var in (mapcar #'car (cddr rule))
+	(loop for var in (mapcar #'car (rule-args rule))
 		do (let ((mapping (map-frame-var-rule frame var rule)))
 			(if (not (null mapping))
 				(setf (gethash var bindings)
 					mapping))))
 
 	(if (> (ht-count bindings) 0)
-		(return-from outer (list (second rule) bindings)))
+		(return-from outer (list (rule-protoschema rule) bindings)))
 
 	(return-from outer nil)
 )
@@ -437,7 +465,24 @@
 
 (ldefun map-frame-var-rule (frame var rule)
 (block outer
-	(setf options (cdr (car (loop for var-rule in (cddr rule)
+	(setf rule-verb (rule-source-verb rule))
+	(setf frame-verb (third (car frame)))
+	(if (and
+		(listp frame-verb)
+		(> (length frame-verb) 1)
+		(lex-verb? (car frame-verb)))
+		; then 
+		(setf frame-verb (car frame-verb))
+		; else
+		(setf frame-verb nil))
+
+	(if (not (or
+		(equal rule-verb '*)
+		(equal rule-verb frame-verb)))
+		; then
+		(return-from outer nil))
+
+	(setf options (cdr (car (loop for var-rule in (rule-args rule)
 		if (equal (car var-rule) var)
 			collect var-rule))))
 

@@ -16,6 +16,8 @@
 	(load "all-story-frames.lisp")
 )
 
+(setf *HANDLE-ERRORS* nil)
+
 (setf *DEBUG-SENTENCE* "Kris lost her job.")
 ; (setf *DEBUG-SENTENCE* nil)
 
@@ -272,8 +274,8 @@
 )
 )
 
-(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
-;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
+(ldefun map-story-frames (story)
+(block outer
 	(setf frames-for-mapping-pair (get-frames-to-map story))
 	(setf frames-for-mapping (car frames-for-mapping-pair))
 	(setf parse (second frames-for-mapping-pair))
@@ -333,5 +335,12 @@
 			;do (print-frame frame))
 
 	(format t "~%------------------~%~%")
-;))
-) (error () (format t "error~%"))))
+)
+)
+
+(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*)
+	if *HANDLE-ERRORS*
+		do (handler-case (map-story-frames story)
+			(error () (format t "error~%")))
+	else
+		do (map-story-frames story))

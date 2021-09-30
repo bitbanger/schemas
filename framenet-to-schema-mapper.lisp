@@ -89,6 +89,29 @@
 		)
 	)
 
+	(seeking search.v
+		(?x
+			pre-arg
+			cognizer_agent
+		)
+		(?o
+			adv-for
+			(post-arg (1 of any))
+			sought_entity
+		)
+	)
+
+	(losing lose.v
+		(?x
+			pre-arg
+			owner
+		)
+		(?o
+			(post-arg (1 of any))
+			possession
+		)
+	)
+
 	(locating find.v
 		(?x
 			pre-arg
@@ -221,6 +244,21 @@
 		(?l
 			adv-in
 			(goal (if not event))
+		)
+	)
+
+	(attempt_suasion request_action.v
+		(?x
+			pre-arg
+			speaker
+		)
+		(?y
+			addressee
+			(post-arg (1 of 2))
+		)
+		(?a
+			(content (if event))
+			(adv-for (if event))
 		)
 	)
 
@@ -431,7 +469,13 @@
 
 			; enforce bounds
 			(setf post-args (third frame))
-			(if (not (or (equal (third post-arg-bounds) (length post-args)) (equal (third post-arg-bounds) 'any)))
+			(if (not (or
+				(equal (third post-arg-bounds) (length post-args))
+				(and
+					(equal (third post-arg-bounds) 'any)
+					(>= (length post-args) (car post-arg-bounds))
+				)))
+				; then
 				(return-from inner))
 
 			; select the chosen arg

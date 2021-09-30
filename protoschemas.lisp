@@ -30,6 +30,7 @@
 	place.v
 	reside.v
 	witness.v
+	lose.v
 ))
 
 (defparameter enjoy_action.v
@@ -1150,6 +1151,35 @@
 
 		(:Episode-relations
 			(!w1 (?e1 during ?e))
+		)
+	)
+)
+
+(defparameter lose.v
+	'(epi-schema ((?x lose.v ?o) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?o object.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+			(?i1 (?x (possess.v ?o)))
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+			(?p1 (?x (not (possess.v ?o))))
+		)
+
+		(:Episode-relations
 		)
 	)
 )

@@ -16,8 +16,8 @@
 	(load "all-story-frames.lisp")
 )
 
-; (setf *DEBUG-SENTENCE* "She saw Rover run off with the hat.")
-(setf *DEBUG-SENTENCE* nil)
+(setf *DEBUG-SENTENCE* "Kris lost her job.")
+; (setf *DEBUG-SENTENCE* nil)
 
 (if (not (null *DEBUG-SENTENCE*))
 	(setf *ALL-STORY-FRAMES* (loop for frame in *ALL-STORY-FRAMES*
@@ -272,8 +272,8 @@
 )
 )
 
-;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
-(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
+(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (handler-case (block outer
+;(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*) do (block outer
 	(setf frames-for-mapping-pair (get-frames-to-map story))
 	(setf frames-for-mapping (car frames-for-mapping-pair))
 	(setf parse (second frames-for-mapping-pair))
@@ -303,7 +303,7 @@
 			collect k)))
 		(setf bound-vars (remove '?e bound-vars :test #'equal))
 
-		(if (< (length bound-vars) 2)
+		(if (< (length bound-vars) 1)
 			(return-from print-schema))
 
 		(setf bound (dedupe (loop for k being the hash-keys of bindings
@@ -333,5 +333,5 @@
 			;do (print-frame frame))
 
 	(format t "~%------------------~%~%")
-))
-; ) (error () (format t "error~%"))))
+;))
+) (error () (format t "error~%"))))

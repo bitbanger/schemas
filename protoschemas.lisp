@@ -31,6 +31,8 @@
 	reside.v
 	witness.v
 	lose.v
+	damage.v
+	cry.v
 ))
 
 (defparameter enjoy_action.v
@@ -743,7 +745,7 @@
 
 		(:Goals
 			(?g1 (?x (want.v ?y ?a))) ; handle "X wanted (Y) (to do A)" phrasing
-			(?g2 (?x (want.v (that (?x (do.v ?a))))))
+			(?g2 (?x (want.v (that (?y (do.v ?a))))))
 		)
 
 		(:Steps
@@ -1180,6 +1182,52 @@
 		)
 
 		(:Episode-relations
+		)
+	)
+)
+
+(defparameter damage.v
+	'(epi-schema ((?x damage.v ?y) ** ?e)
+		(:Roles
+			(!r1 (?x entity.n))
+			(!r2 (?y entity.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+			(?p1 (?y (experience.v (kj pain.a))))
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter cry.v
+	'(epi-schema ((?x cry.v) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+			(?i1 (?x sad.a))
 		)
 	)
 )

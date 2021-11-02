@@ -13,18 +13,55 @@
 	; then
 	(load (third sb-ext:*posix-argv*))
 	; else
-	(load "all-story-frames.lisp")
+	(load "tmp-story-frames.lisp")
 )
 
-(setf *HANDLE-ERRORS* nil)
+(setf *HANDLE-ERRORS* t)
 
-(setf *DEBUG-SENTENCE* "Kris lost her job.")
-; (setf *DEBUG-SENTENCE* nil)
+; (setf *DEBUG-SENTENCE* "Ben came home late at night.")
+(setf *DEBUG-SENTENCE* nil)
 
 (if (not (null *DEBUG-SENTENCE*))
 	(setf *ALL-STORY-FRAMES* (loop for frame in *ALL-STORY-FRAMES*
 		if (equal (car (car frame)) *DEBUG-SENTENCE*)
 			collect frame)))
+
+; For alignment, bump the starting index of each sentence
+; up by one when indexing with the numbers used by the LOME-
+; produced frames, since that's empirically necessary.
+(ldefun increment-frame-tags (frame ulfs)
+(block outer
+	(setf max-sent-tags (loop for ulf in ulfs
+		collect (max-all (loop for tagged-word in (get-elements-pred ulf (lambda (x) (and (symbolp x) (is-idx-tagged x)))) collect (get-idx-tag tagged-word)))))
+
+	(setf frame (append (list (intern (format nil "SAFE-~d" (car frame)))) (cdr frame)))
+
+	(setf frame-nums (dedupe (get-elements-pred frame #'numberp)))
+
+	(setf replacements-to-nums (make-hash-table :test #'equal))
+
+	(loop for num in frame-nums do (block new-fn
+		; (setf sent-tag (car (last (loop for mt in max-sent-tags if (>= num mt) collect mt))))
+		; (format t "tag ~d is >= than: ~s~%" num (loop for mt in max-sent-tags if (>= num mt) collect mt))
+		; (setf sent-idx (position sent-tag max-sent-tags :test #'equal))
+		; (if (null sent-idx) (setf sent-idx 0))
+		; (format t "tag ~d now accesses word" num)
+		(setf sent-idx (length (loop for mt in max-sent-tags if (>= num mt) collect mt)))
+		(setf new-num (+ num sent-idx))
+		; (format t " ~d (incremented by ~d)~%" new-num sent-idx)
+
+		(setf replacement (intern (format nil "REPLC-~d" new-num)))
+		(setf (gethash replacement replacements-to-nums) new-num)
+
+		(setf frame (replace-vals num replacement frame))
+	))
+
+	(loop for k being the hash-keys of replacements-to-nums
+		do (setf frame (replace-vals k (gethash k replacements-to-nums) frame)))
+
+	(return-from outer frame)
+)
+)
 
 (ldefun print-frame (frame)
 (block outer
@@ -103,15 +140,28 @@
 
 (ldefun get-frames-to-map (story &optional)
 (block outer
-	(setf raw-len-ulfs (increment-tilde-tags (len-ulfs-with-word-tags (car story))))
+	(setf raw-len-ulfs (increment-tilde-tags (fix-tilde-tags-for-merged-particles (len-ulfs-with-word-tags (car story)))))
+	; (format t "~s~%" raw-len-ulfs)
 
 	(setf processed-len-ulfs (mapcar #'prepare-new-ulf-for-parser raw-len-ulfs))
 
 	(setf words-for-tags (make-hash-table :test #'equal))
 	(setf tagged-ulf-words (get-elements-pred processed-len-ulfs (lambda (x) (and (symbolp x) (is-idx-tagged x)))))
-	(loop for word in tagged-ulf-words
-		do (setf (gethash (get-idx-tag word) words-for-tags) word))
+	(loop for word in tagged-ulf-words do (block map-tag
+		; Increment the tag by 1 for each sentence before it.
+		(setf tag (get-idx-tag word))
+		;(setf sent-tag (car (last (loop for mt in max-sent-tags if (>= tag mt) collect mt))))
+		;(setf sent-idx (position sent-tag max-sent-tags :test #'equal))
+		;(if (null sent-idx) (setf sent-idx 0))
+		;(format t "tag ~d now accesses word" tag)
+		;(setf tag (+ tag sent-idx))
+		;(format t " ~d (incremented by ~d)~%" tag sent-idx)
 
+		(setf (gethash tag words-for-tags) word)
+	))
+
+	; (loop for tag being the hash-keys of words-for-tags
+		; do (format t "~a: ~a~%" tag (gethash tag words-for-tags)))
 
 	(setf parse (parse-story-maybe-from-ulf-full-output (car story) processed-len-ulfs))
 
@@ -124,6 +174,9 @@
 	; (format t "~s~%" (fifth parse))
 
 	(setf frames (second story))
+
+	;(setf frames (loop for frame in frames
+		;collect (increment-frame-tags frame processed-len-ulfs)))
 
 	; Do one pass to get all invokers.
 	(setf invoker-to-frame-map (make-hash-table :test #'equal))
@@ -146,7 +199,9 @@
 
 		(setf invoked nil)
 
-		; (format t "invoker is ~s~%" (gethash invoker-idx words-for-tags))
+		(format t "frame id is ~s~%" frame-name)
+
+		(format t "	invoker is ~s (~d)~%" (gethash invoker-idx words-for-tags) invoker-idx)
 
 		(if (not (null (car (gethash invoker-idx tok-kas))))
 			; then
@@ -161,7 +216,7 @@
 					(setf invoked (gethash invoker-idx tok-eps))
 					; else
 					(progn
-					; (format t "no ka, ke, or episode characterizes~%")
+					(format t "		no ka, ke, or episode characterizes~%")
 					(return-from process-frame)
 					))))
 
@@ -286,15 +341,31 @@
 			collect prop))
 
 	(loop for sent in (car story)
-		do (format t "; ~s~%" sent))
+		for el-sent in el-sents do (block prs
+			(format t "~s~%" sent)
+			(format t "	valid:~%")
+			(loop for phi in el-sent
+				if (canon-prop? phi)
+					do (format t "		~s~%" phi))
+			(format t "	invalid:~%")
+			(loop for phi in el-sent
+				if (not (canon-prop? phi))
+					do (format t "		~s~%" phi))
+		)
+	)
+	; (format t "~%")
 
-	(format t "~%")
+	;(loop for sent in (car story)
+		;do (format t "; ~s~%" sent))
+
 
 	(loop for frame in frames-for-mapping
 		do (print-frame frame))
 
 	(loop for frame in frames-for-mapping do (block print-schema
 		(setf map-pair (frame-to-schema frame el-story))
+		;(if (null map-pair)
+			;(format t "no mapping~%"))
 		(if (null map-pair)
 			(return-from print-schema))
 

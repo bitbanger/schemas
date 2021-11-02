@@ -41,6 +41,7 @@
 	KJ
 	THAT
 	THT
+	ANS-TO
 	NOT
 	OR
 	AND
@@ -185,6 +186,10 @@
 
 (ldefun lex-p? (x)
 	(has-ext? x ".P")
+)
+
+(ldefun lex-ps? (x)
+	(has-ext? x ".PS")
 )
 
 (ldefun lex-pred? (x)

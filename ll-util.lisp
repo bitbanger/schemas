@@ -1144,15 +1144,26 @@ is replaced with replacement."
 (defun curry-ttt-rules (rules)
 (let ((new-ulf-rules (copy-item rules)))
 (block outer
-	(loop for llc in (get-elements-pred new-ulf-rules (lambda (x) (and (listp x) (equal (car x) 'll-curry))))
+	(loop for llc in (get-elements-pred new-ulf-rules (lambda (x)
+		(and
+			(listp x)
+			(or
+				(equal (car x) 'll-curry)
+				(equal (car x) 'll-curry-imper)
+			)
+		)))
 		do (block make-curry ; delicious!
+			(setf final-punct "?")
+			(if (equal (car llc) 'll-curry-imper)
+				(setf final-punct "!"))
+
 			(setf curry-fn (second llc))
 			(setf curry-args (cddr llc))
 			(setf curry-new-name (intern
-				(format nil "LL-CURRY-~a" (remove-suffix (string curry-fn) "?"))))
+				(format nil "LL-CURRY-~a" (remove-suffix (string curry-fn) final-punct))))
 			(setf (gethash curry-new-name *LL-CURRY-NUMS*) (append (gethash curry-new-name *LL-CURRY-NUMS*) (list t)))
 			(setf curry-num (length (gethash curry-new-name *LL-CURRY-NUMS*)))
-			(setf curry-new-name (intern (format nil "~a-~d?" (string curry-new-name) curry-num)))
+			(setf curry-new-name (intern (format nil "~a-~d~a" (string curry-new-name) curry-num final-punct)))
 			
 			(let ((cargs curry-args) (cfn curry-fn))
 			; (setf (fdefinition curry-new-name) (compile nil `(lambda (x)

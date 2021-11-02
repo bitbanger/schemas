@@ -122,6 +122,8 @@
 	(mp x (list (list 'id? 'THAT) 'canon-prop?))
 	(mp x (list (list 'id? 'THT) 'canon-prop?))
 
+	(mp x (list (list 'id? 'ANS-TO) 'canon-prop?))
+
 	(mp x (list 'lex-det? 'canon-pred?))
 
 	; SET-OF with individual arguments is an individual.

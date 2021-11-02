@@ -50,7 +50,11 @@
        (setq pos (car pos+word))
        (setq word (second pos+word)); **In future, there may be further words
        (if (eq pos '-SYMB-) (return word); -SYMB- signals an added symbol
-           (incf *word-index*)); -SYMB-: added symbol
+		(progn
+
+		(incf *word-index*)
+		)); -SYMB-: added symbol
+
            ; Note: Preprocessing creates some -SYMB- items that supply *h or
            ; tacit operators (like 'sub' or 'k') as the word, e.g., (-SYMB- k)
        (setq stem (stem pos+word))  ; usually a symbol, but possibly a number

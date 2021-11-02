@@ -72,9 +72,24 @@
 			pre-arg
 			experiencer
 		)
-		(?a
+
+
+		(?a required
 			(post-arg (1 of 1) (if event))
 			(content (if event))
+		)
+	)
+
+	(experiencer_focus * -> like.v
+		(?x
+			pre-arg
+			experiencer
+		)
+
+
+		(?o
+			(post-arg (1 of 1) (if not event))
+			(content (if not event))
 		)
 	)
 
@@ -96,7 +111,6 @@
 		)
 		(?o
 			(adv for.p)
-			(post-arg (1 of any))
 			sought_entity
 		)
 	)
@@ -185,7 +199,7 @@
 			pre-arg
 			(perceiver_passive (if not event))
 		)
-		(?h
+		(?h required
 			(post-arg (1 of any) (if event))
 			(phenomenon (if event))
 		)
@@ -349,6 +363,35 @@
 			earnings
 		)
 	)
+
+	(cause_to_fragment * -> damage.v
+		(?x
+			pre-arg
+			agent
+		)
+		(?y
+			(post-arg (1 of 1))
+			whole_patient
+		)
+	)
+
+	(competition * -> play.v
+		(?x
+			pre-arg
+			participant_1
+		)
+		(?g
+			(post-arg (1 of 1))
+			competition
+		)
+	)
+
+	(communication_noise cry.v -> cry.v
+		(?x
+			pre-arg
+			speaker
+		)
+	)
 ))
 
 (ldefun rule-source-frame (rule)
@@ -422,7 +465,23 @@
 				(apply-bindings schema bindings)
 				bindings
 				el-story)))
-				
+
+		(setf new-verb nil)
+		(setf invoker (third (car frame)))
+		(if (and (listp invoker) (lex-verb? (car invoker)))
+			(setf new-verb (car invoker)))
+		(if (canon-ka? invoker)
+			(setf new-verb (pred-base (second invoker))))
+		(if (canon-ke? invoker)
+			(setf new-verb (pred-base
+				(prop-pred (second invoker)))))
+
+		(if (not (null new-verb)) (block rename-schema
+			(setf old-header (copy-item (schema-header schema)))
+			(setf old-pred (schema-pred schema))
+			(setf new-header (replace-vals old-pred new-verb old-header))
+			(setf schema (replace-vals old-header new-header schema))
+		))
 
 		(setf registered-schema-pair (create-from-match
 			(apply-bindings schema bindings)
@@ -438,15 +497,27 @@
 )
 )
 
+(ldefun required-vars (rule)
+	(dedupe (loop for rule-arg in (rule-args rule)
+		if (equal (second rule-arg) 'REQUIRED)
+			collect (car rule-arg)))
+)
+
 (ldefun map-frame-rule (frame rule)
 (block outer
 	(setf bindings (make-hash-table :test #'equal))
+
+	(setf req-vars (required-vars rule))
 
 	(loop for var in (mapcar #'car (rule-args rule))
 		do (let ((mapping (map-frame-var-rule frame var rule)))
 			(if (not (null mapping))
 				(setf (gethash var bindings)
 					mapping))))
+
+	(loop for req-var in req-vars
+		if (null (gethash req-var bindings))
+			do (return-from outer nil))
 
 	(if (> (ht-count bindings) 0)
 		(return-from outer (list (rule-protoschema rule) bindings)))
@@ -482,9 +553,14 @@
 		; then
 		(return-from outer nil))
 
-	(setf options (cdr (car (loop for var-rule in (rule-args rule)
+	(setf our-rule (car (loop for var-rule in (rule-args rule)
 		if (equal (car var-rule) var)
-			collect var-rule))))
+			collect var-rule)))
+
+	(setf is-req (equal (second our-rule) 'REQUIRED))
+	(setf options (cdr our-rule))
+	(if is-req
+		(setf options (cddr our-rule)))
 
 	(loop for option in options do (block inner
 		(setf best-option-cands nil)
@@ -539,6 +615,8 @@
 		; fallback: framenet arg name
 		(if (null best-option-cands) (block do-fn-arg
 			(setf best-option-cands (car (loop for fn-arg in (fifth frame)
+				if (equal (car fn-arg) option-core)
+					do (format t "collecting ~s values ~s~%" (car fn-arg) (second fn-arg))
 				if (equal (car fn-arg) option-core)
 					collect (second fn-arg))))
 		))

@@ -281,3 +281,87 @@
 	(return-from outer last-noun)
 )
 )
+
+; probably-pred identifies things that
+; are either canon preds, or will be later,
+; once other fixes are applied. This helps
+; massage out some cyclical dependencies
+; between fix rules.
+(ldefun probably-pred? (p)
+(block outer
+	(if (canon-pred? p)
+		(return-from outer t)
+	)
+
+	(if (not (listp p))
+		(return-from outer nil)
+	)
+
+	(if (canon-pred? (unwrap-singletons (loop for e in p if (not (canon-prep? e)) collect e)))
+		(return-from outer t)
+	)
+
+	; If it's a pred with floating mods,
+	; it can pass---those will get fixed
+	; later, so we'll strip them out now.
+	(setf stripped-p (copy-item p))
+	(setf did-strip-mods nil)
+	(if (listp stripped-p)
+		; then
+		(loop for el in p
+			do (if (canon-mod? el)
+				; then
+				(progn
+				(setf stripped-p (remove el stripped-p :test #'equal))
+				(setf did-strip-mods t)
+				)
+			)
+		)
+	)
+	(if did-strip-mods
+		; then
+		(progn
+		; (format t "recursing on stripped ~s~%" stripped-p)
+		(return-from outer (probably-pred? (unwrap-singletons stripped-p)))
+		)
+	)
+
+	; Strip charstars
+	(if (charstar-triple? p)
+		(return-from outer (probably-pred? (car p)))
+	)
+
+	; BE.V is weird and can pass
+	(if (and (listp p) (equal (car p) 'BE.V))
+		(return-from outer t)
+	)
+)
+)
+
+(ldefun probably-atomic-prop? (x)
+(or
+	(mp x (list 'canon-individual?+ 'probably-pred?))
+
+	(special-charstar? x)
+
+	(mp x (list 'canon-individual?+ 'probably-pred? 'canon-individual?+))
+)
+)
+
+(ldefun probably-prop? (x)
+(or
+	(probably-atomic-prop? x)
+
+	; Boolean combinations
+	(mp x (list (list 'id? 'NOT) 'canon-prop?))
+	(mp x (list (list 'id? 'OR) 'canon-prop?+))
+	(mp x (list (list 'id? 'AND) 'canon-prop?+))
+	(mp x (list (list 'id? 'IF) 'canon-prop? 'canon-prop?))
+)
+)
+
+(ldefun strip-pred-mods-individuals (p)
+(block outer
+	(return-from outer (unwrap-singletons (loop for e in p if (not (or (canon-mod? e) (canon-individual? e))) collect e)))
+)
+)

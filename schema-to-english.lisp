@@ -125,11 +125,14 @@
 )
 )
 
-(ldefun schema-to-english (schema)
+(ldefun schema-to-english (schema &optional include-header)
 (block outer
 	; First, get the schema's steps
 	(setf steps (mapcar #'second
 		(section-formulas (get-section schema ':Steps))))
+
+	(if include-header
+		(setf steps (append (list (car (schema-header schema))) steps)))
 
 	; Next, move all of their modifiers to float at the ends
 	; of the verb predicates.

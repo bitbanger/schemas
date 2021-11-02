@@ -1,6 +1,7 @@
 (load "ll-load.lisp")
 
 (ll-load "ll-util.lisp")
+(ll-load "schema-postproc-utils.lisp")
 
 (defun implicature? (x)
 	(contains '(
@@ -345,5 +346,22 @@
 	(/
 		((_*1 (!2 noun-pred?)) [**] _!3)
 		(_*1 !2)
+	)
+
+	; Infix ANDs with probably-preds should be
+	; normalized to prefix AND lists.
+	(/
+		((!1 probably-pred?) AND (!2 probably-pred?))
+		(AND !1 !2)
+	)
+	(/
+		((!1 probably-pred?) AND.CC (!2 probably-pred?))
+		(AND !1 !2)
+	)
+
+	; *.PS -> *.P
+	(/
+		(!1 lex-ps?)
+		((ll-curry-imper retag-as "P") !1)
 	)
 )))

@@ -72,24 +72,105 @@
 	)
 )
 
+(defun strip-tilde-tag (s)
+	(intern (car (split-str (string s) "~")))
+)
+
+(defun fix-tilde-tags-for-merged-particles (ulfs)
+(block outer
+	(return-from outer ulfs)
+
+	; BELOW HERE IS OLD CODE
+
+	(format t "fix-tilde-tags called~%")
+
+	(setf tagged-words (get-elements-pred ulfs #'tilde-tagged?))
+
+
+	(setf words-for-tags (make-hash-table :test #'equal))
+	(loop for tw in tagged-words
+		do (setf (gethash (get-tilde-tag tw) words-for-tags) tw))
+
+	; (format t "~s~%" ulfs)
+
+	; (print-ht words-for-tags)
+
+	(setf tags (loop for tw in tagged-words collect (get-tilde-tag tw)))
+
+	(setf min-tag (min-all tags))
+	(setf max-tag (max-all tags))
+
+	(setf tag-cursor min-tag)
+	(setf new-tw-map (make-hash-table :test #'equal))
+	(loop for i from min-tag to max-tag do (block inner
+		(setf tw (gethash i words-for-tags))
+
+		(setf (gethash tw new-tw-map)
+			(intern (format nil "NEW-~a~~~d"
+				(strip-tilde-tag tw) tag-cursor)))
+
+		(if (not (null (find #\_ (string tw))))
+			(setf tag-cursor (+ tag-cursor 1)))
+
+		(setf tag-cursor (+ tag-cursor 1))
+
+		(format t "word ~s bumped tag cursor to ~d~%" (strip-tilde-tag tw) tag-cursor)
+	))
+
+	(loop for old-tw being the hash-keys of new-tw-map
+		do (setf ulfs
+			(replace-vals old-tw
+				(gethash old-tw new-tw-map) ulfs)))
+
+	(setf news (get-elements-pred ulfs (lambda (x)
+		(and
+			(symbolp x)
+			(> (length (string x)) 4)
+			(equal (subseq (string x) 0 3) "NEW")))))
+
+	(loop for new in news
+		do (setf ulfs (replace-vals new
+			(intern (subseq (string new) 4 (length (string new))))
+			ulfs)))
+
+	(return-from outer ulfs)
+)
+)
+
 ; increment-tilde-tags makes sure that periods get accounted for
 ; as tokens, for Allen coreference purposes.
 (defun increment-tilde-tags (ulfs)
 (let (new-ulf new-ulfs tts)
 (block outer
 	(setf new-ulfs (copy-item new-ulf))
+	(setf particle-booster 0)
 	(loop for ulf in ulfs
+		for last-ulf in (append (list nil) (subseq ulfs 0 (- (length ulfs) 1)))
 		for sent-num from 0
 		do (block inner
 			(setf new-ulf (copy-item ulf))
 			(setf tts (get-elements-pred ulf #'tilde-tagged?))
-			(loop for tt in tts
-				do (setf new-ulf (replace-vals
+
+			(setf max-last nil)
+			(if (not (null last-ulf))
+				(setf max-last (car (last (get-elements-pred last-ulf #'tilde-tagged?)))))
+			(if (and
+				(not (null max-last))
+				(not (null (find #\_ (string max-last)))))
+				; then
+				(setf particle-booster (+ particle-booster 1)))
+
+			(loop for tt in tts do (block innermost
+				; (format t "changing tag ~s to ~d~%" tt (+ sent-num (get-tilde-tag tt)))
+				(setf new-ulf (replace-vals
 					tt
-					(set-tilde-tag tt (+ sent-num (get-tilde-tag tt)))
+					(set-tilde-tag tt
+						(+ particle-booster
+							(+ sent-num (get-tilde-tag tt)))
+					)
 					new-ulf
 				))
-			)
+			))
 			(setf new-ulfs (append new-ulfs (list new-ulf)))
 		)
 	)
@@ -297,6 +378,7 @@
 (defun get-len-ulfs (sents)
 (block outer
 	(setf len-ulfs (len-ulfs-with-word-tags sents))
+	(setf machine-ulfs (fix-tilde-tags-for-merged-particles len-ulfs))
 	(setf machine-ulfs (increment-tilde-tags len-ulfs))
 	(setf machine-ulfs (mapcar #'prepare-new-ulf-for-parser machine-ulfs))
 	(setf machine-ulfs (clean-idx-tags machine-ulfs))
@@ -314,7 +396,8 @@
 (defun len-ulfs (sents)
 	(mapcar #'prepare-new-ulf-for-parser
 		(increment-tilde-tags
-			(len-ulfs-with-word-tags sents)))
+			(fix-tilde-tags-for-merged-particles
+				(len-ulfs-with-word-tags sents))))
 )
 
 (ldefun len-parse-sents (sents &optional only-canon)
@@ -339,7 +422,7 @@
 
 (ldefun full-debug-sents (sents)
 (block outer
-	(setf raw-len-ulfs (increment-tilde-tags (len-ulfs-with-word-tags sents)))
+	(setf raw-len-ulfs (increment-tilde-tags (fix-tilde-tags-for-merged-particles (len-ulfs-with-word-tags sents))))
 
 	(setf processed-len-ulfs (mapcar #'prepare-new-ulf-for-parser raw-len-ulfs))
 

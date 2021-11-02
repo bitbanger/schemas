@@ -1,6 +1,7 @@
 (load "ll-load.lisp")
 
 (ll-load "schema-el-parser.lisp")
+(ll-load "schema-postproc-utils.lisp")
 
 (defparameter *SCHEMA-CLEANUP-FUNCS* '(
 	; correct-nonverbal-aux ; run this before skolemize-adets
@@ -16,6 +17,7 @@
 	unfloat-modifiers
 	split-double-charstars
 	split-and-preds
+	split-and-charstar-preds
 	bubble-up-pred-charstars
 	sink-prop-mods
 	name-skolems
@@ -40,6 +42,41 @@
 	skolemize-kinds ; This is a bad idea, but I'm doing it anyway.
 	fix-subs
 ))
+
+(ldefun split-and-preds (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf and-props (get-elements-pred phi-copy (lambda (x)
+		(and
+			(listp x)
+			(canon-individual? (car x))
+			(and-list? (second x))
+			; TODO: do this for > 2 and-chained preds
+			; (here and in split-and-eps)
+			(equal (length (cdr (second x))) 2)
+			(loop for e in (cdr (second x))
+				always (probably-pred? e))
+		)
+	)))
+
+	; (format t "split-and-preds got ~s~%" and-props)
+
+	(loop for and-prop in and-props do (block replc
+		(setf individual (car and-prop))
+		(setf preds (cdr (second and-prop)))
+
+		(setf lhs-prop (list individual (car preds)))
+		(setf rhs-prop (list individual (second preds)))
+
+		(setf new-prop (list lhs-prop 'and rhs-prop))
+
+		(setf phi-copy (replace-vals and-prop new-prop phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (ldefun fix-subs (phi)
 (block outer
@@ -835,7 +872,10 @@
 			
 			(listp (car e))
 			(equal 3 (length (car e)))
-			(matches-ttt (caar e) '((!1 (ll-curry eq-no-idx-tags? WHEN.ADV)) (!2 probably-prop?)))
+			(or
+				(matches-ttt (caar e) '((!1 (ll-curry eq-no-idx-tags? WHEN.P)) (!2 probably-prop?)))
+				(matches-ttt (caar e) '((!1 (ll-curry eq-no-idx-tags? WHEN.ADV)) (!2 probably-prop?)))
+			)
 			(canon-individual? (second (car e)))
 			(probably-pred? (third (car e)))
 		)
@@ -1245,7 +1285,7 @@
 )
 )
 
-(ldefun split-and-preds (phi)
+(ldefun split-and-charstar-preds (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
 
@@ -1255,20 +1295,19 @@
 		)
 
 		(if (or
-				; (IND (AND P1 P2 ...))
+				; (SOME-IND (AND P1 P2 ...))
 				(and
 				(equal 2 (length e))
 				(canon-individual? (car e))
 				(and-list? (second e)))
 
-				; (IND AND P1 P2 ...)
+				; (SOME-IND AND P1 P2 ...)
 				(and
 				(canon-individual? (car e))
 				(and-list? (cdr e)))
 			)
 			; then
 			(block loop-inner
-				; (format t "split-and-preds got ~s~%" e)
 				(setf and-list (second e))
 				(if (and-list? (cdr e)) (setf and-list (cdr e)))
 				(setf new-forms (mapcar (lambda (x) (list (car e) x)) (cdr and-list)))
@@ -1376,90 +1415,6 @@
 	THAT.D
 	THIS.D
 ))
-
-; probably-pred identifies things that
-; are either canon preds, or will be later,
-; once other fixes are applied. This helps
-; massage out some cyclical dependencies
-; between fix rules.
-(ldefun probably-pred? (p)
-(block outer
-	(if (canon-pred? p)
-		(return-from outer t)
-	)
-
-	(if (not (listp p))
-		(return-from outer nil)
-	)
-
-	(if (canon-pred? (unwrap-singletons (loop for e in p if (not (canon-prep? e)) collect e)))
-		(return-from outer t)
-	)
-
-	; If it's a pred with floating mods,
-	; it can pass---those will get fixed
-	; later, so we'll strip them out now.
-	(setf stripped-p (copy-item p))
-	(setf did-strip-mods nil)
-	(if (listp stripped-p)
-		; then
-		(loop for el in p
-			do (if (canon-mod? el)
-				; then
-				(progn
-				(setf stripped-p (remove el stripped-p :test #'equal))
-				(setf did-strip-mods t)
-				)
-			)
-		)
-	)
-	(if did-strip-mods
-		; then
-		(progn
-		; (format t "recursing on stripped ~s~%" stripped-p)
-		(return-from outer (probably-pred? (unwrap-singletons stripped-p)))
-		)
-	)
-
-	; Strip charstars
-	(if (charstar-triple? p)
-		(return-from outer (probably-pred? (car p)))
-	)
-
-	; BE.V is weird and can pass
-	(if (and (listp p) (equal (car p) 'BE.V))
-		(return-from outer t)
-	)
-)
-)
-
-(ldefun probably-atomic-prop? (x)
-(or
-	(mp x (list 'canon-individual?+ 'probably-pred?))
-
-	(special-charstar? x)
-
-	(mp x (list 'canon-individual?+ 'probably-pred? 'canon-individual?+))
-)
-)
-
-(ldefun probably-prop? (x)
-(or
-	(probably-atomic-prop? x)
-
-	; Boolean combinations
-	(mp x (list (list 'id? 'NOT) 'canon-prop?))
-	(mp x (list (list 'id? 'OR) 'canon-prop?+))
-	(mp x (list (list 'id? 'AND) 'canon-prop?+))
-	(mp x (list (list 'id? 'IF) 'canon-prop? 'canon-prop?))
-)
-)
-
-(ldefun strip-pred-mods-individuals (p)
-(block outer
-	(return-from outer (unwrap-singletons (loop for e in p if (not (or (canon-mod? e) (canon-individual? e))) collect e)))
-)
-)
 
 ; Make sure "ka" args are wrapped in "for.p",
 ; unless the verb permits a direct KA arg
@@ -1572,7 +1527,7 @@
 		; Strip propositional modifiers and NOT.
 		; (loop while (and (>= (length form) 2) (or (equal (car form) 'NOT) (canon-mod? (car form))))
 		; Strip sentential modifiers.
-		(loop while (and (>= (length form) 2) (or (equal (car form) 'NOT) (canon-sent-mod? (car form))))
+		(loop while (and (listp form) (>= (length form) 2) (or (equal (car form) 'NOT) (canon-sent-mod? (car form))))
 			do (progn
 			(setf pr-mods (append (list (car form)) pr-mods))
 			; (setf form (second form))
@@ -2302,6 +2257,7 @@
 )
 
 ; TODO: do this for > 2 and-chained props
+; (here and in split-and-preds)
 (ldefun split-and-eps (phi)
 (block outer
 	(setf phi-copy (copy-list phi))

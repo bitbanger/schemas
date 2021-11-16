@@ -115,24 +115,15 @@
 
 		(clear-ll-func-cache)
 
-		;(if (and
-				;(not (null story-start-line))
-				;(not (equal (car roc-story) story-start-line))
-			;)
-			; then
-			;(return-from process-story)
-		;)
-			
-
 		(setf el-story nil)
 		(setf events nil)
 		(setf schema-match-tuples nil)
 
 		;(handler-case
 		(block parse-story
-			(format t "parsing~%")
+			; (format t "parsing~%")
 			(setf el-story (len-parse-sents roc-story))
-			(format t "done parsing~%")
+			; (format t "done parsing~%")
 
 			(setf el-story-invalid
 				(loop for sent in el-story
@@ -142,7 +133,7 @@
 				(loop for sent in el-story
 					collect (loop for wff in sent if (canon-prop? wff) collect wff)))
 
-			(format t "story: ~%")
+			; (format t "story: ~%")
 			(loop for eng-sent in roc-story
 					for el-sent in el-story
 					for invalid-sent in el-story-invalid
@@ -188,50 +179,12 @@
 			)
 		)
 
-		; (setf schemas (mapcar #'fully-clean-schema (mapcar #'car schema-match-tuples)))
 		(setf schemas (mapcar #'car schema-match-tuples))
 		(setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (third x))) schema-match-tuples))
 		(setf schemas-with-bindings (loop for tup in schema-match-tuples collect (list (car tup) (third tup))))
-		; (format t "orig bound schemas:~%")
-		; (loop for bs in bound-schemas
-			;do (print-schema bs))
-
-		; (setf coscoped-tup (fully-clean-coscoped-schemas bound-schemas t))
-		; (setf coscoped-pairs (car coscoped-tup))
-		; (setf coscoped-bindings (second coscoped-tup))
-		; (setf schemas (mapcar #'car coscoped-pairs))
-		; (setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (second x))) coscoped-pairs))
-
-		; Make sure shared vars are resolved so that all matched schemas can
-		; share a scope!
-		; (setf bound-schemas (uniquify-shared-vars-chain bound-schemas nil))
-
-		; Clean and generalize constants in the schemas.
-		; This procedure can rename some of the variables,
-		; so we'll have to re-organize the bindings to use
-		; the new variables names on the LHS.
-		;(setf schema-clean-pairs
-			;(loop for schema in schemas
-				;collect (fully-clean-schema schema t)))
-
-		;(setf schemas (mapcar #'car schema-clean-pairs))
-
-		;(setf schema-post-clean-maps
-			;(mapcar #'second schema-clean-pairs))
-
-		;(setf bound-schemas
-			;(loop for scp in schema-clean-pairs
-				;collect
-					;(apply-bindings (car scp) (second scp))))
-
-		; (setf headers (loop for schema in schemas collect (schema-header schema)))
 		(setf headers (loop for schema in bound-schemas collect (schema-header schema)))
 
-		; (format t "steps: ~%")
-		; (loop for ev in events do (format t "	~s~%" ev))
 		(format t "schemas (w/ unbound vars): ~%")
-		; (loop for header in headers do (format t "	~s~%" header))
-		; (loop for schema in schemas do (print-schema (fully-clean-schema schema)))
 		(loop for tuple in schema-match-tuples
 				for schema in schemas
 				for tup in schema-match-tuples
@@ -245,14 +198,7 @@
 			; excused as well
 			(setf used-eps (remove-duplicates (append used-eps (mapcar #'car (section-formulas (get-section bound-schema ':Steps)))) :test #'equal))
 
-			;(format t "unbound:~%")
 			(print-schema schema)
-			;(format t "bound:~%")
-			;(print-schema bound-schema)
-			; (format t "~%~%")
-			; (format t "using episodes ~s: ~%" used-eps)
-
-			; (format t "~%")
 		))
 
 		(setf inds (dedupe (intersection
@@ -263,9 +209,7 @@
 						)
 						(get-elements-pred el-story #'canon-small-individual?) :test #'equal)))
 		(setf rcs (list))
-		; (format t "individuals: ~%")
 		(loop for ind in inds
-			; do (format t "	~s~%" ind)
 			do (block print-cnstrs
 				(setf constrs (story-select-term-constraints (linearize-story el-story) (list ind)))
 				(setf constrs
@@ -280,20 +224,10 @@
 				)
 				(setf constrs (dedupe constrs))
 				(setf rcs (append rcs constrs))
-				(loop for constr in constrs
-					; do (format t "		~s~%" constr)
-				)
 			)
 		)
 
 		(setf rcs (dedupe rcs))
-
-
-
-		; (format t "all constraints being added: ~%")
-		; (loop for constr in rcs
-			; do (format t "	~s~%" constr)
-		; )
 
 		; Collect all story event episodes that are either
 		; bound to header episodes or step episodes in
@@ -331,20 +265,11 @@
 			append (mapcar #'second (section-formulas (get-section bound-schema ':Episode-relations)))))
 
 		(setf ep-rels (dedupe (append story-ep-rels matched-schema-ep-rels)))
-		; (setf ep-rels (append ep-rels (list '(NOW1 (BEFORE E6.SK)))))
 
 		; Compose a schema from the matched schemas,
 		; story events, and story constraints
-		; (setf new-schema (compose-schema rcs (append events headers) ep-rels))
 		(setf new-schema (compose-schema rcs events schemas-with-bindings story-ep-rels))
 		(print-schema new-schema)
-
-		; (return-from process-story)
-
-		;(format t "flattened composite schema: ~%")
-		;(loop for phi in (flatten-schema new-schema t)
-			;do (format t "	~s~%" phi)
-		;)
 
 		; At this point, we're going to compile all of the role constraints and events into a set of EL formulas, then let the EL-to-English code work its magic.
 
@@ -386,11 +311,11 @@
 ;	  :max-depth 3
 ;	  :mode :alloc
 ;	  :report :graph)
-(block profiled
+;(block profiled
 
-	(compose-schemas-from-stories)
+	;(compose-schemas-from-stories)
 
-)
+;)
 ;)
 
 ; (print-ht *LDEFUN-CALLS*)

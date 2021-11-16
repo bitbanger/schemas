@@ -41,7 +41,50 @@
 	; reify-pred-args
 	skolemize-kinds ; This is a bad idea, but I'm doing it anyway.
 	fix-subs
+	fix-home-adv
+	agentify-names-and-pronouns
 ))
+
+(ldefun agentify-names-and-pronouns (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf targets (dedupe (get-elements-pred phi-copy
+		(lambda (x) (and
+			(or (personal-pronoun? x)
+				(lex-name? x))
+			(not (contains phi-copy (list x 'AGENT.N))))))))
+
+	(loop for target in targets
+		do (setf phi-copy (append phi-copy (list
+			(list target 'AGENT.N)))))
+
+	(return-from outer phi-copy)
+)
+)
+
+(ldefun fix-home-adv (phi)
+(block outer
+	(setf phi-copy (copy-item phi))
+
+	(setf to-fix (get-elements-pred phi-copy (lambda (x)
+		(and
+			(canon-charstar? x)
+			(contains (prop-mods (car x)) 'HOME.ADV)
+		)
+	)))
+
+	(loop for tf in to-fix do (block fix
+		(setf agent (prop-pre-arg (car tf)))
+		(setf new-home 
+			(list 'A.D (list 'L 'X (list 'AND (list 'X 'HOME.N) (list 'X 'PERTAIN-TO agent)))))
+		(setf fixed (replace-vals 'HOME.ADV (list 'ADV-A (list 'TO.P new-home)) tf))
+		(setf phi-copy (replace-vals tf fixed phi-copy))
+	))
+
+	(return-from outer phi-copy)
+)
+)
 
 (ldefun split-and-preds (phi)
 (block outer
@@ -477,6 +520,7 @@
 
 (ldefun personal-pronoun? (p)
 (and
+	(symbolp p)
 	(has-suffix? (string p) "PRO")
 	(or
 		(has-prefix? (string p) "I$")
@@ -1481,7 +1525,10 @@
 (let ((tmp-phi (copy-item phi)))
 (block outer
 		(setf tmp-phi (process-construction tmp-phi
-			(lambda (x) (and (listp x) (equal (car x) 'KA)))
+			(lambda (x) (and (listp x)
+				; (equal (car x) 'KA)
+				(contains '(KA KE THAT THT) (car x))
+			))
 			#'unfloat-modifiers-processor))
 
 		(setf tmp-phi (process-construction tmp-phi

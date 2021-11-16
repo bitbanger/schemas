@@ -412,7 +412,7 @@
 	(setf els (parse-story-maybe-from-ulf sents ulfs))
 	(if only-canon
 		; then
-		(return-from outer (loop for sent in sents collect
+		(return-from outer (loop for sent in els collect
 			(loop for el in sent if (canon-prop? el) collect el)))
 		; else
 		(return-from outer els))

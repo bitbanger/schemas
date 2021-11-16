@@ -33,6 +33,9 @@
 	lose.v
 	damage.v
 	cry.v
+	follow.v
+	make_noise.v
+	ride.v
 ))
 
 (defparameter enjoy_action.v
@@ -784,6 +787,10 @@
 			(?g1 (?x (want.v (that (?y (know.v ?i))))))
 		)
 
+		(:Preconds
+			(?i1 (?x (know.v ?i)))
+		)
+
 		(:Postconds
 			(?p1 (?y (know.v ?i)))
 		)
@@ -1228,6 +1235,98 @@
 
 		(:Preconds
 			(?i1 (?x sad.a))
+		)
+	)
+)
+
+(defparameter follow.v
+	'(epi-schema ((?x follow.v ?y) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?y entity.n))
+			(!r3 (?l1 location.n))
+			(!r4 (?l2 location.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+			(?g1 (?x (want.v (that (?x (near.p ?y))))))
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+			(?e1 (?y travel.v ?l1 ?l2))
+			(?e2 (?x travel.v ?l1 ?l2))
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
+			(!w1 (?e1 cause-of ?e2))
+		)
+	)
+)
+
+(defparameter make_noise.v
+	'(epi-schema ((?x make_noise.v ?n) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?n noise.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+		)
+
+		(:Preconds
+		)
+
+		(:Steps
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
+		)
+	)
+)
+
+(defparameter ride.v
+	'(epi-schema ((?x ride.v ?v ?l1 ?l2) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?v vehicle.n))
+			(!r3 (?l1 location.n))
+			(!r3 (?l2 location.n))
+		)
+
+		(:Necessities
+		)
+
+		(:Goals
+			(?x (want.v (that (?x (at.p ?l2)))))
+		)
+
+		(:Preconds
+			(?i1 (?x (in.p ?v)))
+		)
+
+		(:Steps
+			(?e1 (?x ((adv-a (from.p ?l1)) ((adv-a (from.p ?l2)) travel.v))))
+		)
+
+		(:Postconds
+		)
+
+		(:Episode-relations
 		)
 	)
 )

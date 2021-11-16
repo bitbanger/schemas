@@ -53,8 +53,7 @@
 			agent
 		)
 		(?o
-			(post-arg (1 of 1))
-			(post-arg (2 of 2))
+			(post-arg (1 of any))
 			theme
 		)
 		(?l1
@@ -390,6 +389,54 @@
 		(?x
 			pre-arg
 			speaker
+		)
+	)
+
+	(cotheme * -> follow.v
+		(?x
+			pre-arg
+			theme
+		)
+		(?y
+			(post-arg (1 of 1))
+			cotheme
+		)
+		(?l1
+			(adv from.p)
+			(adv out_of.p)
+		)
+		(?l2
+			(adv to.p)
+			(adv into.p)
+			(adv toward.p)
+		)
+	)
+
+	(make_noise * -> make_noise.v
+		(?x
+			pre-arg
+			sound_source
+		)
+		(?n
+			sound
+		)
+	)
+
+	(operate_vehicle * -> ride.v
+		(?x
+			pre-arg
+			driver
+		)
+		(?v
+			vehicle
+		)
+		(?l1
+			(adv from.p)
+			source
+		)
+		(?l2
+			(adv to.p)
+			goal
 		)
 	)
 ))

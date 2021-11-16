@@ -34,6 +34,8 @@
 
 (defparameter *LDEFUN-CALLS* (make-hash-table :test #'equal))
 
+(defparameter *NEWLINE-STR* (format nil "~%"))
+
 ; Automatically scopes all setfs introduced inside
 ; a function to be local, without requiring the
 ; programmer to manually add let-bindings.
@@ -1527,4 +1529,38 @@ is replaced with replacement."
 		(shuffle lst)
 		; else
 		(shuffle (n-shuffles lst (- seed 1))))
+)
+
+(ldefun run-proc-with-stdin (proc args inp)
+(block outer
+	(let* ((p (sb-ext:run-program proc args
+			:input :stream
+			:output :stream
+			:wait nil))
+		(s (sb-ext:process-input p)))
+			(progn
+				(format s inp)
+				(finish-output s)
+				(close s)
+				(return-from outer (loop for line = (read-line (sb-ext:process-output p) nil)
+					while line
+						collect line))))))
+
+(ldefun strip-dot-tag (s)
+(block outer
+	(if (not (symbolp s))
+		(return-from outer s))
+
+	(setf spl (split-str (string s) "."))
+	(return-from outer (intern (car spl)))
+)
+)
+
+(ldefun word2vec-sim (w1 w2)
+	(let ((res (read-from-string (car (run-proc-with-stdin "/home/lane/miniconda3/bin/python3" (list "/home/lane/Code/schemas/word2vec.py" (string (strip-dot-tag w1)) (string (strip-dot-tag w2))) "")))))
+		(if (numberp res)
+			; then
+			res
+			; else
+			0.0))
 )

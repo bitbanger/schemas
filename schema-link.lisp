@@ -350,6 +350,7 @@
 					(third (schema-header bs))
 					true-step-name
 					bs-ep-rels)))
+
 		(setf ep-rels (append ep-rels bs-ep-rels))
 
 		; Pull out subordinate constraints from
@@ -424,6 +425,9 @@
 		))
 	)
 
+	; Add the story ep-rels.
+	(setf ep-rels (append ep-rels story-ep-rels))
+
 	; Add the episode relations for temporal
 	; sorting.
 	(loop for ep-rel in ep-rels
@@ -431,8 +435,11 @@
 			(add-constraint new-schema ':Episode-relations ep-rel))
 	)
 
-	; Add the story ep-rels.
-	(setf ep-rels (append ep-rels story-ep-rels))
+	; Filter out subschema ep-rels with scoped variables, which
+	; shouldn't be floated up to the parent.
+	(setf ep-rels (loop for er in ep-rels
+		if (not (has-element-pred er #'varp))
+			collect er))
 
 	(load-time-model ep-rels)
 
@@ -519,8 +526,6 @@
 			(if (not (invokes-schema? (second st)))
 				(return-from inv-loop)
 			)
-			; (format t "expanding nested schema ~s~%" st)
-			; (format t "it invokes ~s~%" (invoked-schema (second st)))
 			(setf inv-pair (expand-nested-schema st new-schema))
 
 			; For some reason, no exact schema was found
@@ -531,12 +536,9 @@
 				(return-from inv-loop)
 			)
 
-			; (format t "got inv pair ~s~%" inv-pair)
-						; (format t "apply-bindings call ~d~%" 7)
 			(setf inv-schema (apply-bindings (car inv-pair) (second inv-pair)))
 			(setf except (loop for k being the hash-keys of (second inv-pair) collect k))
 			(setf deduped-schema (second (uniquify-shared-vars-except new-schema (car inv-pair) except)))
-						; (format t "apply-bindings call ~d~%" 8)
 			(setf deduped-schema (apply-bindings deduped-schema (second inv-pair)))
 
 			;(if (equal i 0)
@@ -589,5 +591,144 @@
 
 	(return-from outer new-schema)
 )
+)
+)
+
+; Get all individuals from the story that are used by the bound schemas.
+(ldefun get-individuals (events bound-schemas el-story)
+	(dedupe (intersection
+			(union
+				(get-elements-pred events #'canon-small-individual?)
+				(get-elements-pred bound-schemas #'canon-small-individual?)
+					:test #'equal
+				)
+				(get-elements-pred el-story #'canon-small-individual?) :test #'equal))
+)
+
+; Get all nonfluent role constraints from the story, for the
+; individuals from the bound schemas, to add to the schemas
+; in order to flesh out the nonfluent type information.
+(ldefun get-rcs (inds el-story)
+(block outer
+	(setf rcs (list))
+	(loop for ind in inds
+		do (block print-cnstrs
+			(setf constrs (story-select-term-constraints (linearize-story el-story) (list ind)))
+			(setf constrs
+				(loop for c in constrs
+					if (and
+							(canon-prop? c)
+							(has-element c ind)
+							(not (has-element c 'HAS-DET.PR))
+							(not (time-prop? c)))
+						collect c
+				)
+			)
+			(setf constrs (dedupe constrs))
+			(setf rcs (append rcs constrs))
+		)
+	)
+
+	(return-from outer (dedupe rcs))
+)
+)
+
+; Collect all story event episodes that are either
+; bound to header episodes or step episodes in
+; matched schemas; these don't need to be steps in
+; the composite schema.
+(ldefun get-used-eps (bound-schemas)
+(block outer
+	(setf used-eps (list))
+	(loop for schema in bound-schemas
+		do (block get-eps
+			; add the header episode
+			(setf used-eps (append used-eps (list (third (second schema)))))
+
+			; add all step episodes
+			(setf used-eps (append used-eps (mapcar #'car (section-formulas (get-section schema ':Steps)))))
+
+			; deduplicate
+			(setf used-eps (dedupe used-eps))
+		)
+	)
+
+	(return-from outer used-eps)
+)
+)
+
+; Collect episode relations from the story,
+; and inferred ones from the schemas, and
+; provide them to the composer to order the
+; steps correctly.
+(ldefun get-ep-rels (el-story bound-schemas)
+(block outer
+	(setf story-ep-rels (loop for phi in (linearize-story el-story) if (time-prop? phi) collect phi))
+
+	(setf matched-schema-ep-rels (loop for bound-schema in bound-schemas
+		append (mapcar #'second (section-formulas (get-section bound-schema ':Episode-relations)))))
+
+	(return-from outer (dedupe (append story-ep-rels matched-schema-ep-rels)))
+)
+)
+
+; Construct a composite schema from a story, a set of schema/binding tuples
+; matched from the story, and, optionally, for efficiency, a pre-parsed set
+; of EL formulas for the story.
+(ldefun make-composite-story-schema (story schema-match-tuples &optional el-story)
+(block outer
+	; Parse the story if a parse wasn't provided.
+	(if (null el-story)
+		(setf el-story (len-parse-sents story)))
+
+	; Clean up the invalid formulas in the parse.
+	(setf el-story (loop for sent in el-story
+		collect (loop for wff in sent
+			if (canon-prop? wff)
+				collect wff)))
+
+	; Extract the episodic events from the story
+	(setf events (loop for sent in el-story append (loop for wff in sent if (canon-charstar? wff) collect wff)))
+
+	; Sometimes a story just has only atemporal
+	; formulas; we can't really make a schema from
+	; that, and it probably indicates a serious
+	; parser failure anyway, so we probably don't
+	; even want to try.
+	(if (null events)
+		(progn
+			(format t "story had no temporal formulas~%")
+			(return-from outer nil)
+		)
+	)
+
+	; Apply bindings to get the concrete-valued schema matches,
+	; and extract the bound headers.
+	(setf schemas (mapcar #'car schema-match-tuples))
+	(setf bound-schemas (mapcar (lambda (x) (apply-bindings (car x) (third x))) schema-match-tuples))
+	(setf schemas-with-bindings (loop for tup in schema-match-tuples collect (list (car tup) (third tup))))
+	(setf headers (loop for schema in bound-schemas collect (schema-header schema)))
+
+	; Remove story events with episodes that are already used by
+	; bound schemas, to prevent double inclusion.
+	(setf used-eps (get-used-eps bound-schemas))
+	(setf events
+		(loop for event in events
+			if (not (contains used-eps (third event)))
+				collect event
+		)
+	)
+
+	; Collect information about individuals, constraints, and episodes
+	; for use in the final composed schema.
+	(setf inds (get-individuals events bound-schemas el-story))
+	(setf rcs (get-rcs inds el-story))
+	(setf ep-rels (get-ep-rels el-story bound-schemas))
+
+	; Compose a schema from the matched schemas,
+	; story events, and story constraints
+	(setf new-schema (compose-schema rcs events schemas-with-bindings ep-rels))
+
+	(return-from outer new-schema)
 )
 )

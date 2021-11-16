@@ -5,6 +5,7 @@
 (ll-load "ll-util.lisp")
 (ll-load "schema-util.lisp")
 (ll-load "schema-expansion.lisp")
+(ll-load "new-ulf-parser.lisp")
 
 (ldefun schema-var-types (schema &optional include-ownership)
 (block outer
@@ -302,5 +303,114 @@
 			do (setf buf (concat-strs buf (format nil "~a" (princ-to-string sym)))))
 		do (setf buf (concat-strs buf "."))
 		collect buf))
+)
+)
+
+(ldefun summarize-schema (schema)
+(block outer
+	(setf sents (join-str-list *NEWLINE-STR* (schema-to-english schema)))
+
+	(setf outp (run-proc-with-stdin
+		"/home/lane/miniconda3/bin/python3"
+		'("/home/lane/Code/gpt/summarize_story.py")
+		sents))
+
+	(return-from outer (car outp))
+)
+)
+
+(ldefun try-gpt-schema-header (schema)
+(block outer
+	(setf eng-summary (summarize-schema schema))
+
+	(setf el-summary (linearize-story
+		(len-parse-sents (list eng-summary) t)))
+
+	(setf episodes (loop for wff in el-summary
+		if (canon-charstar? wff) collect wff))
+
+	(if (null episodes)
+		(return-from outer nil))
+
+	(setf episode (car episodes))
+
+	(setf args (get-elements-pred (car episode) #'lex-skolem?))
+	(setf schema-vars (get-elements-pred (get-section schema ':Roles)
+		#'varp))
+
+	(setf new-header (car episode))
+
+	(loop for arg in args do (block pick-binding
+		(setf constrs (story-select-interesting-term-constraints
+			el-summary (list arg)))
+
+		; Loop over all variables in the schema's roles
+		; section and find the one with the most shared
+		; predications.
+		(setf best-score 0)
+		(setf best-var nil)
+		(loop for var in schema-vars do (block get-var-constrs
+			(setf var-constrs (get-elements-pred
+				(mapcar #'second (section-formulas
+					(get-section schema ':Roles)))
+				(lambda (x) (and (listp x)
+					(equal (car x) var)))))
+
+			(setf var-constrs (loop for vc in var-constrs
+				collect (replace-vals var arg vc)))
+
+			(setf score 0)
+			; (loop for vc in var-constrs
+				; if (contains constrs vc)
+					; do (setf score (+ score 1)))
+			(loop for vc in var-constrs
+				for c in constrs
+					do (setf score (+ score (word2vec-sim (second vc) (second c)))))
+
+			(if (> score best-score)
+				(progn
+					(setf best-score score)
+					(setf best-var var)))
+		))
+
+		(if (not (null best-var))
+			; then
+			(setf new-header (replace-vals
+				arg best-var new-header))
+		)
+			
+	))
+
+	(return-from outer (list new-header best-score))
+)
+)
+
+(ldefun gpt-schema-header (schema &optional samples)
+(block outer
+	(if (or (null samples) (not (numberp samples)))
+		(setf samples 1))
+
+	(setf best-score 0)
+	(setf best-header nil)
+	(loop for i from 0 to samples do (block sample
+		(setf pair (try-gpt-schema-header schema))
+		(setf header (car pair))
+		(setf score (second pair))
+
+		(if (or (null best-header) (> score best-score))
+			(progn
+				(setf best-score score)
+				(setf best-header header)))
+		
+	))
+
+	(if (not (null (get-elements-pred best-header #'lex-skolem?)))
+		; then
+		(progn
+		(format t "ditching ~s~%" best-header)
+		(return-from outer nil)
+		))
+
+	(return-from outer best-header)
 )
 )

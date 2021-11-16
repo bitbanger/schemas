@@ -6,6 +6,8 @@
 (ll-load "new-ulf-parser.lisp")
 (ll-load "ll-util.lisp")
 (ll-load "schema-util.lisp")
+(ll-load "schema-link.lisp")
+(ll-load "schema-to-english.lisp")
 (ll-load "framenet-to-schema-mapper.lisp")
 (ll-load "protoschemas.lisp")
 
@@ -20,6 +22,8 @@
 
 ; (setf *DEBUG-SENTENCE* "Ben came home late at night.")
 (setf *DEBUG-SENTENCE* nil)
+
+(setf *DEBUG-OUTPUT* nil)
 
 (if (not (null *DEBUG-SENTENCE*))
 	(setf *ALL-STORY-FRAMES* (loop for frame in *ALL-STORY-FRAMES*
@@ -65,6 +69,8 @@
 
 (ldefun print-frame (frame)
 (block outer
+	(if (not *DEBUG-OUTPUT*) (return-from outer nil))
+
 	(format t "~d. ~s <- ~s [~a]~%"
 		(caar frame)
 		(second (car frame))
@@ -199,9 +205,13 @@
 
 		(setf invoked nil)
 
+		(if *DEBUG-OUTPUT*
 		(format t "frame id is ~s~%" frame-name)
+		)
 
+		(if *DEBUG-OUTPUT*
 		(format t "	invoker is ~s (~d)~%" (gethash invoker-idx words-for-tags) invoker-idx)
+		)
 
 		(if (not (null (car (gethash invoker-idx tok-kas))))
 			; then
@@ -216,7 +226,9 @@
 					(setf invoked (gethash invoker-idx tok-eps))
 					; else
 					(progn
+					(if *DEBUG-OUTPUT*
 					(format t "		no ka, ke, or episode characterizes~%")
+					)
 					(return-from process-frame)
 					))))
 
@@ -340,6 +352,7 @@
 		if (canon-prop? prop)
 			collect prop))
 
+	(if *DEBUG-OUTPUT*
 	(loop for sent in (car story)
 		for el-sent in el-sents do (block prs
 			(format t "~s~%" sent)
@@ -353,6 +366,7 @@
 					do (format t "		~s~%" phi))
 		)
 	)
+	)
 	; (format t "~%")
 
 	;(loop for sent in (car story)
@@ -361,6 +375,8 @@
 
 	(loop for frame in frames-for-mapping
 		do (print-frame frame))
+
+	(setf schema-match-tuples (list))
 
 	(loop for frame in frames-for-mapping do (block print-schema
 		(setf map-pair (frame-to-schema frame el-story))
@@ -392,6 +408,9 @@
 			do (setf schema-template
 				(add-role-constraint schema-template sc)))
 
+		(setf schema-match-tuples (append schema-match-tuples
+			(list (list schema-template nil bindings))))
+
 		(print-schema (fully-clean-schema-no-gen
 			(apply-bindings schema-template bindings)))
 	))
@@ -405,7 +424,25 @@
 			; do (format t "~s~%" frame))
 			;do (print-frame frame))
 
-	(format t "~%------------------~%~%")
+	(setf composite-schema (make-composite-story-schema
+		(car story)
+		schema-match-tuples
+		el-sents))
+
+
+	(setf new-header (gpt-schema-header composite-schema))
+
+	(if (not (null new-header))
+		(setf composite-schema (replace-vals
+			(schema-header composite-schema)
+			(list new-header '** '?E)
+			composite-schema)))
+
+	(format t "~%COMPOSITE SCHEMA:~%~%")
+
+	(print-schema composite-schema)
+
+	(format t "~%------------------~%~%~%~%")
 )
 )
 

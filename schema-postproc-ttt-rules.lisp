@@ -364,4 +364,24 @@
 		(!1 lex-ps?)
 		((ll-curry-imper retag-as "P") !1)
 	)
+
+	; Fix FIN modals
+	(/
+		(FIN WOULD.AUX)
+		WILL.MD
+	)
+	(/
+		(FIN COULD.AUX)
+		CAN.MD
+	)
+	(/
+		(FIN SHOULD.AUX)
+		SHOULD.MD
+	)
+
+	; Flatten post-arg lists
+	(/
+		((!1 canon-pred?) ((+ canon-individual?)))
+		(!1 +)
+	)
 )))

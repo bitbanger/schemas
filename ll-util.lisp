@@ -1524,11 +1524,15 @@ is replaced with replacement."
 )
 
 (ldefun n-shuffles (lst seed)
-	(if (<= seed 1)
+	(if (> seed 0)
 		; then
-		(shuffle lst)
+		(if (= seed 1)
+			; then
+			(shuffle lst)
+			; else
+			(shuffle (n-shuffles lst (- seed 1))))
 		; else
-		(shuffle (n-shuffles lst (- seed 1))))
+		lst)
 )
 
 (ldefun run-proc-with-stdin (proc args inp)
@@ -1557,10 +1561,27 @@ is replaced with replacement."
 )
 
 (ldefun word2vec-sim (w1 w2)
-	(let ((res (read-from-string (car (run-proc-with-stdin "/home/lane/miniconda3/bin/python3" (list "/home/lane/Code/schemas/word2vec.py" (string (strip-dot-tag w1)) (string (strip-dot-tag w2))) "")))))
-		(if (numberp res)
-			; then
-			res
-			; else
-			0.0))
-)
+(block outer
+	(if (and (listp w1) (equal (length w1) 2) (equal (car w1) 'PLUR))
+		(setf w1 (second w1)))
+	(if (and (listp w2) (equal (length w2) 2) (equal (car w2) 'PLUR))
+		(setf w2 (second w2)))
+
+	(setf w1 (strip-dot-tag w1))
+	(setf w2 (strip-dot-tag w2))
+
+	(handler-case
+		(setf w1 (string w1))
+		(error () (return-from outer 0.0)))
+	(handler-case
+		(setf w2 (string w2))
+		(error () (return-from outer 0.0)))
+
+	(setf res (read-from-string (car (run-proc-with-stdin "/home/lane/miniconda3/bin/python3" (list "/home/lane/Code/schemas/word2vec.py" w1 w2) ""))))
+
+	(if (numberp res)
+		; then
+		(return-from outer res)
+		; else
+		(return-from outer 0.0))
+))

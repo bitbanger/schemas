@@ -99,9 +99,9 @@
 )
 )
 
-(defparameter *SEED* 1)
+(defparameter *SEED* 0)
 (if (and (>= (length sb-ext:*posix-argv*) 2) (num-str? (second sb-ext:*posix-argv*)))
-	(setf *SEED* (max 1 (parse-integer (second sb-ext:*posix-argv*)))))
+	(setf *SEED* (max 0 (parse-integer (second sb-ext:*posix-argv*)))))
 
 (ldefun get-invoker (frame parse)
 (block outer
@@ -440,6 +440,8 @@
 
 	(format t "~%COMPOSITE SCHEMA:~%~%")
 
+	(loop for sent in (car story)
+		do (format t "; ~s~%" sent))
 	(print-schema composite-schema)
 
 	(format t "~%------------------~%~%~%~%")

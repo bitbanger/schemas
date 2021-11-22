@@ -1040,7 +1040,7 @@
 	)
 )
 
-(defparameter .v
+(defparameter hide.v
 	'(epi-schema ((?x hide.v ?y) ** ?e)
 		(:Roles
 			(!r1 (?x agent.n))

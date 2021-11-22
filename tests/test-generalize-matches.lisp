@@ -1400,9 +1400,9 @@
 )
 )
 
-(run-proto-match-collector)
-(new-analyze-composites)
-(setf schema-arrows (analyze-protos))
+; (run-proto-match-collector)
+; (new-analyze-composites)
+; (setf schema-arrows (analyze-protos))
 
 (ldefun get-matches (schema graph-map)
 (block outer

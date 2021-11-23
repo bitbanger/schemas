@@ -881,7 +881,7 @@ is replaced with replacement."
 	(real-beg (if (> beg (length seq)) (length seq) beg))
 	(real-end (if (> end (length seq)) (length seq) end))
 )
-	(subseq seq real-beg real-end)
+	(subseq seq (max real-beg 0) real-end)
 )
 )
 

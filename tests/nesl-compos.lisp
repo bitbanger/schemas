@@ -50617,5 +50617,17106 @@
 	)
 )
 
+; "My dad has a boat."
+; "We went fishing today."
+; "I caught two fish."
+; "One for me and one for him."
+(EPI-SCHEMA ((?X_F (CATCH.V (TWO.D FISH.N))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F AGENT.N))
+		(!R2 (?X_D BOAT.N))
+		(!R3 (?X_E DAD.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_A (?X_E HAVE.1.V ?X_D))
+		(?X_C (?X_F (CATCH.V (TWO.D FISH.N))))
+	)
+)
+
+; "Bill's father owns a boat."
+; "His family goes fishing on weekends."
+; "He wants to go fishing this weekend."
+; "Bill doesn't want to go fishing."
+(EPI-SCHEMA ((?X_J (WANT.V (KA (GO.V (KA FISH.V))))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F WEEKEND.N))
+		(!R2 (?X_G FISHING.N))
+		(!R3 (?X_O BILL.N))
+		(!R4 (?X_O AGENT.N))
+		(!R5 (?X_H FISHING.N))
+		(!R6 (?X_I (PLUR WEEKEND.N)))
+		(!R7 (?X_J FAMILY.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_O)))
+		(!R9 (?X_M BOAT.N))
+		(!R10 (?X_N FATHER.N))
+		(!R11 (?X_N (PERTAIN-TO ?X_O)))
+	)
+	(:STEPS
+		(?X_L (?X_N OWN.2.V ?X_M))
+		(?X_A (?X_J (((ADV-A (ON.P ?X_I)) GO.V) ?X_H)))
+		(?X_E (?X_O (WANT.V (KA (GO.V ?X_G ?X_F)))))
+		(?X_C (NOT (?X_O (WANT.V (KA (GO.V (KA FISH.V)))))))
+	)
+)
+
+; "Kate loves fishing."
+; "She goes fishing all the time."
+; "She fishes in lakes."
+; "She fishes in rivers."
+; "She fishes on boats."
+(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR BOAT.N)))
+		(!R2 (?X_F (PLUR RIVER.N)))
+		(!R3 (?X_I (PLUR LAKE.N)))
+		(!R4 (?X_M FISHING.N))
+		(!R5 (?X_M OBJECT.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (NOT (?X_M ACTION.N)))
+		(!R8 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_K (?X_L LOVE.3.V ?X_M))
+		(?X_H (?X_L ((ADV-A (IN.P ?X_I)) FISH.V)))
+		(?X_E (?X_L ((ADV-A (IN.P ?X_F)) FISH.V)))
+		(?X_B (?X_L ((ADV-A (ON.P ?X_C)) FISH.V)))
+	)
+)
+
+; "Tom's father owns a boat."
+; "His family goes fishing on weekends."
+; "His mother cooks dinner while they're gone."
+; "They eat lunch together after they return from fishing."
+(EPI-SCHEMA ((?X_L
+              (COMPOSITE-SCHEMA.PR ?X_H (KE (?X_L GONE.A))
+               (KE (?X_L ((ADV-A (FROM.P ?X_O)) RETURN.V))) ?X_N ?L2 ?X_Q))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_O FISHING.N))
+		(!R2 (?X_E LUNCH.N))
+		(!R3 (?X_F DINNER.N))
+		(!R4 (?X_G (PLUR COOK.N)))
+		(!R5 (?X_M MOTHER.N))
+		(!R6 (?X_H FISHING.N))
+		(!R7 (?X_I (PLUR WEEKEND.N)))
+		(!R8 (?X_L FAMILY.N))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (?X_N BOAT.N))
+		(!R11 (?X_Q FATHER.N))
+		(!R12 (?X_Q (PERTAIN-TO ?X_P)))
+		(!R13 (?X_L (PERTAIN-TO ?X_P)))
+		(!R14 (?X_M (PERTAIN-TO ?X_P)))
+		(!R15 (?X_O LOCATION.N))
+		(!R16 (?X_N AGENT.N))
+		(!R17 (NOT (?X_O = ?L2)))
+		(!R18 (?L2 DESTINATION.N))
+		(!R19 (?X_P AGENT.N))
+		(!R20 (?X_Q FOOD.N))
+	)
+	(:STEPS
+		(?X_K (?X_Q OWN.8.V ?X_N))
+		(?X_A (?X_L (((ADV-A (ON.P ?X_I)) GO.V) ?X_H)))
+		(?X_B (?X_M ?X_G ?X_F (WHILE.P (KE (?X_L GONE.A)))))
+		(?X_D
+   (?X_L (KA (TOGETHER.ADV EAT.V)) ?X_E
+    (AFTER.P (KE (?X_L ((ADV-A (FROM.P ?X_O)) RETURN.V))))))
+		(?E_1 (?X_N ((ADV-A (FROM.P ?X_O)) TRAVEL.9.V) ?L2))
+		(?E_2 (?X_P EAT.10.V ?X_Q))
+	)
+)
+
+; "Tom's father owns a boat."
+; "His family goes fishing on weekends."
+; "Tom likes to go fishing with his dad."
+; "They catch lots of fish."
+(EPI-SCHEMA ((?X_G (CATCH.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR LOT.N)))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_H FISHING.N))
+		(!R5 (?X_I (PLUR WEEKEND.N)))
+		(!R6 (?X_M FAMILY.N))
+		(!R7 (?X_L BOAT.N))
+		(!R8 (?X_N DAD.N))
+		(!R9 (?X_N (PERTAIN-TO ?X_P)))
+		(!R10 (?X_M (PERTAIN-TO ?X_P)))
+		(!R11 (?X_O FISHING.N))
+		(!R12 ((KA (((ADV-A (WITH.P ?X_N)) GO.V) ?X_O)) ACTION.N))
+		(!R13 (?X_O DESTINATION.N))
+		(!R14 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_N OWN.11.V ?X_L))
+		(?X_A (?X_M (((ADV-A (ON.P ?X_I)) GO.V) ?X_H)))
+		(?X_B (?X_P LIKE.12.V (KA (((ADV-A (WITH.P ?X_N)) GO.V) ?X_O))))
+		(?X_D (?X_G (CATCH.V ?X_E)))
+		(?E_1 (?X_P ((ADV-A (FROM.P ?L1)) GO.13.V) ?X_O))
+	)
+)
+
+; "Tom's father owned a boat."
+; "Tom went fishing on the boat."
+; "He caught some fish."
+; "He ate them."
+(EPI-SCHEMA ((?X_L (CATCH.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M FISH.N))
+		(!R2 (?X_E FISHING.N))
+		(!R3 (?X_F BOAT.N))
+		(!R4 (?X_I FATHER.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_L)))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?X_M FOOD.N))
+	)
+	(:STEPS
+		(?X_H (?X_I OWN.14.V ?X_F))
+		(?X_D (?X_L (((ADV-A (ON.P ?X_F)) GO.V) ?X_E)))
+		(?X_B (?X_L (CATCH.V ?X_M)))
+		(?X_K (?X_L EAT.15.V ?X_M))
+	)
+)
+
+; "Henry's father went fishing."
+; "His son went too."
+; "They caught lots of fish."
+; "They ate them all."
+(EPI-SCHEMA ((?X_D (CATCH.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J (PLUR LOT.N)))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_F SON.N))
+		(!R4 (?X_E AGENT.N))
+		(!R5 (?X_G FATHER.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_E)))
+		(!R7 (?X_F (PERTAIN-TO ?X_G)))
+		(!R8 (?X_K FISH.N))
+		(!R9 (?X_J (OF.P ?X_K)))
+		(!R10 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_G ((ADV-A (FROM.P ?L1)) GO.16.V) ?L2))
+		(?X_A (?X_F (TOO.ADV GO.V)))
+		(?X_C (?X_D (CATCH.V ?X_J)))
+		(?X_M (?X_D EAT.17.V (ALL.D ({OF}.P ?X_K))))
+	)
+)
+
+; "Joe has a boat."
+; "He went fishing on the lake."
+; "He caught some fish."
+; "He ate them."
+(EPI-SCHEMA ((?X_M (CATCH.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L FISH.N))
+		(!R2 (?X_E FISHING.N))
+		(!R3 (?X_F LAKE.N))
+		(!R4 (?X_I BOAT.N))
+		(!R5 (?X_L FOOD.N))
+		(!R6 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_M HAVE.18.V ?X_I))
+		(?X_D (?X_M (((ADV-A (ON.P ?X_F)) GO.V) ?X_E)))
+		(?X_B (?X_M (CATCH.V ?X_L)))
+		(?X_K (?X_M EAT.15.V ?X_L))
+	)
+)
+
+; "Tom loves fishing."
+; "He goes fishing often."
+; "He fishes from the shore."
+; "He fishes from a boat."
+; "He fishes near a lake."
+(EPI-SCHEMA ((?X_N ((ADV-A (NEAR.P ?X_C)) FISH.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C LAKE.N))
+		(!R2 (?X_F BOAT.N))
+		(!R3 (?X_I SHORE.N))
+		(!R4 (?X_O FISHING.N))
+		(!R5 (NOT (?X_O ACTION.N)))
+		(!R6 (NOT (?X_O AGENT.N)))
+		(!R7 (?X_N AGENT.N))
+		(!R8 (?X_O DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_N LOVE.19.V ?X_O))
+		(?X_M (?X_N ((ADV-A (FROM.P ?L1)) GO.6.V) ?X_O))
+		(?X_H (?X_N ((ADV-A (FROM.P ?X_I)) FISH.V)))
+		(?X_E (?X_N ((ADV-A (FROM.P ?X_F)) FISH.V)))
+		(?X_B (?X_N ((ADV-A (NEAR.P ?X_C)) FISH.V)))
+	)
+)
+
+; "I am going to see my mom tomorrow."
+; "She lives far away."
+; "I will be gone for two days."
+; "I hope everything goes well."
+(EPI-SCHEMA ((?X_E ((ADV-A (FOR.P (KA (SEE.V ?X_E)))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D ?X_C TOMORROW.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_H MOM.N))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_E ((ADV-A (FOR.P (KA (SEE.V ?X_D)))) GO.V)))
+		(?X_G (?X_H LIVE.20.V ?L))
+	)
+)
+
+; "Tom's mother lived in New York City."
+; "His dad lived in California."
+; "Tom's parents were divorced."
+(EPI-SCHEMA ((?X_C ((ADV-A (IN.P (ANOTHER.D PERSON.N))) LIVE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A DAD.N))
+		(!R2 (?X_A (PERTAIN-TO ?X_B)))
+		(!R3 (?X_C AGENT.N))
+	)
+	(:STEPS
+		(E328.SK (?X_A ((ADV-A (IN.P ?X_C)) LIVE.V)))
+	)
+)
+
+; "Nancy's mother is sick."
+; "Nancy wants to visit her mother."
+; "Nancy has to go on vacation."
+; "She'll have to leave her mother alone."
+(EPI-SCHEMA ((?X_F ((ALONE.ADV LEAVE.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E VACATION.N))
+		(!R2 (?X_G SICK.A))
+		(!R3 (?X_G MOTHER.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_F)))
+		(!R5 (?X_F AGENT.N))
+		(!R6 (?X_G DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_F (WANT.V (KA (VISIT.V ?X_G)))))
+		(?X_D (MUST.AUX-S (?X_F ((ADV-A (ON.P ?X_E)) GO.V))))
+		(?X_B (MUST.AUX-S (?X_F ((ALONE.ADV LEAVE.V) ?X_G))))
+		(?E_1 (?X_F ((ADV-A (FROM.P ?L1)) GO.13.V) ?X_G))
+	)
+)
+
+; "Tom's mother is coming to visit him."
+; "His mother is really old."
+; "His mother has gray hair."
+; "His mother is very nice."
+(EPI-SCHEMA ((?X_D ((ADV-A (FROM.P ?L2)) COME.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B GRAY.A))
+		(!R2 (?X_B HAIR.N))
+		(!R3 (?X_C (REALLY.ADV OLD.A)))
+		(!R4 (?X_C MOTHER.N))
+		(!R5 (?X_C (VERY.ADV NICE.A)))
+		(!R6 (?X_D AGENT.N))
+		(!R7 (?X_C (PERTAIN-TO ?X_D)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_C ((ADV-A (FROM.P ?L1)) COME.23.V) ?L2))
+		(?X_A (?X_C (HAVE.V ?X_B)))
+	)
+)
+
+; "Alice is going to visit her friend."
+; "Mary's friends live near Alice."
+; "Alice wants Mary to go with her."
+; "Alice has a lot of things to do before she leaves."
+(EPI-SCHEMA ((?X_M (WANT.V ?X_L (KA (VISIT.V ?X_H)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D LOT.N))
+		(!R2 (?X_D (OF.P ?X_E)))
+		(!R3 (?X_L AGENT.N))
+		(!R4 (?X_H FRIEND.N))
+		(!R5 (?X_M AGENT.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_M)))
+		(!R7 (?X_K (PLUR FRIEND.N)))
+		(!R8 (?X_K (PERTAIN-TO ?X_L)))
+		(!R9 (?X_M LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_M ((ADV-A (FOR.P (KA (VISIT.V ?X_H)))) GO.V)))
+		(?X_J (?X_K LIVE.24.V ?X_M))
+		(?X_G (?X_M (WANT.V ?X_L (KA ((ADV-A (WITH.P ?X_M)) GO.V)))))
+		(?X_C (?X_M (HAVE.V ?X_D)))
+	)
+)
+
+; "Tom's mother lived far away."
+; "She couldn't come to visit him."
+; "He would have to go there alone."
+; "He would miss his mother."
+(EPI-SCHEMA ((?X_C (MISS.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_B MOTHER.N))
+		(!R3 (?X_B (PERTAIN-TO ?X_C)))
+		(!R4 (?L LOCATION.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(E456.SK (NOT (?X_B (CAN.MD ((ADV-A (FOR.P (KA (VISIT.V ?X_C)))) COME.V)))))
+		(E458.SK (MUST.AUX-S (?X_C (THERE.ADV (ALONE.ADV GO.V)))))
+		(?X_E (?X_B LIVE.25.V ?L))
+		(?X_A (?X_C (MISS.V ?X_B)))
+		(?E_1 (?X_B ((ADV-A (FROM.P ?L1)) GO.7.V) ?L2))
+	)
+)
+
+; "Tom's mother lived in New York City."
+; "Tom went there on business."
+; "His plane landed in New York City."
+; "Tom saw lots of tall buildings."
+(EPI-SCHEMA ((?X_E ((ADV-A (TO.P ?X_A)) ((ADV-A (ON.P ?X_A)) GO.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_A BUSINESS.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_F (PLUR LOT.N)))
+		(!R5 (?X_F (OF.P ?X_G)))
+	)
+	(:STEPS
+		(?X_C (?X_E (THERE.ADV ((ADV-A (ON.P ?X_A)) GO.V))))
+		(?X_I (?X_E (SEE.V ?X_F)))
+	)
+)
+
+; "Mary and John were playing with their dog."
+; "Their dog ate some food."
+; "John yelled at Mary because she didn't clean up after the dog."
+(EPI-SCHEMA ((?X_H
+              (COMPOSITE-SCHEMA.PR
+               (K (BECAUSE.P (?X_G (NOT ((ADV-A (AFTER.P ?X_E)) CLEAN_UP.V)))))
+               ?X_I))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_E DOG.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_F AGENT.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 ((SET-OF ?X_G ?X_H) AGENT.N))
+		(!R7 (?X_I FOOD.N))
+	)
+	(:STEPS
+		(?X_A ((SET-OF ?X_G ?X_H) PLAY.1.V))
+		(?X_B (?X_E EAT.2.V ?X_I))
+		(?X_D
+   (?X_H
+    (((ADV-A (AT.P ?X_G)) YELL.V)
+     (K (BECAUSE.P (?X_G (NOT ((ADV-A (AFTER.P ?X_E)) CLEAN_UP.V))))))))
+	)
+)
+
+; "Bill's dog liked to play."
+; "His dog chased squirrels."
+; "His dog jumped on Bill."
+; "His dog bit Bill."
+(EPI-SCHEMA ((?X_G ((ADV-A (WITH.P ?X_G)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR SQUIRREL.N)))
+		(!R2 (?X_F DOG.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 ((KA PLAY.V) ACTION.N))
+		(!R6 (?X_G DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_F LIKE.3.V (KA PLAY.V)))
+		(?E_1 (?X_F PLAY.4.V))
+		(?X_A (?X_F CHASE.5.V ?X_E))
+		(?X_B (?X_F ((ADV-A (FROM.P ?L1)) JUMP.6.V) ?X_G))
+	)
+)
+
+; "A dog is an animal that has four legs."
+; "Dogs can bark."
+; "A dog's tail wags when it is happy."
+; "A dog barks at strangers."
+; "A dog does not eat meat."
+(EPI-SCHEMA ((?X_C ((ADV-A (AT.P ?X_M)) BARK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR DOG.N)))
+		(!R2 (?X_D DOG.N))
+		(!R3 (?X_E ANIMAL.N))
+		(!R4 (?X_H DOG.N))
+		(!R5 (?X_I TAIL.A))
+		(!R6 (?X_I (PLUR WAG.N)))
+		(!R7 (?X_L DOG.N))
+		(!R8 (?X_M (PLUR STRANGER.N)))
+		(!R9 (?X_P DOG.N))
+		(!R10 (?X_Q MEAT.N))
+		(!R11 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_G (?X_D (= ?X_E)))
+		(?X_B (?X_C BARK.8.V ?N))
+		(?X_K (?X_H (= ?X_I)))
+		(?X_O (?X_L ((ADV-A (AT.P ?X_M)) BARK.V)))
+		(?X_S (NOT (?X_P (EAT.V ?X_Q))))
+	)
+)
+
+; "Jim likes cats."
+; "His cat has fleas."
+; "He wants to get rid of them."
+; "He uses an insecticide spray."
+(EPI-SCHEMA ((?X_M (WANT.V (KA (GET.V (L X (AND (X RID.A) (X (OF.P ?X_I))))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_F INSECTICIDE.A))
+		(!R2 (?X_F SPRAY.N))
+		(!R3 (?X_I (PLUR FLEA.N)))
+		(!R4 (?X_J CAT.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_M)))
+		(!R6 (?X_N (PLUR CAT.N)))
+		(!R7 (?X_M AGENT.N))
+		(!R8 (NOT (?X_N ACTION.N)))
+	)
+	(:STEPS
+		(?X_L (?X_M LIKE.9.V ?X_N))
+		(?X_C (?X_J (HAVE.V ?X_I)))
+		(?X_H (?X_M (WANT.V (KA (GET.V (L X (AND (X RID.A) (X (OF.P ?X_B)))))))))
+		(?X_E (?X_M (USE.V ?X_F)))
+	)
+)
+
+; "Molly loves to play with balls."
+; "She has lots of balls."
+; "She plays catch with them."
+; "When she throws the ball, she hits the ground."
+(EPI-SCHEMA ((?X_K ((ADV-A (WITH.P ?X_I)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I (PLUR BALL.N)))
+		(!R2 (?X_E (PLUR BALL.N)))
+		(!R3 (?X_J (PLUR LOT.N)))
+		(!R4 (?X_J (OF.P ?X_E)))
+		(!R5 (?X_H CATCH.N))
+		(!R6 ((KA ((ADV-A (WITH.P ?X_I)) PLAY.V)) ACTION.N))
+		(!R7 (?X_J OBJECT.N))
+		(!R8 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_K LOVE.10.V (KA ((ADV-A (WITH.P ?X_I)) PLAY.V))))
+		(?X_D (?X_K HAVE.11.V ?X_J))
+		(?X_G (?X_K PLAY.12.V))
+	)
+)
+
+; "Lisa's dog ate some food."
+; "She cleaned up the mess."
+; "She put away the trash."
+(EPI-SCHEMA ((?X_K (CLEAN_UP.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MESS.N))
+		(!R2 (?X_H DOG.N))
+		(!R3 (?X_H (PERTAIN-TO ?X_K)))
+		(!R4 (?X_I TRASH.N))
+		(!R5 (?X_J FOOD.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_H EAT.2.V ?X_J))
+		(?X_B (?X_K (CLEAN_UP.V ?X_C)))
+		(?X_G (?X_K PUT_AWAY.13.V ?X_I ?L))
+	)
+)
+
+; "The dog ran away from its owner."
+; "The owner chased the dog."
+; "The dog bit the owner."
+; "The owner threw rocks at the dog."
+; "The dog was scared."
+; "The owner caught the dog."
+(EPI-SCHEMA ((?X_G (BY.P ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR ROCK.N)))
+		(!R2 (?X_G SCARED.A))
+		(!R3 (?X_G DOG.N))
+		(!R4 (?X_J OWNER.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_G)))
+		(!R6 (?X_J LOCATION.N))
+		(!R7 (NOT (?X_J = ?L2)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_G ((ADV-A (FROM.P ?X_J)) RUN.14.V) ?L2))
+		(?X_I (?X_J CHASE.15.V ?X_G))
+		(?X_E (?X_J (((ADV-A (AT.P ?X_G)) THROW.V) ?X_F)))
+		(?X_C (?X_J (CATCH.V ?X_G)))
+	)
+)
+
+; "A dog is an animal that has fur."
+; "Dogs have four legs."
+; "A dog's name is usually Dog."
+; "Most dogs live in homes."
+(EPI-SCHEMA ((?X_C ((ADV-A (WITH.P ?X_I)) LIVE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR DOG.N)))
+		(!R2 (?X_I ANIMAL.N))
+		(!R3 (?X_F DOG.N))
+		(!R4 (?X_I LOCATION.N))
+		(!R5 ((MOST.D (PLUR DOG.N)) AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_F (= ?X_I)))
+		(?X_B (?X_C (HAVE.V (FOUR.D (PLUR LEG.N)))))
+		(?X_H ((MOST.D (PLUR DOG.N)) LIVE.16.V ?X_I))
+	)
+)
+
+; "We were looking for our cat."
+; "We couldn't find her."
+; "Then we found her under the couch."
+; "She was sleeping."
+(EPI-SCHEMA ((?X_H (((ADV-A (UNDER.P ?X_F)) FIND.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F COUCH.N))
+		(!R2 (?X_G CAT.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_H)))
+		(!R4 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(E282.SK (NOT (?X_H ((CAN.MD FIND.V) ?X_G))))
+		(?X_A (?X_H ((ADV-A (FOR.P ?X_G)) LOOK.21.V)))
+		(?X_E (?X_H (((ADV-A (UNDER.P ?X_F)) (THEN.ADV FIND.V)) ?X_G)))
+		(?X_C (?X_G SLEEP.V))
+	)
+)
+
+; "Tommy was cleaning his house."
+; "He looked under the couch."
+; "There was a cat there."
+; "He picked up the cat."
+; "He put him on the floor."
+(EPI-SCHEMA ((?X_K (CLEAN.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D CAT.N))
+		(!R2 (?X_G COUCH.N))
+		(!R3 (?X_J HOUSE.N))
+		(!R4 (?X_J (PERTAIN-TO ?X_K)))
+		(!R5 (?X_L FLOOR.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_K CLEAN.22.V ?X_J))
+		(?X_F (?X_K ((ADV-A (UNDER.P ?X_G)) LOOK.V)))
+		(?X_C (?X_K (PICK_UP.V ?X_D)))
+		(?X_I (?X_K PUT.23.V ?X_D ?X_L))
+	)
+)
+
+; "'I have a cat,' said Tom."
+; "'What's your name?' asked Bob."
+; "'Felix,' answered Tom."
+; "'That's a funny name,' said Bob."
+; "'Why is that funny?' asked Tom."
+; "'Because I'm named after Felix Unger,' said Bob."
+; "'Who's that?' asked Tom."
+; "'A guy who lived in my neighborhood many years ago,' said Bob."
+; "'Oh,' said Tom."
+; "'So what do you think about Felix?' asked Bob."
+; "'I don't know,' said Tom"
+(EPI-SCHEMA ((?X_B (ANSWER.V ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_D (?X_B (ANSWER.V ?X_F)))
+		(?X_H (?X_A (SAY.V ?X_F)))
+	)
+)
+
+; "Tommy's cat is named Snickers."
+; "Snickers likes apples."
+; "Snickers sleeps on Tommy's bed."
+; "Snickers has fleas."
+(EPI-SCHEMA ((?X_I (LIKE.V ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR FLEA.N)))
+		(!R2 (?X_J BED.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_I CAT.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_K)))
+		(!R7 (?X_J (PERTAIN-TO ?X_K)))
+		(!R8 (?X_N (PLUR APPLE.N)))
+		(!R9 (NOT (?X_N ACTION.N)))
+		(!R10 (NOT (?X_N AGENT.N)))
+	)
+	(:STEPS
+		(?X_G (?X_I ((PASV NAME.V) ?X_H)))
+		(?X_M (?X_I LIKE.24.V ?X_N))
+		(?X_E (?X_I ((ADV-A (ON.P ?X_J)) SLEEP.V)))
+		(?X_B (?X_I (HAVE.V ?X_C)))
+	)
+)
+
+; "Tommy's cat is named Spot."
+; "Spot likes to play."
+; "Spot sleeps on Tommy's bed."
+; "Spot loves to eat."
+; "Spot has four paws."
+; "Spot eats meat."
+(EPI-SCHEMA ((?X_N ((ADV-A (IN.P ?X_M)) SLEEP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M BED.N))
+		(!R2 (?X_G SPOT.N))
+		(!R3 (?X_L CAT.N))
+		(!R4 (?X_L SPOT.N))
+		(!R5 (?X_N AGENT.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_N)))
+		(!R7 (?X_M (PERTAIN-TO ?X_N)))
+		(!R8 (?X_Q MEAT.N))
+		(!R9 ((KA PLAY.V) ACTION.N))
+		(!R10 ((KA EAT.V) ACTION.N))
+		(!R11 (?F FOOD.N))
+		(!R12 (?X_Q FOOD.N))
+	)
+	(:STEPS
+		(?X_F (?X_L ((PASV NAME.V) ?X_G)))
+		(?X_I (?X_L LIKE.25.V (KA PLAY.V)))
+		(?X_D (?X_L ((ADV-A (ON.P ?X_M)) SLEEP.V)))
+		(?X_K (?X_L LOVE.26.V (KA EAT.V)))
+		(?X_B (?X_L (HAVE.V (FOUR.D (PLUR PAW.N)))))
+		(?E_1 (?X_L EAT.19.V ?F))
+		(?X_P (?X_L EAT.2.V ?X_Q))
+	)
+)
+
+; "Alice saw a cat on the street."
+; "The cat was white."
+; "The cat was black."
+; "The cat looked lazy."
+(EPI-SCHEMA ((?X_H (SEE.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C LAZY.A))
+		(!R2 (?X_F WHITE.A))
+		(!R3 (?X_F BLACK.A))
+		(!R4 (?X_F CAT.N))
+		(!R5 (?X_G STREET.N))
+		(!R6 (?X_F (ON.P ?X_G)))
+		(!R7 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_H SEE.27.V ?X_F))
+		(?X_B (?X_F (LOOK.V ?X_C)))
+	)
+)
+
+; "Bill saw a cat on the street."
+; "He picked up the cat."
+; "He put the cat down."
+; "He left the cat alone."
+(EPI-SCHEMA ((?X_I (PICK_UP.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G CAT.N))
+		(!R2 (?X_I BILL.N))
+		(!R3 (?X_H STREET.N))
+		(!R4 (?X_G (ON.P ?X_H)))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_I SEE.28.V ?X_G))
+		(?X_B (?X_I (PICK_UP.V ?X_G)))
+		(?X_F (?X_I PUT.29.V ?X_G ?L))
+	)
+)
+
+; "I am going to have lunch with Susie today."
+; "I will tell her how much I love her."
+; "She is so beautiful."
+; "I hope we can stay friends forever."
+(EPI-SCHEMA ((?X_B (EAT.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A LUNCH.N))
+		(!R2 (?X_B AGENT.N))
+	)
+	(:STEPS
+		(E6.SK (?X_B ((ADV-A (FOR.P (KA (HAVE.V ?X_A)))) GO.V)))
+		(?E_1 (?X_B HAVE.1.V ?X_A))
+	)
+)
+
+; "Susie went to eat lunch."
+; "She ate some food."
+; "She had salad for lunch."
+; "She also had soup."
+(EPI-SCHEMA ((?X_D (EAT.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D SALAD.N))
+		(!R2 (?X_L SUSIE.N))
+		(!R3 (?X_E LUNCH.N))
+		(!R4 (?X_D (FOR.P ?X_E)))
+		(!R5 (?X_H SOUP.N))
+		(!R6 (?L2 DESTINATION.N))
+		(!R7 (?X_K FOOD.N))
+		(!R8 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_L ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
+		(?E_1 (?X_L EAT.3.V ?X_E))
+		(?X_G (?X_L EAT.4.V ?X_K))
+		(?X_C (?X_L (HAVE.V ?X_D)))
+		(?X_J (?X_L HAVE.5.V ?X_H))
+	)
+)
+
+; "Susie loves Tom."
+; "Tom loves Susie."
+; "Susie loves Tom."
+; "Tom loves Susie."
+(EPI-SCHEMA ((?X_K (LOVE.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E SUSIE.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_J SUSIE.N))
+		(!R4 (?X_K OBJECT.N))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (NOT (?X_K ACTION.N)))
+		(!R7 (?X_L OBJECT.N))
+		(!R8 (NOT (?X_L ACTION.N)))
+	)
+	(:STEPS
+		(?X_D (?X_E (LOVE.V ?X_K)))
+		(?X_B (?X_K (LOVE.V ?X_E)))
+		(?X_G (?X_J LOVE.6.V ?X_K))
+		(?X_I (?X_K LOVE.7.V ?X_L))
+	)
+)
+
+; "Tom saw Susie on the street."
+; "He waved at her."
+; "She smiled back at him."
+; "Tom felt happy."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_C ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HAPPY.A))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_K SEE.8.V ?X_H))
+		(?X_G (?X_K ((ADV-A (AT.P ?X_H)) WAVE.V)))
+		(?X_E (?X_H (BACK.ADV ((ADV-A (AT.P ?X_K)) SMILE.V))))
+		(?X_B (?X_K (FEEL.V ?X_C)))
+	)
+)
+
+; "Susie liked eating lunch."
+; "Today she would eat sandwiches."
+; "She would make them for herself."
+; "She would cut bread into slices."
+; "She would put cheese on top of each slice."
+; "She would spread mayonnaise on each piece."
+; "Then she would put lettuce on top of that."
+; "She would take a knife and cut tomatoes and cucumbers."
+; "She would add salt and pepper to taste."
+; "She would put mustard on top of each sandwich."
+; "She would then wrap it all up in paper."
+(EPI-SCHEMA ((?X_Q (((ADV-A (DURING.P ?X_M)) EAT.V) ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C PAPER.N))
+		(!R2 (?X_D MUSTARD.N))
+		(!R3 (?X_E TASTE.N))
+		(!R4 (?X_F LETTUCE.N))
+		(!R5 (?X_G {REF}.N))
+		(!R6 (?X_H MAYONNAISE.N))
+		(!R7 (?X_I CHEESE.N))
+		(!R8 (?X_J BREAD.N))
+		(!R9 (?X_K (PLUR SLICE.N)))
+		(!R10 (?X_L (PLUR SANDWICH.N)))
+		(!R11 (?X_M TODAY.N))
+		(!R12 (?X_P LUNCH.N))
+		(!R13 ((KA (EAT.V ?X_P)) ACTION.N))
+		(!R14 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(E127.SK ((ADV-E ({DURING}.P ?X_M)) (?X_Q (EAT.V ?X_L))))
+		(E129.SK (?X_Q (((ADV-A (FOR.P ?X_Q)) MAKE.V) ?X_L)))
+		(E131.SK (?X_Q (((ADV-A (INTO.P ?X_K)) CUT.V) ?X_J)))
+		(E133.SK (?X_Q (((ADV-A (ON_TOP_OF.P (EACH.D SLICE.N))) PUT.V) ?X_I)))
+		(E135.SK (?X_Q (((ADV-A (ON.P (EACH.D PIECE.N))) SPREAD.V) ?X_H)))
+		(E137.SK (?X_Q ((THEN.ADV ((ADV-A (ON_TOP_OF.P ?X_G)) PUT.V)) ?X_F)))
+		(E139.SK (?X_Q (((ADV-A (TO.P ?X_E)) ADD.V) ?X_A)))
+		(E141.SK (?X_Q (((ADV-A (ON_TOP_OF.P (EACH.D SANDWICH.N))) PUT.V) ?X_D)))
+		(E143.SK
+   (?X_Q ((THEN.ADV ((ADV-A (IN.P ?X_C)) WRAP_UP.V)) (ALL.D ({OF}.P ?X_B)))))
+		(?X_O (?X_Q LIKE.9.V (KA (EAT.V ?X_P))))
+		(?E_1 (?X_Q EAT.3.V ?X_P))
+	)
+)
+
+; "Susie loves flowers."
+; "She has many kinds of plants."
+; "She wants to be married someday."
+(EPI-SCHEMA ((?X_G (WANT.V (KA (SOMEDAY.ADV MARRY.V) ?X_G))) ** ?E)
+	(:ROLES
+		(!R1 (?X_K SUSIE.N))
+		(!R2 (?X_I (PLUR FLOWER.N)))
+		(!R3 (?X_G (PLUR PLANT.N)))
+		(!R4 (?X_H MANY.A))
+		(!R5 (?X_J (OF.P ?X_G)))
+		(!R6 (?X_J ?X_H (PLUR KIND.N)))
+		(!R7 (NOT (?X_I ACTION.N)))
+		(!R8 (NOT (?X_I AGENT.N)))
+		(!R9 (?X_J OBJECT.N))
+		(!R10 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_K LOVE.10.V ?X_I))
+		(?X_F (?X_K HAVE.11.V ?X_J))
+		(?X_B (?X_K (WANT.V (KA (SOMEDAY.ADV (PASV MARRY.V))))))
+	)
+)
+
+; "Susie's boyfriend came over for dinner."
+; "He ate too much food."
+; "He talked a lot."
+; "Susie's mom said she liked him."
+(EPI-SCHEMA ((?X_I ((ADV (TOO.ADV MUCH.A)) TALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I AGENT.N))
+		(!R2 (?X_C MOM.N))
+		(!R3 (?X_C (PERTAIN-TO ?X_I)))
+		(!R4 (?X_M DINNER.N))
+		(!R5 (?X_H BOYFRIEND.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_I)))
+		(!R7 (?X_L (TOO.ADV MUCH.A)))
+		(!R8 (?X_L FOOD.N))
+		(!R9 (?X_M OBJECT.N))
+		(!R10 (NOT (?X_M ACTION.N)))
+		(!R11 (NOT (?X_M AGENT.N)))
+		(!R12 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_H ((ADV-A (FOR.P ?X_M)) COME_OVER.V)))
+		(?X_K (?X_H EAT.4.V ?X_L))
+		(?X_E (?X_H (A_LOT.ADV TALK.V)))
+		(?X_B (?X_C (SAY.V (THT (?X_I (LIKE.V ?X_H))))))
+		(?E_1 (?X LIKE.12.V ?X_M))
+	)
+)
+
+; "Dylan and his friend walked into the woods."
+; "They heard a noise."
+; "Then they saw something."
+; "Something big."
+; "Something scary."
+(EPI-SCHEMA ((?X_I (HEAR.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR WOOD.N)))
+		(!R2 (?X_D NOISE.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_G THING.N))
+		(!R5 (?X_J FRIEND.N))
+		(!R6 (?X_J (PERTAIN-TO ?X_I)))
+		(!R7 (?X_H DESTINATION.N))
+		(!R8 ((SET-OF ?X_I ?X_J) AGENT.N))
+	)
+	(:STEPS
+		(?X_A ((SET-OF ?X_I ?X_J) ((ADV-A (FROM.P ?L1)) WALK.13.V) ?X_H))
+		(?X_C (?X_J HEAR.14.V ?X_D))
+		(?X_F (?X_J SEE.15.V ?X_G))
+	)
+)
+
+; "The boy and his friends were walking through the woods."
+; "They heard a noise."
+; "They looked around."
+; "They saw something."
+; "They saw a bear."
+; "They ran away from the bear."
+(EPI-SCHEMA ((?X_O (COMPOSITE-SCHEMA.PR ?X_F ?X_I ?X_P ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_O (PLUR FRIEND.N)))
+		(!R2 (?X_F NOISE.N))
+		(!R3 (?X_I THING.N))
+		(!R4 (?X_N BOY.N))
+		(!R5 (?X_O (PERTAIN-TO ?X_N)))
+		(!R6 (?X_P BEAR.N))
+		(!R7 ((SET-OF ?X_N ?X_O) AGENT.N))
+		(!R8 (?X_P LOCATION.N))
+		(!R9 (NOT (?X_P = ?L2)))
+		(!R10 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A ((SET-OF ?X_N ?X_O) ((ADV-A (FROM.P ?L1)) WALK.16.V) ?L2))
+		(?X_E (?X_O HEAR.17.V ?X_F))
+		(?X_C (?X_O (AROUND.ADV LOOK.V)))
+		(?X_H (?X_O SEE.18.V ?X_I))
+		(?X_K (?X_O SEE.19.V ?X_P))
+		(?X_M (?X_O ((ADV-A (FROM.P ?X_P)) RUN.20.V) ?L2))
+	)
+)
+
+; "Dylan's friends were walking through the woods."
+; "They heard a sound."
+; "They saw something."
+; "It scared them."
+; "They ran away."
+(EPI-SCHEMA ((?X_J (HEAR.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M (PLUR FRIEND.N)))
+		(!R2 (?X_C SOUND.N))
+		(!R3 (?X_C THING.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_M (PERTAIN-TO ?X_J)))
+		(!R6 (?X_M LOCATION.N))
+		(!R7 (NOT (?X_M = ?L2)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_M ((ADV-A (FROM.P ?L1)) WALK.22.V) ?L2))
+		(?X_G (?X_M HEAR.23.V ?X_C))
+		(?X_I (?X_M SEE.24.V ?X_C))
+		(?X_B (?X_C (SCARE.V ?X_M)))
+		(?X_L (?X_M ((ADV-A (FROM.P ?X_M)) RUN_AWAY.25.V) ?L2))
+	)
+)
+
+; "Sarah is afraid of the dark."
+; "She doesn't want to go outside alone."
+; "She's afraid of ghosts."
+; "She wants to stay inside all night."
+(EPI-SCHEMA ((?X_G (OF.P ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GHOST.N)))
+		(!R2 (?X_F DARK.N))
+		(!R3 (?X_G AFRAID.A))
+		(!R4 (?X_G AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_G (OF.P ?X_F)))
+		(?X_E (NOT (?X_G (WANT.V (KA (ALONE.ADV (OUTSIDE.ADV GO.V)))))))
+		(?X_B (?X_G (OF.P ?X_C)))
+		(?E_1 (?X_G ((ADV-A (FROM.P ?L1)) GO.26.V) ?L2))
+	)
+)
+
+; "Sarah found some mushrooms."
+; "She picked them."
+; "She cooked them on the stove."
+; "She ate them."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C STOVE.N))
+		(!R2 (?X_J (PLUR MUSHROOM.N)))
+		(!R3 (?X_J FOOD.N))
+		(!R4 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_K FIND.27.V ?X_J))
+		(?X_E (?X_K (PICK.V ?X_J)))
+		(?X_B (?X_K (((ADV-A (ON.P ?X_C)) COOK.V) ?X_J)))
+		(?X_I (?X_K EAT.4.V ?X_J))
+	)
+)
+
+; "I love you."
+; "You make me happy."
+; "You're always nice to me."
+; "Thank you for being here."
+(EPI-SCHEMA ((?X_D (LOVE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E OBJECT.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (NOT (?X_E ACTION.N)))
+		(!R4 (NOT (?X_E AGENT.N)))
+	)
+	(:STEPS
+		(?X_A (?X_D LOVE.1.V ?X_E))
+		(?X_C (?X_E (MAKE.V (KE (?X_D HAPPY.A)))))
+	)
+)
+
+; "Karen loves her cat."
+; "She plays with him all the time."
+; "She feeds him."
+; "She lets him sleep on her bed."
+; "She likes to cuddle with him."
+(EPI-SCHEMA ((?X_F (FEED.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G CAT.N))
+		(!R2 (?X_G (PERTAIN-TO ?X_F)))
+		(!R3 (?X_F AGENT.N))
+		(!R4 ((KA ((ADV-A (WITH.P ?X_G)) CUDDLE.V)) ACTION.N))
+	)
+	(:STEPS
+		(?X_A (?X_F LOVE.2.V (KA ((ADV-A (WITH.P ?X_G)) CUDDLE.V))))
+		(?X_C (?X_F (FEED.V ?X_G)))
+		(?X_E (?X_F LIKE.3.V (KA ((ADV-A (WITH.P ?X_G)) CUDDLE.V))))
+	)
+)
+
+; "Tom loved playing baseball."
+; "He had a big game."
+; "He was up to hit."
+; "He hit a long drive."
+; "He made a run and won the game."
+(EPI-SCHEMA ((?X (PLAY.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D RUN.N))
+		(!R2 (?X_G LONG.A))
+		(!R3 (?X_G DRIVE.N))
+		(!R4 (?X_L BIG.A))
+		(!R5 (?X_L GAME.N))
+		(!R6 (?X_M BASEBALL.N))
+		(!R7 (?X AGENT.N))
+		(!R8 ((KA (PLAY.V ?X_M)) ACTION.N))
+		(!R9 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?E_1 (?X PLAY.4.V))
+		(?X_A (?X_N LOVE.5.V (KA (PLAY.V ?X_M))))
+		(?X_K (?X_N (HAVE.V ?X_L)))
+		(?X_I (?X_N (UP.ADV ((ADV-A (FOR.P (KA HIT.V))) BE.V))))
+		(?X_F (?X_N (HIT.V ?X_G)))
+		(?X_B (?X_N (MAKE.V ?X_D)))
+		(?X_C (?X_N (WIN.V ?X_L)))
+	)
+)
+
+; "Tom loves baseball."
+; "He plays on the team."
+; "He likes playing baseball."
+(EPI-SCHEMA ((?X_H (PLAY.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G BASEBALL.N))
+		(!R2 (?X_I BASEBALL.N))
+		(!R3 (?X_G OBJECT.N))
+		(!R4 (NOT (?X_G ACTION.N)))
+		(!R5 (NOT (?X_G AGENT.N)))
+		(!R6 (?X_H AGENT.N))
+		(!R7 ((KA (PLAY.V ?X_I)) ACTION.N))
+		(!R8 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_H LOVE.6.V ?X_G))
+		(?X_D (?X_H PLAY.7.V))
+		(?X_F (?X_H LIKE.8.V (KA (PLAY.V ?X_I))))
+		(?E_1 (?X PLAY.4.V))
+	)
+)
+
+; "Peter loves animals."
+; "He has many pets."
+; "His dog likes to play."
+; "His cat is friendly."
+(EPI-SCHEMA ((?X_J (LIKE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I (PLUR ANIMAL.N)))
+		(!R2 (?X_F MANY.A))
+		(!R3 (?X_F (PLUR PET.N)))
+		(!R4 (?X_G CAT.N))
+		(!R5 (?X_G FRIENDLY.A))
+		(!R6 (?X_G (PERTAIN-TO ?X_J)))
+		(!R7 (?X_H DOG.N))
+		(!R8 (?X_H (PERTAIN-TO ?X_J)))
+		(!R9 (NOT (?X_I ACTION.N)))
+		(!R10 (?X_J AGENT.N))
+		(!R11 ((KA PLAY.V) ACTION.N))
+	)
+	(:STEPS
+		(?X_C (?X_J LOVE.9.V ?X_I))
+		(?X_E (?X_J HAVE.10.V ?X_F))
+		(?X_A (?X_H LIKE.11.V (KA PLAY.V)))
+		(?E_1 (?X_H PLAY.12.V))
+	)
+)
+
+; "Tom loves baseball."
+; "Tom likes to play baseball."
+; "Tom is good at baseball."
+; "Tom plays on a team."
+; "Tom's team wins most games."
+(EPI-SCHEMA ((?X (PLAY.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E TEAM.N))
+		(!R2 (?X_D BASEBALL.N))
+		(!R3 (?X_N GOOD.A))
+		(!R4 (?X_E (PERTAIN-TO ?X_N)))
+		(!R5 (?X_L BASEBALL.N))
+		(!R6 (?X_M BASEBALL.N))
+		(!R7 (NOT (?X_L ACTION.N)))
+		(!R8 (NOT (?X_L AGENT.N)))
+		(!R9 (?X_L OBJECT.N))
+		(!R10 ((KA (PLAY.V ?X_M)) ACTION.N))
+		(!R11 (?X AGENT.N))
+		(!R12 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_N LOVE.13.V ?X_L))
+		(?X_I (?X_N LIKE.14.V (KA (PLAY.V ?X_M))))
+		(?X_A (?X_N (AT.P ?X_D)))
+		(?E_1 (?X PLAY.4.V))
+		(?X_K (?X_N PLAY.15.V))
+		(?X_C (?X_E (WIN.V (MOST.D (PLUR GAME.N)))))
+	)
+)
+
+; "Tommy loves baseball."
+; "He wants to play this year."
+; "He is going to practice."
+; "He will be on the team."
+(EPI-SCHEMA ((?X_G (LOVE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B TEAM.N))
+		(!R2 (?X_H BASEBALL.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_H OBJECT.N))
+		(!R5 (NOT (?X_H ACTION.N)))
+		(!R6 (NOT (?X_H AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_G LOVE.16.V ?X_H))
+		(?X_D (?X_G ((ADV-A (FOR.P (KA PRACTICE.V))) GO.V)))
+		(?X_A (?X_G ((ADV-A (ON.P ?X_B)) BE.V)))
+	)
+)
+
+; "Tom loves Jenny."
+; "He is glad she lives next door."
+; "He likes it that they can talk."
+; "He would be sad if Jenny moved away."
+(EPI-SCHEMA ((?X_G (LOVE.V (THREE.D (PLUR PERSON.N)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_G DOOR.N))
+		(!R2 (?X_F (GLAD.A (THT (?X_H ((ADV-A (NEXT.P ?X_G)) LIVE.V))))))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_G LOCATION.N))
+		(!R5 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_F LOVE.17.V (IND (3 ?X_A))))
+		(?E_1 (?X_H RESIDE.18.V ?X_G))
+		(?X_E (?X_F LIKE.19.V (IND (3 ?X_A))))
+	)
+)
+
+; "Tommy loves to play baseball."
+; "He has a good team."
+; "His team plays well."
+; "Tommy is on first base."
+; "He's going to score."
+(EPI-SCHEMA ((?X_L (((ADV-A (WITH.P ?X_M)) PLAY.V) ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F FIRST.A))
+		(!R2 (?X_F BASE.N))
+		(!R3 (?X_K BASEBALL.N))
+		(!R4 (?X_M GOOD.A))
+		(!R5 (?X_M TEAM.N))
+		(!R6 (?X_M (PERTAIN-TO ?X_L)))
+		(!R7 ((KA (PLAY.V ?X_K)) ACTION.N))
+		(!R8 (?X AGENT.N))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (?X_M OBJECT.N))
+		(!R11 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_L LOVE.20.V (KA (PLAY.V ?X_K))))
+		(?E_1 (?X PLAY.4.V))
+		(?X_J (?X_L HAVE.21.V ?X_M))
+		(?X_A (?X_M PLAY.22.V))
+		(?X_E (?X_L ((ADV-A (ON.P ?X_F)) BE.V)))
+		(?X_C (?X_L ((ADV-A (FOR.P (KA SCORE.N))) GO.V)))
+	)
+)
+
+; "Bobby loves his dog."
+; "His dog is good to him."
+; "His dog is friendly."
+; "He plays with his dog."
+(EPI-SCHEMA ((?X_F (LOVE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GOOD.A))
+		(!R2 (?X_E DOG.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_F)))
+		(!R4 (?X_D DOG.N))
+		(!R5 (?X_D FRIENDLY.A))
+		(!R6 (?X_D (PERTAIN-TO ?X_E)))
+		(!R7 (NOT (?X_E ACTION.N)))
+		(!R8 (?X_F AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_F LOVE.23.V ?X_E))
+		(?X_B (?X_E (TO.P ?X_F)))
+		(?X_C (?X_F PLAY.24.V))
+	)
+)
+
+; "The boy gave the girl a ring."
+; "The girl wore the ring all the time."
+; "The girl was happy."
+; "She smiled often."
+(EPI-SCHEMA ((?X_E (GIVE.V ?X_E ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A BOY.N))
+		(!R2 (?X_B RING.N))
+		(!R3 (?X_E GIRL.N))
+		(!R4 (?X_E HAPPY.A))
+	)
+	(:STEPS
+		(?X_D (?X_A (GIVE.V ?X_E ?X_B)))
+		(?X_G (?X_E (OFTEN.ADV SMILE.V)))
+	)
+)
+
+; "A dog bit a cat."
+; "The cat ran away."
+; "The owner chased after the cat."
+; "The cat hid under a table."
+; "The owner did not see it."
+(EPI-SCHEMA ((?X_K ((ADV-A (FROM.P ?X_K)) (AWAY.ADV RUN.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C TABLE.N))
+		(!R2 (?X_D CAT.N))
+		(!R3 (?X_K OWNER.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_D ((ADV-A (FROM.P ?L1)) RUN_AWAY.25.V) ?L2))
+		(?X_H (?X_K CHASE.26.V ?X_D))
+		(?X_B (?X_D ((ADV-A (UNDER.P ?X_C)) HIDE.V)))
+		(?X_J (?X_K SEE.27.V ?X_D))
+	)
+)
+
+; "The cat jumped on the table."
+; "The owner saw him."
+; "The owner chased after the cat."
+; "The cat ran away."
+(EPI-SCHEMA ((?X_H ((ADV-A (FROM.P ?L2)) JUMP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G TABLE.N))
+		(!R2 (?X_H OWNER.N))
+		(!R3 (?X_K CAT.N))
+		(!R4 (?X_K LOCATION.N))
+		(!R5 (NOT (?X_K = ?L2)))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_K ((ADV-A (FROM.P ?L1)) JUMP.28.V) ?L2))
+		(?X_D (?X_H SEE.29.V ?X_K))
+		(?X_F (?X_H CHASE.30.V ?X_G))
+		(?X_J (?X_K ((ADV-A (FROM.P ?X_K)) RUN_AWAY.31.V) ?L2))
+	)
+)
+
+; "Joe's cat scratched him."
+; "His mother yelled at Joe."
+; "He put on his coat."
+; "His mother said that she would be back soon."
+(EPI-SCHEMA ((?X_G ((ADV-A (ON.P ?X_F)) PUT.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E MOTHER.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_C (PERTAIN-TO ?X_G)))
+		(!R4 (?X_D (PERTAIN-TO ?X_G)))
+		(!R5 (?X_E (PERTAIN-TO ?X_G)))
+		(!R6 (?X_F COAT.N))
+		(!R7 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_A (?X_E ((ADV-A (AT.P ?X_G)) YELL.V)))
+		(?X_B (?X_G ((ADV-A (ON.P ?X_F)) PUT.V)))
+	)
+)
+
+; "Tom's cat ate some food."
+; "Tom put the food on top of the refrigerator."
+; "The cat could reach the food easily."
+; "Tom fed the cat."
+(EPI-SCHEMA ((?X_I (FEED.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CAT.N))
+		(!R2 (?X_C (PERTAIN-TO ?X_I)))
+		(!R3 (?X_H FOOD.N))
+		(!R4 (?X_I AGENT.N))
+		(!R5 (?L LOCATION.N))
+	)
+	(:STEPS
+		(E434.SK (?X_C ((CAN.MD (EASILY.ADV REACH.V)) ?X_H)))
+		(?X_E (?X_C EAT.32.V ?X_H))
+		(?X_G (?X_I PUT.33.V ?X_H ?L))
+		(?X_B (?X_I (FED.V ?X_C)))
+	)
+)
+
+; "Mary's cat is called Spot."
+; "Spot likes to play."
+; "Spot has spots on its face."
+; "Spot has spots all over its body."
+(EPI-SCHEMA ((?X_H (HAVE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR SPOT.N)))
+		(!R2 (?X_G SPOT.A))
+		(!R3 (?X_G CAT.N))
+		(!R4 (?X_G SPOT.N))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_H)))
+		(!R7 ((KA PLAY.V) ACTION.N))
+	)
+	(:STEPS
+		(?X_J (?X_G LIKE.34.V (KA PLAY.V)))
+		(?X_F (?X_A (HAVE.V ?X_A)))
+		(?X_C (?X_G (HAVE.V ?X_D)))
+	)
+)
+
+; "Tommy's cat is white."
+; "He likes to play with balls."
+; "His name is Tommy."
+; "He is so cute."
+; "Tommy has a collar on his neck."
+(EPI-SCHEMA ((?X_J (LIKE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F AGENT.N))
+		(!R2 (?X_G NAME.N))
+		(!R3 (?X_I (PLUR BALL.N)))
+		(!R4 (?X_H WHITE.A))
+		(!R5 (?X_H CAT.N))
+		(!R6 (?X_H (SO.ADV CUTE.A)))
+		(!R7 (?X_H (PERTAIN-TO ?X_F)))
+		(!R8 (?X_G (PERTAIN-TO ?X_H)))
+		(!R9 ((KA ((ADV-A (WITH.P ?X_I)) PLAY.V)) ACTION.N))
+		(!R10 (?X_J OBJECT.N))
+	)
+	(:STEPS
+		(?X_C (?X_H LIKE.35.V (KA ((ADV-A (WITH.P ?X_I)) PLAY.V))))
+		(?X_A (?X_G (= ?X_F)))
+		(?X_E (?X_H HAVE.36.V ?X_J))
+	)
+)
+
+; "Alice saw a cat on the street."
+; "The cat was white."
+; "She liked cats."
+(EPI-SCHEMA ((?X_G (LIKE.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D STREET.N))
+		(!R2 (?X_C CAT.N))
+		(!R3 (?X_C WHITE.A))
+		(!R4 (?X_C (ON.P ?X_D)))
+		(!R5 (?X_H (PLUR CAT.N)))
+		(!R6 (?X_G AGENT.N))
+		(!R7 (NOT (?X_H ACTION.N)))
+	)
+	(:STEPS
+		(?X_B (?X_G SEE.37.V ?X_C))
+		(?X_F (?X_G LIKE.38.V ?X_H))
+	)
+)
+
+; "Tommy's cat was sick."
+; "His eyes were yellow."
+; "Tommy called the vet."
+; "The vet gave Tommy medicine for the cat."
+(EPI-SCHEMA ((?X_H (GIVE.V ?X_H ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I VET.N))
+		(!R2 (?X_G SICK.A))
+		(!R3 (?X_G CAT.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_H)))
+		(!R5 (?X_C (PLUR EYE.N)))
+		(!R6 (?X_C YELLOW.A))
+		(!R7 (?X_C (PERTAIN-TO ?X_G)))
+		(!R8 (?X_F MEDICINE.N))
+		(!R9 (?X_F (FOR.P ?X_G)))
+		(!R10 (?X_H AGENT.N))
+		(!R11 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_H (CALL.V ?X_I)))
+		(?X_E (?X_I (GIVE.39.V ?X_H ?X_F)))
+	)
+)
+
+; "Susan was going to be married."
+; "She invited many people."
+; "They came for the wedding."
+; "Everyone enjoyed themselves."
+(EPI-SCHEMA ((?X_I (((ADV-A (TO.P ?L2)) INVITE.V) ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J MANY.A))
+		(!R2 (?X_J (PLUR PERSON.N)))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (NOT (?X_I = ?X_J)))
+		(!R5 (?A ACTION.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_I ((ADV-A (FOR.P (KA (PASV MARRY.V)))) GO.V)))
+		(?X_F (?X_I INVITE.1.V ?X_J ?A))
+		(?X_H (?X_J ((ADV-A (FROM.P ?L1)) COME.2.V) ?L2))
+		(?X_D ((EVERY.D PERSON.N) (ENJOY.V ?X_A)))
+	)
+)
+
+; "Tom's parents were getting married."
+; "There were lots of guests."
+; "Tom's sister was there."
+; "His brother-in-law was there."
+; "The bride's father was there."
+; "The groom's mother was there."
+(EPI-SCHEMA ((?X_P (TOGETHER.ADV ((ADV-A (FOR.P ?X_K)) GET.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR PARENT.N)))
+		(!R2 (?X_D (PERTAIN-TO ?X_O)))
+		(!R3 (?X_G (PLUR LOT.N)))
+		(!R4 (?X_G (OF.P ?X_H)))
+		(!R5 (?X_K SISTER.N))
+		(!R6 (?X_K (PERTAIN-TO ?X_O)))
+		(!R7 (?X_N BROTHER-IN-LAW.N))
+		(!R8 (?X_N (PERTAIN-TO ?X_O)))
+		(!R9 (?X_P FATHER.N))
+		(!R10 (?X_P (PERTAIN-TO ?X_Q)))
+	)
+	(:STEPS
+		(?X_F (?X_D (GET.V ?X_A)))
+		(?X_J (?X_B (BE.V ?X_G)))
+		(?X_M (?X_K (THERE.ADV BE.V)))
+		(?X_C (?X_N (THERE.ADV BE.V)))
+		(?X_S (?X_P (THERE.ADV BE.V)))
+	)
+)
+
+; "Tommy was getting married."
+; "His family and friends were there."
+; "His father gave him away."
+; "His mother cried."
+(EPI-SCHEMA ((?X_L (GIVE_AWAY.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H FATHER.N))
+		(!R2 (?X_D (PLUR FRIEND.N)))
+		(!R3 (?X_G FAMILY.N))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_L)))
+		(!R6 (?X_H (PERTAIN-TO ?X_L)))
+		(!R7 (?X_K MOTHER.N))
+		(!R8 (?X_K (PERTAIN-TO ?X_L)))
+	)
+	(:STEPS
+		(?X_F (?X_L (GET.V ?X_A)))
+		(?X_B ((SET-OF ?X_G ?X_D) (THERE.ADV BE.V)))
+		(?X_C (?X_H ((AWAY.ADV GIVE.V) ?X_L)))
+		(?X_J (?X_K CRY.3.V))
+	)
+)
+
+; "Sarah's parents were getting married."
+; "They were having a party."
+; "There were lots of good food."
+; "Lots of people came."
+(EPI-SCHEMA ((?X_N ((ADV-A (TO.P ?X_I)) COME.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR LOT.N)))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_I PARTY.N))
+		(!R4 (?X_L (PLUR PARENT.N)))
+		(!R5 (?X_L (PERTAIN-TO ?X_M)))
+		(!R6 (?X_N (PLUR PERSON.N)))
+		(!R7 (?X_Q (PLUR LOT.N)))
+		(!R8 (?X_Q (OF.P ?X_N)))
+		(!R9 (?X_Q AGENT.N))
+		(!R10 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_L (GET.V ?X_A)))
+		(?X_H (?X_L (HAVE.V ?X_I)))
+		(?X_D (?X_B (BE.V ?X_E)))
+		(?X_P (?X_Q ((ADV-A (FROM.P ?L1)) COME.2.V) ?L2))
+	)
+)
+
+; "Alice was getting married."
+; "She called a lot of friends."
+; "She invited them all to the wedding."
+; "They were coming from far away."
+(EPI-SCHEMA ((?X_I (A_LOT.ADV CALL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E LOT.N))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_I (GET.V ?X_A)))
+		(?X_D (?X_I (CALL.V ?X_E)))
+		(?X_K (?X_I INVITE.6.V (ALL.D ({OF}.P ?X_B)) ?A))
+	)
+)
+
+; "Beth was getting married."
+; "She had a big party."
+; "She invited lots of people."
+; "There were many guests."
+(EPI-SCHEMA ((?X_M (((ADV-A (TO.P ?X_H)) INVITE.V) ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E MANY.A))
+		(!R2 (?X_E (PLUR GUEST.N)))
+		(!R3 (?X_H BIG.A))
+		(!R4 (?X_H PARTY.N))
+		(!R5 (?X_M (PLUR PERSON.N)))
+		(!R6 (?X_O (PLUR LOT.N)))
+		(!R7 (?X_O (OF.P ?X_M)))
+		(!R8 (?X_O AGENT.N))
+		(!R9 (?X_N AGENT.N))
+		(!R10 (NOT (?X_N = ?X_O)))
+		(!R11 (?A ACTION.N))
+	)
+	(:STEPS
+		(?X_J (?X_N (GET.V ?X_A)))
+		(?X_G (?X_N (HAVE.V ?X_H)))
+		(?X_L (?X_N INVITE.7.V ?X_O ?A))
+		(?X_D (?X_B (BE.V ?X_E)))
+	)
+)
+
+; "Tom and Susan were getting married."
+; "They invited lots of people."
+; "Lots of people came to the wedding."
+; "There was dancing at the reception."
+(EPI-SCHEMA ((?X_F
+              (((ADV-A (FOR.P (KA (MARRY.V ?X_F)))) INVITE.V)
+               (ANOTHER.D PERSON.N)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_F (PLUR PERSON.N)))
+		(!R3 (?X_M (PLUR LOT.N)))
+		(!R4 (?X_M (OF.P ?X_F)))
+		(!R5 (?X_G (PLUR PERSON.N)))
+		(!R6 (?X_O (PLUR LOT.N)))
+		(!R7 (?X_O (OF.P ?X_G)))
+		(!R8 (?X_N WEDDING.N))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (?X_M AGENT.N))
+		(!R11 (NOT (?X_L = ?X_M)))
+		(!R12 (?A ACTION.N))
+		(!R13 (?X_N DESTINATION.N))
+		(!R14 (?X_O AGENT.N))
+		(!R15 (?X_P AGENT.N))
+		(!R16 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B ((SET-OF ?X_C ?X_L) (GET.V (KJ (PASV MARRY.V)))))
+		(?X_E (?X_L INVITE.8.V ?X_M ?A))
+		(?X_I (?X_O ((ADV-A (FROM.P ?L1)) COME.9.V) ?X_N))
+		(?X_K (?X_P ((ADV-A (FROM.P ?L1)) DANCE.5.V) ?L2))
+	)
+)
+
+; "Tom's wife was getting married."
+; "There were lots of people there."
+; "His friends were happy for him."
+; "He got dressed and went to the wedding."
+(EPI-SCHEMA ((?X_M (GET.V ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F HAPPY.A))
+		(!R2 (?X_F (PLUR FRIEND.N)))
+		(!R3 (?X_F (PERTAIN-TO ?X_M)))
+		(!R4 (?X_I (PLUR LOT.N)))
+		(!R5 (?X_L WIFE.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_M)))
+		(!R7 (?X_N WEDDING.N))
+		(!R8 (?X_M AGENT.N))
+		(!R9 (?X_N DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_L (GET.V ?X_A)))
+		(?X_H (?X_B (BE.V ?X_I)))
+		(?X_C (?X_F (FOR.P ?X_M)))
+		(?X_D (?X_M (GET.V (KJ DRESSED.A))))
+		(?X_E (?X_M ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_N))
+	)
+)
+
+; "Mary went to a wedding."
+; "There were lots of things there."
+; "Everyone was happy."
+; "Everyone danced."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_J)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LOT.N)))
+		(!R2 (?X_J WEDDING.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_J DESTINATION.N))
+		(!R5 ((EVERY.D PERSON.N) AGENT.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_I ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_J))
+		(?X_C (?X_A (BE.V ?X_D)))
+		(?X_H ((EVERY.D PERSON.N) ((ADV-A (FROM.P ?L1)) DANCE.11.V) ?L2))
+	)
+)
+
+; "Mary was walking down the street."
+; "She saw a man get hit by a bus."
+; "She thought about what happened."
+; "Then she walked on."
+(EPI-SCHEMA ((?X_L
+              (COMPOSITE-SCHEMA.PR (KA ((ADV-A (ABOUT.P ?X_B)) HAPPEN.V))
+               (KE
+                (?X_K
+                 (GET.V (L X (AND (X (PASV HIT.V)) (X (BY.P (A.D BUS.N))))))))
+               ?L2))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_K MAN.N))
+		(!R2 (?X_L AGENT.N))
+		(!R3 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_L ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_H
+   (?X_L SEE.13.V
+    (KE (?X_K (GET.V (L X (AND (X (PASV HIT.V)) (X (BY.P (A.D BUS.N))))))))))
+		(?X_D (?X_L (THINK.V (KA ((ADV-A (ABOUT.P ?X_B)) HAPPEN.V)))))
+		(?X_J (?X_L ((ADV-A (FROM.P ?L1)) WALK_ON.14.V) ?L2))
+	)
+)
+
+; "Mary saw a man get hit by a car."
+; "He was bleeding."
+; "She felt sorry for him."
+; "She could have helped him."
+(EPI-SCHEMA ((?X_L
+              (GET.V (K (L X (AND (X (PASV HIT.V)) (X (BY.P (A.D CAR.N))))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_B (IMPINGES-ON ?X_C)))
+		(!R2 (?X_H SORRY.A))
+		(!R3 (?X_H (FOR.P ?X_K)))
+		(!R4 (?X_K MAN.N))
+		(!R5 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_L ((CAN.MD HAVE.V) (KA (HELP.V ?X_K)))))
+		(?X_J
+   (?X_L SEE.15.V
+    (KE (?X_K (GET.V (L X (AND (X (PASV HIT.V)) (X (BY.P (A.D CAR.N))))))))))
+		(?X_G (?X_K BLEED.V))
+		(?X_E (?X_L (FEEL.V ?X_H)))
+	)
+)
+
+; "Mary was taking a walk."
+; "A car ran into a tree."
+; "She heard an awful noise."
+; "She looked around."
+; "She saw a lot of people running."
+(EPI-SCHEMA ((?X_P (((ADV-A (FROM.P ?L2)) TAKE.V) ?X_Q)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F TREE.N))
+		(!R2 (?X_G CAR.N))
+		(!R3 (?X_Q WALK.N))
+		(!R4 (?X_L AWFUL.A))
+		(!R5 (?X_L NOISE.N))
+		(!R6 (?X_O LOT.N))
+		(!R7 (?X_P (PLUR PERSON.N)))
+		(!R8 (?X_O (OF.P ?X_P)))
+		(!R9 (?X_Q DESTINATION.N))
+		(!R10 (?X_R AGENT.N))
+		(!R11 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_R ((ADV-A (FROM.P ?L1)) TAKE.16.V) ?X_Q))
+		(?X_E (?X_G ((ADV-A (INTO.P ?X_F)) RUN.V)))
+		(?X_K (?X_R HEAR.17.V ?X_L))
+		(?X_C (?X_R (AROUND.ADV LOOK.V)))
+		(?X_N (?X_R SEE.18.V ?X_O))
+		(?X_A (?X_P ((ADV-A (FROM.P ?L1)) RUN.19.V) ?L2))
+	)
+)
+
+; "Mary was walking down the street."
+; "A car ran into a parked car."
+; "Mary heard someone yell."
+; "Someone called 911."
+; "Mary looked around for help."
+; "She saw a policeman."
+(EPI-SCHEMA ((?X_G ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HELP.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_G PERSON.N))
+		(!R4 (?X_J CAR.N))
+		(!R5 (?X_K CAR.N))
+		(!R6 (?X_R POLICEMAN.N))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?X_S PERSON.N))
+		(!R9 (?N NOISE.N))
+		(!R10 (?X_T AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_T ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_I (?X_K ((ADV-A (INTO.P ?X_J)) RUN.V)))
+		(?X_O (?X_T HEAR.20.V (KE (?X_S YELL.V))))
+		(?X_E (?X_G (CALL.V ?X_F)))
+		(?X_B (?X_T ((ADV-A (FOR.P ?X_C)) LOOK_AROUND.V)))
+		(?E_1 (?X_S MAKE_NOISE.21.V ?N))
+		(?X_Q (?X_T SEE.22.V ?X_R))
+	)
+)
+
+; "Bill walked along the road."
+; "A car ran into him."
+; "He fell over."
+; "His leg hurt."
+(EPI-SCHEMA ((?X_H ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G LEG.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_H)))
+		(!R4 (?X_I CAR.N))
+		(!R5 (?X_L BILL.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_G HURT.V))
+		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_F (?X_I ((ADV-A (INTO.P ?X_H)) RUN.V)))
+		(?X_D (?X_H FALL_OVER.V))
+	)
+)
+
+; "A man was walking along the road."
+; "He saw a woman."
+; "He stopped her."
+; "\"Why did you stop me?\" she asked."
+(EPI-SCHEMA ((?X_C (STOP.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FEMALE.A))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_F WOMAN.N))
+		(!R4 (?X_G MAN.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_G ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_K (?X_G SEE.24.V ?X_F))
+		(?X_E (?X_G (STOP.V ?X_F)))
+		(?X_B (?X_C ASK.V))
+	)
+)
+
+; "'Mary walked down the street."
+; "A car ran into a tree."
+; "A woman broke her leg."
+; "Mary helped the woman."
+; "Mary gave the woman some money for food."
+(EPI-SCHEMA ((?X_O (HELP.V ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D LEG.N))
+		(!R2 (?X_E WOMAN.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_H TREE.N))
+		(!R5 (?X_I CAR.N))
+		(!R6 (?X_N FOOD.N))
+		(!R7 (?X_P MONEY.N))
+		(!R8 (?X_P (FOR.P ?X_N)))
+		(!R9 (?L2 DESTINATION.N))
+		(!R10 (?X_O AGENT.N))
+		(!R11 (NOT (?X_P AGENT.N)))
+	)
+	(:STEPS
+		(?X_K (?X_O ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_G (?X_I ((ADV-A (INTO.P ?X_H)) RUN.V)))
+		(?X_A (?X_E (BREAK.V ?X_D)))
+		(?X_C (?X_O (HELP.V ?X_E)))
+		(?X_M (?X_O (GIVE.25.V ?X_E ?X_P)))
+	)
+)
+
+; "Mary walked along the sidewalk."
+; "A car ran into Mary."
+; "The driver was hurt."
+; "Mary helped him."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DRIVER.N))
+		(!R2 (?X_F CAR.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_E (?X_F ((ADV-A (INTO.P ?X_I)) RUN.V)))
+		(?X_B (?X_I (HELP.V ?X_C)))
+	)
+)
+
+; "Beth took a dog home."
+; "She cleaned him up."
+; "She put food in his bowl."
+; "She let him sleep on the bed."
+; "She watched TV with him."
+(EPI-SCHEMA ((?X_F (TAKE.V ?X_P)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F AGENT.N))
+		(!R2 (?X_I BED.N))
+		(!R3 (?X_J FOOD.N))
+		(!R4 (?X_K FEMALE.A))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?X_P DOG.N))
+		(!R7 (?X_P BOWL.N))
+		(!R8 (?X_N MALE.A))
+		(!R9 (?X_N AGENT.N))
+		(!R10 (?X_P (PERTAIN-TO ?X_N)))
+		(!R11 (?X_O HOME.N))
+		(!R12 (?X_O (PERTAIN-TO ?X_Q)))
+		(!R13 (?X_O DESTINATION.N))
+		(!R14 (?X_P SMALLER-THAN.N ?X_Q))
+		(!R15 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_Q TAKE.1.V ?X_P ?X_O))
+		(?X_M (?X_Q (CLEAN_UP.V ?X_P)))
+		(?X_C (?X_K (((ADV-A (IN.P ?X_P)) PUT.V) ?X_J)))
+		(?X_H (?X_K (LET.V (KE (?X_A ((ADV-A (ON.P ?X_I)) SLEEP.V))))))
+		(?X_E (?X_K (((ADV-A (WITH.P ?X_A)) WATCH.V) ?X_F)))
+	)
+)
+
+; "Beth's dog is a small dog."
+; "His name is Spot."
+; "Spot likes to play."
+; "Spot has a collar on him."
+(EPI-SCHEMA ((?X_G (HAVE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H COLLAR.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_G SMALL.A))
+		(!R4 (?X_G DOG.N))
+		(!R5 (?X_G SPOT.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_E)))
+		(!R7 (?X_H (ON.P ?X_G)))
+		(!R8 (?X_F NAME.N))
+		(!R9 (?X_F SPOT.A))
+		(!R10 (?X_F (PERTAIN-TO ?X_G)))
+		(!R11 ((KA PLAY.V) ACTION.N))
+		(!R12 (NOT (?X_H AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_G LIKE.2.V (KA PLAY.V)))
+		(?X_D (?X_G HAVE.3.V ?X_H))
+	)
+)
+
+; "Beth's mother said that Beth could have any pet she wanted."
+; "Beth chose a dog."
+; "She called him Spot."
+; "Spot lived in the house."
+; "Beth fed him food."
+; "Spot liked to play with toys."
+(EPI-SCHEMA ((?X_T (CALL.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I DOG.N))
+		(!R2 (?X_I SPOT.N))
+		(!R3 (?X_S HOUSE.N))
+		(!R4 (?X_N MOTHER.N))
+		(!R5 (?X_N (PERTAIN-TO ?X_T)))
+		(!R6 (?X_U FOOD.N))
+		(!R7 (?X_V (PLUR TOY.N)))
+		(!R8 (?X_S LOCATION.N))
+		(!R9 (?X_T AGENT.N))
+		(!R10 (NOT (?X_U AGENT.N)))
+		(!R11 ((KA ((ADV-A (WITH.P ?X_V)) PLAY.V)) ACTION.N))
+	)
+	(:STEPS
+		(?X_K
+   (?X_N SAY.6.V
+    (ANY.D
+     (L X
+      (AND (X PET.N)
+           (X
+            (?X_T
+             ((?X_B ?X_D (?X_D (BEFORE ?X_C)) (WANT.V ** ?X_D)) THT.REL))))))))
+		(?X_H (?X_T (CHOOSE.V ?X_I)))
+		(?X_F (?X_T (CALL.V (KE (?X_I SPOT.A)))))
+		(?X_M (?X_I LIVE.7.V ?X_S))
+		(?X_P (?X_T (FED.8.V ?X_I ?X_U)))
+		(?X_R (?X_I LIKE.9.V (KA ((ADV-A (WITH.P ?X_V)) PLAY.V))))
+	)
+)
+
+; "Beth is good at taking care of animals."
+; "She loves animals."
+; "She has lots of pets."
+; "She wants to have a pet."
+; "She will look for a pet soon."
+(EPI-SCHEMA ((?X_P (LOVE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C PET.N))
+		(!R2 (?X_F PET.N))
+		(!R3 (?X_G CARE.N))
+		(!R4 (?X_H (PLUR ANIMAL.N)))
+		(!R5 (?X_P GOOD.A))
+		(!R6 (?X_N (PLUR ANIMAL.N)))
+		(!R7 (?X_M (PLUR PET.N)))
+		(!R8 (?X_O (PLUR LOT.N)))
+		(!R9 (?X_O (OF.P ?X_M)))
+		(!R10 (NOT (?X_N ACTION.N)))
+		(!R11 (?X_O OBJECT.N))
+		(!R12 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_P (AT.P (KA (((ADV-A (OF.P ?X_H)) TAKE.V) ?X_G)))))
+		(?X_J (?X_P LOVE.10.V ?X_N))
+		(?X_L (?X_P HAVE.11.V ?X_O))
+		(?X_E (?X_P (WANT.V (KA (HAVE.V ?X_F)))))
+		(?X_B (?X_P (SOON.ADV ((ADV-A (FOR.P ?X_C)) LOOK.V))))
+		(?E_1 (?X_P HAVE.12.V ?X_F))
+	)
+)
+
+; "Beth took a dog home."
+; "She fed him."
+; "She put him on the floor."
+; "She gave him water."
+; "She let him sleep."
+(EPI-SCHEMA ((?X_N
+              (COMPOSITE-SCHEMA.PR (KE (?X_L SLEEP.V)) ?X_K ?X_M ?X_L ?X_O))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_L DOG.N))
+		(!R2 (?X_M FLOOR.N))
+		(!R3 (?X_K HOME.N))
+		(!R4 (?X_K (PERTAIN-TO ?X_N)))
+		(!R5 (?X_O WATER.N))
+		(!R6 (?X_K DESTINATION.N))
+		(!R7 (?X_L SMALLER-THAN.N ?X_N))
+		(!R8 (?X_M LOCATION.N))
+		(!R9 (?X_N AGENT.N))
+		(!R10 (NOT (?X_O AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_N TAKE.1.V ?X_L ?X_K))
+		(?X_D (?X_N (FED.V ?X_L)))
+		(?X_H (?X_N PUT.13.V ?X_L ?X_M))
+		(?X_J (?X_N (GIVE.14.V ?X_L ?X_O)))
+		(?X_B (?X_N (LET.V (KE (?X_L SLEEP.V)))))
+	)
+)
+
+; "Beth liked to pet dogs."
+; "Dogs were friendly."
+; "Beth gave them treats."
+; "She played with them."
+; "Dogs barked."
+(EPI-SCHEMA ((?X_I ((ADV-A (WITH.P ?X_J)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR DOG.N)))
+		(!R2 (?X_C FRIENDLY.A))
+		(!R3 (?X_J PET.A))
+		(!R4 (?X_J (PLUR DOG.N)))
+		(!R5 (?X_H (PLUR DOG.N)))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (NOT (?X_J ACTION.N)))
+		(!R8 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_E (?X_I LIKE.15.V ?X_J))
+		(?X_B (?X_I ((ADV-A (WITH.P ?X_C)) PLAY.V)))
+		(?X_G (?X_H BARK.16.V ?N))
+	)
+)
+
+; "Beth's cat liked to eat meat."
+; "It ate lots of meat."
+; "It ate hamburgers."
+; "Beth fed it hamburger."
+(EPI-SCHEMA ((?X_N (EAT.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K MEAT.N))
+		(!R2 (?X_C MEAT.N))
+		(!R3 (?X_L (PLUR LOT.N)))
+		(!R4 (?X_L (OF.P ?X_C)))
+		(!R5 (?X_F (PLUR HAMBURGER.N)))
+		(!R6 (?X_M CAT.N))
+		(!R7 (?X_M (PERTAIN-TO ?X_N)))
+		(!R8 ((KA (EAT.V ?X_K)) ACTION.N))
+		(!R9 (?X_K FOOD.N))
+		(!R10 (?X_L FOOD.N))
+		(!R11 (?X_M FOOD.N))
+		(!R12 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_M LIKE.18.V (KA (EAT.V ?X_K))))
+		(?E_1 (?X_M EAT.19.V ?X_K))
+		(?X_E (?X_M EAT.20.V ?X_L))
+		(?X_H (?X_M EAT.20.V ?X_F))
+		(?X_J (?X_N FED.4.V ?X_M))
+	)
+)
+
+; "Beth looked for a puppy."
+; "She found one."
+; "She brought him inside."
+; "She gave him food."
+; "When he ate, he licked her face."
+(EPI-SCHEMA ((?X_D (FIND.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C PUPPY.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_K FACE.N))
+		(!R4 (?X_K (PERTAIN-TO ?X_M)))
+		(!R5 (?X_N FOOD.N))
+		(!R6 (?X_L SMALLER-THAN.N ?X_M))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?X_L AGENT.N))
+		(!R9 (?X_M AGENT.N))
+		(!R10 (NOT (?X_N AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_D ((ADV-A (FOR.P ?X_C)) LOOK.V)))
+		(?X_F (?X_M FIND.21.V ?X_L))
+		(?X_H (?X_M BRING.22.V ?X_L ?L2))
+		(?X_J (?X_M (GIVE.23.V ?X_L ?X_N)))
+	)
+)
+
+; "Mary's brother was coming back from school."
+; "He brought a present for Mary."
+; "Mary opened the box."
+; "Inside were lots of toys."
+; "Mary was surprised."
+(EPI-SCHEMA ((?X_H (((ADV-A (TO.P ?L2)) BRING.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I PRESENT.N))
+		(!R2 (?X_I BOX.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_H SURPRISED.A))
+		(!R5 (?X_I (FOR.P ?X_H)))
+		(!R6 (?X_G SCHOOL.N))
+		(!R7 (?X_J BROTHER.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_H)))
+		(!R9 (?X_G LOCATION.N))
+		(!R10 (NOT (?X_G = ?L2)))
+		(!R11 (?L2 DESTINATION.N))
+		(!R12 (?X_H DESTINATION.N))
+		(!R13 (?X_I SMALLER-THAN.N ?X_J))
+	)
+	(:STEPS
+		(?X_D (?X_J ((ADV-A (FROM.P ?X_G)) COME.24.V) ?L2))
+		(?X_F (?X_J BRING.25.V ?X_I ?X_H))
+		(?X_B (?X_H (OPEN.V ?X_I)))
+	)
+)
+
+; "Mary's brother is going to school."
+; "His teacher will teach him things."
+; "He has to write on the board."
+(EPI-SCHEMA ((?X_H (WRITE.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BOARD.N))
+		(!R2 (?X_E (PLUR THING.N)))
+		(!R3 (?X_G BROTHER.N))
+		(!R4 (?X_F TEACHER.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_G)))
+		(!R6 (?X_H AGENT.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_H)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_G ((ADV-A (FROM.P ?L1)) GO.26.V) ?L2))
+		(?X_A (?X_F (TEACH.V ?X_G ?X_E)))
+		(?X_C (MUST.AUX-S (?X_G ((ADV-A (ON.P ?X_D)) WRITE.V))))
+	)
+)
+
+; "Mary was going on a trip."
+; "Her mother packed her suitcase."
+; "Mary put some clothes into her suitcase."
+; "She had a lot of things in her suitcase."
+(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_I ?X_K ?X_J ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J SUITCASE.N))
+		(!R2 (?X_H MOTHER.N))
+		(!R3 (?X_I TRIP.N))
+		(!R4 (?X_K (PLUR CLOTHE.N)))
+		(!R5 (?X_G (PLUR THING.N)))
+		(!R6 (?X_L LOT.N))
+		(!R7 (?X_L (OF.P ?X_G)))
+		(!R8 (?X_H (PERTAIN-TO ?X_M)))
+		(!R9 (?X_J (PERTAIN-TO ?X_M)))
+		(!R10 (?X_I DESTINATION.N))
+		(!R11 (?X_J LOCATION.N))
+		(!R12 (?X_K ENTITY.N))
+		(!R13 (?X_L OBJECT.N))
+		(!R14 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_M ((ADV-A (FROM.P ?L1)) GO.27.V) ?X_I))
+		(?X_A (?X_H (PACK.V ?X_J)))
+		(?X_B (?X_M PUT.28.V ?X_K ?X_J))
+		(?X_F (?X_M HAVE.29.V ?X_L))
+	)
+)
+
+; "Nancy has many toys."
+; "She plays with them all the time."
+; "She likes playing with dolls."
+(EPI-SCHEMA ((?X_G (LIKE.V (KA ((ADV-A (WITH.P ?X_F)) PLAY.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C (PLUR TOY.N)))
+		(!R3 (?X_F (PLUR DOLL.N)))
+		(!R4 ((KA ((ADV-A (WITH.P ?X_F)) PLAY.V)) ACTION.N))
+		(!R5 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_G HAVE.30.V ?X_C))
+		(?X_E (?X_G LIKE.31.V (KA ((ADV-A (WITH.P ?X_F)) PLAY.V))))
+	)
+)
+
+; "Tommy was going to play with his new toy."
+; "His mom said no."
+; "He asked why."
+; "His mom told him that he could not have the toy."
+; "Tommy cried."
+(EPI-SCHEMA ((?X_K ((ADV-A (WITH.P ?Y)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F MOM.N))
+		(!R2 (?X_I (PERTAIN-TO ?X_K)))
+		(!R3 (?X_F (PERTAIN-TO ?X_K)))
+		(!R4 (?X_J NEW.A))
+		(!R5 (?X_I ?X_J TOY.N))
+		(!R6 (?Y ENTITY.N))
+		(!R7 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_K ((ADV-A (FOR.P (KA ((ADV-A (WITH.P ?X_I)) PLAY.V)))) GO.V)))
+		(?X_C (?X_F (SAY.V ?X_A)))
+		(?X_E (?X_K (WHY.ADV ASK.V)))
+		(?E_1 (?X_K PLAY.32.V ?Y))
+		(?X_H (?X_K CRY.33.V))
+	)
+)
+
+; "Tommy bought a toy."
+; "He played with it."
+; "His sister gave him some money."
+; "He bought other toys."
+(EPI-SCHEMA ((?X_K (BUY.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D OTHER.A))
+		(!R2 (?X_D (PLUR TOY.N)))
+		(!R3 (?X_I TOY.N))
+		(!R4 (?X_J SISTER.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_K)))
+		(!R6 (?X_L MONEY.N))
+		(!R7 (?X_K AGENT.N))
+		(!R8 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_H (?X_K (BUY.V ?X_I)))
+		(?X_F (?X_K ((ADV-A (WITH.P ?X_I)) PLAY.V)))
+		(?X_A (?X_J (GIVE.34.V ?X_K ?X_L)))
+		(?X_C (?X_K (BUY.V ?X_D)))
+	)
+)
+
+; "Nancy has many toys."
+; "She plays with them all the time."
+; "She likes to play with dolls."
+; "She doesn't have any boys' toys."
+(EPI-SCHEMA ((?X_I (HAVE.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C (PLUR TOY.N)))
+		(!R3 (?X_H (PLUR DOLL.N)))
+		(!R4 ((KA ((ADV-A (WITH.P ?X_H)) PLAY.V)) ACTION.N))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?O OBJECT.N))
+	)
+	(:STEPS
+		(?X_B (?X_I HAVE.35.V ?X_C))
+		(?X_E (?X_I LIKE.36.V (KA ((ADV-A (WITH.P ?X_H)) PLAY.V))))
+		(?X_G (?X_I HAVE.37.V ?O))
+	)
+)
+
+; "Jackie and Steve were playing tennis."
+; "Steve won the game."
+(EPI-SCHEMA ((?X_G (PLAY.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GAME.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_E TENNIS.N))
+		(!R4 (?X_F AGENT.N))
+		(!R5 ((SET-OF ?X_F ?X_G) AGENT.N))
+	)
+	(:STEPS
+		(?X_A ((SET-OF ?X_F ?X_G) PLAY.1.V))
+		(?X_C (?X_G (WIN.V ?X_D)))
+	)
+)
+
+; "Jenny played tennis."
+; "She played against Jackie."
+; "She lost the game."
+(EPI-SCHEMA ((?X_I (PLAY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GAME.N))
+		(!R2 (?X_F TENNIS.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_K FEMALE.A))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_J PLAY.2.V))
+		(?X_H (?X_K PLAY.3.V))
+		(?X_B (?X_J (LOSE.V ?X_C)))
+	)
+)
+
+; "Tom played tennis."
+; "He played for fun."
+; "His friends came over to play tennis."
+; "They all played well."
+; "Tom beat them all."
+(EPI-SCHEMA ((?X_M ((ADV-A (WITH.P ?X_F)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B TENNIS.N))
+		(!R2 (?X_F (PLUR FRIEND.N)))
+		(!R3 (?X_E FUN.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_M)))
+		(!R5 (?X_I TENNIS.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?X_M AGENT.N))
+		(!R8 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_M PLAY.4.V))
+		(?X_D (?X_M ((ADV-A (FOR.P ?X_E)) PLAY.V)))
+		(?X_A (?X_F ((ADV-A (FOR.P (KA (PLAY.V ?X_B)))) COME_OVER.V)))
+		(?E_1 (?X PLAY.5.V))
+		(?X_K ((ALL.D ({OF}.P ?X_L)) PLAY.6.V))
+	)
+)
+
+; "Sammy played tennis."
+; "He lost the game."
+; "He was upset."
+(EPI-SCHEMA ((?X_G (PLAY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GAME.N))
+		(!R2 (?X_G UPSET.A))
+		(!R3 (?X_F TENNIS.N))
+		(!R4 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_G PLAY.7.V))
+		(?X_B (?X_G (LOSE.V ?X_C)))
+	)
+)
+
+; "Jackie played tennis."
+; "She started the game."
+; "She lost the game."
+(EPI-SCHEMA ((?X_I (PLAY.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GAME.N))
+		(!R2 (?X_H TENNIS.N))
+		(!R3 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_I PLAY.8.V))
+		(?X_D (?X_I (START.V ?X_E)))
+		(?X_B (?X_I (LOSE.V ?X_E)))
+	)
+)
+
+; "Jackie played tennis."
+; "Steve watched her play."
+; "She lost the first set."
+; "She won the second set."
+; "She won the third set."
+(EPI-SCHEMA ((?X_L (PLAY.V ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D THIRD.A))
+		(!R2 (?X_D SET.N))
+		(!R3 (?X_G SECOND.A))
+		(!R4 (?X_G SET.N))
+		(!R5 (?X_J FIRST.A))
+		(!R6 (?X_J SET.N))
+		(!R7 (?X_K PLAY.N))
+		(!R8 (?X_L AGENT.N))
+		(!R9 (?X_K (PERTAIN-TO ?X_L)))
+		(!R10 (?X_O TENNIS.N))
+		(!R11 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_N (?X_P PLAY.9.V))
+		(?X_A (?X_L (WATCH.V ?X_K)))
+		(?X_I (?X_P (LOSE.V ?X_J)))
+		(?X_F (?X_P (WIN.V ?X_G)))
+		(?X_C (?X_P (WIN.V ?X_D)))
+	)
+)
+
+; "Tom played tennis."
+; "He lost the match."
+; "He was upset."
+; "He gave up on tennis."
+(EPI-SCHEMA ((?X_J ((ADV-A (ON.P ?X_J)) GIVE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C TENNIS.N))
+		(!R2 (?X_F MATCH.N))
+		(!R3 (?X_J UPSET.A))
+		(!R4 (?X_I TENNIS.N))
+		(!R5 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_J PLAY.10.V))
+		(?X_E (?X_J (LOSE.V ?X_F)))
+		(?X_B (?X_J ((ADV-A (ON.P ?X_C)) GIVE_UP.V)))
+	)
+)
+
+; "Jackie played tennis."
+; "Steve watched Jackie play tennis."
+; "Steve liked watching Jackie play tennis."
+; "Jackie lost the game."
+; "Steve won the game.<|endoftext|>"
+(EPI-SCHEMA ((?X_O (PLAY.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C |GAME.<\|ENDOFTEXT\|>.N|))
+		(!R2 (?X_F GAME.N))
+		(!R3 (?X_I TENNIS.N))
+		(!R4 (?X_N TENNIS.N))
+		(!R5 (?X_P TENNIS.N))
+		(!R6 (?X_O AGENT.N))
+		(!R7 (?X_N AGENT.N))
+		(!R8 ((KA (WATCH.V ?X_O (PLAY.V ?X_P))) ACTION.N))
+		(!R9 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_O PLAY.11.V))
+		(?X_H (?X_Q (WATCH.V (KE (?X_O (PLAY.V ?X_I))))))
+		(?E_1 (?X_N PLAY.12.V))
+		(?X_M (?X_Q LIKE.13.V (KA (WATCH.V ?X_O (PLAY.V ?X_P)))))
+		(?X_M (?X_Q LIKE.14.V))
+		(?X_E (?X_O (LOSE.V ?X_F)))
+		(?X_B (?X_Q (WIN.V ?X_C)))
+	)
+)
+
+; "Mary's brother came by."
+; "He brought Mary some flowers."
+; "Mary thanked him."
+; "Later, Mary told her parents about the visit."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_E ?X_J ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR PARENT.N)))
+		(!R2 (?X_B VISIT.N))
+		(!R3 (?X_J AGENT.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_J)))
+		(!R5 (?X_K BROTHER.N))
+		(!R6 (?X_K (PERTAIN-TO ?X_J)))
+		(!R7 (?X_J SMALLER-THAN.N ?X_K))
+		(!R8 (?X_K DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_K COME_BY.V))
+		(?X_I (?X_K BRING.15.V ?X_J ?X_K))
+		(?X_D (?X_J (THANK.V ?X_K)))
+		(?X_A (?X_J (((ADV-A (ABOUT.P ?X_B)) (LATER.ADV TELL.V)) ?X_E)))
+	)
+)
+
+; "Tom has a sister named Mary."
+; "She is four years older than Tom."
+; "She lives on the other side of town."
+; "Mary likes to play outside."
+(EPI-SCHEMA ((?X_H (LIKE.V (KA PLAY.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_G SISTER.N))
+		(!R2 (?X_G ((PASV NAME.V) ?X_H)))
+		(!R3 (?L LOCATION.N))
+		(!R4 (?X_H AGENT.N))
+		(!R5 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
+		(!R6 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_I (HAVE.V ?X_G)))
+		(?X_D (?X_H LIVE.16.V ?L))
+		(?X_F (?X_H LIKE.17.V (KA (OUTSIDE.ADV PLAY.V))))
+		(?E_1 (?X_I PLAY.18.V))
+	)
+)
+
+; "Alfred gave Mary a bunch of roses."
+; "He said they were for her."
+; "She liked them."
+; "She put them on the table."
+; "She thought they were beautiful."
+(EPI-SCHEMA ((?X_E (GIVE.V ?X_E ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L (PLUR ROSE.N)))
+		(!R2 (?X_L AGENT.N))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_N BUNCH.N))
+		(!R5 (?X_N (OF.P ?X_L)))
+		(!R6 (?X_P TABLE.N))
+		(!R7 (?X_M AGENT.N))
+		(!R8 (NOT (?X_N AGENT.N)))
+		(!R9 (?X_O AGENT.N))
+		(!R10 (?X_P LOCATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_M (GIVE.20.V ?X_O ?X_N)))
+		(?X_D (?X_M (SAY.V (THT (?X_E ((ADV-A (FOR.P ?X_O)) BE.V))))))
+		(?X_I (?X_O LIKE.21.V (THT (?X_E ((ADV-A (FOR.P ?X_O)) BE.V)))))
+		(?X_K (?X_O PUT.22.V ?X_L ?X_P))
+		(?X_B (?X_O (THINK.V (THT (?X_L BEAUTIFUL.A)))))
+	)
+)
+
+; "Mark was visiting his friend."
+; "His friend had two children."
+; "He played with them."
+; "They were happy."
+(EPI-SCHEMA ((?X_D (COMPOSITE-SCHEMA.PR ?X_E (TWO.D (PLUR CHILD.N)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D AGENT.N))
+		(!R2 (?X_E FRIEND.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_D)))
+		(!R4 (?X_F AGENT.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_B (?X_D (VISIT.V ?X_E)))
+		(?X_C (?X_E (HAVE.V (TWO.D (PLUR CHILD.N)))))
+		(?X_H (?X_F ((ADV-A (WITH.P ?X_A)) PLAY.V)))
+	)
+)
+
+; "Joe went for a walk."
+; "He saw flowers on the ground."
+; "He picked them up."
+; "He smelled them."
+; "He liked the smell."
+(EPI-SCHEMA ((?X_P (PICK_UP.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D SMELL.N))
+		(!R2 (?X_G MALE.A))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_J (PLUR FLOWER.N)))
+		(!R5 (?X_O WALK.N))
+		(!R6 (?X_O DESTINATION.N))
+		(!R7 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_P ((ADV-A (FROM.P ?L1)) GO.23.V) ?X_O))
+		(?X_N (?X_P SEE.24.V ?X_J))
+		(?X_I (?X_P (PICK_UP.V ?X_J)))
+		(?X_F (?X_G (SMELL.V ?X_A)))
+		(?X_C (?X_G (LIKE.V ?X_D)))
+	)
+)
+
+; "Billy visited his friend's house."
+; "His friend gave him some flowers."
+; "Billy thanked his friend for giving him the flowers."
+(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_E ?X_G ?X_F ?X_H ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F FRIEND.N))
+		(!R2 (?X_I (PLUR FLOWER.N)))
+		(!R3 (?X_D FRIEND.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_F)))
+		(!R5 (?X_E HOUSE.N))
+		(!R6 (?X_E (PERTAIN-TO ?X_F)))
+		(!R7 (?X_G AGENT.N))
+		(!R8 (?X_F (PERTAIN-TO ?X_G)))
+		(!R9 (?X_H AGENT.N))
+		(!R10 (NOT (?X_I AGENT.N)))
+	)
+	(:STEPS
+		(?X_A (?X_G (VISIT.V ?X_E)))
+		(?X_B (?X_D (GIVE.V ?X_G ?X_I)))
+		(?X_C (?X_G (((ADV-A (FOR.P (KA (GIVE.V ?X_H ?X_I)))) THANK.V) ?X_F)))
+		(?E_1 (?X_F (GIVE.25.V ?X_H ?X_I)))
+	)
+)
+
+; "The flower shop sold roses."
+; "The owner liked roses."
+; "He bought many roses."
+; "Each rose cost $1.00."
+(EPI-SCHEMA ((?X_H (SELL.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C (PLUR ROSE.N)))
+		(!R3 (?X_D OWNER.N))
+		(!R4 (?X_G (PLUR ROSE.N)))
+		(!R5 (?X_H FLOWER.N))
+		(!R6 (?X_H SHOP.N))
+		(!R7 (?X_K (PLUR ROSE.N)))
+		(!R8 (NOT (?X_K ACTION.N)))
+		(!R9 (NOT (?X_K AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_H (SELL.V ?X_G)))
+		(?X_J (?X_D LIKE.26.V ?X_K))
+		(?X_B (?X_D (BUY.V ?X_C)))
+	)
+)
+
+; "Alice gave Alice's mom roses."
+; "Alice's mom liked them."
+; "Alice's dad wasn't sure."
+; "Alice's dad said they were beautiful."
+(EPI-SCHEMA ((?X_H (GIVE.V ?X_J ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (NOT (?X_E SURE.A)))
+		(!R2 (?X_E DAD.N))
+		(!R3 (?X_I (PLUR ROSE.N)))
+		(!R4 (?X_I MOM.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_H)))
+		(!R6 (?X_E (PERTAIN-TO ?X_H)))
+		(!R7 (?X_J MOM.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_H)))
+		(!R9 (?X_H AGENT.N))
+		(!R10 (NOT (?X_I AGENT.N)))
+		(!R11 (?Y AGENT.N))
+		(!R12 (?X_K OBJECT.N))
+		(!R13 (?X_J AGENT.N))
+		(!R14 (NOT (?X_K ACTION.N)))
+	)
+	(:STEPS
+		(?X_D (?X_H (GIVE.27.V ?Y ?X_I)))
+		(?X_G (?X_J LIKE.28.V ?X_K))
+		(?X_B (?X_E (SAY.V (THT (?X_K BEAUTIFUL.A)))))
+	)
+)
+
+; "I bought some shoes at a store."
+; "I tried them on."
+; "I walked around."
+; "I looked for a size that fit me."
+; "I could not find any."
+(EPI-SCHEMA ((?X_K ((ADV-A (ON.P ?X_D)) TRY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR SHOE.N)))
+		(!R2 (?X_D (AT.P ?X_E)))
+		(!R3 (?X_H SIZE.N))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_K (BUY.V ?X_D)))
+		(?X_C (?X_K (KA TRY.V) ?X_D ON.P))
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) WALK_AROUND.1.V) ?L2))
+		(?X_J (?X_K ((ADV-A (FOR.P ?X_H)) LOOK.2.V)))
+	)
+)
+
+; "Tommy went shopping."
+; "He bought new shoes."
+; "He wore them in a parade."
+; "He liked wearing the shoes."
+; "The shoes were comfortable."
+(EPI-SCHEMA ((?X_I (BUY.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J NEW.A))
+		(!R2 (?X_J (PLUR SHOE.N)))
+		(!R3 (?X_J COMFORTABLE.A))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 ((KA (WEAR.V ?X_J)) ACTION.N))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (NOT (?X_J AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_I ((ADV-A (FROM.P ?L1)) GO.3.V) ?L2))
+		(?X_B (?X_I (BUY.V ?X_J)))
+		(?X_F (?X_I WEAR.4.V ?X_J))
+		(?X_H (?X_I LIKE.5.V (KA (WEAR.V ?X_J))))
+		(?E_1 (?X_I WEAR.6.V ?X_J))
+	)
+)
+
+; "Tommy bought new shoes."
+; "He tried them on."
+; "He liked them."
+; "He wore them all the time."
+(EPI-SCHEMA ((?X_G (LIKE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H NEW.A))
+		(!R2 (?X_H (PLUR SHOE.N)))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (NOT (?X_H ACTION.N)))
+		(!R5 (NOT (?X_H AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_G (BUY.V ?X_H)))
+		(?X_B (?X_G (KA TRY.V) ?X_H ON.P))
+		(?X_F (?X_G LIKE.7.V ?X_H))
+	)
+)
+
+; "Sarah has a pair of shoes she likes."
+; "She wears them often."
+; "She wants new shoes."
+; "She is looking for a good shoe store."
+(EPI-SCHEMA ((?X_M ((ADV-A (FOR.P ?X_H)) LOOK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C NEW.A))
+		(!R2 (?X_C (PLUR SHOE.N)))
+		(!R3 (?X_L (PLUR SHOE.N)))
+		(!R4 (?X_K PAIR.N))
+		(!R5 (?X_K (OF.P ?X_L)))
+		(!R6 (?X_H GOOD.A))
+		(!R7 (?X_H SHOE.N))
+		(!R8 (?X_H STORE.N))
+		(!R9 (?X_K OBJECT.N))
+		(!R10 (NOT (?X_L AGENT.N)))
+		(!R11 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_M HAVE.8.V ?X_K))
+		(?X_G (?X_M WEAR.9.V ?X_L))
+		(?X_B (?X_M (WANT.V ?X_C)))
+		(?X_J (?X_M ((ADV-A (FOR.P ?X_H)) LOOK.2.V)))
+	)
+)
+
+; "Alice has a pair of shoes."
+; "She likes them."
+; "She wears them often."
+(EPI-SCHEMA ((?X_H (HAVE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G PAIR.N))
+		(!R2 (?X_I (PLUR SHOE.N)))
+		(!R3 (?X_G (OF.P ?X_I)))
+		(!R4 (?X_G OBJECT.N))
+		(!R5 (NOT (?X_I ACTION.N)))
+		(!R6 (?X_H AGENT.N))
+		(!R7 (NOT (?X_I AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_H HAVE.10.V ?X_G))
+		(?X_D (?X_H LIKE.11.V ?X_I))
+		(?X_F (?X_H WEAR.12.V ?X_I))
+	)
+)
+
+; "Mary bought new shoes."
+; "She put them on."
+; "She walked around."
+; "She found a pair she liked."
+; "She put them back in the box."
+(EPI-SCHEMA ((?X_M (BUY.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E NEW.A))
+		(!R2 (?X_E (PLUR SHOE.N)))
+		(!R3 (?X_L PAIR.N))
+		(!R4 (?X_N BOX.N))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?X_M AGENT.N))
+		(!R7 (?X_N LOCATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_M (BUY.V ?X_E)))
+		(?X_B (?X_M (KA PUT.V) ?X_E ON.P))
+		(?X_G (?X_M ((ADV-A (FROM.P ?L1)) WALK_AROUND.1.V) ?L2))
+		(?X_I (?X_M FIND.13.V ?X_L))
+		(?X_K (?X_M PUT.14.V ?X_L ?X_N))
+	)
+)
+
+; "Bob bought new shoes."
+; "He tried them on."
+; "His feet were sore from wearing old shoes."
+; "He put on a pair of socks."
+; "He felt better."
+(EPI-SCHEMA ((?X_L (BUY.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_P (PLUR SHOE.N)))
+		(!R2 (?X_P OLD.A))
+		(!R3 (?X_D NEW.A))
+		(!R4 (?X_D (PLUR SHOE.N)))
+		(!R5 (?X_K SORE.A))
+		(!R6 (?X_K (PLUR FOOT.N)))
+		(!R7 (?X_G PAIR.N))
+		(!R8 (?X_G (OF.P ?X_H)))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (?X_K (PERTAIN-TO ?X_L)))
+		(!R11 (?X_M BETTER.A))
+		(!R12 (NOT (?X_P AGENT.N)))
+		(!R13 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_L (BUY.V ?X_D)))
+		(?X_F (?X_L (KA TRY.V) ?X_D ON.P))
+		(?X_A (?X_K (FROM.P (KA (WEAR.V ?X_P)))))
+		(?X_J (?X_L ((ADV-A (ON.P ?X_G)) PUT.V)))
+		(?X_O (?X_L (FEEL.V ?X_M)))
+		(?E_1 (?X WEAR.15.V ?X_P))
+	)
+)
+
+; "Alice shopped for groceries."
+; "She bought bread."
+; "She bought milk."
+; "She bought eggs."
+; "She bought cheese."
+; "She bought meat."
+(EPI-SCHEMA ((?X_P (BUY.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A (PLUR GROCERY.N)))
+		(!R2 (?X_D BREAD.N))
+		(!R3 (?X_G MILK.N))
+		(!R4 (?X_J (PLUR EGG.N)))
+		(!R5 (?X_M CHEESE.N))
+		(!R6 (?X_P AGENT.N))
+		(!R7 (?X_Q MEAT.N))
+	)
+	(:STEPS
+		(?X_C (?X_P ((ADV-A (FOR.P ?X_A)) SHOP.V)))
+		(?X_F (?X_P (BUY.V ?X_D)))
+		(?X_I (?X_P (BUY.V ?X_G)))
+		(?X_L (?X_P (BUY.V ?X_J)))
+		(?X_O (?X_P (BUY.V ?X_M)))
+		(?X_S (?X_P (BUY.V ?X_Q)))
+	)
+)
+
+; "Jane bought a pair of socks from a store."
+; "She put them on."
+; "She wore them home."
+; "She did not wear them in the house."
+(EPI-SCHEMA ((?X_L (BUY.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M (PLUR SOCK.N)))
+		(!R2 (?X_E PAIR.N))
+		(!R3 (?X_E (OF.P ?X_M)))
+		(!R4 (?X_F STORE.N))
+		(!R5 (?X_K HOME.N))
+		(!R6 (?X_K (PERTAIN-TO ?X_L)))
+		(!R7 (?X_K DESTINATION.N))
+		(!R8 (?X_M SMALLER-THAN.N ?X_L))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_L (((ADV-A (FROM.P ?X_F)) BUY.V) ?X_E)))
+		(?X_B (?X_L (KA PUT.V) ?X_M ON.P))
+		(?X_H (?X_L WEAR.16.V ?X_M ?X_K))
+		(?X_J (?X_L WEAR.17.V ?X_M))
+	)
+)
+
+; "Alice shopped at a store."
+; "She liked the clothes she saw there."
+; "She bought some things."
+; "She paid for what she bought."
+(EPI-SCHEMA ((?X_L
+              (COMPOSITE-SCHEMA.PR ?X_F
+               (ANS-TO (?X_L ((ADV-A (FOR.P ?X_A)) BUY.V))) ?X_M))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR THING.N)))
+		(!R2 (?X_I STORE.N))
+		(!R3 (?X_M (PLUR CLOTHE.N)))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (?X_M OBJECT.N))
+		(!R6 (NOT (?X_M ACTION.N)))
+		(!R7 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_H (?X_L ((ADV-A (AT.P ?X_I)) SHOP.V)))
+		(?X_K (?X_L LIKE.18.V ?X_M))
+		(?X_E (?X_L (BUY.V ?X_F)))
+		(?X_C (?X_L (PAY.V (ANS-TO (?X_L ((ADV-A (FOR.P ?X_A)) BUY.V))))))
+	)
+)
+
+; "Tom's friend had two girlfriends."
+; "They were best friends."
+; "He liked both of them."
+; "He went to visit one of them."
+; "She invited him over."
+(EPI-SCHEMA ((?X_I (LIKE.V (TWO.D (PLUR GIRL.N)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F FEMALE.A))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_J MALE.A))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_O FRIEND.N))
+		(!R7 (?X_P AGENT.N))
+		(!R8 (?X_O (PERTAIN-TO ?X_P)))
+	)
+	(:STEPS
+		(?X_L (?X_O (HAVE.V (TWO.D (PLUR GIRLFRIEND.N)))))
+		(?X_N (?X_P LIKE.19.V (BOTH.D (L X (AND (X {REF}.N) (X (OF.P ?X_B)))))))
+		(?X_H (?X_J ((ADV-A (FOR.P (KA (VISIT.V (?X_I (OF.P ?X_B)))))) GO.V)))
+		(?X_E (?X_F (INVITE_OVER.V ?X_C)))
+	)
+)
+
+; "Henry met a girl named Mary."
+; "Mary liked him."
+; "Henry asked her to go on a date with him."
+; "Mary said yes."
+(EPI-SCHEMA ((?X_M (ASK.V ?X_M ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F GIRL.N))
+		(!R2 (?X_F ((PASV NAME.V) ?X_M)))
+		(!R3 (?X_K DATE.N))
+		(!R4 (?X_K (WITH.P ?X_L)))
+		(!R5 (?X_L OBJECT.N))
+		(!R6 (NOT (?X_L ACTION.N)))
+		(!R7 (?X_M AGENT.N))
+		(!R8 ((KA ((ADV-A (ON.P ?X_K)) GO.V)) ACTION.N))
+		(!R9 (NOT (?X_L = ?X_M)))
+	)
+	(:STEPS
+		(?X_E (?X_L (MEET.V ?X_F)))
+		(?X_H (?X_M LIKE.20.V ?X_L))
+		(?X_J (?X_L ASK.21.V ?X_M (KA ((ADV-A (ON.P ?X_K)) GO.V))))
+		(?X_C (?X_M (SAY.V ?X_A)))
+	)
+)
+
+; "Sammy met a girl at school."
+; "He liked her."
+; "He asked her out on a date."
+; "She laughed."
+; "She said yes."
+(EPI-SCHEMA ((?X_N (((ADV-A (AT.P ?X_K)) MEET.V) ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H DATE.N))
+		(!R2 (?X_O GIRL.N))
+		(!R3 (?X_K SCHOOL.N))
+		(!R4 (?X_N AGENT.N))
+		(!R5 (?X_O OBJECT.N))
+		(!R6 (NOT (?X_O ACTION.N)))
+	)
+	(:STEPS
+		(?X_J (?X_N (((ADV-A (AT.P ?X_K)) MEET.V) ?X_O)))
+		(?X_M (?X_N LIKE.22.V ?X_O))
+		(?X_B (?X_N OUT.P))
+		(?X_C (?X_N (ON.P ?X_H)))
+		(?X_G (?X_O LAUGH.V))
+		(?X_E (?X_O (SAY.V ?X_A)))
+	)
+)
+
+; "Tom met a beautiful girl."
+; "He asked her for a date."
+; "She said yes."
+; "They went on a date."
+(EPI-SCHEMA ((?X_E (MEET.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D DATE.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_M BEAUTIFUL.A))
+		(!R4 (?X_M GIRL.N))
+		(!R5 (?X_L AGENT.N))
+		(!R6 (NOT (?X_L = ?X_M)))
+		(!R7 (?A ACTION.N))
+	)
+	(:STEPS
+		(?X_I (?X_L (MEET.V ?X_M)))
+		(?X_K (?X_L ASK.23.V ?X_M ?A))
+		(?X_G (?X_M (SAY.V ?X_A)))
+		(?X_C (?X_E ((ADV-A (ON.P ?X_D)) GO.V)))
+	)
+)
+
+; "Maggie is going on a date."
+; "She wants to look good for him."
+; "She puts on makeup."
+(EPI-SCHEMA ((?X_I ((ADV-A (ON.P ?X_J)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D MAKEUP.N))
+		(!R2 (?X_J DATE.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_J DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) GO.24.V) ?X_J))
+		(?X_F (?X_I (WANT.V (KA (LOOK.V (L X (AND (X GOOD.A) (X (FOR.P ?X_J)))))))))
+		(?X_C (?X_I ((ADV-A (ON.P ?X_D)) PUT.V)))
+	)
+)
+
+; "Tom watched some TV."
+; "He saw a girl on-screen."
+; "She looked cute."
+; "He liked watching movies."
+(EPI-SCHEMA ((?X_N (WATCH.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR MOVIE.N)))
+		(!R2 (?X_D MALE.A))
+		(!R3 (?X_D AGENT.N))
+		(!R4 (?X_G GIRL.N))
+		(!R5 (?X_G ON-SCREEN.N))
+		(!R6 (?X_H FEMALE.A))
+		(!R7 (?X_H AGENT.N))
+		(!R8 (?X_K TV.N))
+		(!R9 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_N (WATCH.V ?X_K)))
+		(?X_M (?X_N SEE.25.V ?X_G))
+		(?X_F (?X_H (LOOK.V ?X_G)))
+		(?X_B (?X_D (LIKE.V (KA (WATCH.V ?X_C)))))
+	)
+)
+
+; "The teacher asked for volunteers."
+; "One girl raised her hand."
+; "She said she would like to be chosen."
+; "The teacher chose her."
+(EPI-SCHEMA ((?Y (RAISE.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I TEACHER.N))
+		(!R2 (?X_E HAND.N))
+		(!R3 (?X_F GIRL.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_F)))
+		(!R5 (NOT (?X_I = ?Y)))
+		(!R6 (?A ACTION.N))
+		(!R7 (?Y AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_I ASK.1.V ?Y ?A))
+		(?X_B (?X_F (RAISE.V ?X_E)))
+		(?X_H (?X_F SAY.2.V (THT (?X_F (WILL.MD (LIKE.V (KA (PASV CHOOSE.V))))))))
+		(?X_D (?X_I (CHOOSE.V ?X_F)))
+	)
+)
+
+; "Alice looked around."
+; "She saw some flowers."
+; "She picked one flower."
+; "She put it in her bouquet."
+(EPI-SCHEMA ((?X_L (PICK.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FLOWER.N))
+		(!R2 (?X_I (PLUR FLOWER.N)))
+		(!R3 (?X_K BOUQUET.N))
+		(!R4 (?X_K (PERTAIN-TO ?X_L)))
+		(!R5 (?X_J ENTITY.N))
+		(!R6 (?X_K LOCATION.N))
+		(!R7 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_L (AROUND.ADV LOOK.V)))
+		(?X_H (?X_L SEE.3.V ?X_I))
+		(?X_C (?X_L (PICK.V ?X_D)))
+		(?X_A (?X_L PUT.4.V ?X_J ?X_K))
+	)
+)
+
+; "Alice picked up her book."
+; "She read some pages."
+; "She looked at the pictures."
+; "Alice liked the book."
+(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_G ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR PICTURE.N)))
+		(!R2 (?X_G (PLUR PAGE.N)))
+		(!R3 (?X_K BOOK.N))
+		(!R4 (?X_K (PERTAIN-TO ?X_J)))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (NOT (?X_K ACTION.N)))
+		(!R7 (NOT (?X_K AGENT.N)))
+	)
+	(:STEPS
+		(?X_A (?X_J (PICK_UP.V ?X_K)))
+		(?X_F (?X_J (READ.V ?X_G)))
+		(?X_C (?X_J ((ADV-A (AT.P ?X_D)) LOOK.V)))
+		(?X_I (?X_J LIKE.5.V ?X_K))
+	)
+)
+
+; "A boy named Tom played baseball."
+; "His team lost the game."
+; "He threw the ball far away from the field."
+; "He couldn't catch the ball."
+(EPI-SCHEMA ((?X_L (LOSE.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BALL.N))
+		(!R2 (?X_E FIELD.N))
+		(!R3 (?X_L AGENT.N))
+		(!R4 (?X_F GAME.N))
+		(!R5 (?X_G TEAM.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_L)))
+		(!R7 (?X_J BASEBALL.N))
+		(!R8 (?X_K BOY.N))
+		(!R9 (?X_K ((PASV NAME.V) ?X_L)))
+	)
+	(:STEPS
+		(E109.SK (NOT (?X_L ((CAN.MD CATCH.V) ?X_D))))
+		(?X_I (?X_K PLAY.6.V))
+		(?X_A (?X_G (LOSE.V ?X_F)))
+		(?X_C (?X_L (((ADV-A (FROM.P ?X_E)) ((ADV (FAR.ADV AWAY.A)) THROW.V)) ?X_D)))
+	)
+)
+
+; "One boy volunteered to help."
+; "The other boys laughed."
+; "The teacher told him to go sit down."
+(EPI-SCHEMA ((?X_C LAUGH.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BOY.N))
+		(!R2 (?X_F OTHER.A))
+		(!R3 (?X_F (PLUR BOY.N)))
+		(!R4 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_B (?X_C ((ADV-A (FOR.P (KA HELP.V))) VOLUNTEER.V)))
+		(?X_E (?X_F LAUGH.7.V ?N))
+	)
+)
+
+; "Tom raised his hand."
+; "'I want to be chosen,' Tom said."
+; "'Who wants to be chosen?' the teacher asked."
+(EPI-SCHEMA ((?X_C (RAISE.V ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B HAND.N))
+		(!R2 (?X_C TEACHER.N))
+		(!R3 (?X_B (PERTAIN-TO ?X_C)))
+	)
+	(:STEPS
+		(?X_A (?X_C (RAISE.V ?X_B)))
+		(?X_E (?X_C ASK.V))
+	)
+)
+
+; "Alice volunteered to help make cookies."
+; "She helped bake them."
+; "She put them in boxes."
+; "She sold them at school fairs."
+(EPI-SCHEMA ((?X_M (HELP.V (KE (?X_M (BAKE.V ?X_I))))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D SCHOOL.N))
+		(!R2 (?X_D (PLUR FAIR.N)))
+		(!R3 (?X_I (PLUR COOKIE.N)))
+		(!R4 (?X_L (PLUR BOX.N)))
+		(!R5 (?X_L LOCATION.N))
+		(!R6 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_M ((ADV-A (FOR.P (KA (HELP.V (?X_A (MAKE.V ?X_I)))))) VOLUNTEER.V)))
+		(?X_F (?X_M (HELP.V (KE (?X_A (BAKE.V ?X_I))))))
+		(?X_K (?X_M PUT.8.V ?X_I ?X_L))
+		(?X_C (?X_M (((ADV-A (AT.P ?X_D)) SELL.V) ?X_I)))
+	)
+)
+
+; "A boy named Tom liked to play baseball."
+; "He played on a team called the Tigers."
+; "His best friend was named Jack."
+(EPI-SCHEMA ((?X_B (PLAY.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_M BASEBALL.N))
+		(!R3 (?X_K BOY.N))
+		(!R4 (?X_J TIGERS.N))
+		(!R5 (?X_I TEAM.N))
+		(!R6 (?X_E BEST.A))
+		(!R7 (?X_L ?X_E FRIEND.N))
+		(!R8 (?X_H (ON.P (KE (?X_I (CALL.V ?X_J))))))
+		(!R9 (?X_K ((PASV NAME.V) ?X_N)))
+		(!R10 (?X_L (PERTAIN-TO ?X_N)))
+		(!R11 ((KA (PLAY.V ?X_M)) ACTION.N))
+		(!R12 (?X AGENT.N))
+		(!R13 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_K LIKE.10.V (KA (PLAY.V ?X_M))))
+		(?E_1 (?X PLAY.11.V))
+		(?X_G (?X_N PLAY.12.V))
+		(?X_A (?X_L ((PASV NAME.V) ?X_B)))
+	)
+)
+
+; "A boy named Tom was walking down the street."
+; "He saw a dog on the sidewalk."
+; "The dog looked sad."
+; "Tom stopped to pet the dog."
+(EPI-SCHEMA ((?X_L ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E SAD.A))
+		(!R2 (?X_F DOG.N))
+		(!R3 (?X_K BOY.N))
+		(!R4 (?X_K ((PASV NAME.V) ?X_L)))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_K ((ADV-A (FROM.P ?L1)) WALK.13.V) ?L2))
+		(?X_J (?X_L SEE.14.V ?X_F))
+		(?X_D (?X_F (LOOK.V ?X_E)))
+		(?X_B (?X_L ((ADV-A (FOR.P (KA (PET.N ?X_F)))) STOP.V)))
+	)
+)
+
+; "The teacher gave each student a piece of paper."
+; "Each student wrote down what they liked about school."
+; "After all students finished, the teacher read their papers."
+(EPI-SCHEMA ((?X_H (((ADV-A (ABOUT.P ?X_I)) WRITE_DOWN.V) ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E PAPER.N))
+		(!R2 (?X_D TEACHER.N))
+		(!R3 (?X_J PIECE.N))
+		(!R4 (?X_J (OF.P ?X_E)))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?X_I SCHOOL.N))
+		(!R7 ((EACH.D STUDENT.N) AGENT.N))
+		(!R8 (NOT (?X_J AGENT.N)))
+	)
+	(:STEPS
+		(?X_C (?X_D (GIVE.15.V (EACH.D STUDENT.N) ?X_J)))
+		(?X_G
+   ((EACH.D STUDENT.N) WRITE_DOWN.16.V
+    (ANS-TO (?X_H (((ADV-A (ABOUT.P ?X_I)) LIKE.V) ?X_A)))))
+	)
+)
+
+; "Tom's friend likes school."
+; "His friend is good at math."
+; "Tom's friend plays sports."
+; "Tom doesn't like school."
+(EPI-SCHEMA ((?X_K (LIKE.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B MATH.N))
+		(!R2 (?X_J GOOD.A))
+		(!R3 (?X_J FRIEND.N))
+		(!R4 (?X_K SCHOOL.N))
+		(!R5 (?X_G (PLUR SPORT.N)))
+		(!R6 (?X_J (PERTAIN-TO ?X_L)))
+		(!R7 (?X_M SCHOOL.N))
+		(!R8 (?X_K OBJECT.N))
+		(!R9 (NOT (?X_K ACTION.N)))
+		(!R10 (NOT (?X_K AGENT.N)))
+		(!R11 (?X_M OBJECT.N))
+		(!R12 (?X_L AGENT.N))
+		(!R13 (NOT (?X_M ACTION.N)))
+		(!R14 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_J LIKE.17.V ?X_K))
+		(?X_A (?X_J (AT.P ?X_B)))
+		(?X_F (?X_J PLAY.18.V))
+		(?X_I (?X_L LIKE.19.V ?X_M))
+	)
+)
+
+; "A girl named Jessie is going to school."
+; "She likes school."
+; "Her favorite subject is math."
+; "Math is fun for Jessie."
+(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_E ?X_M ?L2 ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M FUN.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_E MATH.N))
+		(!R4 (?X_K GIRL.N))
+		(!R5 (?X_H FAVORITE.A))
+		(!R6 (?X_L ?X_H SUBJECT.N))
+		(!R7 (?X_K ((PASV NAME.V) ?X_N)))
+		(!R8 (?X_L (PERTAIN-TO ?X_N)))
+		(!R9 (?X_M (FOR.P ?X_N)))
+		(!R10 (?X_O SCHOOL.N))
+		(!R11 (?L2 DESTINATION.N))
+		(!R12 (?X_N AGENT.N))
+		(!R13 (NOT (?X_O ACTION.N)))
+		(!R14 (NOT (?X_O AGENT.N)))
+		(!R15 (?X_O OBJECT.N))
+	)
+	(:STEPS
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) GO.20.V) ?L2))
+		(?X_J (?X_N LIKE.21.V ?X_O))
+		(?X_A (?X_L (= ?X_E)))
+		(?X_C (?X_D (= ?X_M)))
+	)
+)
+
+; "Jane's teacher wants her to go to school."
+; "She needs to be quiet."
+; "She needs to listen."
+(EPI-SCHEMA ((?X_F (NEED.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D TEACHER.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_F)))
+		(!R4 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_A (?X_D (WANT.V ?X_E)))
+		(?X_C (?X_F (NEED.V (KA QUIET.A))))
+		(?X_H (?X_F (NEED.V (KA LISTEN.V))))
+	)
+)
+
+; "A girl named Jessie likes school."
+; "She has friends there."
+; "She plays sports on campus."
+; "She goes to school everyday."
+(EPI-SCHEMA ((?X_K (PLAY.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J SCHOOL.N))
+		(!R2 (?X_F CAMPUS.N))
+		(!R3 (?X_E (PLUR SPORT.N)))
+		(!R4 (?X_E (ON.P ?X_F)))
+		(!R5 (?X_G GIRL.N))
+		(!R6 (?X_G ((PASV NAME.V) ?X_K)))
+		(!R7 (?X_L SCHOOL.N))
+		(!R8 (?X_L EVERYDAY.A))
+		(!R9 (?X_J OBJECT.N))
+		(!R10 (NOT (?X_J ACTION.N)))
+		(!R11 (NOT (?X_J AGENT.N)))
+		(!R12 (?X_K AGENT.N))
+		(!R13 (?X_L DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_G LIKE.22.V ?X_J))
+		(?X_D (?X_K PLAY.23.V))
+		(?X_I (?X_K ((ADV-A (FROM.P ?L1)) GO.24.V) ?X_L))
+	)
+)
+
+; "Tom's mother taught him how to play baseball."
+; "His father played baseball."
+; "Tom learned how to play baseball."
+; "He played on the team."
+; "He scored many runs."
+(EPI-SCHEMA ((?X_L ((ADV-A (WITH.P ?X_I)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D MANY.A))
+		(!R2 (?X_D (PLUR RUN.N)))
+		(!R3 (?X_E BASEBALL.N))
+		(!R4 (?X_F BASEBALL.N))
+		(!R5 (?X_G BASEBALL.N))
+		(!R6 (?X_H MOTHER.N))
+		(!R7 (?X_H (PERTAIN-TO ?X_L)))
+		(!R8 (?X_I FATHER.N))
+		(!R9 (?X_I (PERTAIN-TO ?X_L)))
+		(!R10 (?X AGENT.N))
+		(!R11 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?E_1 (?X PLAY.11.V))
+		(?X_A (?X_I PLAY.25.V))
+		(?E_2 (?X_L PLAY.26.V))
+		(?X_K (?X_L PLAY.27.V))
+		(?X_C (?X_L (SCORE.V ?X_D)))
+	)
+)
+
+; "Tom's mother is a teacher."
+; "She loves teaching children."
+; "She teaches them many things."
+(EPI-SCHEMA ((?X_G (TEACH.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C (PLUR THING.N)))
+		(!R3 (?X_H (PLUR CHILD.N)))
+		(!R4 (?X_D TEACHER.N))
+		(!R5 (?X_D MOTHER.N))
+		(!R6 (?X_D (PERTAIN-TO ?X_G)))
+		(!R7 (?X_G AGENT.N))
+		(!R8 ((KA (TEACH.V ?X_H)) ACTION.N))
+	)
+	(:STEPS
+		(?X_F (?X_G LOVE.28.V (KA (TEACH.V ?X_H))))
+		(?X_B (?X_G (TEACH.V ?X_H ?X_C)))
+	)
+)
+
+; "Mary baked a birthday cake."
+; "She made it for her mom."
+; "She decorated it with candles."
+; "She lit the candles with matches."
+; "Mary gave her mom a present."
+; "It wasn't anything special."
+(EPI-SCHEMA ((?X_L (((ADV-A (TO.P ?X_L)) GIVE.V) ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR CANDLE.N)))
+		(!R2 (?X_I BIRTHDAY.N))
+		(!R3 (?X_I CAKE.N))
+		(!R4 (?X_J MOM.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_K)))
+		(!R6 (?X_L PRESENT.N))
+		(!R7 (?X_J AGENT.N))
+		(!R8 (?X_K AGENT.N))
+		(!R9 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_K (((ADV-A (FOR.P ?X_J)) MAKE.V) ?X_I)))
+		(?X_G (?X_K (((ADV-A (WITH.P ?X_H)) DECORATE.V) ?X_I)))
+		(?X_E (?X_K (LIGHT.V ?X_A)))
+		(?X_C (?X_K (GIVE.4.V ?X_J ?X_L)))
+	)
+)
+
+; "Barry had a birthday party."
+; "His friends came over."
+; "They ate cake."
+; "They sang songs."
+; "They played games."
+; "They gave him presents."
+(EPI-SCHEMA ((?X_Q (COMPOSITE-SCHEMA.PR ?X_K ?X_F ?X_C ?X_R ?X_S ?X_T)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GAME.N)))
+		(!R2 (?X_F (PLUR SONG.N)))
+		(!R3 (?X_Q (PLUR FRIEND.N)))
+		(!R4 (?X_K BIRTHDAY.N))
+		(!R5 (?X_K PARTY.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?X_R CAKE.N))
+		(!R8 (?X_Q (PERTAIN-TO ?X_S)))
+		(!R9 (?X_T (PLUR PRESENT.N)))
+		(!R10 (?X_R FOOD.N))
+		(!R11 (?X_S AGENT.N))
+		(!R12 (NOT (?X_T AGENT.N)))
+	)
+	(:STEPS
+		(?X_J (?X_L (HAVE.V ?X_K)))
+		(?X_H (?X_Q COME_OVER.V))
+		(?X_N (?X_Q EAT.3.V ?X_R))
+		(?X_E (?X_Q (SING.V ?X_F)))
+		(?X_B (?X_Q (PLAY.V ?X_C)))
+		(?X_P (?X_Q (GIVE.5.V ?X_S ?X_T)))
+	)
+)
+
+; "Mary's mom baked a birthday cake for Mary."
+; "Mary liked her cake."
+; "She ate some of it."
+; "Mary's mom gave her a present."
+; "Mary opened her present."
+; "It was a candle."
+(EPI-SCHEMA ((?X_N (LIKE.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F PRESENT.N))
+		(!R2 (?X_E PRESENT.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_O)))
+		(!R4 (?X_G MOM.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_O)))
+		(!R6 (?X_H MOM.N))
+		(!R7 (?X_H (PERTAIN-TO ?X_O)))
+		(!R8 (?X_N CAKE.N))
+		(!R9 (?X_N BIRTHDAY.N))
+		(!R10 (?X_N (PERTAIN-TO ?X_O)))
+		(!R11 (?X_K CANDLE.N))
+		(!R12 (?X_I (FOR.P ?X_O)))
+		(!R13 (?X_H (BAKED.A ?X_I)))
+		(!R14 (?X_J BIRTHDAY.N))
+		(!R15 (?X_I ?X_J CAKE.N))
+		(!R16 (?X_P {REF}.N))
+		(!R17 (?X_P (OF.P ?X_K)))
+		(!R18 (NOT (?X_N ACTION.N)))
+		(!R19 (NOT (?X_N AGENT.N)))
+		(!R20 (?X_O AGENT.N))
+		(!R21 (?X_P FOOD.N))
+	)
+	(:STEPS
+		(?X_A (?X_O LIKE.6.V ?X_N))
+		(?X_M (?X_O EAT.3.V ?X_P))
+		(?X_D (?X_G (GIVE.V ?X_O ?X_E)))
+		(?X_B (?X_O (OPEN.V ?X_F)))
+	)
+)
+
+; "Mary's mom baked a birthday cake for Mary."
+; "She decorated the cake."
+; "She put candles on top of the cake."
+; "She lit the candles."
+; "Mary blew out all the candles."
+(EPI-SCHEMA ((?X_I (((ADV-A (IN.P ?L)) PUT.V) ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR CANDLE.N)))
+		(!R2 (?X_F CAKE.N))
+		(!R3 (?X_F BIRTHDAY.N))
+		(!R4 (?X_L MOM.N))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_I)))
+		(!R7 (?X_J (FOR.P ?X_I)))
+		(!R8 (?X_L (BAKED.A ?X_J)))
+		(!R9 (?X_K BIRTHDAY.N))
+		(!R10 (?X_J ?X_K CAKE.N))
+		(!R11 (?X_L AGENT.N))
+		(!R12 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_L (DECORATE.V ?X_F)))
+		(?X_H (?X_L PUT.7.V ?X_C ?L))
+		(?X_B (?X_L (LIGHT.V ?X_C)))
+	)
+)
+
+; "Tommy has a birthday party."
+; "His friends come over."
+; "They play games."
+; "They eat pizza."
+(EPI-SCHEMA ((?X_G (HAVE.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR FRIEND.N)))
+		(!R2 (?X_E BIRTHDAY.N))
+		(!R3 (?X_E PARTY.N))
+		(!R4 (?X_G AGENT.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_G)))
+		(!R6 (?X_J (PLUR GAME.N)))
+	)
+	(:STEPS
+		(?X_D (?X_G (HAVE.V ?X_E)))
+		(?X_B (?X_F COME_OVER.V))
+		(?X_I (?X_F PLAY.8.V))
+	)
+)
+
+; "Tom loves his birthday."
+; "His birthday is next week."
+; "He wants to play games."
+; "He has a lot of friends."
+; "He can invite some friends over."
+(EPI-SCHEMA ((?X_M ((ADV-A (OVER.P ?X_K)) INVITE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR GAME.N)))
+		(!R2 (?X_K BIRTHDAY.N))
+		(!R3 (?X_K (PERTAIN-TO ?X_M)))
+		(!R4 (?X_H (PLUR FRIEND.N)))
+		(!R5 (?X_L LOT.N))
+		(!R6 (?X_L (OF.P ?X_H)))
+		(!R7 (?X_N (PLUR FRIEND.N)))
+		(!R8 (?X_K OBJECT.N))
+		(!R9 (NOT (?X_K ACTION.N)))
+		(!R10 (NOT (?X_K AGENT.N)))
+		(!R11 (?X_L OBJECT.N))
+		(!R12 (?X_M AGENT.N))
+		(!R13 (NOT (?X_M = ?X_N)))
+		(!R14 (?A ACTION.N))
+	)
+	(:STEPS
+		(?X_A (?X_M LOVE.9.V ?X_K))
+		(?X_B ((ADV-E ({DURING}.P (NEXT.D WEEK.N))) (?X_K BE.V)))
+		(?X_D (?X_M (WANT.V (KA (PLAY.V ?X_E)))))
+		(?E_1 (?X_M PLAY.10.V))
+		(?X_G (?X_M HAVE.11.V ?X_L))
+		(?X_J (?X_M INVITE_OVER.12.V ?X_N ?A))
+	)
+)
+
+; "Tommy's birthday is June 6th."
+; "His mom gave him a present for his birthday."
+; "He was surprised by the gift."
+; "He opened his present."
+; "A new bike! He loves bikes."
+; "This one has lights and brakes."
+(EPI-SCHEMA ((?X_N
+              (COMPOSITE-SCHEMA.PR (KE (?X_F 6TH.A)) ?X_P ?X_N ?X_M ?O ?X_O))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_P GIFT.N))
+		(!R2 (?X_P PRESENT.N))
+		(!R3 (?X_P ONE.N))
+		(!R4 (?X_P (PERTAIN-TO ?X_N)))
+		(!R5 (?X_F AGENT.N))
+		(!R6 (?X_G BIRTHDAY.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_N)))
+		(!R8 (?X_L MOM.N))
+		(!R9 (?X_L (PERTAIN-TO ?X_N)))
+		(!R10 (?X_L AGENT.N))
+		(!R11 (NOT (?X_M AGENT.N)))
+		(!R12 (?X_N AGENT.N))
+		(!R13 (NOT (?O ACTION.N)))
+		(!R14 (NOT (?O AGENT.N)))
+		(!R15 (?O OBJECT.N))
+		(!R16 (?X_O OBJECT.N))
+		(!R17 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_G (BE.V (KE (?X_F 6TH.A)))))
+		(?X_A (?X_L (GIVE.13.V ?X_N ?X_M)))
+		(?X_B (?X_N (BY.P ?X_P)))
+		(?X_C (?X_N (OPEN.V ?X_P)))
+		(?X_I (?X_N LOVE.14.V ?O))
+		(?X_K (?X_P HAVE.15.V ?X_O))
+	)
+)
+
+; "A girl named Mary had a birthday."
+; "Her mom baked a cake for her."
+; "Mary cut the cake into pieces."
+; "She gave each piece of cake to someone else."
+(EPI-SCHEMA ((?X_F (((ADV-A (INTO.P ?X_E)) CUT.V) ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A GIRL.N))
+		(!R2 (?X_B BIRTHDAY.N))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_F)))
+		(!R5 (?X_E (PLUR PIECE.N)))
+		(!R6 (?X_H CAKE.N))
+		(!R7 (?X_H (FOR.P ?X_F)))
+		(!R8 (?X_G (BAKED.A ?X_H)))
+	)
+	(:STEPS
+		(?X_D (?X_A (NAME.V (THT (?X_F (HAVE.V ?X_B))))))
+		(?X_J (?X_F (((ADV-A (INTO.P ?X_E)) CUT.V) ?X_H)))
+	)
+)
+
+; "Mary was making a birthday cake for her mom."
+; "She put candles on top of it."
+; "She lit the candles."
+; "She blew out the candles."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_G ?X_F ?L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR CANDLE.N)))
+		(!R2 (?X_G BIRTHDAY.N))
+		(!R3 (?X_G CAKE.N))
+		(!R4 (?X_H MOM.N))
+		(!R5 (?X_H (PERTAIN-TO ?X_K)))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_K (((ADV-A (FOR.P ?X_H)) MAKE.V) ?X_G)))
+		(?X_J (?X_K PUT.16.V ?X_F ?L))
+		(?X_E (?X_K (LIGHT.V ?X_F)))
+		(?X_C (?X_K (BLOW_OUT.V ?X_F)))
+	)
+)
+
+; "Sally went to the store."
+; "She bought some candy."
+; "She ate one piece."
+; "She wanted another."
+; "She went back to the store."
+; "But they were sold out."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_J)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J STORE.N))
+		(!R2 (?X_E CANDY.N))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_L PIECE.N))
+		(!R5 (?X_J DESTINATION.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L FOOD.N))
+	)
+	(:STEPS
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) GO.17.V) ?X_J))
+		(?X_D (?X_K (BUY.V ?X_E)))
+		(?X_I (?X_K EAT.3.V ?X_L))
+		(?X_B (?X_K ((ADV-A (TO.P ?X_J)) (BACK.ADV GO.V))))
+	)
+)
+
+; "Alice bought some candy at the store."
+; "She ate one piece."
+; "She wanted another."
+; "She went back to the store."
+; "But they were sold out."
+(EPI-SCHEMA ((?X_J (((ADV-A (AT.P ?X_F)) BUY.V) ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E CANDY.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_F STORE.N))
+		(!R4 (?X_I PIECE.N))
+		(!R5 (?X_I FOOD.N))
+		(!R6 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_J (((ADV-A (AT.P ?X_F)) BUY.V) ?X_E)))
+		(?X_H (?X_J EAT.3.V ?X_I))
+		(?X_B (?X_J ((ADV-A (TO.P ?X_F)) (BACK.ADV GO.V))))
+	)
+)
+
+; "Tom loves chocolate."
+; "He has lots of chocolate."
+; "He eats chocolate everyday."
+; "He is always eating chocolate."
+(EPI-SCHEMA ((?X_M (LOVE.V ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_N CHOCOLATE.N))
+		(!R2 (?X_J CHOCOLATE.N))
+		(!R3 (?X_E CHOCOLATE.N))
+		(!R4 (?X_K (PLUR LOT.N)))
+		(!R5 (?X_K (OF.P ?X_E)))
+		(!R6 (?X_L CHOCOLATE.N))
+		(!R7 (?X_L EVERYDAY.A))
+		(!R8 (?X_J OBJECT.N))
+		(!R9 (NOT (?X_J ACTION.N)))
+		(!R10 (NOT (?X_J AGENT.N)))
+		(!R11 (?X_K FOOD.N))
+		(!R12 (?X_L FOOD.N))
+		(!R13 (?X_M AGENT.N))
+		(!R14 (?X_N FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_M LOVE.19.V ?X_J))
+		(?X_G (?X_M HAVE.20.V ?X_K))
+		(?X_I (?X_M EAT.3.V ?X_L))
+		(?X_B (?X_M (ALWAYS.ADV ((ADV-A (FOR.P (KA (EAT.V ?X_N)))) BE.V))))
+		(?E_1 (?X_M EAT.18.V ?X_N))
+	)
+)
+
+; "Sally went to the store."
+; "She bought some candy."
+; "She ate one piece."
+; "She wanted another."
+; "She went back to the store."
+; "But they were sold out."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_J)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J STORE.N))
+		(!R2 (?X_E CANDY.N))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_L PIECE.N))
+		(!R5 (?X_J DESTINATION.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L FOOD.N))
+	)
+	(:STEPS
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) GO.17.V) ?X_J))
+		(?X_D (?X_K (BUY.V ?X_E)))
+		(?X_I (?X_K EAT.3.V ?X_L))
+		(?X_B (?X_K ((ADV-A (TO.P ?X_J)) (BACK.ADV GO.V))))
+	)
+)
+
+; "Sally bought candy from the store."
+; "She bought chocolate bars."
+; "She ate one bar."
+; "She wanted another."
+(EPI-SCHEMA ((?X_J (BUY.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CHOCOLATE.N))
+		(!R2 (?X_C (PLUR BAR.N)))
+		(!R3 (?X_F CANDY.N))
+		(!R4 (?X_G STORE.N))
+		(!R5 (?X_K BAR.N))
+		(!R6 (?X_J AGENT.N))
+		(!R7 (?X_K FOOD.N))
+	)
+	(:STEPS
+		(?X_E (?X_J (((ADV-A (FROM.P ?X_G)) BUY.V) ?X_F)))
+		(?X_B (?X_J (BUY.V ?X_C)))
+		(?X_I (?X_J EAT.3.V ?X_K))
+	)
+)
+
+; "Mary's mom gave her some candy."
+; "Mary ate the candy."
+; "She liked the candy."
+(EPI-SCHEMA ((?X_H (EAT.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G MOM.N))
+		(!R2 (?X_G (PERTAIN-TO ?X_H)))
+		(!R3 (?X_I CANDY.N))
+		(!R4 (?X_G AGENT.N))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?X_I OBJECT.N))
+		(!R7 (NOT (?X_I ACTION.N)))
+		(!R8 (NOT (?X_I AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_G (GIVE.21.V ?X_H ?X_I)))
+		(?X_D (?X_H EAT.3.V ?X_I))
+		(?X_F (?X_H LIKE.22.V ?X_I))
+	)
+)
+
+; "The boy was walking home."
+; "His dog followed him."
+; "The dog ran into the street."
+; "A car hit the dog."
+; "The boy walked home."
+(EPI-SCHEMA ((?X_L ((ADV-A (TO.P ?X_L)) ((ADV-A (FROM.P ?X_M)) WALK.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_H DOG.N))
+		(!R2 (?X_E CAR.N))
+		(!R3 (?X_M STREET.N))
+		(!R4 (?X_L HOME.N))
+		(!R5 (?X_I BOY.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_I)))
+		(!R7 (?X_H (PERTAIN-TO ?X_I)))
+		(!R8 (?X_N HOME.N))
+		(!R9 (?X_L DESTINATION.N))
+		(!R10 (?X_M DESTINATION.N))
+		(!R11 (?X_N DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_L))
+		(?X_B (?X_H FOLLOW.2.V ?X_I))
+		(?X_G (?X_H ((ADV-A (FROM.P ?L1)) RUN.3.V) ?X_M))
+		(?X_D (?X_E (HIT.V ?X_H)))
+		(?X_K (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_N))
+	)
+)
+
+; "The boy's dog chased after him."
+; "He ran through the streets."
+; "The boy stopped running."
+; "The dog came back."
+; "The boy kept on walking."
+(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_J (IND (6 SELF_MOTION)) ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J BOY.N))
+		(!R2 (?X_I DOG.N))
+		(!R3 (?X_I (PERTAIN-TO ?X_J)))
+		(!R4 ((IND (6 SELF_MOTION)) ACTION.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_I CHASE.5.V ?X_J))
+		(?X_F (?X_J ((ADV-A (FROM.P ?L1)) RUN.6.V) ?L2))
+		(?X_H (?X_J STOP.7.V (IND (6 SELF_MOTION))))
+		(?E_1 (?X_J ((ADV-A (FROM.P ?L1)) RUN.8.V) ?L2))
+		(?X_L (?X_I ((ADV-A (FROM.P ?L1)) COME.9.V) ?L2))
+		(?X_B (?X_J ((ADV-A (FOR.P (KA WALK.V))) KEEP_ON.V)))
+	)
+)
+
+; "Tom's friend has a dog."
+; "Tom plays with the dog."
+; "Tom likes playing with the dog."
+(EPI-SCHEMA ((?X_H (LIKE.V (KA ((ADV-A (WITH.P ?X_I)) PLAY.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_I DOG.N))
+		(!R2 (?X_E FRIEND.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_H)))
+		(!R4 (?X_H AGENT.N))
+		(!R5 ((KA ((ADV-A (WITH.P ?X_I)) PLAY.V)) ACTION.N))
+	)
+	(:STEPS
+		(?X_D (?X_E HAVE.10.V ?X_I))
+		(?X_B (?X_H ((ADV-A (WITH.P ?X_I)) PLAY.V)))
+		(?X_G (?X_H LIKE.11.V (KA ((ADV-A (WITH.P ?X_I)) PLAY.V))))
+	)
+)
+
+; "The girl's dog ate an apple."
+; "The boy gave the girl a present."
+; "The girl's dog bit the boy."
+; "The boy cried."
+(EPI-SCHEMA ((?X_K (GIVE.V ?X_I ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A APPLE.N))
+		(!R2 (?X_L PRESENT.N))
+		(!R3 (?X_J DOG.N))
+		(!R4 (?X_I GIRL.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_I)))
+		(!R6 (?X_H DOG.N))
+		(!R7 (?X_H (PERTAIN-TO ?X_I)))
+		(!R8 (?X_K BOY.N))
+		(!R9 (?X_J (BIT.N ?X_K)))
+		(!R10 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_C (?X_H EAT.12.V ?X_A))
+		(?X_E (?X_K (GIVE.13.V ?X_I ?X_L)))
+		(?X_G (?X_K CRY.14.V))
+	)
+)
+
+; "Sammy's dog is brown."
+; "His name is Sammy."
+; "Sammy likes to eat meat."
+; "Sammy doesn't like carrots."
+; "Sammy loves to play."
+(EPI-SCHEMA ((?X_H (LIKE.V (KA (EAT.V ?X_K)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_K MEAT.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_I NAME.N))
+		(!R4 (?X_I SAMMY.A))
+		(!R5 (?X_J BROWN.A))
+		(!R6 (?X_J DOG.N))
+		(!R7 (?X_J (PERTAIN-TO ?X_H)))
+		(!R8 (?X_I (PERTAIN-TO ?X_J)))
+		(!R9 ((KA (EAT.V ?X_K)) ACTION.N))
+		(!R10 (?X_K FOOD.N))
+		(!R11 ((KA PLAY.V) ACTION.N))
+	)
+	(:STEPS
+		(?X_C (?X_J LIKE.15.V (KA (EAT.V ?X_K))))
+		(?E_1 (?X_J EAT.16.V ?X_K))
+		(?X_E (?X_J LIKE.17.V (IND (4 ?X_A))))
+		(?X_G (?X_J LOVE.18.V (KA PLAY.V)))
+	)
+)
+
+; "The dog chased the cat."
+; "The cat jumped over the fence."
+; "The dog caught the cat."
+; "The cat bit the dog."
+; "The dog barked."
+(EPI-SCHEMA ((?X_D ((ADV-A (OFF.P (SET-OF ?L2 ?L2))) (SAFELY.ADV JUMP.V))) **
+             ?E)
+	(:ROLES
+		(!R1 (?X_C CAT.N))
+		(!R2 (?X_D DOG.N))
+		(!R3 (?L2 DESTINATION.N))
+		(!R4 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_F (?X_D CHASE.19.V ?X_C))
+		(?X_H (?X_C ((ADV-A (FROM.P ?L1)) JUMP.20.V) ?L2))
+		(?X_B (?X_D (CATCH.V ?X_C)))
+		(?X_J (?X_D BARK.21.V ?N))
+	)
+)
+
+; "The boy's dog was running through the streets."
+; "The boy's dog ran into the street."
+; "The boy's dog was hit by a car."
+; "The boy walked home."
+(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_B ?L2 ?X_K ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B CAR.N))
+		(!R2 (?X_G DOG.N))
+		(!R3 (?X_K STREET.N))
+		(!R4 (?X_H BOY.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+		(!R6 (?X_L HOME.N))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?X_K DESTINATION.N))
+		(!R9 (?X_L DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_G ((ADV-A (FROM.P ?L1)) RUN.6.V) ?L2))
+		(?X_F (?X_G ((ADV-A (FROM.P ?L1)) RUN.3.V) ?X_K))
+		(?X_A (?X_G (BY.P ?X_B)))
+		(?X_J (?X_H ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_L))
+	)
+)
+
+; "The girl's dog bit her."
+; "She cried because she was hurt."
+; "The boy's dog barked at them."
+; "The boy yelled at the dog."
+(EPI-SCHEMA ((?X_H ((ADV-A (AT.P ?X_C)) ((ADV-A (FOR.P ?X_C)) YELL.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DOG.N))
+		(!R2 (?X_D BOY.N))
+		(!R3 (?X_C (PERTAIN-TO ?X_D)))
+		(!R4 (?X_H GIRL.N))
+		(!R5 (?X_G DOG.N))
+		(!R6 (?X_G (BIT.N ?X_H)))
+		(!R7 (?X_G (PERTAIN-TO ?X_H)))
+		(!R8 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_F (?X_H CRY.22.V ?N))
+		(?X_J (?X_C BARK.23.V ?N))
+		(?X_B (?X_D ((ADV-A (AT.P ?X_C)) YELL.V)))
+	)
+)
+
+; "The boy was walking home."
+; "He saw a girl on the sidewalk."
+; "She was crying."
+; "He helped her."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_K)) ((ADV-A (FROM.P ?X_K)) WALK.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GIRL.N))
+		(!R2 (?X_H BOY.N))
+		(!R3 (?X_K HOME.N))
+		(!R4 (?X_K (PERTAIN-TO ?X_H)))
+		(!R5 (?X_K DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_H ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_K))
+		(?X_G (?X_H SEE.24.V ?X_C))
+		(?X_J (?X_C CRY.25.V))
+		(?X_B (?X_H (HELP.V ?X_C)))
+	)
+)
+
+; "A boy and girl were having fun at their friends' house."
+; "They played with toys."
+; "They watched TV."
+; "They talked."
+; "They did many things together."
+(EPI-SCHEMA ((?X_F (((ADV-A (WITH.P ?X_I)) WATCH.V) ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C (PLUR THING.N)))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_I (PLUR TOY.N)))
+		(!R5 (?X_L FUN.N))
+		(!R6 (?X_M GIRL.N))
+		(!R7 (?X_N BOY.N))
+		(!R8 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(?X_K ((SET-OF ?X_N ?X_M) (HAVE.V ?X_L)))
+		(?X_H (?X_M ((ADV-A (WITH.P ?X_I)) PLAY.V)))
+		(?X_P (?X_M WATCH.27.V ?X_Q))
+		(?X_E (?X_F TALK.V))
+		(?X_B (?X_F (DO.V ?X_C)))
+	)
+)
+
+; "Bill's friend is named Bob."
+; "He has lots of friends."
+; "His best friend is named Tom."
+; "He likes to play sports."
+; "He plays football."
+; "He plays baseball."
+; "He plays basketball."
+; "He plays hockey."
+(EPI-SCHEMA ((?X_E (PLAY.V ?X_ZA)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D HOCKEY.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_U (PERTAIN-TO ?X_ZB)))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_I FRIEND.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_ZB)))
+		(!R7 (?X_L (PLUR FRIEND.N)))
+		(!R8 (?X_Z (PLUR LOT.N)))
+		(!R9 (?X_Z (OF.P ?X_L)))
+		(!R10 (?X_ZA (PLUR SPORT.N)))
+		(!R11 (?X_Q FOOTBALL.N))
+		(!R12 (?X_T BASEBALL.N))
+		(!R13 (?X_V BEST.A))
+		(!R14 (?X_U ?X_V FRIEND.N))
+		(!R15 (?X_Y BASKETBALL.N))
+		(!R16 (?X_Z OBJECT.N))
+		(!R17 ((KA (PLAY.V ?X_ZA)) ACTION.N))
+		(!R18 (?X AGENT.N))
+		(!R19 (?X_ZB AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_I ((PASV NAME.V) ?X_H)))
+		(?X_K (?X_ZB HAVE.28.V ?X_Z))
+		(?X_A (?X_U ((PASV NAME.V) ?X_E)))
+		(?X_N (?X_ZB LIKE.29.V (KA (PLAY.V ?X_ZA))))
+		(?E_1 (?X PLAY.30.V))
+		(?X_P (?X_ZB PLAY.31.V))
+		(?X_S (?X_ZB PLAY.32.V))
+		(?X_X (?X_ZB PLAY.33.V))
+		(?X_C (?X_ZB (PLAY.V ?X_D)))
+	)
+)
+
+; "Alice saw some boys on the street."
+; "They were talking."
+; "They looked happy."
+; "They kept looking around."
+(EPI-SCHEMA ((?X_H TALK.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_E HAPPY.A))
+		(!R2 (?X_H (PLUR BOY.N)))
+		(!R3 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_K SEE.34.V ?X_H))
+		(?X_G (?X_H TALK.V))
+		(?X_D (?X_H (LOOK.V ?X_E)))
+		(?X_B (?X_H ((ADV-A (FOR.P (KA (AROUND.ADV LOOK.V)))) KEEP.V)))
+	)
+)
+
+; "Tommy's friend came over."
+; "They played games."
+; "They ate snacks."
+; "They watched movies."
+(EPI-SCHEMA ((?X_N (COMPOSITE-SCHEMA.PR ?X_F ?X_C ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR MOVIE.N)))
+		(!R2 (?X_F (PLUR GAME.N)))
+		(!R3 (?X_I FRIEND.N))
+		(!R4 (?X_I (PERTAIN-TO ?X_J)))
+		(!R5 (?X_M (PLUR SNACK.N)))
+		(!R6 (?X_M FOOD.N))
+		(!R7 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_I COME_OVER.V))
+		(?X_E (?X_N (PLAY.V ?X_F)))
+		(?X_L (?X_N EAT.12.V ?X_M))
+		(?X_B (?X_N (WATCH.V ?X_C)))
+	)
+)
+
+; "Tommy and Jenny had fun at their friend's house."
+; "They played games."
+; "They ate snacks."
+; "They watched television."
+; "They talked."
+; "They played sports."
+(EPI-SCHEMA ((?X_P (COMPOSITE-SCHEMA.PR ?X_B ?X_E ?X_H ?X_K ?X_Q)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A AGENT.N))
+		(!R2 (?X_B FUN.N))
+		(!R3 (?X_E (PLUR GAME.N)))
+		(!R4 (?X_H (PLUR SNACK.N)))
+		(!R5 (?X_K TELEVISION.N))
+		(!R6 (?X_P AGENT.N))
+		(!R7 (?X_Q AGENT.N))
+		(!R8 (?X_Q (PLUR SPORT.N)))
+	)
+	(:STEPS
+		(?X_D ((SET-OF ?X_A ?X_Q) (HAVE.V ?X_B)))
+		(?X_G (?X_Q (PLAY.V ?X_E)))
+		(?X_J (?X_P (EAT.V ?X_H)))
+		(?X_M (?X_P (WATCH.V ?X_K)))
+		(?X_O (?X_P TALK.V))
+		(?X_S (?X_P (PLAY.V ?X_Q)))
+	)
+)
+
+; "Henry and Mary went swimming."
+; "Henry liked the pool."
+; "Mary didn't like the pool."
+; "Henry swam underwater."
+; "Mary couldn't swim underwater."
+(EPI-SCHEMA ((?X_L (SWIM.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K POOL.N))
+		(!R2 (?X_M UNDERWATER.A))
+		(!R3 ((SET-OF ?X_L ?X_N) AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (NOT (?X_K ACTION.N)))
+		(!R6 (NOT (?X_K AGENT.N)))
+		(!R7 (?X_L AGENT.N))
+		(!R8 (?X_M DESTINATION.N))
+		(!R9 (?X_N AGENT.N))
+		(!R10 ((K UNDERWATER.A) DESTINATION.N))
+	)
+	(:STEPS
+		(?E_1 (?X_L ((ADV-A (FROM.P ?L1)) SWIM.37.V) ?L2))
+		(?X_D ((SET-OF ?X_L ?X_N) ((ADV-A (FROM.P ?L1)) GO.38.V) ?L2))
+		(?X_F (?X_L LIKE.39.V ?X_K))
+		(?X_B (NOT (?X_N (LIKE.P ?X_K))))
+		(?X_H (?X_L ((ADV-A (FROM.P ?L1)) SWAM.40.V) ?X_M))
+		(?X_J (?X_N ((ADV-A (FROM.P ?L1)) SWIM.41.V) (K UNDERWATER.A)))
+	)
+)
+
+; "Tommy's friend is named Mike."
+; "Mike likes playing sports."
+; "Mike has a dog named Spike."
+; "Spike loves to play."
+; "Tommy doesn't know any kids who have dogs."
+(EPI-SCHEMA ((?X_H ((ADV-A (WITH.P ?X_S)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H AGENT.N))
+		(!R2 (?X_S FRIEND.N))
+		(!R3 (?X_U (PLUR SPORT.N)))
+		(!R4 (?X_O DOG.N))
+		(!R5 (?X_O ((PASV NAME.V) ?X_V)))
+		(!R6 (?X_R (PLUR DOG.N)))
+		(!R7 (?X_T AGENT.N))
+		(!R8 (?X_S (PERTAIN-TO ?X_T)))
+		(!R9 ((KA (PLAY.V ?X_U)) ACTION.N))
+		(!R10 (?X AGENT.N))
+		(!R11 (?X_V AGENT.N))
+		(!R12 ((KA PLAY.V) ACTION.N))
+	)
+	(:STEPS
+		(?X_G (?X_S ((PASV NAME.V) ?X_H)))
+		(?X_J (?X_S LIKE.42.V (KA (PLAY.V ?X_U))))
+		(?E_1 (?X PLAY.30.V))
+		(?X_L (?X_S HAVE.43.V ?X_O))
+		(?X_N (?X_V LOVE.44.V (KA PLAY.V)))
+		(?X_Q
+   (?X_T KNOW.45.V
+    (ANY.D
+     (L X
+      (AND (X (PLUR KID.N))
+           (X
+            (WHO.REL
+             ((?X_B ?X_E (AND (?X_E (AT-ABOUT ?X_C)) (?X_D (ORIENTS ?X_E)))
+               (HAVE.V ** ?X_E))
+              ?X_R))))))))
+	)
+)
+
+; "The man walked around town."
+; "He found a store."
+; "He bought some food."
+; "He ate it while walking back home."
+(EPI-SCHEMA ((?X_E (((ADV-A (IN.P ?X_F)) BUY.V) ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FOOD.N))
+		(!R2 (?X_E MAN.N))
+		(!R3 (?X_F STORE.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_E ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_H (?X_E FIND.2.V ?X_F))
+		(?X_C (?X_E (BUY.V ?X_D)))
+	)
+)
+
+; "Tom played basketball."
+; "He did jumping shots."
+; "He missed the basket."
+; "He fell down on the court."
+(EPI-SCHEMA ((?X_J (PLAY.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C COURT.N))
+		(!R2 (?X_F BASKET.N))
+		(!R3 (?X_I (PLUR SHOT.N)))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_M BASKETBALL.N))
+		(!R6 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_N PLAY.3.V))
+		(?X_H (?X_J ((ADV-A (FOR.P (KA (JUMP.V ?X_I)))) DO.V)))
+		(?X_E (?X_J (MISS.V ?X_F)))
+		(?X_B (?X_J (DOWN.ADV ((ADV-A (ON.P ?X_C)) FALL.V))))
+	)
+)
+
+; "Tom liked eating pizza."
+; "He ate pizza for lunch."
+; "He ate dinner."
+; "He ate spaghetti for supper."
+(EPI-SCHEMA ((?X_O (EAT.V ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_N PIZZA.N))
+		(!R2 (?X_D LUNCH.N))
+		(!R3 (?X_C PIZZA.N))
+		(!R4 (?X_C (FOR.P ?X_D)))
+		(!R5 (?X_G DINNER.N))
+		(!R6 (?X_K SUPPER.N))
+		(!R7 (?X_J (PLUR SPAGHETTI.N)))
+		(!R8 (?X_J (FOR.P ?X_K)))
+		(!R9 ((KA (EAT.V ?X_N)) ACTION.N))
+		(!R10 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_O LIKE.4.V (KA (EAT.V ?X_N))))
+		(?E_1 (?X_O EAT.5.V ?X_N))
+		(?X_F (?X_O EAT.6.V ?X_C))
+		(?X_I (?X_O EAT.6.V ?X_G))
+		(?X_M (?X_O EAT.6.V ?X_J))
+	)
+)
+
+; "Tom walked down the street."
+; "He saw a store."
+; "He entered the store."
+; "He bought some food."
+; "He ate that food on the way home."
+(EPI-SCHEMA ((?X_L ((ADV-A (TO.P ?X_K)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K STORE.N))
+		(!R2 (?L2 DESTINATION.N))
+		(!R3 (?X_K DESTINATION.N))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (?X_M FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_L ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_F (?X_L SEE.7.V ?X_K))
+		(?X_H (?X_L ((ADV-A (FROM.P ?L1)) ENTER.8.V) ?X_K))
+		(?X_B (?X_L (BUY.V ?X_M)))
+		(?X_J (?X_L EAT.6.V ?X_M))
+	)
+)
+
+; "Tom's mom cooked dinner for him."
+; "She baked bread."
+; "Tom liked bread."
+; "Tom ate his dinner."
+(EPI-SCHEMA ((?X_F (EAT.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F BREAD.N))
+		(!R2 (?X_D MOM.N))
+		(!R3 (?X_E DINNER.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_G)))
+		(!R5 (?X_E (PERTAIN-TO ?X_G)))
+		(!R6 (?X_F OBJECT.N))
+		(!R7 (NOT (?X_F ACTION.N)))
+		(!R8 (NOT (?X_F AGENT.N)))
+		(!R9 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_G LIKE.9.V ?X_F))
+		(?X_A (?X_G EAT.6.V ?X_E))
+	)
+)
+
+; "Henry walked through town."
+; "He saw a store."
+; "He bought some food."
+; "He ate it while he was walking home."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_H)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FOOD.N))
+		(!R2 (?X_H STORE.N))
+		(!R3 (?L2 DESTINATION.N))
+		(!R4 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_G (?X_I SEE.10.V ?X_H))
+		(?X_B (?X_I (BUY.V ?X_C)))
+	)
+)
+
+; "Tom liked to walk fast."
+; "He walked down the street."
+; "He walked through the park."
+; "He walked on the sidewalk."
+; "He walked along the road."
+; "He walked near the river."
+(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR (KA (FAST.ADV WALK.V)) ?L2)) ** ?E)
+	(:ROLES
+		(!R1 ((KA (FAST.ADV WALK.V)) ACTION.N))
+		(!R2 (?X_M AGENT.N))
+		(!R3 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_M LIKE.11.V (KA (FAST.ADV WALK.V))))
+		(?E_1 (?X_M ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_D (?X_M ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_F (?X_M ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_H (?X_M ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_J (?X_M ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_L (?X_M ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+	)
+)
+
+; "Tom loved to walk."
+; "He liked to go for walks."
+; "He would walk through the park."
+; "He could hear birds singing."
+(EPI-SCHEMA ((?X_G ((ADV-A (THROUGH.P ?X_B)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A (PLUR BIRD.N)))
+		(!R2 (?X_A SINGING.N))
+		(!R3 (?X_B PARK.N))
+		(!R4 ((KA WALK.V) ACTION.N))
+		(!R5 ((KA ((ADV-A (FOR.P (KA WALK.V))) GO.V)) ACTION.N))
+		(!R6 (?X_G AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(E225.SK (?X_G ((ADV-A (THROUGH.P ?X_B)) WALK.V)))
+		(E226.SK (?X_G ((CAN.MD HEAR.V) ?X_A)))
+		(?X_D (?X_G LOVE.13.V (KA WALK.V)))
+		(?E_1 (?X_G ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?X_F (?X_G LIKE.14.V (KA ((ADV-A (FOR.P (KA WALK.V))) GO.V))))
+		(?E_2 (?X_G ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
+		(?E_3 (?X_G ((ADV-A (FROM.P ?L1)) GO.15.V) ?L2))
+	)
+)
+
+; "Alice walked down the street."
+; "She saw a dog."
+; "She petted the dog."
+; "The dog jumped into Alice's arms."
+(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?L2 ?X_C ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DOG.N))
+		(!R2 (?X_K (PLUR ARM.N)))
+		(!R3 (?X_K (PERTAIN-TO ?X_J)))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_K DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_G (?X_J SEE.16.V ?X_C))
+		(?X_B (?X_J (PET.V ?X_C)))
+		(?X_I (?X_C ((ADV-A (FROM.P ?L1)) JUMP.17.V) ?X_K))
+	)
+)
+
+; "[The man walked through the park.]"
+; "[The man walked down the street.]"
+; "[The man walked on a sidewalk.]"
+; "[The man walked on a driveway.]"
+; "[The man walked along a path.]"
+; "[The man walked on a trail.]"
+; "[The man walked along a road.]"
+; "[The man walked across a bridge.]"
+; "[The man walked over a hill.]"
+; "[The man walked on a beach.]"
+; "[The man walked under an arch.]"
+; "[The man walked on a boardwalk.]"
+; "[The man walked in a mall"
+(EPI-SCHEMA ((?X_Y (COMPOSITE-SCHEMA.PR ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_Y -LSB-THE.A))
+		(!R2 (?X_Y MAN.N))
+		(!R3 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_D (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_F (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_H (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_J (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_L (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_N (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_P (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_R (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_T (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_V (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_X (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_ZA (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+	)
+)
+
+; "Tommy was playing with his toys."
+; "He put one toy away."
+; "Then another."
+; "And another."
+; "Finally, Tommy put everything away."
+(EPI-SCHEMA ((?X_F ((ADV-A (WITH.P ?X_D)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR TOY.N)))
+		(!R2 (?X_D (PERTAIN-TO ?X_F)))
+		(!R3 (?X_E TOY.N))
+		(!R4 (?Y ENTITY.N))
+		(!R5 (?X_F AGENT.N))
+		(!R6 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_F PLAY.18.V ?Y))
+		(?X_C (?X_F PUT.19.V ?X_E ?L))
+	)
+)
+
+; "Tommy played with his toys."
+; "He put some away."
+; "He put others away."
+; "Finally, Tommy put all his toys away."
+(EPI-SCHEMA ((?X_F ((ADV-A (WITH.P ?X_E)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR OTHER.N)))
+		(!R2 (?X_E (PLUR TOY.N)))
+		(!R3 (?X_E (PERTAIN-TO ?X_F)))
+		(!R4 (?X_F AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_F PLAY.20.V ?X_E))
+		(?X_C (?X_F ((AWAY.ADV PUT.V) ?X_D)))
+	)
+)
+
+; "Tommy played with his toys."
+; "He put them away."
+; "He had fun."
+(EPI-SCHEMA ((?X_H ((ADV-A (WITH.P ?X_G)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FUN.N))
+		(!R2 (?X_G (PLUR TOY.N)))
+		(!R3 (?X_G (PERTAIN-TO ?X_H)))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_H PLAY.21.V ?X_G))
+		(?X_F (?X_H PUT.22.V ?X_G ?L))
+		(?X_C (?X_H (HAVE.V ?X_D)))
+	)
+)
+
+; "Tommy played with his toys."
+; "He put them away."
+; "Then he played with some other things."
+; "Tommy's mother came home from work."
+; "Tommy told her what he did."
+(EPI-SCHEMA ((?X_J ((ADV-A (WITH.P ?X_K)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D WORK.N))
+		(!R2 (?X_E HOME.N))
+		(!R3 (?X_L MOTHER.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_L)))
+		(!R5 (?X_K (PLUR TOY.N)))
+		(!R6 (?X_J OTHER.A))
+		(!R7 (?X_J (PLUR THING.N)))
+		(!R8 (?X_K (PERTAIN-TO ?X_M)))
+		(!R9 (?X_L (PERTAIN-TO ?X_M)))
+		(!R10 (?L LOCATION.N))
+		(!R11 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_M PLAY.25.V ?X_K))
+		(?X_G (?X_M PUT.26.V ?X_K ?L))
+		(?X_I (?X_M PLAY.27.V ?X_J))
+		(?X_C (?X_L ((ADV-A (TO.P ?X_E)) ((ADV-A (FROM.P ?X_D)) COME.V))))
+	)
+)
+
+; "Tommy played with his toys."
+; "His mom said that Tommy should play outside."
+; "Tommy did not want to play outdoors."
+; "He liked playing indoors."
+; "He played with his toys."
+(EPI-SCHEMA ((?X_K ((ADV-A (WITH.P ?X_I)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR OUTDOOR.N)))
+		(!R2 (?X_J (PLUR INDOOR.N)))
+		(!R3 (?X_H MOM.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_K)))
+		(!R5 (?X_I (PLUR TOY.N)))
+		(!R6 (?X_I (PERTAIN-TO ?X_K)))
+		(!R7 ((KA (PLAY.V ?X_J)) ACTION.N))
+		(!R8 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_K PLAY.28.V ?X_I))
+		(?X_D (NOT (?X_K (WANT.V (KA (PLAY.V ?X_E))))))
+		(?E_1 (?X_K PLAY.29.V))
+		(?X_G (?X_K LIKE.30.V (KA (PLAY.V ?X_J))))
+		(?X_B (?X_K PLAY.31.V ?X_I))
+	)
+)
+
+; "Tommy played with his toys."
+; "He put them all away."
+; "He played with some other things."
+(EPI-SCHEMA ((?X_D ((ADV-A (WITH.P ?X_G)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D OTHER.A))
+		(!R2 (?X_D (PLUR THING.N)))
+		(!R3 (?X_G (PLUR TOY.N)))
+		(!R4 (?X_G (PERTAIN-TO ?X_H)))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_H PLAY.32.V ?X_G))
+		(?X_F (?X_H PUT.33.V ?X_G ?L))
+		(?X_C (?X_H ((ADV-A (WITH.P ?X_D)) PLAY.V)))
+	)
+)
+
+; "Tommy played with his toys."
+; "He put them away."
+; "He picked some up again."
+; "He put some away again."
+(EPI-SCHEMA ((?X_E ((ADV-A (WITH.P ?X_D)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR TOY.N)))
+		(!R2 (?X_D (PERTAIN-TO ?X_E)))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_E PLAY.34.V ?X_D))
+		(?X_C (?X_E PUT.35.V ?X_D ?L))
+	)
+)
+
+; "Tom saw a snake."
+; "He picked it up by its tail."
+; "He threw it away."
+(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F SNAKE.N))
+		(!R2 (?X_E TAIL.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_F)))
+		(!R4 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_G SEE.1.V ?X_F))
+		(?X_B (?X_G (((ADV-A (BY.P ?X_E)) PICK_UP.V) ?X_F)))
+		(?X_D (?X_G ((AWAY.ADV THROW.V) ?X_F)))
+	)
+)
+
+; "Tom saw a snake."
+; "He picked it up by its tail."
+; "He threw it away."
+(EPI-SCHEMA ((?X_H (COMPOSITE-SCHEMA.PR ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E SNAKE.N))
+		(!R2 (?X_D TAIL.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_H SEE.2.V ?X_E))
+		(?X_A (?X_H (((ADV-A (BY.P ?X_D)) PICK_UP.V) ?X_E)))
+		(?X_C (?X_H ((AWAY.ADV THROW.V) ?X_E)))
+	)
+)
+
+; "Tom saw a snake."
+; "He picked it up by its tail."
+; "He threw it into the bushes."
+; "A dog bit him on the leg."
+(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR BUSH.N)))
+		(!R2 (?X_F SNAKE.N))
+		(!R3 (?X_E TAIL.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_F)))
+		(!R5 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_I SEE.3.V ?X_F))
+		(?X_A (?X_I (((ADV-A (BY.P ?X_E)) PICK_UP.V) ?X_F)))
+		(?X_C (?X_I (((ADV-A (INTO.P ?X_D)) THROW.V) ?X_F)))
+	)
+)
+
+; "Tom caught a snake."
+; "He put it on the ground."
+; "He held it by its tail."
+; "He let go of the snake's tail."
+; "The snake bit Tom."
+(EPI-SCHEMA ((?X_L (CATCH.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G TAIL.N))
+		(!R2 (?X_H SNAKE.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_H)))
+		(!R4 (?X_I GROUND.N))
+		(!R5 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_L CATCH.4.V ?X_H))
+		(?X_F (?X_L (((ADV-A (ON.P ?X_I)) PUT.V) ?X_H)))
+		(?X_B (?X_L (((ADV-A (BY.P ?X_G)) HOLD.V) ?X_H)))
+		(?X_D (?X_L (LET.V (KE (?X_A ((ADV-A (OF.P ?X_G)) GO.V))))))
+	)
+)
+
+; "Tom caught a snake."
+; "He put it on the ground."
+; "He held it by its tail."
+; "He threw it into the bushes."
+(EPI-SCHEMA ((?X_L (CATCH.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR BUSH.N)))
+		(!R2 (?X_G TAIL.N))
+		(!R3 (?X_H SNAKE.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_H)))
+		(!R5 (?X_I GROUND.N))
+		(!R6 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_L CATCH.4.V ?X_H))
+		(?X_F (?X_L (((ADV-A (ON.P ?X_I)) PUT.V) ?X_H)))
+		(?X_A (?X_L (((ADV-A (BY.P ?X_G)) HOLD.V) ?X_H)))
+		(?X_C (?X_L (((ADV-A (INTO.P ?X_D)) THROW.V) ?X_H)))
+	)
+)
+
+; "Tom saw a snake on the road."
+; "He picked it up by its tail."
+; "He threw it away."
+(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G SNAKE.N))
+		(!R2 (?X_D TAIL.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_G)))
+		(!R4 (?X_H ROAD.N))
+		(!R5 (?X_G (ON.P ?X_H)))
+		(!R6 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_I SEE.5.V ?X_G))
+		(?X_A (?X_I (((ADV-A (BY.P ?X_D)) PICK_UP.V) ?X_G)))
+		(?X_C (?X_I ((AWAY.ADV THROW.V) ?X_G)))
+	)
+)
+
+; "Tom was afraid of snakes."
+; "He was scared of them."
+; "He tried not to think about them."
+; "He told himself that they were just harmless."
+; "But Tom knew better."
+(EPI-SCHEMA ((?X_G (TELL.V ?X_G (THAT (?X_F HARMLESS.A)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR SNAKE.N)))
+		(!R2 (?X_G AFRAID.A))
+		(!R3 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_G (OF.P ?X_F)))
+		(?X_C (?X_G (OF.P ?X_F)))
+		(?X_E (?X_G (TELL.V ?X_G (THAT (?X_F (JUST.ADV HARMLESS.A))))))
+		(?E_1 (?X_G SCARE.6.V (IND (3 ?X_A))))
+	)
+)
+
+; "Tom found a snake on the ground."
+; "He picked it up by its tail."
+; "He threw it away."
+(EPI-SCHEMA ((?X_H (FIND.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E SNAKE.N))
+		(!R2 (?X_D TAIL.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_H FIND.7.V ?X_E))
+		(?X_A (?X_H (((ADV-A (BY.P ?X_D)) PICK_UP.V) ?X_E)))
+		(?X_C (?X_H ((AWAY.ADV THROW.V) ?X_E)))
+	)
+)
+
+; "Joey walked through the park."
+; "A snake bit him on the leg."
+; "He screamed."
+; "His friends came running."
+(EPI-SCHEMA ((?X_H (COMPOSITE-SCHEMA.PR ?N ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR FRIEND.N)))
+		(!R2 (?X_F (PERTAIN-TO ?X_H)))
+		(!R3 (?X_G SNAKE.N))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?N NOISE.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_C (?X_H ((ADV-A (FROM.P ?L1)) WALK.8.V) ?L2))
+		(?X_E (?X_H SCREAM.9.V ?N))
+		(?X_A (?X_F ((ADV-A (FOR.P (KA RUN.V))) COME.V)))
+		(?E_1 (?X_G ((ADV-A (FROM.P ?L1)) RUN.10.V) ?L2))
+	)
+)
+
+; "Tom saw a snake on the ground."
+; "He picked it up by its tail."
+; "He threw it away."
+(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G SNAKE.N))
+		(!R2 (?X_D TAIL.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_G)))
+		(!R4 (?X_H GROUND.N))
+		(!R5 (?X_G (ON.P ?X_H)))
+		(!R6 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_I SEE.11.V ?X_G))
+		(?X_A (?X_I (((ADV-A (BY.P ?X_D)) PICK_UP.V) ?X_G)))
+		(?X_C (?X_I ((AWAY.ADV THROW.V) ?X_G)))
+	)
+)
+
+; "Tom looked for his keys."
+; "He couldn't find them anywhere."
+; "He walked around the house looking for them."
+; "He found them under some leaves."
+(EPI-SCHEMA ((?X_H (((ADV-A (UNDER.P ?X_D)) FIND.V) ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LEAF.N)))
+		(!R2 (?X_E (PLUR KEY.N)))
+		(!R3 (?X_E (PERTAIN-TO ?X_H)))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_H ((ADV-A (FOR.P ?X_E)) LOOK.V)))
+		(E312.SK (NOT (?X_H ((CAN.MD (ANYWHERE.ADV FIND.V)) ?X_E))))
+		(?X_G (?X_H ((ADV-A (FROM.P ?L1)) WALK.8.V) ?L2))
+		(?X_C (?X_H (((ADV-A (UNDER.P ?X_D)) FIND.V) ?X_E)))
+	)
+)
+
+; "Tom looked for his keys."
+; "He could not find them."
+; "He looked everywhere."
+; "He looked inside the car."
+; "He looked in his pockets."
+; "He checked all over the house."
+; "He searched the yard."
+; "He searched the garage."
+(EPI-SCHEMA ((NOT (?X_Q ((ANYWHERE.ADV (CAN.AUX FIND.V)) ?X_Q))) ** ?E)
+	(:ROLES
+		(!R1 (?X_I (PLUR KEY.N)))
+		(!R2 (?X_F CAR.N))
+		(!R3 (?X_J (PLUR POCKET.N)))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_K)))
+		(!R6 (?X_J (PERTAIN-TO ?X_K)))
+		(!R7 (?X_N YARD.N))
+		(!R8 (?X_Q MALE.A))
+		(!R9 (?X_Q AGENT.N))
+		(!R10 (?X_R GARAGE.N))
+	)
+	(:STEPS
+		(?X_B (?X_K ((ADV-A (FOR.P ?X_I)) LOOK.V)))
+		(E344.SK (NOT (?X_K ((CAN.MD FIND.V) ?X_I))))
+		(?X_E (?X_K (EVERYWHERE.ADV LOOK.V)))
+		(?X_H (?X_K ((ADV-A (INSIDE.P ?X_F)) LOOK.V)))
+		(?X_C (?X_K ((ADV-A (IN.P ?X_J)) LOOK.V)))
+		(?X_M
+   (?X_K
+    (CHECK.V
+     (ALL.D (L X (AND (X (PLUR {REF}.N)) (X (OVER.P (THE.D HOUSE.N)))))))))
+		(?X_P (?X_Q (SEARCH.V ?X_N)))
+		(?X_T (?X_Q (SEARCH.V ?X_R)))
+	)
+)
+
+; "Tom lost his keys."
+; "He looked everywhere for them."
+; "He asked everyone if they knew where they were."
+; "No one could help him."
+(EPI-SCHEMA ((?X_E (LOSE.V ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR KEY.N)))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_E AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_E ((ADV-A (FROM.P ?L1)) LOSE.12.V) ?L2))
+		(?X_C (?X_E (EVERYWHERE.ADV ((ADV-A (FOR.P ?X_D)) LOOK.V))))
+	)
+)
+
+; "Tom's car broke down."
+; "He called AAA."
+; "A man came over and fixed Tom's car."
+; "Tom paid him."
+(EPI-SCHEMA ((?X_L (CALL.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E MAN.N))
+		(!R2 (?X_H AAA.A))
+		(!R3 (?X_L AGENT.N))
+		(!R4 (?X_K CAR.N))
+		(!R5 (?X_K (PERTAIN-TO ?X_L)))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_K BREAK_DOWN.V))
+		(?X_G (?X_L (CALL.V ?X_H)))
+		(?X_A (?X_E ((ADV-A (FROM.P ?L1)) COME_OVER.13.V) ?L2))
+		(?X_B (?X_E (FIX.V ?X_K)))
+		(?X_D (?X_L (PAY.V ?X_E)))
+	)
+)
+
+; "Alice lost her key."
+; "She searched the house."
+; "She looked in drawers."
+; "She checked everywhere."
+; "She could not find it."
+(EPI-SCHEMA ((?X_K (((ADV-A (IN.P ?L2)) LOSE.V) ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J KEY.N))
+		(!R2 (?X_F (PLUR DRAWER.N)))
+		(!R3 (?X_I HOUSE.N))
+		(!R4 (?X_J (PERTAIN-TO ?X_K)))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(E422.SK (NOT (?X_K ((CAN.MD FIND.V) ?X_J))))
+		(?X_A (?X_K ((ADV-A (FROM.P ?L1)) LOSE.12.V) ?L2))
+		(?X_H (?X_K (SEARCH.V ?X_I)))
+		(?X_E (?X_K ((ADV-A (IN.P ?X_F)) LOOK.V)))
+		(?X_C (?X_K (EVERYWHERE.ADV CHECK.V)))
+	)
+)
+
+; "Alice put on her shoes."
+; "She left her house."
+; "She locked the door behind her."
+; "She forgot her keys."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_J)) ((ADV-A (WITHOUT.P ?X_H)) LEAVE.V))) **
+             ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR KEY.N)))
+		(!R2 (?X_F DOOR.N))
+		(!R3 (?X_G (PLUR SHOE.N)))
+		(!R4 (?X_G (PERTAIN-TO ?X_I)))
+		(!R5 (?X_H (PERTAIN-TO ?X_I)))
+		(!R6 (?X_J HOUSE.N))
+		(!R7 (?X_J (PERTAIN-TO ?X_I)))
+		(!R8 (?X_I AGENT.N))
+		(!R9 (?X_J LOCATION.N))
+		(!R10 (NOT (?X_J = ?L2)))
+		(!R11 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_I ((ADV-A (ON.P ?X_G)) PUT.V)))
+		(?X_B (?X_I ((ADV-A (FROM.P ?X_J)) LEAVE.14.V) ?L2))
+		(?X_E (?X_I (((ADV-A (BEHIND.P ?X_I)) LOCK.V) ?X_F)))
+		(?X_C (?X_I (FORGET.V ?X_H)))
+	)
+)
+
+; "Tom put his keys in his pocket."
+; "His car wouldn't start."
+; "He called AAA."
+; "AAA sent someone over."
+; "Tom gave him the keys."
+(EPI-SCHEMA ((?X_J (((ADV-A (IN.P ?X_K)) PUT.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E AAA.A))
+		(!R2 (?X_F CAR.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_L)))
+		(!R4 (?X_G (PLUR KEY.N)))
+		(!R5 (?X_G (PERTAIN-TO ?X_L)))
+		(!R6 (?X_K POCKET.N))
+		(!R7 (?X_K (PERTAIN-TO ?X_L)))
+		(!R8 (?X_J PERSON.N))
+		(!R9 (?X_M (PLUR KEY.N)))
+		(!R10 (?X_K LOCATION.N))
+		(!R11 (?X_L AGENT.N))
+		(!R12 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_L PUT.15.V ?X_G ?X_K))
+		(?X_A (NOT (?X_F START.V)))
+		(?X_D (?X_L (CALL.V ?X_E)))
+		(?X_I (?X_L (GIVE.16.V ?X_J ?X_M)))
+	)
+)
+
+; "I like to play games."
+; "I have been playing Tetris for years."
+; "I am good at it."
+; "I can beat most other players."
+; "I get bored easily."
+; "When I play, I lose myself into the game."
+(EPI-SCHEMA ((?X_H (PLAY.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H AGENT.N))
+		(!R2 (?X_H GAME.N))
+		(!R3 (?X_I (PLUR YEAR.N)))
+		(!R4 (?X_K GOOD.A))
+		(!R5 (?X_J (PLUR GAME.N)))
+		(!R6 ((KA (PLAY.V ?X_J)) ACTION.N))
+		(!R7 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_K LIKE.1.V (KA (PLAY.V ?X_J))))
+		(?X_G (MUST.AUX-S (?X_K (((ADV-A (FOR.P ?X_I)) PLAY.V) ?X_H))))
+		(?X_C (?X_K (AT.P ?X_H)))
+		(?X_E (?X_K ((CAN.AUX BEAT.V) ?X_A)))
+		(?E_1 (?X_K PLAY.2.V))
+	)
+)
+
+; "Alice played Candy Crush Soda Saga on her phone."
+; "She kept losing points."
+; "She lost all her points."
+(EPI-SCHEMA ((?X_B (((ADV-A (ON.P ?X_C)) PLAY.V) ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C PHONE.N))
+		(!R2 (?X_B AGENT.N))
+		(!R3 (?X_D AGENT.N))
+		(!R4 (?X_C (PERTAIN-TO ?X_D)))
+		(!R5 (?X_E (PLUR POINT.N)))
+	)
+	(:STEPS
+		(?X_A (?X_D (((ADV-A (ON.P ?X_C)) PLAY.V) ?X_B)))
+		(?X_G (?X_D ((ADV-A (FOR.P (KA (LOSE.V ?X_E)))) KEEP.V)))
+	)
+)
+
+; "Tom played football."
+; "He liked football."
+; "His team lost the game."
+(EPI-SCHEMA ((?X_I (PLAY.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B GAME.N))
+		(!R2 (?X_H TEAM.N))
+		(!R3 (?X_E FOOTBALL.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_I)))
+		(!R5 (?X_J FOOTBALL.N))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (?X_J OBJECT.N))
+		(!R8 (NOT (?X_J ACTION.N)))
+		(!R9 (NOT (?X_J AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_I PLAY.3.V))
+		(?X_G (?X_I LIKE.4.V ?X_J))
+		(?X_A (?X_H (LOSE.V ?X_B)))
+	)
+)
+
+; "Tom played a game on the computer."
+; "He lost all his money."
+; "He couldn't pay his bills."
+; "He had to work late hours."
+; "He missed some days of school."
+(EPI-SCHEMA (((ADV-E (DURING ?X_I)) (?X_L MISS.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B COMPUTER.N))
+		(!R2 (?X_C GAME.N))
+		(!R3 (?X_K (PLUR BILL.N)))
+		(!R4 (?X_F (PLUR HOUR.N)))
+		(!R5 (?X_F LATE.A))
+		(!R6 (?X_I (PLUR DAY.N)))
+		(!R7 (?X_I (OF.P ?X_J)))
+		(!R8 (?X_L AGENT.N))
+		(!R9 (?X_K (PERTAIN-TO ?X_L)))
+	)
+	(:STEPS
+		(?X_E (?X_L (((ADV-A (ON.P ?X_B)) PLAY.V) ?X_C)))
+		(?X_A (NOT (?X_L ((CAN.MD PAY.V) ?X_K))))
+		(?X_H (MUST.AUX-S (?X_L (WORK.V ?X_F))))
+		(?X_N ((ADV-E (DURING ?X_I)) (?X_L MISS.V)))
+	)
+)
+
+; "Tom liked playing baseball."
+; "He played all year round."
+; "He was good at it."
+; "He could make plays on the field."
+(EPI-SCHEMA ((?X (PLAY.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B (PLUR PLAY.N)))
+		(!R2 (?X_B (ON.P ?X_C)))
+		(!R3 (?X_I BASEBALL.N))
+		(!R4 (?X_J GOOD.A))
+		(!R5 (?X_H ROUND.N))
+		(!R6 ((KA (PLAY.V ?X_I)) ACTION.N))
+		(!R7 (?X AGENT.N))
+		(!R8 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(E142.SK (?X_J ((CAN.MD MAKE.V) ?X_B)))
+		(?X_E (?X_J LIKE.5.V (KA (PLAY.V ?X_I))))
+		(?E_1 (?X PLAY.6.V))
+		(?X_G (?X_J PLAY.7.V))
+		(?X_A (?X_J (AT.P ?X_I)))
+	)
+)
+
+; "Tom played a game on his computer."
+; "His friend joined him."
+; "They were both good at the game."
+; "They lost themselves in the game."
+(EPI-SCHEMA ((?X_E (((ADV-A (WITH.P ?X_D)) PLAY.V) ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C COMPUTER.N))
+		(!R2 (?X_D FRIEND.N))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_C (PERTAIN-TO ?X_E)))
+		(!R5 (?X_D (PERTAIN-TO ?X_E)))
+		(!R6 (?X_F GAME.N))
+		(!R7 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_E (((ADV-A (ON.P ?X_C)) PLAY.V) ?X_F)))
+		(?X_B (?X_D (JOIN.V ?X_E)))
+		(?X_I (?X_G (((ADV-A (IN.P ?X_F)) LOSE.V) ?X_G)))
+	)
+)
+
+; "Tom played chess."
+; "He was good at chess."
+; "He could win against most people."
+(EPI-SCHEMA ((?X_A (AT.P ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E ((ADV-A (AT.P ?X_A)) GOOD.A)))
+		(!R2 (?X_A CHESS.N))
+		(!R3 (?X_D CHESS.N))
+		(!R4 (?X_E AGENT.N))
+	)
+	(:STEPS
+		(E185.SK (?X_E (CAN.MD ((ADV-A (AGAINST.P (MOST.D (PLUR PERSON.N)))) WIN.V))))
+		(?X_C (?X_E PLAY.8.V))
+	)
+)
+
+; "Tom played basketball."
+; "He was good at it."
+; "His team lost the game."
+; "He was sad because his team lost."
+(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_G ?X_F ?X_E ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (BECAUSE.P (KE (?X_H LOSE.V)))))
+		(!R2 (?X_E SAD.A))
+		(!R3 (?X_F GAME.N))
+		(!R4 (?X_H TEAM.N))
+		(!R5 (?X_G BASKETBALL.N))
+		(!R6 (?X_I GOOD.A))
+		(!R7 (?X_I AGENT.N))
+		(!R8 (?X_H (PERTAIN-TO ?X_I)))
+		(!R9 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_L PLAY.9.V))
+		(?X_A (?X_I (AT.P ?X_G)))
+		(?X_B (?X_H (LOSE.V ?X_F)))
+		(?X_C (?X_I (BE.V ?X_E ?X_D)))
+	)
+)
+
+; "Alice played checkers."
+; "She lost."
+; "She played chess."
+; "She lost again."
+; "She played Scrabble."
+; "She lost that too."
+; "Then she tried Monopoly."
+; "She lost that too."
+; "She played poker."
+; "She lost that too."
+(EPI-SCHEMA ((?X_ZB (PLAY.V ?X_V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C {REF}.N))
+		(!R2 (?X_H {REF}.N))
+		(!R3 (?X_K MONOPOLY.N))
+		(!R4 (?X_L FEMALE.A))
+		(!R5 (?X_L AGENT.N))
+		(!R6 (?X_O {REF}.N))
+		(!R7 (?X_ZC POKER.N))
+		(!R8 (?X_V (PLUR CHECKER.N)))
+		(!R9 (?X_Y CHESS.N))
+		(!R10 (?X_ZB AGENT.N))
+		(!R11 (?X_ZC AGENT.N))
+	)
+	(:STEPS
+		(?X_U (?X_ZC PLAY.10.V ?X_V))
+		(?X_S (?X_ZC LOSE.V))
+		(?X_X (?X_ZC PLAY.11.V))
+		(?X_Q (?X_ZC (AGAIN.ADV LOSE.V)))
+		(?X_ZA (?X_ZC PLAY.12.V))
+		(?X_N (?X_ZC ((TOO.ADV LOSE.V) ?X_O)))
+		(?X_J (?X_L ((THEN.ADV TRY.V) ?X_K)))
+		(?X_G (?X_L ((TOO.ADV LOSE.V) ?X_H)))
+		(?X_E (?X_L (PLAY.V ?X_ZC)))
+		(?X_B (?X_L ((TOO.ADV LOSE.V) ?X_C)))
+	)
+)
+
+; "Tom played a game on the computer."
+; "He played many games."
+; "He lost all of them."
+(EPI-SCHEMA ((?X_L (((ADV-A (ON.P ?X_H)) PLAY.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G GAME.N))
+		(!R2 (?X_H COMPUTER.N))
+		(!R3 (?X_K MANY.A))
+		(!R4 (?X_K (PLUR GAME.N)))
+		(!R5 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_L (((ADV-A (ON.P ?X_H)) PLAY.V) ?X_G)))
+		(?X_J (?X_L PLAY.13.V))
+		(?X_D (?X_L (LOSE.V (ALL.D (L X (AND (X (PLUR {REF}.N)) (X (OF.P ?X_B))))))))
+	)
+)
+
+; "The girl took the bus."
+; "The bus stopped by a lake."
+; "The girl jumped off the bus."
+; "She swam across the lake."
+; "Her clothes were wet when she arrived back."
+(EPI-SCHEMA ((?X_G (JUMP_OFF.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I BUS.N))
+		(!R2 (?X_G GIRL.N))
+		(!R3 (?X_H LAKE.N))
+		(!R4 (?X_C (BY.P ?X_H)))
+		(!R5 (?X_F (PLUR CLOTHE.N)))
+		(!R6 (?X_F (PERTAIN-TO ?X_G)))
+		(!R7 (?X_H LOCATION.N))
+		(!R8 (?X_I DESTINATION.N))
+		(!R9 (NOT (?X_H = ?X_I)))
+		(!R10 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_G (TAKE.V ?X_I)))
+		(?X_E (?X_G ((ADV-A (FROM.P ?X_H)) JUMP_OFF.1.V) ?X_I))
+		(?X_B (?X_G ((ADV-A (FROM.P ?L1)) SWAM.2.V) ?L2))
+	)
+)
+
+; "Tom's mom drove him to school."
+; "His sister walked to school."
+; "Tom's dad dropped him off."
+; "Tom's mom drove away."
+(EPI-SCHEMA ((?X_K ((ADV-A (FROM.P ?X_J)) ((ADV-A (TO.P ?X_J)) DRIVE.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_L MOM.N))
+		(!R2 (?X_K AGENT.N))
+		(!R3 (?X_L (PERTAIN-TO ?X_K)))
+		(!R4 (?X_F DAD.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_K)))
+		(!R6 (?X_J SCHOOL.N))
+		(!R7 (?X_I SISTER.N))
+		(!R8 (?X_I (PERTAIN-TO ?X_K)))
+		(!R9 (?X_M SCHOOL.N))
+		(!R10 (?X_J DESTINATION.N))
+		(!R11 (?X_K SMALLER-THAN.N ?X_L))
+		(!R12 (?X_L AGENT.N))
+		(!R13 (?X_M DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_L DRIVE.4.V ?X_K ?X_J))
+		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) WALK.5.V) ?X_M))
+		(?X_E (?X_F (DROP_OFF.V ?X_K)))
+		(?X_C (?X_L DRIVE_AWAY.V))
+	)
+)
+
+; "The boy played basketball."
+; "He dribbled the ball."
+; "He passed the ball."
+; "He shot the ball."
+; "He missed the basket."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_J ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BASKET.N))
+		(!R2 (?X_J BALL.N))
+		(!R3 (?X_K BOY.N))
+		(!R4 (?X_N BASKETBALL.N))
+	)
+	(:STEPS
+		(?X_M (?X_K PLAY.8.V))
+		(?X_I (?X_K (DRIBBLE.V ?X_J)))
+		(?X_G (?X_K (PASS.V ?X_J)))
+		(?X_E (?X_K (SHOOT.V ?X_J)))
+		(?X_B (?X_K (MISS.V ?X_C)))
+	)
+)
+
+; "Tom's friend drove him to the lake."
+; "Tom sat on the beach."
+; "Tom watched the kids play."
+; "Tom played some games with the other kids."
+; "Tom was tired."
+(EPI-SCHEMA ((?X_N (WATCH.V (THT (?X_M PLAY.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C OTHER.A))
+		(!R2 (?X_C (PLUR KID.N)))
+		(!R3 (?X_F BEACH.N))
+		(!R4 (?X_N TIRED.A))
+		(!R5 (?X_M LAKE.N))
+		(!R6 (?X_L FRIEND.N))
+		(!R7 (?X_L (PERTAIN-TO ?X_N)))
+		(!R8 (?X_K (PLUR GAME.N)))
+		(!R9 (?X_N SMALLER-THAN.N ?X_L))
+		(!R10 (?X_M DESTINATION.N))
+		(!R11 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_N (WATCH.V (THT (?X_C PLAY.V)))))
+		(?X_H (?X_L DRIVE.4.V ?X_N ?X_M))
+		(?X_E (?X_N ((ADV-A (ON.P ?X_F)) SIT.V)))
+		(?X_J (?X_N PLAY.12.V))
+	)
+)
+
+; "Sally got married."
+; "Her husband loved her very much."
+; "They were happy together."
+; "One day she told him about her past life."
+; "She told him all of her secrets."
+(EPI-SCHEMA ((?X_O (GET.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L HUSBAND.N))
+		(!R2 (?X_I DAY.N))
+		(!R3 (?X_L (PERTAIN-TO ?X_O)))
+		(!R4 (?X_M (PERTAIN-TO ?X_O)))
+		(!R5 (?X_N PAST.A))
+		(!R6 (?X_M ?X_N LIFE.N))
+		(!R7 (?X_O OBJECT.N))
+		(!R8 (NOT (?X_O ACTION.N)))
+	)
+	(:STEPS
+		(?X_K (?X_O (GET.V ?X_A)))
+		(?X_E (?X_L LOVE.13.V ?X_O))
+		(?X_F
+   ((ADV-E ({DURING}.P ?X_I)) (?X_O (((ADV-A (ABOUT.P ?X_M)) TELL.V) ?X_L))))
+		(?X_H
+   (?X_O
+    (TELL.V ?X_L
+     (ALL.D
+      (L X
+       (AND (X (PLUR {REF}.N))
+            (?X_B ?X_D (AND (?X_D (PLUR SECRET.N)) (?X_D (PERTAIN-TO ?X_O)))
+             (X (OF.P ?X_D)))))))))
+	)
+)
+
+; "Joey's parents got divorced."
+; "His mom moved away."
+; "Joey missed her."
+(EPI-SCHEMA ((?X_G (MISS.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR PARENT.N)))
+		(!R2 (?X_B DIVORCED.A))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_G)))
+		(!R5 (?X_F MOM.N))
+		(!R6 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_D (?X_E (GET.V ?X_B)))
+		(?X_A (?X_F (AWAY.ADV MOVE.V)))
+		(?X_I (?X_G (MISS.V ?X_F)))
+	)
+)
+
+; "Bill and Sally got married."
+; "They were happy together."
+; "They lived happily ever after."
+(EPI-SCHEMA (((SET-OF ?X_A ?X_B) (COMPOSITE-SCHEMA.PR (KJ (PASV MARRY.V)))) **
+             ?E)
+	(:ROLES
+		(!R1 (?X_A AGENT.N))
+		(!R2 (?X_B AGENT.N))
+	)
+	(:STEPS
+		(?X_D ((SET-OF ?X_A ?X_B) (GET.V (KJ (PASV MARRY.V)))))
+	)
+)
+
+; "Tom's wife is going on vacation."
+; "His wife loves golf."
+; "His wife plays golf often."
+; "Tom doesn't play golf."
+(EPI-SCHEMA ((?X_K (PLAY.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J GOLF.N))
+		(!R2 (?X_E GOLF.N))
+		(!R3 (?X_I WIFE.N))
+		(!R4 (?X_H GOLF.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_K)))
+		(!R6 (?L2 DESTINATION.N))
+		(!R7 (?X_J OBJECT.N))
+		(!R8 (NOT (?X_J ACTION.N)))
+		(!R9 (NOT (?X_J AGENT.N)))
+		(!R10 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_I ((ADV-A (FROM.P ?L1)) GO.11.V) ?L2))
+		(?X_A (?X_I LOVE.14.V ?X_J))
+		(?X_B (?X_I PLAY.15.V))
+		(?X_G (?X_K PLAY.16.V))
+	)
+)
+
+; "Jim's wife left him."
+; "He cried for days."
+; "He missed her."
+; "He felt sad."
+; "He couldn't stop thinking about her."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_K ?X_H ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C SAD.A))
+		(!R2 (?X_H WIFE.N))
+		(!R3 (?X_H (PERTAIN-TO ?X_K)))
+		(!R4 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_H (LEAVE.V ?X_K)))
+		(E376.SK
+   (NOT
+    (?X_K
+     (CAN.MD ((ADV-A (FOR.P (KA ((ADV-A (ABOUT.P ?X_H)) THINK.V)))) STOP.V)))))
+		(?X_J (?X_K CRY.17.V))
+		(?X_E (?X_K (MISS.V ?X_H)))
+		(?X_B (?X_K (FEEL.V ?X_C)))
+	)
+)
+
+; "Alice got married."
+; "Her husband liked her."
+; "They lived happily ever after."
+(EPI-SCHEMA ((?X_E (LIKE.V IT.PRO)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E HUSBAND.N))
+		(!R2 (?X_E (PERTAIN-TO ?X_F)))
+		(!R3 (?X_F OBJECT.N))
+		(!R4 (NOT (?X_F ACTION.N)))
+	)
+	(:STEPS
+		(?X_D (?X_F (GET.V ?X_A)))
+		(?X_B (?X_E LIKE.18.V ?X_F))
+	)
+)
+
+; "The man and the woman were married."
+; "One day, their son died."
+; "The mother cried all night long."
+; "She couldn't sleep."
+(EPI-SCHEMA ((?X_B ((ADV-A (DURING.P ?X_B)) SLEEP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B WOMAN.N))
+		(!R2 (?X_B MOTHER.N))
+		(!R3 (?X_C SON.N))
+		(!R4 (?X_C (PERTAIN-TO ?X_D)))
+		(!R5 (?X_E DAY.N))
+	)
+	(:STEPS
+		(?X_A ((ADV-E ({DURING}.P ?X_E)) (?X_C DIE.V)))
+		(E14.SK (NOT (?X_B (CAN.MD SLEEP.V))))
+		(?X_G (?X_B CRY.1.V))
+	)
+)
+
+; "Mary's father died."
+; "Her mom cried for three days."
+; "Mary cried too."
+(EPI-SCHEMA ((?X_H (CRY.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F FATHER.N))
+		(!R2 (?X_G MOM.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_H)))
+		(!R4 (?X_G (PERTAIN-TO ?X_H)))
+		(!R5 (?X_G AGENT.N))
+		(!R6 (?X_H AGENT.N))
+		(!R7 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_C (?X_F DIE.V))
+		(?X_A (?X_G CRY.2.V))
+		(?X_E (?X_H CRY.3.V ?N))
+	)
+)
+
+; "The boy's father was sad."
+; "His wife was crying."
+; "The mother was angry."
+; "The father said that the boy would never come back."
+(EPI-SCHEMA ((?X_B (CRY.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A WIFE.N))
+		(!R2 (?X_A MOTHER.N))
+		(!R3 (?X_A ANGRY.A))
+		(!R4 (?X_C SAD.A))
+		(!R5 (?X_C FATHER.N))
+		(!R6 (?X_A (PERTAIN-TO ?X_C)))
+		(!R7 (?X_B BOY.N))
+		(!R8 (?X_C (PERTAIN-TO ?X_B)))
+		(!R9 (?X_C NOISE.N))
+	)
+	(:STEPS
+		(E48.SK (?X_A CRY.4.V ?X_C))
+	)
+)
+
+; "A boy went fishing."
+; "He caught a fish."
+; "He put the fish on the table."
+; "His mother cooked the fish."
+(EPI-SCHEMA ((?X_F (CATCH.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FISH.N))
+		(!R2 (?X_F BOY.N))
+		(!R3 (?X_I TABLE.N))
+		(!R4 (?X_I LOCATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_F ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_B (?X_F (CATCH.V ?X_C)))
+		(?X_H (?X_F PUT.5.V ?X_C ?X_I))
+	)
+)
+
+; "A man and a woman were married."
+; "One day, their son died."
+; "The mother cried all night long."
+; "She couldn't sleep."
+(EPI-SCHEMA ((?X_B ((ADV-A (FOR.P ?X_C)) CRY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B WOMAN.N))
+		(!R2 (?X_B MOTHER.N))
+		(!R3 (?X_C SON.N))
+		(!R4 (?X_C (PERTAIN-TO ?X_D)))
+		(!R5 (?X_E DAY.N))
+	)
+	(:STEPS
+		(?X_A ((ADV-E ({DURING}.P ?X_E)) (?X_C DIE.V)))
+		(E114.SK (NOT (?X_B (CAN.MD SLEEP.V))))
+		(?X_G (?X_B CRY.6.V))
+	)
+)
+
+; "Bobby went to see a movie."
+; "There was a scary part."
+; "A loud noise woke him up."
+; "He saw a ghost."
+(EPI-SCHEMA ((?X_O ((ADV-A (FOR.P (KA (WATCH.V ?X_K)))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GHOST.N))
+		(!R2 (?X_E MALE.A))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_H NOISE.N))
+		(!R5 (?X_H LOUD.A))
+		(!R6 (?X_K SCARY.A))
+		(!R7 (?X_K PART.N))
+		(!R8 (?X_N MOVIE.N))
+		(!R9 (?X_N DESTINATION.N))
+		(!R10 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_O ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_N))
+		(?X_J (?X_A (BE.V ?X_K)))
+		(?X_G (?X_H (WAKE_UP.V ?X_O)))
+		(?X_C (?X_E (SEE.V ?X_D)))
+	)
+)
+
+; "Karen's father died."
+; "His funeral was sad."
+; "Karen missed him."
+(EPI-SCHEMA ((?X_C (MISS.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_E FATHER.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_C)))
+		(!R4 (?X_D (PERTAIN-TO ?X_E)))
+	)
+	(:STEPS
+		(?X_B (?X_E DIE.V))
+		(?X_G (?X_C (MISS.V ?X_E)))
+	)
+)
+
+; "A man's wife died."
+; "His son died."
+; "His mother died."
+; "His father died."
+(EPI-SCHEMA ((?X_A DIE.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_A WIFE.N))
+		(!R2 (?X_A (PERTAIN-TO ?X_D)))
+		(!R3 (?X_K SON.N))
+		(!R4 (?X_K (PERTAIN-TO ?X_D)))
+		(!R5 (?X_G MOTHER.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_K)))
+		(!R7 (?X_J FATHER.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_K)))
+	)
+	(:STEPS
+		(?X_C (?X_A DIE.V))
+		(?X_F (?X_K DIE.V))
+		(?X_I (?X_G DIE.V))
+		(?X_M (?X_J DIE.V))
+	)
+)
+
+; "A boy's father died."
+; "His mother said she would never forget him."
+; "She missed him."
+(EPI-SCHEMA ((?X_D DIE.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MOTHER.N))
+		(!R2 (?X_C (PERTAIN-TO ?X_E)))
+		(!R3 (?X_D FATHER.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_E)))
+	)
+	(:STEPS
+		(?X_B (?X_D DIE.V))
+		(?X_G (?X_C (MISS.V ?X_D)))
+	)
+)
+
+; "The boy's parents were sad."
+; "They missed him so much."
+; "They thought about how they would tell him that he could not come back."
+; "They decided to bury him on a beautiful beach."
+(EPI-SCHEMA ((?X_G (((ADV-A (ON.P ?X_G)) BURY.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G BEACH.N))
+		(!R2 (?X_G BEAUTIFUL.A))
+		(!R3 (?X_F BOY.N))
+		(!R4 (?X_E SAD.A))
+		(!R5 (?X_E (PLUR PARENT.N)))
+		(!R6 (?X_E (PERTAIN-TO ?X_F)))
+		(!R7 (?X_G LOCATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_E (((ADV (SO.ADV MUCH.A)) MISS.V) ?X_F)))
+		(?X_B (?X_E (((ADV-A (ON.P ?X_G)) BURY.V) ?X_F)))
+		(?E_1 (?X_E BURY.8.V ?X_F ?X_G))
+	)
+)
+
+; "Amy's grandfather died."
+; "Her grandmother cried for days."
+; "Amy tried not to cry."
+; "Her father told her that she shouldn't cry."
+(EPI-SCHEMA ((?X_F (CRY.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GRANDFATHER.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_F)))
+		(!R4 (?X_E FATHER.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 (?X_G GRANDMOTHER.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_F)))
+		(!R8 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_D DIE.V))
+		(?X_A (?X_G CRY.9.V))
+	)
+)
+
+; "The man was walking down the street."
+; "He saw a cat."
+; "He picked up the cat."
+; "He carried the cat home."
+; "When he opened the door,"
+; "the cat ran away."
+(EPI-SCHEMA ((?X_K (PICK_UP.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J CAT.N))
+		(!R2 (?X_K MAN.N))
+		(!R3 (?X_I HOME.N))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_I DESTINATION.N))
+		(!R6 (?X_J SMALLER-THAN.N ?X_K))
+	)
+	(:STEPS
+		(?X_D (?X_K ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
+		(?X_F (?X_K SEE.11.V ?X_J))
+		(?X_B (?X_K (PICK_UP.V ?X_J)))
+		(?X_H (?X_K CARRY.12.V ?X_J ?X_I))
+	)
+)
+
+; "A cat jumped on Tom's lap."
+; "The cat purred loudly."
+; "Tom petted the cat."
+; "The cat liked that."
+(EPI-SCHEMA ((?X_C (COMPOSITE-SCHEMA.PR ?X_C ?L2 ?N ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CAT.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_L {REF}.N))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?N NOISE.N))
+		(!R7 (?X_L OBJECT.N))
+		(!R8 (NOT (?X_L ACTION.N)))
+		(!R9 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_G (?X_C ((ADV-A (FROM.P ?L1)) JUMP.13.V) ?L2))
+		(?X_I (?X_C PUR.14.V ?N))
+		(?X_B (?X_E (PET.V ?X_C)))
+		(?X_K (?X_C LIKE.15.V ?X_L))
+	)
+)
+
+; "Bill walked into the pet shop."
+; "There were many pets there."
+; "The owner showed Bill some animals."
+; "He liked the dog."
+; "He said that he would take the dog home."
+(EPI-SCHEMA ((?X_D (LIKE.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR ANIMAL.N)))
+		(!R2 (?X_L BILL.N))
+		(!R3 (?X_D OWNER.N))
+		(!R4 (?X_K HOME.N))
+		(!R5 (?X_K DOG.N))
+		(!R6 (NOT (?X_K ACTION.N)))
+		(!R7 (?X_K SMALLER-THAN.N ?X_L))
+		(!R8 (?X_L AGENT.N))
+		(!R9 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_L ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
+		(?X_B (?X_D (SHOW.V ?X_L ?X_C)))
+		(?X_H (?X_L LIKE.16.V ?X_K))
+		(?X_J (?X_L SAY.17.V ?X_K ?L2))
+	)
+)
+
+; "A boy named Tom had a pet cat."
+; "His name was Spot."
+; "Spot liked to eat cheese."
+; "Tom's mom said that Spot was fat."
+(EPI-SCHEMA ((?X_J (HAVE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I MOM.N))
+		(!R2 (?X_D SPOT.N))
+		(!R3 (?X_G NAME.N))
+		(!R4 (?X_H PET.A))
+		(!R5 (?X_H CAT.N))
+		(!R6 (?X_H SPOT.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_H)))
+		(!R8 (?X_J AGENT.N))
+		(!R9 (?X_I (PERTAIN-TO ?X_J)))
+		(!R10 (?X_K BOY.N))
+		(!R11 (?X_N CHEESE.N))
+		(!R12 ((KA (EAT.V ?X_N)) ACTION.N))
+	)
+	(:STEPS
+		(?X_F (?X_K (NAME.V (THT (?X_J (HAVE.V ?X_H))))))
+		(?X_A (?X_G (= ?X_D)))
+		(?E_1 (?X_K POSSESS.18.V ?X_H))
+		(?X_M (?X_H LIKE.19.V (KA (EAT.V ?X_N))))
+		(?X_C (?X_I (SAY.V (THT (?X_H FAT.A)))))
+		(?E_2 (?X_H EAT.20.V ?X_N))
+	)
+)
+
+; "Tommy liked cats."
+; "He played with them."
+; "He let them sleep on his bed."
+; "He gave them food."
+; "He kept them inside."
+(EPI-SCHEMA ((?X_L (GIVE.V ?X_I ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I (PLUR CAT.N)))
+		(!R2 (?X_J FOOD.N))
+		(!R3 (NOT (?X_I ACTION.N)))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (NOT (?X_J AGENT.N)))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L OBJECT.N))
+	)
+	(:STEPS
+		(?X_D (?X_K LIKE.21.V ?X_I))
+		(?X_B (?X_K ((ADV-A (WITH.P ?X_L)) PLAY.V)))
+		(?X_F (?X_K (GIVE.22.V ?X_L ?X_J)))
+		(?X_H (?X_K KEEP.23.V ?X_L))
+	)
+)
+
+; "Joe was walking along the road."
+; "A cat jumped on him."
+; "He tried to scare the cat away."
+; "But it wouldn't leave."
+(EPI-SCHEMA ((?X_H
+              (TRY.V
+               (KA (((ADV-A (BY.P (KA (JUMP_OVER.V ?L2)))) SCARE.V) ?X_H))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C CAT.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_H ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
+		(?X_G (?X_C ((ADV-A (FROM.P ?L1)) JUMP.13.V) ?L2))
+		(?X_B (?X_H (TRY.V (KA (AWAY.ADV SCARE.V) ?X_C))))
+	)
+)
+
+; "Tom's cat was sick."
+; "His cat looked sad."
+; "Tom gave him some medicine."
+; "The medicine helped Tom's cat feel better."
+(EPI-SCHEMA ((?X_G (GIVE.V ?X_E ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B SAD.A))
+		(!R2 (?X_E SICK.A))
+		(!R3 (?X_E CAT.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_G)))
+		(!R5 (?X_F MEDICINE.N))
+		(!R6 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_E (LOOK.V ?X_B)))
+		(?X_D (?X_G (GIVE.24.V ?X_E ?X_F)))
+	)
+)
+
+; "Alice had a cat named Bobo."
+; "Alice's cat liked to be scratched on its belly."
+; "Alice did not scratch Bobo's belly."
+; "Bobo scratched Alice's hand."
+(EPI-SCHEMA ((?X_M (SCRATCH.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H HAND.N))
+		(!R2 (?X_L CAT.N))
+		(!R3 (?X_G BELLY.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_L)))
+		(!R5 (?X_L (PERTAIN-TO ?X_M)))
+		(!R6 (?X_G (PERTAIN-TO ?X_M)))
+		(!R7 (?X_H (PERTAIN-TO ?X_M)))
+		(!R8 (?X_K CAT.N))
+		(!R9 (?X_K ((PASV NAME.V) ?X_L)))
+		(!R10 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_M HAVE.25.V ?X_K))
+		(?X_B (?X_L LIKE.26.V (KA (L X (AND (X (PASV SCRATCH.V)) (X (ON.P ?X_G)))))))
+		(?X_F (NOT (?X_M (SCRATCH.N ?X_G))))
+		(?X_D (?X_L (SCRATCH.V ?X_H)))
+	)
+)
+
+; "Tom was walking down the street."
+; "He saw a cat."
+; "He picked up the cat."
+; "He carried the cat home."
+(EPI-SCHEMA ((?X_K (PICK_UP.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J CAT.N))
+		(!R2 (?X_I HOME.N))
+		(!R3 (?L2 DESTINATION.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_I DESTINATION.N))
+		(!R6 (?X_J SMALLER-THAN.N ?X_K))
+	)
+	(:STEPS
+		(?X_D (?X_K ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
+		(?X_F (?X_K SEE.27.V ?X_J))
+		(?X_B (?X_K (PICK_UP.V ?X_J)))
+		(?X_H (?X_K CARRY.12.V ?X_J ?X_I))
+	)
+)
+
+; "Tina is in love."
+; "Her boyfriend loves her back."
+; "One day she met a guy."
+; "He said he loved her."
+; "She did not believe him."
+(EPI-SCHEMA ((?X_K (MEET.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H GUY.N))
+		(!R2 (?X_I DAY.N))
+		(!R3 (?X_J LOVE.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_L BOYFRIEND.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_N)))
+		(!R7 (?X_M BACK.N))
+		(!R8 (?X_M (PERTAIN-TO ?X_N)))
+		(!R9 ((IND (8 EXPERIENCER_FOCUS)) ACTION.N))
+		(!R10 (?X_M OBJECT.N))
+		(!R11 (NOT (?X_M ACTION.N)))
+		(!R12 (NOT (?X_M AGENT.N)))
+		(!R13 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_K ((ADV-A (IN.P ?X_J)) BE.V)))
+		(?X_B (?X_L LOVE.1.V (IND (8 EXPERIENCER_FOCUS))))
+		(?X_C ((ADV-E ({DURING}.P ?X_I)) (?X_N (MEET.V ?X_H))))
+		(?X_G (?X_H (SAY.V (THT (?X_H (LOVE.V ?X_N))))))
+		(?X_E (NOT (?X_N (BELIEVE.V ?X_H))))
+		(?E_1 (?X_N LIKE.2.V ?X_M))
+	)
+)
+
+; "Tom saw Tina's boyfriend."
+; "He looked sad."
+; "He walked away."
+; "Tom thought that Tina should be happy."
+(EPI-SCHEMA ((?X_G
+              (((ADV-A (FOR.P (KA (AWAY.ADV ((ADV-A (FROM.P ?L2)) WALK.V)))))
+                SEE.V)
+               ?X_E))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_G AGENT.N))
+		(!R2 (?X_E SAD.A))
+		(!R3 (?X_F BOYFRIEND.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_L AGENT.N))
+		(!R6 ((K SAD.A) LOCATION.N))
+		(!R7 (NOT ((K SAD.A) = ?L2)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_L SEE.3.V ?X_F))
+		(?X_D (?X_F (LOOK.V ?X_E)))
+		(?X_K (?X_F ((ADV-A (FROM.P (K SAD.A))) WALK_AWAY.4.V) ?L2))
+		(?X_B (?X_L (THINK.V (THAT (?X_G (SHOULD.MD HAPPY.A))))))
+	)
+)
+
+; "John was trying to learn how to dance."
+; "He watched some dancing shows."
+; "He learned some dances from the shows."
+; "He could do them pretty well."
+(EPI-SCHEMA ((?X_G (((ADV-A (FROM.P (KA (WATCH.V ?X_A)))) LEARN.V) ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A DANCING.N))
+		(!R2 (?X_D (PLUR SHOW.N)))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_H (PLUR DANCE.N)))
+	)
+	(:STEPS
+		(?X_C (?X_G (WATCH.V (THT (?X_A SHOW.V)))))
+		(?X_F (?X_G (((ADV-A (FROM.P ?X_D)) LEARN.V) ?X_H)))
+		(E95.SK (?X_G ((CAN.MD DO.V) ?X_H)))
+	)
+)
+
+; "Tina has a boyfriend."
+; "He likes Tina."
+; "He loves Tina."
+(EPI-SCHEMA ((?X_H (LIKE.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BOYFRIEND.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (NOT (?X_I ACTION.N)))
+		(!R4 (?X_I OBJECT.N))
+	)
+	(:STEPS
+		(?X_B (?X_I (HAVE.V ?X_C)))
+		(?X_E (?X_H LIKE.6.V ?X_I))
+		(?X_G (?X_H LOVE.7.V ?X_I))
+	)
+)
+
+; "Tommy fell in love."
+; "His girlfriend liked him."
+; "He gave her flowers."
+; "She gave them back."
+(EPI-SCHEMA ((?X_J ((ADV-A (IN.P ?X_H)) FALL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I GIRLFRIEND.N))
+		(!R2 (?X_H LOVE.N))
+		(!R3 (?X_I (PERTAIN-TO ?X_J)))
+		(!R4 (?X_K (PLUR FLOWER.N)))
+		(!R5 (?X_K (PERTAIN-TO ?X_I)))
+		(!R6 (?X_J OBJECT.N))
+		(!R7 (NOT (?X_J ACTION.N)))
+		(!R8 (NOT (?X_K AGENT.N)))
+	)
+	(:STEPS
+		(?X_G (?X_J ((ADV-A (IN.P ?X_H)) FALL.V)))
+		(?X_B (?X_I LIKE.8.V ?X_J))
+		(?X_C (?X_J (GIVE.9.V ?X_I ?X_K)))
+		(?X_E (?X_I ((BACK.ADV GIVE.V) ?X_A)))
+	)
+)
+
+; "Tom loved Tina."
+; "He talked to her often."
+; "He asked her if she loved him."
+; "She told him yes."
+; "He asked her why."
+; "She said that she liked him."
+(EPI-SCHEMA ((?X_N ((ADV-A (TO.P ?X_N)) TALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J (PERTAIN-TO ?X_K)))
+		(!R2 (?X_N AGENT.N))
+		(!R3 ((IND (4 EXPERIENCER_FOCUS)) ACTION.N))
+		(!R4 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_N LOVE.10.V (IND (4 EXPERIENCER_FOCUS))))
+		(?X_A (?X_N ((ADV-A (TO.P ?X_J)) TALK.V)))
+		(?X_I (?X_N (KA ASK.V) ?X_O (IF.P (KE (?X_O (LOVE.V ?X_N))))))
+		(?X_G (?X_O ((YES.ADV TELL.V) ?X_N)))
+		(?X_E (?X_N ((WHY.ADV ASK.V) ?X_O)))
+		(?X_C (?X_O (SAY.V (THAT (?X_O (LIKE.V ?X_N))))))
+		(?E_1 (?X_O ENJOY_ACTION.11.V (IND (4 EXPERIENCER_FOCUS))))
+	)
+)
+
+; "Jake has a crush on Tina."
+; "He wants to be with her."
+; "He thinks that Tina likes him too."
+; "But he's not sure."
+; "He doesn't know what to do."
+(EPI-SCHEMA ((?X_F (HAVE.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E CRUSH.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_E (ON.P ?X_F)))
+		(!R4 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_I (HAVE.V ?X_E)))
+		(?X_H (?X_I (WANT.V (KA ((ADV-A (WITH.P ?X_F)) BE.V)))))
+		(?X_K (NOT (?X_I (KNOW.V (ANS-TO (?X_A ({SHOULD}.AUX-V (DO.V ?X_B))))))))
+	)
+)
+
+; "Mary is in love."
+; "Mary's boyfriend likes Mary."
+; "Mary wants to be happy."
+(EPI-SCHEMA ((?X_I ((ADV-A (IN.P ?X_E)) BE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E LOVE.N))
+		(!R2 (?X_H BOYFRIEND.N))
+		(!R3 (?X_H (PERTAIN-TO ?X_I)))
+		(!R4 (?X_I OBJECT.N))
+		(!R5 (NOT (?X_I ACTION.N)))
+	)
+	(:STEPS
+		(?X_D (?X_I ((ADV-A (IN.P ?X_E)) BE.V)))
+		(?X_G (?X_H LIKE.13.V ?X_I))
+		(?X_B (?X_I (WANT.V (KA HAPPY.A))))
+	)
+)
+
+; "The boy walked into school."
+; "There were many kids."
+; "He was late."
+; "Everyone laughed at him."
+(EPI-SCHEMA ((?X_D ((ADV-A (TO.P ?X_J)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BOY.N))
+		(!R2 (?X_D LATE.A))
+		(!R3 (?X_G MANY.A))
+		(!R4 (?X_G (PLUR KID.N)))
+		(!R5 (?X_J SCHOOL.N))
+		(!R6 (?X_J DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_D ((ADV-A (FROM.P ?L1)) WALK.14.V) ?X_J))
+		(?X_F (?X_A (BE.V ?X_G)))
+		(?X_C ((EVERY.D PERSON.N) ((ADV-A (AT.P ?X_D)) LAUGH.V)))
+	)
+)
+
+; "Sammy was in school."
+; "His teacher gave him an assignment."
+; "He had to write an essay."
+; "He wrote about school."
+(EPI-SCHEMA ((?X_J (WRITE.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B SCHOOL.N))
+		(!R2 (?X_I TEACHER.N))
+		(!R3 (?X_E ASSIGNMENT.N))
+		(!R4 (?X_F ESSAY.N))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_J)))
+		(!R7 (?X_K SCHOOL.N))
+	)
+	(:STEPS
+		(?X_D (?X_J ((ADV-A (IN.P ?X_B)) BE.V)))
+		(?X_A (?X_I (GIVE.V ?X_J ?X_E)))
+		(?X_H (MUST.AUX-S (?X_J (WRITE.V ?X_F))))
+		(?X_M (?X_J ((ADV-A (ABOUT.P ?X_K)) WRITE.V)))
+	)
+)
+
+; "Tom went to play baseball."
+; "He played on a team."
+; "The other players were good."
+; "His best friend was one of them."
+; "Tom's best friend hit a home run."
+(EPI-SCHEMA ((?X_C (((ADV-A (WITH.P ?X_B)) PLAY.V) ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G HOME.N))
+		(!R2 (?X_B GOOD.A))
+		(!R3 (?X_B OTHER.A))
+		(!R4 (?X_B (PLUR PLAYER.N)))
+		(!R5 (?X_C AGENT.N))
+		(!R6 (?X_M BASEBALL.N))
+		(!R7 (?X_L BEST.A))
+		(!R8 (?X_F BEST.A))
+		(!R9 (?X_J ?X_F FRIEND.N))
+		(!R10 (?X_K ((PASV HIT.V) ?X_G)))
+		(!R11 (?X_J (PERTAIN-TO ?X_N)))
+		(!R12 (?X_K (PERTAIN-TO ?X_N)))
+		(!R13 (?X_L (PERTAIN-TO ?X_N)))
+		(!R14 (?X_M DESTINATION.N))
+		(!R15 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(E315.SK (?X_G RUN.V))
+		(?X_E (?X_N ((ADV-A (FROM.P ?L1)) GO.15.V) ?X_M))
+		(?E_1 (?X_N PLAY.16.V))
+		(?X_I (?X_N PLAY.17.V))
+		(?X_A (?X_J (= (KE (?X_C (OF.P ?X_B))))))
+	)
+)
+
+; "Tom's friends all went to school."
+; "They liked going to school."
+; "They played games on the playground."
+; "They ate lunch in the cafeteria."
+(EPI-SCHEMA ((?X_I (LIKE.V (KA ((ADV-A (TO.P ?X_L)) GO.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_L SCHOOL.N))
+		(!R2 (?X_F PLAYGROUND.N))
+		(!R3 (?X_E (PLUR GAME.N)))
+		(!R4 (?X_E (ON.P ?X_F)))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_G LUNCH.N))
+		(!R7 (?X_H (PLUR FRIEND.N)))
+		(!R8 (?X_H (PERTAIN-TO ?X_I)))
+		(!R9 ((KA ((ADV-A (TO.P ?X_L)) GO.V)) ACTION.N))
+		(!R10 (?X_L DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_H LIKE.18.V (KA ((ADV-A (TO.P ?X_L)) GO.V))))
+		(?E_1 (?X_H ((ADV-A (FROM.P ?L1)) GO.19.V) ?X_L))
+		(?X_D (?X_H PLAY.20.V))
+		(?X_K (?X_H EAT.21.V ?X_G))
+	)
+)
+
+; "Bobby went to school."
+; "The teacher told Bobby to sit down."
+; "Bobby sat down on the bench."
+; "The teacher asked Bobby what grade he is in."
+; "Bobby said he was in first grade."
+; "The teacher gave Bobby an assignment."
+(EPI-SCHEMA ((?X_Q SIT_DOWN.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_D ASSIGNMENT.N))
+		(!R2 (?X_G GRADE.N))
+		(!R3 (?X_G FIRST.A))
+		(!R4 (?X_R TEACHER.N))
+		(!R5 (?X_L BENCH.N))
+		(!R6 (?X_Q SCHOOL.N))
+		(!R7 (?X_Q DESTINATION.N))
+		(!R8 ((KA (DOWN.ADV SIT.V)) ACTION.N))
+		(!R9 (?X_S AGENT.N))
+		(!R10 (NOT (?X_R = ?X_S)))
+	)
+	(:STEPS
+		(?X_I (?X_R (ASK.V ?X_S (ANS-TO (?X_S (IN.P (?X_A GRADE.N)))))))
+		(?X_N (?X_S ((ADV-A (FROM.P ?L1)) GO.15.V) ?X_Q))
+		(?X_P (?X_R TELL.22.V ?X_S (KA (DOWN.ADV SIT.V))))
+		(?X_K (?X_S (DOWN.ADV ((ADV-A (ON.P ?X_L)) SIT.V))))
+		(?X_F (?X_S (SAY.V (THT (?X_S ((ADV-A (IN.P ?X_G)) BE.V))))))
+		(?X_C (?X_R (GIVE.V ?X_S ?X_D)))
+	)
+)
+
+; "Tom's friend went to school."
+; "His friends came by."
+; "They played games."
+; "They talked about school."
+(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F FRIEND.N))
+		(!R2 (?X_F (PERTAIN-TO ?X_A)))
+		(!R3 (?X_B SCHOOL.N))
+		(!R4 (?X_E (PLUR FRIEND.N)))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 (?X_I (PLUR GAME.N)))
+		(!R7 (?X_L AGENT.N))
+		(!R8 (?X_M SCHOOL.N))
+	)
+	(:STEPS
+		(?X_D (?X_F ((ADV-A (TO.P ?X_B)) GO.V)))
+		(?X_H (?X_E COME_BY.V))
+		(?X_K (?X_L (PLAY.V ?X_I)))
+		(?X_O (?X_L ((ADV-A (ABOUT.P ?X_M)) TALK.V)))
+	)
+)
+
+; "'I want to go to school,' said Tom."
+; "'School is boring.'"
+; "'I hate school.'"
+; "'Why do you have to go?'"
+(EPI-SCHEMA ((?X_C (HATE.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D SCHOOL.N))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_D OBJECT.N))
+		(!R4 (NOT (?X_D ACTION.N)))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_C HATE.23.V ?X_D))
+		(?E_1 (?X_D ((ADV-A (FROM.P ?L1)) GO.24.V) ?L2))
+	)
+)
+
+; "Tom's teacher gave them homework."
+; "Tom did his homework."
+; "His teacher asked him questions."
+; "Tom answered all the questions correctly."
+; "Tom finished his homework early."
+(EPI-SCHEMA ((?X_K (DO.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E HOMEWORK.N))
+		(!R2 (?X_I TEACHER.N))
+		(!R3 (?X_H (PLUR QUESTION.N)))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_K)))
+		(!R6 (?X_J HOMEWORK.N))
+		(!R7 (?X_J (PERTAIN-TO ?X_K)))
+	)
+	(:STEPS
+		(?X_G (?X_I (GIVE.V ?X_A ?X_E)))
+		(?X_B (?X_K (DO.V ?X_J)))
+		(?X_C (?X_I (ASK.V ?X_K ?X_H)))
+		(?X_D (?X_K (FINISH.V ?X_J)))
+	)
+)
+
+; "Bill was born in America."
+; "He lived there all his life."
+; "One day, he went back to England."
+; "He visited the Tower of London."
+; "There were lots of interesting things at the tower."
+(EPI-SCHEMA ((?X_I (VISIT.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR LOT.N)))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_J TOWER.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?X_L BILL.N))
+		(!R7 (?X_P AGENT.N))
+		(!R8 (?X_O AGENT.N))
+		(!R9 (?X_P DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_L (IN.P ?X_K)))
+		(?X_N (?X_O ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_P))
+		(?X_H (?X_O (VISIT.V (KE (?X_J (OF.P ?X_I))))))
+		(?X_D (?X_A (BE.V ?X_E)))
+	)
+)
+
+; "Bill is from America."
+; "His family lives in America."
+; "He has been to England."
+; "He visited the Tower of London."
+; "Lots of interesting things happened there."
+(EPI-SCHEMA ((?X_I ((ADV-A (IN.P ?X_P)) LIVE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR LOT.N)))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_J TOWER.N))
+		(!R5 (?X_M AGENT.N))
+		(!R6 (?X_Q AGENT.N))
+		(!R7 (?X_R AGENT.N))
+		(!R8 (?X_P BILL.N))
+		(!R9 (?X_S FAMILY.N))
+		(!R10 (?X_S (PERTAIN-TO ?X_Q)))
+		(!R11 (?X_R LOCATION.N))
+		(!R12 (?X_S AGENT.N))
+	)
+	(:STEPS
+		(?X_O (?X_P ((ADV-A (FROM.P ?X_R)) BE.V)))
+		(?X_B (?X_S LIVE.2.V ?X_R))
+		(?X_L (?X_Q ((ADV-A (TO.P ?X_M)) (HAS.AUX BE.V))))
+		(?X_H (?X_Q (VISIT.V (KE (?X_J (OF.P ?X_I))))))
+		(?X_D (?X_E (HAPPEN.V ?X_A)))
+	)
+)
+
+; "Kate went on vacation."
+; "She visited many places."
+; "She saw lots of wonderful things."
+; "She learned some new words."
+(EPI-SCHEMA ((?X_N (((ADV-A (DURING.P ?X_M)) VISIT.V) ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C NEW.A))
+		(!R2 (?X_C (PLUR WORD.N)))
+		(!R3 (?X_F MANY.A))
+		(!R4 (?X_F (PLUR PLACE.N)))
+		(!R5 (?X_M VACATION.N))
+		(!R6 (?X_L WONDERFUL.A))
+		(!R7 (?X_L (PLUR THING.N)))
+		(!R8 (?X_K (PLUR LOT.N)))
+		(!R9 (?X_K (OF.P ?X_L)))
+		(!R10 (?X_M DESTINATION.N))
+		(!R11 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_N ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_M))
+		(?X_E (?X_N (VISIT.V ?X_F)))
+		(?X_J (?X_N SEE.4.V ?X_K))
+		(?X_B (?X_N (LEARN.V ?X_C)))
+	)
+)
+
+; "Alice went on vacation."
+; "She stayed in a hotel."
+; "She saw many things."
+; "She ate lots of food."
+(EPI-SCHEMA ((?X_M ((ADV-A (ON.P ?X_L)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HOTEL.N))
+		(!R2 (?X_L VACATION.N))
+		(!R3 (?X_H MANY.A))
+		(!R4 (?X_H (PLUR THING.N)))
+		(!R5 (?X_I FOOD.N))
+		(!R6 (?X_N (PLUR LOT.N)))
+		(!R7 (?X_N (OF.P ?X_I)))
+		(!R8 (?X_L DESTINATION.N))
+		(!R9 (?X_M AGENT.N))
+		(!R10 (?X_N FOOD.N))
+	)
+	(:STEPS
+		(?X_E (?X_M ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_L))
+		(?X_B (?X_M ((ADV-A (IN.P ?X_C)) STAY.V)))
+		(?X_G (?X_M SEE.5.V ?X_H))
+		(?X_K (?X_M EAT.6.V ?X_N))
+	)
+)
+
+; "Alice was visiting the Tower of London."
+; "She visited the rooms where Anne Boleyn was beheaded."
+; "She saw the axe that cut off the head of Anne Boleyn."
+(EPI-SCHEMA ((?X_M (VISIT.V (SET-OF ?X_K ?X_L))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D HEAD.N))
+		(!R2 (?X_E AXE.N))
+		(!R3 (?X_F FEMALE.A))
+		(!R4 (?X_F AGENT.N))
+		(!R5 (?X_K TOWER.N))
+		(!R6 (?X_L (PLUR ROOM.N)))
+		(!R7 (?X_K DESTINATION.N))
+		(!R8 (?X_L DESTINATION.N))
+		(!R9 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_M ((ADV-A (FROM.P ?L1)) VISIT.7.V) ?X_K))
+		(?X_J (?X_M ((ADV-A (FROM.P ?L1)) VISIT.7.V) ?X_L))
+		(?X_C (?X_F (SEE.V ?X_E (THAT (?X_A (CUT_OFF.V ?X_D))))))
+	)
+)
+
+; "Bill's teacher told him that England is an island."
+; "Bill liked the idea."
+; "His mother said that Bill should not go to England."
+(EPI-SCHEMA ((?X_D (LIKE.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C ISLAND.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_I BILL.N))
+		(!R4 (?X_E TEACHER.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_I)))
+		(!R6 (?X_F MOTHER.N))
+		(!R7 (?X_F (PERTAIN-TO ?X_I)))
+		(!R8 (?X_J IDEA.N))
+		(!R9 (?X_J OBJECT.N))
+		(!R10 (?X_I AGENT.N))
+		(!R11 (NOT (?X_J ACTION.N)))
+		(!R12 (NOT (?X_J AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_E (TELL.V ?X_I (THAT (?X_D (= ?X_C))))))
+		(?X_H (?X_I LIKE.8.V ?X_J))
+	)
+)
+
+; "Bill went on a tour."
+; "He saw many interesting things."
+; "He ate lunch in a restaurant."
+; "He walked around the park."
+; "In the park, he found some animals."
+(EPI-SCHEMA ((?X_Q (COMPOSITE-SCHEMA.PR ?X_C ?X_P ?X_I ?X_J ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR ANIMAL.N)))
+		(!R2 (?X_D PARK.N))
+		(!R3 (?X_O BILL.N))
+		(!R4 (?X_P TOUR.N))
+		(!R5 (?X_I MANY.A))
+		(!R6 (?X_I INTERESTING.A))
+		(!R7 (?X_I (PLUR THING.N)))
+		(!R8 (?X_J LUNCH.N))
+		(!R9 (?X_O AGENT.N))
+		(!R10 (?X_P DESTINATION.N))
+		(!R11 (?X_Q AGENT.N))
+		(!R12 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_O ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_P))
+		(?X_H (?X_Q SEE.9.V ?X_I))
+		(?X_L (?X_Q EAT.6.V ?X_J))
+		(?X_N (?X_Q ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
+		(?X_B (?X_Q (((ADV-A (IN.P ?X_D)) FIND.V) ?X_C)))
+	)
+)
+
+; "Bill went on vacation."
+; "He visited many places."
+; "He saw some wonderful sights."
+; "He ate at many restaurants."
+(EPI-SCHEMA ((?X_M (VISIT.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C WONDERFUL.A))
+		(!R2 (?X_C (PLUR SIGHT.N)))
+		(!R3 (?X_F MANY.A))
+		(!R4 (?X_F (PLUR PLACE.N)))
+		(!R5 (?X_L BILL.N))
+		(!R6 (?X_K VACATION.N))
+		(!R7 (?X_K DESTINATION.N))
+		(!R8 (?X_L AGENT.N))
+		(!R9 (?X_M AGENT.N))
+		(!R10 (?F FOOD.N))
+	)
+	(:STEPS
+		(?X_H (?X_L ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_K))
+		(?X_E (?X_M (VISIT.V ?X_F)))
+		(?X_B (?X_M (SEE.V ?X_C)))
+		(?X_J (?X_M EAT.11.V ?F))
+	)
+)
+
+; "Bob came into work one morning."
+(EPI-SCHEMA ((?X_C ((ADV-A (TO.P ?X_D)) ((ADV-A (FROM.P ?X_D)) COME.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D WORK.N))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_D DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_C ((ADV-A (FROM.P ?L1)) COME.12.V) ?X_D))
+	)
+)
+
+; "'Bob worked for a company."
+; "His boss was mad at him."
+; "He threw Bob's file on the floor."
+; "His boss yelled at him."
+(EPI-SCHEMA ((?X_J (THROW.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B COMPANY.N))
+		(!R2 (?X_E FLOOR.N))
+		(!R3 (?X_I FILE.N))
+		(!R4 (?X_H BOSS.N))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_H ((ADV-A (AT.P ?X_J)) MAD.A)))
+		(!R7 (?X_H (PERTAIN-TO ?X_J)))
+		(!R8 (?X_I (PERTAIN-TO ?X_J)))
+	)
+	(:STEPS
+		(?X_D (?X_J ((ADV-A (FOR.P ?X_B)) WORK.V)))
+		(?X_G (?X_J (((ADV-A (ON.P ?X_E)) THROW.V) ?X_I)))
+		(?X_A (?X_H ((ADV-A (AT.P ?X_J)) YELL.V)))
+	)
+)
+
+; "[Bob] was working on his computer."
+; "He typed some letters."
+; "He saved them as an attachment."
+; "He sent the file to someone else."
+(EPI-SCHEMA ((?X_E (((ADV-A (IN.P ?L)) SAVE.V) ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LETTER.N)))
+		(!R2 (?X_E COMPUTER.N))
+		(!R3 (?X_H -LSB-BOB.A))
+		(!R4 (?X_H -RSB-.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_H)))
+		(!R6 (?X_H AGENT.N))
+		(!R7 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_H ((ADV-A (ON.P ?X_E)) WORK.V)))
+		(?X_C (?X_H (TYPE.V ?X_D)))
+		(?X_G (?X_H SAVE.13.V ?X_D ?L))
+	)
+)
+
+; "Bob worked for a company."
+; "His boss gave him an assignment."
+; "Bob did the assignment well."
+; "His boss was satisfied."
+; "Bob's boss told him that he would be promoted."
+(EPI-SCHEMA ((?X_J
+              (COMPOSITE-SCHEMA.PR ?X_J ?X_F ?X_A
+               (THAT (?X_J (WILL.MD (PASV PROMOTE.V))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C COMPANY.N))
+		(!R2 (?X_I BOSS.N))
+		(!R3 (?X_F ASSIGNMENT.N))
+		(!R4 (?X_J SATISFIED.A))
+		(!R5 (?X_J BOSS.N))
+		(!R6 (?X_J (PERTAIN-TO ?X_J)))
+		(!R7 (?X_J AGENT.N))
+		(!R8 (?X_I (PERTAIN-TO ?X_J)))
+		(!R9 (?X_J (PERTAIN-TO ?X_K)))
+	)
+	(:STEPS
+		(?X_E (?X_J ((ADV-A (FOR.P ?X_C)) WORK.V)))
+		(?X_B (?X_I (GIVE.V ?X_J ?X_F)))
+		(?X_H (?X_J (DO.V ?X_F)))
+		(?X_M (?X_J (TELL.V ?X_A (THAT (?X_J (WILL.MD (PASV PROMOTE.V)))))))
+	)
+)
+
+; "Bob worked on the computer all day."
+; "His boss yelled at him."
+; "He quit his job."
+; "He could not find another job."
+(EPI-SCHEMA (((ADV-E ({DURING}.P (ALL.D DAY.N))) (?X_H WORK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C COMPUTER.N))
+		(!R2 (?X_F BOSS.N))
+		(!R3 (?X_G JOB.N))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_H)))
+		(!R6 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_E
+   ((ADV-E ({DURING}.P (ALL.D DAY.N))) (?X_H ((ADV-A (ON.P ?X_C)) WORK.V))))
+		(?X_A (?X_F ((ADV-A (AT.P ?X_H)) YELL.V)))
+		(?X_B (?X_H (QUIT.V ?X_G)))
+		(E418.SK (NOT (?X_H ((CAN.MD FIND.V) (ANOTHER.D JOB.N)))))
+	)
+)
+
+; "'Bob came into work one morning.'"
+; "This is my story."
+; "I am going to tell you this story."
+(EPI-SCHEMA ((?X_C ((ADV-A (TO.P (KA WORK.V))) COME.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_F STORY.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H {REF}.N))
+		(!R6 (?X_L WORK.N))
+		(!R7 (?X_K AGENT.N))
+		(!R8 (?X_L DESTINATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) COME.12.V) ?X_L))
+		(?X_E (?X_H (= ?X_F)))
+		(?X_B (?X_G ((ADV-A (FOR.P (KA (TELL.V ?X_C ?X_F)))) GO.V)))
+	)
+)
+
+; "'Bob came into work one morning.'"
+; "His boss said, 'What do you want?'"
+; "Bob said, 'I need some money.'"
+; "His boss gave him $5.00."
+; "Bob left."
+(EPI-SCHEMA ((?X_D ((ADV-A (TO.P (KA WORK.V))) ((ADV-A (FROM.P ?X_E)) COME.V)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_A BOSS.N))
+		(!R2 (?X_D MONEY.N))
+		(!R3 (?X_A (PERTAIN-TO ?X_D)))
+		(!R4 (?X_E WORK.N))
+		(!R5 (?X_D AGENT.N))
+		(!R6 (?X_E DESTINATION.N))
+	)
+	(:STEPS
+		(?X_C (?X_D ((ADV-A (FROM.P ?L1)) COME.12.V) ?X_E))
+	)
+)
+
+; "'Bob worked hard all week."
+; "On Friday, he finished early."
+; "He decided to go for a walk."
+; "He walked along the street."
+; "He saw some kids playing baseball."
+; "He played catch with them."
+(EPI-SCHEMA ((?X_F ((ADV-A (FOR.P ?X_S)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_S WALK.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_N BASEBALL.N))
+		(!R5 (?X_O (PLUR KID.N)))
+		(!R6 (?X_R CATCH.N))
+		(!R7 (?X_S DESTINATION.N))
+		(!R8 (?L2 DESTINATION.N))
+		(!R9 (?X_T AGENT.N))
+	)
+	(:STEPS
+		(?X_H ((ADV-E ({DURING}.P (ALL.D WEEK.N))) (?X_I (HARD.ADV WORK.V))))
+		(?X_E (?X_F (EARLY.ADV ((ADV-A (ON.P ?X_F)) FINISH.V))))
+		(?X_C (?X_T ((ADV-A (FOR.P ?X_S)) GO.V)))
+		(?E_1 (?X_T ((ADV-A (FROM.P ?L1)) GO.14.V) ?X_S))
+		(?X_K (?X_T ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
+		(?X_M (?X_T SEE.15.V ?X_O))
+		(?X_A (?X_O PLAY.16.V))
+		(?X_Q (?X_T PLAY.17.V))
+	)
+)
+
+; "Sammy has a problem."
+; "His teeth hurt when he eats."
+; "He goes to the dentist."
+; "The dentist says you have cavities."
+; "You need fillings."
+(EPI-SCHEMA ((?X_J (HURT.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR CAVITY.N)))
+		(!R2 (?X_H DENTIST.N))
+		(!R3 (?X_I PROBLEM.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_L (WHEN.P (KE (?X_J EAT.V)))))
+		(!R6 (?X_K (PLUR TOOTH.N)))
+		(!R7 (?X_K (PERTAIN-TO ?X_J)))
+		(!R8 (?X_K AGENT.N))
+		(!R9 (?X_L FOOD.N))
+	)
+	(:STEPS
+		(?X_A (?X_J (HAVE.V ?X_I)))
+		(?X_B (?X_K HURT.1.V ?X_L))
+		(?X_G (?X_J ((ADV-A (TO.P ?X_H)) GO.V)))
+		(?X_D (?X_H (SAY.V (THT (?X_J (HAVE.V ?X_E))))))
+	)
+)
+
+; "Alice had a toothache."
+; "She went to the dentist."
+; "The dentist gave her an injection."
+; "It stopped the pain for a while."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_E ?X_K ?X_L ?X_J ?A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L INJECTION.N))
+		(!R2 (?X_J DENTIST.N))
+		(!R3 (?X_E TOOTHACHE.N))
+		(!R4 (?X_J DESTINATION.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?A ACTION.N))
+	)
+	(:STEPS
+		(?X_D (?X_K (HAVE.V ?X_E)))
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_J))
+		(?X_B (?X_J (GIVE.V ?X_K ?X_L)))
+		(?X_I (?X_L STOP.3.V ?A))
+	)
+)
+
+; "Tom's parents took him to the dentist."
+; "The dentist gave Tom an injection."
+; "The dentist said that Tom would feel better soon."
+; "Tom felt better after the dentist shot him."
+(EPI-SCHEMA ((?X_D (GET.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (AFTER.P (KE (?X_J (SHOOT.V ?X_K))))))
+		(!R2 (?X_D BETTER.A))
+		(!R3 (?X_I (PLUR PARENT.N)))
+		(!R4 (?X_I (PERTAIN-TO ?X_K)))
+		(!R5 (?X_J DENTIST.N))
+		(!R6 (?X_L INJECTION.N))
+		(!R7 (?X_K SMALLER-THAN.N ?X_I))
+		(!R8 (?X_J DESTINATION.N))
+		(!R9 (?X_K AGENT.N))
+		(!R10 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_I TAKE.4.V ?X_K ?X_J))
+		(?X_H (?X_J (GIVE.5.V ?X_K ?X_L)))
+		(?X_B (?X_K (FEEL.V ?X_D ?X_C)))
+	)
+)
+
+; "Alice's mouth hurts."
+; "She is going to the dentist."
+; "She will go to the dentist today."
+(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H DENTIST.N))
+		(!R2 (?X_B TODAY.N))
+		(!R3 (?X_E MOUTH.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_I)))
+		(!R5 (?X_H DESTINATION.N))
+		(!R6 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E HURT.V))
+		(?X_G (?X_I ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_H))
+		(?X_A ((ADV-E ({DURING}.P ?X_B)) (?X_I ((ADV-A (TO.P ?X_H)) GO.V))))
+	)
+)
+
+; "Sarah likes to eat chocolate."
+; "She loves candy."
+; "She ate some candy."
+; "She had bad breath after eating candy."
+(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_C (KA (EAT.V ?X_K)) ?X_K ?X_L ?X_H))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C BAD.A))
+		(!R2 (?X_C BREATH.N))
+		(!R3 (?X_K CHOCOLATE.N))
+		(!R4 (?X_L CANDY.N))
+		(!R5 (?X_H CANDY.N))
+		(!R6 ((KA (EAT.V ?X_K)) ACTION.N))
+		(!R7 (?X_K FOOD.N))
+		(!R8 (?X_L OBJECT.N))
+		(!R9 (NOT (?X_L ACTION.N)))
+		(!R10 (NOT (?X_L AGENT.N)))
+		(!R11 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_M LIKE.6.V (KA (EAT.V ?X_K))))
+		(?E_1 (?X_M EAT.7.V ?X_K))
+		(?X_G (?X_M LOVE.8.V ?X_L))
+		(?X_J (?X_M EAT.9.V ?X_H))
+		(?X_B (?X_M (HAVE.V ?X_C)))
+	)
+)
+
+; "Joe's teeth hurt."
+; "He went to the dentist for help."
+; "The dentist said Joe had cavities."
+; "Joe needed fillings."
+(EPI-SCHEMA ((?X_M ((ADV-A (TO.P ?X_L)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR FILLING.N)))
+		(!R2 (?X_F (PLUR CAVITY.N)))
+		(!R3 (?X_L DENTIST.N))
+		(!R4 (?X_I (PLUR TOOTH.N)))
+		(!R5 (?X_I (PERTAIN-TO ?X_M)))
+		(!R6 (?X_L DESTINATION.N))
+		(!R7 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_I HURT.V))
+		(?X_K (?X_M ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_L))
+		(?X_E (?X_L (SAY.V (THT (?X_M (HAVE.V ?X_F))))))
+		(?X_B (?X_M (NEED.V ?X_C)))
+	)
+)
+
+; "Tom's teeth were sore."
+; "He couldn't eat anything."
+; "Tom went to the dentist."
+; "The dentist said Tom would need fillings."
+(EPI-SCHEMA ((?X_D (EAT.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A SORE.A))
+		(!R2 (?X_A (PLUR TOOTH.N)))
+		(!R3 (?X_A (PERTAIN-TO ?X_D)))
+		(!R4 (?X_E DENTIST.N))
+		(!R5 (?X_D AGENT.N))
+		(!R6 (?X_E DESTINATION.N))
+	)
+	(:STEPS
+		(E215.SK (NOT (?X_D ((CAN.MD EAT.V) (ANY.D THING.N)))))
+		(?X_C (?X_D ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_E))
+	)
+)
+
+; "Sammy's teeth hurt him."
+; "He couldn't eat anything for a few days."
+; "He went to the dentist."
+; "The dentist said that Sammy needs fillings."
+(EPI-SCHEMA ((?X_J
+              (COMPOSITE-SCHEMA.PR ?X_J (ANY.D THING.N)
+               (THAT (?X_J (NEED.V ?X_C))) ?X_K))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR FILLING.N)))
+		(!R2 (?X_K DENTIST.N))
+		(!R3 (?X_D FEW.A))
+		(!R4 (?X_D (PLUR DAY.N)))
+		(!R5 (?X_G (PLUR TOOTH.N)))
+		(!R6 (?X_G (PERTAIN-TO ?X_J)))
+		(!R7 (?X_J AGENT.N))
+		(!R8 (?X_K DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_G (HURT.V ?X_J)))
+		(E249.SK (NOT (?X_J ((CAN.MD ((ADV-A (FOR.P ?X_D)) EAT.V)) (ANY.D THING.N)))))
+		(?X_I (?X_J ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_K))
+		(?X_B (?X_K (SAY.V (THAT (?X_J (NEED.V ?X_C))))))
+	)
+)
+
+; "Sammy had a sore tooth."
+; "He couldn't eat because of it."
+; "He went to the dentist."
+; "The dentist said Sammy had cavities."
+; "He gave him a filling."
+(EPI-SCHEMA ((?X_M
+              (COMPOSITE-SCHEMA.PR ?X_G (K (BECAUSE.P OF.P ?X_G))
+               (THT (?X_M (HAVE.V ?X_D))) ?X_L ?X_M ?X_N))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR CAVITY.N)))
+		(!R2 (?X_L DENTIST.N))
+		(!R3 (?X_G SORE.A))
+		(!R4 (?X_G TOOTH.N))
+		(!R5 (?X_L DESTINATION.N))
+		(!R6 (?X_M AGENT.N))
+		(!R7 (NOT (?X_N AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_M (HAVE.V ?X_G)))
+		(E295.SK (NOT (?X_M ((CAN.MD EAT.V) (K (BECAUSE.P OF.P ?X_G))))))
+		(?X_I (?X_M ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_L))
+		(?X_C (?X_L (SAY.V (THT (?X_M (HAVE.V ?X_D))))))
+		(?X_A (?X_N FILL.V))
+		(?X_K (?X_L (GIVE.10.V ?X_M ?X_N)))
+	)
+)
+
+; "Sammy's teeth hurt when he ate."
+; "He went to the dentist."
+; "The dentist said Sammy needed fillings."
+; "He put some medicine on Sammy's mouth."
+; "Sammy felt better after the dentist fixed him."
+(EPI-SCHEMA ((?X_D ((ADV-A (TO.P ?X_Q)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (AFTER.P (KE (?X_R (FIX.V ?X_Q))))))
+		(!R2 (?X_D BETTER.A))
+		(!R3 (?X_G (PLUR FILLING.N)))
+		(!R4 (?X_R DENTIST.N))
+		(!R5 (?X_P (WHEN.P (KE (?X_Q EAT.V)))))
+		(!R6 (?X_O (PLUR TOOTH.N)))
+		(!R7 (?X_O (PERTAIN-TO ?X_Q)))
+		(!R8 (?X_N MEDICINE.N))
+		(!R9 (?X_S MOUTH.N))
+		(!R10 (?X_S (PERTAIN-TO ?X_Q)))
+		(!R11 (?X_O AGENT.N))
+		(!R12 (?X_P FOOD.N))
+		(!R13 (?X_Q AGENT.N))
+		(!R14 (?X_R DESTINATION.N))
+		(!R15 (?X_S LOCATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_O HURT.1.V ?X_P))
+		(?X_K (?X_Q ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_R))
+		(?X_F (?X_R (SAY.V (THT (?X_Q (NEED.V ?X_G))))))
+		(?X_M (?X_R PUT.11.V ?X_N ?X_S))
+		(?X_B (?X_Q (FEEL.V ?X_D ?X_C)))
+	)
+)
+
+; "Sammy is going to be married."
+; "He wants to look good."
+; "So he gets a haircut."
+; "He looks really handsome."
+(EPI-SCHEMA ((?X_H (COMPOSITE-SCHEMA.PR (KA (LOOK.V GOOD.A)) ?X_E ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E HAIRCUT.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_I (REALLY.ADV HANDSOME.A)))
+	)
+	(:STEPS
+		(?X_B (?X_H ((ADV-A (FOR.P (KA (PASV MARRY.V)))) GO.V)))
+		(?X_D (?X_H (WANT.V (KA (LOOK.V GOOD.A)))))
+		(?X_G (?X_H ((SO.ADV GET.V) ?X_E)))
+		(?X_K (?X_H (LOOK.V ?X_I)))
+	)
+)
+
+; "Sammy cut his hair short."
+; "He looked better."
+; "His friends liked him more now."
+(EPI-SCHEMA ((?X_H (CUT.V (KE (?X_F SHORT.A)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_E BETTER.A))
+		(!R2 (?X_F HAIR.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_H)))
+		(!R4 (?X_G (PLUR FRIEND.N)))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+		(!R6 (?X_H OBJECT.N))
+		(!R7 (NOT (?X_H ACTION.N)))
+	)
+	(:STEPS
+		(?X_A (?X_H ((SHORT.ADV CUT.V) ?X_F)))
+		(?X_D (?X_H (LOOK.V ?X_E)))
+		(?X_B (?X_G LIKE.12.V ?X_H))
+	)
+)
+
+; "Tom has short hair."
+; "Tom likes to cut his own hair."
+; "Tom cuts his hair with scissors."
+; "Tom uses clippers for his hair."
+(EPI-SCHEMA ((?X_M (((ADV-A (WITH.P ?X_F)) CUT.V) ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR CLIPPER.N)))
+		(!R2 (?X_J HAIR.N))
+		(!R3 (?X_J OWN.A))
+		(!R4 (?X_F (PLUR SCISSOR.N)))
+		(!R5 (?X_I SHORT.A))
+		(!R6 (?X_I HAIR.N))
+		(!R7 (?X_J (PERTAIN-TO ?X_M)))
+		(!R8 (?X_K OWN.A))
+		(!R9 (?X_L (PERTAIN-TO ?X_M)))
+		(!R10 (?X_L ?X_K HAIR.N))
+		(!R11 ((KA (CUT.V ?X_L)) ACTION.N))
+		(!R12 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_M (HAVE.V ?X_I)))
+		(?X_A (?X_M LIKE.13.V (KA (CUT.V ?X_L))))
+		(?X_B (?X_M (((ADV-A (WITH.P ?X_F)) CUT.V) ?X_J)))
+		(?X_D (?X_M (USE.V ?X_E)))
+		(?E_1 (?X_M CUT.14.V ?X_L))
+	)
+)
+
+; "Sammy cut his hair."
+; "He looked good."
+; "His friends liked him better."
+(EPI-SCHEMA ((?X_G (CUT.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GOOD.A))
+		(!R2 (?X_F HAIR.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H (PLUR FRIEND.N)))
+		(!R6 (?X_H (PERTAIN-TO ?X_I)))
+		(!R7 (?X_I OBJECT.N))
+		(!R8 (NOT (?X_I ACTION.N)))
+	)
+	(:STEPS
+		(?X_A (?X_G (CUT.V ?X_F)))
+		(?X_D (?X_I (LOOK.V ?X_E)))
+		(?X_B (?X_H LIKE.15.V ?X_I))
+	)
+)
+
+; "Holly loves to cut her own hair."
+; "She has a pair of scissors."
+; "She cuts her hair."
+; "She likes to have short hair."
+(EPI-SCHEMA ((?X_M (CUT.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HAIR.N))
+		(!R2 (?X_C OWN.A))
+		(!R3 (?X_C (PERTAIN-TO ?X_M)))
+		(!R4 (?X_F (PLUR SCISSOR.N)))
+		(!R5 (?X_K PAIR.N))
+		(!R6 (?X_K (OF.P ?X_F)))
+		(!R7 (?X_J (PERTAIN-TO ?X_M)))
+		(!R8 (?X_I OWN.A))
+		(!R9 (?X_J ?X_I HAIR.N))
+		(!R10 (?X_L SHORT.A))
+		(!R11 (?X_L HAIR.N))
+		(!R12 ((KA (CUT.V ?X_J)) ACTION.N))
+		(!R13 (?X_K OBJECT.N))
+		(!R14 ((KA (HAVE.V ?X_L)) ACTION.N))
+		(!R15 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_M LOVE.16.V (KA (CUT.V ?X_J))))
+		(?E_1 (?X_M CUT.14.V ?X_J))
+		(?X_E (?X_M HAVE.17.V ?X_K))
+		(?X_B (?X_M (CUT.V ?X_C)))
+		(?X_H (?X_M LIKE.18.V (KA (HAVE.V ?X_L))))
+		(?E_2 (?X_M HAVE.19.V ?X_L))
+	)
+)
+
+; "Sammy cut his hair."
+; "He looked good."
+; "His friends liked him better."
+(EPI-SCHEMA ((?X_G (CUT.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GOOD.A))
+		(!R2 (?X_F HAIR.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H (PLUR FRIEND.N)))
+		(!R6 (?X_H (PERTAIN-TO ?X_I)))
+		(!R7 (?X_I OBJECT.N))
+		(!R8 (NOT (?X_I ACTION.N)))
+	)
+	(:STEPS
+		(?X_A (?X_G (CUT.V ?X_F)))
+		(?X_D (?X_I (LOOK.V ?X_E)))
+		(?X_B (?X_H LIKE.20.V ?X_I))
+	)
+)
+
+; "Sammy's girlfriend was getting married."
+; "He was going to be there."
+; "He wanted to look good."
+; "He got a haircut."
+(EPI-SCHEMA ((?X_E (GET.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GIRLFRIEND.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_J MALE.A))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_K HAIRCUT.N))
+	)
+	(:STEPS
+		(?X_C (?X_D (GET.V ?X_A)))
+		(?X_G (?X_E ((ADV-A (FOR.P (KA (THERE.ADV BE.V)))) GO.V)))
+		(?X_I (?X_J (WANT.V (KA (LOOK.V GOOD.A)))))
+		(?X_M (?X_J (GET.V ?X_K)))
+	)
+)
+
+; "I went camping."
+; "There were bears around."
+; "I heard them howling at night."
+; "I was afraid they might attack me."
+; "I slept in my tent."
+(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H AGENT.N))
+		(!R2 (?X_I NIGHT.N))
+		(!R3 (?X_M TENT.N))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (?X_M (PERTAIN-TO ?X_L)))
+		(!R6 (?X_M AGENT.N))
+		(!R7 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_C (?X_M ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?X_K (?X_A BEAR.V))
+		(?X_G ((ADV-E (DURING (?X_B ((ADV-A (AT.P ?X_I)) HOWL.V)))) (?X_H HEAR.V)))
+		(?X_E (?X_H ((ADV-A (IN.P ?X_M)) SLEEP.V)))
+		(?E_1 (?X_M CAMP.1.V ?L))
+	)
+)
+
+; "Tom went camping."
+; "He saw some animals."
+; "He climbed trees."
+; "He found lots of things."
+(EPI-SCHEMA ((?X_L (CLIMB.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR LOT.N)))
+		(!R2 (?X_C (OF.P ?X_D)))
+		(!R3 (?X_I (PLUR ANIMAL.N)))
+		(!R4 (?X_M (PLUR TREE.N)))
+		(!R5 (?L LOCATION.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?X_M DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_L ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?E_1 (?X_L CAMP.1.V ?L))
+		(?X_H (?X_L SEE.2.V ?X_I))
+		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) CLIMB.3.V) ?X_M))
+		(?X_B (?X_L (FIND.V ?X_C)))
+	)
+)
+
+; "Tom went camping."
+; "He saw some animals near the campsite."
+; "He saw a bear."
+; "He heard it howl at night."
+; "He was scared."
+(EPI-SCHEMA ((?X_L ((ADV-A (FOR.P (KA CAMP.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L SCARED.A))
+		(!R2 (?X_E (PLUR ANIMAL.N)))
+		(!R3 (?X_H BEAR.N))
+		(!R4 (?X_I NIGHT.N))
+		(!R5 (?L LOCATION.N))
+		(!R6 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_L ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?E_1 (?X_L CAMP.1.V ?L))
+		(?X_D (?X_L SEE.4.V ?X_E))
+		(?X_G (?X_L SEE.5.V ?X_H))
+		(?X_K (?X_L HEAR.6.V (KE (AND (?X_H HOWL.N) (?X_H (AT.P ?X_I))))))
+	)
+)
+
+; "Tom went camping."
+; "He saw some animals there."
+; "He saw a bear."
+; "He shot at the bear."
+; "The bear ran away."
+(EPI-SCHEMA ((?X_M ((ADV-A (FOR.P (KA CAMP.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BEAR.N))
+		(!R2 (?X_H (PLUR ANIMAL.N)))
+		(!R3 (?L LOCATION.N))
+		(!R4 (?X_M AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_M ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?E_1 (?X_M CAMP.1.V ?L))
+		(?X_G (?X_M SEE.7.V ?X_H))
+		(?X_J (?X_M SEE.8.V ?X_C))
+		(?X_B (?X_M ((ADV-A (AT.P ?X_C)) SHOOT.V)))
+		(?X_L (?X_C ((ADV-A (FROM.P ?L1)) RUN_AWAY.9.V) ?L2))
+	)
+)
+
+; "Bobby went camping."
+; "There were lots of bugs."
+; "He saw some snakes."
+; "He heard an owl hooting at night."
+(EPI-SCHEMA ((?X_O ((ADV-A (FOR.P (KA CAMP.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR LOT.N)))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_K (PLUR SNAKE.N)))
+		(!R4 (?X_N OWL.N))
+		(!R5 (?L LOCATION.N))
+		(!R6 (?N NOISE.N))
+		(!R7 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_O ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?X_D (?X_A (BE.V ?X_E)))
+		(?E_1 (?X_O CAMP.1.V ?L))
+		(?X_J (?X_O SEE.10.V ?X_K))
+		(?X_B (?X_N HOOT.11.V ?N))
+		(?X_M (?X_O HEAR.12.V ?X_N))
+	)
+)
+
+; "Mary went camping."
+; "There were many animals there."
+; "She saw a bear."
+; "She ran away from the bear."
+(EPI-SCHEMA ((?X_G ((ADV-A (FROM.P ?X_H)) RUN.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H BEAR.N))
+		(!R2 (?L LOCATION.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (NOT (?X_H = ?L2)))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?X_H LOCATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_G ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?E_1 (?X_G CAMP.1.V ?L))
+		(?X_D (?X_G SEE.13.V ?X_H))
+		(?X_F (?X_G ((ADV-A (FROM.P ?X_H)) RUN.14.V) ?L2))
+	)
+)
+
+; "Tom went camping."
+; "He saw some animals."
+; "He saw a bear."
+; "He was afraid of the bear."
+(EPI-SCHEMA ((?X_J ((ADV-A (FOR.P (KA CAMP.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B BEAR.N))
+		(!R2 (?X_J AFRAID.A))
+		(!R3 (?X_G (PLUR ANIMAL.N)))
+		(!R4 (?L LOCATION.N))
+		(!R5 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_J ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?E_1 (?X_J CAMP.1.V ?L))
+		(?X_F (?X_J SEE.15.V ?X_G))
+		(?X_I (?X_J SEE.16.V ?X_B))
+		(?X_A (?X_J (OF.P ?X_B)))
+	)
+)
+
+; "Sarah went camping."
+; "She saw some trees."
+; "She climbed one tree."
+; "She sat on a branch."
+; "She looked for berries."
+; "She ate berries."
+(EPI-SCHEMA ((?X_R (COMPOSITE-SCHEMA.PR ?L ?X_K ?X_Q ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR BERRY.N)))
+		(!R2 (?X_F BRANCH.N))
+		(!R3 (?X_K (PLUR TREE.N)))
+		(!R4 (?X_Q TREE.N))
+		(!R5 (?X_N (PLUR BERRY.N)))
+		(!R6 (?L LOCATION.N))
+		(!R7 (?X_Q DESTINATION.N))
+		(!R8 (?X_R AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_R ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?E_1 (?X_R CAMP.1.V ?L))
+		(?X_J (?X_R SEE.17.V ?X_K))
+		(?X_M (?X_R ((ADV-A (FROM.P ?L1)) CLIMB.3.V) ?X_Q))
+		(?X_E (?X_R ((ADV-A (ON.P ?X_F)) SIT.V)))
+		(?X_B (?X_R ((ADV-A (FOR.P ?X_C)) LOOK.V)))
+		(?X_P (?X_R EAT.18.V ?X_N))
+	)
+)
+
+; "Tommy went camping."
+; "He saw lots of animals."
+; "He saw a bear."
+; "He saw a wolf."
+; "He saw a mountain lion."
+; "He saw a deer."
+; "He saw a rabbit."
+; "He saw a fox."
+(EPI-SCHEMA ((?X_Y ((ADV-A (FOR.P (KA CAMP.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR ANIMAL.N)))
+		(!R2 (?X_E (PLUR LOT.N)))
+		(!R3 (?X_E (OF.P ?X_F)))
+		(!R4 (?X_I BEAR.N))
+		(!R5 (?X_L WOLF.N))
+		(!R6 (?X_O MOUNTAIN.N))
+		(!R7 (?X_O LION.N))
+		(!R8 (?X_R (PLUR DEER.N)))
+		(!R9 (?X_U RABBIT.N))
+		(!R10 (?X_X FOX.N))
+		(!R11 (?L LOCATION.N))
+		(!R12 (?X_Y AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_Y ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?E_1 (?X_Y CAMP.1.V ?L))
+		(?X_D (?X_Y SEE.19.V ?X_E))
+		(?X_H (?X_Y SEE.20.V ?X_I))
+		(?X_K (?X_Y SEE.21.V ?X_L))
+		(?X_N (?X_Y SEE.22.V ?X_O))
+		(?X_Q (?X_Y SEE.23.V ?X_R))
+		(?X_T (?X_Y SEE.24.V ?X_U))
+		(?X_W (?X_Y SEE.25.V ?X_X))
+	)
+)
+
+; "Alice was camping."
+; "She saw a bear cub."
+; "She was scared."
+; "She ran away from the bear cub."
+(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?L ?X_H ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H BEAR.N))
+		(!R2 (?X_H CUB.N))
+		(!R3 (?X_G SCARED.A))
+		(!R4 (?L LOCATION.N))
+		(!R5 (?X_H LOCATION.N))
+		(!R6 (?X_G AGENT.N))
+		(!R7 (NOT (?X_H = ?L2)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_G CAMP.26.V ?L))
+		(?X_D (?X_G SEE.27.V ?X_H))
+		(?X_F (?X_G ((ADV-A (FROM.P ?X_H)) RUN.14.V) ?L2))
+	)
+)
+
+; "The man's car broke down."
+; "He couldn't fix it."
+; "He was stuck there."
+; "He decided to walk home."
+; "He started walking."
+; "He realized he was lost."
+(EPI-SCHEMA ((?X_K (REALIZE.V (THT (?X_K (HAS.AUX (LOSE.V ?L2)))))) ** ?E)
+	(:ROLES
+		(!R1 (?X_G HOME.N))
+		(!R2 (?X_K MAN.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_K)))
+		(!R4 (?X_J CAR.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_K)))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_J BREAK_DOWN.V))
+		(E323.SK (NOT (?X_K ((CAN.MD FIX.V) ?X_J))))
+		(?X_F (?X_K ((ADV-A (TO.P ?X_G)) WALK.V)))
+		(?X_D (?X_K ((ADV-A (FOR.P (KA WALK.V))) START.V)))
+		(?X_B (?X_K (REALIZE.V (THT (?X_K LOST.A)))))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) WALK.28.V) ?L2))
+		(?E_2 (?X_K ((ADV-A (FROM.P ?L1)) WALK.28.V) ?L2))
+	)
+)
+
+; "Bill walked into his house."
+; "His door was locked."
+; "There were no lights on inside."
+; "He looked around for something to eat."
+; "He found some food."
+(EPI-SCHEMA ((?X_N ((ADV-A (TO.P ?X_N)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_O BILL.N))
+		(!R2 (?X_I INSIDE.N))
+		(!R3 (?X_N HOUSE.N))
+		(!R4 (?X_N (PERTAIN-TO ?X_O)))
+		(!R5 (?X_J DOOR.N))
+		(!R6 (?X_J LOCKED.A))
+		(!R7 (?X_J (PERTAIN-TO ?X_O)))
+		(!R8 (?X_K FOOD.N))
+		(!R9 (?X_N DESTINATION.N))
+		(!R10 (?X_N FOOD.N))
+		(!R11 (?X AGENT.N))
+		(!R12 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_O ((ADV-A (FROM.P ?L1)) WALK.29.V) ?X_N))
+		(?X_H (?X_A (BE.V (NO.D (L X (AND (X (PLUR LIGHT.N)) (X (ON.P ?X_I))))))))
+		(?X_F (?X_O ((ADV-A (FOR.P ?X_C)) LOOK_AROUND.V)))
+		(?E_1 (?X EAT.30.V ?X_N))
+		(?X_M (?X_O FIND.31.V ?X_K))
+	)
+)
+
+; "Tom walked along the road."
+; "He saw a house on the side of the road."
+; "He thought that maybe someone lived in the house."
+; "He knocked on the door."
+; "No one answered."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DOOR.N))
+		(!R2 (?X_H HOUSE.N))
+		(!R3 (?L2 DESTINATION.N))
+		(!R4 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_I ((ADV-A (FROM.P ?L1)) WALK.32.V) ?L2))
+		(?X_G (?X_I SEE.33.V ?X_H))
+		(?X_B (?X_I ((ADV-A (ON.P ?X_C)) KNOCK.V)))
+	)
+)
+
+; "Tom walked to school."
+; "His shoes were muddy."
+; "He wore gloves."
+; "He held an umbrella."
+; "His socks were wet."
+; "He was tired from walking."
+(EPI-SCHEMA ((?X_M ((ADV-A (FROM.P ?X_K)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D UMBRELLA.N))
+		(!R2 (?X_K SCHOOL.N))
+		(!R3 (?X_L (PLUR GLOVE.N)))
+		(!R4 (?X_I (PLUR SHOE.N)))
+		(!R5 (?X_I MUDDY.A))
+		(!R6 (?X_I (PERTAIN-TO ?X_M)))
+		(!R7 (?X_J (PLUR SOCK.N)))
+		(!R8 (?X_J WET.A))
+		(!R9 (?X_J (PERTAIN-TO ?X_M)))
+		(!R10 (?X_K DESTINATION.N))
+		(!R11 (?X_L OBJECT.N))
+		(!R12 (NOT (?X_L AGENT.N)))
+		(!R13 (?X_M AGENT.N))
+		(!R14 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_M ((ADV-A (FROM.P ?L1)) WALK.29.V) ?X_K))
+		(?X_H (?X_M WEAR.34.V ?X_L))
+		(?X_C (?X_M (HOLD.V ?X_D)))
+		(?X_A (?X_M (FROM.P (KA WALK.V))))
+		(?E_1 (?X_M ((ADV-A (FROM.P ?L1)) WALK.28.V) ?L2))
+	)
+)
+
+; "John walked into town."
+; "He needed some groceries."
+; "He walked through the park."
+; "There were lots of trees."
+; "He wanted to go home."
+(EPI-SCHEMA ((?X_P ((ADV-A (FROM.P ?X_Q)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR LOT.N)))
+		(!R2 (?X_F (OF.P ?X_G)))
+		(!R3 (?X_J (PLUR GROCERY.N)))
+		(!R4 (?X_O TOWN.N))
+		(!R5 (?X_Q PARK.N))
+		(!R6 (?X_O DESTINATION.N))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?X_P AGENT.N))
+		(!R9 (?X_Q DESTINATION.N))
+	)
+	(:STEPS
+		(?X_L (?X_P ((ADV-A (FROM.P ?L1)) WALK.29.V) ?X_O))
+		(?X_I (?X_P (NEED.V ?X_J)))
+		(?X_N (?X_P ((ADV-A (FROM.P ?L1)) WALK.32.V) ?L2))
+		(?X_E (?X_A (BE.V ?X_F)))
+		(?X_C (?X_P (WANT.V (KA (HOME.ADV GO.V)))))
+		(?E_1 (?X_P ((ADV-A (FROM.P ?L1)) GO.35.V) ?X_Q))
+	)
+)
+
+; "Tom walked into town."
+; "He saw a bus stop."
+; "He waited for the bus."
+; "The bus came by."
+; "Tom got on the bus."
+(EPI-SCHEMA ((?X_N ((ADV-A (TO.P ?X_M)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E BUS.N))
+		(!R2 (?X_M TOWN.N))
+		(!R3 (?X_J BUS.N))
+		(!R4 (?X_J STOP.N))
+		(!R5 (?X_M DESTINATION.N))
+		(!R6 (?X_N AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_N ((ADV-A (FROM.P ?L1)) WALK.29.V) ?X_M))
+		(?X_I (?X_N SEE.36.V ?X_J))
+		(?X_D (?X_N ((ADV-A (FOR.P ?X_E)) WAIT.V)))
+		(?X_B (?X_E COME_BY.V))
+		(?X_L (?X_N ((ADV-A (FROM.P ?L1)) GET.37.V) ?L2))
+	)
+)
+
+; "The boy ate all the candy in the jar."
+; "He put some back."
+; "He looked inside the jar again."
+; "He couldn't find any more."
+(EPI-SCHEMA ((?X_D ((ADV-A (INSIDE.P ?X_A)) LOOK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A JAR.N))
+		(!R2 (?X_D BOY.N))
+	)
+	(:STEPS
+		(?X_C (?X_D (AGAIN.ADV ((ADV-A (INSIDE.P ?X_A)) LOOK.V))))
+		(E9.SK (NOT (?X_D ((CAN.MD FIND.V) (ANY.D MORE.A)))))
+	)
+)
+
+; "Tom ate all the candy in the jar."
+; "He put some back."
+; "He looked inside the jar again."
+; "He couldn't find any more."
+(EPI-SCHEMA ((?X_D ((ADV-A (INSIDE.P ?X_A)) LOOK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A JAR.N))
+		(!R2 (?X_D AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_D (AGAIN.ADV ((ADV-A (INSIDE.P ?X_A)) LOOK.V))))
+		(E41.SK (NOT (?X_D ((CAN.MD FIND.V) (ANY.D MORE.A)))))
+	)
+)
+
+; "Tom ate all the candy in the jar."
+; "He put some back."
+; "He looked inside the jar again."
+; "He could not find any more candy."
+(EPI-SCHEMA ((?X_E ((ADV-A (INSIDE.P ?X_B)) LOOK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B JAR.N))
+		(!R2 (?X_E AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E (AGAIN.ADV ((ADV-A (INSIDE.P ?X_B)) LOOK.V))))
+		(E57.SK
+   (NOT (?X_E ((CAN.MD FIND.V) (ANY.D (L X (AND (X MORE.A) (X CANDY.N))))))))
+	)
+)
+
+; "Tom's mom gave him an apple for dinner."
+; "There were pieces of apple on his plate."
+; "Tom liked apples."
+; "Tom ate the apple."
+(EPI-SCHEMA ((?X_P (EAT.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C APPLE.N))
+		(!R2 (?X_J PLATE.N))
+		(!R3 (?X_D (PLUR PIECE.N)))
+		(!R4 (?X_O (PLUR APPLE.N)))
+		(!R5 (?X_I DINNER.N))
+		(!R6 (?X_M MOM.N))
+		(!R7 (?X_N APPLE.N))
+		(!R8 (?X_N (FOR.P ?X_I)))
+		(!R9 (?X_M (PERTAIN-TO ?X_P)))
+		(!R10 (?X_J (PERTAIN-TO ?X_P)))
+		(!R11 (?X_M AGENT.N))
+		(!R12 (NOT (?X_N AGENT.N)))
+		(!R13 (NOT (?X_O ACTION.N)))
+		(!R14 (NOT (?X_O AGENT.N)))
+		(!R15 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_M (GIVE.3.V ?X_P ?X_N)))
+		(?X_B (?X_A (BE.V (KE (?X_D (((ADV-A (ON.P ?X_J)) OF.P) ?X_C))))))
+		(?X_H (?X_P LIKE.4.V ?X_O))
+		(?X_L (?X_P EAT.2.V ?X_N))
+	)
+)
+
+; "Bob played baseball."
+; "His team lost the game."
+; "He threw the ball hard."
+; "He tried to catch the ball."
+; "But he missed the ball."
+(EPI-SCHEMA ((?X_L ((ADV-A (WITH.P ?X_F)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F BALL.N))
+		(!R2 (?X_G GAME.N))
+		(!R3 (?X_H TEAM.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_L)))
+		(!R5 (?X_K BASEBALL.N))
+		(!R6 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_L PLAY.5.V))
+		(?X_A (?X_H (LOSE.V ?X_G)))
+		(?X_E (?X_L ((HARD.ADV THROW.V) ?X_F)))
+		(?X_C (?X_L (TRY.V (KA (CATCH.V ?X_F)))))
+	)
+)
+
+; "Kate liked eating candy."
+; "She ate candy whenever she could."
+; "Candy is sweet."
+; "Candy makes you feel good."
+(EPI-SCHEMA ((?X_C (EAT.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_D CANDY.N))
+		(!R3 (?X_G CANDY.N))
+		(!R4 ((KA (EAT.V ?X_G)) ACTION.N))
+		(!R5 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_H LIKE.6.V (KA (EAT.V ?X_G))))
+		(?X_B (?X_D (MAKE.V (KE (?X_C FEEL.V GOOD.A)))))
+		(?E_1 (?X_H EAT.7.V ?X_G))
+	)
+)
+
+; "Mary's mother bought her some candy."
+; "Mary ate the candy."
+; "She felt sick after eating the candy."
+(EPI-SCHEMA ((?X_J (EAT.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C ((ADV-A (AFTER.P (KA (EAT.V ?X_F)))) SICK.A)))
+		(!R2 (?X_F CANDY.N))
+		(!R3 (?X_G MOTHER.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_J)))
+		(!R5 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_G (BUY.V ?X_J ?X_F)))
+		(?X_I (?X_J EAT.2.V ?X_F))
+		(?X_B (?X_J (FEEL.V ?X_C)))
+		(?E_1 (?X_J EAT.7.V ?X_F))
+	)
+)
+
+; "The boy ate the chocolate bar."
+; "He ate the whole thing."
+; "He found some peanut butter cups."
+; "He ate them too."
+(EPI-SCHEMA ((?X_G (EAT.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J CHOCOLATE.N))
+		(!R2 (?X_J BAR.N))
+		(!R3 (?X_J WHOLE.A))
+		(!R4 (?X_J THING.N))
+		(!R5 (?X_K (PLUR CUP.N)))
+		(!R6 (?X_G BOY.N))
+		(!R7 (?X_J FOOD.N))
+		(!R8 (?X_K FOOD.N))
+	)
+	(:STEPS
+		(?X_B (?X_G EAT.2.V ?X_J))
+		(?X_D (?X_G EAT.2.V ?X_J))
+		(?X_F (?X_G FIND.8.V ?X_K))
+		(?X_I (?X_G EAT.2.V ?X_K))
+	)
+)
+
+; "The girl gave him some candy."
+; "The boy ate all of it."
+; "He left some for later."
+; "He could not find any more."
+(EPI-SCHEMA ((?X_G
+              (EAT.V
+               (ALL.D
+                (L X
+                 (AND (X (PLUR {REF}.N))
+                      (X
+                       (OF.P
+                        (THE.D
+                         (L X
+                          (AND (X CANDY.N)
+                               (X
+                                (THAT
+                                 ((A.D GIRL.N)
+                                  ((SOME E57 (E57 (BEFORE E56))
+                                         (GIVE.V ** E57))
+                                   HIM.PRO))))))))))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C MALE.A))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_F GIRL.N))
+		(!R4 (?X_J CANDY.N))
+		(!R5 (?X_G BOY.N))
+		(!R6 (NOT (?X_J AGENT.N)))
+	)
+	(:STEPS
+		(E222.SK (NOT (?X_C ((CAN.MD FIND.V) (ANY.D MORE.A)))))
+		(?X_E (?X_F (GIVE.9.V ?X_G ?X_J)))
+		(?X_I (?X_G EAT.10.V (ALL.D (L X (AND (X (PLUR {REF}.N)) (X (OF.P ?X_B)))))))
+	)
+)
+
+; "Tom ate all the candy in the jar."
+; "He put some back."
+; "He looked inside the jar again."
+; "He couldn't find any more."
+(EPI-SCHEMA ((?X_D ((ADV-A (INSIDE.P ?X_A)) LOOK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A JAR.N))
+		(!R2 (?X_D AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_D (AGAIN.ADV ((ADV-A (INSIDE.P ?X_A)) LOOK.V))))
+		(E236.SK (NOT (?X_D ((CAN.MD FIND.V) (ANY.D MORE.A)))))
+	)
+)
+
+; "Tom's dad took him fishing."
+; "Tom liked fishing."
+; "His dad showed Tom how to catch fish."
+; "Tom caught some fish."
+; "He ate them."
+(EPI-SCHEMA ((?X_I (CATCH.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L FISH.N))
+		(!R2 (?X_J FISHING.N))
+		(!R3 (?X_I DAD.N))
+		(!R4 (?X_I (PERTAIN-TO ?X_K)))
+		(!R5 (?X_K SMALLER-THAN.N ?X_I))
+		(!R6 (?L2 DESTINATION.N))
+		(!R7 (?X_J OBJECT.N))
+		(!R8 (NOT (?X_J ACTION.N)))
+		(!R9 (NOT (?X_J AGENT.N)))
+		(!R10 (?X_K AGENT.N))
+		(!R11 (?X_L FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_I TAKE.11.V ?X_K ?L2))
+		(?X_F (?X_K LIKE.12.V ?X_J))
+		(?X_B (?X_K (CATCH.V ?X_L)))
+		(?X_H (?X_K EAT.2.V ?X_L))
+	)
+)
+
+; "Tom liked to go fishing."
+; "His friends were going fishing."
+; "Tom's friends were catching lots of fish."
+; "Tom was not as good as his friends."
+(EPI-SCHEMA ((?X_I (LIKE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LOT.N)))
+		(!R2 (?X_D (OF.P ?X_E)))
+		(!R3 (?X_H (PLUR FRIEND.N)))
+		(!R4 (?X_H (PERTAIN-TO ?X_I)))
+		(!R5 ((KA (GO.V (KA FISH.V))) ACTION.N))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_I LIKE.13.V (KA (GO.V (KA FISH.V)))))
+		(?E_1 (?X_I ((ADV-A (FROM.P ?L1)) GO.14.V) ?L2))
+		(?X_A (?X_H ((ADV-A (FROM.P ?L1)) GO.15.V) ?L2))
+		(?X_C (?X_H (CATCH.V ?X_D)))
+	)
+)
+
+; "Joe's friend is a fisherman."
+; "His friend fishes all the time."
+; "He has many kinds of fish."
+; "He catches them with his net."
+(EPI-SCHEMA ((?X_G (CATCH.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H ?X_B (PLUR KIND.N)))
+		(!R2 (?X_G FRIEND.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_E)))
+		(!R4 (?X_F NET.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_G)))
+		(!R6 (?X_I FISH.N))
+		(!R7 (?X_H (OF.P ?X_I)))
+	)
+	(:STEPS
+		(?X_D (?X_G (HAVE.V ?X_H)))
+		(?X_A (?X_G (((ADV-A (WITH.P ?X_F)) CATCH.V) ?X_I)))
+	)
+)
+
+; "Tom's family went fishing."
+; "His mother cooked lunch for them all."
+; "Tom caught a fish."
+; "He ate it on the boat."
+; "His friends were there too."
+(EPI-SCHEMA ((?X_K (CATCH.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G (PLUR FRIEND.N)))
+		(!R2 (?X_F FAMILY.N))
+		(!R3 (?X_J FISH.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_K)))
+		(!R5 (?X_G (PERTAIN-TO ?X_K)))
+		(!R6 (?X_J FOOD.N))
+		(!R7 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_F ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_E (?X_K CATCH.16.V ?X_J))
+		(?X_I (?X_K EAT.2.V ?X_J))
+		(?X_A (?X_G (TOO.ADV (THERE.ADV BE.V))))
+	)
+)
+
+; "Holly liked to go fishing."
+; "She went fishing with her friends."
+; "One friend caught a big fish."
+; "A dog ate some fish bones."
+; "They all went home."
+(EPI-SCHEMA ((?X_P ((ADV-A (TO.P ?L2)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BIG.A))
+		(!R2 (?X_D FISH.N))
+		(!R3 (?X_E FRIEND.N))
+		(!R4 (?X_H (PLUR FRIEND.N)))
+		(!R5 (?X_H (PERTAIN-TO ?X_P)))
+		(!R6 (?X_Q FISH.N))
+		(!R7 (?X_Q (PLUR BONE.N)))
+		(!R8 (?X_I DOG.N))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (?X_M (PERTAIN-TO (ALL.D ({OF}.P ?X_L)))))
+		(!R11 (?X_M HOME.N))
+		(!R12 ((KA (GO.V (KA FISH.V))) ACTION.N))
+		(!R13 (?X_P AGENT.N))
+		(!R14 (?L2 DESTINATION.N))
+		(!R15 (?X_Q FOOD.N))
+	)
+	(:STEPS
+		(?X_G (?X_P LIKE.17.V (KA (GO.V (KA FISH.V)))))
+		(?E_1 (?X_P ((ADV-A (FROM.P ?L1)) GO.14.V) ?L2))
+		(?X_A (?X_P ((ADV-A (FROM.P ?L1)) GO.15.V) ?L2))
+		(?X_C (?X_E (CATCH.V ?X_D)))
+		(?X_K (?X_I EAT.2.V ?X_Q))
+		(?X_O ((ALL.D ({OF}.P ?X_L)) ((ADV-A (FROM.P ?L1)) GO.18.V) ?X_M))
+	)
+)
+
+; "Drew liked fishing."
+; "His friends were always asking him to go fishing."
+; "He went fishing with his friends."
+; "He caught lots of fish."
+; "He ate them for dinner."
+(EPI-SCHEMA ((?X_L (LIKE.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G (PLUR LOT.N)))
+		(!R2 (?X_J (PLUR FRIEND.N)))
+		(!R3 (?X_J (PERTAIN-TO ?X_L)))
+		(!R4 (?X_K FISHING.N))
+		(!R5 (?X_M FISH.N))
+		(!R6 (?X_G (OF.P ?X_M)))
+		(!R7 (NOT (?X_K ACTION.N)))
+		(!R8 (NOT (?X_K AGENT.N)))
+		(!R9 ((KA (GO.V (KA FISH.V))) ACTION.N))
+		(!R10 (NOT (?X_J = ?X_L)))
+		(!R11 (?L2 DESTINATION.N))
+		(!R12 (?X_K DESTINATION.N))
+		(!R13 (?X_L AGENT.N))
+		(!R14 (?X_M FOOD.N))
+	)
+	(:STEPS
+		(?X_F (?X_L LIKE.19.V ?X_K))
+		(?X_A
+   (?X_J
+    (ALWAYS.ADV
+     ((ADV-A (FOR.P (KA (ASK.V ?X_L (KA (GO.V (KA FISH.V))))))) BE.V))))
+		(?E_1 (?X_J ASK.20.V ?X_L (KA (GO.V (KA FISH.V)))))
+		(?E_2 (?X_L ((ADV-A (FROM.P ?L1)) GO.14.V) ?L2))
+		(?X_B (?X_L ((ADV-A (FROM.P ?L1)) GO.21.V) ?X_K))
+		(?X_D (?X_L (CATCH.V ?X_G)))
+		(?X_I (?X_L EAT.2.V ?X_M))
+	)
+)
+
+; "Tom's family likes to go fishing."
+; "His dad takes him fishing."
+; "Tom likes to catch fish."
+(EPI-SCHEMA ((?X_I (LIKE.V ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B FISHING.N))
+		(!R2 (?X_C DAD.N))
+		(!R3 (?X_C (PERTAIN-TO ?X_I)))
+		(!R4 (?X_H FAMILY.N))
+		(!R5 (?X_H (PERTAIN-TO ?X_I)))
+		(!R6 (?X_J FISH.N))
+		(!R7 ((KA (GO.V (KA FISH.V))) ACTION.N))
+		(!R8 (?X_H AGENT.N))
+		(!R9 (?L2 DESTINATION.N))
+		(!R10 (?X_I AGENT.N))
+		(!R11 ((KA (CATCH.V ?X_J)) ACTION.N))
+	)
+	(:STEPS
+		(?X_E (?X_H LIKE.22.V (KA (GO.V (KA FISH.V)))))
+		(?X_A (?X_C (TAKE.V ?X_I ?X_B)))
+		(?E_1 (?X_H ((ADV-A (FROM.P ?L1)) GO.14.V) ?L2))
+		(?X_G (?X_I LIKE.23.V (KA (CATCH.V ?X_J))))
+	)
+)
+
+; "Tom's family has been going fishing for years."
+; "His brother is good at fishing."
+; "Tom doesn't like fishing."
+(EPI-SCHEMA ((?X_K (((ADV-A (WITH.P ?X_I)) GO.V) ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B FISHING.N))
+		(!R2 (?X_H GOOD.A))
+		(!R3 (?X_H BROTHER.N))
+		(!R4 (?X_E (PLUR YEAR.N)))
+		(!R5 (?X_I FAMILY.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_J)))
+		(!R7 (?X_H (PERTAIN-TO ?X_J)))
+		(!R8 (?X_K FISHING.N))
+		(!R9 (?X_I AGENT.N))
+		(!R10 (?L2 DESTINATION.N))
+		(!R11 (?X_J AGENT.N))
+		(!R12 (?X_K OBJECT.N))
+		(!R13 (NOT (?X_K ACTION.N)))
+		(!R14 (NOT (?X_K AGENT.N)))
+	)
+	(:STEPS
+		(?X_D
+   (?X_I
+    ((ADV-A (FOR.P (KA (GO.V (KA ((ADV-A (FOR.P ?X_E)) FISH.V)))))) HAS.V)))
+		(?X_A (?X_H (AT.P ?X_B)))
+		(?E_1 (?X_I ((ADV-A (FROM.P ?L1)) GO.14.V) ?L2))
+		(?X_G (?X_J LIKE.24.V ?X_K))
+	)
+)
+
+; "Juan was at work."
+; "He was working hard."
+; "One day he felt sick."
+; "He called home."
+; "His mother told him not to go to work that day."
+; "He said no way."
+; "He would rather stay home than be fired."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_G)) CALL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B WORK.N))
+		(!R2 (?X_G HOME.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_I)))
+		(!R5 (?X_H (PERTAIN-TO ?X_I)))
+	)
+	(:STEPS
+		(?X_A (?X_I ((ADV-A (AT.P ?X_B)) BE.V)))
+		(?X_D (?X_I (HARD.ADV WORK.V)))
+		(?X_F (?X_I ((ADV-A (TO.P ?X_G)) CALL.V)))
+		(?X_K (?X_I (SAY.V (NO.D WAY.N))))
+	)
+)
+
+; "Ricardo worked hard."
+; "He was tired after work."
+; "He went home."
+; "He ate dinner."
+(EPI-SCHEMA ((?X_K (HARD.ADV WORK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B WORK.N))
+		(!R2 (?X_J HOME.N))
+		(!R3 (?X_J (PERTAIN-TO ?X_K)))
+		(!R4 (?X_G DINNER.N))
+		(!R5 (?X_J DESTINATION.N))
+		(!R6 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_K (HARD.ADV WORK.V)))
+		(?X_A (?X_K (AFTER.P ?X_B)))
+		(?X_F (?X_K ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_J))
+		(?X_I (?X_K EAT.2.V ?X_G))
+	)
+)
+
+; "Juan worked at the factory."
+; "He did a good job."
+; "He liked his job."
+; "He got paid well."
+(EPI-SCHEMA ((?X_H (LIKE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GOOD.A))
+		(!R2 (?X_D JOB.N))
+		(!R3 (?X_G FACTORY.N))
+		(!R4 (?X_I JOB.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_H)))
+		(!R6 (?X_H AGENT.N))
+		(!R7 (?X_I OBJECT.N))
+		(!R8 (NOT (?X_I ACTION.N)))
+		(!R9 (NOT (?X_I AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_H ((ADV-A (AT.P ?X_G)) WORK.V)))
+		(?X_C (?X_H (DO.V ?X_D)))
+		(?X_A (?X_H LIKE.3.V ?X_I))
+	)
+)
+
+; "Juan worked all week."
+; "He came home tired."
+; "He ate dinner."
+; "He watched TV."
+; "He fell asleep on the couch."
+(EPI-SCHEMA (((ADV-E ({DURING}.P (ALL.D WEEK.N))) (?X_G WORK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C ASLEEP.A))
+		(!R2 (?X_C (ON.P ?X_D)))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_J DINNER.N))
+		(!R5 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_I ((ADV-E ({DURING}.P (ALL.D WEEK.N))) (?X_M WORK.V)))
+		(?X_L (?X_M EAT.2.V ?X_J))
+		(?X_F (?X_M (WATCH.V ?X_G)))
+		(?X_B (?X_M (FALL.V ?X_C)))
+	)
+)
+
+; "'I'm going to work today.'"
+; "'I'll have to work late tonight.'"
+; "'My boss is mad at me right now.'"
+; "'I can't think straight because I need to eat something.'"
+; "'I don't want to work here anymore.'"
+; "'I hate this job.'"
+; "'I wish they'd fire me.'"
+; "'I wish my boss would give me a raise.'"
+; "'I wish I could just quit.'"
+; "'I wish I could find a better job.'"
+; "'I wish I could take time off.'"
+; "'I wish"
+(EPI-SCHEMA ((?X_R (WISH.V (THT (?X_R (CAN.MD (LEAVE.V ({YOU}.PRO WORK.V)))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_F TIME.N))
+		(!R3 (?X_I RAISE.N))
+		(!R4 (?X_O BOSS.N))
+		(!R5 (?X_L AGENT.N))
+		(!R6 (?X_O (PERTAIN-TO ?X_W)))
+		(!R7 (?X_U THING.N))
+		(!R8 (?X_V JOB.N))
+		(!R9 (?X_R JOB.N))
+		(!R10 (?X_R BETTER.A))
+		(!R11 (?X_U FOOD.N))
+		(!R12 (?X_V OBJECT.N))
+		(!R13 (NOT (?X_V ACTION.N)))
+		(!R14 (NOT (?X_V AGENT.N)))
+		(!R15 (?X_W AGENT.N))
+	)
+	(:STEPS
+		(E177.SK (MUST.AUX-S (?X_W (LATE.ADV (TONIGHT.ADV WORK.V)))))
+		(?X_N (NOT (?X_W (WANT.V (KA (ANYMORE.ADV (HERE.ADV WORK.V)))))))
+		(?E_1 (?X_W EAT.5.V ?X_U))
+		(?X_Q (?X_W HATE.6.V ?X_V))
+		(?X_K (?X_W (WISH.V (THT (?X_L (WILL.MD (FIRE.V ?X_W)))))))
+		(?X_H (?X_W (WISH.V (THT (?X_O (WILL.MD (GIVE.V ?X_W ?X_I)))))))
+		(?X_T (?X_W WISH.7.V ?X_R))
+		(?X_E (?X_W (WISH.V (THT (?X_W (CAN.MD (TAKE_OFF.V ?X_F)))))))
+		(?X_B (?X_C WISH.V))
+	)
+)
+
+; "Tom's boss gave him a raise."
+; "Tom was happy."
+; "He earned more money."
+(EPI-SCHEMA ((?X_E (GET.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BOSS.N))
+		(!R2 (?X_A RAISE.N))
+		(!R3 (?X_E HAPPY.A))
+		(!R4 (?X_E AGENT.N))
+		(!R5 (?X_D (PERTAIN-TO ?X_E)))
+		(!R6 (?X_F MORE.A))
+		(!R7 (?X_F MONEY.N))
+	)
+	(:STEPS
+		(?X_C (?X_D (GIVE.V ?X_E ?X_A)))
+		(?X_H (?X_E (EARN.V ?X_F)))
+	)
+)
+
+; "'I don't want to work today,' Juan said."
+; "He stayed home from work."
+; "His boss came by."
+; "Juan's boss yelled at Juan."
+(EPI-SCHEMA ((?X_H ((ADV-A (TO.P ?X_F)) ((ADV-A (FROM.P ?X_A)) STAY.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F HOME.N))
+		(!R2 (?X_A WORK.N))
+		(!R3 (?X_G BOSS.N))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_H)))
+		(!R6 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_C (?X_H ((ADV-A (TO.P ?X_F)) ((ADV-A (FROM.P ?X_A)) STAY.V))))
+		(?X_E (?X_G COME_BY.V))
+		(?X_J (?X_G ((ADV-A (AT.P ?X_H)) YELL.V)))
+	)
+)
+
+; "Juan worked for many years."
+; "He liked his job."
+; "He did good work."
+; "He earned lots of money."
+; "He saved some of his money."
+(EPI-SCHEMA ((?X_O ((ADV-A (FOR.P ?X_N)) WORK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G (PLUR LOT.N)))
+		(!R2 (?X_G (OF.P ?X_H)))
+		(!R3 (?X_K GOOD.A))
+		(!R4 (?X_K WORK.N))
+		(!R5 (?X_N MANY.A))
+		(!R6 (?X_N (PLUR YEAR.N)))
+		(!R7 (?X_P JOB.N))
+		(!R8 (?X_P (PERTAIN-TO ?X_O)))
+		(!R9 (?X_O AGENT.N))
+		(!R10 (?X_P OBJECT.N))
+		(!R11 (NOT (?X_P ACTION.N)))
+		(!R12 (NOT (?X_P AGENT.N)))
+	)
+	(:STEPS
+		(?X_M (?X_O ((ADV-A (FOR.P ?X_N)) WORK.V)))
+		(?X_B (?X_O LIKE.8.V ?X_P))
+		(?X_J (?X_O (DO.V ?X_K)))
+		(?X_F (?X_O (EARN.V ?X_G)))
+		(?X_D (?X_O (SAVE.V ?X_A)))
+	)
+)
+
+; "Tom's boss gave him a raise."
+; "Tom was happy for that."
+; "His boss also gave Tom a bonus."
+; "Tom liked that."
+(EPI-SCHEMA ((?X_K (GIVE.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L BONUS.N))
+		(!R2 (?X_L {REF}.N))
+		(!R3 (?X_C {REF}.N))
+		(!R4 (?X_F RAISE.N))
+		(!R5 (?X_K HAPPY.A))
+		(!R6 (?X_G BOSS.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_K)))
+		(!R8 (?X_H MALE.A))
+		(!R9 (?X_H AGENT.N))
+		(!R10 (?X_G (PERTAIN-TO ?X_H)))
+		(!R11 (?X_K AGENT.N))
+		(!R12 (?X_L OBJECT.N))
+		(!R13 (NOT (?X_L ACTION.N)))
+		(!R14 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_E (?X_G (GIVE.V ?X_K ?X_F)))
+		(?X_A (?X_K (FOR.P ?X_C)))
+		(?X_B (?X_G ((ALSO.ADV GIVE.V) ?X_K ?X_L)))
+		(?X_J (?X_K LIKE.9.V ?X_L))
+	)
+)
+
+; "When you are angry with someone,"
+; "you should be careful what you say."
+; "You might make that person feel bad."
+; "If you do this,"
+; "it can lead to trouble."
+; "Don't use words when you're mad."
+; "Use your hands instead."
+(EPI-SCHEMA ((?X_C ((SHOULD.MD BE.V) (K CAREFUL.A) (K (WHEN.P (?X_C WALK.V)))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_F TROUBLE.N))
+	)
+	(:STEPS
+		(?X_E (?X_C ((SHOULD.MD BE.V) (K CAREFUL.A) (ANS-TO (?X_C (SAY.V ?X_A))))))
+		(?X_H (?X_B (CAN.AUX ((ADV-A (TO.P ?X_F)) LEAD.V))))
+	)
+)
+
+; "Alice said something bad."
+; "She yelled at Alice's friend."
+; "She called him names."
+; "Alice told her friends not to talk to Alice."
+(EPI-SCHEMA ((?X_H ((ADV-A (AT.P ?X_A)) YELL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A THING.N))
+		(!R2 (?X_A BAD.A))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_H)))
+		(!R5 (?X_G FRIEND.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_H)))
+		(!R7 (?X_I (PLUR NAME.N)))
+	)
+	(:STEPS
+		(?X_C (?X_H (SAY.V ?X_A)))
+		(?X_E (?X_H ((ADV-A (AT.P ?X_G)) YELL.V)))
+		(?X_K (?X_H (CALL.V ?X_G ?X_I)))
+	)
+)
+
+; "Tom has been mad at Jenny for a while."
+; "He yelled at her."
+; "Tom said some things that hurt Jenny's feelings."
+(EPI-SCHEMA ((?X_B ((ADV-A (AT.P ?X_B)) YELL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_A (PERTAIN-TO ?X_B)))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_F (PLUR THING.N)))
+	)
+	(:STEPS
+		(?X_D (?X_E ((ADV-A (AT.P ?X_B)) YELL.V)))
+		(?X_H (?X_E (SAY.V ?X_F)))
+	)
+)
+
+; "Tom said some mean things."
+; "He told Tom to stop being so stupid."
+; "Tom didn't want to hear that."
+; "Tom walked away from Tom."
+(EPI-SCHEMA ((?X_G (TELL.V ?X_G ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D {REF}.N))
+		(!R2 (?X_G (PLUR THING.N)))
+		(!R3 (NOT (?X_L = ?X_L)))
+		(!R4 ((KA (STOP.V (SO.ADV STUPID.A))) ACTION.N))
+		(!R5 (?X_L AGENT.N))
+		(!R6 (?X_L LOCATION.N))
+		(!R7 (NOT (?X_L = ?L2)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_A (MEAN.V ?X_G)))
+		(?X_I (?X_L TELL.10.V ?X_L (KA (STOP.V (SO.ADV STUPID.A)))))
+		(?X_I (?X_L TELL.11.V (KA (STOP.V (SO.ADV STUPID.A)))))
+		(?X_C (NOT (?X_L (WANT.V (KA (HEAR.V ?X_D))))))
+		(?X_K (?X_L ((ADV-A (FROM.P ?X_L)) WALK.12.V) ?L2))
+	)
+)
+
+; "Kate was mad at her friend."
+; "She said some mean things."
+; "She threw her shoe across the room."
+; "She stomped on the floor."
+; "She used her fists."
+(EPI-SCHEMA ((?X_K (THROW.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E SHOE.N))
+		(!R2 (?X_D ROOM.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_L)))
+		(!R4 (?X_K (PLUR THING.N)))
+		(!R5 (?X_M (PLUR FIST.N)))
+		(!R6 (?X_M (PERTAIN-TO ?X_L)))
+		(!R7 (?X_J FRIEND.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_L)))
+		(!R9 (?X_L ((ADV-A (AT.P ?X_J)) MAD.A)))
+		(!R10 (?X_K DESTINATION.N))
+		(!R11 (?X_M OBJECT.N))
+		(!R12 (?X_L AGENT.N))
+		(!R13 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_G (?X_A (MEAN.V ?X_K)))
+		(?X_B (?X_L (((ADV-A (ACROSS.P ?X_D)) THROW.V) ?X_E)))
+		(?X_I (?X_L ((ADV-A (FROM.P ?L1)) STOMP.13.V) ?X_K))
+		(?X_C (?X_L USE.14.V ?X_M))
+	)
+)
+
+; "Tom said some bad words."
+; "His mother told him not to say them."
+; "Tom felt guilty."
+(EPI-SCHEMA ((?X_E (SAY.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A BAD.A))
+		(!R2 (?X_A (PLUR WORD.N)))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_E)))
+		(!R5 (?X_F GUILTY.A))
+	)
+	(:STEPS
+		(?X_C (?X_E (SAY.V ?X_A)))
+		(?X_H (?X_E (FEEL.V ?X_F)))
+	)
+)
+
+; "This morning I woke up early."
+; "I wanted to go fishing."
+; "But there were no fish."
+; "So I ate breakfast and left."
+(EPI-SCHEMA ((?X_C (COMPOSITE-SCHEMA.PR (KA (GO.V (KA FISH.V))))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B MORNING.N))
+		(!R2 (?X_C AGENT.N))
+	)
+	(:STEPS
+		(?X_A ((ADV-E ({DURING}.P ?X_B)) (?X_C (EARLY.ADV WAKE_UP.V))))
+		(?X_E (?X_C (WANT.V (KA (GO.V (KA FISH.V))))))
+	)
+)
+
+; "Bob caught some fish."
+; "He cooked them for dinner."
+; "His family liked eating fish."
+(EPI-SCHEMA ((?X_K (CATCH.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D DINNER.N))
+		(!R2 (?X_I AGENT.N))
+		(!R3 (?X_G FISH.N))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_J FISH.N))
+		(!R6 (?X_K FAMILY.N))
+		(!R7 (?X_K (PERTAIN-TO ?X_I)))
+		(!R8 ((KA (EAT.V ?X_J)) ACTION.N))
+		(!R9 (?X_J FOOD.N))
+		(!R10 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_H (CATCH.V ?X_G)))
+		(?X_C (?X_I (((ADV-A (FOR.P ?X_D)) COOK.V) ?X_G)))
+		(?X_A (?X_K LIKE.1.V (KA (EAT.V ?X_J))))
+		(?E_1 (?X_K EAT.2.V ?X_J))
+	)
+)
+
+; "Joe woke up early."
+; "He wanted to go fishing."
+; "There were no fish in the river."
+; "He ate breakfast and left."
+(EPI-SCHEMA ((?X_L (EARLY.ADV WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K BREAKFAST.N))
+		(!R2 (?X_L AGENT.N))
+		(!R3 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_L (EARLY.ADV WAKE_UP.V)))
+		(?X_H (?X_L (WANT.V (KA (GO.V (KA FISH.V))))))
+		(?X_F (?X_A (BE.V (NO.D (L X (AND (X FISH.N) (X (IN.P (THE.D RIVER.N)))))))))
+		(?X_C (?X_L EAT.3.V ?X_K))
+		(?X_D (?X_L ((ADV-A (FROM.P ?L1)) LEAVE.4.V) ?L2))
+	)
+)
+
+; "A fisherman is catching fish."
+; "He has a net."
+; "He throws the net into the water."
+; "The fish jump into the net."
+; "He pulls the net up."
+; "He catches many fish."
+(EPI-SCHEMA ((?X_O (((ADV-A (WITH.P ?X_F)) CATCH.V) ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C FISH.N))
+		(!R3 (?X_F NET.A))
+		(!R4 (?X_F {REF}.N))
+		(!R5 (?X_G MALE.A))
+		(!R6 (?X_G AGENT.N))
+		(!R7 (?X_J NET.A))
+		(!R8 (?X_J {REF}.N))
+		(!R9 (?X_K WATER.N))
+		(!R10 (?X_N FISH.N))
+		(!R11 (?X_O FISHERMAN.N))
+		(!R12 (?X_R NET.N))
+		(!R13 (?X_R OBJECT.N))
+	)
+	(:STEPS
+		(?X_M (?X_O (CATCH.V ?X_N)))
+		(?X_Q (?X_O HAVE.5.V ?X_R))
+		(?X_I (?X_O (((ADV-A (INTO.P ?X_K)) THROW.V) ?X_J)))
+		(?X_E (?X_G (PULL_UP.V ?X_F)))
+		(?X_B (?X_G (CATCH.V ?X_C)))
+	)
+)
+
+; "John caught a fish."
+; "He cleaned it."
+; "He cooked it."
+; "He ate it."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_E ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E FISH.N))
+		(!R2 (?X_J MALE.A))
+		(!R3 (?X_J AGENT.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_L FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_K (CATCH.V ?X_E)))
+		(?X_G (?X_J CLEAN.6.V ?X_E))
+		(?X_B (?X_K (COOK.V ?X_E)))
+		(?X_I (?X_K EAT.3.V ?X_L))
+	)
+)
+
+; "Tom liked to fish."
+; "He caught many fish."
+; "He put them in a bucket."
+; "He cleaned some fish."
+; "He cooked some fish."
+; "He ate some fish."
+(EPI-SCHEMA ((?X_O (COMPOSITE-SCHEMA.PR ?X_F ?X_C ?X_I ?X_N ?X_P)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FISH.N))
+		(!R2 (?X_F FISH.N))
+		(!R3 (?X_I MANY.A))
+		(!R4 (?X_I FISH.N))
+		(!R5 (?X_N BUCKET.N))
+		(!R6 (?X_P FISH.N))
+		(!R7 (?X_N LOCATION.N))
+		(!R8 (?X_O AGENT.N))
+		(!R9 (?X_P FOOD.N))
+	)
+	(:STEPS
+		(?X_H (?X_O (CATCH.V ?X_I)))
+		(?X_K (?X_O PUT.7.V ?X_I ?X_N))
+		(?X_E (?X_O (CLEAN.V ?X_F)))
+		(?X_B (?X_O (COOK.V ?X_C)))
+		(?X_M (?X_O EAT.3.V ?X_P))
+	)
+)
+
+; "Tom went fishing."
+; "There weren't any fish."
+; "He caught a worm."
+; "He threw the worm back into the lake."
+(EPI-SCHEMA ((?X_F (CATCH.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F AGENT.N))
+		(!R2 (?X_G WORM.N))
+	)
+	(:STEPS
+		(?X_C (?X_F ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_E (NOT (?X_A (BE.V (ANY.D FISH.N)))))
+		(?X_I (?X_F (CATCH.V ?X_G)))
+	)
+)
+
+; "Linda loves to fish."
+; "She fishes all year round."
+; "She has a boat that she uses for fishing."
+; "She can catch many kinds of fish."
+(EPI-SCHEMA ((?X_L (FISH.V (ALL.D (L X (AND (X YEAR.N) (X ROUND.N)))))) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (OF.P ?X_D)))
+		(!R2 (?X_E ?X_F (PLUR KIND.N)))
+		(!R3 (?X_K BOAT.N))
+		(!R4 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_L (FISH.V (ALL.D (L X (AND (X YEAR.N) (X ROUND.N)))))))
+		(?X_J (?X_L HAVE.8.V ?X_K))
+		(?X_C (?X_L ((CAN.AUX CATCH.V) ?X_E)))
+	)
+)
+
+; "Tom went fishing."
+; "He caught lots of fish."
+; "He threw them back into the river."
+(EPI-SCHEMA ((?X_A FISH.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_A AGENT.N))
+		(!R2 (?X_H (PLUR LOT.N)))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_G RIVER.N))
+		(!R5 (?X_I FISH.N))
+		(!R6 (?X_H (OF.P ?X_I)))
+	)
+	(:STEPS
+		(?X_C (?X_A ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_E (?X_F (CATCH.V ?X_H)))
+		(?X_K (?X_F (((ADV-A (INTO.P ?X_G)) (BACK.ADV THROW.V)) ?X_I)))
+	)
+)
+
+; "Alice went fishing."
+; "She caught lots of fish."
+; "She cleaned them all."
+; "She cooked some fish for dinner."
+(EPI-SCHEMA ((?X_I (FISH.ADV ((ADV-A (FOR.P ?X_D)) CLEAN.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FISH.N))
+		(!R2 (?X_D DINNER.N))
+		(!R3 (?X_L (PLUR LOT.N)))
+		(!R4 (?X_I AGENT.N))
+		(!R5 (?X_M FISH.N))
+		(!R6 (?X_L (OF.P ?X_M)))
+	)
+	(:STEPS
+		(?X_H (?X_I ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_F (?X_I (CATCH.V ?X_L)))
+		(?X_K (?X_I CLEAN.9.V (ALL.D ({OF}.P ?X_M))))
+		(?X_B (?X_I (((ADV-A (FOR.P ?X_D)) COOK.V) ?X_C)))
+	)
+)
+
+; "Dan caught some fish."
+; "He cooked them for dinner."
+; "He ate them."
+; "His family liked eating fish."
+(EPI-SCHEMA ((?X_J (EAT.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D DINNER.N))
+		(!R2 (?X_I FISH.N))
+		(!R3 (?X_K FISH.N))
+		(!R4 (?X_L FAMILY.N))
+		(!R5 (?X_L (PERTAIN-TO ?X_J)))
+		(!R6 (?X_I FOOD.N))
+		(!R7 (?X_J AGENT.N))
+		(!R8 ((KA (EAT.V ?X_K)) ACTION.N))
+		(!R9 (?X_K FOOD.N))
+		(!R10 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_J (CATCH.V ?X_I)))
+		(?X_C (?X_J (((ADV-A (FOR.P ?X_D)) COOK.V) ?X_I)))
+		(?X_H (?X_J EAT.3.V ?X_I))
+		(?X_A (?X_L LIKE.10.V (KA (EAT.V ?X_K))))
+		(?E_1 (?X_L EAT.2.V ?X_K))
+	)
+)
+
+; "My brother is going camping this weekend."
+; "I am excited because I love camping."
+; "I know that he will have fun, but I don't like being alone."
+; "What do you think?"
+(EPI-SCHEMA ((?X_F ((ADV-A (FOR.P (KA ((ADV-A (WITH.P ?X_F)) CAMP.V)))) GO.V))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_D FUN.N))
+		(!R2 (?X_F BROTHER.N))
+		(!R3 (?X_E CAMPING.N))
+		(!R4 (?X_G AGENT.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_G)))
+		(!R6 (?L LOCATION.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?E_1 (?X_F CAMP.11.V ?L))
+		(?X_I (?X_F ((ADV-A (FROM.P ?L1)) GO.12.V) ?L2))
+		(?X_B (?X_G (BECAUSE.P (KE (?X_G (LOVE.V ?X_E))))))
+		(?X_C (?X_G (KNOW.V (THAT (?X_F (WILL.MD (HAVE.V ?X_D)))))))
+		(?E_2 (?X ENJOY_ACTION.13.V (IND (1 ?X_A))))
+	)
+)
+
+; "Tommy is going camping this summer."
+; "He loves camping."
+; "His friends want him to go camping."
+; "He wants to go camping."
+(EPI-SCHEMA ((?X_G
+              (COMPOSITE-SCHEMA.PR ?X_G (KA (GO.V (KA CAMP.V))) (KA CAMP.V) ?L
+               ?L2))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR FRIEND.N)))
+		(!R2 (?X_D (PERTAIN-TO ?X_G)))
+		(!R3 ((KA CAMP.V) ACTION.N))
+		(!R4 (?L LOCATION.N))
+		(!R5 (?X_G AGENT.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?E_1 (?X_G CAMP.11.V ?L))
+		(?X_F (?X_G LOVE.14.V (KA CAMP.V)))
+		(?X_A (?X_D (WANT.V ?X_G (KA (GO.V (KA CAMP.V))))))
+		(?X_C (?X_G (WANT.V (KA (GO.V (KA CAMP.V))))))
+		(?E_2 (?X_G CAMP.11.V ?L))
+		(?E_3 (?X_G CAMP.11.V ?L))
+		(?E_4 (?X_G ((ADV-A (FROM.P ?L1)) GO.15.V) ?L2))
+	)
+)
+
+; "Sammy likes camping."
+; "He has a tent."
+; "He sleeps outside."
+; "His mother doesn't like him sleeping outdoors."
+(EPI-SCHEMA ((?X_L (LIKE.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K CAMPING.N))
+		(!R2 (?X_I TENT.N))
+		(!R3 (?X_J MOTHER.N))
+		(!R4 (?X_J (PERTAIN-TO ?X_L)))
+		(!R5 (?X_K OBJECT.N))
+		(!R6 (NOT (?X_K ACTION.N)))
+		(!R7 (NOT (?X_K AGENT.N)))
+		(!R8 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_L LIKE.16.V ?X_K))
+		(?X_H (?X_L HAVE.17.V ?X_I))
+		(?X_D (?X_L (OUTSIDE.ADV SLEEP.V)))
+		(?X_B (?X_J LIKE.18.V (IND (6 ?X_A))))
+	)
+)
+
+; "Tom went camping."
+; "His tent was small."
+; "He put his sleeping bag inside."
+; "He slept outside."
+; "He saw a bear."
+(EPI-SCHEMA ((?X_I ((ADV-A (FOR.P (KA CAMP.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G TENT.N))
+		(!R2 (?X_G SMALL.A))
+		(!R3 (?X_G (PERTAIN-TO ?X_I)))
+		(!R4 (?X_H BEAR.N))
+		(!R5 (?L LOCATION.N))
+		(!R6 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_I ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?X_B (?X_I (OUTSIDE.ADV SLEEP.V)))
+		(?E_1 (?X_I CAMP.11.V ?L))
+		(?X_F (?X_I SEE.19.V ?X_H))
+	)
+)
+
+; "Benjamin liked camping."
+; "His parents let him go camping."
+; "He would be gone for two days."
+; "He would sleep outside."
+; "He would eat food from cans."
+(EPI-SCHEMA ((?X_G (OUTSIDE.ADV SLEEP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B FOOD.N))
+		(!R2 (?X_B (FROM.P ?X_C)))
+		(!R3 (?X_D (PLUR PARENT.N)))
+		(!R4 (?X_D (PERTAIN-TO ?X_G)))
+		(!R5 ((KA CAMP.V) ACTION.N))
+		(!R6 (?L LOCATION.N))
+		(!R7 (?X_G AGENT.N))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(E407.SK (?X_G (OUTSIDE.ADV SLEEP.V)))
+		(E409.SK (?X_G (EAT.V ?X_B)))
+		(?X_F (?X_G LIKE.20.V (KA CAMP.V)))
+		(?X_A (?X_D (LET.V (KE (?X_G ((ADV-A (FOR.P (KA CAMP.V))) GO.V))))))
+		(?E_1 (?X_G CAMP.11.V ?L))
+		(?E_2 (?X_G CAMP.11.V ?L))
+		(?E_3 (?X_G ((ADV-A (FROM.P ?L1)) TRAVEL.21.V) ?L2))
+	)
+)
+
+; "Tom loves to camp."
+; "He likes to go camping."
+; "He can sleep in tents or cabins."
+; "He has a tent and sleeping bag."
+; "He wants to go camping again."
+(EPI-SCHEMA ((?X_K (LOVE.V (KA CAMP.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_J CAMP.N))
+		(!R2 (NOT (?X_J ACTION.N)))
+		(!R3 (NOT (?X_J AGENT.N)))
+		(!R4 ((KA (GO.V (KA CAMP.V))) ACTION.N))
+		(!R5 (?L LOCATION.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_K LOVE.23.V ?X_J))
+		(?X_I (?X_K LIKE.24.V (KA (GO.V (KA CAMP.V)))))
+		(?X_E (?X_K (CAN.AUX ((ADV-A (IN.P ?X_A)) SLEEP.V))))
+		(?X_C (?X_K (WANT.V (KA (GO.V (KA (AGAIN.ADV CAMP.V)))))))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) GO.15.V) ?L2))
+		(?E_2 (?X_K CAMP.11.V ?L))
+		(?E_3 (?X_K ((ADV-A (FROM.P ?L1)) GO.15.V) ?L2))
+	)
+)
+
+; "Sammy likes camping."
+; "His friends go camping."
+; "He wants to go camping too."
+(EPI-SCHEMA ((?X_H ((ADV-A (FOR.P (KA CAMP.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR FRIEND.N)))
+		(!R2 (?X_D (PERTAIN-TO ?X_H)))
+		(!R3 (?X_G CAMPING.N))
+		(!R4 (?X_G OBJECT.N))
+		(!R5 (NOT (?X_G ACTION.N)))
+		(!R6 (NOT (?X_G AGENT.N)))
+		(!R7 (?X_H AGENT.N))
+		(!R8 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_H LIKE.25.V ?X_G))
+		(?X_A (?X_D ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
+		(?X_C (?X_H (WANT.V (KA (GO.V (KA (TOO.ADV CAMP.V)))))))
+		(?E_1 (?X_D CAMP.11.V ?L))
+		(?E_2 (?X_H CAMP.11.V ?L))
+	)
+)
+
+; "Mary played soccer."
+; "She wore special shoes."
+; "She ran around the field."
+; "She kicked the ball into the air."
+; "She caught the ball."
+; "She scored a goal."
+(EPI-SCHEMA ((?X_R ((ADV-A (WITH.P ?X_H)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GOAL.N))
+		(!R2 (?X_H BALL.N))
+		(!R3 (?X_I AIR.N))
+		(!R4 (?X_L SOCCER.N))
+		(!R5 (?X_Q SPECIAL.A))
+		(!R6 (?X_Q (PLUR SHOE.N)))
+		(!R7 (NOT (?X_Q AGENT.N)))
+		(!R8 (?X_R AGENT.N))
+		(!R9 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_R PLAY.6.V))
+		(?X_N (?X_R WEAR.7.V ?X_Q))
+		(?X_P (?X_R ((ADV-A (FROM.P ?L1)) RUN.8.V) ?L2))
+		(?X_G (?X_R (((ADV-A (INTO.P ?X_I)) KICK.V) ?X_H)))
+		(?X_E (?X_R (CATCH.V ?X_H)))
+		(?X_B (?X_R (SCORE.V ?X_C)))
+	)
+)
+
+; "Tom played soccer for years."
+; "He liked playing soccer."
+; "He played well."
+; "He scored many goals."
+(EPI-SCHEMA ((?X_K ((WELL.ADV PLAY.V) ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C (PLUR GOAL.N)))
+		(!R3 (?X_H SOCCER.N))
+		(!R4 (?X_L SOCCER.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 ((KA (PLAY.V ?X_L)) ACTION.N))
+		(!R7 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_K PLAY.9.V))
+		(?X_J (?X_K LIKE.10.V (KA (PLAY.V ?X_L))))
+		(?X_E (?X_K (WELL.ADV PLAY.V)))
+		(?X_B (?X_K (SCORE.V ?X_C)))
+		(?E_1 (?X PLAY.2.V))
+	)
+)
+
+; "Sarah played soccer."
+; "She was good at it."
+; "She scored lots of goals."
+(EPI-SCHEMA ((?X_I (PLAY.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LOT.N)))
+		(!R2 (?X_D (OF.P ?X_E)))
+		(!R3 (?X_F SOCCER.N))
+		(!R4 (?X_I GOOD.A))
+		(!R5 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_I PLAY.11.V))
+		(?X_A (?X_I (AT.P ?X_F)))
+		(?X_C (?X_I (SCORE.V ?X_D)))
+	)
+)
+
+; "'Mary is going to play soccer'."
+; "'Mary is going to play soccer tomorrow'."
+; "'Mary will be playing soccer soon'."
+; "'Mary has been playing soccer for years'."
+; "'Mary played soccer today'."
+(EPI-SCHEMA ((?X_P (PLAY.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F SOCCER.N))
+		(!R2 (?X_G (PLUR YEAR.N)))
+		(!R3 (?X_H SOCCER.N))
+		(!R4 (?X_K SOCCER.N))
+		(!R5 (?X_K TOMORROW.N))
+		(!R6 (?X_N SOCCER.N))
+		(!R7 (?X_O ?X_P TODAY.N))
+		(!R8 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_P ((ADV-A (FOR.P (KA (PLAY.V ?X_N)))) GO.V)))
+		(?X_J (?X_P ((ADV-A (FOR.P (KA (PLAY.V ?X_K)))) GO.V)))
+		(?X_A (?X_P ((SOON.ADV PLAY.V) ?X_H)))
+		(?X_E
+   (?X_P
+    (HAS.AUX ((ADV-A (FOR.P (KA (((ADV-A (FOR.P ?X_G)) PLAY.V) ?X_F)))) BE.V))))
+		(?X_C (?X_P (PLAY.V ?X_O)))
+		(?E_1 (?X_P PLAY.12.V))
+		(?E_2 (?X_P PLAY.12.V))
+	)
+)
+
+; "Joe played soccer."
+; "He wore a uniform."
+; "He ran around the field."
+; "His team was losing."
+(EPI-SCHEMA ((?X_K PLAY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_G TEAM.N))
+		(!R2 (?X_D SOCCER.N))
+		(!R3 (?X_J UNIFORM.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_K)))
+		(!R5 (NOT (?X_J AGENT.N)))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_C (?X_K PLAY.13.V))
+		(?X_F (?X_K WEAR.14.V ?X_J))
+		(?X_I (?X_K ((ADV-A (FROM.P ?L1)) RUN.8.V) ?L2))
+		(?X_A (?X_G LOSE.V))
+	)
+)
+
+; "Alice played soccer."
+; "She kicked the ball."
+; "She ran around."
+; "She scored a goal."
+(EPI-SCHEMA ((?X_L ((AROUND.ADV KICK.V) ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GOAL.N))
+		(!R2 (?X_F BALL.N))
+		(!R3 (?X_I SOCCER.N))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_L PLAY.15.V))
+		(?X_E (?X_L (KICK.V ?X_F)))
+		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) RUN_AROUND.16.V) ?L2))
+		(?X_B (?X_L (SCORE.V ?X_C)))
+	)
+)
+
+; "Mary played soccer."
+; "She kicked the ball."
+; "She kicked it hard."
+; "She caught the ball."
+; "She ran fast."
+; "She scored a goal."
+(EPI-SCHEMA ((?X_P ((HARD.ADV KICK.V) ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GOAL.N))
+		(!R2 (?X_J BALL.N))
+		(!R3 (?X_M SOCCER.N))
+		(!R4 (?X_P AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_L (?X_P PLAY.18.V))
+		(?X_I (?X_P (KICK.V ?X_J)))
+		(?X_G (?X_P ((HARD.ADV KICK.V) ?X_J)))
+		(?X_E (?X_P (CATCH.V ?X_J)))
+		(?X_O (?X_P ((ADV-A (FROM.P ?L1)) RUN.8.V) ?L2))
+		(?X_B (?X_P (SCORE.V ?X_C)))
+	)
+)
+
+; "This story happened when I was young."
+; "My parents bought me an electric train set."
+; "I played with it every night."
+; "When I grew up I became a fireman."
+(EPI-SCHEMA ((?X_D HAPPEN.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (WHEN.P (KE (?X_H YOUNG.A)))))
+		(!R2 (?X_D STORY.N))
+		(!R3 (?X_G SET.N))
+		(!R4 (?X_G TRAIN.N))
+		(!R5 (?X_G ELECTRIC.A))
+		(!R6 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_D (HAPPEN.V ?X_C)))
+		(?X_F (?X_H PLAY.19.V ?X_G))
+	)
+)
+
+; "Joe was a fireman."
+; "His job was dangerous."
+; "He ran into danger many times."
+; "He rescued some people from burning buildings."
+(EPI-SCHEMA ((?X_C (((ADV-A (FROM.P ?X_D)) RUN.V) ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR PERSON.N)))
+		(!R2 (?X_D (PLUR BUILDING.N)))
+		(!R3 (?X_F FIREMAN.N))
+		(!R4 (?X_E JOB.N))
+		(!R5 (?X_E DANGEROUS.A))
+		(!R6 (?X_E (PERTAIN-TO ?X_F)))
+		(!R7 (?X_I MANY.A))
+		(!R8 (?X_I (PLUR TIME.N)))
+		(!R9 (?X_I DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_F ((ADV-A (FROM.P ?L1)) RUN.20.V) ?X_I))
+		(?X_B (?X_F (((ADV-A (FROM.P (KA (BURN.V ?X_D)))) RESCUE.V) ?X_C)))
+	)
+)
+
+; "Tommy's dad gave him an electric train set for Christmas."
+; "He put it away in the closet."
+; "One day Tommy brought it out again."
+; "His mom said he could play with it only after dinner."
+(EPI-SCHEMA ((?X_F (((ADV-A (FROM.P ?X_K)) GET.V) ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DAY.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_G ELECTRIC.A))
+		(!R4 (?X_M (FOR.P ?X_F)))
+		(!R5 (?X_M ?X_G TRAIN.N))
+		(!R6 (?X_J MOM.N))
+		(!R7 (?X_J (PERTAIN-TO ?X_L)))
+		(!R8 (?X_K DAD.N))
+		(!R9 (?X_K (PERTAIN-TO ?X_L)))
+		(!R10 (?X_O ELECTRIC.A))
+		(!R11 (?X_N CLOSET.N))
+		(!R12 (?X_L AGENT.N))
+		(!R13 (NOT (?X_M AGENT.N)))
+		(!R14 (?X_N LOCATION.N))
+		(!R15 (?X_O ENTITY.N))
+	)
+	(:STEPS
+		(?X_E (?X_K (GIVE.21.V ?X_L ?X_M)))
+		(?X_I (?X_K PUT.22.V ?X_O ?X_N))
+		(?X_B ((ADV-E (DURING ?X_C)) (?X_L ((AGAIN.ADV BRING_OUT.V) ?X_L))))
+	)
+)
+
+; "Tom's dad bought him an electric train set."
+; "His dad put it together for him."
+; "Tom played with it all the time."
+; "He would play with it until his dad came home."
+(EPI-SCHEMA ((?X_E (GET.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D DAD.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_F ELECTRIC.A))
+		(!R5 (?X_F TRAIN.N))
+		(!R6 (?X_F SET.N))
+	)
+	(:STEPS
+		(?X_C (?X_D (BUY.V ?X_E ?X_F)))
+		(?X_A (?X_D ((TOGETHER.ADV ((ADV-A (FOR.P ?X_E)) PUT.V)) ?X_F)))
+	)
+)
+
+; "A firefighter saved a child from a burning building."
+; "The firefighters were brave."
+; "The fire burned for hours."
+; "Firefighters work hard."
+(EPI-SCHEMA ((?X_G ((ADV-A (FOR.P ?X_H)) BURN.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B FIREFIGHTER.N))
+		(!R2 (?X_C BUILDING.N))
+		(!R3 (?X_D CHILD.N))
+		(!R4 (?X_G FIRE.N))
+		(!R5 (?X_H (PLUR HOUR.N)))
+		(!R6 (?X_K (PLUR FIREFIGHTER.N)))
+	)
+	(:STEPS
+		(?X_A (?X_C BURN.V))
+		(?X_F (?X_B (((ADV-A (FROM.P ?X_C)) SAVE.V) ?X_D)))
+		(?X_J (?X_G ((ADV-A (FOR.P ?X_H)) BURN.V)))
+		(E485.SK (?X_K (HARD.ADV WORK.V)))
+	)
+)
+
+; "The man walked through the park."
+; "He passed by a bench."
+; "He stopped and looked around."
+; "There were no people there."
+; "Suddenly a beautiful lady appeared before him."
+(EPI-SCHEMA ((?X_H ((ADV-A (BY.P ?X_G)) PASS.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BEAUTIFUL.A))
+		(!R2 (?X_D LADY.N))
+		(!R3 (?X_G BENCH.N))
+		(!R4 (?X_H MAN.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_H ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_F (?X_H ((ADV-A (BY.P ?X_G)) PASS.V)))
+		(?X_C (?X_D ((ADV-A (BEFORE.P ?X_H)) (SUDDENLY.ADV APPEAR.V))))
+	)
+)
+
+; "Tom parked his car near the school."
+; "His friends came over."
+; "They played on the playground."
+; "Tom's friend asked for help."
+; "Tom helped his friend."
+(EPI-SCHEMA ((?X_E (COMPOSITE-SCHEMA.PR ?X_N ?X_I ?X_M ?Y ?A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_N FRIEND.N))
+		(!R2 (?X_N (PERTAIN-TO ?X_L)))
+		(!R3 (?X_E (PLUR FRIEND.N)))
+		(!R4 (?X_E (PERTAIN-TO ?X_L)))
+		(!R5 (?X_M SCHOOL.N))
+		(!R6 (?X_H PLAYGROUND.N))
+		(!R7 (?X_I CAR.N))
+		(!R8 (?X_I (PERTAIN-TO ?X_L)))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (?X_M LOCATION.N))
+		(!R11 (NOT (?X_N = ?Y)))
+		(!R12 (?A ACTION.N))
+		(!R13 (?Y AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E COME_OVER.V))
+		(?X_A (?X_L PARK.2.V ?X_I ?X_M))
+		(?X_G (?X_E PLAY.3.V))
+		(?X_K (?X_N ASK.4.V ?Y ?A))
+		(?X_B (?X_L (HELP.V ?X_N)))
+	)
+)
+
+; "A man walked down the street."
+; "He saw a woman on a bench."
+; "He sat next to her."
+; "He talked to her for awhile."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H NEXT.A))
+		(!R2 (?X_C MAN.N))
+		(!R3 (?X_I WOMAN.N))
+		(!R4 (?X_H (TO.P ?X_I)))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_C ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_G (?X_C SEE.5.V ?X_I))
+		(?X_B (?X_C (SIT.V ?X_H)))
+	)
+)
+
+; "Jessie played tennis."
+; "She wore white shorts and a white shirt."
+; "She played on grass courts."
+; "She played against other girls."
+(EPI-SCHEMA ((?X_M ((ADV-A (WITH.P ?Y)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C TENNIS.N))
+		(!R2 (?X_L SHIRT.N))
+		(!R3 (?X_L WHITE.A))
+		(!R4 (?X_K (PLUR SHORT.N)))
+		(!R5 (?X_K WHITE.A))
+		(!R6 (?X_J GRASS.N))
+		(!R7 (?X_J (PLUR COURT.N)))
+		(!R8 ((SET-OF ?X_K ?X_L) OBJECT.N))
+		(!R9 (NOT ((SET-OF ?X_K ?X_L) AGENT.N)))
+		(!R10 (?Y ENTITY.N))
+		(!R11 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_M PLAY.6.V))
+		(?X_E (?X_M WEAR.7.V (SET-OF ?X_K ?X_L)))
+		(?X_G (?X_M PLAY.8.V ?Y))
+		(?X_I (?X_M PLAY.9.V))
+	)
+)
+
+; "Tom saw a pretty girl."
+; "She was walking down the street."
+; "She wore a white dress."
+; "She had curly brown hair."
+(EPI-SCHEMA ((?L2 (WEAR.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D PRETTY.A))
+		(!R2 (?X_D GIRL.N))
+		(!R3 (?X_L WHITE.A))
+		(!R4 (?X_L DRESS.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?L2 DESTINATION.N))
+		(!R7 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_K SEE.10.V ?X_D))
+		(?X_H (?X_D ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_J (?X_D WEAR.11.V ?X_L))
+		(?X_C (?X_D (HAVE.V ?X_A)))
+	)
+)
+
+; "Tom played baseball."
+; "He had a good time."
+; "He was on base."
+; "He ran fast."
+; "He scored a touchdown."
+(EPI-SCHEMA ((?X_O (PLAY.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C TOUCHDOWN.N))
+		(!R2 (?X_F BASE.N))
+		(!R3 (?X_I GOOD.A))
+		(!R4 (?X_I TIME.N))
+		(!R5 (?X_L BASEBALL.N))
+		(!R6 (?X_O AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_O PLAY.12.V))
+		(?X_H (?X_O (HAVE.V ?X_I)))
+		(?X_E (?X_O ((ADV-A (ON.P ?X_F)) BE.V)))
+		(?X_N (?X_O ((ADV-A (FROM.P ?L1)) RUN.13.V) ?L2))
+		(?X_B (?X_O (SCORE.V ?X_C)))
+	)
+)
+
+; "A woman sat on a bench."
+; "She was reading a magazine."
+; "She saw an old man walk past."
+; "He wore a hat."
+(EPI-SCHEMA ((?X_J (WEAR.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MAGAZINE.N))
+		(!R2 (?X_F BENCH.N))
+		(!R3 (?X_G WOMAN.N))
+		(!R4 (?X_J OLD.A))
+		(!R5 (?X_J MAN.N))
+		(!R6 (?X_K HAT.N))
+		(!R7 (NOT (?X_K AGENT.N)))
+	)
+	(:STEPS
+		(?X_E (?X_G ((ADV-A (ON.P ?X_F)) SIT.V)))
+		(?X_B (?X_G (READ.V ?X_C)))
+		(?X_I (?X_J WEAR.14.V ?X_K))
+	)
+)
+
+; "The woman walked down the street."
+; "She saw a man sitting on a bench."
+; "She sat next to him."
+; "She talked to him."
+(EPI-SCHEMA ((?X_F (SIT.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H NEXT.A))
+		(!R2 (?X_F WOMAN.N))
+		(!R3 (?X_G BENCH.N))
+		(!R4 (?X_I MAN.N))
+		(!R5 (?X_H (TO.P ?X_I)))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_F ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_A (?X_I ((ADV-A (ON.P ?X_G)) SIT.V)))
+		(?X_M (?X_F SEE.15.V ?X_I))
+		(?X_E (?X_F (SIT.V ?X_H)))
+		(?X_C (?X_F ((ADV-A (TO.P ?X_I)) TALK.V)))
+	)
+)
+
+; "A woman was walking down the street."
+; "She saw Tom."
+; "Tom waved to her."
+; "She smiled back at him."
+(EPI-SCHEMA ((?X_E (COMPOSITE-SCHEMA.PR ?L2 ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E WOMAN.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_E ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
+		(?X_J (?X_E SEE.16.V ?X_F))
+		(?X_D (?X_F ((ADV-A (TO.P ?X_E)) WAVE.V)))
+		(?X_B (?X_E (BACK.ADV ((ADV-A (AT.P ?X_F)) SMILE.V))))
+	)
+)
+
+; "The boy ate an apple."
+; "After that he could not eat anything else."
+; "His mother knew why."
+; "She put him in bed with a glass of milk."
+(EPI-SCHEMA ((?X_H (((ADV-A (IN.P ?X_E)) EAT.V) ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GLASS.N))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_G BED.N))
+		(!R4 (?X_H FEMALE.A))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?X_I MOTHER.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_J)))
+		(!R8 (?X_K APPLE.N))
+		(!R9 (?X_L BOY.N))
+		(!R10 (?X_L {REF}.N))
+	)
+	(:STEPS
+		(?X_N (?X_L EAT.17.V ?X_K))
+		(?X_B (?X_I (WHY.ADV KNOW.V)))
+		(?X_D (?X_H (((ADV-A (IN.P ?X_G)) ((ADV-A (WITH.P ?X_E)) PUT.V)) ?X_A)))
+	)
+)
+
+; "'The boy ate an apple,' said the teacher."
+; "'After that he could not eat anything else.'"
+; "'His mother knew why.'"
+; "'She put him in bed with a glass of milk.'<|endoftext|>"
+(EPI-SCHEMA ((?X_D (((ADV-A (IN.P ?X_F)) PUT.V) ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D MOTHER.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_F BED.N))
+		(!R5 (?X_F LOCATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_D (WHY.ADV KNOW.V)))
+		(?X_C (?X_D PUT.18.V ?X_E ?X_F))
+	)
+)
+
+; "Tom ate an apple."
+; "He felt better after eating it."
+; "He couldn't eat anything else."
+(EPI-SCHEMA ((?X_G (EAT.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C ((ADV-A (AFTER.P (KA (EAT.V ?X_F)))) BETTER.A)))
+		(!R2 (?X_F APPLE.N))
+		(!R3 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_G EAT.17.V ?X_F))
+		(?X_B (?X_G (FEEL.V ?X_C)))
+		(?E_1 (?X_G EAT.19.V ?X_F))
+	)
+)
+
+; "Tom ate an apple."
+; "He couldn't eat any other food."
+; "He drank some milk."
+; "His stomach hurt."
+(EPI-SCHEMA ((?X_K (EAT.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D STOMACH.N))
+		(!R2 (?X_D (PERTAIN-TO ?X_K)))
+		(!R3 (?X_E APPLE.N))
+		(!R4 (?X_H MILK.N))
+		(!R5 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(E362.SK
+   (NOT (?X_K ((CAN.MD EAT.V) (ANY.D (L X (AND (X OTHER.A) (X FOOD.N))))))))
+		(?X_C (?X_D HURT.V))
+		(?X_G (?X_K EAT.17.V ?X_E))
+		(?X_J (?X_K DRANK.20.V ?X_H))
+	)
+)
+
+; "Tom ate an apple."
+; "He couldn't stop eating them."
+; "He ate four apples."
+(EPI-SCHEMA ((?X_F (EAT.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A APPLE.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 ((FOUR.D (PLUR APPLE.N)) FOOD.N))
+	)
+	(:STEPS
+		(E386.SK (NOT (?X_F (CAN.MD ((ADV-A (FOR.P (KA (EAT.V ?X_A)))) STOP.V)))))
+		(?X_C (?X_F EAT.17.V ?X_A))
+		(?E_1 (?X_F EAT.19.V ?X_A))
+		(?X_E (?X_F EAT.21.V (FOUR.D (PLUR APPLE.N))))
+	)
+)
+
+; "Alice drank some apple juice."
+; "She liked it."
+; "She found some more apple juice."
+; "She drank it all."
+(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR (ALL.D ({OF}.P ?X_A)) ?X_K ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K APPLE.N))
+		(!R2 (?X_K JUICE.N))
+		(!R3 (?X_H MORE.A))
+		(!R4 (?X_H APPLE.N))
+		(!R5 (?X_H JUICE.N))
+		(!R6 (NOT (?X_K ACTION.N)))
+		(!R7 (NOT (?X_K AGENT.N)))
+		(!R8 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_L DRANK.20.V ?X_K))
+		(?X_G (?X_L LIKE.22.V ?X_K))
+		(?X_J (?X_L FIND.23.V ?X_H))
+		(?X_C (?X_L (DRANK.V (ALL.D ({OF}.P ?X_A)))))
+	)
+)
+
+; "Tom ate an apple."
+; "He liked apples."
+; "He loved eating apples."
+(EPI-SCHEMA ((?X_I (EAT.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A APPLE.N))
+		(!R2 (?X_H (PLUR APPLE.N)))
+		(!R3 (?X_J (PLUR APPLE.N)))
+		(!R4 (NOT (?X_H ACTION.N)))
+		(!R5 (NOT (?X_H AGENT.N)))
+		(!R6 (?X_I AGENT.N))
+		(!R7 ((KA (EAT.V ?X_J)) ACTION.N))
+	)
+	(:STEPS
+		(?X_C (?X_I EAT.17.V ?X_A))
+		(?X_E (?X_I LIKE.24.V ?X_H))
+		(?E_1 (?X_I EAT.19.V ?X_J))
+		(?X_G (?X_I LOVE.25.V (KA (EAT.V ?X_J))))
+	)
+)
+
+; "Tom ate an apple."
+; "He couldn't eat anything else."
+; "He ate some cookies."
+; "He ate some ice cream."
+; "He ate a banana."
+(EPI-SCHEMA ((?X_L (EAT.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A APPLE.N))
+		(!R2 (?X_J (PLUR COOKIE.N)))
+		(!R3 (?X_K ICE.N))
+		(!R4 (?X_K CREAM.N))
+		(!R5 (?X_M BANANA.N))
+		(!R6 (?X_J FOOD.N))
+		(!R7 (?X_K FOOD.N))
+		(!R8 (?X_L AGENT.N))
+		(!R9 (?X_M FOOD.N))
+	)
+	(:STEPS
+		(?X_C (?X_L EAT.17.V ?X_A))
+		(?X_E (?X_L EAT.17.V ?X_J))
+		(?X_G (?X_L EAT.17.V ?X_K))
+		(?X_I (?X_L EAT.17.V ?X_M))
+	)
+)
+
+; "The man thought about going fishing."
+; "But he decided against it."
+; "There were too many mosquitoes."
+; "He stayed inside instead."
+(EPI-SCHEMA ((?X_F ((ADV-A (ABOUT.P (KA (GO.V (KA FISH.V))))) THINK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (TOO.ADV MANY.A)))
+		(!R2 (?X_E (PLUR MOSQUITO.N)))
+		(!R3 (?X_F MAN.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_F ((ADV-A (ABOUT.P (KA (GO.V (KA FISH.V))))) THINK.V)))
+		(?X_D (?X_A (BE.V ?X_E)))
+		(?E_1 (?X_F ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
+	)
+)
+
+; "Bobby went fishing."
+; "He caught fish."
+; "He ate them for dinner."
+(EPI-SCHEMA ((?X_G (CATCH.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H FISH.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_H FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_G ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_B (?X_G (CATCH.V ?X_H)))
+		(?X_F (?X_G EAT.2.V ?X_H))
+	)
+)
+
+; "Tom thought about fishing."
+; "He knew where there were fish."
+; "He could go fishing."
+; "He would catch lots of fish."
+(EPI-SCHEMA ((?X_D (THINK.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A FISHING.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_E (PLUR LOT.N)))
+		(!R4 (?X_E (OF.P ?X_F)))
+	)
+	(:STEPS
+		(?X_C (?X_D ((ADV-A (ABOUT.P ?X_A)) THINK.V)))
+		(E70.SK (?X_D (CAN.MD ((ADV-A (FOR.P (KA FISH.V))) GO.V))))
+		(E72.SK (?X_D (CATCH.V ?X_E)))
+	)
+)
+
+; "Joe went fishing on Saturday."
+; "He caught one fish."
+; "He ate it for lunch."
+(EPI-SCHEMA ((?X_F (CATCH.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J FISH.N))
+		(!R2 (?X_E FISHING.N))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_I AGENT.N))
+		(!R5 (?X_J FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_I (((ADV-A (ON.P ?X_F)) GO.V) ?X_E)))
+		(?X_B (?X_I (CATCH.V ?X_J)))
+		(?X_H (?X_I EAT.2.V ?X_J))
+	)
+)
+
+; "Bob went fishing."
+; "He caught fish."
+; "He ate them for dinner."
+; "He cleaned the fish."
+; "He cooked the fish."
+; "He liked eating fish."
+(EPI-SCHEMA ((?X_N (COMPOSITE-SCHEMA.PR ?X_M (KA (EAT.V ?X_O)) ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M FISH.N))
+		(!R2 (?X_O FISH.N))
+		(!R3 (?X_M FOOD.N))
+		(!R4 ((KA (EAT.V ?X_O)) ACTION.N))
+		(!R5 (?X_N AGENT.N))
+		(!R6 (?X_O FOOD.N))
+	)
+	(:STEPS
+		(?X_F (?X_N ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_D (?X_N (CATCH.V ?X_M)))
+		(?X_H (?X_N EAT.2.V ?X_M))
+		(?X_J (?X_N CLEAN.3.V ?X_M))
+		(?X_B (?X_N (COOK.V ?X_M)))
+		(?X_L (?X_N LIKE.4.V (KA (EAT.V ?X_O))))
+		(?E_1 (?X_N EAT.5.V ?X_O))
+	)
+)
+
+; "Bob likes to fish."
+; "He fishes for bass."
+; "His favorite place is the river."
+; "He has a boat that he uses."
+(EPI-SCHEMA ((?X_K ((ADV-A (FOR.P ?X_E)) FISH.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B RIVER.N))
+		(!R2 (?X_E BASS.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_K)))
+		(!R4 (?X_G FAVORITE.A))
+		(!R5 (?X_F ?X_G PLACE.N))
+		(!R6 (?X_J BOAT.N))
+		(!R7 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_K ((ADV-A (FOR.P ?X_E)) FISH.V)))
+		(?X_A (?X_F (= ?X_B)))
+		(?X_I (?X_K HAVE.6.V ?X_J))
+	)
+)
+
+; "'I want to go fishing,' Tom said."
+; "His friends agreed."
+; "They all went fishing."
+; "They caught fish."
+; "They ate them."
+(EPI-SCHEMA ((?X_E (CATCH.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L FISH.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_H (PLUR FRIEND.N)))
+		(!R4 (?X_H (PERTAIN-TO ?X_I)))
+		(!R5 (?X_L FOOD.N))
+		(!R6 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_H AGREE.V))
+		(?X_D ((ALL.D ({OF}.P ?X_E)) ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_B (?X_M (CATCH.V ?X_L)))
+		(?X_K (?X_M EAT.2.V ?X_L))
+	)
+)
+
+; "A fisherman caught fish."
+; "He threw them back into the lake."
+; "He caught some more fish."
+; "He ate some fish."
+; "He kept catching fish."
+(EPI-SCHEMA ((?X_F (CATCH.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FISH.N))
+		(!R2 (?X_F MORE.A))
+		(!R3 (?X_F FISH.N))
+		(!R4 (?X_O FISH.N))
+		(!R5 (?X_I LAKE.N))
+		(!R6 (?X_J FISHERMAN.N))
+		(!R7 (?X_P FISH.N))
+		(!R8 (NOT (?X_O ACTION.N)))
+		(!R9 (?X_P FOOD.N))
+	)
+	(:STEPS
+		(?X_L (?X_J CATCH.7.V ?X_O))
+		(?X_H (?X_J (((ADV-A (INTO.P ?X_I)) (BACK.ADV THROW.V)) ?X_O)))
+		(?X_E (?X_J (CATCH.V ?X_F)))
+		(?X_N (?X_J EAT.2.V ?X_P))
+		(?X_B (?X_J ((ADV-A (FOR.P (KA (CATCH.V ?X_C)))) KEEP.V)))
+	)
+)
+
+; "Tom liked to fish."
+; "He caught lots of fish."
+; "He ate some fish."
+; "He couldn't catch any fish."
+(EPI-SCHEMA ((?X_G (CATCH.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR LOT.N)))
+		(!R2 (?X_C (OF.P ?X_D)))
+		(!R3 (?X_H FISH.N))
+		(!R4 (?X_G AGENT.N))
+		(!R5 (?X_H FOOD.N))
+	)
+	(:STEPS
+		(?X_B (?X_G (CATCH.V ?X_C)))
+		(E245.SK (NOT (?X_G ((CAN.MD CATCH.V) (ANY.D FISH.N)))))
+		(?X_F (?X_G EAT.2.V ?X_H))
+	)
+)
+
+; "The man tried to fix the car."
+; "He put some oil in it."
+; "He cleaned the windshield."
+; "He even washed the windows."
+; "Nothing worked."
+; "He gave up."
+(EPI-SCHEMA ((?X_P (TRY.V (KA (FIX.V ?X_Q)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_Q CAR.N))
+		(!R2 (?X_G MAN.N))
+		(!R3 (?X_J OIL.N))
+		(!R4 (?X_M WINDSHIELD.N))
+		(!R5 (?X_P (PLUR WINDOW.N)))
+		(!R6 (?X_Q LOCATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_G (TRY.V (KA (FIX.V ?X_Q)))))
+		(?X_I (?X_G PUT.8.V ?X_J ?X_Q))
+		(?X_L (?X_G CLEAN.9.V ?X_M))
+		(?X_O (?X_G WASH.10.V ?X_P))
+		(?X_D ((NO.D THING.N) WORK.V))
+		(?X_B (?X_G GIVE_UP.V))
+	)
+)
+
+; "Tom's car broke down."
+; "He called for help."
+; "A mechanic came by."
+; "Tom told him what happened."
+; "The mechanic said that Tom could not fix the car."
+(EPI-SCHEMA ((?X_G ((ADV-A (FOR.P ?X_C)) CALL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HELP.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_F CAR.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_J MECHANIC.N))
+		(!R6 (?X_J AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_F BREAK_DOWN.V))
+		(?X_B (?X_G ((ADV-A (FOR.P ?X_C)) CALL.V)))
+		(?X_I (?X_J ((ADV-A (FROM.P ?L1)) COME_BY.11.V) ?L2))
+	)
+)
+
+; "Tom fixed the car."
+; "He put oil in it."
+; "He cleaned the windshield."
+; "He washed the windows."
+; "But nothing worked."
+(EPI-SCHEMA ((?X_L (FIX.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K CAR.N))
+		(!R2 (?X_G WINDSHIELD.N))
+		(!R3 (?X_J (PLUR WINDOW.N)))
+		(!R4 (?X_K LOCATION.N))
+		(!R5 (?Y ENTITY.N))
+		(!R6 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_L (FIX.V ?X_K)))
+		(?X_D (?X_L PUT.12.V ?Y ?X_K))
+		(?X_F (?X_L CLEAN.13.V ?X_G))
+		(?X_I (?X_L WASH.14.V ?X_J))
+	)
+)
+
+; "Tom fixed the car."
+; "He put some oil in it."
+; "He cleaned the windshield."
+; "He washed the windows."
+; "Nothing worked."
+; "He gave up."
+(EPI-SCHEMA ((?X_Q (FIX.V ?X_P)) ** ?E)
+	(:ROLES
+		(!R1 (?X_P CAR.N))
+		(!R2 (?X_I OIL.N))
+		(!R3 (?X_L WINDSHIELD.N))
+		(!R4 (?X_O (PLUR WINDOW.N)))
+		(!R5 (?X_P LOCATION.N))
+		(!R6 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_Q (FIX.V ?X_P)))
+		(?X_H (?X_Q PUT.15.V ?X_I ?X_P))
+		(?X_K (?X_Q CLEAN.16.V ?X_L))
+		(?X_N (?X_Q WASH.17.V ?X_O))
+		(?X_D ((NO.D THING.N) WORK.V))
+		(?X_B (?X_Q GIVE_UP.V))
+	)
+)
+
+; "Tom's parents owned a car."
+; "His dad drove it sometimes."
+; "Sometimes Tom drove it."
+; "Tom's mom fixed it when it broke down."
+(EPI-SCHEMA ((?X_M ((SOMETIMES.ADV DRIVE.V) ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (WHEN.P (KE (?X_M BREAK_DOWN.V)))))
+		(!R2 (?X_G MOM.N))
+		(!R3 (?X_M AGENT.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_M)))
+		(!R5 (?X_H CAR.N))
+		(!R6 (?X_I DAD.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_M)))
+		(!R8 (?X_L (PLUR PARENT.N)))
+		(!R9 (?X_L (PERTAIN-TO ?X_M)))
+	)
+	(:STEPS
+		(?X_K (?X_L OWN.18.V ?X_H))
+		(?X_A (?X_I ((SOMETIMES.ADV DRIVE.V) ?X_H)))
+		(?X_F (?X_M ((SOMETIMES.ADV DRIVE.V) ?X_H)))
+		(?X_C (?X_G (FIX.V ?X_M ?X_D)))
+	)
+)
+
+; "Tom fixed his car."
+; "He put oil in it."
+; "He cleaned the windshield."
+; "He washed the windows."
+; "His car started."
+(EPI-SCHEMA ((?X_K (FIX.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J CAR.N))
+		(!R2 (?X_J (PERTAIN-TO ?X_K)))
+		(!R3 (?X_F WINDSHIELD.N))
+		(!R4 (?X_I (PLUR WINDOW.N)))
+		(!R5 (?X_J LOCATION.N))
+		(!R6 (?Y ENTITY.N))
+		(!R7 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_K (FIX.V ?X_J)))
+		(?X_C (?X_K PUT.19.V ?Y ?X_J))
+		(?X_E (?X_K CLEAN.20.V ?X_F))
+		(?X_H (?X_K WASH.21.V ?X_I))
+	)
+)
+
+; "Tommy couldn't find his friends."
+; "His friend wasn't there."
+; "He looked for his friends."
+; "He found his friends."
+(EPI-SCHEMA ((?X_G (FIND.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR FRIEND.N)))
+		(!R2 (?X_E (PERTAIN-TO ?X_G)))
+		(!R3 (?X_F FRIEND.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_G FIND.1.V ?X_E))
+		(?X_B (NOT (?X_F (THERE.ADV BE.V))))
+		(?X_C (?X_G ((ADV-A (FOR.P ?X_E)) LOOK.V)))
+		(?X_D (?X_G FIND.1.V ?X_E))
+	)
+)
+
+; "Tommy loved his friend's dog."
+; "His friend gave him the dog for Christmas."
+; "Tommy played with the dog."
+; "It barked a lot."
+(EPI-SCHEMA ((?X_I (LOVE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H DOG.N))
+		(!R2 (?X_K FRIEND.N))
+		(!R3 (?X_K (PERTAIN-TO ?X_I)))
+		(!R4 (?X_H (PERTAIN-TO ?X_K)))
+		(!R5 (?X_G AGENT.N))
+		(!R6 (?X_H (FOR.P ?X_G)))
+		(!R7 (NOT (?X_H ACTION.N)))
+		(!R8 (?X_I AGENT.N))
+		(!R9 (?X_J AGENT.N))
+		(!R10 (?X_K NOISE.N))
+	)
+	(:STEPS
+		(?X_A (?X_I LOVE.2.V ?X_H))
+		(?X_B (?X_K (GIVE.3.V ?X_I ?X_H)))
+		(?X_D (?X_I ((ADV-A (WITH.P ?X_H)) PLAY.V)))
+		(?X_F (?X_J BARK.4.V ?X_K))
+	)
+)
+
+; "Tom thought about what his mother said."
+; "His mother told him to take care of himself."
+; "He ate some ice cream."
+; "He watched TV for awhile."
+(EPI-SCHEMA ((?X_F (EAT.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D CARE.N))
+		(!R2 (?X_E MOTHER.N))
+		(!R3 (?X_G ICE.N))
+		(!R4 (?X_G CREAM.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 ((KA (((ADV-A (OF.P ?X_F)) TAKE.V) ?X_D)) ACTION.N))
+		(!R7 (NOT (?X_E = ?X_F)))
+		(!R8 (?X_F AGENT.N))
+		(!R9 (?X_G FOOD.N))
+	)
+	(:STEPS
+		(?X_A (?X_E TELL.5.V ?X_F (KA (((ADV-A (OF.P ?X_F)) TAKE.V) ?X_D))))
+		(?X_C (?X_F EAT.6.V ?X_G))
+	)
+)
+
+; "Tommy liked playing baseball."
+; "He played on a team."
+; "His best friend was Joe."
+; "Joe was good at baseball too."
+; "Tommy's dad coached the team."
+(EPI-SCHEMA ((?X_P (PLAY.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E TEAM.N))
+		(!R2 (?X_N DAD.N))
+		(!R3 (?X_F BASEBALL.N))
+		(!R4 (?X_G GOOD.A))
+		(!R5 (?X_G AGENT.N))
+		(!R6 (?X_O BASEBALL.N))
+		(!R7 (?X_J BEST.A))
+		(!R8 (?X_M ?X_J FRIEND.N))
+		(!R9 (?X_M (PERTAIN-TO ?X_P)))
+		(!R10 (?X_N (PERTAIN-TO ?X_P)))
+		(!R11 ((KA (PLAY.V ?X_O)) ACTION.N))
+		(!R12 (?X AGENT.N))
+		(!R13 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_I (?X_P LIKE.7.V (KA (PLAY.V ?X_O))))
+		(?E_1 (?X PLAY.8.V))
+		(?X_L (?X_P PLAY.9.V))
+		(?X_A (?X_M (= ?X_G)))
+		(?X_B (?X_G (AT.P ?X_F)))
+		(?X_D (?X_N (COACH.V ?X_E)))
+	)
+)
+
+; "Tom thought about what he could do."
+; "He decided to play catch with his friend."
+; "His friend threw the ball."
+; "Tom caught the ball."
+(EPI-SCHEMA ((?X_G
+              (THINK.V
+               (ANS-TO (?X_G (CAN.AUX ((ADV-A (ABOUT.P WHAT.PRO)) DO.V))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_F FRIEND.N))
+		(!R2 (?X_E BALL.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H BALL.N))
+	)
+	(:STEPS
+		(?X_D (?X_G (THINK.V (ANS-TO (?X_G (CAN.MD ((ADV-A (ABOUT.P ?X_A)) DO.V)))))))
+		(?X_B (?X_F (THROW.V ?X_E)))
+		(?X_J (?X_G (CATCH.V ?X_H)))
+	)
+)
+
+; "Tom thought about what he could do."
+; "He decided to go to the park."
+; "There were lots of kids there."
+; "He played baseball with the kids."
+(EPI-SCHEMA ((?X_N
+              (THINK.V
+               (ANS-TO (?X_N (CAN.AUX ((ADV-A (ABOUT.P WHAT.PRO)) DO.V))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR LOT.N)))
+		(!R2 (?X_M PARK.N))
+		(!R3 (?X_L BASEBALL.N))
+		(!R4 (?X_M DESTINATION.N))
+		(!R5 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_I (?X_N (THINK.V (ANS-TO (?X_N (CAN.MD ((ADV-A (ABOUT.P ?X_A)) DO.V)))))))
+		(?X_G (?X_N ((ADV-A (TO.P ?X_M)) GO.V)))
+		(?X_D (?X_B (BE.V ?X_E)))
+		(?E_1 (?X_N ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_M))
+		(?X_K (?X_N PLAY.11.V))
+	)
+)
+
+; "Tom was sad."
+; "His dog died."
+; "He cried for a while."
+; "Then he smiled."
+(EPI-SCHEMA ((?X_H (SMILE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H SAD.A))
+		(!R2 (?X_E DOG.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_H)))
+		(!R4 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E DIE.V))
+		(?X_G (?X_H CRY.12.V))
+		(?X_B (?X_H (THEN.ADV SMILE.V)))
+	)
+)
+
+; "Tom is having fun with his friends."
+; "His friends are making him laugh."
+; "Tom is having lots of fun."
+(EPI-SCHEMA ((?X_F (COMPOSITE-SCHEMA.PR ?X_B ?X_E ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B FUN.N))
+		(!R2 (?X_E (PLUR FRIEND.N)))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_F (PLUR LOT.N)))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 (?X_F (OF.P ?X_G)))
+	)
+	(:STEPS
+		(?X_D (?X_F (HAVE.V ?X_B)))
+		(?X_A (?X_E (((ADV-A (FOR.P (KA LAUGH.V))) MAKE.V) ?X_E)))
+		(?X_I (?X_F (HAVE.V ?X_F)))
+	)
+)
+
+; "Lisa's friend came over for dinner."
+; "They ate pizza."
+; "They watched movies together."
+; "They played games."
+(EPI-SCHEMA ((?X_O (((ADV-A (WITH.P ?X_J)) EAT.V) ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GAME.N)))
+		(!R2 (?X_F (PLUR MOVIE.N)))
+		(!R3 (?X_I DINNER.N))
+		(!R4 (?X_J FRIEND.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_K)))
+		(!R6 (?X_L PIZZA.N))
+		(!R7 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_J ((ADV-A (FOR.P ?X_I)) COME_OVER.V)))
+		(?X_N (?X_O EAT.6.V ?X_L))
+		(?X_E (?X_O ((TOGETHER.ADV WATCH.V) ?X_F)))
+		(?X_B (?X_O (PLAY.V ?X_C)))
+	)
+)
+
+; "'I'm going to play basketball', said Tom."
+; "'Okay,' said Mary."
+; "'Let's go!'"
+(EPI-SCHEMA ((?X_A COMPOSITE-SCHEMA.PR) ** ?E)
+	(:ROLES
+		(!R1 (?X_A (PERTAIN-TO ?X_B)))
+		(!R2 (?X_C BASKETBALL.N))
+		(!R3 (?X AGENT.N))
+	)
+	(:STEPS
+		(E258.SK (?X_A GO.V))
+		(?E_1 (?X PLAY.8.V))
+	)
+)
+
+; "The man and his wife were having problems."
+; "One night they argued."
+; "The next morning, she left home."
+; "Later that day, he came home."
+; "He found her car parked outside."
+; "He opened up the trunk."
+; "There was no one there."
+(EPI-SCHEMA ((?X_H ((ADV-A (WITH.P ?X_P)) ARGUE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E TRUNK.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_I NIGHT.N))
+		(!R4 (?X_J (PLUR PROBLEM.N)))
+		(!R5 (?X_O WIFE.N))
+		(!R6 (?X_K MAN.N))
+		(!R7 (?X_O (PERTAIN-TO ?X_K)))
+		(!R8 (?X_P HOME.N))
+		(!R9 (?X_N CAR.N))
+		(!R10 (?X_N (PERTAIN-TO ?X_O)))
+		(!R11 (NOT (?X_P = ?L2)))
+		(!R12 (?L2 DESTINATION.N))
+		(!R13 (?X AGENT.N))
+		(!R14 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_A ((SET-OF ?X_K ?X_O) (HAVE.V ?X_J)))
+		(?X_G ((ADV-E ({DURING}.P ?X_I)) (?X_H ARGUE.V)))
+		(?X_M (?X_O ((ADV-A (FROM.P ?X_P)) LEAVE.13.V) ?L2))
+		(?E_1 (?X PARK.14.V ?X_N ?L))
+		(?X_B (?X_K FIND.1.V ?X_N))
+		(?X_D (?X_K (OPEN_UP.V ?X_E)))
+	)
+)
+
+; "John and Mary were arguing."
+; "Mary threw things around the house."
+; "They fought all night."
+; "Next morning, John called the police."
+; "Mary's parents came over."
+(EPI-SCHEMA ((?X_O ((ADV-A (WITH.P ?X_O)) ARGUE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_O AGENT.N))
+		(!R2 (?X_C HOUSE.N))
+		(!R3 (?X_D (PLUR THING.N)))
+		(!R4 (?X_G AGENT.N))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_K POLICE.N))
+		(!R7 (?X_N (PLUR PARENT.N)))
+		(!R8 (?X_N (PERTAIN-TO ?X_O)))
+	)
+	(:STEPS
+		(?X_B ((SET-OF ?X_J ?X_O) ARGUE.V))
+		(?X_F (?X_O (((ADV-A (AROUND.P ?X_C)) THROW.V) ?X_D)))
+		(?X_I ((ADV-E ({DURING}.P (ALL.D NIGHT.N))) (?X_G FIGHT.V)))
+		(?X_M ((ADV-E ({DURING}.P (NEXT.D MORNING.N))) (?X_J (CALL.V ?X_K))))
+		(?X_Q (?X_N COME_OVER.V))
+	)
+)
+
+; "Tom's parents fought all the time."
+; "His mother yelled at him."
+; "His father yelled back."
+; "Tom didn't want to fight."
+(EPI-SCHEMA ((?X_F ((ADV-A (AT.P ?X_E)) YELL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D MOTHER.N))
+		(!R2 (?X_E FATHER.N))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_C (PERTAIN-TO ?X_F)))
+		(!R5 (?X_D (PERTAIN-TO ?X_F)))
+		(!R6 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_A (?X_D ((ADV-A (AT.P ?X_F)) YELL.V)))
+		(?X_B (?X_E (BACK.ADV YELL.V)))
+		(?X_H (NOT (?X_F (WANT.V (KA FIGHT.V)))))
+	)
+)
+
+; "Tom's parents fought a lot."
+; "His mom yelled at him."
+; "His dad said nothing."
+; "His friends talked about it."
+(EPI-SCHEMA ((?X_G (A_LOT.ADV FIGHT.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G (PLUR PARENT.N)))
+		(!R2 (?X_H MOM.N))
+		(!R3 (?X_K AGENT.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_K)))
+		(!R5 (?X_H (PERTAIN-TO ?X_K)))
+		(!R6 (?X_I DAD.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_K)))
+		(!R8 (?X_J (PLUR FRIEND.N)))
+		(!R9 (?X_J (PERTAIN-TO ?X_K)))
+	)
+	(:STEPS
+		(?X_F (?X_G (A_LOT.ADV FIGHT.V)))
+		(?X_B (?X_H ((ADV-A (AT.P ?X_K)) YELL.V)))
+		(?X_C (?X_I (SAY.V (NO.D THING.N))))
+		(?X_D (?X_J ((ADV-A (ABOUT.P ?X_A)) TALK.V)))
+	)
+)
+
+; "Jack's parents fought all the time."
+; "His dad yelled at him."
+; "His mom cried."
+; "His dad said he'd go away."
+; "His mother said she would leave him."
+(EPI-SCHEMA ((?X_E ((ADV-A (AT.P ?X_C)) YELL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FEMALE.A))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_D MOM.N))
+		(!R4 (?X_D MOTHER.N))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_D (PERTAIN-TO ?X_I)))
+		(!R7 (?X_E DAD.N))
+		(!R8 (?X_E (PERTAIN-TO ?X_I)))
+		(!R9 (?X_H (PLUR PARENT.N)))
+		(!R10 (?X_H (PERTAIN-TO ?X_I)))
+	)
+	(:STEPS
+		(?X_A (?X_E ((ADV-A (AT.P ?X_I)) YELL.V)))
+		(?X_G (?X_D CRY.16.V))
+		(?X_B (?X_D (SAY.V (THT (?X_C (WILL.MD (LEAVE.V ?X_I)))))))
+	)
+)
+
+; "Tom's mother was angry."
+; "His father tried to calm her down."
+; "Tom watched them argue."
+; "Tom was afraid."
+(EPI-SCHEMA ((?X_E (TRY.V (KA (CALM_DOWN.V ?X_D)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FATHER.N))
+		(!R2 (?X_C ANGRY.A))
+		(!R3 (?X_C MOTHER.N))
+		(!R4 (?X_E AGENT.N))
+		(!R5 (?X_E AFRAID.A))
+		(!R6 (?X_C (PERTAIN-TO ?X_E)))
+		(!R7 (?X_D (PERTAIN-TO ?X_E)))
+	)
+	(:STEPS
+		(?X_B (?X_D (TRY.V (KA (CALM_DOWN.V ?X_C)))))
+		(?X_G (?X_E (WATCH.V (KE (?X_A ARGUE.V)))))
+	)
+)
+
+; "Tom's parents fought all the time."
+; "His mom yelled at him."
+; "His dad yelled at him too."
+; "Tom's parents never stopped fighting."
+(EPI-SCHEMA ((?X_G ((ADV-A (AT.P ?X_H)) YELL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DAD.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_C (PERTAIN-TO ?X_H)))
+		(!R4 (?X_D MOM.N))
+		(!R5 (?X_D (PERTAIN-TO ?X_H)))
+		(!R6 (?X_G (PLUR PARENT.N)))
+		(!R7 (?X_G (PERTAIN-TO ?X_H)))
+		(!R8 ((IND (7 HOSTILE_ENCOUNTER)) ACTION.N))
+	)
+	(:STEPS
+		(?X_A (?X_D ((ADV-A (AT.P ?X_H)) YELL.V)))
+		(?X_B (?X_C (TOO.ADV ((ADV-A (AT.P ?X_H)) YELL.V))))
+		(?X_F (?X_G STOP.17.V (IND (7 HOSTILE_ENCOUNTER))))
+	)
+)
+
+; "Tommy's mother always argues with him."
+; "She doesn't want Tommy to play sports."
+; "When he gets older, she will argue less."
+(EPI-SCHEMA ((?X_G ((ADV-A (WITH.P ?X_F)) ARGUE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR SPORT.N)))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_F MOTHER.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_F (ALWAYS.ADV ((ADV-A (WITH.P ?X_G)) ARGUE.V))))
+		(?X_B (NOT (?X_F (WANT.V ?X_G (KA (PLAY.V ?X_C))))))
+		(?E_1 (?X PLAY.8.V))
+	)
+)
+
+; "A boy named John was playing baseball."
+; "His father coached the team."
+; "John hit a home run."
+; "The other players cheered loudly."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_J ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F OTHER.A))
+		(!R2 (?X_F (PLUR PLAYER.N)))
+		(!R3 (?X_N AGENT.N))
+		(!R4 (?X_I HOME.N))
+		(!R5 (?X_J TEAM.N))
+		(!R6 (?X_K FATHER.N))
+		(!R7 (?X_K (PERTAIN-TO ?X_N)))
+		(!R8 (?X_L BASEBALL.N))
+		(!R9 (?X_M BOY.N))
+		(!R10 (?X_M ((PASV NAME.V) ?X_N)))
+	)
+	(:STEPS
+		(?X_A (?X_M PLAY.1.V))
+		(?X_B (?X_K (COACH.V ?X_J)))
+		(?X_C (?X_I RUN.V))
+		(?X_H (?X_N (HIT.V ?X_I)))
+		(?X_E (?X_F (LOUDLY.ADV CHEER.V)))
+	)
+)
+
+; "Joe played on a baseball team."
+; "He hit a home run."
+; "He scored some runs."
+(EPI-SCHEMA ((?X_J (PLAY.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR RUN.N)))
+		(!R2 (?X_G HOME.N))
+		(!R3 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_I (?X_J PLAY.2.V))
+		(?X_A (?X_G RUN.V))
+		(?X_F (?X_J (HIT.V ?X_G)))
+		(?X_C (?X_J (SCORE.V ?X_D)))
+	)
+)
+
+; "Mary saw Tom play baseball."
+; "Tom was good at it."
+; "He played on the same team as Mary."
+(EPI-SCHEMA ((?X_I (((ADV-A (WITH.P ?X_I)) PLAY.V) ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B SAME.A))
+		(!R2 (?X_C ?X_B TEAM.N))
+		(!R3 (?X_C (AS.P ?X_I)))
+		(!R4 (?X_H BASEBALL.N))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_J GOOD.A))
+		(!R7 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_I SEE.3.V (KE (?X_J (PLAY.V ?X_H)))))
+		(?X_A (?X_J (AT.P ?X_H)))
+		(?E_1 (?X_J PLAY.4.V))
+		(?X_G (?X_J PLAY.5.V))
+	)
+)
+
+; "Tom played baseball."
+; "His dad coached him."
+; "The other kids on the team were good."
+; "They played well together."
+; "Tom's team lost the game."
+(EPI-SCHEMA ((?X_G ((ADV-A (WITH.P (ANOTHER.D PERSON.N))) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GAME.N))
+		(!R2 (?X_I TEAM.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_G OTHER.A))
+		(!R5 (?X_I (PERTAIN-TO ?X_O)))
+		(!R6 (?X_H DAD.N))
+		(!R7 (?X_H (PERTAIN-TO ?X_O)))
+		(!R8 (?X_J GOOD.A))
+		(!R9 (?X_J (ON.P ?X_I)))
+		(!R10 (?X_K OTHER.A))
+		(!R11 (?X_J ?X_K (PLUR KID.N)))
+		(!R12 (?X_N BASEBALL.N))
+		(!R13 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_O PLAY.6.V))
+		(?X_A (?X_H (COACH.V ?X_O)))
+		(?X_F (?X_G (TOGETHER.ADV (WELL.ADV PLAY.V))))
+		(?X_C (?X_I (LOSE.V ?X_D)))
+	)
+)
+
+; "The boys played baseball."
+; "Their parents watched them play."
+; "The boys were good at baseball."
+(EPI-SCHEMA ((?X_D (PLAY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BASEBALL.N))
+		(!R2 (?X_E GOOD.A))
+		(!R3 (?X_E (PLUR BOY.N)))
+		(!R4 (?X_D (PLUR PARENT.N)))
+		(!R5 (?X_D (PERTAIN-TO ?X_E)))
+		(!R6 (?X_H BASEBALL.N))
+	)
+	(:STEPS
+		(?X_G (?X_E PLAY.7.V))
+		(?X_A (?X_D (WATCH.V (KE (?X_E PLAY.V)))))
+		(?X_B (?X_E (AT.P ?X_C)))
+	)
+)
+
+; "Joe liked sports."
+; "He played football."
+; "He played basketball."
+; "He played baseball."
+(EPI-SCHEMA ((?X_M (PLAY.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L (PLUR SPORT.N)))
+		(!R2 (?X_E FOOTBALL.N))
+		(!R3 (?X_H BASKETBALL.N))
+		(!R4 (?X_K BASEBALL.N))
+		(!R5 (?X_L OBJECT.N))
+		(!R6 (NOT (?X_L ACTION.N)))
+		(!R7 (NOT (?X_L AGENT.N)))
+		(!R8 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_M LIKE.8.V ?X_L))
+		(?X_D (?X_M PLAY.9.V))
+		(?X_G (?X_M PLAY.10.V))
+		(?X_J (?X_M PLAY.11.V))
+	)
+)
+
+; "Lisa liked watching baseball."
+; "She always watched baseball on TV."
+; "She saw a good play."
+; "She yelled for joy."
+(EPI-SCHEMA ((?X_M (LIKE.V (KA (WATCH.V ?X_C)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BASEBALL.N))
+		(!R2 (?X_D TV.N))
+		(!R3 (?X_L BASEBALL.N))
+		(!R4 (?X_I GOOD.A))
+		(!R5 (?X_I PLAY.N))
+		(!R6 ((KA (WATCH.V ?X_L)) ACTION.N))
+		(!R7 (?X_M AGENT.N))
+		(!R8 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_F (?X_M LIKE.12.V (KA (WATCH.V ?X_L))))
+		(?X_B (?X_M ((ALWAYS.ADV ((ADV-A (ON.P ?X_D)) WATCH.V)) ?X_C)))
+		(?X_H (?X_M SEE.13.V ?X_I))
+		(?X_K (?X_M YELL.14.V ?N))
+	)
+)
+
+; "Tom's parents were watching him play baseball."
+; "Tom hit a home run."
+; "He scored two runs."
+; "Tom won the game."
+(EPI-SCHEMA ((?X_N (HIT.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GAME.N))
+		(!R2 (?X_I HOME.N))
+		(!R3 (?X_L BASEBALL.N))
+		(!R4 (?X_M (PLUR PARENT.N)))
+		(!R5 (?X_M (PERTAIN-TO ?X_N)))
+		(!R6 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_M (((ADV-A (FOR.P (KA (PLAY.V ?X_L)))) WATCH.V) ?X_N)))
+		(?X_A (?X_I RUN.V))
+		(?X_H (?X_N (HIT.V ?X_I)))
+		(?X_F (?X_N (SCORE.V (TWO.D (PLUR RUN.N)))))
+		(?X_C (?X_N (WIN.V ?X_D)))
+		(?E_1 (?X_N PLAY.4.V))
+	)
+)
+
+; "Tom played baseball."
+; "His dad coached him on the team."
+; "Tom hit a home run."
+; "He won the game."
+(EPI-SCHEMA ((?X_N (PLAY.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GAME.N))
+		(!R2 (?X_H HOME.N))
+		(!R3 (?X_I TEAM.N))
+		(!R4 (?X_J DAD.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_N)))
+		(!R6 (?X_M BASEBALL.N))
+		(!R7 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_N PLAY.15.V))
+		(?X_A (?X_J (((ADV-A (ON.P ?X_I)) COACH.V) ?X_N)))
+		(?X_B (?X_H RUN.V))
+		(?X_G (?X_N (HIT.V ?X_H)))
+		(?X_D (?X_N (WIN.V ?X_E)))
+	)
+)
+
+; "The man's car broke down."
+; "He called AAA."
+; "AAA sent someone over."
+; "The person fixed the car."
+(EPI-SCHEMA ((?X_H (CALL.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H MAN.N))
+		(!R2 (?X_C AAA.A))
+		(!R3 (?X_F PERSON.N))
+		(!R4 (?X_G CAR.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_B (?X_G BREAK_DOWN.V))
+		(?X_E (?X_H (CALL.V ?X_C)))
+		(?X_J (?X_F (FIX.V ?X_G)))
+	)
+)
+
+; "Aunt Mary had a problem with her car."
+; "She called AAA."
+; "AAA came over."
+; "She paid for the service."
+(EPI-SCHEMA ((?X_A ((ADV-A (FOR.P ?X_B)) PAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A AGENT.N))
+		(!R2 (?X_A AAA.A))
+		(!R3 (?X_B SERVICE.N))
+	)
+	(:STEPS
+		(?X_D (?X_A ((ADV-A (FOR.P ?X_B)) PAY.V)))
+	)
+)
+
+; "The man's car broke down."
+; "He called AAA."
+; "AAA sent someone over."
+; "The person fixed the car."
+(EPI-SCHEMA ((?X_H (CALL.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H MAN.N))
+		(!R2 (?X_C AAA.A))
+		(!R3 (?X_F PERSON.N))
+		(!R4 (?X_G CAR.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_B (?X_G BREAK_DOWN.V))
+		(?X_E (?X_H (CALL.V ?X_C)))
+		(?X_J (?X_F (FIX.V ?X_G)))
+	)
+)
+
+; "My wife and I were at the store."
+; "There was an accident on the highway."
+; "People were hurt."
+; "Some people died."
+(EPI-SCHEMA ((?X_J ((ADV-A (IN.P ?X_F)) BE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C WIFE.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_C (PERTAIN-TO ?X_D)))
+		(!R4 (?X_E STORE.N))
+		(!R5 (?X_F ACCIDENT.N))
+		(!R6 (?X_F (ON.P ?X_G)))
+		(!R7 (?X_J (PLUR PERSON.N)))
+	)
+	(:STEPS
+		(?X_B ((SET-OF ?X_C ?X_D) ((ADV-A (AT.P ?X_E)) BE.V)))
+		(?X_I (?X_A (BE.V ?X_F)))
+		(?X_L (?X_J DIE.V))
+	)
+)
+
+; "Tom's car ran into a tree."
+; "His car broke down."
+; "A truck hit him."
+; "He was killed."
+(EPI-SCHEMA ((?X_G BREAK_DOWN.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_A TREE.N))
+		(!R2 (?X_G CAR.N))
+		(!R3 (?X_F TRUCK.N))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_C (?X_G ((ADV-A (INTO.P ?X_A)) RUN.V)))
+		(?X_E (?X_G BREAK_DOWN.V))
+		(?X_J (?X_F (HIT.V ?X_H)))
+	)
+)
+
+; "Tom went to the hospital."
+; "His mother came to visit him."
+; "A nurse gave Tom a shot."
+; "'You're going to be fine,' she said."
+(EPI-SCHEMA ((?X_I
+              ((ADV-A (TO.P ?X_J))
+               ((ADV-A (AFTER.P (KA (GET.V SHOOT.V)))) GO.V)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_D SHOT.N))
+		(!R2 (?X_E NURSE.N))
+		(!R3 (?X_F MOTHER.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_I)))
+		(!R5 (?X_J HOSPITAL.N))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (?X_J DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_J))
+		(?X_A (?X_F ((ADV-A (FOR.P (KA (VISIT.V ?X_I)))) COME.V)))
+		(?X_C (?X_E (GIVE.V ?X_I ?X_D)))
+	)
+)
+
+; "Alice saw an accident on the road."
+; "A car crashed into a tree."
+; "A truck ran over some people."
+; "The police came to investigate."
+(EPI-SCHEMA ((?X_K ((ADV-A (INTO.P ?X_J)) CRASH.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C POLICE.N))
+		(!R2 (?X_F (PLUR PERSON.N)))
+		(!R3 (?X_G TRUCK.N))
+		(!R4 (?X_J TREE.N))
+		(!R5 (?X_K CAR.N))
+		(!R6 (?X_N ACCIDENT.N))
+		(!R7 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_O SEE.2.V ?X_N))
+		(?X_I (?X_K ((ADV-A (INTO.P ?X_J)) CRASH.V)))
+		(?X_E (?X_G ((ADV-A (OVER.P ?X_F)) RUN.V)))
+		(?X_B (?X_C ((ADV-A (FOR.P (KA INVESTIGATE.V))) COME.V)))
+	)
+)
+
+; "Mary's car broke down."
+; "A policeman stopped to help."
+; "He fixed Mary's car."
+(EPI-SCHEMA ((?X_E ((ADV-A (FOR.P (KA (FIX.V ?X_F)))) HELP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E POLICEMAN.N))
+		(!R2 (?X_F CAR.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_B (?X_F BREAK_DOWN.V))
+		(?X_D (?X_E ((ADV-A (FOR.P (KA HELP.V))) STOP.V)))
+		(?X_I (?X_E (FIX.V ?X_F)))
+	)
+)
+
+; "Jill's car broke down."
+; "It wouldn't start."
+; "Her husband helped her fix it."
+; "Jill drove away from the accident."
+(EPI-SCHEMA ((?X_E BREAK_DOWN.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_F HUSBAND.N))
+		(!R2 (?X_E CAR.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_H)))
+		(!R5 (?X_F (PERTAIN-TO ?X_H)))
+		(!R6 (?X_G (PERTAIN-TO ?X_H)))
+		(!R7 (?X_I ACCIDENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E BREAK_DOWN.V))
+		(E168.SK (NOT (?X_E START.V)))
+		(?X_A (?X_F (HELP.V ?X_G)))
+		(?X_B (?X_G (FIX.V ?X_E)))
+		(?X_K (?X_H ((ADV-A (FROM.P ?X_I)) (AWAY.ADV DRIVE.V))))
+	)
+)
+
+; "Tom's car ran into a tree."
+; "His car broke down."
+; "A policeman helped him fix his car."
+; "Tom drove away from the accident."
+(EPI-SCHEMA ((?X_G ((ADV-A (FROM.P ?X_H)) (AWAY.ADV DRIVE.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_A TREE.N))
+		(!R2 (?X_F CAR.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H ACCIDENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_F ((ADV-A (INTO.P ?X_A)) RUN.V)))
+		(?X_E (?X_F BREAK_DOWN.V))
+		(?X_J (?X_G ((ADV-A (FROM.P ?X_H)) (AWAY.ADV DRIVE.V))))
+	)
+)
+
+; "Tom's family went to the beach."
+; "They swam in the ocean."
+; "Tom saw some fish."
+; "He caught one for dinner."
+(EPI-SCHEMA ((?X_M ((ADV-A (TO.P ?L2)) SWIM.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BEACH.N))
+		(!R2 (?X_L FAMILY.N))
+		(!R3 (?X_H FISH.N))
+		(!R4 (?X_L (PERTAIN-TO ?X_M)))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_L ((ADV-A (TO.P ?X_C)) GO.V)))
+		(?X_E (?X_L ((ADV-A (FROM.P ?L1)) SWAM.3.V) ?L2))
+		(?X_G (?X_M SEE.4.V ?X_H))
+		(?X_K (?X_M CATCH.5.V ?X_I))
+	)
+)
+
+; "Tom's car broke down."
+; "He couldn't fix it."
+; "His friends came over."
+; "They helped him push the car into the garage."
+; "The garage door opened."
+(EPI-SCHEMA ((?X_G BREAK_DOWN.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR FRIEND.N)))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_H)))
+		(!R4 (?X_F GARAGE.N))
+		(!R5 (?X_G CAR.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_H)))
+		(!R7 (?X_K GARAGE.N))
+		(!R8 (?X_K DOOR.N))
+	)
+	(:STEPS
+		(?X_B (?X_G BREAK_DOWN.V))
+		(E252.SK (NOT (?X_H ((CAN.MD FIX.V) ?X_G))))
+		(?X_D (?X_E COME_OVER.V))
+		(?X_J (?X_E (HELP.V (KE (?X_H (((ADV-A (INTO.P ?X_F)) PUSH.V) ?X_G))))))
+		(?X_M (?X_K OPEN.V))
+	)
+)
+
+; "This morning I woke up early."
+; "My alarm clock rang at 6 am."
+; "I could barely wait until 6:01."
+; "When my alarm went off, I jumped out of bed."
+; "I ran downstairs and started breakfast."
+(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_D ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BREAKFAST.N))
+		(!R2 (?X_E MORNING.N))
+		(!R3 (?X_F ALARM.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_J)))
+		(!R5 (?X_G (PERTAIN-TO ?X_J)))
+		(!R6 (?X_H ALARM.N))
+		(!R7 (?X_G ?X_H CLOCK.N))
+		(!R8 (?X_I (PLUR DOWNSTAIR.N)))
+		(!R9 (?X_I DESTINATION.N))
+		(!R10 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_A ((ADV-E ({DURING}.P ?X_E)) (?X_J (EARLY.ADV WAKE_UP.V))))
+		(?X_B (?X_J ((ADV-A (FROM.P ?L1)) RUN.1.V) ?X_I))
+		(?X_C (?X_J (START.V ?X_D)))
+	)
+)
+
+; "Alice woke up early."
+; "She turned on her alarm clock."
+; "She set the alarm for six o'clock."
+; "She couldn't wait until six o'clock."
+(EPI-SCHEMA ((?X_D (EARLY.ADV WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D AGENT.N))
+		(!R2 (?X_E (PERTAIN-TO ?X_D)))
+		(!R3 (?X_E ?X_F CLOCK.N))
+	)
+	(:STEPS
+		(?X_C (?X_D (EARLY.ADV WAKE_UP.V)))
+		(?X_A (?X_D ((ADV-A (ON.P ?X_E)) TURN.V)))
+	)
+)
+
+; "Tom got an alarm clock for Christmas."
+; "He set the alarm on his watch."
+; "He turned the alarm on."
+; "The alarm sounded."
+; "He slept through it."
+(EPI-SCHEMA ((?X_E (((ADV-A (ON.P ?X_E)) SET.V) ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E MALE.A))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_J ALARM.N))
+		(!R4 (?X_M AGENT.N))
+		(!R5 (?X_N ALARM.N))
+		(!R6 (?X_O (FOR.P ?X_M)))
+		(!R7 (?X_O ?X_N CLOCK.N))
+		(!R8 (?X_Q WATCH.N))
+		(!R9 (?X_Q (PERTAIN-TO ?X_P)))
+		(!R10 (?X_O OBJECT.N))
+		(!R11 (?X_P AGENT.N))
+		(!R12 (?X_Q LOCATION.N))
+	)
+	(:STEPS
+		(?X_L (?X_P GET.2.V ?X_O))
+		(?X_B (?X_P SET.3.V ?X_J ?X_Q))
+		(?X_I (?X_P (TURN_ON.V ?X_J)))
+		(?X_G (?X_J SOUND.V))
+		(?X_D (?X_E ((ADV-A (THROUGH.P ?X_A)) SLEEP.V)))
+	)
+)
+
+; "Mary heard an alarm go off."
+; "She looked at her watch."
+; "It said 7:00 AM."
+(EPI-SCHEMA ((?X_E (HEAR.V (KE (?X_F GO_OFF.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B WATCH.N))
+		(!R2 (?X_B (PERTAIN-TO ?X_E)))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_F ALARM.N))
+	)
+	(:STEPS
+		(?X_D (?X_E HEAR.4.V (KE (?X_F GO_OFF.V))))
+		(?X_A (?X_E ((ADV-A (AT.P ?X_B)) LOOK.V)))
+	)
+)
+
+; "Tom's alarm woke him up."
+; "His alarm sounded."
+; "He turned on his alarm."
+; "He set his alarm for 7:00."
+(EPI-SCHEMA ((?X_G (WAKE_UP.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F AGENT.N))
+		(!R2 (?X_F ALARM.N))
+		(!R3 (?X_H MALE.A))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_H)))
+		(!R6 (?X_G ALARM.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_F)))
+		(!R8 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_C (?X_G (WAKE_UP.V ?X_F)))
+		(?X_E (?X_F SOUND.V))
+		(?X_A (?X_H (TURN_ON.V ?X_G)))
+	)
+)
+
+; "Tom's alarm clock rang at 6 o'clock."
+; "His mother set the alarm for him."
+; "He got dressed and ate breakfast."
+; "He heard the alarm go off."
+; "He rushed down stairs."
+(EPI-SCHEMA ((?X_H (EAT.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D MOTHER.N))
+		(!R2 (?X_D (PERTAIN-TO ?X_I)))
+		(!R3 (?X_E BREAKFAST.N))
+		(!R4 (?X_H CLOCK.N))
+		(!R5 (?X_H ALARM.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_I)))
+		(!R7 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_D (((ADV-A (FOR.P ?X_I)) SET.V) ?X_H)))
+		(?X_B (?X_I (GET.V (KJ DRESSED.A))))
+		(?X_C (?X_I EAT.5.V ?X_E))
+		(?X_G (?X_I HEAR.6.V (KE (?X_H GO_OFF.V))))
+	)
+)
+
+; "Joe woke up late."
+; "His alarm clock didn't go off."
+; "He couldn't get out of bed."
+(EPI-SCHEMA ((?X_F (LATE.ADV WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E ?X_D CLOCK.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_F)))
+		(!R4 (?X_G BED.N))
+	)
+	(:STEPS
+		(?X_C (?X_F (LATE.ADV WAKE_UP.V)))
+		(?X_A (NOT (?X_E GO_OFF.V)))
+		(E177.SK (NOT (?X_F (CAN.MD ((ADV-A (OUT_OF.P ?X_G)) GET.V)))))
+	)
+)
+
+; "Tom woke up early."
+; "His alarm clock rang at 6 am."
+; "He couldn't wait for 6:01."
+; "At 6:01, Tom's alarm sounded."
+; "He jumped out of bed."
+; "He ran down the stairs."
+; "He ate breakfast."
+(EPI-SCHEMA ((?X_N ((ADV-A (OUT_OF.P ?X_M)) JUMP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M BED.N))
+		(!R2 (?X_G ALARM.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_N)))
+		(!R4 (?X_H (PERTAIN-TO ?X_N)))
+		(!R5 (?X_I ALARM.N))
+		(!R6 (?X_H ?X_I CLOCK.N))
+		(!R7 (?X_J BREAKFAST.N))
+		(!R8 (?X_M LOCATION.N))
+		(!R9 (NOT (?X_M = ?L2)))
+		(!R10 (?L2 DESTINATION.N))
+		(!R11 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_N (EARLY.ADV WAKE_UP.V)))
+		(?X_D (?X_N ((ADV-A (FROM.P ?X_M)) JUMP.7.V) ?L2))
+		(?X_F (?X_N ((ADV-A (FROM.P ?L1)) RUN.8.V) ?L2))
+		(?X_L (?X_N EAT.5.V ?X_J))
+	)
+)
+
+; "Tommy's alarm clock went off."
+; "He woke up."
+; "His alarm clock rang."
+; "He got dressed."
+; "He ate breakfast."
+(EPI-SCHEMA ((?X_O WAKE_UP.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DRESSED.A))
+		(!R2 (?X_J (PERTAIN-TO ?X_O)))
+		(!R3 (?X_K ALARM.N))
+		(!R4 (?X_K CLOCK.N))
+		(!R5 (?X_K (PERTAIN-TO ?X_O)))
+		(!R6 (?X_J ?X_K CLOCK.N))
+		(!R7 (?X_L BREAKFAST.N))
+		(!R8 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_I (?X_K GO_OFF.V))
+		(?X_G (?X_O WAKE_UP.V))
+		(?X_E (?X_J RING.V))
+		(?X_B (?X_O (GET.V ?X_C)))
+		(?X_N (?X_O EAT.5.V ?X_L))
+	)
+)
+
+; "Bill woke up before dawn."
+; "His alarm went off."
+; "He looked at the clock."
+; "It said 6:00."
+; "He couldn't wait any longer."
+; "He rushed down the stairs."
+(EPI-SCHEMA ((?X_L ((ADV-A (BEFORE.P ?X_H)) WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CLOCK.N))
+		(!R2 (?X_I ALARM.N))
+		(!R3 (?X_H DAWN.N))
+		(!R4 (?X_L BILL.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_L)))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_L ((ADV-A (BEFORE.P ?X_H)) WAKE_UP.V)))
+		(?X_E (?X_I GO_OFF.V))
+		(?X_B (?X_L ((ADV-A (AT.P ?X_C)) LOOK.V)))
+		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) RUSH.9.V) ?L2))
+	)
+)
+
+; "Tom's alarm clock rang."
+; "His alarm went off."
+; "He rushed down stairs."
+; "He ate breakfast."
+(EPI-SCHEMA ((?X_I (EAT.V ?X_E ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F CLOCK.N))
+		(!R2 (?X_F ALARM.N))
+		(!R3 (?X_E BREAKFAST.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_I)))
+		(!R5 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_F RING.V))
+		(?X_B (?X_F GO_OFF.V))
+		(?X_H (?X_I EAT.5.V ?X_E))
+	)
+)
+
+; "The boy was bored."
+; "He played video games."
+; "He played them for hours."
+; "He beat them all."
+(EPI-SCHEMA ((?X_F (PLAY.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR HOUR.N)))
+		(!R2 (?X_F BOY.N))
+		(!R3 (?X_F BORED.A))
+		(!R4 (?X_G VIDEO.N))
+		(!R5 (?X_G (PLUR GAME.N)))
+	)
+	(:STEPS
+		(?X_B (?X_F (PLAY.V ?X_G)))
+		(?X_E (?X_F (((ADV-A (FOR.P ?X_C)) PLAY.V) ?X_G)))
+		(?X_I (?X_F (BEAT.V (ALL.D ({OF}.P ?X_G)))))
+	)
+)
+
+; "Tom played video games on the computer."
+; "He beat the game."
+; "He won the game."
+(EPI-SCHEMA ((?X_I (PLAY.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GAME.N))
+		(!R2 (?X_H VIDEO.N))
+		(!R3 (?X_H (PLUR GAME.N)))
+		(!R4 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_I PLAY.10.V))
+		(?X_D (?X_I (BEAT.V ?X_E)))
+		(?X_B (?X_I (WIN.V ?X_E)))
+	)
+)
+
+; "Tom is a good gamer."
+; "He plays video games."
+; "He beats other gamers."
+; "He likes to play video games."
+(EPI-SCHEMA ((?X (LIKE.V (KA (PLAY.V ?X_C)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C OTHER.A))
+		(!R2 (?X_C (PLUR GAMER.N)))
+		(!R3 (?X_I GOOD.A))
+		(!R4 (?X_I GAMER.N))
+		(!R5 (?X_F VIDEO.N))
+		(!R6 (?X_F (PLUR GAME.N)))
+		(!R7 (?X_J VIDEO.N))
+		(!R8 (?X_J (PLUR GAME.N)))
+		(!R9 (?X_I AGENT.N))
+		(!R10 ((KA (PLAY.V ?X_J)) ACTION.N))
+		(!R11 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_I PLAY.11.V))
+		(?X_B (?X_I (BEAT.V ?X_C)))
+		(?X_H (?X_I LIKE.12.V (KA (PLAY.V ?X_J))))
+		(?E_1 (?X PLAY.13.V))
+	)
+)
+
+; "Amy was at the park."
+; "Her friends were there too."
+; "But no one knew who she was."
+; "Suddenly, someone recognized her."
+; "And then everyone did."
+(EPI-SCHEMA ((?X_D (RECOGNIZE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C PARK.N))
+		(!R2 (?X_E (PLUR FRIEND.N)))
+		(!R3 (?X_D PERSON.N))
+		(!R4 (?X_F AGENT.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_A (?X_F ((ADV-A (AT.P ?X_C)) BE.V)))
+		(?X_B (?X_E (TOO.ADV (THERE.ADV BE.V))))
+		(?X_H (?X_D ((SUDDENLY.ADV RECOGNIZE.V) ?X_F)))
+	)
+)
+
+; "Amy played softball."
+; "She played for the team."
+; "She played well."
+; "She threw the ball hard."
+; "She missed the catch."
+(EPI-SCHEMA ((?X_O (WELL.ADV PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CATCH.N))
+		(!R2 (?X_F BALL.N))
+		(!R3 (?X_K SOFTBALL.N))
+		(!R4 (?X_N TEAM.N))
+		(!R5 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_O PLAY.1.V))
+		(?X_M (?X_O PLAY.2.V))
+		(?X_H (?X_O (WELL.ADV PLAY.V)))
+		(?X_E (?X_O ((HARD.ADV THROW.V) ?X_F)))
+		(?X_B (?X_O (MISS.V ?X_C)))
+	)
+)
+
+; "Joe's friend has a dog."
+; "His name is Spot."
+; "Spot likes to play in the park."
+; "Joe plays with him sometimes."
+(EPI-SCHEMA ((?X_K ((ADV-A (IN.P ?X_J)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E NAME.N))
+		(!R2 (?X_E SPOT.A))
+		(!R3 (?X_F DOG.N))
+		(!R4 (?X_F SPOT.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 (?X_J PARK.N))
+		(!R7 (?X_I FRIEND.N))
+		(!R8 (?X_I (PERTAIN-TO ?X_K)))
+		(!R9 ((KA ((ADV-A (IN.P ?X_J)) PLAY.V)) ACTION.N))
+		(!R10 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_I HAVE.3.V ?X_F))
+		(?X_D (?X_F LIKE.4.V (KA ((ADV-A (IN.P ?X_J)) PLAY.V))))
+		(?X_H (?X_K PLAY.5.V))
+	)
+)
+
+; "Amy played softball."
+; "She liked to play softball."
+; "She was good at playing softball."
+; "Amy could not catch the ball."
+; "She tried hard to catch the ball."
+(EPI-SCHEMA ((?X (PLAY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B BALL.N))
+		(!R2 (?X_C SOFTBALL.N))
+		(!R3 (?X_J GOOD.A))
+		(!R4 (?X_F SOFTBALL.N))
+		(!R5 (?X_I SOFTBALL.N))
+		(!R6 ((KA (PLAY.V ?X_I)) ACTION.N))
+		(!R7 (?X_J AGENT.N))
+		(!R8 (?X AGENT.N))
+	)
+	(:STEPS
+		(E93.SK (NOT (?X_J ((CAN.MD CATCH.V) ?X_B))))
+		(?X_E (?X_J PLAY.6.V))
+		(?X_H (?X_J LIKE.7.V (KA (PLAY.V ?X_I))))
+		(?X_A (?X_J (AT.P (KA (PLAY.V ?X_C)))))
+		(?E_1 (?X_J PLAY.8.V))
+		(?E_2 (?X PLAY.9.V))
+	)
+)
+
+; "Amy played softball."
+; "She is good at softball."
+; "Her team lost the game."
+(EPI-SCHEMA ((?X_I (PLAY.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GAME.N))
+		(!R2 (?X_E TEAM.N))
+		(!R3 (?X_D SOFTBALL.N))
+		(!R4 (?X_I GOOD.A))
+		(!R5 (?X_E (PERTAIN-TO ?X_I)))
+		(!R6 (?X_H SOFTBALL.N))
+		(!R7 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_I PLAY.10.V))
+		(?X_A (?X_I (AT.P ?X_D)))
+		(?X_B (?X_E (LOSE.V ?X_C)))
+	)
+)
+
+; "Bill played tennis."
+; "His friend asked him if he could play tennis."
+; "He said yes."
+; "He couldn't play tennis."
+(EPI-SCHEMA ((?X_H (PLAY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C TENNIS.N))
+		(!R2 (?X_F TENNIS.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_G FRIEND.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+		(!R6 (?X_K TENNIS.N))
+		(!R7 (?X_L BILL.N))
+		(!R8 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(E148.SK (NOT (?X_H ((CAN.MD PLAY.V) ?X_C))))
+		(?X_J (?X_L PLAY.11.V))
+		(?X_B (?X_G (KA ASK.V) ?X_H (IF.P (KE (?X_H (CAN.MD (PLAY.V ?X_F)))))))
+		(?X_E (?X_H (SAY.V ?X_A)))
+	)
+)
+
+; "Tommy played on the playground."
+; "His friends were there too."
+; "He played basketball."
+; "He played tag."
+(EPI-SCHEMA ((?X_K ((ADV-A (WITH.P ?Y)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D TAG.N))
+		(!R2 (?X_E (PLUR FRIEND.N)))
+		(!R3 (?X_E (PERTAIN-TO ?X_K)))
+		(!R4 (?X_J BASKETBALL.N))
+		(!R5 (?Y ENTITY.N))
+		(!R6 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_K PLAY.17.V ?Y))
+		(?X_A (?X_E (TOO.ADV (THERE.ADV BE.V))))
+		(?X_I (?X_K PLAY.18.V))
+		(?X_C (?X_K (PLAY.V ?X_D)))
+	)
+)
+
+; "Amy played softball on the playground."
+; "Her team won the game."
+; "She plays baseball on the field."
+; "Her team lost the game."
+(EPI-SCHEMA ((?X_M (PLAY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GAME.N))
+		(!R2 (?X_D GAME.N))
+		(!R3 (?X_L TEAM.N))
+		(!R4 (?X_G SOFTBALL.N))
+		(!R5 (?X_K FIELD.N))
+		(!R6 (?X_J BASEBALL.N))
+		(!R7 (?X_J (ON.P ?X_K)))
+		(!R8 (?X_L (PERTAIN-TO ?X_M)))
+		(!R9 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_M PLAY.19.V))
+		(?X_A (?X_L (WIN.V ?X_D)))
+		(?X_I (?X_M PLAY.20.V))
+		(?X_B (?X_L (LOSE.V ?X_C)))
+	)
+)
+
+; "Amy played softball."
+; "She was on the team."
+; "She played first base."
+; "She hit a ground ball."
+; "She ran hard to catch it."
+(EPI-SCHEMA ((?X_O (PLAY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GROUND.N))
+		(!R2 (?X_C BALL.N))
+		(!R3 (?X_F TEAM.N))
+		(!R4 (?X_I SOFTBALL.N))
+		(!R5 (?X_L FIRST.A))
+		(!R6 (?X_L BASE.N))
+		(!R7 (?X_O AGENT.N))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_O PLAY.21.V))
+		(?X_E (?X_O ((ADV-A (ON.P ?X_F)) BE.V)))
+		(?X_K (?X_O PLAY.22.V))
+		(?X_B (?X_O (HIT.V ?X_C)))
+		(?X_N (?X_O ((ADV-A (FROM.P ?L1)) RUN.15.V) ?L2))
+	)
+)
+
+; "Mary went to the store."
+; "She bought some bread."
+; "When she got home,"
+; "she made toast."
+(EPI-SCHEMA ((?X_G ((ADV-A (TO.P ?X_F)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BREAD.N))
+		(!R2 (?X_F STORE.N))
+		(!R3 (?X_F DESTINATION.N))
+		(!R4 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_G ((ADV-A (FROM.P ?L1)) GO.23.V) ?X_F))
+		(?X_B (?X_G (BUY.V ?X_C)))
+	)
+)
+
+; "Mary made toast for breakfast."
+; "She put butter on it."
+; "Then she ate it."
+(EPI-SCHEMA ((?X_I (MAKE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J TOAST.N))
+		(!R2 (?X_E BUTTER.N))
+		(!R3 (?X_H BREAKFAST.N))
+		(!R4 (?X_J (FOR.P ?X_H)))
+		(!R5 (?X_H LOCATION.N))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (?X_J FOOD.N))
+	)
+	(:STEPS
+		(?X_B (?X_I (MAKE.V ?X_J)))
+		(?X_D (?X_I PUT.24.V ?X_E ?X_H))
+		(?X_G (?X_I EAT.25.V ?X_J))
+	)
+)
+
+; "Sarah has a list of things to do."
+; "She has to make dinner for her family."
+; "She wants to cook something good."
+; "She needs to buy groceries."
+(EPI-SCHEMA ((?X_G (HAVE.V ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B LIST.N))
+		(!R2 (?X_B (OF.P ?X_C)))
+		(!R3 (?X_J FAMILY.N))
+		(!R4 (?X_F DINNER.N))
+		(!R5 (?X_G THING.N))
+		(!R6 (?X_G GOOD.A))
+		(!R7 (?X_K AGENT.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_K)))
+		(!R9 (?X_L (PLUR GROCERY.N)))
+	)
+	(:STEPS
+		(?X_E (?X_K (HAVE.V ?X_B)))
+		(?X_A (MUST.AUX-S (?X_K (((ADV-A (FOR.P ?X_J)) MAKE.V) ?X_F))))
+		(?X_I (?X_K (WANT.V (KA (COOK.V ?X_G)))))
+		(?X_N (?X_K (NEED.V (KA (BUY.V ?X_L)))))
+	)
+)
+
+; "Mary went to the store."
+; "She bought some bread."
+; "When she got home,"
+; "she made toast."
+(EPI-SCHEMA ((?X_G ((ADV-A (TO.P ?X_F)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BREAD.N))
+		(!R2 (?X_F STORE.N))
+		(!R3 (?X_F DESTINATION.N))
+		(!R4 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_G ((ADV-A (FROM.P ?L1)) GO.23.V) ?X_F))
+		(?X_B (?X_G (BUY.V ?X_C)))
+	)
+)
+
+; "Alice ate a sandwich for lunch."
+; "She liked her sandwich."
+; "She put butter on her bread."
+; "She spread jam on her bread."
+; "She cut her bread into slices."
+(EPI-SCHEMA ((?X_L (EAT.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR SLICE.N)))
+		(!R2 (?X_F JAM.N))
+		(!R3 (?X_M BREAD.N))
+		(!R4 (?X_M (PERTAIN-TO ?X_L)))
+		(!R5 (?X_K SANDWICH.N))
+		(!R6 (?X_K (PERTAIN-TO ?X_L)))
+		(!R7 (?X_I LUNCH.N))
+		(!R8 (?X_K (FOR.P ?X_I)))
+		(!R9 (?X_J BUTTER.N))
+		(!R10 (?X_K OBJECT.N))
+		(!R11 (NOT (?X_K ACTION.N)))
+		(!R12 (NOT (?X_K AGENT.N)))
+		(!R13 (?X_L AGENT.N))
+		(!R14 (?X_M LOCATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_L EAT.25.V ?X_K))
+		(?X_A (?X_L LIKE.26.V ?X_K))
+		(?X_B (?X_L PUT.27.V ?X_J ?X_M))
+		(?X_C (?X_L (((ADV-A (ON.P ?X_M)) SPREAD.V) ?X_F)))
+		(?X_D (?X_L (((ADV-A (INTO.P ?X_E)) CUT.V) ?X_M)))
+	)
+)
+
+; "The woman went to the store."
+; "She bought bread for dinner."
+; "After dinner, she baked the bread."
+; "She ate the bread."
+(EPI-SCHEMA ((?X_C ((ADV-A (TO.P ?X_I)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J BREAD.N))
+		(!R2 (?X_C WOMAN.N))
+		(!R3 (?X_C (BAKED.A ?X_J)))
+		(!R4 (?X_I STORE.N))
+		(!R5 (?X_F DINNER.N))
+		(!R6 (?X_J (FOR.P ?X_F)))
+		(!R7 (?X_I DESTINATION.N))
+		(!R8 (?X_J FOOD.N))
+	)
+	(:STEPS
+		(?X_E (?X_C ((ADV-A (FROM.P ?L1)) GO.23.V) ?X_I))
+		(?X_B (?X_C (BUY.V ?X_J)))
+		(?X_H (?X_C EAT.25.V ?X_J))
+	)
+)
+
+; "Alice told a story at the park."
+; "A child listened to Alice's story."
+; "Another child listened to Alice's story."
+; "There were many children listening to Alice's story."
+(EPI-SCHEMA ((?X_P (TELL.V ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_P AGENT.N))
+		(!R2 (?X_C PARK.N))
+		(!R3 (?X_F CHILD.N))
+		(!R4 (?X_M ?X_N (PLUR CHILD.N)))
+		(!R5 (?X_O STORY.N))
+		(!R6 (?X_O (PERTAIN-TO ?X_P)))
+	)
+	(:STEPS
+		(?X_E (?X_P (((ADV-A (AT.P ?X_C)) TELL.V) ?X_O)))
+		(?X_H (?X_F ((ADV-A (TO.P ?X_O)) LISTEN.V)))
+		(?X_J ((ANOTHER.D CHILD.N) ((ADV-A (TO.P ?X_O)) LISTEN.V)))
+		(?X_L (?X_A (BE.V ?X_M)))
+		(?X_B (?X_M ((ADV-A (TO.P ?X_O)) LISTEN.V)))
+	)
+)
+
+; "Alfred is telling a story."
+; "'Once upon a time there was a little boy who lived on an island.'"
+; "'He liked to play games.'"
+; "'There were lots of animals on the island.'"
+; "'His father sent him to school.'"
+; "'In the classroom,', 'the teacher taught him how to read and write.'"
+; "'Then the teacher gave him homework.'"
+; "'To do that homework,', 'he had to go outside.'"
+; "'On the playground,', 'his friends played ball or tag.'"
+; "'At recess,"
+(EPI-SCHEMA ((?X_E (TELL.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E AGENT.N))
+		(!R2 (?X_E LITTLE.A))
+		(!R3 (?X_C SCHOOL.N))
+		(!R4 (?X_D FATHER.N))
+		(!R5 (?X_D (PERTAIN-TO ?X_E)))
+		(!R6 (?X_H (PLUR LOT.N)))
+		(!R7 (?X_H (OF.P ?X_I)))
+		(!R8 (?X_L STORY.N))
+		(!R9 (?X_M AGENT.N))
+		(!R10 (?X_Q LITTLE.A))
+		(!R11 (?X_P (PLUR GAME.N)))
+		(!R12 ((KA (PLAY.V ?X_P)) ACTION.N))
+		(!R13 (?X_Q AGENT.N))
+		(!R14 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_M (TELL.V ?X_L)))
+		(?X_O (?X_Q LIKE.28.V (KA (PLAY.V ?X_P))))
+		(?X_G (?X_A (BE.V ?X_H)))
+		(?X_B (?X_D (((ADV-A (TO.P ?X_C)) SEND.V) ?X_E)))
+		(?E_1 (?X PLAY.9.V))
+	)
+)
+
+; "Mary went to the store."
+; "She bought some bread."
+; "When she got home,"
+; "she made toast."
+(EPI-SCHEMA ((?X_F ((ADV-A (TO.P ?X_G)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BREAD.N))
+		(!R2 (?X_G STORE.N))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_G DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_F ((ADV-A (FROM.P ?L1)) GO.23.V) ?X_G))
+		(?X_B (?X_F (BUY.V ?X_C)))
+	)
+)
+
+; "Tommy's mom gave him a toy for Christmas."
+; "Tommy put the toy on the shelf."
+; "He played with it all night."
+; "His mother told Tommy to take the toy down."
+(EPI-SCHEMA ((?X_L
+              (COMPOSITE-SCHEMA.PR ?X_J ?X_I ?X_L (KA (TAKE_DOWN.V ?X_J))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_J TOY.N))
+		(!R2 (?X_I SHELF.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_J (FOR.P ?X_H)))
+		(!R5 (?X_K MOM.N))
+		(!R6 (?X_K MOTHER.N))
+		(!R7 (?X_K (PERTAIN-TO ?X_L)))
+		(!R8 (NOT (?X_J AGENT.N)))
+		(!R9 (?X_I LOCATION.N))
+		(!R10 (?X_L AGENT.N))
+		(!R11 ((KA (TAKE_DOWN.V ?X_J)) ACTION.N))
+		(!R12 (NOT (?X_K = ?X_L)))
+	)
+	(:STEPS
+		(?X_E (?X_K (GIVE.1.V ?X_L ?X_J)))
+		(?X_G (?X_L PUT.2.V ?X_J ?X_I))
+		(?X_C
+   ((ADV-E ({DURING}.P (ALL.D NIGHT.N))) (?X_L ((ADV-A (WITH.P ?X_J)) PLAY.V))))
+		(?X_A (?X_K TELL.3.V ?X_L (KA (TAKE_DOWN.V ?X_J))))
+	)
+)
+
+; "Amy is a child."
+; "She likes to play outside."
+; "She wants to go swimming."
+(EPI-SCHEMA ((?X_C PLAY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CHILD.N))
+		(!R2 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
+		(!R3 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_C LIKE.4.V (KA (OUTSIDE.ADV PLAY.V))))
+		(?X_B (?X_C (WANT.V (KA (GO.V (KA SWIM.V))))))
+		(?E_1 (?X_C PLAY.5.V))
+		(?E_2 (?X_C ((ADV-A (FROM.P ?L1)) SWIM.6.V) ?L2))
+	)
+)
+
+; "Mary loves to play tag."
+; "She plays tag all the time."
+; "She runs around the house."
+; "She hides from Mary."
+(EPI-SCHEMA ((?X_F (PLAY.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E TAG.N))
+		(!R2 ((KA (PLAY.V ?X_E)) ACTION.N))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_F LOVE.7.V (KA (PLAY.V ?X_E))))
+		(?E_1 (?X_F PLAY.8.V ?X_E))
+		(?X_D (?X_F ((ADV-A (FROM.P ?L1)) RUN.9.V) ?L2))
+	)
+)
+
+; "Alice gave Tom a toy."
+; "Tom liked his new toy."
+; "Tom played with his new toy."
+; "Tom's friends came over."
+; "They all played with Tom's new toy."
+(EPI-SCHEMA ((?X_O (COMPOSITE-SCHEMA.PR ?X_O ?X_M ?X_N ?Y)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR FRIEND.N)))
+		(!R2 (?X_M NEW.A))
+		(!R3 (?X_M TOY.N))
+		(!R4 (?X_N ?X_M TOY.N))
+		(!R5 (?X_G ?X_M TOY.N))
+		(!R6 (?X_M (PERTAIN-TO ?X_O)))
+		(!R7 (?X_N (PERTAIN-TO ?X_O)))
+		(!R8 (?X_G (PERTAIN-TO ?X_O)))
+		(!R9 (?X_H (PERTAIN-TO ?X_O)))
+		(!R10 (?X_K AGENT.N))
+		(!R11 (?X_L AGENT.N))
+		(!R12 (NOT (?X_M AGENT.N)))
+		(!R13 (?X_N OBJECT.N))
+		(!R14 (NOT (?X_N ACTION.N)))
+		(!R15 (NOT (?X_N AGENT.N)))
+		(!R16 (?X_O AGENT.N))
+		(!R17 (?Y ENTITY.N))
+	)
+	(:STEPS
+		(?X_F (?X_L (GIVE.10.V ?X_O ?X_M)))
+		(?X_A (?X_O LIKE.11.V ?X_N))
+		(?X_B (?X_O PLAY.12.V ?Y))
+		(?X_D (?X_H COME_OVER.V))
+		(?X_J ((ALL.D ({OF}.P ?X_K)) PLAY.13.V ?Y))
+	)
+)
+
+; "Sammy liked to play with his toys."
+; "His mom bought him new toys."
+; "His dad bought him old toys."
+; "His dad gave him some money."
+; "His dad also bought him new toys."
+; "He spent all his money on toys."
+(EPI-SCHEMA ((?X_M ((ADV-A (WITH.P ?X_M)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR TOY.N)))
+		(!R2 (?X_F NEW.A))
+		(!R3 (?X_G OLD.A))
+		(!R4 (?X_G (PLUR TOY.N)))
+		(!R5 (?X_I DAD.N))
+		(!R6 (?X_H NEW.A))
+		(!R7 (?X_H (PLUR TOY.N)))
+		(!R8 (?X_I (PERTAIN-TO ?X_L)))
+		(!R9 (?X_J MOM.N))
+		(!R10 (?X_J (PERTAIN-TO ?X_L)))
+		(!R11 (?X_K (PLUR TOY.N)))
+		(!R12 (?X_K (PERTAIN-TO ?X_L)))
+		(!R13 (?X_M MONEY.N))
+		(!R14 ((KA ((ADV-A (WITH.P ?X_K)) PLAY.V)) ACTION.N))
+		(!R15 (?X_L AGENT.N))
+		(!R16 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_A (?X_L LIKE.14.V (KA ((ADV-A (WITH.P ?X_K)) PLAY.V))))
+		(?X_B (?X_J (BUY.V ?X_L ?X_H)))
+		(?X_C (?X_I (BUY.V ?X_L ?X_G)))
+		(?E_1 (?X_L PLAY.8.V ?X_K))
+		(?X_D (?X_I (GIVE.15.V ?X_L ?X_M)))
+		(?X_E (?X_I ((ALSO.ADV BUY.V) ?X_L ?X_F)))
+	)
+)
+
+; "Alice likes toys."
+; "She has many toys."
+; "She plays with them all the time."
+; "She doesn’t want to give some of her toys away."
+(EPI-SCHEMA ((?X_I (GIVE_AWAY.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR TOY.N)))
+		(!R2 (?X_G MANY.A))
+		(!R3 (?X_G (PLUR TOY.N)))
+		(!R4 (NOT (?X_H ACTION.N)))
+		(!R5 (NOT (?X_H AGENT.N)))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (NOT (?X_J AGENT.N)))
+		(!R8 (?Y AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_I LIKE.16.V ?X_H))
+		(?X_F (?X_I HAVE.17.V ?X_G))
+		(?X_B (?X_I ((ADV-A (FOR.P (KA (WANT.V (KA (GIVE_AWAY.V ?X_J)))))) DOESN’.V)))
+		(?E_1 (?X_I (GIVE_AWAY.18.V ?Y ?X_J)))
+	)
+)
+
+; "Tommy liked to play with dolls."
+; "He would take them to bed with him."
+; "His doll had no clothes."
+; "Tommy's mother told him not to touch her things."
+(EPI-SCHEMA ((?X_H ((ADV-A (WITH.P ?X_G)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G (PLUR DOLL.N)))
+		(!R2 (?X_B BED.N))
+		(!R3 (?X_I DOLL.N))
+		(!R4 (?X_I (PERTAIN-TO ?X_H)))
+		(!R5 (?X_E (PLUR THING.N)))
+		(!R6 (?X_E (PERTAIN-TO ?X_H)))
+		(!R7 (?X_F MOTHER.N))
+		(!R8 (?X_F (PERTAIN-TO ?X_H)))
+		(!R9 ((KA ((ADV-A (WITH.P ?X_G)) PLAY.V)) ACTION.N))
+		(!R10 (?X_H AGENT.N))
+		(!R11 ((NO.D (PLUR CLOTHE.N)) OBJECT.N))
+		(!R12 (?X_I AGENT.N))
+		(!R13 (NOT ((NO.D (PLUR CLOTHE.N)) AGENT.N)))
+	)
+	(:STEPS
+		(E174.SK (?X_H (((ADV-A (TO.P ?X_B)) ((ADV-A (WITH.P ?X_H)) TAKE.V)) ?X_G)))
+		(?X_D (?X_H LIKE.19.V (KA ((ADV-A (WITH.P ?X_G)) PLAY.V))))
+		(?E_1 (?X_H PLAY.8.V ?X_G))
+		(?X_A (?X_I HAVE.20.V (NO.D (PLUR CLOTHE.N))))
+	)
+)
+
+; "Bill was playing with his friends."
+; "His friend threw a ball."
+; "Bill caught the ball."
+; "He ran around with the ball."
+; "Bill's friend threw the ball again."
+; "Bill caught the ball."
+; "He ran around with the ball."
+(EPI-SCHEMA ((?X_M ((ADV-A (WITH.P ?X_M)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K BALL.N))
+		(!R2 (?X_M FRIEND.N))
+		(!R3 (?X_L (PLUR FRIEND.N)))
+		(!R4 (?X_P BILL.N))
+		(!R5 (?X_L (PERTAIN-TO ?X_P)))
+		(!R6 (?X_M (PERTAIN-TO ?X_P)))
+		(!R7 (?X_P AGENT.N))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_P ((ADV-A (WITH.P ?X_L)) PLAY.V)))
+		(?X_B (?X_M (THROW.V ?X_K)))
+		(?X_J (?X_P (CATCH.V ?X_K)))
+		(?X_H (?X_P ((ADV-A (WITH.P ?X_K)) RUN_AROUND.V)))
+		(?X_F (?X_M ((AGAIN.ADV THROW.V) ?X_K)))
+		(?X_D (?X_P (CATCH.V ?X_K)))
+		(?X_O (?X_P ((ADV-A (FROM.P ?L1)) RUN_AROUND.21.V) ?L2))
+	)
+)
+
+; "Tommy likes to play with his toys."
+; "His mom lets him do that."
+; "He plays with his toys all day long."
+; "He has lots of toys."
+(EPI-SCHEMA ((?X_J ((ADV-A (WITH.P ?X_H)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C {REF}.N))
+		(!R2 (?X_D MOM.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_J)))
+		(!R4 (?X_H (PLUR TOY.N)))
+		(!R5 (?X_H (PERTAIN-TO ?X_J)))
+		(!R6 (?X_G (PLUR TOY.N)))
+		(!R7 (?X_I (PLUR LOT.N)))
+		(!R8 (?X_I (OF.P ?X_G)))
+		(!R9 ((KA ((ADV-A (WITH.P ?X_H)) PLAY.V)) ACTION.N))
+		(!R10 (?X_I OBJECT.N))
+		(!R11 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_J LIKE.22.V (KA ((ADV-A (WITH.P ?X_H)) PLAY.V))))
+		(?X_B (?X_D (LET.V (KE (?X_J (DO.V ?X_C))))))
+		(?E_1 (?X_J PLAY.8.V ?X_H))
+		(?X_F (?X_J HAVE.23.V ?X_I))
+	)
+)
+
+; "Tom went swimming at the beach."
+; "He swam in the ocean."
+; "He liked the sand on the beach."
+; "He played in the surf."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?L2 ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C SURF.N))
+		(!R2 (?X_J BEACH.N))
+		(!R3 (?X_L SAND.N))
+		(!R4 (?X_L (ON.P ?X_J)))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L OBJECT.N))
+		(!R8 (NOT (?X_L ACTION.N)))
+		(!R9 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_E (?X_K ((ADV-A (FOR.P (KA ((ADV-A (AT.P ?X_J)) SWIM.V)))) GO.V)))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) SWIM.6.V) ?L2))
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) SWAM.25.V) ?L2))
+		(?X_I (?X_K LIKE.26.V ?X_L))
+		(?X_B (?X_K ((ADV-A (IN.P ?X_C)) PLAY.V)))
+	)
+)
+
+; "Bobby liked swimming."
+; "He went to the beach."
+; "He swam in the ocean."
+; "He played in the sand."
+; "He felt wet."
+(EPI-SCHEMA ((?X_O ((ADV-A (FOR.P (KA ((ADV-A (IN.P ?X_N)) SWIM.V)))) GO.V)) **
+             ?E)
+	(:ROLES
+		(!R1 (?X_C WET.A))
+		(!R2 (?X_F SAND.N))
+		(!R3 (?X_M SWIMMING.N))
+		(!R4 (?X_N BEACH.N))
+		(!R5 (?X_M OBJECT.N))
+		(!R6 (NOT (?X_M ACTION.N)))
+		(!R7 (NOT (?X_M AGENT.N)))
+		(!R8 (?X_N DESTINATION.N))
+		(!R9 (?X_O AGENT.N))
+		(!R10 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_O LIKE.27.V ?X_M))
+		(?X_J (?X_O ((ADV-A (FROM.P ?L1)) GO.24.V) ?X_N))
+		(?X_L (?X_O ((ADV-A (FROM.P ?L1)) SWAM.25.V) ?L2))
+		(?X_E (?X_O ((ADV-A (IN.P ?X_F)) PLAY.V)))
+		(?X_B (?X_O (FEEL.V ?X_C)))
+	)
+)
+
+; "Carol loves swimming."
+; "She goes to the beach often."
+; "She is good at swimming."
+; "She wants to learn how to swim better."
+(EPI-SCHEMA ((?X_H ((ADV-A (TO.P ?X_G)) ((ADV-A (FROM.P ?X_G)) SWIM.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B SWIMMING.N))
+		(!R2 (?X_H GOOD.A))
+		(!R3 (?X_G BEACH.N))
+		(!R4 ((KA SWIM.V) ACTION.N))
+		(!R5 (?X_G DESTINATION.N))
+		(!R6 (?X_H AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_H LOVE.28.V (KA SWIM.V)))
+		(?E_1 (?X_H ((ADV-A (FROM.P ?L1)) SWIM.6.V) ?L2))
+		(?X_F (?X_H ((ADV-A (FROM.P ?L1)) GO.24.V) ?X_G))
+		(?X_A (?X_H (AT.P ?X_B)))
+		(?E_2 (?X_H ((ADV-A (FROM.P ?L1)) SWIM.6.V) ?L2))
+	)
+)
+
+; "Tom's family likes to go to the beach."
+; "His family has a lot of fun there."
+; "Tom wants to go to the beach too."
+(EPI-SCHEMA ((?X_F (LIKE.V (KA ((ADV-A (TO.P ?X_G)) GO.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_G BEACH.N))
+		(!R2 (?X_E FAMILY.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_F)))
+		(!R4 ((KA ((ADV-A (TO.P ?X_G)) GO.V)) ACTION.N))
+		(!R5 (?X_E AGENT.N))
+		(!R6 (?X_F AGENT.N))
+		(!R7 (?X_G DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_E LIKE.29.V (KA ((ADV-A (TO.P ?X_G)) GO.V))))
+		(?X_B (?X_F (WANT.V (KA (TOO.ADV ((ADV-A (TO.P ?X_G)) GO.V))))))
+		(?E_1 (?X_E ((ADV-A (FROM.P ?L1)) GO.30.V) ?X_G))
+		(?E_2 (?X_F ((ADV-A (FROM.P ?L1)) GO.30.V) ?X_G))
+	)
+)
+
+; "Tom saw a beautiful beach."
+; "He liked that place."
+; "He would go there often."
+(EPI-SCHEMA ((?X_E (LIKE.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F BEAUTIFUL.A))
+		(!R2 (?X_F BEACH.N))
+		(!R3 (?X_F PLACE.N))
+		(!R4 (?X_E AGENT.N))
+		(!R5 (NOT (?X_F ACTION.N)))
+		(!R6 (NOT (?X_F AGENT.N)))
+	)
+	(:STEPS
+		(E380.SK (?X_E (OFTEN.ADV (THERE.ADV GO.V))))
+		(?X_B (?X_E SEE.31.V ?X_F))
+		(?X_D (?X_E LIKE.32.V ?X_F))
+	)
+)
+
+; "Mary's mother said she would take Mary to the park."
+; "Mary's father said she could not go."
+; "Mary's mother told Mary that she could not go."
+; "Mary's father said Mary should come anyway."
+(EPI-SCHEMA ((?X_F (SAY.V (THAT (?X_F ((ADV-A (IN.P ?X_F)) LIVE.V))))) ** ?E)
+	(:ROLES
+		(!R1 (?X_A FATHER.N))
+		(!R2 (?X_E MOTHER.N))
+		(!R3 (?X_D AGENT.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_D)))
+		(!R5 (?X_A (PERTAIN-TO ?X_D)))
+		(!R6 (?X_F PARK.N))
+		(!R7 (?X_D SMALLER-THAN.N ?X_E))
+		(!R8 (?X_F DESTINATION.N))
+	)
+	(:STEPS
+		(?X_C (?X_E SAY.3.V ?X_D ?X_F))
+	)
+)
+
+; "Bill lived in an apartment."
+; "His roommate was going away for two weeks."
+; "Bill went to work early."
+; "He wasn't sure if his roommate would come back."
+(EPI-SCHEMA ((?X_H ((ADV-A (FROM.P ?X_G)) (SOMEWHERE.ADV GO.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_G APARTMENT.N))
+		(!R2 (?X_D ROOMMATE.N))
+		(!R3 (?X_H BILL.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_H)))
+		(!R5 (?X_G LOCATION.N))
+		(!R6 (NOT (?X_G = ?L2)))
+		(!R7 (?X_H AGENT.N))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_C (?X_H LIVE.4.V ?X_G))
+		(?X_A (?X_D ((ADV-A (FROM.P ?X_G)) GO.5.V) ?L2))
+		(?X_F (?X_H ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
+	)
+)
+
+; "Mary stayed home from school."
+; "She was alone."
+; "She watched TV."
+; "She played games."
+; "She ate ice cream."
+(EPI-SCHEMA ((?X_F ((ADV-A (TO.P ?X_L)) ((ADV-A (FROM.P ?X_K)) STAY.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GAME.N)))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_K SCHOOL.N))
+		(!R4 (?X_L HOME.N))
+		(!R5 (?X_L (PERTAIN-TO ?X_O)))
+		(!R6 (?X_P ICE.N))
+		(!R7 (?X_P CREAM.N))
+		(!R8 (?X_O AGENT.N))
+		(!R9 (?X_P FOOD.N))
+	)
+	(:STEPS
+		(?X_J (?X_O ((ADV-A (TO.P ?X_L)) ((ADV-A (FROM.P ?X_K)) STAY.V))))
+		(?X_H (?X_O (ALONE.ADV BE.V)))
+		(?X_E (?X_O (WATCH.V ?X_F)))
+		(?X_B (?X_O (PLAY.V ?X_C)))
+		(?X_N (?X_O EAT.2.V ?X_P))
+	)
+)
+
+; "Alice stayed home by herself."
+; "She watched TV."
+; "She read books."
+; "She played games."
+; "She ate ice cream."
+(EPI-SCHEMA ((?X_O
+              ((ADV-A (IN.P ?X_O)) ((ADV-A (BY.P THEMSELVES.PRO)) STAY.V)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GAME.N)))
+		(!R2 (?X_F (PLUR BOOK.N)))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_L HOME.N))
+		(!R5 (?X_L (PERTAIN-TO ?X_P)))
+		(!R6 (?X_O ICE.N))
+		(!R7 (?X_O CREAM.N))
+		(!R8 (?X_O FOOD.N))
+		(!R9 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_P ((ADV-A (TO.P ?X_L)) ((ADV-A (BY.P ?X_P)) STAY.V))))
+		(?X_H (?X_P (WATCH.V ?X_I)))
+		(?X_E (?X_P (READ.V ?X_F)))
+		(?X_B (?X_P (PLAY.V ?X_C)))
+		(?X_N (?X_P EAT.2.V ?X_O))
+	)
+)
+
+; "Tommy stayed home by himself."
+; "His mother came home from work."
+; "She gave him some dinner."
+; "Tommy ate his food."
+(EPI-SCHEMA ((?X_K
+              ((ADV-A (IN.P ?X_K)) ((ADV-A (BY.P THEMSELVES.PRO)) STAY.V)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C WORK.N))
+		(!R2 (?X_D HOME.N))
+		(!R3 (?X_H MOTHER.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_H)))
+		(!R5 (?X_G HOME.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_M)))
+		(!R7 (?X_H (PERTAIN-TO ?X_M)))
+		(!R8 (?X_K FEMALE.A))
+		(!R9 (?X_L DINNER.N))
+		(!R10 (?X_L (PERTAIN-TO ?X_M)))
+		(!R11 (?X_K AGENT.N))
+		(!R12 (NOT (?X_L AGENT.N)))
+		(!R13 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_M ((ADV-A (TO.P ?X_G)) ((ADV-A (BY.P ?X_M)) STAY.V))))
+		(?X_A (?X_H ((ADV-A (TO.P ?X_D)) ((ADV-A (FROM.P ?X_C)) COME.V))))
+		(?X_J (?X_K (GIVE.6.V ?X_M ?X_L)))
+		(?X_B (?X_M EAT.2.V ?X_L))
+	)
+)
+
+; "Tom liked to play baseball."
+; "He played on a team."
+; "He was up to bat."
+; "He hit a long drive."
+; "He made a run and won the game."
+(EPI-SCHEMA ((?X (PLAY.V ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GAME.N))
+		(!R2 (?X_D RUN.N))
+		(!R3 (?X_G LONG.A))
+		(!R4 (?X_G DRIVE.N))
+		(!R5 (?X_J BAT.N))
+		(!R6 (?X_O BASEBALL.N))
+		(!R7 ((KA (PLAY.V ?X_O)) ACTION.N))
+		(!R8 (?X AGENT.N))
+		(!R9 (?X_P AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_P LIKE.7.V (KA (PLAY.V ?X_O))))
+		(?E_1 (?X PLAY.8.V))
+		(?X_N (?X_P PLAY.9.V))
+		(?X_I (?X_P ((ADV-A (TO.P ?X_J)) (UP.ADV BE.V))))
+		(?X_F (?X_P (HIT.V ?X_G)))
+		(?X_A (?X_P (MAKE.V ?X_D)))
+		(?X_B (?X_P (WIN.V ?X_C)))
+	)
+)
+
+; "Tom's family went on vacation."
+; "His mom cooked dinner for them."
+; "Tom's dad worked outside."
+; "Tom's brother helped him."
+; "Tom's sister played with him."
+; "Tom's sister did chores around the house."
+(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_I ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H FAMILY.N))
+		(!R2 (?X_A VACATION.N))
+		(!R3 (?X_J BROTHER.N))
+		(!R4 (?X_I DAD.N))
+		(!R5 (?X_N AGENT.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_N)))
+		(!R7 (?X_I (PERTAIN-TO ?X_N)))
+		(!R8 (?X_J (PERTAIN-TO ?X_N)))
+		(!R9 (?X_M SISTER.N))
+		(!R10 (?X_M (PERTAIN-TO ?X_N)))
+		(!R11 (?X_O (PLUR CHORE.N)))
+		(!R12 (?X_O (AROUND.P ?X_P)))
+	)
+	(:STEPS
+		(?X_C (?X_H ((ADV-A (ON.P ?X_A)) GO.V)))
+		(?X_E (?X_I (OUTSIDE.ADV WORK.V)))
+		(?X_G (?X_J (HELP.V ?X_I)))
+		(?X_L (?X_M ((ADV-A (WITH.P ?X_N)) PLAY.V)))
+		(?X_R (?X_M (DO.V ?X_O)))
+	)
+)
+
+; "Mary stayed home from school one day."
+; "She stayed home because she had a fever."
+; "Her mother came home early."
+; "She felt better."
+; "She told Mary that she could go back to school."
+(EPI-SCHEMA ((?X_L (((ADV-A (IN.P ?X_O)) STAY.V) ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BETTER.A))
+		(!R2 (?X_N MOTHER.N))
+		(!R3 (?X_G FEVER.N))
+		(!R4 (?X_J SCHOOL.N))
+		(!R5 (?X_K HOME.N))
+		(!R6 (?X_L AGENT.N))
+		(!R7 (?X_K (PERTAIN-TO ?X_L)))
+		(!R8 (?X_N (PERTAIN-TO ?X_L)))
+		(!R9 (?X_M DAY.N))
+		(!R10 (?X_O HOME.N))
+		(!R11 (?X_O (PERTAIN-TO ?X_N)))
+		(!R12 (?X_O DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I
+   ((ADV-E ({DURING}.P ?X_M))
+    (?X_L ((ADV-A (TO.P ?X_K)) ((ADV-A (FROM.P ?X_J)) STAY.V)))))
+		(?X_F (?X_L (KA (HOME.ADV STAY.V)) (BECAUSE.P (KE (?X_L (HAVE.V ?X_G))))))
+		(?X_A (?X_N ((ADV-A (FROM.P ?L1)) COME.10.V) ?X_O))
+		(?X_C (?X_N (FEEL.V ?X_D)))
+	)
+)
+
+; "Sue's mom gave her a present."
+; "Sue was happy."
+; "She opened the present."
+; "She cried."
+; "She thought it was broken."
+(EPI-SCHEMA ((?X_I (OPEN.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B HAPPY.A))
+		(!R2 (?X_I PRESENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_A (KA SUE.V) (BE.V ?X_B)))
+		(?X_F ((KA SUE.V) (OPEN.V ?X_I)))
+		(?X_H ((KA SUE.V) CRY.V))
+		(?X_K ((KA SUE.V) (THINK.V (THT (?X_I (PASV BREAK.V))))))
+	)
+)
+
+; "Tom had a gift for his friend."
+; "His friend liked the gift."
+; "Tom gave his friend the gift."
+; "His friend thanked him."
+(EPI-SCHEMA ((?X_D (((ADV-A (TO.P ?X_D)) GIVE.V) ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FRIEND.N))
+		(!R2 (?X_D (PERTAIN-TO ?X_E)))
+		(!R3 (?X_H FRIEND.N))
+		(!R4 (?X_H GIFT.N))
+		(!R5 (?X_J GIFT.N))
+		(!R6 (?X_I FRIEND.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_I)))
+		(!R8 (?X_H (PERTAIN-TO ?X_I)))
+		(!R9 (?X_J OBJECT.N))
+	)
+	(:STEPS
+		(?X_G (?X_I HAVE.11.V ?X_J))
+		(?X_A (?X_H (LIKE.V ?X_H)))
+		(?X_B (?X_I (GIVE.12.V ?X_I ?X_H)))
+		(?X_C (?X_D (THANK.V ?X_H)))
+	)
+)
+
+; "Bobby received a gift from his grandma."
+; "His grandma gave him a toy car."
+; "He played with the toy car."
+(EPI-SCHEMA ((?X_H (((ADV-A (FROM.P ?X_G)) RECEIVE.V) ?Y)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GIFT.N))
+		(!R2 (?X_D GRANDMA.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_H)))
+		(!R4 (?X_G TOY.N))
+		(!R5 (?X_G CAR.N))
+		(!R6 (NOT (?X_G AGENT.N)))
+		(!R7 (?X_H AGENT.N))
+		(!R8 (?Y ENTITY.N))
+	)
+	(:STEPS
+		(?X_A (?X_H (((ADV-A (FROM.P ?X_D)) RECEIVE.V) ?X_C)))
+		(?X_B (?X_D (GIVE.13.V ?X_H ?X_G)))
+		(?X_F (?X_H PLAY.14.V ?Y))
+	)
+)
+
+; "Sue's parents gave her a present."
+; "They wrapped it for her."
+; "Sue opened it."
+; "She was happy."
+; "She cried."
+(EPI-SCHEMA ((?X_F (WRAP.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C PRESENT.N))
+		(!R2 (?X_G HAPPY.A))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?L LOCATION.N))
+		(!R5 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_F WRAP.15.V ?X_C ?L))
+		(?X_E (?X_G CRY.16.V))
+	)
+)
+
+; "Bobby was sitting in class."
+; "His teacher was talking."
+; "He listened intently."
+; "Then he fell asleep."
+(EPI-SCHEMA ((?X_G (INTENTLY.ADV LISTEN.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CLASS.N))
+		(!R2 (?X_F TEACHER.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H ASLEEP.A))
+	)
+	(:STEPS
+		(?X_A (?X_G ((ADV-A (IN.P ?X_C)) SIT.V)))
+		(?X_B (?X_F TALK.V))
+		(?X_E (?X_G (INTENTLY.ADV LISTEN.V)))
+		(?X_J (?X_G ((THEN.ADV FALL.V) ?X_H)))
+	)
+)
+
+; "Nancy likes school."
+; "She has good grades."
+; "She is smart."
+; "She plays on the playground."
+(EPI-SCHEMA ((?X_J (LIKE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GOOD.A))
+		(!R2 (?X_C (PLUR GRADE.N)))
+		(!R3 (?X_J SMART.A))
+		(!R4 (?X_I SCHOOL.N))
+		(!R5 (?X_H PLAYGROUND.N))
+		(!R6 (?X_I OBJECT.N))
+		(!R7 (NOT (?X_I ACTION.N)))
+		(!R8 (NOT (?X_I AGENT.N)))
+		(!R9 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_J LIKE.1.V ?X_I))
+		(?X_B (?X_J (HAVE.V ?X_C)))
+		(?X_G (?X_J PLAY.2.V))
+	)
+)
+
+; "Tom's teacher gave him an assignment."
+; "He wrote it on the board."
+; "Tom read the assignment."
+(EPI-SCHEMA ((?X_H (WRITE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G TEACHER.N))
+		(!R2 (?X_D BOARD.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_H)))
+		(!R5 (?X_I ASSIGNMENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_G (GIVE.V ?X_H ?X_I)))
+		(?X_F (?X_H (((ADV-A (ON.P ?X_D)) WRITE.V) ?X_A)))
+		(?X_K (?X_H (READ.V ?X_I)))
+	)
+)
+
+; "Ben slept on the couch last night."
+; "He snored loudly."
+; "He woke up this morning."
+; "He felt tired."
+(EPI-SCHEMA ((?X_J ((ADV-A (DURING.P ?X_F)) WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C TIRED.A))
+		(!R2 (?X_F MORNING.N))
+		(!R3 (?X_I COUCH.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_M AGENT.N))
+		(!R6 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_H
+   ((ADV-E ({DURING}.P (LAST.D NIGHT.N))) (?X_J ((ADV-A (ON.P ?X_I)) SLEEP.V))))
+		(?X_L (?X_M SNORE.3.V ?N))
+		(?X_E ((ADV-E ({DURING}.P ?X_F)) (?X_M WAKE_UP.V)))
+		(?X_B (?X_M (FEEL.V ?X_C)))
+	)
+)
+
+; "Tom's teacher talked about math."
+; "Tom wasn't listening."
+; "Tom fell asleep."
+(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F TEACHER.N))
+		(!R2 (?X_A MATH.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H ASLEEP.A))
+	)
+	(:STEPS
+		(?X_C (?X_F ((ADV-A (ABOUT.P ?X_A)) TALK.V)))
+		(?X_E (NOT (?X_G ((ADV-A (FOR.P (KA LISTEN.V))) BE.V))))
+		(?X_J (?X_G (FALL.V ?X_H)))
+	)
+)
+
+; "Tom's mom taught him how to play baseball."
+; "Tom learned how to play baseball."
+; "He played baseball all summer."
+; "He also learned how to play tennis."
+(EPI-SCHEMA ((?X_G PLAY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_A BASEBALL.N))
+		(!R2 (?X_B BASEBALL.N))
+		(!R3 (?X_F MOM.N))
+		(!R4 (?X_E BASEBALL.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_G)))
+		(!R6 (?X AGENT.N))
+		(!R7 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?E_1 (?X PLAY.4.V))
+		(?E_2 (?X_G PLAY.5.V))
+		(?X_D (?X_G PLAY.6.V))
+	)
+)
+
+; "[A boy named Bobby] was sitting in class."
+; "His teacher was talking."
+; "[Bobby] listened carefully."
+; "Then he fell asleep."
+(EPI-SCHEMA ((?X_K (CAREFULLY.ADV ((ADV-A (TO.P ?X_I)) LISTEN.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B ?X_C BOY.N))
+		(!R2 (?X_D CLASS.N))
+		(!R3 (?X_I TEACHER.N))
+		(!R4 (?X_J (PLUR -RSB-.N)))
+		(!R5 (?X_J -LSB-BOBBY.A))
+		(!R6 (?X_J AGENT.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_J)))
+		(!R8 (?X_K ASLEEP.A))
+	)
+	(:STEPS
+		(?X_F (?X_B ((ADV-A (IN.P ?X_D)) SIT.V)))
+		(?X_A (?X_I TALK.V))
+		(?X_H (?X_J (CAREFULLY.ADV LISTEN.V)))
+		(?X_M (?X_J ((THEN.ADV FALL.V) ?X_K)))
+	)
+)
+
+; "Tommy walked into the room."
+; "He saw Mary sitting on the couch."
+; "Mary stood up from the couch."
+; "Tommy said hello to Mary."
+(EPI-SCHEMA ((?X_L ((ADV-A (INTO.P ?X_K)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F COUCH.N))
+		(!R2 (?X_K ROOM.N))
+		(!R3 (?X_K DESTINATION.N))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_L ((ADV-A (FROM.P ?L1)) WALK.9.V) ?X_K))
+		(?X_J (?X_L SEE.10.V (KE (?X_M SIT.V))))
+		(?X_E (?X_M ((ADV-A (FROM.P ?X_F)) (UP.ADV STAND.V))))
+		(?X_C (?X_L (((ADV-A (TO.P ?X_M)) SAY.V) ?X_A)))
+	)
+)
+
+; "Tom saw Bob."
+; "He walked over to him."
+; "'Hi,' Tom said."
+; "'Hello,' Bob answered."
+; "'What's going on?' Tom asked."
+; "'Nothing much,' Bob said."
+; "'How is your family?' Tom asked."
+; "'Fine,' Bob replied."
+; "'I'm glad to hear that,' Tom said."
+; "'So am I,' Bob said."
+; "'Where are you headed?' Tom asked."
+; "'Nowhere in particular,' Bob said."
+; "'Me too,' Tom said."
+; "'Let me give you a"
+(EPI-SCHEMA ((?X_K (WALK_OVER.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H FAMILY.N))
+		(!R2 (?X_K AGENT.N))
+		(!R3 (?X_H (PERTAIN-TO ?X_K)))
+		(!R4 (?X_K DESTINATION.N))
+		(!R5 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_L SEE.11.V ?X_K))
+		(?X_J (?X_L ((ADV-A (FROM.P ?L1)) WALK_OVER.12.V) ?X_K))
+		(?X_E (?X_L ASK.V))
+		(?X_A (?X_L ASK.V))
+		(?X_C (?X_L ASK.V))
+	)
+)
+
+; "Alice walked into a room."
+; "There were lots of people there."
+; "She talked to them all."
+; "A man gave Alice an apple."
+(EPI-SCHEMA ((?X_D
+              ((ADV-A
+                (TO.P
+                 (ALL.D
+                  (L X
+                   (AND (X (PLUR {REF}.N))
+                        (X
+                         (OF.P
+                          (SOME.D
+                           (L X
+                            (AND (X (PLUR PERSON.N))
+                                 (X (IN.P (A.D ROOM.N)))))))))))))
+               TALK.V))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR PERSON.N)))
+		(!R2 (?X_G (PLUR LOT.N)))
+		(!R3 (?X_M ROOM.N))
+		(!R4 (?X_L MAN.N))
+		(!R5 (?X_O APPLE.N))
+		(!R6 (?X_M DESTINATION.N))
+		(!R7 (?X_N AGENT.N))
+		(!R8 (NOT (?X_O AGENT.N)))
+	)
+	(:STEPS
+		(?X_I (?X_N ((ADV-A (FROM.P ?L1)) WALK.9.V) ?X_M))
+		(?X_F (?X_A (BE.V ?X_G)))
+		(?X_C (?X_N ((ADV-A (TO.P (ALL.D ({OF}.P ?X_D)))) TALK.V)))
+		(?X_K (?X_L (GIVE.13.V ?X_N ?X_O)))
+	)
+)
+
+; "Karen walked into the living room."
+; "She sat on the couch."
+; "She watched TV."
+; "She was tired."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_F COUCH.N))
+		(!R3 (?X_I TIRED.A))
+		(!R4 (?X_I AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) WALK.7.V) ?L2))
+		(?X_E (?X_I ((ADV-A (ON.P ?X_F)) SIT.V)))
+		(?X_B (?X_I (WATCH.V ?X_C)))
+	)
+)
+
+; "Sarah walked along the beach."
+; "She saw a beautiful sunset."
+; "She took some pictures of the sunset."
+; "She gave one picture to her friend."
+(EPI-SCHEMA ((?X_K (TAKE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR PICTURE.N)))
+		(!R2 (?X_I BEAUTIFUL.A))
+		(!R3 (?X_I SUNSET.N))
+		(!R4 (?X_H (OF.P ?X_I)))
+		(!R5 (?X_J FRIEND.N))
+		(!R6 (?X_J (PERTAIN-TO ?X_K)))
+		(!R7 (?X_L PICTURE.N))
+		(!R8 (?L2 DESTINATION.N))
+		(!R9 (?X_K AGENT.N))
+		(!R10 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_E (?X_K ((ADV-A (FROM.P ?L1)) WALK.7.V) ?L2))
+		(?X_G (?X_K SEE.14.V ?X_I))
+		(?X_C (?X_K (TAKE.V ?X_H)))
+		(?X_A (?X_K (GIVE.15.V ?X_J ?X_L)))
+	)
+)
+
+; "Molly walked into a room."
+; "There were lots of people there."
+; "She sat down on a chair."
+; "A man came over to Molly."
+; "He asked if she was okay."
+(EPI-SCHEMA ((?X_H ((ADV-A (OVER.P ?X_H)) ((ADV-A (FROM.P ?X_P)) COME.V))) **
+             ?E)
+	(:ROLES
+		(!R1 (?X_D (IF.P (KE (?X_Q OKAY.A)))))
+		(!R2 (?X_E MAN.N))
+		(!R3 (?X_H CHAIR.N))
+		(!R4 (?X_K (PLUR LOT.N)))
+		(!R5 (?X_P ROOM.N))
+		(!R6 (?X_P DESTINATION.N))
+		(!R7 (?X_Q AGENT.N))
+		(!R8 (?X_Q DESTINATION.N))
+	)
+	(:STEPS
+		(?X_M (?X_Q ((ADV-A (FROM.P ?L1)) WALK.9.V) ?X_P))
+		(?X_J (?X_A (BE.V ?X_K)))
+		(?X_G (?X_Q (DOWN.ADV ((ADV-A (ON.P ?X_H)) SIT.V))))
+		(?X_O (?X_E ((ADV-A (FROM.P ?L1)) COME_OVER.16.V) ?X_Q))
+		(?X_C (?X_E (ASK.V ?X_D)))
+	)
+)
+
+; "Sarah walked into the room."
+; "She sat on the couch."
+; "She watched TV."
+(EPI-SCHEMA ((?X_C ((ADV-A (INTO.P ?X_I)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_F COUCH.N))
+		(!R3 (?X_I ROOM.N))
+		(!R4 (?X_I DESTINATION.N))
+		(!R5 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_J ((ADV-A (FROM.P ?L1)) WALK.9.V) ?X_I))
+		(?X_E (?X_J ((ADV-A (ON.P ?X_F)) SIT.V)))
+		(?X_B (?X_J (WATCH.V ?X_C)))
+	)
+)
+
+; "Bill gave his friends a ride home."
+; "His friends paid him back."
+; "Bill paid them back too."
+(EPI-SCHEMA ((?X_C ((BACK.ADV PAY.V) ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_C BILL.N))
+		(!R3 (?X_B (PLUR FRIEND.N)))
+		(!R4 (?X_B (PERTAIN-TO ?X_C)))
+	)
+	(:STEPS
+		(?X_A (?X_B ((BACK.ADV PAY.V) ?X_C)))
+		(?X_E (?X_C ((TOO.ADV (BACK.ADV PAY.V)) ?X_B)))
+	)
+)
+
+; "Mary and John were going to go to the movies."
+; "They would eat popcorn and drink soda."
+; "They would pay by using credit cards."
+(EPI-SCHEMA ((?X_A ((ADV-A (FOR.P ?X_C)) PAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A AGENT.N))
+		(!R2 (?X_B AGENT.N))
+		(!R3 (?X_C (PLUR MOVIE.N)))
+		(!R4 (?X_F AGENT.N))
+		(!R5 (?X_G CREDIT.N))
+		(!R6 (?X_G (PLUR CARD.N)))
+	)
+	(:STEPS
+		(?X_E
+   ((SET-OF ?X_A ?X_B) ((ADV-A (FOR.P (KA ((ADV-A (TO.P ?X_C)) GO.V)))) GO.V)))
+		(E75.SK (?X_F ((ADV-A (BY.P (KA (USE.V ?X_G)))) PAY.V)))
+	)
+)
+
+; "Mary and John were going to the movies."
+; "They wanted popcorn."
+; "They had enough money to go to the movies."
+; "But they did not have money for popcorn."
+(EPI-SCHEMA ((?X_I
+              ((ADV-A (FOR.P (KA (((ADV-A (FROM.P ?X_J)) SEE.V) ?X_J)))) GO.V))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C POPCORN.N))
+		(!R2 (?X_I AGENT.N))
+		(!R3 (?X_J (PLUR MOVIE.N)))
+		(!R4 (?X_H ENOUGH.A))
+		(!R5 (?X_L ?X_H MONEY.N))
+		(!R6 ((SET-OF ?X_I ?X_K) AGENT.N))
+		(!R7 (?X_J DESTINATION.N))
+		(!R8 (?X_K AGENT.N))
+		(!R9 (?X_L OBJECT.N))
+	)
+	(:STEPS
+		(?X_E ((SET-OF ?X_I ?X_K) ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_J))
+		(?X_B (?X_K (WANT.V ?X_C)))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) GO.4.V) ?X_J))
+		(?X_G (?X_K HAVE.5.V ?X_L))
+	)
+)
+
+; "Alice has a lot of money."
+; "She spends most of it on clothes."
+; "She doesn't spend much on groceries."
+; "She buys things she needs."
+(EPI-SCHEMA ((?X_O
+              (COMPOSITE-SCHEMA.PR
+               (MOST.D (L X (AND (X (PLUR {REF}.N)) (X (OF.P ?X_B))))) ?X_O
+               ?X_P))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_G (PLUR GROCERY.N)))
+		(!R2 (?X_H FEMALE.A))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_K (PLUR CLOTHE.N)))
+		(!R5 (?X_O (PLUR THING.N)))
+		(!R6 (?X_N MONEY.N))
+		(!R7 (?X_P LOT.N))
+		(!R8 (?X_P (OF.P ?X_N)))
+		(!R9 (?X_O AGENT.N))
+		(!R10 (?X_P OBJECT.N))
+	)
+	(:STEPS
+		(?X_M (?X_O HAVE.6.V ?X_P))
+		(?X_J
+   (?X_O
+    (((ADV-A (ON.P ?X_K)) SPEND.V)
+     (MOST.D (L X (AND (X (PLUR {REF}.N)) (X (OF.P ?X_B))))))))
+		(?X_F (NOT (?X_H (MUCH.ADV ((ADV-A (ON.P ?X_G)) SPEND.V)))))
+		(?X_D (?X_H (BUY.V ?X_O)))
+	)
+)
+
+; "Bill has two credit cards."
+; "He uses them often."
+; "He can go places without paying."
+(EPI-SCHEMA ((?X_H (HAVE.V ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H BILL.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 ((TWO.D (L X (AND (X CREDIT.N) (X (PLUR CARD.N))))) OBJECT.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_H HAVE.7.V (TWO.D (L X (AND (X CREDIT.N) (X (PLUR CARD.N)))))))
+		(?X_C (?X_J ((OFTEN.ADV USE.V) ?X_A)))
+		(?X_G (?X_J ((ADV-A (FROM.P ?L1)) GO.8.V) ?L2))
+	)
+)
+
+; "Mary and John were going to see a movie."
+; "They would eat popcorn."
+; "They would also watch the movie."
+; "They would pay for the tickets and the popcorn with credit cards."
+(EPI-SCHEMA ((?X_H (EAT.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A POPCORN.N))
+		(!R2 (?X_A (WITH.P ?X_B)))
+		(!R3 (?X_C (PLUR TICKET.N)))
+		(!R4 (?X_G MOVIE.N))
+		(!R5 (?X_D POPCORN.N))
+		(!R6 (?X_H AGENT.N))
+		(!R7 (?X_G DESTINATION.N))
+		(!R8 ((SET-OF ?X_I ?X_H) AGENT.N))
+		(!R9 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(E258.SK (?X_H (EAT.V ?X_D)))
+		(E260.SK (?X_H ((ALSO.ADV WATCH.V) ?X_G)))
+		(E262.SK (?X_H ((ADV-A (FOR.P (SET-OF ?X_C ?X_A))) PAY.V)))
+		(?X_F ((SET-OF ?X_I ?X_H) ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_G))
+		(?E_1 (?X_I SEE.9.V ?X_G))
+	)
+)
+
+; "Sammy saw a spider web."
+; "He thought it was cool."
+; "He touched it."
+(EPI-SCHEMA ((?X_H (THINK.V (THAT ((ANOTHER.D PERSON.N) COOL.A)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_E WEB.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_H SEE.10.V ?X_E))
+		(?X_D (?X_H (THINK.V (THT (?X_E COOL.A)))))
+		(?X_B (?X_H (TOUCH.V ?X_E)))
+	)
+)
+
+; "'I don't like spiders,' said Sam."
+; "'There's one on my shoe,' said Sammy."
+; "'Get it off my shoe!' said Samantha."
+; "'No, I'm scared of them,' said Sammy."
+; "Samantha grabbed him by the arm."
+; "'Let me go! Get your hands off me!' screamed Sammy."
+; "'You're scaring me,' said Samantha."
+; "'If you touch me again, I'll scream,' said Sammy."
+; "'Scream all you want,' said Samantha."
+; "'I will! You're"
+(EPI-SCHEMA ((?X_C (COMPOSITE-SCHEMA.PR ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A ARM.N))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_B (PERTAIN-TO ?X_C)))
+	)
+	(:STEPS
+		(?X_E (?X_C (((ADV-A (BY.P ?X_A)) GRAB.V) ?X_C)))
+	)
+)
+
+; "Sammy liked spiders."
+; "He looked at them on the wall."
+; "He couldn't find any spiders."
+(EPI-SCHEMA ((?X_G (LIKE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D WALL.N))
+		(!R2 (?X_H (PLUR SPIDER.N)))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (NOT (?X_H ACTION.N)))
+	)
+	(:STEPS
+		(E347.SK (NOT (?X_G ((CAN.MD FIND.V) (ANY.D (PLUR SPIDER.N))))))
+		(?X_F (?X_G LIKE.11.V ?X_H))
+		(?X_C (?X_G ((ADV-A (AT.P ?X_A)) ((ADV-A (ON.P ?X_D)) LOOK.V))))
+	)
+)
+
+; "Amy liked spiders."
+; "She kept them in her room."
+; "She played with them."
+; "She gave them food."
+; "She put them on a shelf."
+(EPI-SCHEMA ((?X_N (GIVE.V ?X_J ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M ROOM.N))
+		(!R2 (?X_M (PERTAIN-TO ?X_N)))
+		(!R3 (?X_J (PLUR SPIDER.N)))
+		(!R4 (?X_L FOOD.N))
+		(!R5 (NOT (?X_J ACTION.N)))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (NOT (?X_L AGENT.N)))
+		(!R8 (?X_M LOCATION.N))
+		(!R9 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_N LIKE.12.V ?X_J))
+		(?X_A (?X_N (((ADV-A (IN.P ?X_M)) KEEP.V) ?X_K)))
+		(?X_C (?X_N ((ADV-A (WITH.P ?X_K)) PLAY.V)))
+		(?X_G (?X_N (GIVE.13.V ?X_K ?X_L)))
+		(?X_I (?X_N PUT.14.V ?X_K ?X_M))
+	)
+)
+
+; "Tom liked spiders."
+; "He thought they were funny and cute."
+; "He caught a spider one time."
+; "He kept it on his desk."
+(EPI-SCHEMA ((?X_F (LIKE.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_L TIME.N))
+		(!R2 (?X_L ONE.N))
+		(!R3 (?X_L AGENT.N))
+		(!R4 (?X_F AGENT.N))
+		(!R5 (?X_J (PLUR SPIDER.N)))
+		(!R6 (?X_I DESK.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_K)))
+		(!R8 (NOT (?X_J ACTION.N)))
+		(!R9 (?X_K AGENT.N))
+		(!R10 (?X_L OBJECT.N))
+	)
+	(:STEPS
+		(?X_H (?X_K LIKE.15.V ?X_J))
+		(?X_E (?X_K (THINK.V (THT (AND (?X_F FUNNY.A) (?X_F CUTE.A))))))
+		(?X_C (?X_K (CATCH.V ?X_L)))
+		(?X_A (?X_K KEEP.16.V ?X_L))
+	)
+)
+
+; "Tom's friend played soccer."
+; "His team was winning."
+; "His team scored a goal."
+(EPI-SCHEMA ((?X_I (PLAY.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GOAL.N))
+		(!R2 (?X_H TEAM.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F SOCCER.N))
+		(!R5 (?X_I FRIEND.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_G)))
+		(!R7 (?X_H (PERTAIN-TO ?X_I)))
+	)
+	(:STEPS
+		(?X_E (?X_I PLAY.17.V))
+		(?X_A (?X_H WIN.V))
+		(?X_B (?X_H (SCORE.V ?X_C)))
+	)
+)
+
+; "Aunt Sally has spiders."
+; "She keeps them in jars on the table."
+; "She likes to look at them."
+; "She thinks they're neat."
+(EPI-SCHEMA ((?X_I (((ADV-A (IN.P ?X_H)) KEEP.V) ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B (PLUR JAR.N)))
+		(!R2 (?X_B (ON.P ?X_C)))
+		(!R3 (?X_H FEMALE.A))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_H (((ADV-A (IN.P ?X_B)) KEEP.V) ?X_A)))
+		(?X_G (?X_H (LIKE.V (KA ((ADV-A (AT.P ?X_A)) LOOK.V)))))
+		(?X_K (?X_H (THINK.V (THT (?X_I NEAT.A)))))
+	)
+)
+
+; "Mary was on her way to work."
+; "On the way, Mary stopped by the bank."
+; "She got money from the ATM machine."
+; "Then she went to work."
+; "At work, Mary worked hard."
+; "Her boss gave her a raise."
+(EPI-SCHEMA ((?X_S ((ADV-A (FOR.P (KA WORK.V))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C RAISE.N))
+		(!R2 (?X_P BOSS.N))
+		(!R3 (?X_F WORK.N))
+		(!R4 (?X_I MONEY.N))
+		(!R5 (?X_J ATM.N))
+		(!R6 (?X_J MACHINE.N))
+		(!R7 (?X_M BANK.N))
+		(!R8 (?X_N WAY.N))
+		(!R9 (?X_O WAY.N))
+		(!R10 (?X_O (PERTAIN-TO ?X_S)))
+		(!R11 (?X_P (PERTAIN-TO ?X_S)))
+		(!R12 (?X_S AGENT.N))
+		(!R13 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_S ((ADV-A (ON.P ?X_O)) BE.V)))
+		(?X_L (?X_S ((ADV-A (ON.P ?X_N)) ((ADV-A (BY.P ?X_M)) STOP.V))))
+		(?X_H (?X_S (((ADV-A (FROM.P ?X_J)) GET.V) ?X_I)))
+		(?X_R (?X_S ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
+		(?X_E (?X_S (HARD.ADV ((ADV-A (AT.P ?X_F)) WORK.V))))
+		(?X_B (?X_P (GIVE.V ?X_S ?X_C)))
+	)
+)
+
+; "A woman opened a savings account at the bank."
+; "She put some money into the account."
+; "She withdrew money from the account."
+; "The bank sent her a monthly statement."
+(EPI-SCHEMA ((?X_J (OPEN.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MONTHLY.A))
+		(!R2 (?X_C STATEMENT.N))
+		(!R3 (?X_F MONEY.N))
+		(!R4 (?X_N (PLUR SAVING.N)))
+		(!R5 (?X_N ACCOUNT.N))
+		(!R6 (?X_I BANK.N))
+		(!R7 (?X_J WOMAN.N))
+		(!R8 (?X_M MONEY.N))
+		(!R9 (?X_N LOCATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_J (((ADV-A (AT.P ?X_I)) OPEN.V) ?X_N)))
+		(?X_L (?X_J PUT.2.V ?X_M ?X_N))
+		(?X_E (?X_J (((ADV-A (FROM.P ?X_N)) WITHDREW.V) ?X_F)))
+		(?X_B (?X_I (SEND.V ?X_J ?X_C)))
+	)
+)
+
+; "[Mary's friend, Sally, came to visit.]"
+; "Sally said that Mary is rich."
+; "Mary told Sally how much money she has."
+(EPI-SCHEMA ((?X_G
+              (COMPOSITE-SCHEMA.PR (THAT (?X_D RICH.A))
+               (ANS-TO
+                (?X_D (HAVE.V (L X (AND (X (HOW.ADV MUCH.A)) (X MONEY.N))))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_D AGENT.N))
+		(!R2 (?X_G FRIEND.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_F (?X_G ((ADV-A (FOR.P (KA VISIT.V))) COME.V)))
+		(?X_C (?X_G (SAY.V (THAT (?X_D RICH.A)))))
+		(?X_J
+   (?X_D TELL.3.V
+    (ANS-TO (?X_D (HAVE.V (L X (AND (X (HOW.ADV MUCH.A)) (X MONEY.N))))))))
+	)
+)
+
+; "Alice was going to the bank."
+; "She parked her car."
+; "She walked into the bank."
+; "She put her money in the bank teller's window."
+(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_J)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J BANK.N))
+		(!R2 (?X_G CAR.N))
+		(!R3 (?X_I TELLER.N))
+		(!R4 (?X_I BANK.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_K)))
+		(!R6 (?X_H MONEY.N))
+		(!R7 (?X_H (PERTAIN-TO ?X_K)))
+		(!R8 (?X_L WINDOW.N))
+		(!R9 (?X_L (PERTAIN-TO ?X_I)))
+		(!R10 (?L LOCATION.N))
+		(!R11 (?X_J DESTINATION.N))
+		(!R12 (?X_K AGENT.N))
+		(!R13 (?X_L LOCATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_K ((ADV-A (FROM.P ?L1)) GO.4.V) ?X_J))
+		(?X_A (?X_K PARK.5.V ?X_G ?L))
+		(?X_F (?X_K ((ADV-A (FROM.P ?L1)) WALK.6.V) ?X_J))
+		(?X_B (?X_K PUT.7.V ?X_H ?X_L))
+	)
+)
+
+; "Billy worked all week."
+; "His boss paid him for working."
+; "Billy liked his job."
+; "He earned a lot of money."
+(EPI-SCHEMA ((?X_K (LIKE.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E LOT.N))
+		(!R2 (?X_E (OF.P ?X_F)))
+		(!R3 (?X_I BOSS.N))
+		(!R4 (?X_I (PERTAIN-TO ?X_K)))
+		(!R5 (?X_J JOB.N))
+		(!R6 (?X_J (PERTAIN-TO ?X_K)))
+		(!R7 (?X_J OBJECT.N))
+		(!R8 (NOT (?X_J ACTION.N)))
+		(!R9 (NOT (?X_J AGENT.N)))
+		(!R10 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_H ((ADV-E ({DURING}.P (ALL.D WEEK.N))) (?X_K WORK.V)))
+		(?X_A (?X_I (((ADV-A (FOR.P (KA WORK.V))) PAY.V) ?X_K)))
+		(?X_B (?X_K LIKE.8.V ?X_J))
+		(?X_D (?X_K (EARN.V ?X_E)))
+	)
+)
+
+; "John was walking down the street."
+; "He saw an ATM."
+; "He put some money into the machine."
+; "He pressed the button."
+; "A receipt came out."
+; "He read the receipt."
+(EPI-SCHEMA ((?X_P (COMPOSITE-SCHEMA.PR ?X_H ?X_E ?L2 ?X_O ?X_Q)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E RECEIPT.N))
+		(!R2 (?X_H BUTTON.N))
+		(!R3 (?X_O MONEY.N))
+		(!R4 (?X_Q ATM.N))
+		(!R5 (?X_Q MACHINE.N))
+		(!R6 (?L2 DESTINATION.N))
+		(!R7 (?X_P AGENT.N))
+		(!R8 (?X_Q LOCATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_P ((ADV-A (FROM.P ?L1)) WALK.9.V) ?L2))
+		(?X_L (?X_P SEE.10.V ?X_Q))
+		(?X_N (?X_P PUT.11.V ?X_O ?X_Q))
+		(?X_G (?X_P (PRESS.V ?X_H)))
+		(?X_D (?X_E COME_OUT.V))
+		(?X_B (?X_P (READ.V ?X_E)))
+	)
+)
+
+; "Mary was going to the bank."
+; "She had some money."
+; "She put money into an ATM machine."
+; "She got $100 dollars."
+(EPI-SCHEMA ((?X_J ((ADV-A (TO.P ?X_H)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H BANK.N))
+		(!R2 (?X_I MONEY.N))
+		(!R3 (?X_G MONEY.N))
+		(!R4 (?X_H DESTINATION.N))
+		(!R5 (?X_I OBJECT.N))
+		(!R6 (?X_J AGENT.N))
+		(!R7 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_J ((ADV-A (FROM.P ?L1)) GO.4.V) ?X_H))
+		(?X_D (?X_J HAVE.14.V ?X_I))
+		(?X_F (?X_J PUT.15.V ?X_G ?L))
+	)
+)
+
+; "Alice went to the bank."
+; "She got some cash from an ATM."
+; "She paid for her groceries."
+; "She bought a lot of food."
+; "She ate all that food."
+(EPI-SCHEMA ((?X_N ((ADV-A (TO.P ?X_M)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D LOT.N))
+		(!R2 (?X_D (OF.P ?X_E)))
+		(!R3 (?X_J (PLUR GROCERY.N)))
+		(!R4 (?X_H CASH.N))
+		(!R5 (?X_I ATM.N))
+		(!R6 (?X_J (PERTAIN-TO ?X_N)))
+		(!R7 (?X_M BANK.N))
+		(!R8 (?X_M DESTINATION.N))
+		(!R9 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_N ((ADV-A (FROM.P ?L1)) GO.4.V) ?X_M))
+		(?X_G (?X_N (((ADV-A (FROM.P ?X_I)) GET.V) ?X_H)))
+		(?X_A (?X_N ((ADV-A (FOR.P ?X_J)) PAY.V)))
+		(?X_C (?X_N (BUY.V ?X_D)))
+	)
+)
+
+; "Alice went to the bank."
+; "She got cash from an ATM."
+; "She put some bills in her purse."
+; "She went back to the car."
+(EPI-SCHEMA ((?X_N ((ADV-A (TO.P ?X_L)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D CAR.N))
+		(!R2 (?X_G CASH.N))
+		(!R3 (?X_H ATM.N))
+		(!R4 (?X_L BANK.N))
+		(!R5 (?X_K (PLUR BILL.N)))
+		(!R6 (?X_M PURSE.N))
+		(!R7 (?X_M (PERTAIN-TO ?X_N)))
+		(!R8 (?X_L DESTINATION.N))
+		(!R9 (?X_M LOCATION.N))
+		(!R10 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_N ((ADV-A (FROM.P ?L1)) GO.4.V) ?X_L))
+		(?X_F (?X_N (((ADV-A (FROM.P ?X_H)) GET.V) ?X_G)))
+		(?X_A (?X_N PUT.16.V ?X_K ?X_M))
+		(?X_C (?X_N ((ADV-A (TO.P ?X_D)) (BACK.ADV GO.V))))
+	)
+)
+
+; "Mary's friend was going to the bank."
+; "Mary decided to go too."
+; "When they got there, they saw an ATM machine."
+; "Mary put some coins into the machine."
+; "She pulled out some bills."
+; "She paid for all the things that she bought."
+(EPI-SCHEMA ((?X_M ((ADV-A (TO.P ?X_L)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR BILL.N)))
+		(!R2 (?X_L BANK.N))
+		(!R3 (?X_J FRIEND.N))
+		(!R4 (?X_J (PERTAIN-TO ?X_M)))
+		(!R5 (?X_K (PLUR COIN.N)))
+		(!R6 (?X_N ATM.N))
+		(!R7 (?X_N MACHINE.N))
+		(!R8 (?X_L DESTINATION.N))
+		(!R9 (?L2 DESTINATION.N))
+		(!R10 (?X_M AGENT.N))
+		(!R11 (?X_N LOCATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_J ((ADV-A (FROM.P ?L1)) GO.4.V) ?X_L))
+		(?X_E (?X_M (TOO.ADV GO.V)))
+		(?E_1 (?X_M ((ADV-A (FROM.P ?L1)) GO.12.V) ?L2))
+		(?X_I (?X_M PUT.17.V ?X_K ?X_N))
+		(?X_B (?X_M (PULL_OUT.V ?X_C)))
+	)
+)
+
+; "There are two kinds of people."
+; "Those who think they can,"
+; "and those who think they can't."
+(EPI-SCHEMA ((?X_A
+              (COMPOSITE-SCHEMA.PR
+               (TWO.D (L X (AND (X (PLUR KIND.N)) (X (OF.P ?X_C)))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR PERSON.N)))
+	)
+	(:STEPS
+		(?X_E (?X_A (BE.V (TWO.D (L X (AND (X (PLUR KIND.N)) (X (OF.P ?X_C))))))))
+	)
+)
+
+; "Cindy is a good person."
+; "She helps others."
+; "She cares for others."
+; "She loves children."
+(EPI-SCHEMA ((?X_G (HELP.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR OTHER.N)))
+		(!R2 (?X_F (PLUR OTHER.N)))
+		(!R3 (?X_G GOOD.A))
+		(!R4 (?X_G PERSON.N))
+		(!R5 (?X_J (PLUR CHILD.N)))
+		(!R6 (?X_J OBJECT.N))
+		(!R7 (NOT (?X_J ACTION.N)))
+	)
+	(:STEPS
+		(?X_E (?X_G (HELP.V ?X_F)))
+		(?X_B (?X_G ((ADV-A (FOR.P ?X_C)) CARE.V)))
+		(?X_I (?X_G LOVE.18.V ?X_J))
+	)
+)
+
+; "Tom is a good baseball player."
+; "He has a lot of friends."
+; "His best friend is Bill."
+; "Bill plays sports too."
+(EPI-SCHEMA ((?X_B (HAVE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_F (PLUR FRIEND.N)))
+		(!R3 (?X_C BEST.A))
+		(!R4 (?X_G ?X_C FRIEND.N))
+		(!R5 (?X_I LOT.N))
+		(!R6 (?X_I (OF.P ?X_F)))
+		(!R7 (?X_G (PERTAIN-TO ?X_H)))
+		(!R8 (?X_H AGENT.N))
+		(!R9 (?X_I OBJECT.N))
+	)
+	(:STEPS
+		(?X_E (?X_H HAVE.19.V ?X_I))
+		(?X_A (?X_G (= ?X_B)))
+	)
+)
+
+; "Tom thought he could play baseball."
+; "He tried hard."
+; "He practiced."
+; "He played well."
+; "He won the game."
+(EPI-SCHEMA ((?X_N
+              (THINK.V
+               (ANS-TO
+                (?X_N (WANT.V (KA ((ADV-A (ABOUT.P WHAT.PRO)) DO.V)))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_C GAME.N))
+		(!R2 (?X_J HARD.A))
+		(!R3 (?X_M BASEBALL.N))
+		(!R4 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_N THINK.20.V))
+		(?X_I (?X_N (TRY.V ?X_J)))
+		(?X_G (?X_N PRACTICE.V))
+		(?X_E (?X_N (WELL.ADV PLAY.V)))
+		(?X_B (?X_N (WIN.V ?X_C)))
+	)
+)
+
+; "Tom thought he could do anything."
+; "He tried to jump over the fence."
+; "He couldn't make it."
+; "He fell into the yard."
+; "He hurt himself."
+(EPI-SCHEMA ((?X_L (TRY.V (KA ((ADV-A (OVER.P ?X_I)) JUMP.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F YARD.N))
+		(!R2 (?X_I FENCE.N))
+		(!R3 (?X_L AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_L (THINK.V (THT (?X_L (CAN.MD (DO.V (ANY.D THING.N))))))))
+		(?X_H (?X_L (TRY.V (KA ((ADV-A (OVER.P ?X_I)) JUMP.V)))))
+		(E489.SK (NOT (?X_L ((CAN.MD MAKE.V) ?X_A))))
+		(?X_E (?X_L ((ADV-A (INTO.P ?X_F)) FALL.V)))
+		(?X_C (?X_L (HURT.V ?X_L)))
+		(?E_1 (?X_L ((ADV-A (FROM.P ?L1)) JUMP.21.V) ?L2))
+	)
+)
+
+; "Tom thought that he could not play baseball."
+; "But he tried anyway."
+; "He played well."
+; "His friends were happy for him."
+(EPI-SCHEMA ((?X_E (WELL.ADV ((ADV-A (WITH.P ?X_E)) PLAY.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D HAPPY.A))
+		(!R2 (?X_D (PLUR FRIEND.N)))
+		(!R3 (?X_E AGENT.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_E)))
+	)
+	(:STEPS
+		(?X_C (?X_E (WELL.ADV PLAY.V)))
+		(?X_A (?X_D (FOR.P ?X_E)))
+	)
+)
+
+; "Alice thought she could do anything."
+; "She tried to jump over the fence."
+; "She jumped over the fence."
+; "She fell on the ground."
+(EPI-SCHEMA ((?X_K (TRY.V (KA ((ADV-A (OVER.P ?X_F)) JUMP.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GROUND.N))
+		(!R2 (?X_F FENCE.N))
+		(!R3 (?X_K AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_K (THINK.V (THT (?X_K (CAN.MD (DO.V (ANY.D THING.N))))))))
+		(?X_E (?X_K (TRY.V (KA ((ADV-A (OVER.P ?X_F)) JUMP.V)))))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) JUMP.21.V) ?L2))
+		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) JUMP.22.V) ?L2))
+		(?X_B (?X_K ((ADV-A (ON.P ?X_C)) FALL.V)))
+	)
+)
+
+; "Tom thought he could do anything."
+; "He tried to climb a tree."
+; "He fell down."
+; "His friends laughed at him."
+(EPI-SCHEMA ((?X_I (THINK.V (THT (?X_I (CAN.AUX (DO.V (ANY.D THING.N))))))) **
+             ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR FRIEND.N)))
+		(!R2 (?X_J TREE.N))
+		(!R3 (?X_H (PERTAIN-TO ?X_I)))
+		(!R4 (?X_I AGENT.N))
+		(!R5 (?X_J DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_I (THINK.V (THT (?X_I (CAN.MD (DO.V (ANY.D THING.N))))))))
+		(?X_E (?X_I (TRY.V (KA (CLIMB.V ?X_J)))))
+		(?X_C (?X_I (DOWN.ADV FALL.V)))
+		(?X_A (?X_H ((ADV-A (AT.P ?X_I)) LAUGH.V)))
+		(?E_1 (?X_I ((ADV-A (FROM.P ?L1)) CLIMB.23.V) ?X_J))
+	)
+)
+
+; "A boy named John went to the park."
+; "He met some friends there."
+; "They played football together."
+(EPI-SCHEMA ((?X_B ((ADV-A (TO.P ?X_C)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_A BOY.N))
+		(!R3 (?X_A ((PASV NAME.V) ?X_B)))
+		(!R4 (?X_C PARK.N))
+		(!R5 (?X_C DESTINATION.N))
+	)
+	(:STEPS
+		(E4.SK (?X_A ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_C))
+	)
+)
+
+; "John played football."
+; "He kicked the ball into the air."
+; "He caught the ball."
+; "He ran for a touchdown."
+; "He scored a point."
+(EPI-SCHEMA ((?X_O (((ADV-A (INTO.P ?X_I)) KICK.V) ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C POINT.N))
+		(!R2 (?X_H BALL.N))
+		(!R3 (?X_I AIR.N))
+		(!R4 (?X_L FOOTBALL.N))
+		(!R5 (?X_O AGENT.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_O PLAY.2.V))
+		(?X_G (?X_O (((ADV-A (INTO.P ?X_I)) KICK.V) ?X_H)))
+		(?X_E (?X_O (CATCH.V ?X_H)))
+		(?X_N (?X_O ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+		(?X_B (?X_O (SCORE.V ?X_C)))
+	)
+)
+
+; "John's father taught him how to play football."
+; "Football is fun."
+; "John likes playing football."
+(EPI-SCHEMA ((?X_H (LIKE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FUN.N))
+		(!R2 (?X_D FOOTBALL.N))
+		(!R3 (?X_G FATHER.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_H)))
+		(!R5 (?X_I PLAYING.N))
+		(!R6 (?X_I FOOTBALL.N))
+		(!R7 (?X_H AGENT.N))
+		(!R8 (?X_I OBJECT.N))
+		(!R9 (NOT (?X_I ACTION.N)))
+		(!R10 (NOT (?X_I AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_D (= ?X_C)))
+		(?X_F (?X_H LIKE.4.V ?X_I))
+	)
+)
+
+; "'John's team lost the game'."
+; "'John was sad because his team lost'."
+; "'John cried after the game'."
+; "'John went home early from the game'."
+(EPI-SCHEMA ((?X_H ((ADV-A (AFTER.P (KA (LOSE.V ?X_H)))) CRY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H TEAM.N))
+		(!R2 (?X_I ((ADV-A (BECAUSE.P ?X_H)) SAD.A)))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_I)))
+	)
+	(:STEPS
+		(?X_E (?X_H (LOSE.V ?X_A)))
+		(?X_G (?X_I ((ADV-A (AFTER.P ?X_B)) CRY.V)))
+		(?X_K (?X_I (GO.V ?X_C)))
+	)
+)
+
+; "John was playing football."
+; "His team lost the game."
+; "He ran around after the game."
+(EPI-SCHEMA ((?X_I PLAY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_B GAME.N))
+		(!R2 (?X_F TEAM.N))
+		(!R3 (?X_E FOOTBALL.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_I)))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_I PLAY.6.V))
+		(?X_A (?X_F (LOSE.V ?X_B)))
+		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) RUN_AROUND.7.V) ?L2))
+	)
+)
+
+; "John's father said that John should play football."
+; "His mother said no."
+; "His friends were all for him."
+; "His dad was against it."
+(EPI-SCHEMA ((?X_E (NO.ADV SAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E DAD.N))
+		(!R2 (?X_F MOTHER.N))
+		(!R3 (?X_G (PLUR FRIEND.N)))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_H)))
+		(!R6 (?X_F (PERTAIN-TO ?X_H)))
+		(!R7 (?X_G (PERTAIN-TO ?X_H)))
+		(!R8 (?X_K FOOTBALL.N))
+	)
+	(:STEPS
+		(?X_J (?X_E SAY.8.V))
+		(?X_C (?X_F (SAY.V ?X_A)))
+		(?X_D (?X_E ((ADV-A (AGAINST.P ?X_B)) BE.V)))
+	)
+)
+
+; "John's team played against Alan's team."
+; "John's team beat Alan's team."
+; "John's team scored lots of points."
+(EPI-SCHEMA ((?X_G (BEAT.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR LOT.N)))
+		(!R2 (?X_C (OF.P ?X_D)))
+		(!R3 (?X_H TEAM.N))
+		(!R4 (?X_L TEAM.N))
+		(!R5 (?X_G AGENT.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_G)))
+		(!R7 (?X_I AGENT.N))
+		(!R8 (?X_H (PERTAIN-TO ?X_I)))
+		(!R9 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_L PLAY.9.V))
+		(?X_F (?X_L (BEAT.V ?X_H)))
+		(?X_B (?X_L (SCORE.V ?X_C)))
+	)
+)
+
+; "John went to the park."
+; "He met some boys."
+; "They were playing football."
+; "John was running for the ball."
+; "He caught the ball."
+; "He ran away from the other boys."
+(EPI-SCHEMA ((?X_Q ((ADV-A (TO.P ?X_P)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E BALL.N))
+		(!R2 (?X_H OTHER.A))
+		(!R3 (?X_H (PLUR BOY.N)))
+		(!R4 (?X_P PARK.N))
+		(!R5 (?X_M FOOTBALL.N))
+		(!R6 (?X_P DESTINATION.N))
+		(!R7 (?X_Q AGENT.N))
+		(!R8 (?X_R AGENT.N))
+		(!R9 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_R ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_P))
+		(?X_G (?X_R (MEET.V ?X_H)))
+		(?X_L (?X_Q PLAY.10.V))
+		(?X_O (?X_R ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+		(?X_D (?X_R (CATCH.V ?X_E)))
+		(?X_B (?X_R ((ADV-A (FROM.P ?X_H)) (AWAY.ADV RUN.V))))
+	)
+)
+
+; "John went to play football."
+; "His team was losing."
+; "He kicked the ball hard."
+; "He missed the goal."
+(EPI-SCHEMA ((?X_L ((HARD.ADV KICK.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D GOAL.N))
+		(!R2 (?X_G BALL.N))
+		(!R3 (?X_H TEAM.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_L)))
+		(!R5 (?X_K FOOTBALL.N))
+		(!R6 (?X_K DESTINATION.N))
+		(!R7 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_L ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_K))
+		(?X_A (?X_H LOSE.V))
+		(?X_F (?X_L ((HARD.ADV KICK.V) ?X_G)))
+		(?X_C (?X_L (MISS.V ?X_D)))
+		(?E_1 (?X_L PLAY.11.V))
+	)
+)
+
+; "John's team lost the game."
+; "His team played well."
+; "He was sad after the game."
+; "He was tired from running around so much."
+(EPI-SCHEMA ((?X_E ((ADV-A (AFTER.P (KA (LOSE.V ?X_E)))) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E GAME.N))
+		(!R2 (?X_F TEAM.N))
+		(!R3 (?X_G ((ADV-A (AFTER.P ?X_E)) SAD.A)))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_F AGENT.N))
+		(!R6 (?X_G AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_F (LOSE.V ?X_E)))
+		(?X_A (?X_F PLAY.12.V))
+		(?X_B (?X_G ((ADV-A (FROM.P ?L1)) TRAVEL.13.V) ?L2))
+	)
+)
+
+; "Mary went to the store."
+; "She bought something."
+; "She brought home the groceries."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_H)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C THING.N))
+		(!R2 (?X_H STORE.N))
+		(!R3 (?X_J (PLUR GROCERY.N)))
+		(!R4 (?X_I HOME.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_K)))
+		(!R6 (?X_H DESTINATION.N))
+		(!R7 (?X_K AGENT.N))
+		(!R8 (?X_I DESTINATION.N))
+		(!R9 (?X_J SMALLER-THAN.N ?X_K))
+	)
+	(:STEPS
+		(?X_E (?X_K ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_H))
+		(?X_B (?X_K (BUY.V ?X_C)))
+		(?X_G (?X_K BRING.14.V ?X_J ?X_I))
+	)
+)
+
+; "Diane bought some food for dinner."
+; "She put the food on the table."
+; "She served the food."
+; "She ate the food."
+(EPI-SCHEMA ((?X_K (((ADV-A (FOR.P ?X_E)) BUY.V) ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E DINNER.N))
+		(!R2 (?X_J TABLE.N))
+		(!R3 (?X_J LOCATION.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_L FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_K (((ADV-A (FOR.P ?X_E)) BUY.V) ?X_L)))
+		(?X_G (?X_K PUT.15.V ?X_L ?X_J))
+		(?X_B (?X_K (SERVE.V ?X_L)))
+		(?X_I (?X_K EAT.16.V ?X_L))
+	)
+)
+
+; "Alice went shopping for groceries."
+; "She bought some food."
+; "She paid for the groceries."
+; "She put the groceries away."
+(EPI-SCHEMA ((?X_L (BUY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GROCERY.N)))
+		(!R2 (?X_F FOOD.N))
+		(!R3 (?X_K (PLUR GROCERY.N)))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_L AGENT.N))
+		(!R6 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_L ((ADV-A (FROM.P ?L1)) GO.17.V) ?L2))
+		(?X_E (?X_L (BUY.V ?X_F)))
+		(?X_B (?X_L ((ADV-A (FOR.P ?X_C)) PAY.V)))
+		(?X_J (?X_L PUT.18.V ?X_K ?L))
+	)
+)
+
+; "Mary bought some groceries."
+; "She put them on the table."
+; "She ate some food."
+(EPI-SCHEMA ((?X_J (BUY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GROCERY.N)))
+		(!R2 (?X_H TABLE.N))
+		(!R3 (?X_H LOCATION.N))
+		(!R4 (?X_I FOOD.N))
+		(!R5 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_J (BUY.V ?X_C)))
+		(?X_E (?X_J PUT.19.V ?X_C ?X_H))
+		(?X_G (?X_J EAT.16.V ?X_I))
+	)
+)
+
+; "Mary went to the store."
+; "She bought some food."
+; "She brought home the groceries."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_H)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FOOD.N))
+		(!R2 (?X_H STORE.N))
+		(!R3 (?X_J (PLUR GROCERY.N)))
+		(!R4 (?X_I HOME.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_K)))
+		(!R6 (?X_H DESTINATION.N))
+		(!R7 (?X_K AGENT.N))
+		(!R8 (?X_I DESTINATION.N))
+		(!R9 (?X_J SMALLER-THAN.N ?X_K))
+	)
+	(:STEPS
+		(?X_E (?X_K ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_H))
+		(?X_B (?X_K (BUY.V ?X_C)))
+		(?X_G (?X_K BRING.14.V ?X_J ?X_I))
+	)
+)
+
+; "Tommy went to the park."
+; "He played baseball."
+; "There were lots of kids there."
+; "He played first base."
+; "He caught some balls."
+(EPI-SCHEMA ((?X_Q ((ADV-A (IN.P ?X_P)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR BALL.N)))
+		(!R2 (?X_G (PLUR LOT.N)))
+		(!R3 (?X_P PARK.N))
+		(!R4 (?X_L BASEBALL.N))
+		(!R5 (?X_O FIRST.A))
+		(!R6 (?X_O BASE.N))
+		(!R7 (?X_P DESTINATION.N))
+		(!R8 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(?X_I (?X_Q ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_P))
+		(?X_K (?X_Q PLAY.20.V))
+		(?X_F (?X_A (BE.V ?X_G)))
+		(?X_N (?X_Q PLAY.21.V))
+		(?X_C (?X_Q (CATCH.V ?X_D)))
+	)
+)
+
+; "Mary went to the store."
+; "She bought some food."
+; "She carried the bags from the car."
+; "She put them on the table."
+; "She set the table for dinner."
+; "She ate dinner."
+(EPI-SCHEMA ((?X_S (COMPOSITE-SCHEMA.PR ?X_C ?X_P ?L2 ?X_Q ?X_R ?L ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C FOOD.N))
+		(!R2 (?X_P STORE.N))
+		(!R3 (?X_F CAR.N))
+		(!R4 (?X_Q (PLUR BAG.N)))
+		(!R5 (?X_R TABLE.N))
+		(!R6 (?X_M DINNER.N))
+		(!R7 (?X_P DESTINATION.N))
+		(!R8 (?X_Q SMALLER-THAN.N ?X_S))
+		(!R9 (?L2 DESTINATION.N))
+		(!R10 (?X_R LOCATION.N))
+		(!R11 (?L LOCATION.N))
+		(!R12 (?X_S AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_S ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_P))
+		(?X_B (?X_S (BUY.V ?X_C)))
+		(?X_H (?X_S CARRY.22.V ?X_Q ?L2))
+		(?X_J (?X_S PUT.23.V ?X_Q ?X_R))
+		(?X_L (?X_S SET.24.V ?X_R ?L))
+		(?X_O (?X_S EAT.16.V ?X_M))
+	)
+)
+
+; "Alice saw a bird on the ground."
+; "She picked it up and put it back into its nest."
+; "She found a baby bird that could not fly yet."
+; "Alice took care of this baby bird until it grew up."
+(EPI-SCHEMA ((?X_M (PICK_UP.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E CARE.N))
+		(!R2 (?X_F BABY.N))
+		(!R3 (?X_F BIRD.N))
+		(!R4 (?X_I BIRD.N))
+		(!R5 (?X_L NEST.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_I)))
+		(!R7 (?X_L LOCATION.N))
+		(!R8 (?X_M AGENT.N))
+		(!R9 (?X_N ENTITY.N))
+	)
+	(:STEPS
+		(?X_H (?X_M SEE.2.V ?X_I))
+		(?X_A (?X_M (PICK_UP.V ?X_I)))
+		(?X_B (?X_M PUT.3.V ?X_I ?X_L))
+		(?X_K (?X_M FIND.4.V ?X_N))
+		(?X_D
+   (?X_M (KA ((ADV-A (OF.P ?X_F)) TAKE.V)) ?X_E
+    (UNTIL.P (KE (?X_M GROW_UP.V)))))
+	)
+)
+
+; "Tommy likes birds."
+; "He has many bird toys."
+; "His favorite is a parrot."
+; "He wants a pet bird."
+(EPI-SCHEMA ((?X_K (LIKE.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C PET.A))
+		(!R2 (?X_C BIRD.N))
+		(!R3 (?X_J (PLUR BIRD.N)))
+		(!R4 (?X_F FAVORITE.N))
+		(!R5 (?X_F PARROT.N))
+		(!R6 (?X_F (PERTAIN-TO ?X_K)))
+		(!R7 (?X_I MANY.A))
+		(!R8 (?X_I BIRD.N))
+		(!R9 (?X_I (PLUR TOY.N)))
+		(!R10 (NOT (?X_J ACTION.N)))
+		(!R11 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_K LIKE.6.V ?X_J))
+		(?X_H (?X_K HAVE.7.V ?X_I))
+		(?X_B (?X_K (WANT.V ?X_C)))
+	)
+)
+
+; "Mary went outside."
+; "She saw a bird flying by."
+; "She liked watching the bird fly by."
+(EPI-SCHEMA ((?X_H ((ADV-A (TO.P ?L2)) FLY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G BY.P))
+		(!R2 (?X_F BIRD.N))
+		(!R3 (?L2 DESTINATION.N))
+		(!R4 (?X_G DESTINATION.N))
+		(!R5 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_H ((ADV-A (FROM.P ?L1)) GO.8.V) ?L2))
+		(?X_A (?X_F ((ADV-A (FROM.P ?L1)) FLY.1.V) ?X_G))
+		(?X_E (?X_H SEE.9.V ?X_F))
+	)
+)
+
+; "A bird flew over Tom's house."
+; "Tom watched the bird fly away."
+; "The bird was beautiful."
+(EPI-SCHEMA ((?X_A ((ADV-A (OVER.P ?X_E)) FLY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_A BIRD.N))
+		(!R3 (?X_A BEAUTIFUL.A))
+		(!R4 (?X_E HOUSE.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_B)))
+		(!R6 (?X_E DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_A ((ADV-A (FROM.P ?L1)) FLY.1.V) ?X_E))
+	)
+)
+
+; "Mary has a pet dog."
+; "His name is Spot."
+; "Spot likes to play outside."
+; "Spot barks when someone comes near him."
+(EPI-SCHEMA ((?X_I (LIKE.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J PET.A))
+		(!R2 (?X_J DOG.N))
+		(!R3 (?X_J SPOT.N))
+		(!R4 (?X_C AGENT.N))
+		(!R5 (?X_F NAME.N))
+		(!R6 (?X_F SPOT.A))
+		(!R7 (?X_F (PERTAIN-TO ?X_J)))
+		(!R8 (?X_I PERSON.N))
+		(!R9 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
+		(!R10 ((K (WHEN.P (?X_I ((ADV-A (NEAR.P ?X_J)) COME.V)))) DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_C (HAVE.V ?X_J)))
+		(?X_E (?X_J LIKE.10.V (KA (OUTSIDE.ADV PLAY.V))))
+		(?X_H
+   (?X_J ((ADV-A (FROM.P ?L1)) BARK.11.V)
+    (K (WHEN.P (?X_I ((ADV-A (NEAR.P ?X_J)) COME.V))))))
+	)
+)
+
+; "Mary liked watching birds."
+; "She watched them all the time."
+; "She knew what they were saying."
+; "She talked to them."
+; "She told them how much she liked them."
+(EPI-SCHEMA ((?X_H ((ADV-A (TO.P ?X_I)) TALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I (PLUR BIRD.N)))
+		(!R2 (?X_H AGENT.N))
+		(!R3 ((KA (WATCH.V ?X_I)) ACTION.N))
+	)
+	(:STEPS
+		(?X_G (?X_H LIKE.12.V (KA (WATCH.V ?X_I))))
+		(?X_E (?X_H (KNOW.V (ANS-TO (?X_I (SAY.V ?X_A))))))
+		(?X_C (?X_H ((ADV-A (TO.P ?X_I)) TALK.V)))
+	)
+)
+
+; "Tom loves to play baseball."
+; "He has a good team."
+; "His team is going to win today."
+; "Tom is going to hit a home run."
+(EPI-SCHEMA ((?X_J (PLAY.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D HOME.N))
+		(!R2 (?X_I BASEBALL.N))
+		(!R3 (?X_K GOOD.A))
+		(!R4 (?X_K TEAM.N))
+		(!R5 (?X_K (PERTAIN-TO ?X_J)))
+		(!R6 ((KA (PLAY.V ?X_I)) ACTION.N))
+		(!R7 (?X AGENT.N))
+		(!R8 (?X_J AGENT.N))
+		(!R9 (?X_K OBJECT.N))
+	)
+	(:STEPS
+		(?X_F (?X_J LOVE.13.V (KA (PLAY.V ?X_I))))
+		(?E_1 (?X PLAY.14.V))
+		(?X_H (?X_J HAVE.15.V ?X_K))
+		(?X_A (?X_D RUN.V))
+		(?X_C (?X_J ((ADV-A (FOR.P (KA (HIT.V ?X_D)))) GO.V)))
+	)
+)
+
+; "Tom threw a baseball."
+; "He missed the ball."
+; "He tried again."
+; "He hit the ball."
+; "He ran after the ball."
+; "He caught the ball."
+; "He threw the ball to Tom."
+(EPI-SCHEMA ((?X_P (THROW.V ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M BASEBALL.N))
+		(!R2 (?X_M BALL.N))
+		(!R3 (?X_P AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_L (?X_P (THROW.V ?X_M)))
+		(?X_J (?X_P (MISS.V ?X_M)))
+		(?X_H (?X_P (AGAIN.ADV TRY.V)))
+		(?X_F (?X_P (HIT.V ?X_M)))
+		(?X_O (?X_P ((ADV-A (FROM.P ?L1)) RUN.16.V) ?L2))
+		(?X_D (?X_P (CATCH.V ?X_M)))
+		(?X_B (?X_P (((ADV-A (TO.P ?X_P)) THROW.V) ?X_M)))
+	)
+)
+
+; "Karen dreamed that she was watching a bird."
+; "She tried to catch the bird."
+; "She couldn't catch it."
+(EPI-SCHEMA ((?X_E (TRY.V (KA (CATCH.V ?X_F)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_E AGENT.N))
+		(!R2 (?X_F BIRD.N))
+	)
+	(:STEPS
+		(?X_B (?X_E (DREAM.V (THAT (?X_E (WATCH.V ?X_F))))))
+		(?X_D (?X_E (TRY.V (KA (CATCH.V ?X_F)))))
+		(E281.SK (NOT (?X_E ((CAN.MD CATCH.V) ?X_F))))
+	)
+)
+
+; "Bob was playing golf."
+; "He hit a drive down the fairway."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+; "He hit another shot."
+(EPI-SCHEMA ((?X_Z (HIT.V (ANOTHER.D SHOT.N))) ** ?E)
+	(:ROLES
+		(!R1 (?X_Y GOLF.N))
+		(!R2 (?X_Z AGENT.N))
+	)
+	(:STEPS
+		(?X_X (?X_Z PLAY.17.V))
+		(?X_V (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_T (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_R (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_P (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_N (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_L (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_J (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_H (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_F (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_D (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+		(?X_B (?X_Z (HIT.V (ANOTHER.D SHOT.N))))
+	)
+)
+
+; "Tom played golf."
+; "He hit many shots."
+; "His drives were long."
+; "He made a hole-in-one."
+(EPI-SCHEMA ((?X_L (PLAY.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D HOLE-IN-ONE.N))
+		(!R2 (?X_H (PLUR DRIVE.N)))
+		(!R3 (?X_G MANY.A))
+		(!R4 (?X_G (PLUR SHOT.N)))
+		(!R5 (?X_H (PERTAIN-TO ?X_L)))
+		(!R6 (?X_K GOLF.N))
+		(!R7 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_L PLAY.19.V))
+		(?X_F (?X_L (HIT.V ?X_G)))
+		(?X_A (?X_H (LONG.ADV BE.V)))
+		(?X_C (?X_L (MAKE.V ?X_D)))
+	)
+)
+
+; "Jack played golf."
+; "He drove the ball far."
+; "He missed the hole."
+(EPI-SCHEMA ((?X_J ((ADV-A (WITH.P ?X_I)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HOLE.N))
+		(!R2 (?X_F GOLF.N))
+		(!R3 (?X_I BALL.N))
+		(!R4 (?X_I SMALLER-THAN.N ?X_J))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_J PLAY.20.V))
+		(?X_H (?X_J DRIVE.21.V ?X_I ?L2))
+		(?X_B (?X_J (MISS.V ?X_C)))
+	)
+)
+
+; "Jim played golf."
+; "He liked to play golf."
+; "He played golf often."
+; "His friends were always there."
+(EPI-SCHEMA ((?X_L (PLAY.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J (PLUR FRIEND.N)))
+		(!R2 (?X_D GOLF.N))
+		(!R3 (?X_K GOLF.N))
+		(!R4 (?X_I GOLF.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_L)))
+		(!R6 ((KA (PLAY.V ?X_K)) ACTION.N))
+		(!R7 (?X AGENT.N))
+		(!R8 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_L PLAY.22.V))
+		(?X_F (?X_L LIKE.23.V (KA (PLAY.V ?X_K))))
+		(?E_1 (?X PLAY.14.V))
+		(?X_H (?X_L PLAY.24.V))
+		(?X_A (?X_J (THERE.ADV (ALWAYS.ADV BE.V))))
+	)
+)
+
+; "Bill played golf."
+; "His score was good."
+; "He could play better."
+(EPI-SCHEMA ((?X_B (BETTER.ADV PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_A (PERTAIN-TO ?X_B)))
+		(!R3 (?X_E GOLF.N))
+		(!R4 (?X_F BILL.N))
+		(!R5 (?X_F AGENT.N))
+	)
+	(:STEPS
+		(E436.SK (?X_B (CAN.MD (BETTER.ADV PLAY.V))))
+		(?X_D (?X_F PLAY.25.V))
+	)
+)
+
+; "A boy named Tom went fishing."
+; "He caught many fish."
+; "Tom's dad helped him clean them."
+; "Tom told his dad he would do it later."
+(EPI-SCHEMA ((?X_G (CATCH.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H DAD.N))
+		(!R2 (?X_G MANY.A))
+		(!R3 (?X_G FISH.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_H (PERTAIN-TO ?X_J)))
+		(!R6 (?X_I BOY.N))
+		(!R7 (?X_I ((PASV NAME.V) ?X_J)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
+		(?X_F (?X_J (CATCH.V ?X_G)))
+		(?X_D (?X_H (HELP.V (KE (?X_J (CLEAN.V ?X_G))))))
+		(?X_B (?X_J (TELL.V ?X_H (THT (?X_J (WILL.MD (DO.V ?X_J)))))))
+	)
+)
+
+; "Tom went fishing."
+; "He caught many fish."
+; "His dad helped him clean them."
+; "Tom told his dad that he would do it later."
+(EPI-SCHEMA ((?X_J (CATCH.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F MANY.A))
+		(!R2 (?X_F FISH.N))
+		(!R3 (?X_I DAD.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_J)))
+	)
+	(:STEPS
+		(?X_E (?X_J ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_H (?X_J (CATCH.V ?X_F)))
+		(?X_B (?X_I (HELP.V (KE (?X_J (CLEAN.V ?X_A))))))
+		(?X_C (?X_J (TELL.V ?X_I (THAT (?X_J (WILL.MD (DO.V ?X_J)))))))
+	)
+)
+
+; "Joel loves fishing."
+; "His family goes fishing often."
+; "When they go fishing, Joel catches lots of fish."
+; "He is happy when he catches a lot of fish."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_G ?X_F ?X_D ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (WHEN.P (KE (?X_K (CATCH.V ?X_E))))))
+		(!R2 (?X_F HAPPY.A))
+		(!R3 (?X_G FISHING.N))
+		(!R4 (?X_H FAMILY.N))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_K)))
+		(!R7 (?X_L FISHING.N))
+		(!R8 (?X_L OBJECT.N))
+		(!R9 (?X_K AGENT.N))
+		(!R10 (NOT (?X_L ACTION.N)))
+		(!R11 (NOT (?X_L AGENT.N)))
+	)
+	(:STEPS
+		(?X_J (?X_K LOVE.2.V ?X_L))
+		(?X_A (?X_H ((OFTEN.ADV GO.V) ?X_G)))
+		(?X_C (?X_K (BE.V ?X_F ?X_D)))
+	)
+)
+
+; "Tom was on a boat."
+; "He caught many fish."
+; "His dad helped him clean them."
+; "Tom told his dad that he would do it later."
+(EPI-SCHEMA ((?X_J (CATCH.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BOAT.N))
+		(!R2 (?X_H MANY.A))
+		(!R3 (?X_H FISH.N))
+		(!R4 (?X_I DAD.N))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_J)))
+	)
+	(:STEPS
+		(?X_E (?X_J ((ADV-A (ON.P ?X_C)) BE.V)))
+		(?X_G (?X_J (CATCH.V ?X_H)))
+		(?X_A (?X_I (HELP.V (KE (?X_J (CLEAN.V ?X_H))))))
+		(?X_B (?X_J (TELL.V ?X_I (THAT (?X_J (WILL.MD (DO.V ?X_J)))))))
+	)
+)
+
+; "Tom was going fishing."
+; "His father gave him some worms."
+; "Tom put the worms into his bucket."
+; "He threw the bucket into the lake."
+; "He watched for fish."
+(EPI-SCHEMA ((?X_M (((ADV-A (INTO.P ?X_N)) THROW.V) ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E FISH.N))
+		(!R2 (?X_N BUCKET.N))
+		(!R3 (?X_H LAKE.N))
+		(!R4 (?X_I (PLUR WORM.N)))
+		(!R5 (?X_N (PERTAIN-TO ?X_M)))
+		(!R6 (?X_J FATHER.N))
+		(!R7 (?X_J (PERTAIN-TO ?X_M)))
+		(!R8 (?L2 DESTINATION.N))
+		(!R9 (?X_M AGENT.N))
+		(!R10 (?X_N LOCATION.N))
+	)
+	(:STEPS
+		(?X_L (?X_M ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
+		(?X_A (?X_J (GIVE.V ?X_M ?X_I)))
+		(?X_B (?X_M PUT.3.V ?X_I ?X_N))
+		(?X_G (?X_M (((ADV-A (INTO.P ?X_H)) THROW.V) ?X_N)))
+		(?X_D (?X_M ((ADV-A (FOR.P ?X_E)) WATCH.V)))
+	)
+)
+
+; "Tom went fishing."
+; "His friends came along."
+; "Tom caught lots of fish."
+; "He cleaned them in his room."
+; "His mother asked if he could help her."
+(EPI-SCHEMA ((?X_N (CLEAN.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J MOTHER.N))
+		(!R2 (?X_L (PLUR LOT.N)))
+		(!R3 (?X_I (PLUR FRIEND.N)))
+		(!R4 (?X_I (PERTAIN-TO ?X_N)))
+		(!R5 (?X_J (PERTAIN-TO ?X_N)))
+		(!R6 (?X_K ROOM.N))
+		(!R7 (?X_K (PERTAIN-TO ?X_N)))
+		(!R8 (?X_M FISH.N))
+		(!R9 (?X_L (OF.P ?X_M)))
+		(!R10 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_N ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_B (?X_I (ALONG.ADV COME.V)))
+		(?X_F (?X_N (CATCH.V ?X_L)))
+		(?X_C (?X_N CLEAN.4.V ?X_M))
+		(?X_D (?X_J (ASK.V (K (IF.P (?X_N (CAN.MD (HELP.V ?X_A))))))))
+	)
+)
+
+; "Tom went fishing."
+; "He caught lots of fish."
+; "His dad helped him clean them."
+; "Tom said that he would do it later."
+(EPI-SCHEMA ((?X_I
+              (COMPOSITE-SCHEMA.PR ?X_F (KE (?X_I (CLEAN.V ?X_G)))
+               (THAT (?X_I (WILL.MD (DO.V ?X_I))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR LOT.N)))
+		(!R2 (?X_H DAD.N))
+		(!R3 (?X_G FISH.N))
+		(!R4 (?X_F (OF.P ?X_G)))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_I)))
+	)
+	(:STEPS
+		(?X_C (?X_I ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_E (?X_I (CATCH.V ?X_F)))
+		(?X_A (?X_H (HELP.V (KE (?X_I (CLEAN.V ?X_G))))))
+		(?X_K (?X_I (SAY.V (THAT (?X_I (WILL.MD (DO.V ?X_I)))))))
+	)
+)
+
+; "Tom was fishing for trout."
+; "His father gave him a pole."
+; "Tom put bait on the hook."
+; "He cast the line into the lake."
+; "Tom waited patiently."
+; "He watched as the fish swam by."
+(EPI-SCHEMA ((?X_T (COMPOSITE-SCHEMA.PR ?X_T ?X_K ?X_I ?X_D ?X_R ?X_S)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D ((ADV-A (AS.P ?X_N)) BY.P)))
+		(!R2 (?X_I LINE.N))
+		(!R3 (?X_J LAKE.N))
+		(!R4 (?X_K POLE.N))
+		(!R5 (?X_O FATHER.N))
+		(!R6 (?X_N (PLUR TROUT.N)))
+		(!R7 (?X_N SWAM.N))
+		(!R8 (?X_O (PERTAIN-TO ?X_T)))
+		(!R9 (?X_R BAIT.N))
+		(!R10 (?X_S HOOK.N))
+		(!R11 (?X_S LOCATION.N))
+		(!R12 (?X_T AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_T ((ADV-A (FOR.P ?X_N)) FISH.V)))
+		(?X_A (?X_O (GIVE.V ?X_T ?X_K)))
+		(?X_Q (?X_T PUT.5.V ?X_R ?X_S))
+		(?X_H (?X_T (((ADV-A (INTO.P ?X_J)) CAST.V) ?X_I)))
+		(?X_F (?X_T (PATIENTLY.ADV WAIT.V)))
+		(?X_C (?X_T (WATCH.V ?X_D)))
+	)
+)
+
+; "Tom is catching fish."
+; "His dad helps him clean them."
+; "Tom likes to catch fish."
+; "He can eat them now."
+(EPI-SCHEMA ((?X_J (CATCH.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E DAD.N))
+		(!R2 (?X_D FISH.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_J)))
+		(!R4 (?X_K FISH.N))
+		(!R5 ((KA (CATCH.V ?X_K)) ACTION.N))
+		(!R6 (?X_J AGENT.N))
+		(!R7 (?X_K FOOD.N))
+	)
+	(:STEPS
+		(?X_C (?X_J (CATCH.V ?X_D)))
+		(?X_A (?X_E (HELP.V (KE (?X_J (CLEAN.V ?X_D))))))
+		(?X_G (?X_J LIKE.6.V (KA (CATCH.V ?X_K))))
+		(?X_I (?X_J EAT.7.V ?X_K))
+	)
+)
+
+; "Tom is going fishing."
+; "He has a pole and a net."
+; "He catches lots of fish."
+; "He keeps some for dinner."
+; "He takes the rest back to his house."
+(EPI-SCHEMA ((?X_O (SOMEWHERE.ADV GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LOT.N)))
+		(!R2 (?X_D (OF.P ?X_E)))
+		(!R3 (?X_K POLE.N))
+		(!R4 (?X_L NET.A))
+		(!R5 (?X_N REST.N))
+		(!R6 (?X_M HOUSE.N))
+		(!R7 (?X_M (PERTAIN-TO ?X_O)))
+		(!R8 (?X_J AGENT.N))
+		(!R9 (?L2 DESTINATION.N))
+		(!R10 ((SET-OF ?X_K ?X_L) OBJECT.N))
+		(!R11 (?X_M DESTINATION.N))
+		(!R12 (?X_O AGENT.N))
+		(!R13 (?X_N SMALLER-THAN.N ?X_O))
+	)
+	(:STEPS
+		(?X_G (?X_J ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
+		(?X_I (?X_O HAVE.8.V (SET-OF ?X_K ?X_L)))
+		(?X_C (?X_O (CATCH.V ?X_D)))
+		(?X_A (?X_O TAKE.9.V ?X_N ?X_M))
+	)
+)
+
+; "Bob went fishing."
+; "He caught some fish."
+; "His friends were there too."
+; "They ate the fish."
+; "They all enjoyed themselves."
+(EPI-SCHEMA ((?X_D (CATCH.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D AGENT.N))
+		(!R2 (?X_I (PLUR FRIEND.N)))
+		(!R3 (?X_M FISH.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_J)))
+		(!R6 (?X_M FOOD.N))
+	)
+	(:STEPS
+		(?X_H (?X_J ((ADV-A (FOR.P (KA FISH.V))) GO.V)))
+		(?X_F (?X_J (CATCH.V ?X_M)))
+		(?X_A (?X_I (TOO.ADV (THERE.ADV BE.V))))
+		(?X_L (?X_I EAT.7.V ?X_M))
+		(?X_C ((ALL.D ({OF}.P ?X_D)) (ENJOY.V ?X_I)))
+	)
+)
+
+; "Linda loves to play golf."
+; "Her favorite sport is tennis."
+; "She plays both sports every weekend."
+(EPI-SCHEMA ((?X_J (PLAY.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B TENNIS.N))
+		(!R2 (?X_I GOLF.N))
+		(!R3 (?X_E FAVORITE.A))
+		(!R4 (?X_H ?X_E SPORT.N))
+		(!R5 (?X_H (PERTAIN-TO ?X_J)))
+		(!R6 ((KA (PLAY.V ?X_I)) ACTION.N))
+		(!R7 (?X AGENT.N))
+		(!R8 (?X_J AGENT.N))
+		(!R9 ((BOTH.D (PLUR SPORT.N)) GAME.N))
+		(!R10 (NOT ((BOTH.D (PLUR SPORT.N)) AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_J LOVE.10.V (KA (PLAY.V ?X_I))))
+		(?X_A (?X_H (= ?X_B)))
+		(?E_1 (?X PLAY.11.V))
+		(?X_G (?X_J PLAY.12.V))
+	)
+)
+
+; "Linda played softball."
+; "She liked to play tennis."
+; "She played both sports on Saturday."
+(EPI-SCHEMA ((?X (PLAY.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C SOFTBALL.N))
+		(!R2 (?X_H TENNIS.N))
+		(!R3 ((KA (PLAY.V ?X_H)) ACTION.N))
+		(!R4 (?X AGENT.N))
+		(!R5 (?X_I AGENT.N))
+		(!R6 ((BOTH.D (PLUR SPORT.N)) GAME.N))
+		(!R7 (NOT ((BOTH.D (PLUR SPORT.N)) AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_I PLAY.13.V))
+		(?X_E (?X_I LIKE.14.V (KA (PLAY.V ?X_H))))
+		(?E_1 (?X PLAY.11.V))
+		(?X_G (?X_I PLAY.15.V))
+	)
+)
+
+; "Tom played basketball."
+; "His team lost."
+; "He missed a shot."
+; "He threw the ball away."
+(EPI-SCHEMA ((?X_M ((ADV-A (FOR.P (KA (THEN.ADV PLAY.V)))) LOSE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BALL.N))
+		(!R2 (?X_F SHOT.N))
+		(!R3 (?X_I TEAM.N))
+		(!R4 (?X_I (PERTAIN-TO ?X_M)))
+		(!R5 (?X_L BASKETBALL.N))
+		(!R6 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_I LOSE.V))
+		(?X_K (?X_M PLAY.16.V))
+		(?X_E (?X_M (MISS.V ?X_F)))
+		(?X_B (?X_M ((AWAY.ADV THROW.V) ?X_C)))
+	)
+)
+
+; "Alice played basketball."
+; "She liked to shoot baskets."
+; "She shot some baskets."
+; "She missed the basket."
+; "She lost."
+(EPI-SCHEMA ((?X_N ((ADV-A (WITH.P ?X_E)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E BASKET.N))
+		(!R2 (?X_H (PLUR BASKET.N)))
+		(!R3 (?X_K BASKETBALL.N))
+		(!R4 (?X_O (PLUR BASKET.N)))
+		(!R5 (?X_N AGENT.N))
+		(!R6 ((KA (SHOOT.V ?X_O)) ACTION.N))
+	)
+	(:STEPS
+		(?X_J (?X_N PLAY.17.V))
+		(?X_M (?X_N LIKE.18.V (KA (SHOOT.V ?X_O))))
+		(?X_G (?X_N (SHOOT.V ?X_H)))
+		(?X_D (?X_N (MISS.V ?X_E)))
+		(?X_B (?X_N LOSE.V))
+	)
+)
+
+; "Molly likes to play basketball."
+; "She has played for many years."
+; "She practices every week."
+; "She plays on a team."
+(EPI-SCHEMA ((?X ((ADV-A (FOR.P ?X_C)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C MANY.A))
+		(!R2 (?X_C (PLUR YEAR.N)))
+		(!R3 ((ADV-E ({DURING}.P (EVERY.D WEEK.N))) (?X_I (PLUR PRACTICE.N))))
+		(!R4 (?X_H BASKETBALL.N))
+		(!R5 ((KA (PLAY.V ?X_H)) ACTION.N))
+		(!R6 (?X AGENT.N))
+		(!R7 (?X_I AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_I LIKE.19.V (KA (PLAY.V ?X_H))))
+		(?X_B (?X_I ((ADV-A (FOR.P ?X_C)) (HAS.AUX PLAY.V))))
+		(?E_1 (?X PLAY.11.V))
+		(?X_G (?X_I PLAY.20.V))
+	)
+)
+
+; "Alice played basketball."
+; "She was good at it."
+; "She played for her school team."
+; "She played on weekends."
+(EPI-SCHEMA ((?X_L PLAY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_F (PLUR WEEKEND.N)))
+		(!R2 (?X_L GOOD.A))
+		(!R3 (?X_I BASKETBALL.N))
+		(!R4 (?X_J (PERTAIN-TO ?X_L)))
+		(!R5 (?X_K SCHOOL.N))
+		(!R6 (?X_J ?X_K TEAM.N))
+		(!R7 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_H (?X_L PLAY.21.V))
+		(?X_B (?X_L (AT.P ?X_A)))
+		(?X_C (?X_L PLAY.22.V))
+		(?X_E (?X_L ((ADV-A (ON.P ?X_F)) PLAY.V)))
+	)
+)
+
+; "'I play softball,' said Linda."
+; "'My team lost yesterday.'"
+; "'We played well today,' she added."
+; "'I'm sorry we lost again,' said Linda."
+(EPI-SCHEMA (((ADV-E (L X (AND (X DURING) (X (DURING.P ?X_A)))))
+              (?X_B (LOSE.V ?X_B)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_A YESTERDAY.N))
+		(!R2 (?X_B TEAM.N))
+		(!R3 (?X_B AGENT.N))
+		(!R4 (?X_B (PERTAIN-TO ?X_C)))
+	)
+	(:STEPS
+		(?X_E ((ADV-E ({DURING}.P ?X_A)) (?X_B LOSE.V)))
+	)
+)
+
+; "A boy named Tom lived with his mother."
+; "Tom liked to play baseball."
+; "He played for the team."
+; "He hit many home runs."
+(EPI-SCHEMA ((?X_F (PLAY.V ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D MANY.A))
+		(!R2 (?X_D HOME.N))
+		(!R3 (?X_D (PLUR RUN.N)))
+		(!R4 (?X_E MOTHER.N))
+		(!R5 (?X_F AGENT.N))
+		(!R6 (?X_E (PERTAIN-TO ?X_F)))
+		(!R7 (?X_G BOY.N))
+		(!R8 (?X_L BASEBALL.N))
+		(!R9 (?L LOCATION.N))
+		(!R10 ((KA (PLAY.V ?X_L)) ACTION.N))
+		(!R11 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_G (NAME.V (THT (?X_F ((ADV-A (WITH.P ?X_E)) LIVE.V))))))
+		(?E_1 (?X_G RESIDE.1.V ?L))
+		(?X_I (?X_G LIKE.2.V (KA (PLAY.V ?X_L))))
+		(?E_2 (?X PLAY.3.V))
+		(?X_K (?X_G PLAY.4.V))
+		(?X_C (?X_G (HIT.V ?X_D)))
+	)
+)
+
+; "Tom's Mom said that she would take him to the game."
+; "His Mom drove them to the park."
+; "Tom was excited about going to the game."
+; "He ran around on the field."
+; "Tom hit a home run."
+(EPI-SCHEMA ((?X_M ((ADV-A (AROUND.P ?X_L)) RUN.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F HOME.N))
+		(!R2 (?X_I GAME.N))
+		(!R3 (?X_O EXCITED.A))
+		(!R4 (?X_N MOM.N))
+		(!R5 (?X_N (PERTAIN-TO ?X_O)))
+		(!R6 (?X_L PARK.N))
+		(!R7 (?X_N AGENT.N))
+		(!R8 (?X_L DESTINATION.N))
+		(!R9 (?X_M ENTITY.N))
+		(!R10 (?X_M SMALLER-THAN.N ?X_N))
+		(!R11 (?X_O AGENT.N))
+		(!R12 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_H
+   (?X_N (SAY.V (THAT (?X_O (WILL.MD (((ADV-A (TO.P ?X_I)) TAKE.V) ?X_O)))))))
+		(?X_A (?X_N DRIVE.5.V ?X_M ?X_L))
+		(?X_B (?X_O (ABOUT.P (KA ((ADV-A (TO.P ?X_I)) GO.V)))))
+		(?X_K (?X_O ((ADV-A (FROM.P ?L1)) RUN_AROUND.6.V) ?L2))
+		(?X_C (?X_F RUN.V))
+		(?X_E (?X_O (HIT.V ?X_F)))
+	)
+)
+
+; "Tom's mom is a teacher."
+; "His dad works on cars."
+; "Tom likes playing sports."
+(EPI-SCHEMA ((?X_G (LIKE.V (KA (PLAY.V ?X_H)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B (PLUR CAR.N)))
+		(!R2 (?X_F DAD.N))
+		(!R3 (?X_E TEACHER.N))
+		(!R4 (?X_E MOM.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_G)))
+		(!R6 (?X_F (PERTAIN-TO ?X_G)))
+		(!R7 (?X_H (PLUR SPORT.N)))
+		(!R8 (?X_G AGENT.N))
+		(!R9 ((KA (PLAY.V ?X_H)) ACTION.N))
+		(!R10 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_F ((ADV-A (ON.P ?X_B)) WORK.V)))
+		(?X_D (?X_G LIKE.7.V (KA (PLAY.V ?X_H))))
+		(?E_1 (?X PLAY.3.V))
+	)
+)
+
+; "Tom's father said that Tom should go to school."
+; "His father told him to study hard."
+; "Tom's mom said that she would help Tom if he worked hard."
+; "Tom's teacher said that Tom needed to do better on his tests."
+; "Tom's dad said that he would help Tom if he studied harder."
+(EPI-SCHEMA ((?X_F
+              (TELL.V ?X_J
+               (THAT
+                (?X_J (NEED.V (KA (BETTER.ADV ((ADV-A (IN.P ?X_G)) DO.V))))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_G (PLUR TEST.N)))
+		(!R2 (?X_F TEACHER.N))
+		(!R3 (?X_E SCHOOL.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_J)))
+		(!R5 (?X_G (PERTAIN-TO ?X_J)))
+		(!R6 (?X_I DAD.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_J)))
+		(!R8 (?X_H MOM.N))
+		(!R9 (?X_H (PERTAIN-TO ?X_J)))
+		(!R10 (?X_J AGENT.N))
+		(!R11 ((KA (HARD.ADV STUDY.V)) ACTION.N))
+		(!R12 (NOT (?X_I = ?X_J)))
+	)
+	(:STEPS
+		(?X_D (?X_I (SAY.V (THAT (?X_J (SHOULD.MD ((ADV-A (TO.P ?X_E)) GO.V)))))))
+		(?X_A (?X_I TELL.8.V ?X_J (KA (HARD.ADV STUDY.V))))
+		(?X_B
+   (?X_F
+    (SAY.V
+     (THAT (?X_J (NEED.V (KA (BETTER.ADV ((ADV-A (ON.P ?X_G)) DO.V)))))))))
+	)
+)
+
+; "The teacher told the class that the students would have to write a story."
+; "She said they could use any sentence as long as it was true."
+; "She gave them a few minutes to think about what kind of story they might write."
+; "Then she asked each student to pick one sentence from the list and tell the whole story using only that sentence."
+(EPI-SCHEMA ((?X_C (USE.V (ANY.D SENTENCE.N))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B (PLUR STUDENT.N)))
+		(!R2 (?X_B CLASS.N))
+		(!R3 (?X_C STORY.N))
+		(!R4 (?X_F TEACHER.N))
+		(!R5 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_E
+   (?X_F (TELL.V ?X_B (THAT (?X_B (WILL.MD (MUST.AUX-S (WRITE.V ?X_C))))))))
+		(?X_I
+   (?X_F
+    (SAY.V
+     (THT
+      (?X_G
+       (CAN.MD
+        (USE.V (ANY.D SENTENCE.N)
+         ((ADV (AS.ADV LONG.A)) (AS.P (?X_A TRUE.A))))))))))
+	)
+)
+
+; "Tom's mom gave him some money."
+; "He spent all of it on candy bars."
+; "He ate them while watching TV."
+(EPI-SCHEMA ((?X_F (((ADV-A (TO.P ?X_F)) GIVE.V) ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F AGENT.N))
+		(!R2 (?X_G MALE.A))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_J CANDY.N))
+		(!R5 (?X_J (PLUR BAR.N)))
+		(!R6 (?X_N MOM.N))
+		(!R7 (?X_N (PERTAIN-TO ?X_M)))
+		(!R8 (?X_O MONEY.N))
+		(!R9 (?X_M AGENT.N))
+		(!R10 (?X_N AGENT.N))
+		(!R11 (NOT (?X_O AGENT.N)))
+	)
+	(:STEPS
+		(?X_L (?X_N (GIVE.9.V ?X_M ?X_O)))
+		(?X_I
+   (?X_M
+    (((ADV-A (ON.P ?X_J)) SPEND.V)
+     (ALL.D (L X (AND (X (PLUR {REF}.N)) (X (OF.P ?X_B))))))))
+		(?X_E (?X_G (((ADV-A (WHILE.P (KA (WATCH.V ?X_F)))) EAT.V) ?X_C)))
+	)
+)
+
+; "Tom's mother told him a story."
+; "Tom listened carefully."
+; "His mom told a lot of stories."
+(EPI-SCHEMA ((?X_H (CAREFULLY.ADV ((ADV-A (TO.P ?X_G)) LISTEN.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B STORY.N))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_G MOTHER.N))
+		(!R4 (?X_G MOM.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+		(!R6 (?X_I LOT.N))
+		(!R7 (?X_I (OF.P ?X_J)))
+	)
+	(:STEPS
+		(?X_D (?X_G (TELL.V ?X_H ?X_B)))
+		(?X_F (?X_H (CAREFULLY.ADV LISTEN.V)))
+		(?X_A (?X_G (TELL.V ?X_I)))
+	)
+)
+
+; "Tom's parents were divorced."
+; "His dad moved away."
+; "Tom missed his dad."
+; "Tom went to visit him."
+(EPI-SCHEMA ((?X_G (MISS.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DAD.N))
+		(!R2 (?X_C (PERTAIN-TO ?X_G)))
+		(!R3 (?X_D (PLUR PARENT.N)))
+		(!R4 (?X_D (PERTAIN-TO ?X_G)))
+		(!R5 (?X_G AGENT.N))
+		(!R6 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_A (?X_C (AWAY.ADV MOVE.V)))
+		(?X_B (?X_G (MISS.V ?X_C)))
+		(?X_F (?X_G ((ADV-A (FROM.P ?L1)) GO.11.V) ?L2))
+	)
+)
+
+; "Tom's mom gave him some money."
+; "Tom spent it on candy bars."
+; "He ate them all."
+; "He felt sick."
+(EPI-SCHEMA ((?X_L (((ADV-A (ON.P ?X_G)) SPEND.V) ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D SICK.A))
+		(!R2 (?X_G CANDY.N))
+		(!R3 (?X_G (PLUR BAR.N)))
+		(!R4 (?X_N MONEY.N))
+		(!R5 (?X_M MOM.N))
+		(!R6 (?X_M (PERTAIN-TO ?X_L)))
+		(!R7 (?X_L AGENT.N))
+		(!R8 (?X_M AGENT.N))
+		(!R9 (NOT (?X_N AGENT.N)))
+	)
+	(:STEPS
+		(?X_I (?X_M (GIVE.12.V ?X_L ?X_N)))
+		(?X_F (?X_L (((ADV-A (ON.P ?X_G)) SPEND.V) ?X_A)))
+		(?X_K (?X_L EAT.13.V (ALL.D ({OF}.P ?X_G))))
+		(?X_C (?X_L (FEEL.V ?X_D)))
+	)
+)
+
+; "Tom loves food."
+; "He likes pizza."
+; "He eats pizza for lunch."
+; "He has a sandwich for dinner."
+(EPI-SCHEMA ((?X_O (EAT.V ?X_N)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C SANDWICH.N))
+		(!R2 (?X_C (FOR.P ?X_D)))
+		(!R3 (?X_M FOOD.N))
+		(!R4 (?X_N PIZZA.N))
+		(!R5 (?X_J LUNCH.N))
+		(!R6 (?X_I PIZZA.N))
+		(!R7 (?X_I (FOR.P ?X_J)))
+		(!R8 (?X_M OBJECT.N))
+		(!R9 (NOT (?X_M ACTION.N)))
+		(!R10 (NOT (?X_M AGENT.N)))
+		(!R11 (?X_N OBJECT.N))
+		(!R12 (NOT (?X_N ACTION.N)))
+		(!R13 (NOT (?X_N AGENT.N)))
+		(!R14 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_O LOVE.19.V ?X_M))
+		(?X_H (?X_O LIKE.20.V ?X_N))
+		(?X_L (?X_O EAT.21.V ?X_I))
+		(?X_B (?X_O (HAVE.V ?X_C)))
+	)
+)
+
+; "Mary ate a sandwich for lunch."
+; "She liked it."
+; "She ate it again."
+; "She ate it some more."
+(EPI-SCHEMA ((?X_K ((AGAIN.ADV EAT.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J SANDWICH.N))
+		(!R2 (?X_G LUNCH.N))
+		(!R3 (?X_J (FOR.P ?X_G)))
+		(!R4 (?X_J OBJECT.N))
+		(!R5 (NOT (?X_J ACTION.N)))
+		(!R6 (NOT (?X_J AGENT.N)))
+		(!R7 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_K EAT.21.V ?X_J))
+		(?X_F (?X_K LIKE.22.V ?X_J))
+		(?X_B (?X_K ((AGAIN.ADV EAT.V) ?X_J)))
+		(?X_I (?X_K EAT.21.V ?X_J))
+	)
+)
+
+; "Tom likes to eat peanut butter sandwiches."
+; "He eats them for lunch."
+; "He has lots of peanut butter sandwiches."
+(EPI-SCHEMA ((?X_J (EAT.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H PEANUT.N))
+		(!R2 (?X_H BUTTER.N))
+		(!R3 (?X_I (PLUR SANDWICH.N)))
+		(!R4 (?X_E (PLUR SANDWICH.N)))
+		(!R5 (?X_E PEANUT.N))
+		(!R6 (?X_E BUTTER.N))
+		(!R7 (?X_K (PLUR LOT.N)))
+		(!R8 (?X_K (OF.P ?X_E)))
+		(!R9 ((KA (EAT.V ?X_H ?X_I)) ACTION.N))
+		(!R10 (?X_J AGENT.N))
+		(!R11 (?X_K FOOD.N))
+	)
+	(:STEPS
+		(?X_B (?X_J LIKE.23.V (KA (EAT.V ?X_H ?X_I))))
+		(?E_1 (?X_J EAT.14.V ?X_H))
+		(?X_D (?X_J EAT.21.V ?X_I))
+		(?X_G (?X_J HAVE.24.V ?X_K))
+	)
+)
+
+; "Tom likes sandwiches."
+; "He eats them for lunch."
+; "He has many kinds of sandwiches."
+; "He makes sandwiches for himself."
+; "He likes to eat sandwiches."
+(EPI-SCHEMA ((?X_Q (LIKE.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR SANDWICH.N)))
+		(!R2 (?X_F (OF.P ?X_E)))
+		(!R3 (?X_F ?X_G (PLUR KIND.N)))
+		(!R4 (?X_H (FOR.P ?X_Q)))
+		(!R5 (?X_O (PLUR SANDWICH.N)))
+		(!R6 (?X_P (PLUR SANDWICH.N)))
+		(!R7 (?X_O OBJECT.N))
+		(!R8 (NOT (?X_O ACTION.N)))
+		(!R9 (NOT (?X_O AGENT.N)))
+		(!R10 ((KA (EAT.V ?X_P)) ACTION.N))
+		(!R11 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(?X_J (?X_Q LIKE.25.V ?X_O))
+		(?X_L (?X_Q EAT.21.V ?X_O))
+		(?X_D (?X_Q (HAVE.V ?X_F)))
+		(?X_B (?X_Q (MAKE.V ?X_H)))
+		(?X_N (?X_Q LIKE.26.V (KA (EAT.V ?X_P))))
+		(?E_1 (?X_Q EAT.14.V ?X_P))
+	)
+)
+
+; "Mary ate lunch."
+; "She had two sandwiches."
+; "One sandwich was filled with peanut butter."
+; "Another sandwich was filled with jelly."
+; "A third sandwich was filled with cheese."
+; "A fourth sandwich was filled with tuna fish."
+; "Mary liked eating sandwiches."
+(EPI-SCHEMA ((?X_R (EAT.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FISH.N))
+		(!R2 (?X_D TUNA.N))
+		(!R3 (?X_E SANDWICH.N))
+		(!R4 (?X_E FOURTH.A))
+		(!R5 (?X_F CHEESE.N))
+		(!R6 (?X_G SANDWICH.N))
+		(!R7 (?X_G THIRD.A))
+		(!R8 (?X_H BUTTER.N))
+		(!R9 (?X_H PEANUT.N))
+		(!R10 (?X_I SANDWICH.N))
+		(!R11 (?X_J LUNCH.N))
+		(!R12 (?X_Q (PLUR SANDWICH.N)))
+		(!R13 ((TWO.D (PLUR SANDWICH.N)) FOOD.N))
+		(!R14 ((KA (EAT.V ?X_Q)) ACTION.N))
+		(!R15 (?X_R AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_R EAT.21.V ?X_J))
+		(?X_N (?X_R HAVE.27.V (TWO.D (PLUR SANDWICH.N))))
+		(?X_A (?X_I (WITH.P ?X_H)))
+		(?X_B (?X_G (WITH.P ?X_F)))
+		(?X_C (?X_E (WITH.P ?X_D)))
+		(?X_P (?X_R LIKE.28.V (KA (EAT.V ?X_Q))))
+		(?E_1 (?X_R EAT.14.V ?X_Q))
+	)
+)
+
+; "Alice ate some ice cream."
+; "She liked the flavor."
+; "She ate some more ice cream."
+; "She tasted the ice cream."
+; "She liked it."
+(EPI-SCHEMA ((?X_M (EAT.V ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_N ICE.N))
+		(!R2 (?X_N CREAM.N))
+		(!R3 (?X_K FLAVOR.N))
+		(!R4 (?X_L MORE.A))
+		(!R5 (?X_L ICE.N))
+		(!R6 (?X_L CREAM.N))
+		(!R7 (?X_N FOOD.N))
+		(!R8 (?X_K OBJECT.N))
+		(!R9 (NOT (?X_K ACTION.N)))
+		(!R10 (?X_L FOOD.N))
+		(!R11 (?X_M AGENT.N))
+		(!R12 (NOT (?X_N ACTION.N)))
+		(!R13 (NOT (?X_N AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_M EAT.21.V ?X_N))
+		(?X_F (?X_M LIKE.29.V ?X_K))
+		(?X_H (?X_M EAT.21.V ?X_L))
+		(?X_B (?X_M (TASTE.V ?X_N)))
+		(?X_J (?X_M LIKE.30.V ?X_N))
+	)
+)
+
+; "Tom ate a sandwich for lunch."
+; "Tom liked this kind of food."
+; "Tom ate a lot of sandwiches."
+; "Tom's friends were eating sandwiches too."
+(EPI-SCHEMA ((?X_P (EAT.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B LUNCH.N))
+		(!R2 (?X_A SANDWICH.N))
+		(!R3 (?X_A (FOR.P ?X_B)))
+		(!R4 (?X_G FOOD.N))
+		(!R5 (?X_O KIND.N))
+		(!R6 (?X_O (OF.P ?X_G)))
+		(!R7 (?X_H (PLUR SANDWICH.N)))
+		(!R8 (?X_Q LOT.N))
+		(!R9 (?X_Q (OF.P ?X_H)))
+		(!R10 (?X_K (PLUR SANDWICH.N)))
+		(!R11 (?X_L (PLUR FRIEND.N)))
+		(!R12 (?X_L (PERTAIN-TO ?X_P)))
+		(!R13 (?X_O OBJECT.N))
+		(!R14 (NOT (?X_O ACTION.N)))
+		(!R15 (NOT (?X_O AGENT.N)))
+		(!R16 (?X_P AGENT.N))
+		(!R17 (?X_Q FOOD.N))
+	)
+	(:STEPS
+		(?X_D (?X_P EAT.21.V ?X_A))
+		(?X_F (?X_P LIKE.31.V ?X_O))
+		(?X_J (?X_P EAT.21.V ?X_Q))
+		(?X_N (?X_L EAT.21.V ?X_K))
+	)
+)
+
+; "Tom likes to eat spaghetti."
+; "He has spaghetti for lunch everyday."
+; "Tom's family eats spaghetti everyday."
+(EPI-SCHEMA ((?X_J (EAT.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR SPAGHETTI.N)))
+		(!R2 (?X_C (FOR.P ?X_D)))
+		(!R3 (?X_I (PLUR SPAGHETTI.N)))
+		(!R4 (?X_K FAMILY.N))
+		(!R5 (?X_K (PERTAIN-TO ?X_J)))
+		(!R6 ((KA (EAT.V ?X_I)) ACTION.N))
+		(!R7 (?X_J AGENT.N))
+		(!R8 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_J LIKE.32.V (KA (EAT.V ?X_I))))
+		(?X_B (?X_J (HAVE.V ?X_C)))
+		(?E_1 (?X_J EAT.14.V ?X_I))
+		(?X_H (?X_K EAT.21.V ?X_I))
+	)
+)
+
+; "Today we had a meeting in school."
+; "There were lots of people there."
+; "Some people left early."
+; "Others stayed late."
+(EPI-SCHEMA ((?X_M (LEAVE.V ?L2)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR OTHER.N)))
+		(!R2 (?X_H (PLUR LOT.N)))
+		(!R3 (?X_I MEETING.N))
+		(!R4 (?X_I (IN.P ?X_J)))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?X_K (SET-OF AGENT.N)))
+		(!R7 (?X_L TODAY.N))
+		(!R8 (?X_M (PLUR PERSON.N)))
+		(!R9 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B ((ADV-E ({DURING}.P ?X_L)) (?X_K (HAVE.V ?X_I))))
+		(?X_G (?X_A (BE.V ?X_H)))
+		(?X_O (?X_M ((ADV-A (FROM.P ?L1)) LEAVE.1.V) ?L2))
+		(?X_D (?X_E (LATE.ADV STAY.V)))
+	)
+)
+
+; "Alan met Tom."
+; "Tom asked Alan if he could help him do something."
+; "Tom helped Alan by giving him some advice."
+(EPI-SCHEMA ((?X_H (MEET.V (ANOTHER.D PERSON.N))) ** ?E)
+	(:ROLES
+		(!R1 (?X_J ADVICE.N))
+		(!R2 (?X_E THING.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_I AGENT.N))
+		(!R5 (NOT (?X_J AGENT.N)))
+	)
+	(:STEPS
+		(?X_G (?X_I (MEET.V ?X_H)))
+		(?X_D
+   (?X_H (KA ASK.V) ?X_I (IF.P (KE (?X_H (CAN.MD (HELP.V ?X_H (DO.V ?X_E))))))))
+		(?X_B (?X_H (((ADV-A (BY.P (KA (GIVE.V ?X_I ?X_J)))) HELP.V) ?X_I)))
+		(?E_1 (?X_I (GIVE.2.V ?X_I ?X_J)))
+	)
+)
+
+; "Tom went to a meeting."
+; "Lots of people came to the meeting."
+; "Tom liked the meeting."
+; "He went again next week."
+(EPI-SCHEMA ((?X_L ((ADV-A (TO.P ?X_J)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_J MEETING.N))
+		(!R2 (?X_I (PLUR LOT.N)))
+		(!R3 (?X_L (PLUR PERSON.N)))
+		(!R4 (?X_I (OF.P ?X_L)))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_J DESTINATION.N))
+		(!R7 (NOT (?X_J ACTION.N)))
+		(!R8 (NOT (?X_J AGENT.N)))
+		(!R9 (?X_K AGENT.N))
+		(!R10 (?X_L DESTINATION.N))
+		(!R11 (NOT (?X_L = ?X_L)))
+	)
+	(:STEPS
+		(?X_B (?X_K ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_J))
+		(?X_D (?X_I ((ADV-A (FROM.P ?L1)) COME.4.V) ?X_J))
+		(?X_F (?X_K LIKE.5.V ?X_J))
+		(?X_H (?X_K ((ADV-A (FROM.P ?X_L)) GO.6.V) ?X_L))
+	)
+)
+
+; "Tommy liked to go to meetings."
+; "He always listened carefully."
+; "He learned things from them."
+; "Tommy liked to go to meetings."
+(EPI-SCHEMA ((?X_K (LIKE.V (KA ((ADV-A (TO.P ?X_H)) GO.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR THING.N)))
+		(!R2 (?X_H (PLUR MEETING.N)))
+		(!R3 (?X_L (PLUR MEETING.N)))
+		(!R4 ((KA ((ADV-A (TO.P ?X_L)) GO.V)) ACTION.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (?X_L DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_K (LIKE.V (KA ((ADV-A (TO.P ?X_H)) GO.V)))))
+		(?X_E (?X_K (ALWAYS.ADV (CAREFULLY.ADV LISTEN.V))))
+		(?X_B (?X_K (((ADV-A (FROM.P ?X_H)) LEARN.V) ?X_C)))
+		(?X_J (?X_K LIKE.7.V (KA ((ADV-A (TO.P ?X_L)) GO.V))))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_L))
+		(?E_2 (?X_K ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_L))
+	)
+)
+
+; "A teacher held a meeting for all the students."
+; "All the kids came into the room."
+; "The teacher told them what they would do that day."
+; "The kids listened carefully."
+(EPI-SCHEMA ((?X_E (CAREFULLY.ADV LISTEN.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B TEACHER.N))
+		(!R2 (?X_E (PLUR KID.N)))
+	)
+	(:STEPS
+		(?X_D (?X_B (HOLD.V ?X_A)))
+		(?X_G (?X_E (CAREFULLY.ADV LISTEN.V)))
+	)
+)
+
+; "Mary is going to college soon."
+; "Her parents are proud of her."
+; "Mary has been studying hard."
+; "She will be successful in life."
+(EPI-SCHEMA ((?X_E ((ADV-A (TO.P ?X_F)) ((ADV-A (FROM.P ?X_F)) GO.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B PROUD.A))
+		(!R2 (?X_B (PLUR PARENT.N)))
+		(!R3 (?X_B (PERTAIN-TO ?X_E)))
+		(!R4 (?X_F COLLEGE.N))
+		(!R5 (?X_E AGENT.N))
+		(!R6 (?X_F DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_E ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_F))
+		(?X_A (?X_B (OF.P ?X_E)))
+	)
+)
+
+; "Tom's sister is going to college next year."
+; "His sister is happy because she wants to go to college."
+; "She likes learning new things."
+; "Mary is going to college next year."
+; "She is excited to start school."
+; "She knows that she will have fun."
+(EPI-SCHEMA ((?X_N (LIKE.V (KA (LEARN.V ?X_N)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FUN.N))
+		(!R2 (?X_F (EXCITED.A (KA (START.V ?X_E)))))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_G (BECAUSE.P (KE (?X_J (WANT.V (KA ((ADV-A (TO.P ?X_H)) GO.V))))))))
+		(!R5 (?X_I HAPPY.A))
+		(!R6 (?X_J SISTER.N))
+		(!R7 (?X_K AGENT.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_K)))
+		(!R9 (?X_N NEW.A))
+		(!R10 (?X_N (PLUR THING.N)))
+		(!R11 ((KA (LEARN.V ?X_N)) ACTION.N))
+	)
+	(:STEPS
+		(?X_A (?X_J (BE.V ?X_I ?X_G)))
+		(?X_M (?X_J LIKE.9.V (KA (LEARN.V ?X_N))))
+		(?X_C (?X_F (KNOW.V (THAT (?X_F (WILL.MD (HAVE.V ?X_D)))))))
+	)
+)
+
+; "Tommy went to college."
+; "His friends were there."
+; "Tommy studied hard."
+; "He did well on tests."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_L)) ((ADV-A (FROM.P ?X_L)) GO.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR TEST.N)))
+		(!R2 (?X_G HARD.A))
+		(!R3 (?X_H (PLUR FRIEND.N)))
+		(!R4 (?X_H (PERTAIN-TO ?X_K)))
+		(!R5 (?X_L COLLEGE.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L DESTINATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_L))
+		(?X_A (?X_H (THERE.ADV BE.V)))
+		(?X_F (?X_K (STUDY.V ?X_G)))
+		(?X_C (?X_K (WELL.ADV ((ADV-A (ON.P ?X_D)) DO.V))))
+	)
+)
+
+; "Tom's sister Jenny went to college."
+; "She studied hard."
+; "She did well on all her tests."
+(EPI-SCHEMA ((?X_D (STUDY.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A COLLEGE.N))
+		(!R2 (?X_D SISTER.A))
+		(!R3 (?X_D AGENT.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_E)))
+		(!R5 (?X_F HARD.A))
+	)
+	(:STEPS
+		(?X_C (?X_D ((ADV-A (TO.P ?X_A)) GO.V)))
+		(?X_H (?X_D (STUDY.V ?X_F)))
+	)
+)
+
+; "Kate was a student."
+; "Her grades were good."
+; "She studied hard."
+; "She would graduate from high school next year."
+(EPI-SCHEMA ((?X_B (STUDY.V ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B STUDENT.N))
+		(!R2 (?X_A (PERTAIN-TO ?X_B)))
+		(!R3 (?X_C HARD.A))
+	)
+	(:STEPS
+		(?X_E (?X_B (STUDY.V ?X_C)))
+	)
+)
+
+; "Bill was thinking about college."
+; "His grades were good."
+; "He liked school."
+; "He hoped to go to college."
+(EPI-SCHEMA ((?X_I ((ADV-A (ABOUT.P (KA ((ADV-A (TO.P ?X_K)) GO.V)))) THINK.V))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_K COLLEGE.N))
+		(!R2 (?X_E COLLEGE.N))
+		(!R3 (?X_L BILL.N))
+		(!R4 (?X_F (PLUR GRADE.N)))
+		(!R5 (?X_F GOOD.A))
+		(!R6 (?X_F (PERTAIN-TO ?X_I)))
+		(!R7 (?X_J SCHOOL.N))
+		(!R8 (?X_I AGENT.N))
+		(!R9 (?X_J OBJECT.N))
+		(!R10 (NOT (?X_J ACTION.N)))
+		(!R11 (NOT (?X_J AGENT.N)))
+		(!R12 (?X_K DESTINATION.N))
+		(!R13 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_L ((ADV-A (ABOUT.P ?X_E)) THINK.V)))
+		(?X_H (?X_I LIKE.10.V ?X_J))
+		(?X_B (?X_I (HOPE.V (KA ((ADV-A (TO.P ?X_K)) GO.V)))))
+		(?E_1 (?X_L ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_K))
+	)
+)
+
+; "Tom's sister went to college."
+; "His friends were jealous."
+; "Tom's family was happy for him."
+(EPI-SCHEMA ((?X_G
+              ((ADV-A (FOR.P (KA (((ADV-A (IN.P ?X_B)) SEE.V) ?X_E)))) GO.V))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_E SISTER.N))
+		(!R2 (?X_B COLLEGE.N))
+		(!R3 (?X_G HAPPY.A))
+		(!R4 (?X_G FAMILY.N))
+		(!R5 (?X_H AGENT.N))
+		(!R6 (?X_E (PERTAIN-TO ?X_H)))
+		(!R7 (?X_F (PERTAIN-TO ?X_H)))
+		(!R8 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_D (?X_E ((ADV-A (TO.P ?X_B)) GO.V)))
+		(?X_A (?X_G (FOR.P ?X_H)))
+	)
+)
+
+; "The woman was sad."
+; "Her husband died."
+; "She cried all day."
+; "She felt bad."
+(EPI-SCHEMA ((?X_G CRY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C BAD.A))
+		(!R2 (?X_G WOMAN.N))
+		(!R3 (?X_G SAD.A))
+		(!R4 (?X_F HUSBAND.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_E (?X_F DIE.V))
+		(?X_I (?X_G CRY.1.V))
+		(?X_B (?X_G (FEEL.V ?X_C)))
+	)
+)
+
+; "Kate's mother died."
+; "She was sad."
+; "She cried for days."
+; "She missed her mom."
+(EPI-SCHEMA ((?X_G CRY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_G SAD.A))
+		(!R2 (?X_D MOTHER.N))
+		(!R3 (?X_D MOM.N))
+		(!R4 (?X_D (PERTAIN-TO ?X_G)))
+		(!R5 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_D DIE.V))
+		(?X_F (?X_G CRY.2.V))
+		(?X_A (?X_G (MISS.V ?X_D)))
+	)
+)
+
+; "Jack's mother is sad."
+; "His father died."
+; "Mary's dad has cancer."
+; "Jack's friend's mom has cancer."
+; "Mary's sister has cancer."
+(EPI-SCHEMA ((?X_I DIE.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_I FATHER.N))
+		(!R2 (?X_D DAD.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_N)))
+		(!R4 (?X_E CANCER.N))
+		(!R5 (?X_J AGENT.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_J)))
+		(!R7 (?X_I (PERTAIN-TO ?X_J)))
+		(!R8 (?X_M SISTER.N))
+		(!R9 (?X_M (PERTAIN-TO ?X_N)))
+		(!R10 (?X_O CANCER.N))
+	)
+	(:STEPS
+		(?X_C (?X_I DIE.V))
+		(?X_G (?X_D (HAVE.V ?X_E)))
+		(?X_L (?X_J (= ?X_A)))
+		(?X_Q (?X_M (HAVE.V ?X_O)))
+	)
+)
+
+; "Bobby's father died."
+; "His mother cried for days."
+; "Everyone was sad."
+(EPI-SCHEMA ((?X_D DIE.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FATHER.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_F)))
+		(!R4 (?X_E MOTHER.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_C (?X_D DIE.V))
+		(?X_A (?X_E CRY.3.V))
+	)
+)
+
+; "[ ] The man died."
+; "[ ] His wife died."
+; "[ ] He lost his friend."
+; "[ ] She lost her mother."
+; "[ ] They both lost their parents."
+(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_D ?X_G ?X_I ?X_K ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D -LSB-.A))
+		(!R2 (?X_D -RSB-.N))
+		(!R3 (?X_H WIFE.N))
+		(!R4 (?X_G -LSB-.A))
+		(!R5 (?X_G -RSB-.N))
+		(!R6 (?X_J MAN.N))
+		(!R7 (?X_H (PERTAIN-TO ?X_J)))
+		(!R8 (?X_I FRIEND.N))
+		(!R9 (?X_I (PERTAIN-TO ?X_J)))
+		(!R10 (?X_K -LSB-.A))
+		(!R11 (?X_K -RSB-.N))
+		(!R12 (?X_M AGENT.N))
+		(!R13 (?X_M -LSB-.A))
+		(!R14 (?X_M -RSB-.A))
+		(!R15 (?X_M SHE.N))
+		(!R16 (?X_L MOTHER.N))
+		(!R17 (?X_L (PERTAIN-TO ?X_M)))
+	)
+	(:STEPS
+		(?X_F (?X_J (DIE.V ?X_D)))
+		(?X_A (?X_H (DIE.V ?X_G)))
+		(?X_B (?X_J (LOSE.V ?X_I ?X_K)))
+		(?X_C (?X_M (LOSE.V ?X_L)))
+	)
+)
+
+; "John's father died."
+; "His mother cried for days."
+; "She missed him a lot."
+(EPI-SCHEMA ((?X_F DIE.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_G MOTHER.N))
+		(!R2 (?X_F FATHER.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_H)))
+		(!R5 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_E (?X_F DIE.V))
+		(?X_A (?X_G CRY.4.V))
+		(?X_C (?X_G ((A_LOT.ADV MISS.V) ?X_F)))
+	)
+)
+
+; "Bill's father died."
+; "His mother was sad."
+; "She cried for a while."
+; "Then she stopped crying."
+(EPI-SCHEMA ((?X_G DIE.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_H MOTHER.N))
+		(!R2 (?X_H SAD.A))
+		(!R3 (?X_G FATHER.N))
+		(!R4 (?X_I AGENT.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_I)))
+		(!R6 (?X_H (PERTAIN-TO ?X_I)))
+	)
+	(:STEPS
+		(?X_D (?X_G DIE.V))
+		(?X_F (?X_H CRY.5.V))
+		(?X_B (?X_H (THEN.ADV ((ADV-A (FOR.P (KA CRY.V))) STOP.V))))
+	)
+)
+
+; "The man's wife died."
+; "His children were upset."
+; "A funeral director came to talk to him."
+(EPI-SCHEMA ((?X_E ((ADV-A (TO.P ?L2)) COME.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C WIFE.N))
+		(!R2 (?X_C (PERTAIN-TO ?X_D)))
+		(!R3 (?X_E FUNERAL.A))
+		(!R4 (?X_E DIRECTOR.N))
+		(!R5 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_C DIE.V))
+		(?X_G (?X_E ((ADV-A (FROM.P ?L1)) COME.6.V) ?L2))
+	)
+)
+
+; "Tom's mother died."
+; "His father married again."
+; "Tom's family moved away."
+; "Tom missed his parents."
+(EPI-SCHEMA ((?X_I (AWAY.ADV MOVE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G MOTHER.N))
+		(!R2 (?X_H FATHER.N))
+		(!R3 (?X_I FAMILY.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_K)))
+		(!R6 (?X_H (PERTAIN-TO ?X_K)))
+		(!R7 (?X_I (PERTAIN-TO ?X_K)))
+		(!R8 (?X_J (PLUR PARENT.N)))
+		(!R9 (?X_J (PERTAIN-TO ?X_K)))
+	)
+	(:STEPS
+		(?X_D (?X_G DIE.V))
+		(?X_A (?X_H (AGAIN.ADV MARRY.V)))
+		(?X_F (?X_I (AWAY.ADV MOVE.V)))
+		(?X_B (?X_K (MISS.V ?X_J)))
+	)
+)
+
+; "The man was sad."
+; "His wife died."
+; "He cried for days."
+; "He felt terrible."
+(EPI-SCHEMA ((?X_G CRY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C TERRIBLE.A))
+		(!R2 (?X_G MAN.N))
+		(!R3 (?X_G SAD.A))
+		(!R4 (?X_F WIFE.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_E (?X_F DIE.V))
+		(?X_I (?X_G CRY.7.V))
+		(?X_B (?X_G (FEEL.V ?X_C)))
+	)
+)
+
+; "The girl was sad."
+; "Her mother died."
+; "She cried all night."
+; "She felt worse than before."
+(EPI-SCHEMA ((?X_F CRY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_E MOTHER.N))
+		(!R2 (?X_F GIRL.N))
+		(!R3 (?X_F SAD.A))
+		(!R4 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_B (?X_E DIE.V))
+		(?X_D (?X_F CRY.8.V))
+	)
+)
+
+; "A boy is getting old."
+; "His parents want him to be happy."
+; "They tell him that he can do anything he wants."
+; "But he doesn't know what to do."
+(EPI-SCHEMA ((?X_J (GET.V (KE (?X_F OLD.A)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F OLD.A))
+		(!R2 (?X_I (PLUR PARENT.N)))
+		(!R3 (?X_J BOY.N))
+		(!R4 (?X_I (PERTAIN-TO ?X_J)))
+	)
+	(:STEPS
+		(?X_H (?X_J (GET.V ?X_F)))
+		(?X_E (?X_I (WANT.V ?X_J (KA HAPPY.A))))
+		(?X_N
+   (?X_I
+    (TELL.V ?X_J
+     (THAT
+      (?X_J
+       (CAN.AUX
+        (DO.V
+         (ANY.D
+          (L X
+           (AND (X THING.N)
+                (X
+                 (?X_J
+                  ((?X_B ?X_D
+                    (AND (?X_D (AT-ABOUT ?X_K)) (?X_C (ORIENTS ?X_D)))
+                    (WANT.V ** ?X_D))
+                   THT.REL)))))))))))))
+	)
+)
+
+; "Tom's mom is dead."
+; "His dad lives alone."
+; "Tom's mom is dead."
+; "His dad doesn't have any kids."
+(EPI-SCHEMA ((?X_E (ALONE.ADV LIVE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DAD.N))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_C (PERTAIN-TO ?X_E)))
+		(!R4 (?X_D DEAD.A))
+		(!R5 (?X_D MOM.N))
+		(!R6 (?X_D (PERTAIN-TO ?X_E)))
+		(!R7 ((ANY.D (PLUR KID.N)) OBJECT.N))
+	)
+	(:STEPS
+		(?X_A (?X_C (ALONE.ADV LIVE.V)))
+		(?X_B (?X_C HAVE.9.V (ANY.D (PLUR KID.N))))
+	)
+)
+
+; "Mary's mother is dead."
+; "Mary doesn't want to talk about it."
+; "She feels bad."
+; "Mary wants to cry."
+(EPI-SCHEMA ((?X_H (WANT.V (KA ((ADV-A (ABOUT.P ?X_D)) TALK.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BAD.A))
+		(!R2 (?X_H AGENT.N))
+		(!R3 (?X_G (PERTAIN-TO ?X_H)))
+	)
+	(:STEPS
+		(?X_C (NOT (?X_H (WANT.V (KA ((ADV-A (ABOUT.P ?X_A)) TALK.V))))))
+		(?X_F (?X_H (FEEL.V ?X_D)))
+		(?X_J (?X_H (WANT.V (KA CRY.V))))
+	)
+)
+
+; "Alice's father died."
+; "Her mother told her that she should be happy."
+; "But Alice wasn't happy."
+; "She couldn't stop crying."
+(EPI-SCHEMA ((?X_F
+              (COMPOSITE-SCHEMA.PR ?X_F (THAT (?X_F (SHOULD.MD HAPPY.A))) ?N))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_B MOTHER.N))
+		(!R2 (?X_B (PERTAIN-TO ?X_F)))
+		(!R3 (?X_E FATHER.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_F)))
+		(!R5 (?X_F AGENT.N))
+		(!R6 (?N NOISE.N))
+	)
+	(:STEPS
+		(?X_D (?X_E DIE.V))
+		(?X_A (?X_B (TELL.V ?X_F (THAT (?X_F (SHOULD.MD HAPPY.A))))))
+		(E387.SK (NOT (?X_F (CAN.MD ((ADV-A (FOR.P (KA CRY.V))) STOP.V)))))
+		(?E_1 (?X_F CRY.10.V ?N))
+	)
+)
+
+; "Alice's father died."
+; "She cried for two days."
+; "She missed him."
+; "She couldn't sleep."
+(EPI-SCHEMA ((?X_H (COMPOSITE-SCHEMA.PR ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E FATHER.N))
+		(!R2 (?X_E (PERTAIN-TO ?X_H)))
+		(!R3 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E DIE.V))
+		(E409.SK (NOT (?X_H (CAN.MD SLEEP.V))))
+		(?X_G (?X_H CRY.11.V))
+		(?X_B (?X_H (MISS.V ?X_E)))
+	)
+)
+
+; "A boy killed himself."
+; "His parents were shocked."
+; "The police found him dead on the floor."
+(EPI-SCHEMA ((?X_E (KILL.V (ANOTHER.D BOY.N))) ** ?E)
+	(:ROLES
+		(!R1 (?X_C POLICE.N))
+		(!R2 (?X_E BOY.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+		(!R4 (?X_F FLOOR.N))
+	)
+	(:STEPS
+		(?X_B (?X_E (KILL.V ?X_E)))
+		(?X_H (?X_C (FIND.V (KE (AND (?X_E DEAD.A) (?X_E (ON.P ?X_F)))))))
+	)
+)
+
+; "Mary's father died."
+; "Mary was sad."
+; "She missed him."
+; "She cried for him."
+(EPI-SCHEMA ((?X_H ((ADV-A (FOR.P ?X_H)) CRY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H SAD.A))
+		(!R2 (?X_E FATHER.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_H)))
+		(!R4 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E DIE.V))
+		(?X_B (?X_H (MISS.V ?X_E)))
+		(?X_G (?X_H CRY.12.V))
+	)
+)
+
+; "This morning I woke up early."
+; "My alarm clock rang."
+; "I turned it off."
+; "I slept until noon."
+(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B MORNING.N))
+		(!R2 (?X_F ?X_C CLOCK.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_H ALARM.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L NOON.N))
+	)
+	(:STEPS
+		(?X_A ((ADV-E ({DURING}.P ?X_B)) (?X_G (EARLY.ADV WAKE_UP.V))))
+		(?X_E (?X_F RING.V))
+		(?X_J (?X_G (TURN_OFF.V ?X_H)))
+		(?X_N (?X_K ((ADV-A (UNTIL.P ?X_L)) SLEEP.V)))
+	)
+)
+
+; "Tom woke up early."
+; "His alarm clock rang."
+; "He set the alarm for 9 o'clock."
+; "He went back to sleep."
+(EPI-SCHEMA ((?X_G COMPOSITE-SCHEMA.PR) ** ?E)
+	(:ROLES
+		(!R1 (?X_F ?X_C CLOCK.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_B (?X_G (EARLY.ADV WAKE_UP.V)))
+		(?X_E (?X_F RING.V))
+		(?X_I (?X_G (BACK.ADV ((ADV-A (FOR.P (KA SLEEP.V))) GO.V))))
+	)
+)
+
+; "Tom woke up early."
+; "His alarm clock rang."
+; "He turned it off."
+; "He slept until noon."
+(EPI-SCHEMA ((?X_K (EARLY.ADV WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F ?X_C CLOCK.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_G)))
+		(!R4 (?X_H ALARM.N))
+		(!R5 (?X_K MALE.A))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L NOON.N))
+	)
+	(:STEPS
+		(?X_B (?X_G (EARLY.ADV WAKE_UP.V)))
+		(?X_E (?X_F RING.V))
+		(?X_J (?X_G (TURN_OFF.V ?X_H)))
+		(?X_N (?X_K ((ADV-A (UNTIL.P ?X_L)) SLEEP.V)))
+	)
+)
+
+; "Sam woke up early."
+; "His alarm clock rang."
+; "He turned it off."
+; "He slept until noon."
+(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F ?X_C CLOCK.N))
+		(!R2 (?X_G AGENT.N))
+		(!R3 (?X_F (PERTAIN-TO ?X_G)))
+		(!R4 (?X_H ALARM.N))
+		(!R5 (?X_K MALE.A))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L NOON.N))
+	)
+	(:STEPS
+		(?X_B (?X_G (EARLY.ADV WAKE_UP.V)))
+		(?X_E (?X_F RING.V))
+		(?X_J (?X_G (TURN_OFF.V ?X_H)))
+		(?X_N (?X_K ((ADV-A (UNTIL.P ?X_L)) SLEEP.V)))
+	)
+)
+
+; "Alice woke up early."
+; "She couldn't sleep all night."
+; "She thought she would be late for school."
+; "She looked at her watch."
+; "She saw that it was almost time for school."
+(EPI-SCHEMA ((?X_E (EARLY.ADV WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E AGENT.N))
+		(!R2 (?X_D WATCH.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+	)
+	(:STEPS
+		(?X_C (?X_E (EARLY.ADV WAKE_UP.V)))
+		(?X_A (?X_E ((ADV-A (AT.P ?X_D)) LOOK.V)))
+	)
+)
+
+; "Tom's alarm clock rang."
+; "His alarm clock wasn't loud."
+; "He turned off his alarm clock."
+; "He fell asleep again."
+(EPI-SCHEMA ((?X_G (TURN_OFF.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D ALARM.N))
+		(!R2 (?X_D CLOCK.N))
+		(!R3 (?X_E ?X_D CLOCK.N))
+		(!R4 (?X_F ?X_D CLOCK.N))
+		(!R5 (?X_G AGENT.N))
+		(!R6 (?X_D (PERTAIN-TO ?X_G)))
+		(!R7 (?X_E (PERTAIN-TO ?X_G)))
+		(!R8 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_C (?X_D RING.V))
+		(?X_A (?X_G (TURN_OFF.V ?X_F)))
+		(?X_I (?X_G ((ADV (ASLEEP.ADV AGAIN.A)) FALL.V)))
+	)
+)
+
+; "Mary woke up."
+; "She looked at the clock."
+; "'Time for breakfast,' she thought."
+; "She ate some cereal."
+; "She drank milk."
+(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_K ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CLOCK.N))
+		(!R2 (?X_K CEREAL.N))
+		(!R3 (?X_H MILK.N))
+		(!R4 (?X_K FOOD.N))
+		(!R5 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_L WAKE_UP.V))
+		(?X_B (?X_L ((ADV-A (AT.P ?X_C)) LOOK.V)))
+		(?X_G (?X_L EAT.3.V ?X_K))
+		(?X_J (?X_L DRANK.4.V ?X_H))
+	)
+)
+
+; "Tom liked shopping."
+; "He was going to shop for new clothes."
+; "He went to the department store."
+; "He looked around."
+; "There were lots of things to choose from."
+; "He saw something he liked."
+(EPI-SCHEMA ((?X_T (KA (GO.V (KA SHOP.V))) (THEN.ADV (AROUND.ADV LOOK.V))) **
+             ?E)
+	(:ROLES
+		(!R1 (?X_D THING.N))
+		(!R2 (?X_G (PLUR LOT.N)))
+		(!R3 (?X_G (OF.P ?X_H)))
+		(!R4 (?X_Q SHOPPING.N))
+		(!R5 (?X_R NEW.A))
+		(!R6 (?X_R (PLUR CLOTHE.N)))
+		(!R7 (?X_S DEPARTMENT.N))
+		(!R8 (?X_S STORE.N))
+		(!R9 (?X_Q OBJECT.N))
+		(!R10 (NOT (?X_Q ACTION.N)))
+		(!R11 (NOT (?X_Q AGENT.N)))
+		(!R12 (?X_R DESTINATION.N))
+		(!R13 (?X_S DESTINATION.N))
+		(!R14 (?X_T AGENT.N))
+	)
+	(:STEPS
+		(?X_L (?X_T LIKE.6.V ?X_Q))
+		(?X_N (?X_T ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_R))
+		(?X_P (?X_T ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_S))
+		(?X_J (?X_T (AROUND.ADV LOOK.V)))
+		(?X_F (?X_A (BE.V ?X_G)))
+		(?X_C (?X_T (SEE.V ?X_D)))
+	)
+)
+
+; "Bill put on his coat."
+; "He went outside."
+; "He saw leaves falling from trees."
+; "He picked them up."
+; "He threw them away."
+(EPI-SCHEMA ((?X_Q (PICK_UP.V ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F MALE.A))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_I (PLUR TREE.N)))
+		(!R4 (?X_J (PLUR LEAF.N)))
+		(!R5 (?X_K COAT.N))
+		(!R6 (?X_K (PERTAIN-TO ?X_Q)))
+		(!R7 (?X_L BILL.N))
+		(!R8 (?L2 DESTINATION.N))
+		(!R9 (?X_Q AGENT.N))
+	)
+	(:STEPS
+		(?X_B (?X_L ((ADV-A (ON.P ?X_K)) PUT.V)))
+		(?X_N (?X_Q ((ADV-A (FROM.P ?L1)) GO.5.V) ?L2))
+		(?X_C (?X_J ((ADV-A (FROM.P ?X_I)) FALL.V)))
+		(?X_P (?X_Q SEE.8.V ?X_J))
+		(?X_H (?X_Q (PICK_UP.V ?X_J)))
+		(?X_E (?X_F ((AWAY.ADV THROW.V) ?X_A)))
+	)
+)
+
+; "[Today is Monday.]"
+; "[Tomorrow is Tuesday.]"
+; "[Wednesday is Wednesday.]"
+; "[Thursday is Thursday.]"
+; "[Friday is Friday.]"
+; "[Saturday is Saturday.]"
+; "[Sunday is Sunday.]"
+; "[Monday is Monday.]"
+; "[Tuesday is Tuesday.]"
+; "[Wednesday is Wednesday.]"
+; "[Thursday is Thursday.]"
+; "[Friday is Friday.]"
+; "[Saturday is Saturday.]"
+; "[Sunday is Sunday.]"
+; "[Monday is Monday.]"
+; "[Tuesday is Tuesday.]"
+; "[Wednesday is Wednesday.]"
+; "[Thursday is Thursday.]"
+; "[Friday is Friday.]"
+; "["
+(EPI-SCHEMA ((?X_D ((ADV-A (DURING.P ?X_D)) BE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A -LSB-TODAY.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_E -LSB-TOMORROW.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_K -LSB-MONDAY.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_N -LSB-FRIDAY.N))
+		(!R8 (?X_Q -LSB-FRIDAY.N))
+		(!R9 (?X_Q AGENT.N))
+		(!R10 (?X_R -LSB-MONDAY.N))
+		(!R11 (?X_U AGENT.N))
+		(!R12 (?X_V -LSB-FRIDAY.N))
+	)
+	(:STEPS
+		(?X_C ((ADV-E ({DURING}.P ?X_J)) (?X_A BE.V)))
+		(?X_G ((ADV-E ({DURING}.P ?X_D)) (?X_E BE.V)))
+		(?X_I ((ADV-E ({DURING}.P ?X_U)) (?X_Q BE.V)))
+		(?X_M ((ADV-E ({DURING}.P ?X_J)) (?X_K BE.V)))
+		(?X_P ((ADV-E ({DURING}.P ?X_U)) (?X_N BE.V)))
+		(?X_T ((ADV-E ({DURING}.P ?X_Q)) (?X_R BE.V)))
+		(?X_X ((ADV-E ({DURING}.P ?X_U)) (?X_V BE.V)))
+	)
+)
+
+; "The kids were having fun."
+; "Playing with their toys."
+; "One of them threw up."
+; "That made everyone sad."
+(EPI-SCHEMA ((?X_C (HAVE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR KID.N)))
+		(!R2 (?X_B (PERTAIN-TO ?X_C)))
+		(!R3 (?X_D FUN.N))
+		(!R4 (?X_E {REF}.N))
+	)
+	(:STEPS
+		(?X_A (?X_C (HAVE.V ?X_D)))
+		(?X_G (?X_E (MAKE.V (KE ((EVERY.D PERSON.N) SAD.A)))))
+	)
+)
+
+; "Tom's mom gave him some candy."
+; "Tom ate all of it."
+; "His stomach hurt."
+; "Tom cried."
+(EPI-SCHEMA ((?X_M (((ADV-A (TO.P (ANOTHER.D PERSON.N))) GIVE.V) ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_G STOMACH.N))
+		(!R2 (?X_G (PERTAIN-TO ?X_H)))
+		(!R3 (?X_O CANDY.N))
+		(!R4 (?X_N MOM.N))
+		(!R5 (?X_N (PERTAIN-TO ?X_M)))
+		(!R6 (?X_M AGENT.N))
+		(!R7 (?X_N AGENT.N))
+		(!R8 (NOT (?X_O AGENT.N)))
+	)
+	(:STEPS
+		(?X_F (?X_G HURT.V))
+		(?X_J (?X_N (GIVE.1.V ?X_M ?X_O)))
+		(?X_L (?X_M EAT.2.V (ALL.D (L X (AND (X (PLUR {REF}.N)) (X (OF.P ?X_B)))))))
+		(?X_D (?X_M CRY.V))
+	)
+)
+
+; "Jenny's friends came over."
+; "They played games."
+; "They ate snacks."
+; "They watched TV."
+(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_F ?X_C ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?X_F (PLUR GAME.N)))
+		(!R3 (?X_I (PLUR FRIEND.N)))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_J)))
+		(!R6 (?X_M (PLUR SNACK.N)))
+		(!R7 (?X_M FOOD.N))
+	)
+	(:STEPS
+		(?X_H (?X_I COME_OVER.V))
+		(?X_E (?X_I (PLAY.V ?X_F)))
+		(?X_L (?X_I EAT.3.V ?X_M))
+		(?X_B (?X_I (WATCH.V ?X_C)))
+	)
+)
+
+; "Tom's family likes to play games."
+; "His family plays board games."
+; "His family plays card games."
+; "Tom's family has a lot of games."
+; "Tom's family goes to lots of places."
+; "They go to parks."
+; "They go to museums."
+; "They go to restaurants."
+; "They go to movies."
+; "They go on vacation."
+; "They go camping."
+; "They have picnics."
+; "They go swimming."
+; "They visit friends."
+; "They go shopping."
+; "They go to parties."
+; "They go bowling."
+; "They go to basketball games"
+(EPI-SCHEMA ((?X_ZZ
+              (COMPOSITE-SCHEMA.PR ?X_O ?X_N ?X_M ?X_H ?X_E (KA (PLAY.V ?X_ZP))
+               ?X_ZQ ?X_ZR ?X_ZS ?X_ZT ?X_ZU ?X_ZV ?L ?L2 ?X_ZZ ?X_ZX ?X_ZY))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_E BOWLING.N))
+		(!R2 (?X_H (PLUR FRIEND.N)))
+		(!R3 (?X_M (PLUR PICNIC.N)))
+		(!R4 (?X_N CARD.N))
+		(!R5 (?X_N (PLUR GAME.N)))
+		(!R6 (?X_O BOARD.N))
+		(!R7 (?X_O (PLUR GAME.N)))
+		(!R8 (?X_ZZ FAMILY.N))
+		(!R9 (?X_ZP (PLUR GAME.N)))
+		(!R10 (?X_T (PLUR GAME.N)))
+		(!R11 (?X_ZQ LOT.N))
+		(!R12 (?X_ZQ (OF.P ?X_T)))
+		(!R13 (?X_U (PLUR PLACE.N)))
+		(!R14 (?X_ZR (PLUR LOT.N)))
+		(!R15 (?X_ZR (OF.P ?X_U)))
+		(!R16 (?X_ZS (PLUR MUSEUM.N)))
+		(!R17 (?X_ZT (PLUR RESTAURANT.N)))
+		(!R18 (?X_ZU (PLUR MOVIE.N)))
+		(!R19 (?X_ZV (PLUR PARK.N)))
+		(!R20 (?X_ZX (PLUR PARTY.N)))
+		(!R21 (?X_ZZ (PERTAIN-TO ?X_ZW)))
+		(!R22 (?X_ZY BASKETBALL.N))
+		(!R23 ((KA (PLAY.V ?X_ZP)) ACTION.N))
+		(!R24 (?X AGENT.N))
+		(!R25 (?X_ZQ OBJECT.N))
+		(!R26 (?X_ZR DESTINATION.N))
+		(!R27 (?X_ZS DESTINATION.N))
+		(!R28 (?X_ZT DESTINATION.N))
+		(!R29 (?X_ZU DESTINATION.N))
+		(!R30 (?X_ZV DESTINATION.N))
+		(!R31 (?L LOCATION.N))
+		(!R32 (?X_ZW AGENT.N))
+		(!R33 (?L2 DESTINATION.N))
+		(!R34 (?X_ZZ DESTINATION.N))
+		(!R35 (?X_ZX DESTINATION.N))
+		(!R36 (?X_ZY DESTINATION.N))
+		(!R37 (?X_ZZ AGENT.N))
+	)
+	(:STEPS
+		(?X_Q (?X_ZZ LIKE.4.V (KA (PLAY.V ?X_ZP))))
+		(?X_A (?X_ZZ (PLAY.V ?X_O)))
+		(?X_B (?X_ZZ (PLAY.V ?X_N)))
+		(?E_1 (?X PLAY.5.V))
+		(?X_S (?X_ZZ HAVE.6.V ?X_ZQ))
+		(?X_W (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZR))
+		(?X_Y (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZV))
+		(?X_ZA (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZS))
+		(?X_ZC (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZT))
+		(?X_ZE (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZU))
+		(?X_ZG (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZV))
+		(?E_2 (?X_ZW CAMP.8.V ?L))
+		(?X_ZI (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.9.V) ?X_ZZ))
+		(?X_L (?X_ZZ (HAVE.V ?X_M)))
+		(?X_J (?X_ZZ ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
+		(?X_G (?X_ZZ (VISIT.V ?X_H)))
+		(?E_3 (?X_ZW ((ADV-A (FROM.P ?L1)) SWIM.10.V) ?L2))
+		(?X_ZK (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.9.V) ?X_ZZ))
+		(?X_ZM (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZX))
+		(?X_D (?X_ZZ (GO.V ?X_E)))
+		(?X_ZO (?X_ZZ ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_ZY))
+	)
+)
+
+; "A little boy cried because he was sad."
+; "His mother gave him some candy."
+; "He ate the candy."
+; "He felt better."
+; "He stopped crying."
+(EPI-SCHEMA ((?X_M (CRY.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F BETTER.A))
+		(!R2 (?X_J BOY.N))
+		(!R3 (?X_J LITTLE.A))
+		(!R4 (?X_I MOTHER.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_J)))
+		(!R6 (?X_M CANDY.N))
+		(!R7 (?N NOISE.N))
+		(!R8 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_H (?X_J CRY.12.V ?N))
+		(?X_A (?X_I (GIVE.13.V ?X_J ?X_M)))
+		(?X_L (?X_J EAT.3.V ?X_M))
+		(?X_E (?X_J (FEEL.V ?X_F)))
+		(?X_C (?X_J ((ADV-A (FOR.P (KA CRY.V))) STOP.V)))
+	)
+)
+
+; "A boy was sad because he couldn't play with his friends anymore."
+; "His parents told him that he could not stay at his friend's house any longer."
+; "The boy cried all night."
+(EPI-SCHEMA ((?X_G CRY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR FRIEND.N)))
+		(!R2 (?X_F (PLUR PARENT.N)))
+		(!R3 (?X_C HOUSE.N))
+		(!R4 (?X_E FRIEND.N))
+		(!R5 (?X_C (PERTAIN-TO ?X_E)))
+		(!R6 (?X_G BOY.N))
+		(!R7 (?X_D (PERTAIN-TO ?X_G)))
+		(!R8 (?X_E (PERTAIN-TO ?X_G)))
+		(!R9 (?X_F (PERTAIN-TO ?X_G)))
+	)
+	(:STEPS
+		(?X_B (?X_G CRY.14.V))
+	)
+)
+
+; "The kids played for hours."
+; "They built things."
+; "They ate snacks."
+(EPI-SCHEMA ((?X_C (EAT.V ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR THING.N)))
+		(!R2 (?X_D (PLUR KID.N)))
+		(!R3 (?X_G (PLUR SNACK.N)))
+		(!R4 (?X_G FOOD.N))
+	)
+	(:STEPS
+		(?X_B (?X_D (BUILD.V ?X_C)))
+		(?X_F (?X_D EAT.3.V ?X_G))
+	)
+)
+
+; "The children played outside."
+; "They built a snowman."
+; "They built a snow fort."
+; "They blew snowballs at one another."
+; "They laughed as they played together."
+(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_K ?X_H ?X_G ?X_C)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR SNOWBALL.N)))
+		(!R2 (?X_D ANOTHER.N))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_H SNOW.N))
+		(!R5 (?X_K SNOWMAN.N))
+		(!R6 (?X_L (PLUR CHILD.N)))
+	)
+	(:STEPS
+		(?X_N (?X_L PLAY.15.V))
+		(?X_J (?X_L (BUILD.V ?X_K)))
+		(?X_F (?X_L (BUILD.V ?X_H ?X_G)))
+		(?X_B (?X_L (((ADV-A (AT.P ?X_D)) BLOW.V) ?X_C)))
+	)
+)
+
+; "Bill is going to have a baby."
+; "His wife is pregnant."
+; "Bill is happy about this news."
+; "The baby will be born soon."
+(EPI-SCHEMA ((?X_F ((ADV-A (FOR.P ?X_G)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B BABY.N))
+		(!R2 (?X_F AGENT.N))
+		(!R3 (?X_F HAPPY.A))
+		(!R4 (?X_F BILL.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 (?X_G NEWS.N))
+	)
+	(:STEPS
+		(?X_D (?X_F ((ADV-A (FOR.P (KA (HAVE.V ?X_B)))) GO.V)))
+		(?X_A (?X_F (ABOUT.P ?X_G)))
+	)
+)
+
+; "The boys played soccer."
+; "They kicked the ball around."
+; "They ran after the ball."
+; "They chased each other."
+; "They all scored goals."
+(EPI-SCHEMA ((?X_D ((AROUND.ADV KICK.V) ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR GOAL.N)))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_G BALL.N))
+		(!R4 (?X_H (PLUR BOY.N)))
+		(!R5 (?X_K SOCCER.N))
+		(!R6 (?L2 DESTINATION.N))
+		(!R7 ((EACH.D OTHER.A) ENTITY.N))
+	)
+	(:STEPS
+		(?X_J (?X_H PLAY.16.V))
+		(?X_F (?X_H ((AROUND.ADV KICK.V) ?X_G)))
+		(?X_M (?X_H ((ADV-A (FROM.P ?L1)) RUN.17.V) ?L2))
+		(?X_O (?X_H CHASE.18.V (EACH.D OTHER.A)))
+		(?X_B ((ALL.D ({OF}.P ?X_D)) (SCORE.V ?X_C)))
+	)
+)
+
+; "A boy walked along the beach."
+; "He saw a big wave coming towards him."
+; "He ran away as fast as he could."
+; "When he reached the shore,"
+; "the wave hit him."
+; "His body broke into pieces."
+(EPI-SCHEMA ((?X_D ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BOY.N))
+		(!R2 (?X_E WAVE.N))
+		(!R3 (?X_E BIG.A))
+		(!R4 (?X_J BIG.A))
+		(!R5 (?X_K ?X_J WAVE.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_G (?X_D ((ADV-A (FROM.P ?L1)) WALK.19.V) ?L2))
+		(?X_I (?X_D SEE.20.V ?X_K))
+		(?X_A (?X_K ((ADV-A (FROM.P ?L1)) COME.21.V) ?L2))
+		(?X_C (?X_E (HIT.V ?X_D)))
+	)
+)
+
+; "Carol was walking on the beach."
+; "She saw a big wave coming towards her."
+; "She ran away as fast as she could."
+; "When she reached the shore,"
+; "she looked back."
+; "She saw the wave hitting her friend's body."
+(EPI-SCHEMA ((?X_J ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H BIG.A))
+		(!R2 (?X_I ?X_H WAVE.N))
+		(!R3 (?L2 DESTINATION.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_J DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) WALK.19.V) ?L2))
+		(?X_G (?X_J SEE.22.V ?X_I))
+		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) COME.23.V) ?X_J))
+		(?X_C (?X_J (BACK.ADV LOOK.V)))
+	)
+)
+
+; "Tina went for a walk on the beach."
+; "She looked at the ocean."
+; "She saw a big wave coming towards her."
+; "She ran as fast as she could."
+; "When she reached the shore,"
+; "her clothes were wet."
+; "Her shoes were wet."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_L)) ((ADV-A (FROM.P ?X_K)) GO.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D OCEAN.N))
+		(!R2 (?X_I (PLUR CLOTHE.N)))
+		(!R3 (?X_I WET.A))
+		(!R4 (?X_I (PERTAIN-TO ?X_K)))
+		(!R5 (?X_J BIG.A))
+		(!R6 (?X_M ?X_J WAVE.N))
+		(!R7 (?X_L BEACH.N))
+		(!R8 (?X_K AGENT.N))
+		(!R9 (?X_L DESTINATION.N))
+		(!R10 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_K ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_L))
+		(?X_C (?X_K ((ADV-A (AT.P ?X_D)) LOOK.V)))
+		(?X_H (?X_K SEE.24.V ?X_M))
+		(?X_A (?X_M ((ADV-A (FROM.P ?L1)) COME.23.V) ?X_L))
+	)
+)
+
+; "Tom went swimming on the beach."
+; "He swam through the waves."
+; "He felt happy."
+; "He liked being by the ocean."
+(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?L2)) SWIM.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HAPPY.A))
+		(!R2 (?X_F BEACH.N))
+		(!R3 (?X_L OCEAN.N))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 ((KA ((ADV-A (BY.P ?X_L)) BE.V)) ACTION.N))
+	)
+	(:STEPS
+		(?X_E (?X_K ((ADV-A (FOR.P (KA ((ADV-A (ON.P ?X_F)) SWIM.V)))) GO.V)))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) SWIM.10.V) ?L2))
+		(?X_H (?X_K ((ADV-A (FROM.P ?L1)) SWAM.25.V) ?L2))
+		(?X_B (?X_K (FEEL.V ?X_C)))
+		(?X_J (?X_K LIKE.26.V (KA ((ADV-A (BY.P ?X_L)) BE.V))))
+	)
+)
+
+; "Tom walked on the beach."
+; "There were lots of shells there."
+; "He picked some shells."
+; "He found one that looked pretty."
+(EPI-SCHEMA ((?X_M (PICK.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR SHELL.N)))
+		(!R2 (?X_G (PLUR LOT.N)))
+		(!R3 (?X_J ONE.N))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_I (?X_M ((ADV-A (FROM.P ?L1)) WALK.19.V) ?L2))
+		(?X_F (?X_A (BE.V ?X_G)))
+		(?X_C (?X_M (PICK.V ?X_D)))
+		(?X_L (?X_M FIND.27.V ?X_J))
+	)
+)
+
+; "'I want to go swimming,' said Tom."
+; "'There's no one else here,' said Jenny."
+; "'I'll be okay,' said Tom."
+; "He jumped in the ocean."
+; "The waves were high."
+; "He swam for awhile."
+; "Then he came back to the shore."
+(EPI-SCHEMA ((?X_C ((ADV-A (FROM.P ?L2)) JUMP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C AGENT.N))
+		(!R2 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_B (?X_C ((ADV-A (FROM.P ?L1)) JUMP.28.V) ?L2))
+	)
+)
+
+; "Jack walked on the beach."
+; "He saw sand."
+; "He played in the sand."
+; "He built castles."
+; "He dug holes in the sand."
+(EPI-SCHEMA ((?X_N ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR HOLE.N)))
+		(!R2 (?X_F (PLUR CASTLE.N)))
+		(!R3 (?X_I SAND.N))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_N ((ADV-A (FROM.P ?L1)) WALK.19.V) ?L2))
+		(?X_M (?X_N SEE.29.V ?X_I))
+		(?X_H (?X_N ((ADV-A (IN.P ?X_I)) PLAY.V)))
+		(?X_E (?X_N (BUILD.V ?X_F)))
+		(?X_B (?X_N (((ADV-A (IN.P ?X_I)) DIG.V) ?X_C)))
+	)
+)
+
+; "Alice was on vacation."
+; "She went swimming in the ocean."
+; "She swam for a long time."
+; "She came back to the hotel room."
+(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?L2 ?X_L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C OCEAN.N))
+		(!R2 (?X_F VACATION.N))
+		(!R3 (?X_L HOTEL.N))
+		(!R4 (?X_L ROOM.N))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L DESTINATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_K ((ADV-A (ON.P ?X_F)) BE.V)))
+		(?X_B (?X_K ((ADV-A (FOR.P (KA ((ADV-A (IN.P ?X_C)) SWIM.V)))) GO.V)))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) SWIM.10.V) ?L2))
+		(?X_H (?X_K ((ADV-A (FROM.P ?L1)) SWAM.25.V) ?L2))
+		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) COME.23.V) ?X_L))
+	)
+)
+
+; "The man came home from work."
+; "He found his wife sitting on the couch."
+; "She was crying."
+; "He asked her why?"
+; "She told him that she just broke up with her boyfriend."
+(EPI-SCHEMA ((?X_E (FIND.V (KE (?X_I CRYING.A)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_H MAN.N))
+		(!R2 (?X_D COUCH.N))
+		(!R3 (?X_E WIFE.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_H)))
+		(!R5 (?X_I WORK.N))
+		(!R6 (?X_J HOME.N))
+		(!R7 (?X_J (PERTAIN-TO ?X_H)))
+		(!R8 (?X_J DESTINATION.N))
+		(!R9 (?X_I LOCATION.N))
+		(!R10 (NOT (?X_I = ?X_J)))
+	)
+	(:STEPS
+		(?X_A (?X_H ((ADV-A (FROM.P ?X_I)) COME.1.V) ?X_J))
+		(?X_B (?X_E ((ADV-A (ON.P ?X_D)) SIT.V)))
+		(?X_C (?X_H (FIND.V ?X_E)))
+		(?X_G (?X_E CRY.2.V))
+	)
+)
+
+; "Bill's girlfriend is moving away."
+; "He will miss her."
+; "He wants to marry her."
+(EPI-SCHEMA ((?X_E (MISS.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E AGENT.N))
+		(!R2 (?X_D GIRLFRIEND.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_E)))
+	)
+	(:STEPS
+		(?X_C (?X_D (AWAY.ADV MOVE.V)))
+		(?X_A (?X_E (MISS.V ?X_D)))
+		(?X_G (?X_E (WANT.V (KA (MARRY.V ?X_D)))))
+	)
+)
+
+; "Kathy was a good cook."
+; "She liked cooking for her family."
+; "She cooked dinner for her husband."
+; "Her husband ate the food."
+(EPI-SCHEMA ((?X_F (FOR.P ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D DINNER.N))
+		(!R2 (?X_E HUSBAND.N))
+		(!R3 (?X_F GOOD.A))
+		(!R4 (?X_F COOK.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+		(!R6 (?X_G FAMILY.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_F)))
+		(!R8 ((KA ((ADV-A (FOR.P ?X_G)) COOK.V)) ACTION.N))
+		(!R9 (?X_H FOOD.N))
+	)
+	(:STEPS
+		(?X_A (?X_F LIKE.3.V (KA ((ADV-A (FOR.P ?X_G)) COOK.V))))
+		(?X_B (?X_F (((ADV-A (FOR.P ?X_E)) COOK.V) ?X_D)))
+		(?X_C (?X_E EAT.4.V ?X_H))
+	)
+)
+
+; "Alice was sad."
+; "She felt lonely."
+; "She missed her husband."
+; "She cried for awhile."
+(EPI-SCHEMA ((?X_B (MISS.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B LONELY.A))
+		(!R2 (?X_F SAD.A))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?X_E HUSBAND.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_F)))
+	)
+	(:STEPS
+		(?X_D (?X_F (FEEL.V ?X_B)))
+		(?X_A (?X_F (MISS.V ?X_E)))
+	)
+)
+
+; "Bob's girlfriend is pregnant."
+; "His girlfriend has some problems."
+; "She cried because Bob's girlfriend is pregnant."
+; "Bob doesn't want to have children."
+(EPI-SCHEMA ((?X_H (HAVE.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I (PLUR CHILD.N)))
+		(!R2 (?X_D (PLUR PROBLEM.N)))
+		(!R3 (?X_E PREGNANT.A))
+		(!R4 (?X_E GIRLFRIEND.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_H)))
+		(!R6 (?N NOISE.N))
+		(!R7 (?X_H AGENT.N))
+		(!R8 (?X_I OBJECT.N))
+	)
+	(:STEPS
+		(?X_A (?X_E (HAVE.V ?X_D)))
+		(?X_G (?X_E CRY.5.V ?N))
+		(?X_C (NOT (?X_H (WANT.V (KA (HAVE.V ?X_I))))))
+		(?E_1 (?X_H HAVE.6.V ?X_I))
+	)
+)
+
+; "Tom's girlfriend left him."
+; "Tom cried for a while."
+; "Then he met someone new."
+; "His new girlfriend is pretty."
+(EPI-SCHEMA ((?X_I (CRY.V ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I PERSON.N))
+		(!R2 (?X_I NEW.A))
+		(!R3 (?X_E GIRLFRIEND.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_J)))
+		(!R5 (?X_H PRETTY.A))
+		(!R6 (?X_H (PERTAIN-TO ?X_J)))
+		(!R7 (?X_H ?X_I GIRLFRIEND.N))
+		(!R8 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_D (?X_E (LEAVE.V ?X_J)))
+		(?X_G (?X_J CRY.7.V))
+		(?X_B (?X_J ((THEN.ADV MEET.V) ?X_I)))
+	)
+)
+
+; "Beth and James were going steady."
+; "They went steady for two weeks."
+; "Then they broke up."
+(EPI-SCHEMA ((?X_G ((ADV-A (FROM.P ?L2)) (SOMEWHERE.ADV GO.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_G AGENT.N))
+		(!R2 ((SET-OF ?X_G ?X_H) AGENT.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D ((SET-OF ?X_G ?X_H) ((ADV-A (FROM.P ?L1)) GO.8.V) ?L2))
+		(?X_F (?X_H ((ADV-A (FROM.P ?L1)) GO.9.V) ?L2))
+		(?X_B (?X_H (THEN.ADV BREAK_UP.V)))
+	)
+)
+
+; "Bob's girlfriend has been gone for two weeks."
+; "He misses her."
+; "He wants to call her."
+; "He doesn't want to be alone."
+(EPI-SCHEMA ((?X_I (MISS.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A (FOR.P (TWO.D (PLUR WEEK.N)))))
+		(!R2 (?X_H GIRLFRIEND.N))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_I)))
+	)
+	(:STEPS
+		(?X_C (?X_H (HAS.V ?X_A)))
+		(?X_E (?X_I (MISS.V ?X_H)))
+		(?X_G (?X_I (WANT.V (KA (CALL.V ?X_H)))))
+		(?X_K (NOT (?X_I (WANT.V (KA (ALONE.ADV BE.V))))))
+	)
+)
+
+; "Kate was sad."
+; "She did not have a boyfriend."
+; "She could not find one."
+; "She cried all night."
+(EPI-SCHEMA ((?X_D (FIND.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A ONE.N))
+		(!R2 (?X_D BOYFRIEND.N))
+		(!R3 (?X_G SAD.A))
+		(!R4 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_C (NOT (?X_G (HAVE.V ?X_D))))
+		(E215.SK (NOT (?X_G ((CAN.MD FIND.V) ?X_A))))
+		(?X_F (?X_G CRY.10.V))
+	)
+)
+
+; "Alice met Jack."
+; "They dated for three years."
+; "They lived together for two years."
+; "They were married for four years."
+; "They have been divorced since then."
+(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_C (FOUR.D (PLUR YEAR.N)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_E (?X_B (MEET.V ?X_C)))
+		(?X_G (?X_J ((ADV-A (FOR.P (THREE.D (PLUR YEAR.N)))) DATE.V)))
+		(?X_I (?X_J ((ADV-A (FOR.P (TWO.D (PLUR YEAR.N)))) LIVE_TOGETHER.V)))
+		(?X_A (?X_J (FOR.P (FOUR.D (PLUR YEAR.N)))))
+	)
+)
+
+; "Mary walked into the park."
+; "There were many children there."
+; "Some children were running around."
+; "Others were sitting on the grass."
+; "A few children were swinging on swings."
+(EPI-SCHEMA ((?X_N ((ADV-A (THROUGH.P ?X_O)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR SWING.N)))
+		(!R2 (?X_D FEW.A))
+		(!R3 (?X_D (PLUR CHILD.N)))
+		(!R4 (?X_G GRASS.N))
+		(!R5 (?X_H (PLUR OTHER.N)))
+		(!R6 (?X_O PARK.N))
+		(!R7 (?X_K (PLUR CHILD.N)))
+		(!R8 (?X_N AGENT.N))
+		(!R9 (?X_O DESTINATION.N))
+		(!R10 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_J (?X_N ((ADV-A (FROM.P ?L1)) WALK.11.V) ?X_O))
+		(?X_M (?X_K ((ADV-A (FROM.P ?L1)) RUN.12.V) ?L2))
+		(?X_F (?X_H ((ADV-A (ON.P ?X_G)) SIT.V)))
+		(?X_B (?X_D ((ADV-A (ON.P ?X_C)) SWING.V)))
+	)
+)
+
+; "Tom walked into the park."
+; "He saw two boys fighting."
+; "He tried to stop them from fighting."
+; "One boy punched him."
+; "Tom fell down on the ground."
+; "The other boy kicked Tom's head."
+(EPI-SCHEMA ((?X_S
+              (COMPOSITE-SCHEMA.PR
+               (KA (((ADV-A (FROM.P (KA FIGHT.V))) STOP.V) ?X_A)) ?X_S ?X_M
+               ?X_R (TWO.D (L X (AND (X (PLUR BOY.N)) (X FIGHT.V))))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_M HEAD.N))
+		(!R2 (?X_D BOY.N))
+		(!R3 (?X_D OTHER.A))
+		(!R4 (?X_G GROUND.N))
+		(!R5 (?X_J BOY.N))
+		(!R6 (?X_M (PERTAIN-TO ?X_S)))
+		(!R7 (?X_R PARK.N))
+		(!R8 (?X_R DESTINATION.N))
+		(!R9 (?X_S AGENT.N))
+		(!R10 ((TWO.D (L X (AND (X (PLUR BOY.N)) (X FIGHT.V)))) ENTITY.N))
+	)
+	(:STEPS
+		(?X_O (?X_S ((ADV-A (FROM.P ?L1)) WALK.11.V) ?X_R))
+		(?X_Q (?X_S SEE.13.V (TWO.D (L X (AND (X (PLUR BOY.N)) (X FIGHT.V))))))
+		(?X_L (?X_S (TRY.V (KA (((ADV-A (FROM.P (KA FIGHT.V))) STOP.V) ?X_A)))))
+		(?X_I (?X_J (PUNCH.V ?X_S)))
+		(?X_F (?X_S (DOWN.ADV ((ADV-A (ON.P ?X_G)) FALL.V))))
+		(?X_C (?X_D (KICK.V ?X_M)))
+	)
+)
+
+; "Bob walked down the street."
+; "There were lots of kids there."
+; "A boy threw a rock at Bob's head."
+; "Bob ran away from the kid."
+(EPI-SCHEMA ((?X_M ((ADV-A (FROM.P ?X_D)) (AWAY.ADV RUN.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D ROCK.N))
+		(!R2 (?X_J HEAD.N))
+		(!R3 (?X_N BOY.N))
+		(!R4 (?X_N KID.N))
+		(!R5 (?X_G (PLUR LOT.N)))
+		(!R6 (?X_J (PERTAIN-TO ?X_M)))
+		(!R7 (?X_M AGENT.N))
+		(!R8 (?X_N LOCATION.N))
+		(!R9 (NOT (?X_N = ?L2)))
+		(!R10 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_M ((ADV-A (FROM.P ?L1)) WALK.14.V) ?L2))
+		(?X_F (?X_A (BE.V ?X_G)))
+		(?X_C (?X_N (((ADV-A (AT.P ?X_J)) THROW.V) ?X_D)))
+		(?X_L (?X_M ((ADV-A (FROM.P ?X_N)) RUN.15.V) ?L2))
+	)
+)
+
+; "Kate walked into a park."
+; "There were lots of children there."
+; "There were swings and slides."
+; "Kate played on the swings."
+(EPI-SCHEMA ((?X_O ((ADV-A (IN.P ?X_N)) PLAY.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E (PLUR SLIDE.N)))
+		(!R2 (?X_F (PLUR SWING.N)))
+		(!R3 (?X_I (PLUR LOT.N)))
+		(!R4 (?X_N PARK.N))
+		(!R5 (?X_N DESTINATION.N))
+		(!R6 (?X_O AGENT.N))
+		(!R7 (?Y ENTITY.N))
+	)
+	(:STEPS
+		(?X_K (?X_O ((ADV-A (FROM.P ?L1)) WALK.11.V) ?X_N))
+		(?X_H (?X_A (BE.V ?X_I)))
+		(?X_D (?X_A (BE.V (K (L X (AND (X (= ?X_F)) (X (= ?X_E))))))))
+		(?X_M (?X_O PLAY.16.V ?Y))
+	)
+)
+
+; "Alice walked down the street."
+; "She saw two boys fighting."
+; "She stopped them from fighting."
+; "She said that they were good kids."
+(EPI-SCHEMA ((?X_F ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GOOD.A))
+		(!R2 (?X_C (PLUR KID.N)))
+		(!R3 (?X_F AGENT.N))
+		(!R4 (?L2 DESTINATION.N))
+		(!R5 (?X_K AGENT.N))
+		(!R6 ((TWO.D (L X (AND (X (PLUR BOY.N)) (X FIGHT.V)))) ENTITY.N))
+	)
+	(:STEPS
+		(?X_H (?X_K ((ADV-A (FROM.P ?L1)) WALK.14.V) ?L2))
+		(?X_J (?X_K SEE.17.V (TWO.D (L X (AND (X (PLUR BOY.N)) (X FIGHT.V))))))
+		(?X_E (?X_K (((ADV-A (FROM.P (KA FIGHT.V))) STOP.V) ?X_F)))
+		(?X_B (?X_K (SAY.V (THAT (?X_F (= ?X_C))))))
+	)
+)
+
+; "Sammy is young."
+; "His parents don't want him to play outside."
+; "He wants to go outside."
+; "He has friends who want to play outside."
+(EPI-SCHEMA ((?X_H (WANT.V (KA (OUTSIDE.ADV PLAY.V)))) ** ?E)
+	(:ROLES
+		(!R1 (?X_H YOUNG.A))
+		(!R2 (?X_D (PLUR PARENT.N)))
+		(!R3 (?X_D (PERTAIN-TO ?X_H)))
+		(!R4 (?X_G (PLUR FRIEND.N)))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 (?X_G OBJECT.N))
+		(!R7 (?X_H AGENT.N))
+	)
+	(:STEPS
+		(?X_A (NOT (?X_D (WANT.V ?X_H (KA (OUTSIDE.ADV PLAY.V))))))
+		(?X_C (?X_H (WANT.V (KA (OUTSIDE.ADV GO.V)))))
+		(?E_1 (?X_H ((ADV-A (FROM.P ?L1)) GO.18.V) ?L2))
+		(?X_F (?X_H HAVE.19.V ?X_G))
+	)
+)
+
+; "Hannah's mom bought Hannah a dog."
+; "She named the dog Spot."
+; "Spot ate all the food in the kitchen."
+; "Then he ate some of the furniture."
+; "Finally, Spot ate himself."
+(EPI-SCHEMA ((?X_J ((FINALLY.ADV EAT.V) ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_E SPOT.N))
+		(!R2 (?X_H DOG.N))
+		(!R3 (?X_H SPOT.N))
+		(!R4 (?X_J AGENT.N))
+		(!R5 (?X_I MOM.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_J)))
+		(!R7 (?X_K FURNITURE.N))
+		(!R8 (?X_N {REF}.N))
+		(!R9 (?X_N (OF.P ?X_K)))
+		(!R10 (?X_N FOOD.N))
+	)
+	(:STEPS
+		(?X_B (?X_I (BUY.V ?X_J ?X_H)))
+		(?X_G (?X_J (NAME.V ?X_H)))
+		(?X_M (?X_H EAT.1.V ?X_N))
+		(?X_D (?X_E ((FINALLY.ADV EAT.V) ?X_A)))
+	)
+)
+
+; "Hannah's mom bought Hannah a dog."
+; "She named the dog Spot."
+; "Spot ate all the food in the kitchen."
+; "Then he ate some of the furniture."
+; "Finally, Spot ate himself."
+(EPI-SCHEMA ((?X_K ((FINALLY.ADV EAT.V) ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D SPOT.N))
+		(!R2 (?X_I DOG.N))
+		(!R3 (?X_I SPOT.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_J MOM.N))
+		(!R6 (?X_J (PERTAIN-TO ?X_K)))
+		(!R7 (?X_L FURNITURE.N))
+		(!R8 (?X_O {REF}.N))
+		(!R9 (?X_O (OF.P ?X_L)))
+		(!R10 (?X_O FOOD.N))
+	)
+	(:STEPS
+		(?X_H (?X_J (BUY.V ?X_K ?X_I)))
+		(?X_F (?X_K (NAME.V ?X_I)))
+		(?X_N (?X_I EAT.1.V ?X_O))
+		(?X_C (?X_D ((FINALLY.ADV EAT.V) ?X_A)))
+	)
+)
+
+; "Timmy loves dogs."
+; "His best friend is his dog, Spot."
+; "Spot likes to eat."
+; "He eats Timmy's shoes."
+; "Timmy doesn't want Spot to eat his shoes."
+(EPI-SCHEMA ((?X_N (EAT.V ?F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M (PLUR SHOE.N)))
+		(!R2 (?X_L SPOT.N))
+		(!R3 (?X_M (PERTAIN-TO ?X_N)))
+		(!R4 (?X_K (PLUR DOG.N)))
+		(!R5 (?X_H DOG.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_N)))
+		(!R7 (?X_I (PERTAIN-TO ?X_N)))
+		(!R8 (?X_J BEST.A))
+		(!R9 (?X_I ?X_J FRIEND.N))
+		(!R10 (NOT (?X_K ACTION.N)))
+		(!R11 ((KA EAT.V) ACTION.N))
+		(!R12 (?F FOOD.N))
+		(!R13 (?X_L AGENT.N))
+		(!R14 (?X_M FOOD.N))
+		(!R15 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_N LOVE.2.V ?X_K))
+		(?X_E (?X_L LIKE.3.V (KA EAT.V)))
+		(?E_1 (?X_N EAT.4.V ?F))
+		(?X_G (?X_L EAT.1.V ?X_M))
+		(?X_A (NOT (?X_N (WANT.V ?X_L (KA (EAT.V ?X_M))))))
+		(?E_2 (?X_N EAT.5.V ?X_M))
+	)
+)
+
+; "Bobby saw a dog on the street."
+; "The dog looked hungry."
+; "Bobby gave him some food."
+; "Bobby liked that dog."
+(EPI-SCHEMA ((?X_K (((ADV-A (TO.P ?X_C)) GIVE.V) ?X_J)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C HUNGRY.A))
+		(!R2 (?X_L DOG.N))
+		(!R3 (?X_J FOOD.N))
+		(!R4 (NOT (?X_J AGENT.N)))
+		(!R5 (?X_K AGENT.N))
+		(!R6 (NOT (?X_L ACTION.N)))
+	)
+	(:STEPS
+		(?X_E (?X_K SEE.6.V ?X_L))
+		(?X_B (?X_L (LOOK.V ?X_C)))
+		(?X_G (?X_K (GIVE.7.V ?X_L ?X_J)))
+		(?X_I (?X_K LIKE.8.V ?X_L))
+	)
+)
+
+; "Tommy liked to play catch."
+; "His best friend was a boy named Tommy."
+; "Tommy threw the ball."
+; "Tommy caught the ball."
+(EPI-SCHEMA ((?X_L (((ADV-A (WITH.P ?X_H)) PLAY.V) ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D BALL.N))
+		(!R2 (?X_G BALL.N))
+		(!R3 (?X_H BOY.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_L)))
+		(!R5 (?X_I BEST.A))
+		(!R6 (?X_H ?X_I FRIEND.N))
+		(!R7 (?X_M CATCH.N))
+		(!R8 (?X_L AGENT.N))
+		(!R9 ((KA (PLAY.V ?X_M)) ACTION.N))
+		(!R10 (?X AGENT.N))
+	)
+	(:STEPS
+		(?X_K (?X_L LIKE.9.V (KA (PLAY.V ?X_M))))
+		(?X_A (?X_H ((PASV NAME.V) ?X_L)))
+		(?X_F (?X_L (THROW.V ?X_G)))
+		(?X_C (?X_L (CATCH.V ?X_D)))
+		(?E_1 (?X PLAY.10.V))
+	)
+)
+
+; "Tommy has two cats."
+; "His cat is called Kitty."
+; "Kitty eats fish."
+; "Tommy likes fish."
+; "His other cat is called Spot."
+; "Spot eats meat."
+; "Tommy doesn't like meat."
+(EPI-SCHEMA ((?X_T (EAT.V ?X_R)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B KITTY.N))
+		(!R2 (?X_N CAT.N))
+		(!R3 (?X_N KITTY.N))
+		(!R4 (?X_P FISH.N))
+		(!R5 (?X_Q FISH.N))
+		(!R6 (?X_R MEAT.N))
+		(!R7 (?X_S SPOT.N))
+		(!R8 (?X_S OTHER.A))
+		(!R9 (?X_O SPOT.A))
+		(!R10 (?X_K OTHER.A))
+		(!R11 (?X_O ?X_K CAT.N))
+		(!R12 (?X_N (PERTAIN-TO ?X_T)))
+		(!R13 (?X_O (PERTAIN-TO ?X_T)))
+		(!R14 (?X_U MEAT.N))
+		(!R15 ((TWO.D (PLUR CAT.N)) OBJECT.N))
+		(!R16 (?X_P FOOD.N))
+		(!R17 (NOT (?X_Q ACTION.N)))
+		(!R18 (?X_R FOOD.N))
+		(!R19 (?X_S AGENT.N))
+		(!R20 (?X_T AGENT.N))
+		(!R21 (?X_U OBJECT.N))
+		(!R22 (NOT (?X_U ACTION.N)))
+		(!R23 (NOT (?X_U AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_T HAVE.11.V (TWO.D (PLUR CAT.N))))
+		(?X_A (?X_N ((PASV CALL.V) ?X_B)))
+		(?X_F (?X_N EAT.1.V ?X_P))
+		(?X_H (?X_T LIKE.12.V ?X_Q))
+		(?X_J (?X_S EAT.1.V ?X_R))
+		(?X_M (?X_T LIKE.13.V ?X_U))
+	)
+)
+
+; "Hannah had a cat."
+; "She fed him milk."
+; "The cat liked milk."
+(EPI-SCHEMA ((?X_H (FEED.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I MILK.N))
+		(!R2 (?X_G CAT.N))
+		(!R3 (?X_J MILK.N))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (NOT (?X_I AGENT.N)))
+		(!R6 (?X_J OBJECT.N))
+		(!R7 (NOT (?X_J ACTION.N)))
+		(!R8 (NOT (?X_J AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_H HAVE.14.V ?X_G))
+		(?X_D (?X_H (FED.15.V ?X_G ?X_I)))
+		(?X_F (?X_G LIKE.16.V ?X_J))
+	)
+)
+
+; "Tommy's family has two cats."
+; "They have names for them."
+; "Tommy's father says they're cute."
+; "His mother thinks they're funny."
+(EPI-SCHEMA ((?X_M (HAVE.V (SET-OF (TWO.D (PLUR CAT.N)) ?X_L))) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FAMILY.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_D (PERTAIN-TO ?X_K)))
+		(!R4 (?X_L (PLUR NAME.N)))
+		(!R5 (?X_G FATHER.N))
+		(!R6 (?X_G (PERTAIN-TO ?X_K)))
+		(!R7 (?X_J MOTHER.N))
+		(!R8 (?X_J (PERTAIN-TO ?X_K)))
+		(!R9 (?X_M AGENT.N))
+		(!R10 (?X_L (FOR.P ?X_M)))
+	)
+	(:STEPS
+		(?X_C (?X_D (HAVE.V (TWO.D (PLUR CAT.N)))))
+		(?X_F (?X_D (HAVE.V ?X_L)))
+		(?X_I (?X_G (SAY.V (THT (?X_M CUTE.A)))))
+		(?X_A (?X_J (THINK.V (THT (?X_M FUNNY.A)))))
+	)
+)
+
+; "The man's car broke down on the highway."
+; "There was no other way to go."
+; "A truck stopped."
+; "The driver offered to take him to a hotel."
+; "They got there safely."
+(EPI-SCHEMA ((?X_O ((ADV-A (ON.P ?X_N)) BREAK_DOWN.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D AGENT.N))
+		(!R2 (?X_P MAN.N))
+		(!R3 (?X_Q HOTEL.N))
+		(!R4 (?X_I TRUCK.N))
+		(!R5 (?X_I DRIVER.N))
+		(!R6 (?X_N HIGHWAY.N))
+		(!R7 (?X_O CAR.N))
+		(!R8 (?X_O (PERTAIN-TO ?X_P)))
+		(!R9 (?X_P SMALLER-THAN.N ?X_R))
+		(!R10 (?X_Q DESTINATION.N))
+		(!R11 (?X_R AGENT.N))
+	)
+	(:STEPS
+		(?X_M (?X_O ((ADV-A (ON.P ?X_N)) BREAK_DOWN.V)))
+		(?X_K (?X_R (BE.V (NO.D (L X (AND (X OTHER.A WAY.N) (X (KA GO.V))))))))
+		(?X_H (?X_I STOP.V))
+		(?X_F
+   (?X_I ((ADV-A (FOR.P (KA (((ADV-A (TO.P ?X_Q)) TAKE.V) ?X_P)))) OFFER.V)))
+		(?X_C (?X_D (SAFELY.ADV (THERE.ADV GET.V))))
+		(?E_1 (?X_R TAKE.17.V ?X_P ?X_Q))
+	)
+)
+
+; "The woman was cooking dinner."
+; "Her husband walked in."
+; "He asked what he could do."
+; "She told him to wash up."
+(EPI-SCHEMA ((?X_J
+              (COMPOSITE-SCHEMA.PR ?X_E (ANS-TO (?X_K (CAN.MD (DO.V ?X_A))))
+               ?L2 ?X_K (KA WASH_UP.V)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_K HUSBAND.N))
+		(!R2 (?X_E DINNER.N))
+		(!R3 (?X_J WOMAN.N))
+		(!R4 (?X_K (PERTAIN-TO ?X_J)))
+		(!R5 (?L2 DESTINATION.N))
+		(!R6 ((KA WASH_UP.V) ACTION.N))
+		(!R7 (NOT (?X_J = ?X_K)))
+	)
+	(:STEPS
+		(?X_B (?X_J (COOK.V ?X_E)))
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) WALK_IN.1.V) ?L2))
+		(?X_D (?X_K (ASK.V (ANS-TO (?X_K (CAN.MD (DO.V ?X_A)))))))
+		(?X_I (?X_J TELL.2.V ?X_K (KA WASH_UP.V)))
+	)
+)
+
+; "Kathy cooked for her family."
+; "She liked to cook."
+; "She had lots of recipes."
+; "She learned how to cook from her mother."
+(EPI-SCHEMA ((?X_J (FOR.P ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B FAMILY.N))
+		(!R2 (?X_B (PERTAIN-TO ?X_J)))
+		(!R3 (?X_H (PLUR RECIPE.N)))
+		(!R4 (?X_E MOTHER.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_J)))
+		(!R6 (?X_I (PLUR LOT.N)))
+		(!R7 (?X_I (OF.P ?X_H)))
+		(!R8 ((KA COOK.V) ACTION.N))
+		(!R9 (?X_I OBJECT.N))
+		(!R10 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_J ((ADV-A (FOR.P ?X_B)) COOK.V)))
+		(?X_D (?X_J LIKE.3.V (KA COOK.V)))
+		(?X_G (?X_J HAVE.4.V ?X_I))
+	)
+)
+
+; "Tom cooked dinner for his family."
+; "His wife liked his cooking."
+; "His children ate dinner."
+; "His daughter liked the food."
+; "His son didn't like the food."
+(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_F ?X_N ?X_H ?X_O)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F DINNER.N))
+		(!R2 (?X_G FAMILY.N))
+		(!R3 (?X_M AGENT.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_M)))
+		(!R5 (?X_H DINNER.N))
+		(!R6 (?X_I WIFE.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_M)))
+		(!R8 (?X_N COOKING.N))
+		(!R9 (?X_N (PERTAIN-TO ?X_M)))
+		(!R10 (?X_J (PLUR CHILD.N)))
+		(!R11 (?X_J (PERTAIN-TO ?X_M)))
+		(!R12 (?X_K DAUGHTER.N))
+		(!R13 (?X_K (PERTAIN-TO ?X_M)))
+		(!R14 (?X_L SON.N))
+		(!R15 (?X_L (PERTAIN-TO ?X_M)))
+		(!R16 (?X_O FOOD.N))
+		(!R17 (?X_N OBJECT.N))
+		(!R18 (NOT (?X_N AGENT.N)))
+		(!R19 (?X_O OBJECT.N))
+		(!R20 (NOT (?X_O ACTION.N)))
+		(!R21 (NOT (?X_O AGENT.N)))
+	)
+	(:STEPS
+		(?X_A (?X_M (((ADV-A (FOR.P ?X_G)) COOK.V) ?X_F)))
+		(?X_B (?X_I LIKE.5.V ?X_N))
+		(?X_C (?X_J EAT.6.V ?X_H))
+		(?X_D (?X_K LIKE.7.V ?X_O))
+		(?X_E (?X_L LIKE.8.V ?X_O))
+	)
+)
+
+; "'I'm going to cook dinner for my family,' said Tom."
+; "His mother came into the kitchen."
+; "'What's that?' she asked."
+; "'A recipe book,' he replied."
+; "'Oh, I haven't seen that before.'"
+; "'Here you go,' said Tom."
+; "'Thank you,' said his mother."
+(EPI-SCHEMA ((?X_E ((ADV-A (INTO.P ?X_B)) COME.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B KITCHEN.N))
+		(!R2 (?X_E MOTHER.N))
+		(!R3 (?X_E (PERTAIN-TO ?X_C)))
+		(!R4 (?X_D (PERTAIN-TO ?X_E)))
+	)
+	(:STEPS
+		(?X_A (?X_E ((ADV-A (INTO.P ?X_B)) COME.V)))
+		(?X_G (?X_E ASK.V))
+	)
+)
+
+; "Alice cooked dinner for her family."
+; "She put food on plates."
+; "She served them."
+; "Everyone ate."
+(EPI-SCHEMA ((?X_K (SERVE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FOOD.N))
+		(!R2 (?X_E DINNER.N))
+		(!R3 (?X_F FAMILY.N))
+		(!R4 (?X_F (PERTAIN-TO ?X_K)))
+		(!R5 (?X_L (PLUR PLATE.N)))
+		(!R6 (?X_K AGENT.N))
+		(!R7 (?X_L LOCATION.N))
+		(!R8 ((EVERY.D PERSON.N) AGENT.N))
+		(!R9 (?F FOOD.N))
+	)
+	(:STEPS
+		(?X_A (?X_K (((ADV-A (FOR.P ?X_F)) COOK.V) ?X_E)))
+		(?X_H (?X_K PUT.9.V ?X_D ?X_L))
+		(?X_C (?X_K (SERVE.V ?X_D)))
+		(?X_J ((EVERY.D PERSON.N) EAT.10.V ?F))
+	)
+)
+
+; "Tom cooked for his family."
+; "His wife liked to cook."
+; "Tom's mother-in-law helped her."
+; "Tom's sister helped too."
+(EPI-SCHEMA ((?X_K (FOR.P ?X_G)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I SISTER.N))
+		(!R2 (?X_H MOTHER-IN-LAW.N))
+		(!R3 (?X_G FAMILY.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_G (PERTAIN-TO ?X_K)))
+		(!R6 (?X_H (PERTAIN-TO ?X_K)))
+		(!R7 (?X_I (PERTAIN-TO ?X_K)))
+		(!R8 (?X_J WIFE.N))
+		(!R9 (?X_J (PERTAIN-TO ?X_K)))
+		(!R10 ((KA COOK.V) ACTION.N))
+	)
+	(:STEPS
+		(?X_A (?X_K ((ADV-A (FOR.P ?X_G)) COOK.V)))
+		(?X_B (?X_J LIKE.11.V (KA COOK.V)))
+		(?X_F (?X_H (HELP.V ?X_K)))
+		(?X_D (?X_I (TOO.ADV HELP.V)))
+	)
+)
+
+; "Alice cooked for her family."
+; "She baked cookies."
+; "She boiled eggs."
+; "She fried fish."
+; "She served food on plates."
+; "She put food on tables."
+(EPI-SCHEMA ((?X_N (FOR.P ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FOOD.N))
+		(!R2 (?X_E (PLUR PLATE.N)))
+		(!R3 (?X_H (PLUR EGG.N)))
+		(!R4 (?X_I FAMILY.N))
+		(!R5 (?X_I (PERTAIN-TO ?X_N)))
+		(!R6 (?X_L FOOD.N))
+		(!R7 (?X_M (PLUR TABLE.N)))
+		(!R8 (?X_M LOCATION.N))
+		(!R9 (?X_N AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_N ((ADV-A (FOR.P ?X_I)) COOK.V)))
+		(?X_G (?X_N (BOIL.V ?X_H)))
+		(?X_C (?X_N (((ADV-A (ON.P ?X_E)) SERVE.V) ?X_D)))
+		(?X_K (?X_N PUT.12.V ?X_L ?X_M))
+	)
+)
+
+; "Alice cooked for her family."
+; "She made spaghetti sauce."
+; "She put some cheese on top."
+; "She served them pasta."
+(EPI-SCHEMA ((?X_G (FOR.P ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D PASTA.N))
+		(!R2 (?X_G (PLUR SPAGHETTI.N)))
+		(!R3 (?X_G SAUCE.N))
+		(!R4 (?X_H FAMILY.N))
+		(!R5 (?X_H (PERTAIN-TO ?X_M)))
+		(!R6 (?X_K CHEESE.N))
+		(!R7 (?X_L TOP.N))
+		(!R8 (?X_M AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_M ((ADV-A (FOR.P ?X_H)) COOK.V)))
+		(?X_F (?X_M (MAKE.V ?X_G)))
+		(?X_J (?X_M PUT.13.V ?X_K ?X_L))
+		(?X_C (?X_M (SERVE.V ?X_H ?X_D)))
+	)
+)
+
+; "Doris cooked dinner for her family."
+; "She served them food."
+; "They ate dinner together."
+(EPI-SCHEMA ((?X_F (SERVE.V ?X_D)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D FOOD.N))
+		(!R2 (?X_E DINNER.N))
+		(!R3 (?X_J FAMILY.N))
+		(!R4 (?X_F AGENT.N))
+		(!R5 (?X_J (PERTAIN-TO ?X_F)))
+		(!R6 (?X_G DINNER.N))
+		(!R7 (?X_J AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_F (((ADV-A (FOR.P ?X_J)) COOK.V) ?X_E)))
+		(?X_C (?X_F (SERVE.V ?X_J ?X_D)))
+		(?X_I (?X_J EAT.6.V ?X_G))
+	)
+)
+
+; "Tom cooked spaghetti for his family."
+; "His kids liked it."
+; "His wife liked it too."
+(EPI-SCHEMA ((?X_E (COMPOSITE-SCHEMA.PR ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_I (PLUR SPAGHETTI.N)))
+		(!R2 (?X_E AGENT.N))
+		(!R3 (?X_F (PLUR KID.N)))
+		(!R4 (?X_H AGENT.N))
+		(!R5 (?X_F (PERTAIN-TO ?X_H)))
+		(!R6 (?X_G WIFE.N))
+		(!R7 (?X_G (PERTAIN-TO ?X_H)))
+		(!R8 (?X_I OBJECT.N))
+		(!R9 (NOT (?X_I ACTION.N)))
+		(!R10 (NOT (?X_I AGENT.N)))
+	)
+	(:STEPS
+		(?X_D (?X_E (COOK.V ?X_I)))
+		(?X_A (?X_F LIKE.14.V ?X_I))
+		(?X_B (?X_G LIKE.15.V ?X_I))
+	)
+)
+
+; "Tom's mom liked to cook."
+; "His dad liked to eat."
+; "When Tom was little, his parents would make food for him."
+; "Tom's mom cooked for him all the time."
+(EPI-SCHEMA ((?X_G (EAT.V ?F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_F MOM.N))
+		(!R2 (?X_D DAD.N))
+		(!R3 (?X_E (PLUR PARENT.N)))
+		(!R4 (?X_F (PERTAIN-TO ?X_G)))
+		(!R5 (?X_D (PERTAIN-TO ?X_G)))
+		(!R6 (?X_E (PERTAIN-TO ?X_G)))
+		(!R7 ((KA COOK.V) ACTION.N))
+		(!R8 (?X_F AGENT.N))
+		(!R9 ((KA EAT.V) ACTION.N))
+		(!R10 (?X_G AGENT.N))
+		(!R11 (?F FOOD.N))
+	)
+	(:STEPS
+		(?X_C (?X_F LIKE.16.V (KA COOK.V)))
+		(?X_A (?X_D LIKE.17.V (KA EAT.V)))
+		(?E_1 (?X_G EAT.18.V ?F))
+	)
+)
+
+; "The dog barked at the mailman."
+; "The mailman yelled at the dog."
+; "The dog growled at the mailman."
+; "The mailman left."
+(EPI-SCHEMA ((?X_C ((ADV-A (AT.P ?X_C)) YELL.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C DOG.N))
+		(!R2 (?X_D MAILMAN.N))
+		(!R3 (?N NOISE.N))
+		(!R4 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_F (?X_C BARK.19.V ?N))
+		(?X_B (?X_D ((ADV-A (AT.P ?X_C)) YELL.V)))
+		(?X_H (?X_C GROWL.20.V ?N))
+		(?X_J (?X_D ((ADV-A (FROM.P ?L1)) LEAVE.21.V) ?L2))
+	)
+)
+
+; "John's mother sent him some mail."
+; "The mail was heavy."
+; "He carried it inside."
+; "His mother wanted him to take care of the mail."
+(EPI-SCHEMA ((?X_I (GET.V ?X_H)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B CARE.N))
+		(!R2 (?X_H HEAVY.A))
+		(!R3 (?X_H MAIL.N))
+		(!R4 (?X_E MOTHER.N))
+		(!R5 (?X_E (PERTAIN-TO ?X_I)))
+		(!R6 (?X_I AGENT.N))
+		(!R7 (?X_H SMALLER-THAN.N ?X_I))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_E (SEND.V ?X_I ?X_H)))
+		(?X_G (?X_I CARRY.22.V ?X_H ?L2))
+		(?X_A (?X_E (WANT.V ?X_I (KA (((ADV-A (OF.P ?X_H)) TAKE.V) ?X_B)))))
+	)
+)
+
+; "Tom's friend has a cat."
+; "His name is Jack."
+; "Tom likes cats."
+(EPI-SCHEMA ((?X_B (LIKE.V ?X_F)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_E NAME.N))
+		(!R3 (?X_F CAT.N))
+		(!R4 (?X_E (PERTAIN-TO ?X_F)))
+		(!R5 (?X_I FRIEND.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_J)))
+		(!R7 (?X_K (PLUR CAT.N)))
+		(!R8 (?X_J AGENT.N))
+		(!R9 (NOT (?X_K ACTION.N)))
+	)
+	(:STEPS
+		(?X_D (?X_I (HAVE.V ?X_F)))
+		(?X_A (?X_E (= ?X_B)))
+		(?X_H (?X_J LIKE.23.V ?X_K))
+	)
+)
+
+; "A mailman came to Bob's house."
+; "He brought some letters for Bob."
+; "He put them on the table."
+; "Bob read the letters."
+(EPI-SCHEMA ((?X_J (BRING.V ?X_K ?X_I)) ** ?E)
+	(:ROLES
+		(!R1 (?X_K (PLUR LETTER.N)))
+		(!R2 (?X_J AGENT.N))
+		(!R3 (?X_I HOUSE.N))
+		(!R4 (?X_I (PERTAIN-TO ?X_J)))
+		(!R5 (?X_L MAILMAN.N))
+		(!R6 (?X_M TABLE.N))
+		(!R7 (?X_I DESTINATION.N))
+		(!R8 (?X_J DESTINATION.N))
+		(!R9 (?X_K SMALLER-THAN.N ?X_L))
+		(!R10 (?X_M LOCATION.N))
+	)
+	(:STEPS
+		(?X_D (?X_L ((ADV-A (FROM.P ?L1)) COME.24.V) ?X_I))
+		(?X_F (?X_L BRING.25.V ?X_K ?X_J))
+		(?X_H (?X_L PUT.26.V ?X_K ?X_M))
+		(?X_B (?X_J (READ.V ?X_K)))
+	)
+)
+
+; "Tom's mother gave him money for school supplies."
+; "He bought pencils and paper."
+; "He wrote on the paper."
+; "He read what he wrote."
+; "He liked reading."
+(EPI-SCHEMA ((?X_R (BUY.V (SET-OF ?X_J ?X_F))) ** ?E)
+	(:ROLES
+		(!R1 (?X_F PAPER.N))
+		(!R2 (?X_I PAPER.N))
+		(!R3 (?X_J (PLUR PENCIL.N)))
+		(!R4 (?X_M (PLUR SUPPLY.N)))
+		(!R5 (?X_M SCHOOL.N))
+		(!R6 (?X_Q MONEY.N))
+		(!R7 (?X_Q (FOR.P ?X_M)))
+		(!R8 (?X_N MOTHER.N))
+		(!R9 (?X_N (PERTAIN-TO ?X_R)))
+		(!R10 (NOT (?X_Q AGENT.N)))
+		(!R11 (?X_R AGENT.N))
+		(!R12 ((KA READ.V) ACTION.N))
+	)
+	(:STEPS
+		(?X_L (?X_N (GIVE.32.V ?X_R ?X_Q)))
+		(?X_H (?X_R (BUY.V (SET-OF ?X_J ?X_I))))
+		(?X_E (?X_R ((ADV-A (ON.P ?X_F)) WRITE.V)))
+		(?X_C (?X_R (READ.V (ANS-TO (?X_R (WRITE.V ?X_A))))))
+		(?X_P (?X_R LIKE.33.V (KA READ.V)))
+	)
+)
+
+; "The mailman brought letters for Tom."
+; "He read them on the porch."
+; "He looked at some stamps."
+; "He put the letters away."
+(EPI-SCHEMA ((?X_M (((ADV-A (TO.P ?L2)) BRING.V) ?X_K)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR STAMP.N)))
+		(!R2 (?X_K (PLUR LETTER.N)))
+		(!R3 (?X_F PORCH.N))
+		(!R4 (?X_K (FOR.P ?X_M)))
+		(!R5 (?X_L MAILMAN.N))
+		(!R6 (?X_K SMALLER-THAN.N ?X_L))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?X_M AGENT.N))
+		(!R9 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_H (?X_L BRING.34.V ?X_K ?L2))
+		(?X_E (?X_M (((ADV-A (ON.P ?X_F)) READ.V) ?X_K)))
+		(?X_B (?X_M ((ADV-A (AT.P ?X_C)) LOOK.V)))
+		(?X_J (?X_M PUT.35.V ?X_K ?L))
+	)
+)
+
+; "Mike went to the post office."
+; "He mailed some letters."
+; "A woman came into the post office."
+; "She asked Mike for help."
+(EPI-SCHEMA ((?X_L ((ADV-A (TO.P ?X_L)) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (PLUR LETTER.N)))
+		(!R2 (?X_J POST.N))
+		(!R3 (?X_J OFFICE.N))
+		(!R4 (?X_K WOMAN.N))
+		(!R5 (?X_J DESTINATION.N))
+		(!R6 (?L2 DESTINATION.N))
+		(!R7 (?X_L AGENT.N))
+		(!R8 (NOT (?X_K = ?X_L)))
+		(!R9 (?A ACTION.N))
+	)
+	(:STEPS
+		(?X_E (?X_L ((ADV-A (FROM.P ?L1)) GO.36.V) ?X_J))
+		(?X_B (?X_L (MAIL.V ?X_C)))
+		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) COME.37.V) ?L2))
+		(?X_I (?X_K ASK.38.V ?X_L ?A))
+	)
+)
+
+; "The woman was tired."
+; "She worked all week long."
+; "She finally decided she'd take some rest."
+; "She lay down on the couch."
+; "She slept well that night."
+(EPI-SCHEMA ((?X_H ((ADV-A (FOR.P ?X_G)) REST.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A REST.N))
+		(!R2 (?X_D COUCH.N))
+		(!R3 (?X_G NIGHT.N))
+		(!R4 (?X_H WOMAN.N))
+		(!R5 (?X_H TIRED.A))
+	)
+	(:STEPS
+		(?X_C (?X_H ((FINALLY.ADV DECIDE.V) (THT (?X_H (WILL.MD (TAKE.V ?X_A)))))))
+		(?X_F (?X_H ((ADV-A (ON.P ?X_D)) LIE-FLAT_DOWN.V)))
+		(?X_J ((ADV-E ({DURING}.P ?X_G)) (?X_H (WELL.ADV SLEEP.V))))
+	)
+)
+
+; "Alice laid down on the couch."
+; "She fell asleep."
+; "She woke up later."
+; "She felt better."
+(EPI-SCHEMA ((?X_I (ASLEEP.ADV ((ADV-A (ON.P ?X_A)) FALL.V))) ** ?E)
+	(:ROLES
+		(!R1 (?X_A COUCH.N))
+		(!R2 (?X_D ASLEEP.A))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_J BETTER.A))
+	)
+	(:STEPS
+		(?X_C (?X_I ((ADV-A (ON.P ?X_A)) LAY_DOWN.V)))
+		(?X_F (?X_I (FALL.V ?X_D)))
+		(?X_H (?X_I (LATER.ADV WAKE_UP.V)))
+		(?X_L (?X_I (FEEL.V ?X_J)))
+	)
+)
+
+; "Jane fell asleep on the couch."
+; "She woke up in the middle of the night."
+; "She looked around the room."
+; "She saw the clock."
+; "It was 3:00 am."
+(EPI-SCHEMA ((?X_O ((ADV-A (IN.P ?X_G)) WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C ROOM.N))
+		(!R2 ((ADV-E (DURING ?X_F)) (?X_G OF.P)))
+		(!R3 (?X_G MIDDLE.N))
+		(!R4 (?X_J ASLEEP.A))
+		(!R5 (?X_J (ON.P ?X_K)))
+		(!R6 (?X_N CLOCK.N))
+		(!R7 (?X_O AGENT.N))
+	)
+	(:STEPS
+		(?X_I (?X_O (FALL.V ?X_J)))
+		(?X_E (?X_O ((ADV-A (IN.P ?X_G)) WAKE_UP.V)))
+		(?X_B (?X_O ((ADV-A (AROUND.P ?X_C)) LOOK.V)))
+		(?X_M (?X_O SEE.1.V ?X_N))
+	)
+)
+
+; "Mary rested after working hard all week."
+; "She felt good."
+; "She slept well that night."
+(EPI-SCHEMA ((?X_G ((ADV-A (AFTER.P ?X_F)) REST.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C GOOD.A))
+		(!R2 (?X_F NIGHT.N))
+		(!R3 (?X_G AGENT.N))
+	)
+	(:STEPS
+		(?X_B
+   ((ADV-E ({DURING}.P (ALL.D WEEK.N)))
+    (?X_G ((ADV-A (AFTER.P (KA (HARD.ADV WORK.V)))) REST.V))))
+		(?X_E (?X_G (FEEL.V ?X_C)))
+		(?X_I ((ADV-E ({DURING}.P ?X_F)) (?X_G (WELL.ADV SLEEP.V))))
+	)
+)
+
+; "Jane was sleeping on the couch."
+; "She fell asleep."
+; "She woke up."
+; "She felt better."
+(EPI-SCHEMA ((?X_I (FALL.V (K ASLEEP.A))) ** ?E)
+	(:ROLES
+		(!R1 (?X_A COUCH.N))
+		(!R2 (?X_D ASLEEP.A))
+		(!R3 (?X_I AGENT.N))
+		(!R4 (?X_J BETTER.A))
+	)
+	(:STEPS
+		(?X_C (?X_I ((ADV-A (ON.P ?X_A)) SLEEP.V)))
+		(?X_F (?X_I (FALL.V ?X_D)))
+		(?X_H (?X_I WAKE_UP.V))
+		(?X_L (?X_I (FEEL.V ?X_J)))
+	)
+)
+
+; "Jane's parents were going away for two weeks."
+; "She couldn't go anywhere because she had to stay home alone."
+; "She was lonely."
+; "She wanted to watch TV."
+; "But there wasn't any cable."
+; "There were only DVDs."
+(EPI-SCHEMA ((?X_I ((ADV-A (FOR.P (KA (WATCH.V ?X_I)))) GO.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D ONLY.A))
+		(!R2 (?X_D (PLUR DVD.N)))
+		(!R3 (?X_G AGENT.N))
+		(!R4 (?X_I LONELY.A))
+		(!R5 (?X_I AGENT.N))
+		(!R6 (?X_H (PLUR PARENT.N)))
+		(!R7 (?X_H (PERTAIN-TO ?X_I)))
+		(!R8 (?L2 DESTINATION.N))
+	)
+	(:STEPS
+		(?X_K (?X_H ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
+		(?X_F (?X_I (WANT.V (KA (WATCH.V ?X_G)))))
+		(?X_C (?X_A (BE.V ?X_D)))
+	)
+)
+
+; "'I'm going to sleep for a while,' said Tom."
+; "He closed his eyes."
+; "He fell asleep."
+(EPI-SCHEMA ((?X_C (CLOSE.V ?X_B)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B (PLUR EYE.N)))
+		(!R2 (?X_C AGENT.N))
+		(!R3 (?X_B (PERTAIN-TO ?X_C)))
+		(!R4 (?X_D ASLEEP.A))
+	)
+	(:STEPS
+		(?X_A (?X_C (CLOSE.V ?X_B)))
+		(?X_F (?X_C (FALL.V ?X_D)))
+	)
+)
+
+; "Karen was taking a nap."
+; "She rested on the couch."
+; "She fell asleep."
+; "She woke up."
+; "She felt better."
+(EPI-SCHEMA ((?X_L (TAKE.V ?X_A)) ** ?E)
+	(:ROLES
+		(!R1 (?X_A NAP.N))
+		(!R2 (?X_D COUCH.N))
+		(!R3 (?X_G ASLEEP.A))
+		(!R4 (?X_L AGENT.N))
+		(!R5 (?X_M BETTER.A))
+	)
+	(:STEPS
+		(?X_C (?X_L (TAKE.V ?X_A)))
+		(?X_F (?X_L ((ADV-A (ON.P ?X_D)) REST.V)))
+		(?X_I (?X_L (FALL.V ?X_G)))
+		(?X_K (?X_L WAKE_UP.V))
+		(?X_O (?X_L (FEEL.V ?X_M)))
+	)
+)
+
+; "A man was sleeping on the couch."
+; "He fell asleep."
+; "He woke up."
+; "He looked around."
+; "There were no chairs or tables."
+; "He walked over to the kitchen."
+; "He saw a chair there."
+; "He sat down on the chair."
+(EPI-SCHEMA ((?X_J WAKE_UP.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_C CHAIR.N))
+		(!R2 (?X_J ASLEEP.A))
+		(!R3 (?X_M COUCH.N))
+		(!R4 (?X_N MAN.N))
+		(!R5 (?X_Q KITCHEN.N))
+		(!R6 (?X_Q DESTINATION.N))
+	)
+	(:STEPS
+		(?X_L (?X_N ((ADV-A (ON.P ?X_M)) SLEEP.V)))
+		(?X_I (?X_N (FALL.V ?X_J)))
+		(?X_G (?X_N WAKE_UP.V))
+		(?X_E (?X_N (AROUND.ADV LOOK.V)))
+		(?X_P (?X_N ((ADV-A (FROM.P ?L1)) WALK_OVER.3.V) ?X_Q))
+		(?X_B (?X_N (DOWN.ADV ((ADV-A (ON.P ?X_C)) SIT.V))))
+	)
+)
+
+; "Tom woke up early."
+; "He wanted to play baseball."
+; "He put on his cleats."
+; "He walked outside."
+; "He saw his friends playing."
+(EPI-SCHEMA ((?X_L (EARLY.ADV WAKE_UP.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_H (PLUR CLEAT.N)))
+		(!R2 (?X_E BASEBALL.N))
+		(!R3 (?X_H (PERTAIN-TO ?X_L)))
+		(!R4 (?X_K PLAYING.N))
+		(!R5 (?X_K (PLUR FRIEND.N)))
+		(!R6 (?X_K (PERTAIN-TO ?X_L)))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_G (?X_L (EARLY.ADV WAKE_UP.V)))
+		(?X_D (?X_L (WANT.V (KA (PLAY.V ?X_E)))))
+		(?X_A (?X_L ((ADV-A (ON.P ?X_H)) PUT.V)))
+		(?E_1 (?X_L PLAY.4.V))
+		(?X_J (?X_L ((ADV-A (FROM.P ?L1)) WALK.5.V) ?L2))
+		(?X_B (?X_L SEE.6.V ?X_K))
+	)
+)
+
+; "Alice sat on the couch."
+; "She watched TV."
+; "She fell asleep."
+; "She woke up."
+; "She looked around."
+(EPI-SCHEMA ((?X_D (FALL.V (K ASLEEP.A))) ** ?E)
+	(:ROLES
+		(!R1 (?X_A COUCH.N))
+		(!R2 (?X_D AGENT.N))
+		(!R3 (?X_G ASLEEP.A))
+		(!R4 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_C (?X_L ((ADV-A (ON.P ?X_A)) SIT.V)))
+		(?X_F (?X_L (WATCH.V ?X_D)))
+		(?X_I (?X_L (FALL.V ?X_G)))
+		(?X_K (?X_L WAKE_UP.V))
+		(?X_N (?X_L (AROUND.ADV LOOK.V)))
+	)
+)
+
+; "John was going to school."
+; "He got there late."
+; "There was no parking space."
+; "He walked home."
+; "It was raining."
+(EPI-SCHEMA ((?X_N
+              (COMPOSITE-SCHEMA.PR (NO.D (L X (AND (X PARKING.N) (X SPACE.N))))
+               ?L2 (K (THERE.ADV LATE.A)) ?X_O))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_O HOME.N))
+		(!R2 (?L2 DESTINATION.N))
+		(!R3 ((K (THERE.ADV LATE.A)) DESTINATION.N))
+		(!R4 (?X_N AGENT.N))
+		(!R5 (?X_O DESTINATION.N))
+	)
+	(:STEPS
+		(?X_I (?X_N ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
+		(?X_K (?X_N ((ADV-A (FROM.P ?L1)) GET.7.V) (K (THERE.ADV LATE.A))))
+		(?X_G (?X_A (BE.V (NO.D (L X (AND (X PARKING.N) (X SPACE.N)))))))
+		(?X_M (?X_N ((ADV-A (FROM.P ?L1)) WALK.8.V) ?X_O))
+		(?X_E (?X_C RAIN.V))
+	)
+)
+
+; "Jane was going to school."
+; "She got there early."
+; "She parked in front of the school."
+; "She looked for a place to park."
+; "There were lots of cars."
+; "No one would give her a parking spot."
+(EPI-SCHEMA ((?X_P (COMPOSITE-SCHEMA.PR ?X_H ?X_D ?L2 ?Y ?L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LOT.N)))
+		(!R2 (?X_D (OF.P ?X_E)))
+		(!R3 (?X_H (THERE.ADV EARLY.A)))
+		(!R4 (?X_M PARK.N))
+		(!R5 (?X_Q PLACE.N))
+		(!R6 (?X_Q (TO.P ?X_M)))
+		(!R7 (?L2 DESTINATION.N))
+		(!R8 (?Y ENTITY.N))
+		(!R9 (?L LOCATION.N))
+		(!R10 (?X_P AGENT.N))
+		(!R11 (?X_Q ENTITY.N))
+	)
+	(:STEPS
+		(?X_J (?X_P ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
+		(?X_G (?X_P (GET.V ?X_H)))
+		(?X_L (?X_P PARK.9.V ?Y ?L))
+		(?X_O (?X_P ((ADV-A (FOR.P ?X_Q)) LOOK.10.V)))
+		(?X_C (?X_A (BE.V ?X_D)))
+	)
+)
+
+; "Mary was walking to school."
+; "She saw John waiting for the bus."
+; "She waved at him."
+; "He waved back."
+(EPI-SCHEMA ((?X_L
+              (COMPOSITE-SCHEMA.PR ?X_J
+               (KE (?X_K ((ADV-A (FOR.P ?X_G)) WAIT.V)))))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_J SCHOOL.N))
+		(!R2 (?X_G BUS.N))
+		(!R3 (?X_J DESTINATION.N))
+		(!R4 (?X_K AGENT.N))
+		(!R5 (?X_L AGENT.N))
+	)
+	(:STEPS
+		(?X_F (?X_L ((ADV-A (FROM.P ?L1)) WALK.8.V) ?X_J))
+		(?X_I (?X_L SEE.11.V (KE (?X_K ((ADV-A (FOR.P ?X_G)) WAIT.V)))))
+		(?X_D (?X_L ((ADV-A (AT.P ?X_K)) WAVE.V)))
+		(?X_B (?X_K (BACK.ADV WAVE.V)))
+	)
+)
+
+; "Mary's school is on the first floor."
+; "When she gets home from school, she has to go upstairs."
+; "It is hard for Mary to walk up stairs."
+; "Mary loves to play outside."
+(EPI-SCHEMA ((?X_M
+              ((ADV-A (UP.P ?X_L))
+               ((ADV-A (FOR.P (KA ((ADV-A (TO.P ?L2)) GET.V)))) GO.V)))
+             ** ?E)
+	(:ROLES
+		(!R1 (?X_D HARD.A))
+		(!R2 (?X_K FLOOR.N))
+		(!R3 (?X_K FIRST.A))
+		(!R4 (?X_I SCHOOL.N))
+		(!R5 (?X_L (PLUR STAIR.N)))
+		(!R6 (?X_I (PERTAIN-TO ?X_M)))
+		(!R7 (?X_J (FOR.P ?X_M (KA ((ADV-A (UP.P ?X_L)) WALK.V)))))
+		(!R8 (?X_K AGENT.N))
+		(!R9 ((K (FOR.P ?X_M (KA ((ADV-A (UP.P ?X_L)) WALK.13.V)))) AGENT.N))
+		(!R10 (?L2 DESTINATION.N))
+		(!R11 (?X_M AGENT.N))
+		(!R12 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
+	)
+	(:STEPS
+		(?X_F (?X_I ((ADV-A (ON.P ?X_K)) BE.V)))
+		(?X_C (?X_A (BE.V ?X_D ?X_J)))
+		(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) GO.12.V) ?L2))
+		(?E_2
+   ((K (FOR.P ?X_M (KA ((ADV-A (UP.P ?X_L)) WALK.13.V))))
+    ((ADV-A (FROM.P ?L1)) WALK.13.V) ?L2))
+		(?X_H (?X_M LOVE.14.V (KA (OUTSIDE.ADV PLAY.V))))
+	)
+)
+
+; "Mary was going to school."
+; "She got there early."
+; "She parked in front of the building."
+; "She was almost late for class."
+(EPI-SCHEMA ((?X_H (COMPOSITE-SCHEMA.PR ?X_C ?L2 ?Y ?L)) ** ?E)
+	(:ROLES
+		(!R1 (?X_C (THERE.ADV EARLY.A)))
+		(!R2 (?L2 DESTINATION.N))
+		(!R3 (?X_H AGENT.N))
+		(!R4 (?Y ENTITY.N))
+		(!R5 (?L LOCATION.N))
+	)
+	(:STEPS
+		(?X_E (?X_H ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
+		(?X_B (?X_H (GET.V ?X_C)))
+		(?X_G (?X_H PARK.15.V ?Y ?L))
+	)
+)
+
+; "Tom's sister is a teacher."
+; "She has taught Tom many things."
+; "Tom likes school."
+; "His sister teaches him lots of things."
+(EPI-SCHEMA ((?X_L (LIKE.V ?X_M)) ** ?E)
+	(:ROLES
+		(!R1 (?X_D (PLUR LOT.N)))
+		(!R2 (?X_D (OF.P ?X_E)))
+		(!R3 (?X_H SISTER.N))
+		(!R4 (?X_H (PERTAIN-TO ?X_L)))
+		(!R5 (?X_I TEACHER.N))
+		(!R6 (?X_I SISTER.N))
+		(!R7 (?X_I (PERTAIN-TO ?X_L)))
+		(!R8 (?X_M SCHOOL.N))
+		(!R9 (?X_L AGENT.N))
+		(!R10 (?X_M OBJECT.N))
+		(!R11 (NOT (?X_M ACTION.N)))
+		(!R12 (NOT (?X_M AGENT.N)))
+	)
+	(:STEPS
+		(?X_B (?X_A (TEACH.V (KE (AND (?X_L MANY.A) (?X_L (PLUR THING.N)))))))
+		(?X_G (?X_H (HAS.V ?X_A)))
+		(?X_K (?X_L LIKE.16.V ?X_M))
+		(?X_C (?X_H (TEACH.V ?X_L ?X_D)))
+	)
+)
+
+; "Mary has two children."
+; "They both go to school."
+; "They take the bus to school."
+; "Their teacher is Mrs. Smith."
+; "Mrs. Smith is tall."
+(EPI-SCHEMA ((?X_B (TAKE.V ?X_E)) ** ?E)
+	(:ROLES
+		(!R1 (?X_B AGENT.N))
+		(!R2 (?X_J AGENT.N))
+		(!R3 (?X_E BUS.N))
+		(!R4 (?X_E (TO.P ?X_F)))
+		(!R5 (?X_I TEACHER.N))
+		(!R6 (?X_I (PERTAIN-TO ?X_J)))
+		(!R7 (?X_K AGENT.N))
+		(!R8 (?X_K TALL.A))
+	)
+	(:STEPS
+		(?X_D (?X_B (HAVE.V (TWO.D (PLUR CHILD.N)))))
+		(?X_H (?X_J (TAKE.V ?X_E)))
+		(?X_A (?X_I (= ?X_K)))
+	)
+)
+
+; "Tommy's mother died."
+; "His father took care of Tommy."
+; "Tommy didn't like that."
+; "He cried all night."
+(EPI-SCHEMA ((?X_K CRY.V) ** ?E)
+	(:ROLES
+		(!R1 (?X_E {REF}.N))
+		(!R2 (?X_F CARE.N))
+		(!R3 (?X_G FATHER.N))
+		(!R4 (?X_G (PERTAIN-TO ?X_K)))
+		(!R5 (?X_H MOTHER.N))
+		(!R6 (?X_H (PERTAIN-TO ?X_K)))
+		(!R7 (?X_K AGENT.N))
+	)
+	(:STEPS
+		(?X_A (?X_H DIE.V))
+		(?X_B (?X_G (((ADV-A (OF.P ?X_K)) TAKE.V) ?X_F)))
+		(?X_D (NOT (?X_K (LIKE.P ?X_E))))
+		(?X_J (?X_K CRY.1.V))
+	)
+)
+
 
 ))

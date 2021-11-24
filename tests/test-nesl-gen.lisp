@@ -24,43 +24,56 @@
 )
 )
 
-(setf step-lists (list))
+(ldefun idx-ngram (ngram ngrams schema)
+	(setf (gethash ngram ngrams)
+		(dedupe (append (gethash ngram ngrams)
+			(list schema))))
+)
 
-(loop for sch in *NESL-COMPOS* for i from 0 do (block index
-	(setf steps (list))
+(ldefun extract-index-steps (schemas)
+(block outer
+	(setf step-lists (list))
 
-	(loop for st in (mapcar #'second
-		(section-formulas (get-section sch ':Steps)))
-			do (block make-index
-				(setf argrcs (mapcar #'take-best-rc (get-args-rcs (prop-all-args st) sch)))
-				(setf argrcs (loop for a in argrcs
-					if (and (listp a) (equal (car a) 'PLUR))
-						collect (second a)
-					else
-						collect a))
-				(setf index-prop (append (list (car argrcs) (prop-pred st)) (cdr argrcs)))
+	(loop for sch in schemas for i from 0 do (block index
 
-				(if (loop for a in index-prop always (symbolp a))
-					; (format t "~s~%" (mapcar #'strip-dot-tag index-prop)))
-					(setf steps (append steps (list (mapcar #'strip-dot-tag index-prop)))))
-			))
+		(setf steps (list))
 
-	(setf step-lists (append step-lists (list steps)))
+		(loop for st in (mapcar #'second
+			(section-formulas (get-section sch ':Steps)))
+				do (block make-index
+					(setf argrcs (mapcar #'take-best-rc (get-args-rcs (prop-all-args st) sch)))
+					(setf argrcs (loop for a in argrcs
+						if (and (listp a) (equal (car a) 'PLUR))
+							collect (second a)
+						else
+							collect a))
+					(setf index-prop (append (list (car argrcs) (prop-pred st)) (cdr argrcs)))
+
+					(if (loop for a in index-prop always (symbolp a))
+						; (format t "~s~%" (mapcar #'strip-dot-tag index-prop)))
+						(setf steps (append steps (list (mapcar #'strip-dot-tag index-prop)))))
+				))
+
+		(setf step-lists (append step-lists (list (list sch steps))))
+	))
+
+	(return-from outer step-lists)
 ))
+
 
 ; (format t "~s~%" (max-all (mapcar #'length step-lists)))
 
+
+(ldefun extract-ngrams (schemas)
+(block outer
+(setf step-lists (extract-index-steps schemas))
+
 (setf ngrams (make-hash-table :test #'equal))
 
-(ldefun idx-ngram (ngram ngrams)
-	(if (null (gethash ngram ngrams))
-		; then
-		(setf (gethash ngram ngrams) 1)
-		; else
-		(setf (gethash ngram ngrams) (+ 1 (gethash ngram ngrams))))
-)
+(loop for steps-pair in step-lists do (block idx
+	(setf schema (car steps-pair))
+	(setf steps (second steps-pair))
 
-(loop for steps in step-lists do (block idx
 	(setf trigrams (list))
 	(setf bigrams (list))
 	(setf unigrams (list))
@@ -91,19 +104,24 @@
 			))))
 
 	(loop for ng in (dedupe trigrams)
-		do (idx-ngram ng ngrams))
+		do (idx-ngram ng ngrams schema))
 	(loop for ng in (dedupe bigrams)
-		do (idx-ngram ng ngrams))
+		do (idx-ngram ng ngrams schema))
 	(loop for ng in (dedupe unigrams)
-		do (idx-ngram ng ngrams))
+		do (idx-ngram ng ngrams schema))
 
 ))
 
 (setf counts (loop for k being the hash-keys of ngrams
 	collect (list k (gethash k ngrams))))
 
-(setf counts (sort counts #'< :key #'second))
+(setf counts (sort counts #'< :key (lambda (x) (length (second x)))))
 
-(loop for c in counts
-	if (and (> (second c) 1) (>= (length (car c)) 2))
-		do (format t "~s - ~d occurrences~%" (car c) (second c)))
+(return-from outer counts)
+
+;(loop for c in counts
+	;if (and (> (length (second c)) 1) (>= (length (car c)) 2))
+		;do (format t "~s - ~d occurrences~%" (car c) (length (second c))))
+))
+
+; (extract-ngrams *NESL-COMPOS*)

@@ -2,19 +2,27 @@
 
 (declaim (sb-ext:muffle-conditions cl:warning))
 
+(setf *random-state* (make-random-state t))
+
 (load "ll-load.lisp")
 
 (ll-load "ll-util.lisp")
 (ll-load "schema-util.lisp")
+(ll-load "verbalize-schemas.lisp")
 
 (format t " --- !>~%")
 
 (defparameter *SCHEMA-WEBPAGE-TEMPLATE* (join-str-list *NEWLINE-STR* '(
 "<html>"
 "<head>"
+"<script>"
+"</script>"
 "<style>"
 "body {"
 "    background-color: #666666;"
+"}"
+"p {"
+"    margin: 8px;"
 "}"
 ".schema {"
 "    font-family: monospace;"
@@ -35,7 +43,7 @@
 "    font-size: 18px;"
 "}"
 ".el-prop {"
-"    font-size: 16px;"
+"    font-size: 14px;"
 "}"
 ".nonfluent-id {"
 "    font-weight: bold;"
@@ -50,6 +58,28 @@
 "}"
 ".variable {"
 "    font-weight: bold;"
+"}"
+".eng {"
+"    font-family: serif;"
+"    font-size: 16px;"
+"    border-radius: 2px;"
+"    border: 1px dotted black;"
+"    color: #000000;"
+; "    text-shadow: 1px 0px 0px gray, -1px 0px 0px gray, 0px 1px 0px gray, 0px -1px 0px gray;"
+"    background: rgba(255,255,160,0.5);"
+"    padding: 4px;"
+"    margin: 4px;"
+; "    font-style: italic;"
+; "    font-weight: bold;"
+"}"
+".step {"
+"    border: 1px dotted black;"
+"    border-radius: 4px;"
+"    display: inline-block;"
+"    margin-left: 80px;"
+"    margin-top: 10px;"
+"    padding-bottom: 4px;"
+; "    background: rgba(128,128,128,0.);"
 "}"
 "</style>"
 "<title>Schema</title>"
@@ -135,6 +165,9 @@
 	(setf colors (loop for i from 1 to n
 		collect (rand-color)))
 
+	(if (equal n 1)
+		(return-from outer colors))
+
 	(setf cost-window (list))
 
 	(loop for i from 1 to 50000 do (block inner
@@ -193,6 +226,14 @@
 
 (ldefun schema-html (schema)
 (block outer
+	(setf verbal-steps (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+		if (and (listp sec) (equal (car sec) 'STEPS.))
+			collect sec)))))
+
+	(setf verbal-roles (cddr (car (loop for sec in (verbalize-schema schema)
+		if (and (listp sec) (equal (car sec) 'ADDITIONAL) (equal (second sec) 'ROLES.))
+			collect sec))))
+
 	; (setf vars (dedupe (get-elements-pred schema #'varp)))
 	(setf vars (dedupe (mapcar #'car (mapcar #'second
 		(section-formulas (get-section schema ':Roles))))))
@@ -206,7 +247,7 @@
 	(setf buf (append buf (list
 		"<div class='schema'>")))
 	(setf buf (append buf (list
-		"<span class='epi-schema'>EPI-SCHEMA</span>")))
+		"<span class='epi-schema'>Learned Schema</span>")))
 	(setf buf (append buf (list
 		(format nil "<span class='el-prop'>~a</span>" (prop-html (car (schema-header schema)) var-color-map)))))
 	(setf buf (append buf (list
@@ -219,11 +260,33 @@
 		(setf css-class (if fluent "fluent-id" "nonfluent-id"))
 		(setf buf (append buf (list
 			(format nil "<p style='margin-left: 40px;'><span class='section-title'>~a</span></p>" (section-name sec)))))
-		(loop for phi-pair in (section-formulas sec) do (block phi
+		(loop for phi-pair in (section-formulas sec)
+			for i from 0 do (block phi
 			;(setf buf (append buf (list
 				;(format nil "<p style='margin-left: 80px;'><span class='~a'>~a</span>" css-class (car phi-pair)))))
+
+			; Add the verbalization
+			(if (equal (section-name sec) ':Steps)
+				(setf buf (append buf (list
+					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>" (nth i verbal-steps))))))
+
+			; Start the step div
+			(setf buf (append buf (list "<div class='step'>")))
+
+			; Add the EL prop
 			(setf buf (append buf (list
-				(format nil "<p style='margin-left: 80px;'><span class='el-prop'>~a</span></p>" (prop-html (second phi-pair) var-color-map)))))
+				; (format nil "<p style='margin-left: 80px;'><span class='el-prop'>~a</span></p>" (prop-html (second phi-pair) var-color-map)))))
+				(format nil "<p><span class='el-prop'>~a</span></p>" (prop-html (second phi-pair) var-color-map)))))
+
+			; End the step div
+			(setf buf (append buf (list "</div>")))
+
+			;(if (equal (section-name sec) ':Roles)
+				;(setf buf (append buf (list
+					;(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>" (nth i verbal-roles))))))
+			
+			; Add a line break
+			(setf buf (append buf (list "<br /><br />")))
 		))
 	))
 
@@ -240,5 +303,6 @@
 			(mapcar #'schema-html schemas)))
 )
 
-(load "tests/nesl-compos.lisp")
+(load "tests/interesting-nesl-compos.lisp")
+(setf *NESL-COMPOS* (shuffle *NESL-COMPOS*))
 (format t "~a~%" (schema-webpage-html (subseq *NESL-COMPOS* 0 20)))

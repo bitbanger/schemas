@@ -105,5 +105,5 @@
 (setf counts (sort counts #'< :key #'second))
 
 (loop for c in counts
-	if (and (> (second c) 1) (equal (length (car c)) 3))
+	if (and (> (second c) 1) (>= (length (car c)) 2))
 		do (format t "~s - ~d occurrences~%" (car c) (second c)))

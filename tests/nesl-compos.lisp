@@ -12,7 +12,6 @@
 		(!R3 (?X_J AGENT.N))
 		(!R4 (?X_I OBJECT.N))
 		(!R5 ((SET-OF ?X_J ?X_K) AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 ((EACH.D OTHER.A) ENTITY.N))
 		(!R8 (?X_K AGENT.N))
 	)
@@ -35,7 +34,6 @@
 		(!R2 (?X_A ?X_B (PLUR THING.N)))
 		(!R3 ((KA SWIM.V) ACTION.N))
 		(!R4 (?X_E AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E53.SK (?X_E ((CAN.MD DO.V) ?X_A)))
@@ -56,9 +54,7 @@
 		(!R2 (?X_G SUIT.N))
 		(!R3 (?X_G (PERTAIN-TO ?X_M)))
 		(!R4 (?X_L POOL.N))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_M ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
@@ -76,7 +72,6 @@
 (EPI-SCHEMA ((?X_G ((ADV-A (TO.P ?L2)) SWIM.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_G AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_G ((ADV-A (FROM.P ?L1)) SWAM.5.V) ?L2))
@@ -96,9 +91,7 @@
 		(!R3 (?X_I OBJECT.N))
 		(!R4 (NOT (?X_I ACTION.N)))
 		(!R5 (NOT (?X_I AGENT.N)))
-		(!R6 (?X_J DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_K ((ADV-A (FROM.P ?L1)) SWAM.5.V) ?L2))
@@ -121,7 +114,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_L)))
 		(!R5 (?X_I (PERTAIN-TO ?X_L)))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_L ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
@@ -144,7 +136,6 @@
 		(!R2 (?X_L UNDERWATER.A))
 		(!R3 (?X_L (PLUR GAME.N)))
 		(!R4 (?X_M AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -166,7 +157,6 @@
 		(!R1 (?X_B SWIMMING.N))
 		(!R2 (?X_I AGENT.N))
 		(!R3 (?X_J AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D ((SET-OF ?X_I ?X_J) ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
@@ -186,7 +176,6 @@
 		(!R2 (?X_H AGENT.N))
 		(!R3 ((SET-OF ?X_G ?X_H) AGENT.N))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B ((SET-OF ?X_G ?X_H) ((ADV-A (FROM.P ?L1)) SWIM.13.V) ?L2))
@@ -395,7 +384,6 @@
 	(:ROLES
 		(!R1 (?X_D AGENT.N))
 		(!R2 (?X_E DOG.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 ((NO.D ONE.N) AGENT.N))
 	)
 	(:STEPS
@@ -505,7 +493,6 @@
 		(!R4 (?X_A (PERTAIN-TO ?X_C)))
 		(!R5 (?X_B DOG.N))
 		(!R6 (?X_B (PERTAIN-TO ?X_C)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_B ((ADV-A (FROM.P ?L1)) RUN_AWAY.1.V) ?L2))
@@ -522,7 +509,6 @@
 		(!R2 (?X_A (PLUR OWNER.N)))
 		(!R3 (?X_A SAD.A))
 		(!R4 (?X_A (PERTAIN-TO ?X_B)))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E169.SK (NOT (?X_A ((CAN.MD FIND.V) ?X_B))))
@@ -629,7 +615,6 @@
 		(!R8 (?X_O HOME.N))
 		(!R9 (?X_O (PERTAIN-TO ?X_K)))
 		(!R10 (?X_N LOCATION.N))
-		(!R11 (?X_O DESTINATION.N))
 		(!R12 (NOT (?X_N = ?X_O)))
 	)
 	(:STEPS
@@ -695,7 +680,6 @@
 		(!R3 (?X_I AGENT.N))
 		(!R4 (?X_J AGENT.N))
 		(!R5 (?X_L HILL.N))
-		(!R6 (?X_L DESTINATION.N))
 		(!R7 ((SET-OF ?X_J ?X_K) AGENT.N))
 		(!R8 (NOT (?X_L = ?X_L)))
 	)
@@ -717,9 +701,7 @@
 		(!R1 (?X_G FOOT.N))
 		(!R2 (?X_G (PERTAIN-TO ?X_K)))
 		(!R3 (?X_J (PLUR ROCK.N)))
-		(!R4 (?X_J DESTINATION.N))
 		(!R5 (NOT (?X_J = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -740,9 +722,7 @@
 		(!R1 (?X_G TREE.N))
 		(!R2 (?X_H SCARED.A))
 		(!R3 (?X_H HAPPY.A))
-		(!R4 (?X_G DESTINATION.N))
 		(!R5 (?X_H AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_H ((ADV-A (FROM.P ?L1)) CLIMB.4.V) ?X_G))
@@ -758,7 +738,6 @@
 (EPI-SCHEMA ((?X_I ((ADV-A (FROM.P ?L2)) JUMP.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_I AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I ((ADV-A (FROM.P ?L1)) JUMP.6.V) ?L2))
@@ -779,9 +758,7 @@
 		(!R2 (?X_F REST.N))
 		(!R3 (?X_L TIRED.A))
 		(!R4 (?X_K MOUNTAIN.N))
-		(!R5 (?X_K DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L ((ADV-A (FROM.P ?L1)) CLIMB_UP.7.V) ?X_K))
@@ -803,9 +780,6 @@
 		(!R3 (?X_N TREE.N))
 		(!R4 (?X_O (THAN.P (ANY.D (L X (AND (X OTHER.A) (X BOY.N)))))))
 		(!R5 (?X_O HIGHER.A))
-		(!R6 (?X_N DESTINATION.N))
-		(!R7 (?X_O DESTINATION.N))
-		(!R8 (?X_P DESTINATION.N))
 		(!R9 (?X_Q AGENT.N))
 	)
 	(:STEPS
@@ -827,9 +801,7 @@
 		(!R1 (?X_G (PLUR LEG.N)))
 		(!R2 (?X_G (PERTAIN-TO ?X_J)))
 		(!R3 (?X_K HILL.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_J AGENT.N))
-		(!R6 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.4.V) ?X_K))
@@ -871,7 +843,6 @@
 		(!R2 (?X_G AGENT.N))
 		(!R3 (?X_M ROPE.N))
 		(!R4 (?X_L AGENT.N))
-		(!R5 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) JUMP.13.V) ?X_M))
@@ -888,7 +859,6 @@
 	(:ROLES
 		(!R1 (?X_E (PLUR THING.N)))
 		(!R2 (?X_F AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (MUST.AUX-S (?X_F ((ADV-A (OVER.P ?X_E)) JUMP.V))))
@@ -906,8 +876,6 @@
 		(!R1 (?X_D MOTHER.N))
 		(!R2 (?X_D (PERTAIN-TO ?X_J)))
 		(!R3 (?X_I FENCE.N))
-		(!R4 (?L2 DESTINATION.N))
-		(!R5 (?X_I DESTINATION.N))
 		(!R6 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -932,7 +900,6 @@
 		(!R6 (?X_F ?X_G FLOOR.N))
 		(!R7 (?L LOCATION.N))
 		(!R8 (?X_H AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_I NOISE.N))
 		(!R11 (?X_J AGENT.N))
 		(!R12 (?X_J NOISE.N))
@@ -1051,7 +1018,6 @@
 		(!R7 (?X_L FOOD.N))
 		(!R8 (?X_M AGENT.N))
 		(!R9 (?X_N LOCATION.N))
-		(!R10 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I EAT.28.V ?X_L))
@@ -1135,7 +1101,6 @@
 		(!R1 (?X_E HOME.N))
 		(!R2 (?X_E (PERTAIN-TO ?X_F)))
 		(!R3 (?X_B NOTE.N))
-		(!R4 (?X_E DESTINATION.N))
 		(!R5 (?X_F AGENT.N))
 	)
 	(:STEPS
@@ -1287,7 +1252,6 @@
 		(!R5 (?X_H (PLUR PANT.N)))
 		(!R6 (?X_H (TOO.ADV SHORT.A)))
 		(!R7 (?X_H (PERTAIN-TO ?X_I)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (NOT (?X_J AGENT.N)))
 	)
 	(:STEPS
@@ -1328,7 +1292,6 @@
 		(!R5 (?X_H (PLUR PANT.N)))
 		(!R6 (?X_H (TOO.ADV SHORT.A)))
 		(!R7 (?X_H (PERTAIN-TO ?X_I)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (NOT (?X_J AGENT.N)))
 	)
 	(:STEPS
@@ -1351,7 +1314,6 @@
 		(!R5 (?X_G (PERTAIN-TO ?X_E)))
 		(!R6 (?X_F (PLUR LEG.N)))
 		(!R7 (?X_F (PERTAIN-TO ?X_E)))
-		(!R8 (?X_F DESTINATION.N))
 		(!R9 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -1397,7 +1359,6 @@
 		(!R4 (?X_H (PLUR PANT.N)))
 		(!R5 (?X_H (PERTAIN-TO ?X_L)))
 		(!R6 (?X_K BATHROOM.N))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -1738,7 +1699,6 @@
 		(!R4 (?X_J OBJECT.N))
 		(!R5 (NOT (?X_J AGENT.N)))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_K ((ADV-A (ON.P ?X_E)) PUT.V)))
@@ -1845,7 +1805,6 @@
 		(!R4 (NOT (?X_G AGENT.N)))
 		(!R5 (NOT (?X_H AGENT.N)))
 		(!R6 (?X_I AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_I WEAR.26.V ?X_G))
@@ -1924,7 +1883,6 @@
 		(!R5 (?X_H (PERTAIN-TO ?X_L)))
 		(!R6 (?X_I (PERTAIN-TO ?X_L)))
 		(!R7 (?X_L AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_L ((ADV-A (ON.P ?X_G)) PUT.V)))
@@ -2133,7 +2091,6 @@
 		(!R4 (?X_C (PERTAIN-TO ?X_K)))
 		(!R5 (?X_D (PERTAIN-TO ?X_K)))
 		(!R6 (?X_I BASEBALL.N))
-		(!R7 (?X_J DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -2260,7 +2217,6 @@
 		(!R5 (?X_N HOME.N))
 		(!R6 (?X_N (PERTAIN-TO ?X_M)))
 		(!R7 (?X_M AGENT.N))
-		(!R8 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A ((ADV-E ({DURING}.P ?X_I)) (?X_M WAKE_UP.V)))
@@ -2287,7 +2243,6 @@
 		(!R3 (?X_C (PERTAIN-TO ?X_J)))
 		(!R4 (?X_H SCHOOL.N))
 		(!R5 (?X_I (PLUR BOOK.N)))
-		(!R6 (?X_H DESTINATION.N))
 		(!R7 ((KA (READ.V ?X_I)) ACTION.N))
 		(!R8 (?X_J AGENT.N))
 	)
@@ -2357,11 +2312,8 @@
 		(!R4 (?X_N HOME.N))
 		(!R5 (?X_N (PERTAIN-TO ?X_O)))
 		(!R6 (?X_P BED.N))
-		(!R7 (?X_M DESTINATION.N))
-		(!R8 (?X_N DESTINATION.N))
 		(!R9 (NOT (?X_M = ?X_N)))
 		(!R10 (?X_O AGENT.N))
-		(!R11 (?X_P DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B ((ADV-E ({DURING}.P ?X_C)) (?X_O WAKE_UP.V)))
@@ -2383,7 +2335,6 @@
 		(!R3 (?X_G BOY.N))
 		(!R4 (?X_J ENTITY.N))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_G SEE.1.V ?X_J))
@@ -2407,7 +2358,6 @@
 		(!R5 (?X_F DOG.N))
 		(!R6 (?X_F (BIT.N ?X_G)))
 		(!R7 (?N NOISE.N))
-		(!R8 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J SCREAM.3.V ?N))
@@ -2510,7 +2460,6 @@
 		(!R4 (?X_J AGENT.N))
 		(!R5 (?X_K ENTITY.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_J SEE.10.V ?X_K))
@@ -2532,7 +2481,6 @@
 		(!R3 (?X_F SCARED.A))
 		(!R4 (?X_F AGENT.N))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F (CALL.V ?X_I)))
@@ -2562,7 +2510,6 @@
 		(!R12 (?X_K AGENT.N))
 		(!R13 (NOT (?X_L ACTION.N)))
 		(!R14 (?X_M SMALLER-THAN.N ?X_N))
-		(!R15 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K (GIVE.12.V ?X_M ?X_H)))
@@ -2584,7 +2531,6 @@
 		(!R4 (?X_J ENTITY.N))
 		(!R5 (?X_K NOISE.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_K SEE.14.V ?X_J))
@@ -2669,7 +2615,6 @@
 		(!R4 (?X_K (PERTAIN-TO ?X_J)))
 		(!R5 (?X_G FOOD.N))
 		(!R6 (?X_J SMALLER-THAN.N ?X_K))
-		(!R7 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K COME_OVER.V))
@@ -2932,7 +2877,6 @@
 		(!R7 (?X ENTITY.N))
 		(!R8 (?X_J AGENT.N))
 		(!R9 (?X_I SMALLER-THAN.N ?X_J))
-		(!R10 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_I (HAVE.V ?X_C)))
@@ -2975,7 +2919,6 @@
 		(!R5 (?X_J (PERTAIN-TO ?X_I)))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (?X_H SMALLER-THAN.N ?X_I))
-		(!R8 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H RUN_AWAY.V))
@@ -3029,9 +2972,7 @@
 		(!R5 (?X_D POLICEMAN.N))
 		(!R6 (?X_I OWNER.N))
 		(!R7 (?X_I (PERTAIN-TO ?X_L)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_L SMALLER-THAN.N ?X))
-		(!R10 (?X_M DESTINATION.N))
 		(!R11 (?X AGENT.N))
 		(!R12 (?X_M AGENT.N))
 	)
@@ -3085,7 +3026,6 @@
 		(!R6 (?X_I (PERTAIN-TO ?X_J)))
 		(!R7 (?X ENTITY.N))
 		(!R8 (?X_J AGENT.N))
-		(!R9 (?X_H DESTINATION.N))
 		(!R10 (?X_I SMALLER-THAN.N ?X_J))
 	)
 	(:STEPS
@@ -3110,7 +3050,6 @@
 		(!R5 (?X_J VET.N))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (?X_H SMALLER-THAN.N ?X_I))
-		(!R8 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H (HAVE.V ?X_E)))
@@ -3132,7 +3071,6 @@
 		(!R5 (?X_L DOG.N))
 		(!R6 (?X_K HOUSE.N))
 		(!R7 (?X_K (PERTAIN-TO ?X_L)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -3181,7 +3119,6 @@
 		(!R4 (?X_L (PERTAIN-TO ?X_E)))
 		(!R5 (?X_F GROUND.N))
 		(!R6 (?X_G DOG.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -3205,7 +3142,6 @@
 		(!R4 (?X_J POCKET.N))
 		(!R5 (?X_J (PERTAIN-TO ?X_E)))
 		(!R6 (?X_K BEACH.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_J AGENT.N))
 		(!R9 (?X_K AGENT.N))
 		(!R10 (NOT (?X_L ACTION.N)))
@@ -3251,9 +3187,7 @@
 		(!R3 (?X_H (PERTAIN-TO ?X_G)))
 		(!R4 (?X_L HOME.N))
 		(!R5 (?X_L (PERTAIN-TO ?X_H)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_K ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -3299,7 +3233,6 @@
 		(!R6 (?X_J (PERTAIN-TO ?X_K)))
 		(!R7 (?X_L ROOM.N))
 		(!R8 (?X_L (PERTAIN-TO ?X_K)))
-		(!R9 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_K ((ADV-A (FROM.P ?L1)) WALK.7.V) ?X_L))
@@ -3318,7 +3251,6 @@
 	(:ROLES
 		(!R1 (?X_C SWING.N))
 		(!R2 (?X_C SET.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -3461,7 +3393,6 @@
 		(!R1 (?X_C MOTHER.N))
 		(!R2 (?X_C (PERTAIN-TO ?X_D)))
 		(!R3 (?X_D AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_D ASK.V))
@@ -3728,7 +3659,6 @@
 		(!R26 (?X_ZZA (PLUR PERSON.N)))
 		(!R27 (?X_ZZE GOOD.A))
 		(!R28 (?X_ZZD OBJECT.N))
-		(!R29 (?X_ZZE DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_A (BE.V ?X_ZQ)))
@@ -3773,11 +3703,9 @@
 		(!R6 ((KA SWIM.V) ACTION.N))
 		(!R7 (?X_J LOCATION.N))
 		(!R8 (NOT (?X_J = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_K AGENT.N))
 		(!R11 ((KA ((ADV-A (TO.P ?X_M)) GO.V)) ACTION.N))
 		(!R12 (?X_L AGENT.N))
-		(!R13 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_L (HAVE.V ?X_I)))
@@ -4034,7 +3962,6 @@
 		(!R2 (?X_D (OF.P ?X_E)))
 		(!R3 (?X_H GROUND.N))
 		(!R4 (?X_M AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_M (DREAM.V (THAT (?X_M FLY.V)))))
@@ -4075,9 +4002,7 @@
 (EPI-SCHEMA ((?X_I (DREAM.V (THAT (?X_I FLY.V)))) ** ?E)
 	(:ROLES
 		(!R1 (?X_J ROOM.N))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (?X_I AGENT.N))
-		(!R4 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_I (DREAM.V (THAT (?X_I FLY.V)))))
@@ -4409,7 +4334,6 @@
 		(!R30 (?X_ZG (PERTAIN-TO ?X_ZI)))
 		(!R31 (?X_ZH (PERTAIN-TO ?X_ZI)))
 		(!R32 (?X_ZJ THIEF.N))
-		(!R33 (?X_ZM DESTINATION.N))
 	)
 	(:STEPS
 		(?X_W (?X_X (STEAL.V ?X_ZB)))
@@ -4513,7 +4437,6 @@
 		(!R5 (?X_L PRINCE.N))
 		(!R6 (?X_K OBJECT.N))
 		(!R7 (NOT (?X_K AGENT.N)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?O ENTITY.N))
 		(!R10 (?O SMALLER-THAN.N ?X_L))
 	)
@@ -4542,7 +4465,6 @@
 		(!R6 (?X_O TIRED.A))
 		(!R7 (?X_P ROOM.N))
 		(!R8 (?X_O AGENT.N))
-		(!R9 (?X_P DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_O ((ADV-A (FROM.P ?L1)) COME.4.V) ?X_P))
@@ -4684,8 +4606,6 @@
 	(:ROLES
 		(!R1 (?X_F BIG.A))
 		(!R2 (?X_G ?X_F TRUCK.N))
-		(!R3 (?L2 DESTINATION.N))
-		(!R4 (?X_H DESTINATION.N))
 		(!R5 (?X_G AGENT.N))
 		(!R6 (?X_H AGENT.N))
 	)
@@ -4710,7 +4630,6 @@
 		(!R5 (?X_H (PERTAIN-TO ?X_K)))
 		(!R6 (?X_L GARAGE.N))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) WALK.13.V) ?X_L))
@@ -4792,9 +4711,7 @@
 		(!R1 (?X_F BIG.A))
 		(!R2 (?X_I ?X_F TRUCK.N))
 		(!R3 (?X_I AGENT.N))
-		(!R4 (?X_J DESTINATION.N))
 		(!R5 (?X_J AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_J ((ADV-A (FROM.P ?L1)) WALK.11.V) ?L2))
@@ -4814,7 +4731,6 @@
 		(!R3 (?X_D GIRL.N))
 		(!R4 (?X_G (PERTAIN-TO ?X_D)))
 		(!R5 (?X_G LOCATION.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_D FIND.1.V ?X_C))
@@ -4900,7 +4816,6 @@
 		(!R4 (?X_G MORE.A))
 		(!R5 (?X_G (PLUR PENNY.N)))
 		(!R6 (?X_J LOCATION.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -4919,7 +4834,6 @@
 	(:ROLES
 		(!R1 ((KA DANCE.V) ACTION.N))
 		(!R2 (?X_E AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_E LOVE.13.V (KA DANCE.V)))
@@ -4940,7 +4854,6 @@
 		(!R2 (?X_O GOOD.A))
 		(!R3 ((KA DANCE.V) ACTION.N))
 		(!R4 (?X_O AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_O (AT.P ?X_B)))
@@ -4961,7 +4874,6 @@
 	(:ROLES
 		(!R1 ((KA DANCE.V) ACTION.N))
 		(!R2 (?X_G AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_G LIKE.17.V (KA DANCE.V)))
@@ -4979,9 +4891,6 @@
 		(!R1 (?X_G PARTY.N))
 		(!R2 (?X_H AGENT.N))
 		(!R3 (?X_I (UNTIL.P (KE (?X_J (FALL.V ASLEEP.A))))))
-		(!R4 ((K ((ADV-A (TO.P ?X_G)) (ON.P (?X_H NIGHT.N)))) DESTINATION.N))
-		(!R5 (?L2 DESTINATION.N))
-		(!R6 (?X_I DESTINATION.N))
 		(!R7 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -5026,8 +4935,6 @@
 		(!R2 (?X_I (PLUR FRIEND.N)))
 		(!R3 (?X_I (PERTAIN-TO ?X_K)))
 		(!R4 (?X_L DANCING.N))
-		(!R5 (?X_J DESTINATION.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 		(!R8 (?X_L OBJECT.N))
 		(!R9 (NOT (?X_L ACTION.N)))
@@ -5052,7 +4959,6 @@
 		(!R4 (?X_E (PERTAIN-TO ?X_F)))
 		(!R5 ((KA (WATCH.V ?X_E DANCE.V)) ACTION.N))
 		(!R6 (?X_F AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E (AT.P ?X_B)))
@@ -5587,7 +5493,6 @@
 	(:ROLES
 		(!R1 (?X_H FISH.N))
 		(!R2 (?X_E MAN.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_H FOOD.N))
 	)
 	(:STEPS
@@ -5630,7 +5535,6 @@
 		(!R4 (?X_J (ON.P ?X_F)))
 		(!R5 (?X_I AGENT.N))
 		(!R6 (NOT (?X_J = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_J LOCATION.N))
 	)
 	(:STEPS
@@ -5656,7 +5560,6 @@
 		(!R8 (?X_I (ON.P ?X_J)))
 		(!R9 (?X_M LOCATION.N))
 		(!R10 (NOT (?X_M = ?L2)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_F SEE.15.V ?X_I))
@@ -5673,9 +5576,7 @@
 	(:ROLES
 		(!R1 (?X_C MAN.N))
 		(!R2 (?X_I HOLE.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_H MOUSE.N))
-		(!R5 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H ((ADV-A (FROM.P ?L1)) RUN.12.V) ?L2))
@@ -5816,7 +5717,6 @@
 		(!R8 (?X_H (PLUR PARENT.N)))
 		(!R9 (?X_H (PERTAIN-TO ?X_I)))
 		(!R10 (?X_J AGENT.N))
-		(!R11 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_K))
@@ -5839,7 +5739,6 @@
 		(!R6 (?X_L FISHING.N))
 		(!R7 (?X_K SMALLER-THAN.N ?X_J))
 		(!R8 (?X_J AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_K AGENT.N))
 		(!R11 (?X_L OBJECT.N))
 		(!R12 (NOT (?X_L ACTION.N)))
@@ -5904,7 +5803,6 @@
 		(!R1 (?X_D PARTY.N))
 		(!R2 (?X_D TONIGHT.N))
 		(!R3 (?X_C AGENT.N))
-		(!R4 (?X_D DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_D))
@@ -5930,7 +5828,6 @@
 		(!R9 (?X AGENT.N))
 		(!R10 (?A ACTION.N))
 		(!R11 (?X_O AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_I (HAVE.V ?X_H)))
@@ -5955,9 +5852,7 @@
 		(!R5 (?X AGENT.N))
 		(!R6 (?A ACTION.N))
 		(!R7 (?X_F AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_F SMALLER-THAN.N ?X_H))
-		(!R10 (?X_G DESTINATION.N))
 		(!R11 (?X_H AGENT.N))
 	)
 	(:STEPS
@@ -5976,9 +5871,7 @@
 	(:ROLES
 		(!R1 (?X_D (PLUR LOT.N)))
 		(!R2 (?X_I PARTY.N))
-		(!R3 (?X_I DESTINATION.N))
 		(!R4 (?X_J AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_J ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_I))
@@ -6049,7 +5942,6 @@
 		(!R9 (?X_J CAKE.N))
 		(!R10 (?X_Q {REF}.N))
 		(!R11 (?X_Q (OF.P ?X_J)))
-		(!R12 (?X_M DESTINATION.N))
 		(!R13 (?X_N SMALLER-THAN.N ?X_O))
 		(!R14 (?X_P AGENT.N))
 		(!R15 (?X_Q FOOD.N))
@@ -6071,9 +5963,7 @@
 		(!R1 (?X_D (PLUR PERSON.N)))
 		(!R2 (?X_G (PLUR LOT.N)))
 		(!R3 (?X_L PARTY.N))
-		(!R4 (?X_L DESTINATION.N))
 		(!R5 (?X_M AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_M ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_L))
@@ -6098,7 +5988,6 @@
 		(!R5 (?X_N (PERTAIN-TO ?X_Q)))
 		(!R6 (?X_R PARTY.N))
 		(!R7 (?X_Q AGENT.N))
-		(!R8 (?X_R DESTINATION.N))
 	)
 	(:STEPS
 		(?X_M (?X_N INVITE.20.V ?X_Q (IND (1 ?X_A))))
@@ -6133,8 +6022,6 @@
 		(!R13 (?X_O SISTER.N))
 		(!R14 (?X_O (PERTAIN-TO ?X_P)))
 		(!R15 (?X_P AGENT.N))
-		(!R16 (?X_Q DESTINATION.N))
-		(!R17 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_P ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_Q))
@@ -6162,7 +6049,6 @@
 		(!R8 ((KA ((ADV-A (TO.P ?X_J)) GO.V)) ACTION.N))
 		(!R9 (?X_H AGENT.N))
 		(!R10 (?X_H SMALLER-THAN.N ?X_I))
-		(!R11 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H LOVE.3.V (KA ((ADV-A (TO.P ?X_J)) GO.V))))
@@ -6189,7 +6075,6 @@
 		(!R4 (?X_I (PLUR LOT.N)))
 		(!R5 (?X_I (OF.P ?X_J)))
 		(!R6 (?X_M (PLUR SHELL.N)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -6213,7 +6098,6 @@
 		(!R3 (?X_E (PLUR SHELL.N)))
 		(!R4 (?X_K POCKET.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_F)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -6238,7 +6122,6 @@
 		(!R6 (?X_K (PERTAIN-TO ?X_M)))
 		(!R7 (?X_N SAND.N))
 		(!R8 (?X_N (PLUR CASTLE.N)))
-		(!R9 (?X_L DESTINATION.N))
 		(!R10 (?X_M AGENT.N))
 		(!R11 ((KA (BUILD.V ?X_N)) ACTION.N))
 	)
@@ -6261,7 +6144,6 @@
 		(!R3 (?X_I SHELL.N))
 		(!R4 (?X_J POCKET.N))
 		(!R5 (?X_J (PERTAIN-TO ?X_K)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_J LOCATION.N))
 		(!R8 (?X_K AGENT.N))
 	)
@@ -6322,8 +6204,6 @@
 		(!R15 (?X_ZA BEACH.N))
 		(!R16 (?X_W SISTER.N))
 		(!R17 (?X_W (PERTAIN-TO ?X_X)))
-		(!R18 (?X_ZA DESTINATION.N))
-		(!R19 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_P (?X_R ((ADV-A (ON.P ?X_Q)) BE.V)))
@@ -6349,7 +6229,6 @@
 		(!R4 (?X_I (OF.P ?X_J)))
 		(!R5 (?X_L POCKET.N))
 		(!R6 (?X_L (PERTAIN-TO ?X_K)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 		(!R9 (?X_L LOCATION.N))
 	)
@@ -6375,7 +6254,6 @@
 		(!R5 (?X_L (PLUR SHELL.N)))
 		(!R6 (?X_K (PLUR LOT.N)))
 		(!R7 (?X_K (OF.P ?X_L)))
-		(!R8 (?X_O DESTINATION.N))
 		(!R9 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -6399,11 +6277,8 @@
 		(!R4 (?X_I ?X_H PLACE.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_L)))
 		(!R6 ((KA ((ADV-A (ON.P ?X_J)) GO.V)) ACTION.N))
-		(!R7 (?X_J DESTINATION.N))
-		(!R8 (?X_K DESTINATION.N))
 		(!R9 ((KA SWIM.V) ACTION.N))
 		(!R10 (?X_L AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_L LIKE.18.V (KA ((ADV-A (ON.P ?X_J)) GO.V))))
@@ -6428,7 +6303,6 @@
 		(!R4 (?X_I WOMAN.N))
 		(!R5 (?X_H (PERTAIN-TO ?X_I)))
 		(!R6 (?X_N STREET.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 ((NO.D ONE.N) ENTITY.N))
 		(!R9 (?X AGENT.N))
 	)
@@ -6454,7 +6328,6 @@
 		(!R2 (?X_E NAME.N))
 		(!R3 (?X_E (PERTAIN-TO ?X_F)))
 		(!R4 (?X_M SOUND.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -6475,7 +6348,6 @@
 	(:ROLES
 		(!R1 (?X_A MAN.N))
 		(!R2 (?X_D BAR.N))
-		(!R3 (?X_D DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_A ((ADV-A (FROM.P ?L1)) WALK.24.V) ?X_D))
@@ -6494,7 +6366,6 @@
 		(!R4 (?X_Q RESTAURANT.N))
 		(!R5 (?X_M ?X_Q (PLUR CUSTOMER.N)))
 		(!R6 (?X_P AGENT.N))
-		(!R7 (?X_Q DESTINATION.N))
 	)
 	(:STEPS
 		(?X_O (?X_P ((ADV-A (FROM.P ?L1)) WALK.24.V) ?X_Q))
@@ -6521,7 +6392,6 @@
 		(!R1 (?X_F MAN.N))
 		(!R2 (?X_E NAME.N))
 		(!R3 (?X_E (PERTAIN-TO ?X_F)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -6566,7 +6436,6 @@
 		(!R4 (?X_H (OF.P ?X_I)))
 		(!R5 (?X_J OCTOPUS.A))
 		(!R6 (?X_J SHELL.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -6592,7 +6461,6 @@
 		(!R7 (NOT (?X_I AGENT.N)))
 		(!R8 (?X_K AGENT.N))
 		(!R9 (?X_J SMALLER-THAN.N ?X_K))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K ((ADV-A (FROM.P ?L1)) COME_OVER.1.V) ?L2))
@@ -6661,7 +6529,6 @@
 		(!R3 (?X_H (PLUR GAME.N)))
 		(!R4 (?X_M AGENT.N))
 		(!R5 (?X_N AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_M (= ?X_A)))
@@ -6687,7 +6554,6 @@
 		(!R6 (?X_N AGENT.N))
 		(!R7 (?X_R (PLUR MOVIE.N)))
 		(!R8 (?X_Q AGENT.N))
-		(!R9 (?X_R DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_N (MEET.V ?X_L)))
@@ -6997,7 +6863,6 @@
 		(!R10 (?X_J LOW.A))
 		(!R11 (?X_J (PERTAIN-TO ?X_K)))
 		(!R12 (?X_N STORE.N))
-		(!R13 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_K HAVE.4.V ?X_E))
@@ -7166,7 +7031,6 @@
 		(!R3 (?X_I MAN.N))
 		(!R4 (?X_I ANGRY.A))
 		(!R5 (?X_L KITCHEN.N))
-		(!R6 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_I ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_L))
@@ -7188,7 +7052,6 @@
 		(!R4 (?X_J BUILDING.N))
 		(!R5 (?X_J LOCATION.N))
 		(!R6 (NOT (?X_J = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_G (KILL.V ?X_G)))
@@ -7211,7 +7074,6 @@
 		(!R4 (?X_L ANGRY.A))
 		(!R5 (?X_M KITCHEN.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_M))
@@ -7254,7 +7116,6 @@
 		(!R3 (?X_K MAD.A))
 		(!R4 (?X_L KITCHEN.N))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_L))
@@ -7415,7 +7276,6 @@
 		(!R2 (?X_F CANCER.N))
 		(!R3 (?X_J SICK.A))
 		(!R4 (?X_I HOSPITAL.N))
-		(!R5 (?X_I DESTINATION.N))
 		(!R6 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -7438,7 +7298,6 @@
 		(!R4 (?X_H MOTHER.N))
 		(!R5 (?X_H (PERTAIN-TO ?X_I)))
 		(!R6 (?X_I AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_H (HAVE.V ?X_G)))
@@ -7975,7 +7834,6 @@
 		(!R11 (?X_S MOTHER.N))
 		(!R12 (?X_S (PERTAIN-TO ?X_U)))
 		(!R13 (?X_R (PERTAIN-TO ?X_S)))
-		(!R14 (?X_T DESTINATION.N))
 		(!R15 (?X_U AGENT.N))
 	)
 	(:STEPS
@@ -8154,7 +8012,6 @@
 		(!R1 (?X_F GYM.N))
 		(!R2 (?X_E DOCTOR.N))
 		(!R3 (?X_E (PERTAIN-TO ?X_G)))
-		(!R4 (?X_F DESTINATION.N))
 		(!R5 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -8310,7 +8167,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_L)))
 		(!R5 (?X_K OFFICE.N))
 		(!R6 (?X_K (PERTAIN-TO ?X_H)))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8
    ((K
      (IF.P
@@ -8491,7 +8347,6 @@
 		(!R2 (?X_F FAMILY.N))
 		(!R3 (?X_F (PERTAIN-TO ?X_J)))
 		(!R4 (?X_I BIRD.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -8565,7 +8420,6 @@
 		(!R12 ((K (BECAUSE.P (?X_J (LEAVE.V ?X_K)))) LOCATION.N))
 		(!R13 (NOT ((K (BECAUSE.P (?X_J (LEAVE.V ?X_K)))) = ?L2)))
 		(!R14 (?X_L AGENT.N))
-		(!R15 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A
@@ -8588,7 +8442,6 @@
 		(!R3 (?X_F AGENT.N))
 		(!R4 (?X_E (PERTAIN-TO ?X_F)))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_E ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
@@ -8624,7 +8477,6 @@
 	(:ROLES
 		(!R1 (?X_H TRIP.N))
 		(!R2 (?X_G AGENT.N))
-		(!R3 (?X_H DESTINATION.N))
 		(!R4 (?X_I AGENT.N))
 		(!R5 (?X_J ENTITY.N))
 	)
@@ -8675,7 +8527,6 @@
 		(!R2 (?X_E FAMILY.N))
 		(!R3 (?X_E (PERTAIN-TO ?X_K)))
 		(!R4 (?X_J BIRD.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -8699,7 +8550,6 @@
 		(!R4 (?X_F MOM.N))
 		(!R5 (?X_G AGENT.N))
 		(!R6 (?X_F (PERTAIN-TO ?X_G)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_G (MISS.V ?X_F)))
@@ -8799,7 +8649,6 @@
 		(!R6 (?X_J (PERTAIN-TO ?X_I)))
 		(!R7 (?X_K SCHOOL.N))
 		(!R8 (?X_I SMALLER-THAN.N ?X_J))
-		(!R9 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_J DRIVE.15.V ?X_I ?X_K))
@@ -9096,7 +8945,6 @@
 		(!R6 (?X_M (PERTAIN-TO ?X_H)))
 		(!R7 (?X_I GROUND.N))
 		(!R8 (?X_J (PLUR SHOE.N)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -9223,7 +9071,6 @@
 		(!R10 (?X_M (OF.P ?X_N)))
 		(!R11 (?X_O -LSB-THE.N))
 		(!R12 (?X_O CLERK.N))
-		(!R13 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_Q (?X_J ((ADV-A (FROM.P ?L1)) WALK.29.V) ?L2))
@@ -9368,7 +9215,6 @@
 		(!R3 (?X_E (PLUR HAND.N)))
 		(!R4 (?X_E (PERTAIN-TO ?X_F)))
 		(!R5 (?X_F AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_D (NAME.V (THT (?X_F GROW_UP.V)))))
@@ -9387,7 +9233,6 @@
 		(!R4 (?X_D (SET-OF AGENT.N)))
 		(!R5 (?X_E (PERTAIN-TO ?X_G)))
 		(!R6 (?X_F VACATION.N))
-		(!R7 (?X_F DESTINATION.N))
 		(!R8 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -9407,7 +9252,6 @@
 		(!R4 (?X_G (PERTAIN-TO ?X_E)))
 		(!R5 (?X_F HOSPITAL.N))
 		(!R6 (?X_E SMALLER-THAN.N ?X_G))
-		(!R7 (?X_F DESTINATION.N))
 		(!R8 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -9434,7 +9278,6 @@
 		(!R5 (?X_L JUICE.N))
 		(!R6 (?X_O NOISE.N))
 		(!R7 (?X_P AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_P (HAVE.V ?X_F)))
@@ -9482,7 +9325,6 @@
 		(!R6 (?X_J DOCTOR.N))
 		(!R7 (?X_G MEDICINE.N))
 		(!R8 (?X_H SMALLER-THAN.N ?X_I))
-		(!R9 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I TAKE.13.V ?X_H ?X_J))
@@ -9501,7 +9343,6 @@
 		(!R2 (?X_H SICK.A))
 		(!R3 (?X_I HOSPITAL.N))
 		(!R4 (?X_H AGENT.N))
-		(!R5 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H (NEED.V (KA (SEE.V ?X_E)))))
@@ -9564,8 +9405,6 @@
 		(!R3 (?X_M HOSPITAL.N))
 		(!R4 (?X_K NURSE.N))
 		(!R5 (?X_L MEDICINE.N))
-		(!R6 (?X_M DESTINATION.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_C ((ADV-A (FROM.P ?L1)) GO.19.V) ?X_M))
@@ -9586,7 +9425,6 @@
 		(!R3 (?X_E CANDY.N))
 		(!R4 ((SET-OF ?X_J ?X_K) AGENT.N))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D ((SET-OF ?X_J ?X_K) PLAY.3.V))
@@ -9606,7 +9444,6 @@
 		(!R3 (?X_D (PLUR FRIEND.N)))
 		(!R4 (?X_D (PERTAIN-TO ?X_G)))
 		(!R5 ((KA (OUTSIDE.ADV GO.V)) ACTION.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_G AGENT.N))
 		(!R8 (?L LOCATION.N))
 	)
@@ -9825,7 +9662,6 @@
 		(!R7 (?X_I (PERTAIN-TO ?X_H)))
 		(!R8 (?X_L HOME.N))
 		(!R9 (?X_L (PERTAIN-TO ?X_I)))
-		(!R10 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_G (COOK.V ?X_C)))
@@ -9973,7 +9809,6 @@
 		(!R6 (?X_O CATCH.N))
 		(!R7 ((KA (PLAY.V ?X_O)) ACTION.N))
 		(!R8 (?X_P AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_J (NAME.V (THT (?X_I (HAVE.V ?X_H))))))
@@ -10001,7 +9836,6 @@
 		(!R6 ((KA PLAY.V) ACTION.N))
 		(!R7 (?X_N FOOD.N))
 		(!R8 ((KA SWIM.V) ACTION.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_L ((PASV NAME.V) ?X_C)))
@@ -10648,7 +10482,6 @@
 		(!R14 (?X_X (PERTAIN-TO ?X_Z)))
 		(!R15 (?X_Y (PERTAIN-TO ?X_Z)))
 		(!R16 (?X_ZA DINNER.N))
-		(!R17 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_T (?X_W ((ADV-A (FROM.P ?L1)) GO.3.V) ?L2))
@@ -10701,7 +10534,6 @@
 		(!R6 (?X_H TROUBLE.N))
 		(!R7 ((ANY.D CANDY.N) FOOD.N))
 		(!R8 (?X_I AGENT.N))
-		(!R9 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_H SLEEP.V))
@@ -10755,9 +10587,7 @@
 		(!R13 (?X_T (PLUR ARM.N)))
 		(!R14 (?X_T (PERTAIN-TO ?X_S)))
 		(!R15 (NOT (?X_Q AGENT.N)))
-		(!R16 (?X_R DESTINATION.N))
 		(!R17 (?X_S AGENT.N))
-		(!R18 (?X_T DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_R ((ADV-A (TO.P ?X_M)) ((ADV-A (FROM.P ?X_L)) COME.V))))
@@ -10816,7 +10646,6 @@
 		(!R12 (?X_O HOME.N))
 		(!R13 (?X_O (PERTAIN-TO ?X_K)))
 		(!R14 (?X_N LOCATION.N))
-		(!R15 (?X_O DESTINATION.N))
 		(!R16 (NOT (?X_N = ?X_O)))
 	)
 	(:STEPS
@@ -10838,7 +10667,6 @@
 		(!R3 (?X_G ANGRY.A))
 		(!R4 (?X_G MOTHER.N))
 		(!R5 (?X_G (PERTAIN-TO ?X_H)))
-		(!R6 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_G ((ADV-A (AT.P ?X_H)) YELL.V)))
@@ -11008,7 +10836,6 @@
 		(!R11
    ((K (BECAUSE.P (?X_K ((ADV-A (FOR.P (KA (BRING.2.V ?X_L)))) FORGET.V))))
     AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 		(!R13 (?X_L ENTITY.N))
 		(!R14
    (?X_L SMALLER-THAN.N
@@ -11134,7 +10961,6 @@
 		(!R8 (?X_I LUNCH.N))
 		(!R9 (?X_H ?X_I MONEY.N))
 		(!R10 (?X_O ?X_L MONEY.N))
-		(!R11 (?X_M DESTINATION.N))
 		(!R12 (?X_N AGENT.N))
 		(!R13 (?X_O OBJECT.N))
 	)
@@ -11240,7 +11066,6 @@
 		(!R14 (?X_S MOM.N))
 		(!R15 (?X_S (PERTAIN-TO ?X_T)))
 		(!R16 (?X_T AGENT.N))
-		(!R17 (?X_U DESTINATION.N))
 	)
 	(:STEPS
 		(?X_M (?X_S (SAY.V (THAT (?X_T (SHOULD.MD ((ADV-A (TO.P ?X_N)) GO.V)))))))
@@ -11429,7 +11254,6 @@
 		(!R3 (?X_F BALL.N))
 		(!R4 (?X_I FOOTBALL.N))
 		(!R5 (?X_N BASKETBALL.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -11667,7 +11491,6 @@
 		(!R7 (?X_L AGENT.N))
 		(!R8 (?X_O (PLUR KID.N)))
 		(!R9 (?X_P AGENT.N))
-		(!R10 (?X_Q DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_P ((ADV-A (FROM.P ?L1)) GO.13.V) ?X_Q))
@@ -11758,7 +11581,6 @@
 		(!R4 (?X_K HOME.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_J)))
 		(!R6 (?X_J AGENT.N))
-		(!R7 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_G ((ADV-A (FOR.P ?X_F)) LIVE_TOGETHER.V)))
@@ -11919,7 +11741,6 @@
 		(!R4 (?X_I GIRL.N))
 		(!R5 (?X_H HAIR.N))
 		(!R6 (?X_H (PERTAIN-TO ?X_I)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -11940,7 +11761,6 @@
 		(!R3 (?X_F AGENT.N))
 		(!R4 (?X_K (PLUR SPACESUIT.N)))
 		(!R5 (NOT (?X_K AGENT.N)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -12001,7 +11821,6 @@
 		(!R3 (?X_F (PERTAIN-TO ?X_O)))
 		(!R4 (?X_I (PLUR LOT.N)))
 		(!R5 (?X_N BAR.N))
-		(!R6 (?X_N DESTINATION.N))
 		(!R7 (?X_O AGENT.N))
 		(!R8 (?X_P FOOD.N))
 	)
@@ -12020,7 +11839,6 @@
 ; "She ran away from him."
 (EPI-SCHEMA ((?X_I (THINK.V (THAT (?X_I (= ?X_K))))) ** ?E)
 	(:ROLES
-		(!R1 (?L2 DESTINATION.N))
 		(!R2 (?X_I AGENT.N))
 		(!R3 (?X_J STRANGE.A))
 		(!R4 (?X_J PERSON.N))
@@ -12054,7 +11872,6 @@
 		(!R8 (?X_N BLUE.A))
 		(!R9 (?X_N HAIR.N))
 		(!R10 (?X_M (WITH.P ?X_N)))
-		(!R11 (?L2 DESTINATION.N))
 		(!R12 (?X_O AGENT.N))
 		(!R13 (NOT (?X_P AGENT.N)))
 		(!R14 (NOT (?X_Q AGENT.N)))
@@ -12402,7 +12219,6 @@
 		(!R7 (?X_K MOTHER.N))
 		(!R8 (?X_K (PERTAIN-TO ?X_L)))
 		(!R9 (?X_O BASKETBALL.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_K WORK.V))
@@ -12819,7 +12635,6 @@
 		(!R7 (?X_E LOCATION.N))
 		(!R8 (?X_F ENTITY.N))
 		(!R9 (?X_F SMALLER-THAN.N ?X_H))
-		(!R10 (?X_G DESTINATION.N))
 		(!R11 (?X_H AGENT.N))
 	)
 	(:STEPS
@@ -12871,7 +12686,6 @@
 		(!R2 (?X_C AGENT.N))
 		(!R3 (?X_D JOB.N))
 		(!R4 (?X_G BOY.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_G ((ADV-A (FOR.P ?X_D)) LOOK.10.V)))
@@ -12910,7 +12724,6 @@
 		(!R4 (?X_K (PLUR FRIEND.N)))
 		(!R5 (?X_K (PERTAIN-TO ?X_J)))
 		(!R6 ((SET-OF ?X_J ?X_K) AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A ((SET-OF ?X_J ?X_K) ((ADV-A (FROM.P ?L1)) GO_OUT.1.V) ?L2))
@@ -13190,7 +13003,6 @@
 		(!R4 (?X_F BASEBALL.N))
 		(!R5 (?X_E AGENT.N))
 		(!R6 ((K (BECAUSE.P (?X_E (LOSE.V ?X_F)))) AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E138.SK (NOT (?X_E ((CAN.MD PLAY.V) (ANY.D (PLUR GAME.N))))))
@@ -13467,7 +13279,6 @@
 		(!R4 (?X_L (PLUR TREE.N)))
 		(!R5 (?X_I AGENT.N))
 		(!R6 ((KA (CLIMB.V ?X_L)) ACTION.N))
-		(!R7 (?X_L DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -13514,7 +13325,6 @@
 		(!R4 (?X_O MOUTH.N))
 		(!R5 (?X_O (PERTAIN-TO ?X_I)))
 		(!R6 (?X_N AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -13596,9 +13406,7 @@
 		(!R8 (?X_S TALL.A))
 		(!R9 (?X_S TREE.N))
 		(!R10 ((KA (CLIMB.V ?X_Q)) ACTION.N))
-		(!R11 (?X_Q DESTINATION.N))
 		(!R12 (?X_R AGENT.N))
-		(!R13 (?X_S DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_R LIKE.10.V (KA (CLIMB.V ?X_Q))))
@@ -13627,7 +13435,6 @@
 		(!R8 (?X_I ((PASV NAME.V) ?X_J)))
 		(!R9 (?X_K (PLUR TREE.N)))
 		(!R10 ((KA (CLIMB.V ?X_K)) ACTION.N))
-		(!R11 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_I LIKE.12.V (KA (CLIMB.V ?X_K))))
@@ -13647,7 +13454,6 @@
 		(!R2 (?X_I WEB.N))
 		(!R3 (?X_I AGENT.N))
 		(!R4 (?X_J AGENT.N))
-		(!R5 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_J SEE.13.V ?X_I))
@@ -13669,7 +13475,6 @@
 		(!R3 (?X_F BOY.N))
 		(!R4 (?X_I BASEBALL.N))
 		(!R5 (?X_L AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_F PLAY.16.V))
@@ -13713,7 +13518,6 @@
 		(!R4 (?X_I BOY.N))
 		(!R5 (?X_L BASEBALL.N))
 		(!R6 (?X_O AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_I PLAY.19.V))
@@ -13762,7 +13566,6 @@
 		(!R3 (?X_F MAN.N))
 		(!R4 (?X_I BASEBALL.N))
 		(!R5 (?X_L AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_F PLAY.22.V))
@@ -13821,7 +13624,6 @@
 		(!R3 (?X_F BALL.N))
 		(!R4 (?X_I BASEBALL.N))
 		(!R5 (?X_L AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L PLAY.26.V))
@@ -13842,7 +13644,6 @@
 		(!R2 (?X_H DOG.N))
 		(!R3 (?X_K FOOD.N))
 		(!R4 (NOT (?X_K = ?L2)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K LOCATION.N))
 	)
 	(:STEPS
@@ -13926,7 +13727,6 @@
 		(!R5 (?X_P LOCATION.N))
 		(!R6 (?X_O AGENT.N))
 		(!R7 (NOT (?X_P = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_O (TELL.V ?X_I)))
@@ -13957,7 +13757,6 @@
 		(!R9 (?X_M HIGH.A))
 		(!R10 ((KA (EAT.V ?X_L)) ACTION.N))
 		(!R11 (?X_L FOOD.N))
-		(!R12 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_F (= ?X_E)))
@@ -13997,7 +13796,6 @@
 		(!R4 (?X_L COUCH.N))
 		(!R5 (?X_M CAT.N))
 		(!R6 (?X_P ROOM.N))
-		(!R7 (?X_P DESTINATION.N))
 		(!R8 (?N NOISE.N))
 	)
 	(:STEPS
@@ -14244,12 +14042,10 @@
 		(!R7 (?X_S WATER.N))
 		(!R8 (?X_O HEAD.N))
 		(!R9 (?X_O (PERTAIN-TO ?X_T)))
-		(!R10 (?X_R DESTINATION.N))
 		(!R11 (?X_S LOCATION.N))
 		(!R12 (?X_T AGENT.N))
 		(!R13 (?X_U LOCATION.N))
 		(!R14 (NOT (?X_U = ?L2)))
-		(!R15 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L (TEASE.V ?X_T)))
@@ -14350,7 +14146,6 @@
 		(!R9 (?X_Q AGENT.N))
 		(!R10 (?L LOCATION.N))
 		(!R11 ((SET-OF ?X_Q ?X_R) AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?E_1 (?X_Q CAMP.1.V ?L))
@@ -14416,10 +14211,8 @@
 		(!R5 (?X_N TREE.N))
 		(!R6 (?X_O HUNTER.N))
 		(!R7 (?X_K BEAR.N))
-		(!R8 (?X_N DESTINATION.N))
 		(!R9 (?X_O LOCATION.N))
 		(!R10 (NOT (?X_O = ?L2)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_A ((ADV-A (FROM.P ?L1)) WALK.6.V) ?L2))
@@ -14448,7 +14241,6 @@
 		(!R9 (NOT (?X_M AGENT.N)))
 		(!R10 (?X_N ENTITY.N))
 		(!R11 (?X_N SMALLER-THAN.N ?X_O))
-		(!R12 (?L2 DESTINATION.N))
 		(!R13 (?X_O AGENT.N))
 		(!R14 (?L LOCATION.N))
 	)
@@ -14476,8 +14268,6 @@
 		(!R4 (?X_H BEAR.N))
 		(!R5 (?X_N TREE.N))
 		(!R6 (?X_K BEAR.N))
-		(!R7 (?X_N DESTINATION.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_B EAT.4.V ?X_A))
@@ -14493,7 +14283,6 @@
 (EPI-SCHEMA ((?L2 ((ADV-A (TO.P ?L2)) RUN.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_E BEAR.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_E ((ADV-A (FROM.P ?L1)) RUN.13.V) ?L2))
@@ -14510,7 +14299,6 @@
 		(!R1 (?X_D (PLUR LOT.N)))
 		(!R2 (?X_D (OF.P ?X_E)))
 		(!R3 (?X_J (PLUR ANIMAL.N)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -14688,7 +14476,6 @@
 		(!R9 (?X_L FAMILY.N))
 		(!R10 (?X_L (PERTAIN-TO ?X_M)))
 		(!R11 (?X_M AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K (TAKE.V ?X_J)))
@@ -14744,7 +14531,6 @@
 		(!R7 (?X_I (PERTAIN-TO ?X_L)))
 		(!R8 (?X_M VACATION.N))
 		(!R9 (?X_L AGENT.N))
-		(!R10 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_M))
@@ -14763,9 +14549,7 @@
 		(!R1 (?X_D FAMILY.N))
 		(!R2 (?X_D (PERTAIN-TO ?X_J)))
 		(!R3 (?X_I VACATION.N))
-		(!R4 (?X_I DESTINATION.N))
 		(!R5 (?X_J AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_J ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_I))
@@ -14839,7 +14623,6 @@
 		(!R4 (?X_I (PERTAIN-TO ?X_L)))
 		(!R5 (?X_H DINNER.N))
 		(!R6 (?X_H (WITH.P ?X_I)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -14903,7 +14686,6 @@
 		(!R3 (?X_D DINNER.N))
 		(!R4 (?X_D (WITH.P ?X_E)))
 		(!R5 (?X_E (PERTAIN-TO ?X_I)))
-		(!R6 (?X_H DESTINATION.N))
 		(!R7 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -14997,7 +14779,6 @@
 		(!R8 (?X_I (PERTAIN-TO ?X_K)))
 		(!R9 (?X_J MOM.N))
 		(!R10 (?X_J (PERTAIN-TO ?X_K)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (NOT (?X_H KNOW.V)))
@@ -15072,7 +14853,6 @@
 		(!R2 (?X_I WALK.N))
 		(!R3 (?X_G (PERTAIN-TO ?X_H)))
 		(!R4 (?X_H AGENT.N))
-		(!R5 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_H (EARLY.ADV WAKE_UP.V)))
@@ -15096,7 +14876,6 @@
 		(!R6 (?X_J (PERTAIN-TO ?X_H)))
 		(!R7 (NOT (?X_I = ?X_J)))
 		(!R8 (?A ACTION.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_I (HAVE.V ?X_E)))
@@ -15142,7 +14921,6 @@
 		(!R4 (?X_E DAD.N))
 		(!R5 (?X_E (PERTAIN-TO ?X_F)))
 		(!R6 (?X_F AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (NOT (?X_F (WANT.V (KA (ANYWAY.ADV GO.V))))))
@@ -15169,7 +14947,6 @@
 		(!R10 (?X_K HOME.N))
 		(!R11 (?X_J LOCATION.N))
 		(!R12 ((SET-OF ?X_H ?X_I) AGENT.N))
-		(!R13 (?X_K DESTINATION.N))
 		(!R14 (NOT (?X_J = ?X_K)))
 	)
 	(:STEPS
@@ -15246,7 +15023,6 @@
 		(!R4 (?X_E AGENT.N))
 		(!R5 (?X_G DATE.N))
 		(!R6 ((SET-OF ?X_E ?X_F) AGENT.N))
-		(!R7 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(E471.SK (?X_F (HAVE.V ?X_B)))
@@ -15420,11 +15196,8 @@
 		(!R5 (?X_O (PLUR WOOD.N)))
 		(!R6 (?X_R AIR.N))
 		(!R7 (?X_Q SMALLER-THAN.N ?X_P))
-		(!R8 (?X_O DESTINATION.N))
 		(!R9 (?X_P AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 		(!R11 (?X_Q AGENT.N))
-		(!R12 (?X_R DESTINATION.N))
 		(!R13 (NOT (?X_R = ?X_R)))
 	)
 	(:STEPS
@@ -15469,7 +15242,6 @@
 		(!R1 (?X_C BASEBALL.N))
 		(!R2 (?X_H HAPPY.A))
 		(!R3 (?X_H AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H PLAY.28.V))
@@ -15579,7 +15351,6 @@
 		(!R3 (?X_H SCARED.A))
 		(!R4 (?X_H AGENT.N))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_H (DREAM.V (THT (?X_H ((ADV-A (ON.P ?X_K)) BE.V))))))
@@ -15677,10 +15448,8 @@
 	(:ROLES
 		(!R1 (?X_E (PLUR MONSTER.N)))
 		(!R2 (?X_O CAR.N))
-		(!R3 (?X_O DESTINATION.N))
 		(!R4 (?X_N AGENT.N))
 		(!R5 (?X_O AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_N SLEEP.V))
@@ -15702,7 +15471,6 @@
 		(!R2 (?X_F FRIEND.N))
 		(!R3 (?X_F (PERTAIN-TO ?X_G)))
 		(!R4 (?X_J AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_F (HAVE.V ?X_E)))
@@ -15755,7 +15523,6 @@
 		(!R4 (?X_I BEER.N))
 		(!R5 (?F FOOD.N))
 		(!R6 (?X_N AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_N (HAVE.V ?X_A)))
@@ -15784,7 +15551,6 @@
 		(!R6 (?X_K OBJECT.N))
 		(!R7 (NOT (?X_K ACTION.N)))
 		(!R8 (NOT (?X_K AGENT.N)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?N NOISE.N))
 	)
 	(:STEPS
@@ -15859,7 +15625,6 @@
 		(!R7 (?X_M AGENT.N))
 		(!R8 (?X_L (PERTAIN-TO ?X_M)))
 		(!R9 (?N NOISE.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_L (SING.V ?X_J)))
@@ -15885,7 +15650,6 @@
 		(!R2 (?X_J (PLUR SONG.N)))
 		(!R3 (?X_M PARTY.N))
 		(!R4 (?X_N BEER.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_S AGENT.N))
 		(!R7 (?X_T AGENT.N))
 		(!R8 (?N NOISE.N))
@@ -15933,7 +15697,6 @@
 		(!R2 (?X_D AGENT.N))
 		(!R3 (?X_G BEER.N))
 		(!R4 (?X_J BAR.N))
-		(!R5 (?X_J DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -15994,7 +15757,6 @@
 		(!R1 (?X_D AGENT.N))
 		(!R2 (?X_E AGENT.N))
 		(!R3 (?X_J AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_E (THINK.V (THAT (?X_D PRETTY.A)))))
@@ -16085,7 +15847,6 @@
 		(!R2 (?X_D (OF.P ?X_E)))
 		(!R3 (?X_F GIRL.N))
 		(!R4 (?X_I LIBRARY.N))
-		(!R5 (?X_I DESTINATION.N))
 		(!R6 ((KA LEARN.V) ACTION.N))
 	)
 	(:STEPS
@@ -16107,7 +15868,6 @@
 		(!R4 (?X_L MANY.A))
 		(!R5 (?X_L INTERESTING.A))
 		(!R6 (?X_L (PLUR BOOK.N)))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 ((KA (READ.V ?X_L)) ACTION.N))
 		(!R9 (?X_M AGENT.N))
 	)
@@ -16126,7 +15886,6 @@
 	(:ROLES
 		(!R1 (?X_F LIBRARY.N))
 		(!R2 (?X_C (PLUR BOOK.N)))
-		(!R3 (?X_F DESTINATION.N))
 		(!R4 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -16166,7 +15925,6 @@
 		(!R3 (?X_L LIBRARY.N))
 		(!R4 (?X_I MANY.A))
 		(!R5 (?X_I (PLUR BOOK.N)))
-		(!R6 (?X_L DESTINATION.N))
 		(!R7 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -16191,7 +15949,6 @@
 		(!R6 (?X_I (PLUR BOOK.N)))
 		(!R7 (?X_M LIBRARY.N))
 		(!R8 (?X_L AGENT.N))
-		(!R9 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_M))
@@ -16211,7 +15968,6 @@
 		(!R2 (?X_C AGENT.N))
 		(!R3 (?X_C INTERESTING.A))
 		(!R4 (?X_F LIBRARY.N))
-		(!R5 (?X_F DESTINATION.N))
 		(!R6 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -16255,7 +16011,6 @@
 		(!R5 (?X_O LIBRARY.N))
 		(!R6 (?X_L INTERESTING.A))
 		(!R7 (?X_L (PLUR BOOK.N)))
-		(!R8 (?X_O DESTINATION.N))
 		(!R9 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -16277,7 +16032,6 @@
 		(!R4 (?X_E INTERESTING.A))
 		(!R5 (?X_E (PLUR BOOK.N)))
 		(!R6 ((KA ((ADV-A (TO.P ?X_H)) GO.V)) ACTION.N))
-		(!R7 (?X_H DESTINATION.N))
 		(!R8 (NOT (?X_I ACTION.N)))
 		(!R9 (NOT (?X_I AGENT.N)))
 		(!R10 (?X_J AGENT.N))
@@ -16303,7 +16057,6 @@
 		(!R4 (?X_J THING.N))
 		(!R5 (?X_J INTERESTING.A))
 		(!R6 (?X_O LIBRARY.N))
-		(!R7 (?X_O DESTINATION.N))
 		(!R8 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -16328,7 +16081,6 @@
 		(!R4 (?X_I GIRL.N))
 		(!R5 (?X_L MANY.A))
 		(!R6 (?X_L FISH.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_O FOOD.N))
 	)
 	(:STEPS
@@ -16355,8 +16107,6 @@
 		(!R4 (?X_G (PLUR PERSON.N)))
 		(!R5 (?X_K BATHING.N))
 		(!R6 (?X_J ?X_K SUIT.N))
-		(!R7 (?X_N DESTINATION.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_B ((ADV-A (ON.P ?X_J)) PUT.V)))
@@ -16399,8 +16149,6 @@
 		(!R3 (?X_M OCEAN.N))
 		(!R4 (?X_J MANY.A))
 		(!R5 (?X_J FISH.N))
-		(!R6 (?L2 DESTINATION.N))
-		(!R7 (?X_M DESTINATION.N))
 		(!R8 (?X_N AGENT.N))
 		(!R9 (?X_O FOOD.N))
 	)
@@ -16466,7 +16214,6 @@
 		(!R2 (?X_J DELICIOUS.A))
 		(!R3 (?X_G MANY.A))
 		(!R4 (?X_G FISH.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_J FOOD.N))
 		(!R7 (?X_K AGENT.N))
 	)
@@ -16511,8 +16258,6 @@
 		(!R2 (?X_F (PERTAIN-TO ?X_K)))
 		(!R3 (?X_J TOWN.N))
 		(!R4 (?X_G (IMPINGES-ON ?X_H)))
-		(!R5 (?X_J DESTINATION.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 		(!R8 (?F FOOD.N))
 	)
@@ -16539,7 +16284,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_L)))
 		(!R5 (?X_I (PERTAIN-TO ?X_L)))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_L (WANT.V (KA (GO.V (KA FISH.V))))))
@@ -16560,7 +16304,6 @@
 		(!R1 (?X_F FISH.N))
 		(!R2 (?X_I FATHER.N))
 		(!R3 (?X_I (PERTAIN-TO ?X_N)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -16645,7 +16388,6 @@
 		(!R2 (?X_D DINNER.N))
 		(!R3 (?X_J STORE.N))
 		(!R4 (?X_G DINNER.N))
-		(!R5 (?X_J DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -16693,7 +16435,6 @@
 		(!R1 (?X_K BREAD.N))
 		(!R2 (?X_E FOOD.N))
 		(!R3 (?X_J STORE.N))
-		(!R4 (?X_J DESTINATION.N))
 		(!R5 (?X_K FOOD.N))
 		(!R6 (?X_L AGENT.N))
 	)
@@ -16990,7 +16731,6 @@
 		(!R3 (?X_D MONEY.N))
 		(!R4 (?X_E MAN.N))
 		(!R5 (?X_D (PERTAIN-TO ?X_E)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_E ((ADV-A (FROM.P ?L1)) WALK.7.V) ?L2))
@@ -17263,7 +17003,6 @@
 		(!R6 (?X_M (PERTAIN-TO ?X_J)))
 		(!R7 (?X_K AGENT.N))
 		(!R8 (NOT (?X_L ACTION.N)))
-		(!R9 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K (HAVE.V ?X_L)))
@@ -17425,7 +17164,6 @@
 		(!R8 (?X_K MOM.N))
 		(!R9 (?X_K (PERTAIN-TO ?X_J)))
 		(!R10 (?X_J SMALLER-THAN.N ?X_K))
-		(!R11 (?X_J DESTINATION.N))
 		(!R12 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -17446,7 +17184,6 @@
 		(!R2 (?X_C OWNER.N))
 		(!R3 (?X_C (PERTAIN-TO ?X_D)))
 		(!R4 (?X_I FOOD.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_D EAT.17.V ?X_I))
@@ -17524,7 +17261,6 @@
 		(!R6 (?X_O HELP.N))
 		(!R7 (?X_N (FOR.P ?X_O (KA COME.V))))
 		(!R8 ((K (FOR.P ?X_O (KA COME.23.V))) AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L BREAK_DOWN.V))
@@ -17553,7 +17289,6 @@
 		(!R8 (?X_H (PLUR FRIEND.N)))
 		(!R9 (?X_H (PERTAIN-TO ?X_I)))
 		(!R10 (NOT (?X_L AGENT.N)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) GO_OUT.1.V) ?L2))
@@ -17641,7 +17376,6 @@
 		(!R7 (?X_N (PLUR HEEL.N)))
 		(!R8 ((KA (WEAR.V ?X_N)) ACTION.N))
 		(!R9 (NOT (?X_N AGENT.N)))
-		(!R10 (?X_N DESTINATION.N))
 		(!R11 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -17663,7 +17397,6 @@
 		(!R1 (?X_E NEW.A))
 		(!R2 (?X_E (PLUR CLOTHE.N)))
 		(!R3 (?X_K WAY.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_K OBJECT.N))
 		(!R6 (?X_J AGENT.N))
 		(!R7 (NOT (?X_K AGENT.N)))
@@ -17688,7 +17421,6 @@
 		(!R5 (?X_B (PERTAIN-TO ?X_C)))
 		(!R6 (?X_E HIGH.A))
 		(!R7 (?X_D ?X_E (PLUR HEEL.N)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_C ((ADV-A (ON.P ?X_D)) PUT.V)))
@@ -17731,7 +17463,6 @@
 		(!R4 (?X_D (PERTAIN-TO ?X_J)))
 		(!R5 (NOT (?X_I AGENT.N)))
 		(!R6 (?X_J AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_J WEAR.10.V ?X_I))
@@ -17980,7 +17711,6 @@
 		(!R7 (?X_J (PERTAIN-TO ?X_M)))
 		(!R8 (?X_N CLASSROOM.N))
 		(!R9 (?X_M AGENT.N))
-		(!R10 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_M ((ADV-A (FROM.P ?L1)) WALK.2.V) ?X_N))
@@ -18057,7 +17787,6 @@
 		(!R5 (?X_L SCHOOL.N))
 		(!R6 (?X_M TEACHER.N))
 		(!R7 (?X_M (PERTAIN-TO ?X_N)))
-		(!R8 (?X_L DESTINATION.N))
 		(!R9 (?X_N AGENT.N))
 		(!R10 ((KA (DOWN.ADV SIT.V)) ACTION.N))
 		(!R11 (NOT (?X_M = ?X_N)))
@@ -18106,7 +17835,6 @@
 		(!R6 (?X_E (PERTAIN-TO ?X_F)))
 		(!R7 (?X_G AGENT.N))
 		(!R8 (?X_F (PERTAIN-TO ?X_G)))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_F ((ADV-A (FROM.P ?L1)) GO.6.V) ?L2))
@@ -18207,9 +17935,7 @@
 	(:ROLES
 		(!R1 (?X_F AGENT.N))
 		(!R2 (?X_K SCHOOL.N))
-		(!R3 (?X_K DESTINATION.N))
 		(!R4 (?X_L AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L ((ADV-A (FROM.P ?L1)) GO.4.V) ?X_K))
@@ -18231,7 +17957,6 @@
 		(!R2 (?X_H TRAFFIC.N))
 		(!R3 (?X_I DOG.N))
 		(!R4 (?X_I (VERY.ADV FAST.A)))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_I ((ADV-A (FROM.P ?L1)) RUN_AWAY.10.V) ?L2))
@@ -18261,7 +17986,6 @@
 		(!R10 (?X_H (PERTAIN-TO ?X_M)))
 		(!R11 (NOT (?X_K ACTION.N)))
 		(!R12 (?X_L SMALLER-THAN.N ?X_N))
-		(!R13 (?X_M DESTINATION.N))
 		(!R14 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -18321,7 +18045,6 @@
 		(!R3 (?X_H (HAPPY.A (KA (BACK.ADV BE.V)))))
 		(!R4 (?X_H DOG.N))
 		(!R5 (?X_G (PERTAIN-TO ?X_H)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?N NOISE.N))
 	)
 	(:STEPS
@@ -18525,7 +18248,6 @@
 		(!R6 (?X_K MOM.N))
 		(!R7 (?X_K (PERTAIN-TO ?X_L)))
 		(!R8 (?X_M PERSON.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_K (BUY.V ?X_L ?X_J)))
@@ -18649,7 +18371,6 @@
 		(!R5 (?X_E ((PASV NAME.V) ?X_J)))
 		(!R6 (?X_I AGENT.N))
 		(!R7 ((KA ((ADV-A (WITH.P ?X_H)) PLAY.V)) ACTION.N))
-		(!R8 (?X_I DESTINATION.N))
 		(!R9 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -18785,7 +18506,6 @@
 		(!R3 (?X_H BOY.N))
 		(!R4 (?X_G (PERTAIN-TO ?X_H)))
 		(!R5 (?X_K COLLEGE.N))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (NOT (?X_K ACTION.N)))
 		(!R8 (NOT (?X_K AGENT.N)))
 	)
@@ -18909,7 +18629,6 @@
 		(!R4 (?X_L CAR.N))
 		(!R5 (?X_L (PERTAIN-TO ?X_N)))
 		(!R6 (?X_O MONEY.N))
-		(!R7 (?X_L DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 		(!R9 (?X_N AGENT.N))
 		(!R10 (NOT (?X_O AGENT.N)))
@@ -18942,7 +18661,6 @@
 		(!R9 (?X_T STORE.N))
 		(!R10 (?X_S SHOPPING.N))
 		(!R11 (?X_R ?X_S LIST.N))
-		(!R12 (?X_T DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_J ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_T))
@@ -18966,7 +18684,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_G)))
 		(!R5 (?X_F (PERTAIN-TO ?X_G)))
 		(!R6 (?X_H AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_C FOLLOW.4.V ?X_G))
@@ -19013,7 +18730,6 @@
 		(!R4 (?X_J LOCATION.N))
 		(!R5 (?X_I AGENT.N))
 		(!R6 (NOT (?X_J = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -19033,7 +18749,6 @@
 	(:ROLES
 		(!R1 (?X_E AGENT.N))
 		(!R2 (?X_J AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_J FOLLOW.11.V ?X_E))
@@ -19055,7 +18770,6 @@
 		(!R5 (?X_J GROCERY.N))
 		(!R6 (?X_J STORE.N))
 		(!R7 (?X_H AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9
    ((K
      (UNTIL.P
@@ -19115,7 +18829,6 @@
 		(!R2 (?X_C MAN.N))
 		(!R3 (?X_B (PERTAIN-TO ?X_C)))
 		(!R4 (?X_H AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_I ENTITY.N))
 	)
 	(:STEPS
@@ -19157,7 +18870,6 @@
 		(!R4 (?X_E (PERTAIN-TO ?X_I)))
 		(!R5 (?X_H HOME.N))
 		(!R6 (?X_H (PERTAIN-TO ?X_J)))
-		(!R7 (?X_H DESTINATION.N))
 		(!R8 (?X_I SMALLER-THAN.N ?X_J))
 	)
 	(:STEPS
@@ -19181,7 +18893,6 @@
 		(!R7 (?X_K HOME.N))
 		(!R8 (?X_K (PERTAIN-TO ?X_J)))
 		(!R9 (?X_I SMALLER-THAN.N ?X_J))
-		(!R10 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F BREAK_DOWN.V))
@@ -19204,9 +18915,7 @@
 		(!R5 (?X_L POLICEMAN.N))
 		(!R6 (?X_M HOME.N))
 		(!R7 (?X_M (PERTAIN-TO ?X_L)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_K SMALLER-THAN.N ?X_L))
-		(!R10 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F BREAK_DOWN.V))
@@ -19421,7 +19130,6 @@
 	(:ROLES
 		(!R1 (?X_I DOG.N))
 		(!R2 (?X_J AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?N NOISE.N))
 	)
 	(:STEPS
@@ -19620,12 +19328,9 @@
 (EPI-SCHEMA ((?X_L ((ADV-A (AROUND.P ?X_J)) WALK.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_J PARK.N))
-		(!R2 (?X_J DESTINATION.N))
 		(!R3 ((SET-OF ?X_L ?X_K) AGENT.N))
 		(!R4 (?X_K AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 ((ALL.D AROUND.P) DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A ((SET-OF ?X_L ?X_K) ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_J))
@@ -19665,7 +19370,6 @@
 (EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?L2)) ** ?E)
 	(:ROLES
 		(!R1 (?X_I AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_I ((ADV-A (FROM.P ?L1)) RUN.6.V) ?L2))
@@ -19688,7 +19392,6 @@
 		(!R4 (?X_J AGENT.N))
 		(!R5 ((KA (FAST.ADV JOG.V)) ACTION.N))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K ((ADV-A (FROM.P ?L1)) JOG.7.V) ?L2))
@@ -19707,7 +19410,6 @@
 		(!R1 (?X_F GOOD.A))
 		(!R2 ((KA RUN.V) ACTION.N))
 		(!R3 (?X_F AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E102.SK (?X_F (CAN.MD (FAR.ADV RUN.V))))
@@ -19898,7 +19600,6 @@
 		(!R4 (?X_G RAIN.N))
 		(!R5 (?X_J CAR.N))
 		(!R6 (?X_J (PERTAIN-TO ?X_K)))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -19991,7 +19692,6 @@
 		(!R6 (?X_K (PERTAIN-TO ?X_L)))
 		(!R7 ((KA (GO.V (KA CAMP.V))) ACTION.N))
 		(!R8 ((KA DANCE.V) ACTION.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_K ((PASV NAME.V) ?X_F)))
@@ -20030,7 +19730,6 @@
 		(!R11 (?X_R HOME.N))
 		(!R12 (?X_R (PERTAIN-TO ?X_Q)))
 		(!R13 (?X_P SMALLER-THAN.N ?X_Q))
-		(!R14 (?X_R DESTINATION.N))
 	)
 	(:STEPS
 		(?X_O (?X_Q DRIVE.9.V ?X_P ?X_R))
@@ -20082,7 +19781,6 @@
 		(!R1 (?X_C ((ADV-A (AFTER.P (KA (TAKE.V ?X_J)))) BETTER.A)))
 		(!R2 (?X_K DOCTOR.N))
 		(!R3 (?X_J MEDICINE.N))
-		(!R4 (?X_K DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -20106,7 +19804,6 @@
 		(!R5 (?X_I (PERTAIN-TO ?X_H)))
 		(!R6 (?X_L HOME.N))
 		(!R7 (?X_L (PERTAIN-TO ?X_I)))
-		(!R8 (?X_L DESTINATION.N))
 		(!R9 (NOT (?X_M = ?X_L)))
 		(!R10 (?X_M LOCATION.N))
 	)
@@ -20127,7 +19824,6 @@
 		(!R1 (?X_C BETTER.A))
 		(!R2 (?X_F MEDICINE.N))
 		(!R3 (?X_K DOCTOR.N))
-		(!R4 (?X_K DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -20201,7 +19897,6 @@
 		(!R9 (?X_N (PERTAIN-TO ?X_P)))
 		(!R10 (?X_L MEDICINE.N))
 		(!R11 (?X_M SMALLER-THAN.N ?X_N))
-		(!R12 (?X_O DESTINATION.N))
 		(!R13 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -20439,7 +20134,6 @@
 (EPI-SCHEMA ((?X_I (EAT.V ?L2)) ** ?E)
 	(:ROLES
 		(!R1 (?X_K FISH.N))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (?X_I AGENT.N))
 		(!R4 (?X_K FOOD.N))
 		(!R5 (?X_J AGENT.N))
@@ -20593,7 +20287,6 @@
 		(!R7 (?X_J CELL.N))
 		(!R8 (?X_I ?X_J PHONE.N))
 		(!R9 ((SET-OF ?X_K ?X_L) AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E16.SK (NOT (?X_L ((CAN.MD FIND.V) ?X_K))))
@@ -20613,7 +20306,6 @@
 		(!R1 (?X_C TRAIL.N))
 		(!R2 (?X_F AGENT.N))
 		(!R3 (?X_I AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) HIKE.2.V) ?L2))
@@ -20632,9 +20324,7 @@
 		(!R1 (?X_N CAVE.N))
 		(!R2 (?X_E HIKE.N))
 		(!R3 (?X_J (PLUR ANIMAL.N)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_M AGENT.N))
-		(!R6 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_M ((ADV-A (ON.P ?X_E)) GO.V)))
@@ -20657,9 +20347,7 @@
 		(!R4 (?X_G (PLUR LOT.N)))
 		(!R5 (?X_G (OF.P ?X_H)))
 		(!R6 (?X_K (PLUR FLOWER.N)))
-		(!R7 (?X_L DESTINATION.N))
 		(!R8 ((SET-OF ?X_M ?X_N) AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -20681,7 +20369,6 @@
 		(!R3 (?X_K AGENT.N))
 		(!R4 (?X_H (PLUR SANDWICH.N)))
 		(!R5 ((SET-OF ?X_K ?X_L) AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -20714,7 +20401,6 @@
 		(!R9 (?X_U (PLUR RABBIT.N)))
 		(!R10 (?X_X (PLUR BIRD.N)))
 		(!R11 (?X_ZA (PLUR SQUIRREL.N)))
-		(!R12 (?L2 DESTINATION.N))
 		(!R13 (?X_ZB AGENT.N))
 	)
 	(:STEPS
@@ -20807,7 +20493,6 @@
 		(!R6 (?X_E ART.N))
 		(!R7 (?X_E (FOR.P ?X_F)))
 		(!R8 (?X_I SHOP.N))
-		(!R9 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_D ((ADV-A (FROM.P ?L1)) WALK.20.V) ?X_I))
@@ -20975,7 +20660,6 @@
 		(!R5 (NOT (?X_J ACTION.N)))
 		(!R6 (NOT (?X_K AGENT.N)))
 		(!R7 (?X_L AGENT.N))
-		(!R8 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_L (((ADV-A (FOR.P ?X_J)) BUY.V) ?X_C)))
@@ -21159,7 +20843,6 @@
 	(:ROLES
 		(!R1 (?X_K DRESS.N))
 		(!R2 (?X_G (PLUR DRESS.N)))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_J AGENT.N))
 		(!R5 (NOT (?X_K ACTION.N)))
 		(!R6 (NOT (?X_K AGENT.N)))
@@ -21203,7 +20886,6 @@
 	(:ROLES
 		(!R1 (?X_E LUNCH.N))
 		(!R2 (?X_H AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -21270,7 +20952,6 @@
 		(!R5 (?X_I (PERTAIN-TO ?X_J)))
 		(!R6 (?X_K AGENT.N))
 		(!R7 (?X_J (PERTAIN-TO ?X_K)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_M (?X_J ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
@@ -21294,7 +20975,6 @@
 		(!R4 (?X_G (OF.P ?X_L)))
 		(!R5 (NOT (?X_J ACTION.N)))
 		(!R6 (NOT (?X_J AGENT.N)))
-		(!R7 (?X_J DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 		(!R9 (?X_L FOOD.N))
 	)
@@ -21320,7 +21000,6 @@
 		(!R6 (?X_I (PERTAIN-TO ?X_J)))
 		(!R7 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R8 (?X_J AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_J LIKE.5.V (KA (GO.V (KA FISH.V)))))
@@ -22182,7 +21861,6 @@
 		(!R4 (?X_F JOB.N))
 		(!R5 (?X_G (PERTAIN-TO ?X_J)))
 		(!R6 (?X_J AGENT.N))
-		(!R7 ((ALL.D WEEK.N) DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J (HAVE.V ?X_F)))
@@ -22376,7 +22054,6 @@
 		(!R5 (?X_K MAN.N))
 		(!R6 (?X_N TREE.N))
 		(!R7 (?X_N HOUSE.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_K (DREAM.V (THAT (?X_K ((ADV-A (THROUGH.P ?X_J)) WALK.V))))))
@@ -22423,7 +22100,6 @@
 		(!R3 (?X_G BALL.N))
 		(!R4 (?X_N BASEBALL.N))
 		(!R5 (?X_Q AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_Q DREAM.V))
@@ -22475,7 +22151,6 @@
 		(!R3 (?X_J AGENT.N))
 		(!R4 (?X_K LOCATION.N))
 		(!R5 (NOT (?X_K = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_J (DREAMT.V (THAT (?X_J ((ADV-A (INTO.P ?X_K)) FALL.V))))))
@@ -22494,7 +22169,6 @@
 		(!R1 (?X_G HEAD.N))
 		(!R2 (?X_G (PERTAIN-TO ?X_K)))
 		(!R3 (?X_J BED.N))
-		(!R4 (?X_J DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -22517,7 +22191,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_G)))
 		(!R5 (?X_I HOME.N))
 		(!R6 (?X_I (PERTAIN-TO ?X_H)))
-		(!R7 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_G (HAVE.V ?X_F)))
@@ -22613,7 +22286,6 @@
 		(!R6 (?X_I (PERTAIN-TO ?X_J)))
 		(!R7 (?N NOISE.N))
 		(!R8 (?X_J AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_J CRY.6.V ?N))
@@ -22861,7 +22533,6 @@
 		(!R1 (?X_F AGENT.N))
 		(!R2 (?X_E OBJECT.N))
 		(!R3 (NOT (?X_E ACTION.N)))
-		(!R4 (?X_F DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_F LOVE.1.V ?X_E))
@@ -23005,7 +22676,6 @@
 		(!R11 ((KA (PLAY.V ?X_M)) ACTION.N))
 		(!R12 ((KA ((ADV-A (WITH.P ?X_N)) TALK.V)) ACTION.N))
 		(!R13 (?X_O AGENT.N))
-		(!R14 (?X_P DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_O HAVE.9.V ?X_L))
@@ -23044,7 +22714,6 @@
 		(!R3 (?X_D LOCATION.N))
 		(!R4 (?X_C AGENT.N))
 		(!R5 (NOT (?X_D = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C ((ADV-A (FROM.P ?X_D)) SAY.16.V) ?L2))
@@ -23111,7 +22780,6 @@
 		(!R2 (?X_L AGENT.N))
 		(!R3 (?X_M AGENT.N))
 		(!R4 (?Y ENTITY.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -23133,7 +22801,6 @@
 		(!R3 (?X_G AGENT.N))
 		(!R4 (?X_F (PERTAIN-TO ?X_G)))
 		(!R5 (?X_J ROAD.N))
-		(!R6 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_F ((ADV-A (FROM.P ?L1)) RUN.22.V) ?X_J))
@@ -23171,7 +22838,6 @@
 	(:ROLES
 		(!R1 (?X_F (PLUR LOT.N)))
 		(!R2 (?X_M (PLUR WOOD.N)))
-		(!R3 (?X_M DESTINATION.N))
 		(!R4 (?X_N AGENT.N))
 		(!R5 (?X_O (PLUR RABBIT.N)))
 		(!R6 (?X_P AGENT.N))
@@ -23204,7 +22870,6 @@
 		(!R10 (?X_L (PERTAIN-TO ?X_M)))
 		(!R11 (?X_N CAR.N))
 		(!R12 (?X_Q STREET.N))
-		(!R13 (?X_Q DESTINATION.N))
 	)
 	(:STEPS
 		(?X_P (?X_L ((ADV-A (FROM.P ?L1)) RUN.22.V) ?X_Q))
@@ -23219,7 +22884,6 @@
 (EPI-SCHEMA ((?X_A ((ADV-A (TO.P ?L2)) WALK.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_A AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E3.SK (?X_A ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -23235,7 +22899,6 @@
 		(!R1 (?X_I WHITE.A))
 		(!R2 (?X_I HAT.N))
 		(!R3 (?X_I (PERTAIN-TO ?X_H)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_G AGENT.N))
 		(!R6 (?X_H AGENT.N))
 		(!R7 (NOT (?X_I AGENT.N)))
@@ -23257,7 +22920,6 @@
 		(!R1 (?X_B PLAYGROUND.N))
 		(!R2 (?X_C (PLUR KID.N)))
 		(!R3 (?X_J AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -23277,9 +22939,7 @@
 		(!R2 (?X_H HOUSE.N))
 		(!R3 (?X_M (PLUR FIREFIGHTER.N)))
 		(!R4 (?X_L FIRE.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?X_L DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -23299,7 +22959,6 @@
 		(!R2 (?X_E (PERTAIN-TO ?X_I)))
 		(!R3 (?X_F CAR.N))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_E HURT.V))
@@ -23317,7 +22976,6 @@
 		(!R1 (?X_F HAND.N))
 		(!R2 (?X_E DOG.N))
 		(!R3 (?X_F (PERTAIN-TO ?X_K)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -23343,7 +23001,6 @@
 		(!R5 (?X_P CAR.N))
 		(!R6 (?X_O AGENT.N))
 		(!R7 (?X_P AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_O ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -23367,8 +23024,6 @@
 		(!R3 (?X_G GIRL.N))
 		(!R4 (?X_M (PLUR BOY.N)))
 		(!R5 (NOT (?X_L AGENT.N)))
-		(!R6 (?L2 DESTINATION.N))
-		(!R7 (?X_M DESTINATION.N))
 		(!R8 (?N NOISE.N))
 	)
 	(:STEPS
@@ -23391,7 +23046,6 @@
 		(!R3 (?X_L STREET.N))
 		(!R4 (?X_F (PLUR CAR.N)))
 		(!R5 (?X_K (PLUR DOG.N)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_L LOCATION.N))
 		(!R8 (?X AGENT.N))
 		(!R9 (?X_M AGENT.N))
@@ -23425,7 +23079,6 @@
 		(!R11 (?X_N (PERTAIN-TO ?X_P)))
 		(!R12 (?X_O AGENT.N))
 		(!R13 (?X_P AGENT.N))
-		(!R14 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_M (?X_O ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -23461,10 +23114,8 @@
 		(!R10 (NOT (?X_Y = ?X_X)))
 		(!R11 (?A ACTION.N))
 		(!R12 ((IND (6 MAKE_ACQUAINTANCE)) ACTION.N))
-		(!R13 (?L2 DESTINATION.N))
 		(!R14 (?X_X SMALLER-THAN.N ?X_Y))
 		(!R15 (?X_Y AGENT.N))
-		(!R16 (?X_Z DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_M (NAME.V (THT (?X_Y (LIVE.V ?X_W))))))
@@ -23602,7 +23253,6 @@
 		(!R3 (?X_K PARTY.N))
 		(!R4 (?X_F TEA.N))
 		(!R5 (?X_M (PLUR COOKIE.N)))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 		(!R8 (?X_M FOOD.N))
 	)
@@ -23656,7 +23306,6 @@
 		(!R8 (?X_K (FROM.P ?X_L)))
 		(!R9 (?X_S FOOD.N))
 		(!R10 (?X_T AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H ((SET-OF ?X_J ?X_T) (HAVE.V ?X_I)))
@@ -23679,7 +23328,6 @@
 		(!R3 (?X_D MOTHER.N))
 		(!R4 (?X_D BEAR.N))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I SEE.3.V ?X_C))
@@ -23777,7 +23425,6 @@
 		(!R7 (?X_I AGENT.N))
 		(!R8 (?X_I LOCATION.N))
 		(!R9 (NOT (?X_I = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B ((SET-OF ?X_H ?X_I) ((ADV-A (FROM.P ?L1)) WALK.15.V) ?L2))
@@ -23796,7 +23443,6 @@
 		(!R2 (?X_H BOY.N))
 		(!R3 (?X_H ((PASV NAME.V) ?X_I)))
 		(!R4 (?X_J TABLE.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (?X_J LOCATION.N))
 	)
@@ -23943,7 +23589,6 @@
 		(!R9 (?X_E (ON.P ?X_D)))
 		(!R10 (?X_F (PERTAIN-TO ?X_G)))
 		(!R11 (?X_E (PERTAIN-TO ?X_G)))
-		(!R12 (?L2 DESTINATION.N))
 		(!R13 (?X_F SMALLER-THAN.N ?X_G))
 		(!R14 (?X_G AGENT.N))
 	)
@@ -24018,9 +23663,7 @@
 		(!R7 (?X_L (PERTAIN-TO ?X_M)))
 		(!R8 (?X_K AGENT.N))
 		(!R9 (NOT (?X_J = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 		(!R11 (?X_K SMALLER-THAN.N ?X_M))
-		(!R12 (?X_L DESTINATION.N))
 		(!R13 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -24064,7 +23707,6 @@
 	(:ROLES
 		(!R1 (?X_D DOG.N))
 		(!R2 (?X_I AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?N NOISE.N))
 	)
 	(:STEPS
@@ -24247,7 +23889,6 @@
 		(!R3 (?X_G (PERTAIN-TO ?X_K)))
 		(!R4 (NOT (?X_J ACTION.N)))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_K LIKE.12.V ?X_J))
@@ -24486,7 +24127,6 @@
 		(!R6 (?X_F DOG.N))
 		(!R7 (?X_E (PERTAIN-TO ?X_F)))
 		(!R8 ((KA ((ADV-A (FOR.P (KA WALK.V))) GO.V)) ACTION.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 ((KA ((ADV-A (WITH.P ?X_G)) PLAY.V)) ACTION.N))
 	)
 	(:STEPS
@@ -24584,7 +24224,6 @@
 		(!R3 (?X_F (PLUR SHOE.N)))
 		(!R4 (?X_I (PLUR CLOTHE.N)))
 		(!R5 (?X_L AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L ((ADV-A (FROM.P ?L1)) GO.4.V) ?L2))
@@ -24681,7 +24320,6 @@
 		(!R3 (?X_G DINNER.N))
 		(!R4 (?X_G (PERTAIN-TO ?X_L)))
 		(!R5 (?X_J SMALLER-THAN.N ?X_L))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K LOCATION.N))
 		(!R8 (?X_L AGENT.N))
 	)
@@ -24896,7 +24534,6 @@
 		(!R4 (?X_J DOCTOR.N))
 		(!R5 (?X_L INHALER.N))
 		(!R6 (?X_K SMALLER-THAN.N ?X_I))
-		(!R7 (?X_J DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 		(!R9 (NOT (?X_L AGENT.N)))
 	)
@@ -24923,7 +24560,6 @@
 		(!R3 (?X_H DOCTOR.N))
 		(!R4 (?X_I MOM.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_J)))
-		(!R6 (?X_H DESTINATION.N))
 		(!R7 (?X_I AGENT.N))
 		(!R8 (?X_J SMALLER-THAN.N ?X_I))
 		(!R9 (?X_J AGENT.N))
@@ -24951,7 +24587,6 @@
 		(!R6 (?X_G NURSE.N))
 		(!R7 (?X_K INJECTION.N))
 		(!R8 (?X_J SMALLER-THAN.N ?X_H))
-		(!R9 (?X_I DESTINATION.N))
 		(!R10 (?X_J AGENT.N))
 		(!R11 (NOT (?X_K AGENT.N)))
 	)
@@ -24973,7 +24608,6 @@
 		(!R3 (?X_I DOCTOR.N))
 		(!R4 (?X_J MOTHER.N))
 		(!R5 (?X_J (PERTAIN-TO ?X_K)))
-		(!R6 (?X_I DESTINATION.N))
 		(!R7 (?X_K SMALLER-THAN.N ?X_J))
 		(!R8 (?X_K AGENT.N))
 		(!R9 (?N NOISE.N))
@@ -24998,7 +24632,6 @@
 		(!R4 (?X_J MOM.N))
 		(!R5 (?X_J (PERTAIN-TO ?X_K)))
 		(!R6 (?X_J AGENT.N))
-		(!R7 (?X_I DESTINATION.N))
 		(!R8 (?X_K SMALLER-THAN.N ?X_J))
 		(!R9 (?X_K AGENT.N))
 		(!R10 (?N NOISE.N))
@@ -25103,7 +24736,6 @@
 		(!R8 (?X_I AGENT.N))
 		(!R9 (?X_J LOCATION.N))
 		(!R10 (NOT (?X_J = ?L2)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C (NAME.V (THT (?X_I ((ADV-A (IN.P ?X_H)) LIVE.V))))))
@@ -25136,7 +24768,6 @@
 		(!R1 (?X_C SWIMMING.N))
 		(!R2 (?X_D ((FINALLY.ADV (PASV MASTER.V)) ?X_C)))
 		(!R3 (?X_D AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B ((ADV-E ({DURING}.P (EVERY.D DAY.N))) (?X_D PRACTICE.V)))
@@ -25154,7 +24785,6 @@
              ** ?E)
 	(:ROLES
 		(!R1 (?X_H WATER.N))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (?X_G AGENT.N))
 		(!R4 ((KA ((ADV-A (IN.P ?X_H)) PLAY.V)) ACTION.N))
 	)
@@ -25208,7 +24838,6 @@
 		(!R2 (?X_D UNDERWATER.A))
 		(!R3 (?X_D (PERTAIN-TO ?X_I)))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_I ((ADV-A (FOR.P (KA SWIM.V))) LEARN.V)))
@@ -25228,7 +24857,6 @@
 		(!R1 (?X_E HARD.A))
 		(!R2 (?X_F (HAPPY.A (THAT (?X_F (CAN.MD SWIM.V))))))
 		(!R3 (?X_F AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_F (TRY.V ?X_E)))
@@ -25269,7 +24897,6 @@
 		(!R2 (?X_E FEMALE.A))
 		(!R3 (?X_E AGENT.N))
 		(!R4 (?X_J AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?E_1 (?X_J ((ADV-A (FROM.P ?L1)) SWIM.11.V) ?L2))
@@ -25289,7 +24916,6 @@
 		(!R2 (?X_C (PERTAIN-TO ?X_D)))
 		(!R3 (?X_D AGENT.N))
 		(!R4 (?X_E AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_E ((ADV-A (FOR.P (KA SWIM.V))) LEARN.V)))
@@ -25310,9 +24936,6 @@
 		(!R2 (?X_L OTHER.A))
 		(!R3 (?X_L SIDE.N))
 		(!R4 (?X_N SWIMMING.N))
-		(!R5 (?X_K DESTINATION.N))
-		(!R6 (?X_L DESTINATION.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 		(!R9 (?X_N OBJECT.N))
 		(!R10 (NOT (?X_N ACTION.N)))
@@ -25370,7 +24993,6 @@
 		(!R10 (?X_K (PERTAIN-TO ?X_H)))
 		(!R11 (?X_G (PERTAIN-TO ?X_H)))
 		(!R12 (?X_K AGENT.N))
-		(!R13 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_F (FIX.V ?X_K)))
@@ -25410,7 +25032,6 @@
 		(!R6 (?X_D (PERTAIN-TO ?X_I)))
 		(!R7 (?X_I AGENT.N))
 		(!R8 (?X_J AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I HAVE.2.V ?X_J))
@@ -25431,10 +25052,8 @@
 		(!R3 (?X_C FAST.A))
 		(!R4 (?X_C (PERTAIN-TO ?X_G)))
 		(!R5 ((KA ((ADV-A (FOR.P ?X_F)) GO.V)) ACTION.N))
-		(!R6 (?X_F DESTINATION.N))
 		(!R7 ((K ((ADV (AS.ADV FAST.A)) (AS.P (?X_G WANT.V)))) AGENT.N))
 		(!R8 (?X_G AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_G LOVE.3.V (KA ((ADV-A (FOR.P ?X_F)) GO.V))))
@@ -25459,7 +25078,6 @@
 		(!R6 (?X_K (PERTAIN-TO ?X_J)))
 		(!R7 (?X_L SCHOOL.N))
 		(!R8 (?X_J SMALLER-THAN.N ?X_K))
-		(!R9 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_G BREAK_DOWN.V))
@@ -25766,8 +25384,6 @@
 		(!R6 (?X_H (PERTAIN-TO ?X_I)))
 		(!R7 (?X_L SOCCER.N))
 		(!R8 (?X_Q FIELD.N))
-		(!R9 (?L2 DESTINATION.N))
-		(!R10 (?X_Q DESTINATION.N))
 		(!R11 (?X_R AGENT.N))
 	)
 	(:STEPS
@@ -25898,7 +25514,6 @@
 		(!R1 (?X_L (PLUR CLOTHE.N)))
 		(!R2 (?X_G WOMAN.N))
 		(!R3 (?L LOCATION.N))
-		(!R4 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_G PUT.20.V ?X_L ?L))
@@ -25927,7 +25542,6 @@
 		(!R5 (?X_I (PLUR CLOTHE.N)))
 		(!R6 (?X_P {REF}.N))
 		(!R7 (?X_P (OF.P ?X_N)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_O AGENT.N))
 		(!R10 (?X_P OBJECT.N))
 		(!R11 (NOT (?X_P ACTION.N)))
@@ -25981,7 +25595,6 @@
 		(!R1 (?X_O DRESS.N))
 		(!R2 (?X_F (PLUR LOT.N)))
 		(!R3 (?X_F (OF.P ?X_G)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_N AGENT.N))
 		(!R6 (NOT (?X_O AGENT.N)))
 	)
@@ -26007,7 +25620,6 @@
 		(!R5 (NOT (?X_I ACTION.N)))
 		(!R6 (NOT (?X_I AGENT.N)))
 		(!R7 (?X_J AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_J WEAR.28.V ?X_I))
@@ -26082,7 +25694,6 @@
 		(!R13 (NOT (?X_L AGENT.N)))
 		(!R14 ((KA (WEAR.V ?X_L)) ACTION.N))
 		(!R15 (?X_M AGENT.N))
-		(!R16 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_M HAVE.34.V ?X_K))
@@ -26111,7 +25722,6 @@
 		(!R10 (?X_K (PERTAIN-TO ?X_O)))
 		(!R11 (?X_L (PERTAIN-TO ?X_O)))
 		(!R12 (?X_O AGENT.N))
-		(!R13 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_O ((ADV-A (FROM.P ?L1)) GO.23.V) ?L2))
@@ -26140,7 +25750,6 @@
 		(!R10 (?X_J SCHOOL.N))
 		(!R11 (?X_K HOME.N))
 		(!R12 (?X_K (PERTAIN-TO ?X_I)))
-		(!R13 (?X_K DESTINATION.N))
 		(!R14 (?X_J LOCATION.N))
 		(!R15 (?X_I AGENT.N))
 		(!R16 (NOT (?X_J = ?X_K)))
@@ -26262,7 +25871,6 @@
 	(:ROLES
 		(!R1 (?X_J UNIFORM.N))
 		(!R2 (?Y ENTITY.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_I AGENT.N))
 		(!R5 (NOT (?X_J AGENT.N)))
 	)
@@ -26586,7 +26194,6 @@
 		(!R3 (?X_J AGENT.N))
 		(!R4 (?X_I COMPUTER.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_J)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_I CRASH.V))
@@ -26608,7 +26215,6 @@
 		(!R4 (?X_G (PERTAIN-TO ?X_J)))
 		(!R5 (?X_K FRIEND.N))
 		(!R6 (?X_J AGENT.N))
-		(!R7 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_J HAVE.4.V ?X_K))
@@ -26739,7 +26345,6 @@
 		(!R6 (?X_N (PERTAIN-TO ?X_M)))
 		(!R7 (?X_O HOME.N))
 		(!R8 (?X_O (PERTAIN-TO ?X_N)))
-		(!R9 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_M (COOK.V ?X_L)))
@@ -26811,7 +26416,6 @@
 		(!R5 (?X_K (PERTAIN-TO ?X_J)))
 		(!R6 (?X_L HOME.N))
 		(!R7 (?X_L (PERTAIN-TO ?X_K)))
-		(!R8 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_K ((ADV-A (FROM.P ?L1)) COME.7.V) ?X_L))
@@ -26917,7 +26521,6 @@
 		(!R10 (?X_M (PERTAIN-TO ?X_K)))
 		(!R11 (?X_L LOCATION.N))
 		(!R12 (NOT (?X_L = ?L2)))
-		(!R13 (?L2 DESTINATION.N))
 		(!R14 (?X_M AGENT.N))
 		(!R15 (?X_N LOCATION.N))
 	)
@@ -26991,10 +26594,6 @@
 		(!R6 (?X_O JAIL.N))
 		(!R7 (?X_J PERSON.N))
 		(!R8 (?X_P JAIL.N))
-		(!R9 (?X_M DESTINATION.N))
-		(!R10 (?X_N DESTINATION.N))
-		(!R11 (?X_O DESTINATION.N))
-		(!R12 (?X_P DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_A ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_M))
@@ -27038,7 +26637,6 @@
 		(!R4 (?X_F (PERTAIN-TO ?X_E)))
 		(!R5 (?X_E AGENT.N))
 		(!R6 (?X_F SMALLER-THAN.N ?X_E))
-		(!R7 (?X_F DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E BRING.3.V ?X_F ?X_F))
@@ -27057,7 +26655,6 @@
 		(!R3 (?X_H JAIL.N))
 		(!R4 (?X_G AGENT.N))
 		(!R5 (?X_G SMALLER-THAN.N ?X))
-		(!R6 (?X_H DESTINATION.N))
 		(!R7 (?X AGENT.N))
 	)
 	(:STEPS
@@ -27085,7 +26682,6 @@
 		(!R7 (?X_M (PERTAIN-TO ?X_N)))
 		(!R8 (?X_O (PLUR PARTY.N)))
 		(!R9 ((KA ((ADV-A (TO.P ?X_O)) GO.V)) ACTION.N))
-		(!R10 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_M ((ADV-A (TO.P ?X_H)) GO.V)))
@@ -27129,10 +26725,8 @@
 		(!R8 (?X_F (PERTAIN-TO ?X_G)))
 		(!R9 (?X_L HOUSE.N))
 		(!R10 (?X_L (PERTAIN-TO ?X_K)))
-		(!R11 (?X_J DESTINATION.N))
 		(!R12 (?X_K SMALLER-THAN.N ?X))
 		(!R13 (?X AGENT.N))
-		(!R14 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K (FOR.P (KA (STEAL.V ?X_F)))))
@@ -27390,7 +26984,6 @@
 		(!R6 (?X_G (PERTAIN-TO ?X_J)))
 		(!R7 (?X_K POCKET.N))
 		(!R8 (?X_K (PERTAIN-TO ?X_J)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_K LOCATION.N))
 	)
 	(:STEPS
@@ -27415,7 +27008,6 @@
 		(!R5 (?X_F (PLUR SHOE.N)))
 		(!R6 (?X_K POCKET.N))
 		(!R7 (?X_K (PERTAIN-TO ?X_L)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_K LOCATION.N))
 		(!R10 (?X_L AGENT.N))
 	)
@@ -27474,7 +27066,6 @@
 		(!R2 (?X_D AGENT.N))
 		(!R3 (?X_I (PLUR KID.N)))
 		(!R4 (?X_J BASKETBALL.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 		(!R7 (?X AGENT.N))
 	)
@@ -27496,7 +27087,6 @@
 		(!R1 (?X_E WEB.N))
 		(!R2 (?X_E AGENT.N))
 		(!R3 (?X_E STICKY.A))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -27517,7 +27107,6 @@
 		(!R2 (?X_F (INSIDE.P (KE (?X_G (OF.P ?X_L))))))
 		(!R3 (?X_L OLD.A))
 		(!R4 (?X_L (PLUR SHOE.N)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -27563,7 +27152,6 @@
 		(!R6 (?X_F (PERTAIN-TO ?X_G)))
 		(!R7 (?X_J HOME.N))
 		(!R8 (NOT (?X_J = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E284.SK (NOT (?X_E ((CAN.MD FIND.V) ?X_G))))
@@ -27612,7 +27200,6 @@
 		(!R6 (?X_H (PLUR OWNER.N)))
 		(!R7 (?X_H (PERTAIN-TO ?X_I)))
 		(!R8 (NOT (?X_J = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E343.SK (NOT (?X_E ((CAN.MD FIND.V) ?X_I))))
@@ -27734,7 +27321,6 @@
 		(!R8 (?X_L HOME.N))
 		(!R9 (?X_L (PERTAIN-TO ?X_N)))
 		(!R10 (?X_N AGENT.N))
-		(!R11 (?X_L DESTINATION.N))
 		(!R12 (?X_M SMALLER-THAN.N ?X_N))
 	)
 	(:STEPS
@@ -27755,7 +27341,6 @@
 		(!R2 (?X_H WOMAN.N))
 		(!R3 (?X_G HUSBAND.N))
 		(!R4 (?X_G (PERTAIN-TO ?X_H)))
-		(!R5 ((TWO.D (PLUR CHILD.N)) DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_H HAVE.1.V (TWO.D (PLUR CHILD.N))))
@@ -27800,7 +27385,6 @@
 		(!R5 (?X_F (PERTAIN-TO ?X_E)))
 		(!R6 (?X_G DOCTOR.N))
 		(!R7 (?X_E SMALLER-THAN.N ?X_F))
-		(!R8 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_F TAKE.4.V ?X_E ?X_G))
@@ -27967,7 +27551,6 @@
 		(!R5 (?X_H (PERTAIN-TO ?X_M)))
 		(!R6 (?X_I (PLUR KID.N)))
 		(!R7 (NOT (?X_L = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X AGENT.N))
 		(!R10 (?X_M AGENT.N))
 	)
@@ -28089,7 +27672,6 @@
 (EPI-SCHEMA ((?X_C ((ADV-A (FROM.P ?L2)) COME.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_C AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C ((ADV-A (FROM.P ?L1)) COME.22.V) ?L2))
@@ -28201,7 +27783,6 @@
 		(!R9 (?X_F (PLUR PARENT.N)))
 		(!R10 (?X_F (PERTAIN-TO ?X_G)))
 		(!R11 (?X_J HOSPITAL.N))
-		(!R12 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_D ((ADV-A (FROM.P ?L1)) GO.7.V) ?X_J))
@@ -28443,8 +28024,6 @@
 		(!R6 (?X_K (PLUR PERSON.N)))
 		(!R7 (?X_P (PLUR ANIMAL.N)))
 		(!R8 ((SET-OF ?X_L ?X_O) AGENT.N))
-		(!R9 (?X_M DESTINATION.N))
-		(!R10 (?X_N DESTINATION.N))
 		(!R11 (?X_O AGENT.N))
 		(!R12 ((KA (SEE.V ?X_P)) ACTION.N))
 	)
@@ -28486,10 +28065,8 @@
 (EPI-SCHEMA ((?X_K (LIKE.V ?X_L)) ** ?E)
 	(:ROLES
 		(!R1 (?X_L (PLUR DUCK.N)))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (NOT (?X_L ACTION.N)))
 		(!R4 (?X_K AGENT.N))
-		(!R5 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_K ((ADV-A (FROM.P ?L1)) WALK.5.V) ?L2))
@@ -28510,7 +28087,6 @@
 		(!R2 (?X_H PARK.N))
 		(!R3 (?X_I AGENT.N))
 		(!R4 (?X_J AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G ((SET-OF ?X_J ?X_I) ((ADV-A (AT.P ?X_H)) BE.V)))
@@ -28541,9 +28117,7 @@
 		(!R11 (?X_I LION.N))
 		(!R12 (?X_L MONKEY.N))
 		(!R13 ((SET-OF ?X_O ?X_P) AGENT.N))
-		(!R14 (?X_Q DESTINATION.N))
 		(!R15 (?X_R FOOD.N))
-		(!R16 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H ((SET-OF ?X_O ?X_P) ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_Q))
@@ -28608,7 +28182,6 @@
 		(!R4 (?X_D (PERTAIN-TO ?X_E)))
 		(!R5 (?X_H STORE.N))
 		(!R6 (?X_H TODAY.N))
-		(!R7 (?X_H DESTINATION.N))
 		(!R8 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -28628,7 +28201,6 @@
 		(!R2 (?X_N (PLUR VEGETABLE.N)))
 		(!R3 (?X_L GROCERY.N))
 		(!R4 (?X_L STORE.N))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
 		(!R7 (?X_N FOOD.N))
 	)
@@ -28672,7 +28244,6 @@
 		(!R6 (?X_N (PLUR LOT.N)))
 		(!R7 (?X_M (PLUR PILL.N)))
 		(!R8 (?X_M (PERTAIN-TO ?X_K)))
-		(!R9 (?X_J DESTINATION.N))
 		(!R10 (?X_K AGENT.N))
 		(!R11 (?X_L AGENT.N))
 		(!R12 (NOT (?X_M AGENT.N)))
@@ -28696,7 +28267,6 @@
 		(!R2 (?X_F LADY.N))
 		(!R3 (?X_L STORE.N))
 		(!R4 (?X_K AGENT.N))
-		(!R5 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_K ((ADV-A (FROM.P ?L1)) GO.2.V) ?X_L))
@@ -28718,7 +28288,6 @@
 		(!R4 (?X_G {REF}.N))
 		(!R5 (?X_G (OF.P ?X_H)))
 		(!R6 (?X_M STORE.N))
-		(!R7 (?X_M DESTINATION.N))
 		(!R8 (?X_N AGENT.N))
 		(!R9 (?X_O ENTITY.N))
 	)
@@ -28785,8 +28354,6 @@
 		(!R4 (?X_I FATHER.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_J)))
 		(!R6 (?X_M PUDDLE.N))
-		(!R7 (?L2 DESTINATION.N))
-		(!R8 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I ((ADV-A (FROM.P ?L1)) SAY.2.V) ?L2))
@@ -28850,7 +28417,6 @@
 		(!R11 (?X_L OLD.A))
 		(!R12 (?X_K ?X_L (PLUR ONE.N)))
 		(!R13 (?X_O AGENT.N))
-		(!R14 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_J (GIVE.5.V ?X_O ?X_G)))
@@ -28988,8 +28554,6 @@
 		(!R6 (?X_M HOUSE.N))
 		(!R7 (?X_M (PERTAIN-TO ?X_J)))
 		(!R8 (NOT (?X_M = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
-		(!R10 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_J (PUT.V ?X_D ?X_C)))
@@ -29013,7 +28577,6 @@
 		(!R5 (?X_L CHANGE.N))
 		(!R6 (?X_J (PLUR COIN.N)))
 		(!R7 (?X_M COUNTER.N))
-		(!R8 (?X_K DESTINATION.N))
 		(!R9 (NOT (?X_L AGENT.N)))
 		(!R10 (?X_M LOCATION.N))
 		(!R11 (?X_N AGENT.N))
@@ -29044,7 +28607,6 @@
 		(!R7 (?X_V GROCERY.N))
 		(!R8 (?X_V STORE.N))
 		(!R9 (?X_U AGENT.N))
-		(!R10 (?X_V DESTINATION.N))
 	)
 	(:STEPS
 		(?X_T (?X_U ((ADV-A (FROM.P ?L1)) GO.16.V) ?X_V))
@@ -29080,7 +28642,6 @@
 		(!R1 (?X_F PERSON.N))
 		(!R2 (?X_L AGENT.N))
 		(!R3 (?X_K AGENT.N))
-		(!R4 (?X_L DESTINATION.N))
 		(!R5 (?X AGENT.N))
 	)
 	(:STEPS
@@ -29125,7 +28686,6 @@
 		(!R4 (?X_L GROCERY.N))
 		(!R5 (?X_L STORE.N))
 		(!R6 (?X_I LUNCH.N))
-		(!R7 (?X_L DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -29142,7 +28702,6 @@
 (EPI-SCHEMA ((?X_I (BUY.V ?L2)) ** ?E)
 	(:ROLES
 		(!R1 (?X_I AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) GO.26.V) ?L2))
@@ -29297,7 +28856,6 @@
 		(!R11 (?X_P OBJECT.N))
 		(!R12 (?X_Q AGENT.N))
 		(!R13 (?X_R AGENT.N))
-		(!R14 (?L2 DESTINATION.N))
 		(!R15 (?X_S AGENT.N))
 		(!R16 (?X_T OBJECT.N))
 		(!R17 (?X_U LOCATION.N))
@@ -29350,7 +28908,6 @@
 		(!R2 (?X_G (PLUR BERRY.N)))
 		(!R3 (?X_H BEAR.N))
 		(!R4 (?X_K AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K SEE.9.V ?X_H))
@@ -29375,7 +28932,6 @@
 		(!R6 (?X_L AGENT.N))
 		(!R7 (?X_K (PERTAIN-TO ?X_L)))
 		(!R8 ((KA PLAY.V) ACTION.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_K LIKE.17.V (KA PLAY.V)))
@@ -29398,7 +28954,6 @@
 		(!R2 (?X_F BEAR.N))
 		(!R3 (?X_G ANIMAL.N))
 		(!R4 (?X_N AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_N SEE.21.V ?X_G))
@@ -29443,7 +28998,6 @@
 		(!R3 (?X_I ZOO.N))
 		(!R4 (?X_H (IN.P ?X_I)))
 		(!R5 (?X_L AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_L SEE.24.V ?X_H))
@@ -29658,9 +29212,7 @@
 		(!R5 (?X_S HOME.N))
 		(!R6 (?X_S (PERTAIN-TO ?X_U)))
 		(!R7 (?X_P EGG.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_T SMALLER-THAN.N ?X_U))
-		(!R10 (?X_S DESTINATION.N))
 		(!R11 (?X_T FOOD.N))
 		(!R12 (?X AGENT.N))
 		(!R13 (?X_U AGENT.N))
@@ -29717,7 +29269,6 @@
 		(!R14 (?X_ZU ((PASV NAME.V) ?X_ZV)))
 		(!R15 (?X_ZS -LSB-A.A))
 		(!R16 (?X_ZU ?X_ZS WOMAN.N))
-		(!R17 (?X_ZT DESTINATION.N))
 		(!R18 (?X_ZU AGENT.N))
 		(!R19 (?X_ZV AGENT.N))
 	)
@@ -29753,9 +29304,7 @@
 		(!R3 (?X_K TREE.N))
 		(!R4 (?X_K STUMP.N))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_J AGENT.N))
-		(!R8 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -29798,7 +29347,6 @@
 		(!R14 (?X_ZE (OF.P ?X_ZF)))
 		(!R15 (?X_ZJ CITY.N))
 		(!R16 (?X_ZI AGENT.N))
-		(!R17 (?X_ZJ DESTINATION.N))
 		(!R18 (?X AGENT.N))
 	)
 	(:STEPS
@@ -29831,9 +29379,7 @@
 		(!R3 (?X_Q OLD.A))
 		(!R4 (?X_Q TREE.N))
 		(!R5 (?X_Q STUMP.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_P AGENT.N))
-		(!R8 (?X_Q DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_P ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -29858,8 +29404,6 @@
 		(!R4 (?X_G (OF.P ?X_N)))
 		(!R5 (?X_L (PLUR LEAF.N)))
 		(!R6 ((KA (CLIMB.V ?X_M)) ACTION.N))
-		(!R7 (?X_M DESTINATION.N))
-		(!R8 (?X_N DESTINATION.N))
 		(!R9 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -29912,9 +29456,7 @@
 		(!R3 (?X_G ?X_H (PLUR TREE.N)))
 		(!R4 (?X_M TREE.N))
 		(!R5 (?X_M STUMP.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_P AGENT.N))
-		(!R8 ((K MANY.A) DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_P ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -29935,7 +29477,6 @@
 		(!R2 (?X_D SQUIRREL.N))
 		(!R3 (?X_L TREE.N))
 		(!R4 (?X_I (PLUR NUT.N)))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
 		(!R7 (?X_N AGENT.N))
 	)
@@ -29961,7 +29502,6 @@
 		(!R5 (?X_N INTERESTING.A))
 		(!R6 (?X_P (IN.P ?X_M)))
 		(!R7 (?X_P ?X_N (PLUR SHAPE.N)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_O AGENT.N))
 		(!R10 (?X_P ENTITY.N))
 	)
@@ -29982,7 +29522,6 @@
 		(!R1 (?X_H YARD.N))
 		(!R2 (?X_H (PERTAIN-TO ?X_K)))
 		(!R3 (?X_K AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_K ((ADV-A (FROM.P ?L1)) RUN.17.V) ?L2))
@@ -30001,7 +29540,6 @@
 		(!R1 (?X_I BOY.N))
 		(!R2 (?X_H FRIEND.N))
 		(!R3 (?X_H (PERTAIN-TO ?X_I)))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_I ((ADV-A (FROM.P ?L1)) RUN.17.V) ?L2))
@@ -30021,9 +29559,7 @@
 		(!R2 (?X_C TIRED.A))
 		(!R3 (?X_C (PERTAIN-TO ?X_F)))
 		(!R4 (?X_G SLOW.A))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_F AGENT.N))
-		(!R7 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_F ((ADV-A (FROM.P ?L1)) RUN.17.V) ?L2))
@@ -30063,7 +29599,6 @@
 		(!R1 (?X_B GROUND.N))
 		(!R2 (?X_K (PLUR FOOT.N)))
 		(!R3 (?X_K (PERTAIN-TO ?X_L)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 		(!R6 (?A ACTION.N))
 	)
@@ -30439,7 +29974,6 @@
 		(!R6 (?X_G AGENT.N))
 		(!R7 (?X_H LOCATION.N))
 		(!R8 (NOT (?X_H = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_H (DIE.V ?X_C)))
@@ -30505,7 +30039,6 @@
 		(!R5 (?X_G ((PASV NAME.V) ?X_K)))
 		(!R6 (?X_H AGENT.N))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_H (HAVE.V ?X_G)))
@@ -30729,7 +30262,6 @@
 		(!R5 (?X_H TROUBLE.N))
 		(!R6 (?X_K LOT.N))
 		(!R7 (?X_K (OF.P ?X_H)))
-		(!R8 (?X_K DESTINATION.N))
 		(!R9 (NOT (?X_K = ?X_K)))
 	)
 	(:STEPS
@@ -30758,7 +30290,6 @@
 		(!R10 (?X_K (PERTAIN-TO ?X_J)))
 		(!R11 (?X_L HOME.N))
 		(!R12 (?X_L (PERTAIN-TO ?X_K)))
-		(!R13 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_H (GET.V ?X_G)))
@@ -30857,9 +30388,7 @@
 		(!R2 (?X_K TALL.A))
 		(!R3 (?X_K BUILDING.N))
 		(!R4 (?X_L TOP.N))
-		(!R5 (?X_K DESTINATION.N))
 		(!R6 (NOT (?X_L = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_F ((ADV-A (FROM.P ?L1)) CLIMB.3.V) ?X_K))
@@ -30879,9 +30408,7 @@
 		(!R2 (?X_D GIRL.N))
 		(!R3 (?X_G APPLE.N))
 		(!R4 (?X_L TREE.N))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (NOT (?X_L = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_D ((ADV-A (FROM.P ?L1)) CLIMB.3.V) ?X_L))
@@ -30901,9 +30428,7 @@
 		(!R2 (?X_G TREE.N))
 		(!R3 (?X_I (THAN.P (ANY.D (L X (AND (X OTHER.A) (X KID.N)))))))
 		(!R4 (?X_I HIGHER.A))
-		(!R5 (?X_G DESTINATION.N))
 		(!R6 (?X_H AGENT.N))
-		(!R7 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(E327.SK (?X_H ((CAN.MD (EASILY.ADV CLIMB.V)) ?X_A)))
@@ -30924,9 +30449,7 @@
 		(!R2 (?X_F HIGHEST.A))
 		(!R3 (?X_F BRANCH.N))
 		(!R4 (?X_M TREE.N))
-		(!R5 (?X_M DESTINATION.N))
 		(!R6 (?X_N AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_N ((ADV-A (FROM.P ?L1)) CLIMB.3.V) ?X_M))
@@ -30952,7 +30475,6 @@
 		(!R6 (?X_M AGENT.N))
 		(!R7 (?X_P (PLUR THING.N)))
 		(!R8 ((KA (CLIMB_ON.V ?X_P)) ACTION.N))
-		(!R9 (?X_P DESTINATION.N))
 		(!R10 (?X_Q AGENT.N))
 	)
 	(:STEPS
@@ -30974,9 +30496,7 @@
 		(!R1 (?X_H HIGHEST.A))
 		(!R2 (?X_H BRANCH.N))
 		(!R3 (?X_J TREE.N))
-		(!R4 (?X_H DESTINATION.N))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(E436.SK
@@ -30998,10 +30518,8 @@
 		(!R2 (?X_F BOY.N))
 		(!R3 (?X_K BUILDING.N))
 		(!R4 (?X_L ROOF.N))
-		(!R5 (?X_K DESTINATION.N))
 		(!R6 (?X_L LOCATION.N))
 		(!R7 (NOT (?X_L = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_F ((ADV-A (FROM.P ?L1)) CLIMB.3.V) ?X_K))
@@ -31054,7 +30572,6 @@
 		(!R2 (?X_G (PLUR SHARK.N)))
 		(!R3 (?X_J (PLUR SHARK.N)))
 		(!R4 (?X_K AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_A (BE.V ?X_J)))
@@ -31075,7 +30592,6 @@
 		(!R2 (?X_E (PLUR LOT.N)))
 		(!R3 (?X_E (OF.P ?X_F)))
 		(!R4 (?X_K (PLUR SHARK.N)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -31101,7 +30617,6 @@
 		(!R4 (?X_I MANY.A))
 		(!R5 (?X_I (PLUR SHARK.N)))
 		(!R6 (?X_N AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_N ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
@@ -31123,7 +30638,6 @@
 		(!R2 (?X_I AGENT.N))
 		(!R3 (?X_J LOCATION.N))
 		(!R4 (NOT (?X_J = ?L2)))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_I ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
@@ -31143,7 +30657,6 @@
 	(:ROLES
 		(!R1 (?X_E (PLUR SHARK.N)))
 		(!R2 (?X_J AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_J ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
@@ -31167,7 +30680,6 @@
 		(!R5 ((KA SWIM.V) ACTION.N))
 		(!R6 ((KA (GO.V (KA SWIM.V))) ACTION.N))
 		(!R7 (?X_H AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H LOVE.18.V (KA SWIM.V)))
@@ -31239,7 +30751,6 @@
 		(!R4 (?X_N PERSON.N))
 		(!R5 (?X_Q NEXT.A))
 		(!R6 (?X_Q (TO.P ?X_R)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_Y AGENT.N))
 	)
 	(:STEPS
@@ -31291,8 +30802,6 @@
 		(!R3 (?X_K STORE.N))
 		(!R4 (?X_L HOME.N))
 		(!R5 (?X_L (PERTAIN-TO ?X_N)))
-		(!R6 (?X_K DESTINATION.N))
-		(!R7 (?X_L DESTINATION.N))
 		(!R8 (?X_M SMALLER-THAN.N ?X_N))
 		(!R9 (?X_N AGENT.N))
 	)
@@ -31420,8 +30929,6 @@
 		(!R3 (?X_L STORE.N))
 		(!R4 (?X_M HOME.N))
 		(!R5 (?X_M (PERTAIN-TO ?X_O)))
-		(!R6 (?X_L DESTINATION.N))
-		(!R7 (?X_M DESTINATION.N))
 		(!R8 (?X_N SMALLER-THAN.N ?X_O))
 		(!R9 (?X_O AGENT.N))
 	)
@@ -31532,7 +31039,6 @@
 		(!R4 (?X_G CAR.N))
 		(!R5 (?X_G (PERTAIN-TO ?X_M)))
 		(!R6 (?X_J NONE.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -31606,9 +31112,7 @@
 		(!R5 (?X_G FRIEND.N))
 		(!R6 (?X_G (PERTAIN-TO ?X_I)))
 		(!R7 (?X_I SMALLER-THAN.N ?X_G))
-		(!R8 (?X_H DESTINATION.N))
 		(!R9 (?X_I AGENT.N))
-		(!R10 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_I (WANT.V (KA ((ADV-A (FOR.P ?X_F)) GO.V)))))
@@ -31628,9 +31132,7 @@
 		(!R2 (?X_H GAS.N))
 		(!R3 (?X_I CAR.N))
 		(!R4 (?X_I (PERTAIN-TO ?X_M)))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_I ((ADV-A (OUT_OF.P ?X_H)) RUN.V)))
@@ -31672,7 +31174,6 @@
 		(!R2 (?X_D (PERTAIN-TO ?X_H)))
 		(!R3 (?X_G GAS.N))
 		(!R4 (?X_G STATION.N))
-		(!R5 (?X_G DESTINATION.N))
 		(!R6 (?X_H AGENT.N))
 	)
 	(:STEPS
@@ -31698,10 +31199,8 @@
 		(!R5 (?X_O THING.N))
 		(!R6 (?X_N HOUSE.N))
 		(!R7 (?X_N (PERTAIN-TO ?X_M)))
-		(!R8 (?X_N DESTINATION.N))
 		(!R9 (?X_O AGENT.N))
 		(!R10 (?X_P AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 		(!R12 (?X AGENT.N))
 	)
 	(:STEPS
@@ -31767,7 +31266,6 @@
 		(!R4 (?X_C EVIDENCE.N))
 		(!R5 (?X_K (PLUR POLICE.N)))
 		(!R6 (?X_F (PLUR THING.N)))
-		(!R7 (?X_I DESTINATION.N))
 		(!R8 (?X_J AGENT.N))
 		(!R9 (?X_K AGENT.N))
 	)
@@ -31831,7 +31329,6 @@
 		(!R6 (?X_H (PERTAIN-TO ?X_E)))
 		(!R7 (?X_G BAD.A))
 		(!R8 (?X_F ?X_G FEELING.N))
-		(!R9 (?X_H DESTINATION.N))
 		(!R10 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -31874,7 +31371,6 @@
 		(!R3 (?X_L JAIL.N))
 		(!R4 (?X_H ROBBER.N))
 		(!R5 (?X_K SMALLER-THAN.N ?X_M))
-		(!R6 (?X_L DESTINATION.N))
 		(!R7 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -31897,7 +31393,6 @@
 		(!R3 (?X_H HOME.N))
 		(!R4 (?X_G AGENT.N))
 		(!R5 (NOT (?X_H = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (NOT (?X_G (WANT.V (KA GO.V)))))
@@ -31916,8 +31411,6 @@
 		(!R2 (?X_J SCHOOL.N))
 		(!R3 (?X_G SCHOOL.N))
 		(!R4 (?X_M SCHOOL.N))
-		(!R5 (?X_J DESTINATION.N))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 		(!R8 (?X_M OBJECT.N))
 		(!R9 (NOT (?X_M ACTION.N)))
@@ -31947,7 +31440,6 @@
 		(!R4 (?X_F SICK.A))
 		(!R5 (?X_F MOTHER.N))
 		(!R6 (?X_F (PERTAIN-TO ?X_G)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E375.SK (NOT (?X_F (CAN.MD ((ADV-A (TO.P (KA WORK.V))) GO.V)))))
@@ -32001,7 +31493,6 @@
 		(!R7 (?X_K BROTHER.N))
 		(!R8 (?X_K (PERTAIN-TO ?X_I)))
 		(!R9 (?X_J (PERTAIN-TO ?X_K)))
-		(!R10 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K ((ADV-A (IN.P ?X_H)) BE.V)))
@@ -32064,7 +31555,6 @@
 		(!R5 (?X_J (PERTAIN-TO ?X_K)))
 		(!R6 (?X_N AMBULANCE.N))
 		(!R7 (?X_N AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -32091,7 +31581,6 @@
 		(!R4 (?X_R (PLUR LEAF.N)))
 		(!R5 (?X_S {REF}.N))
 		(!R6 (?X_S (OF.P ?X_O)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (NOT (?X_R ACTION.N)))
 		(!R9 (NOT (?X_R AGENT.N)))
 		(!R10 (?X_S FOOD.N))
@@ -32115,7 +31604,6 @@
 	(:ROLES
 		(!R1 (?X_C AGENT.N))
 		(!R2 (?X_H AMBULANCE.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -32135,7 +31623,6 @@
 		(!R2 (?X_F INJURED.A))
 		(!R3 (?X_F LADY.N))
 		(!R4 (?X_G POLICE.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_G ((ADV-A (FROM.P ?L1)) ARRIVE.8.V) ?L2))
@@ -32154,7 +31641,6 @@
 		(!R2 (?X_D SIDEWALK.N))
 		(!R3 (?X_C (ON.P ?X_D)))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I SEE.10.V (THT (?X_C (PASV INJURE.V)))))
@@ -32182,7 +31668,6 @@
 		(!R6 (?X_R AMBULANCE.N))
 		(!R7 (?X_R AGENT.N))
 		(!R8 (?X_S AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_R ((ADV-A (FROM.P ?L1)) DRIVE.12.V) ?L2))
@@ -32205,9 +31690,7 @@
 		(!R3 (?X_I AMBULANCE.N))
 		(!R4 (?X_D MOTHER.N))
 		(!R5 (?X_D (PERTAIN-TO ?X_E)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_I AGENT.N))
-		(!R8 (?X_H DESTINATION.N))
 		(!R9 (?X_I SMALLER-THAN.N ?X))
 		(!R10 (?X AGENT.N))
 	)
@@ -32232,10 +31715,8 @@
 		(!R5 (?X_M BACK.N))
 		(!R6 (?X_M (OF.P ?X_I)))
 		(!R7 (?X_I AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_J LOCATION.N))
 		(!R10 (?X_K SMALLER-THAN.N ?X_L))
-		(!R11 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_K ((ADV-A (FOR.P ?X_I)) WAIT.V)))
@@ -32331,7 +31812,6 @@
 		(!R13 (?X AGENT.N))
 		(!R14 (?X_S AGENT.N))
 		(!R15 (NOT (?X_T AGENT.N)))
-		(!R16 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_N LIKE.21.V (KA (PLAY.V ?X_R))))
@@ -32894,7 +32374,6 @@
 (EPI-SCHEMA ((?X_E (((ADV-A (TO.P ?L2)) BRING.V) ?O)) ** ?E)
 	(:ROLES
 		(!R1 (?X_E AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (?O ENTITY.N))
 		(!R4 (?O SMALLER-THAN.N ?X_E))
 		(!R5 (?X_F AGENT.N))
@@ -32998,7 +32477,6 @@
 		(!R5 (?X_K AGENT.N))
 		(!R6 (?X_N CARD.N))
 		(!R7 (?X_N (PERTAIN-TO ?X_K)))
-		(!R8 (?X_L DESTINATION.N))
 		(!R9 (?X_M AGENT.N))
 		(!R10 (NOT (?X_N AGENT.N)))
 		(!R11 (?X_O AGENT.N))
@@ -33022,12 +32500,10 @@
 		(!R3 (?X_I BANK.N))
 		(!R4 (?X_J PURSE.N))
 		(!R5 (?X_J (PERTAIN-TO ?X_K)))
-		(!R6 (?X_I DESTINATION.N))
 		(!R7 (?X_J LOCATION.N))
 		(!R8 (?X_L LOCATION.N))
 		(!R9 (?X_K AGENT.N))
 		(!R10 (NOT (?X_L = ?L2)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_K ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_I))
@@ -33153,7 +32629,6 @@
 		(!R4 (?X_K (HAPPY.A (THAT (?X_K (CAN.MD ((ADV-A (WITH.P ?X_H)) PAY.V)))))))
 		(!R5 (?X_H CASH.N))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) GO.19.V) ?L2))
@@ -33174,7 +32649,6 @@
 		(!R4 (?X_J CREDIT.N))
 		(!R5 (?X_N (PERTAIN-TO ?X_L)))
 		(!R6 (?X_N ?X_J CARD.N))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 		(!R9 (?X_M AGENT.N))
 		(!R10 (NOT (?X_N AGENT.N)))
@@ -33219,8 +32693,6 @@
 		(!R2 (?X_E MAN.N))
 		(!R3 (?X_D (PERTAIN-TO ?X_E)))
 		(!R4 (?X_H OFFICE.N))
-		(!R5 (?L2 DESTINATION.N))
-		(!R6 (?X_H DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_E ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
@@ -33485,9 +32957,7 @@
 	(:ROLES
 		(!R1 (?X_F PERSON.N))
 		(!R2 (?X_K STORE.N))
-		(!R3 (?X_K DESTINATION.N))
 		(!R4 (?X_L AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_F ((ADV-A (FROM.P ?L1)) COME.11.V) ?X_K))
@@ -33508,7 +32978,6 @@
 		(!R3 (?X_I (ON.P ?X_H)))
 		(!R4 (?X_I ?X_J (PLUR THING.N)))
 		(!R5 (?X_M THING.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -33532,7 +33001,6 @@
 		(!R4 (?X_H (OF.P ?X_I)))
 		(!R5 (?X_O STORE.N))
 		(!R6 (?X_N (PLUR THING.N)))
-		(!R7 (?X_O DESTINATION.N))
 		(!R8 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -33555,7 +33023,6 @@
 		(!R2 (?X_F MAN.N))
 		(!R3 (?X_N STORE.N))
 		(!R4 (?X_K (PLUR THING.N)))
-		(!R5 (?X_N DESTINATION.N))
 		(!R6 (?L LOCATION.N))
 	)
 	(:STEPS
@@ -33603,7 +33070,6 @@
 		(!R2 (?X_F GOOD.A))
 		(!R3 (?X_F (PLUR GRADE.N)))
 		(!R4 ((KA ((ADV-A (TO.P ?X_E)) GO.V)) ACTION.N))
-		(!R5 (?X_E DESTINATION.N))
 		(!R6 (?X_F OBJECT.N))
 		(!R7 (?X_G AGENT.N))
 	)
@@ -33649,7 +33115,6 @@
 		(!R5 (?X_E FOOD.N))
 		(!R6 (?X_F AGENT.N))
 		(!R7 (?X_E SMALLER-THAN.N ?X_F))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_F (HAVE.V ?X_E)))
@@ -33724,7 +33189,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_O)))
 		(!R5 (?X_I TEACHER.N))
 		(!R6 (?X_N SCHOOL.N))
-		(!R7 (?X_N DESTINATION.N))
 		(!R8 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -33826,7 +33290,6 @@
 		(!R4 (?X_J AGENT.N))
 		(!R5 ((KA (MORE.ADV (OUTSIDE.ADV GO.V))) ACTION.N))
 		(!R6 (NOT (?X_J = ?X_L)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_K ENTITY.N))
 		(!R9 (?X_L AGENT.N))
 	)
@@ -33869,8 +33332,6 @@
 		(!R2 (?X_C BIRD.N))
 		(!R3 (?X_H FISH.N))
 		(!R4 (?X_H SWIMMING.N))
-		(!R5 (?L2 DESTINATION.N))
-		(!R6 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(E29.SK (NOT (?X_C (CAN.MD FLY.V))))
@@ -33890,7 +33351,6 @@
 		(!R1 (?X_C SHORE.N))
 		(!R2 (?X_D BIRD.N))
 		(!R3 (?X_K ENTITY.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_D ((ADV-A (FROM.P ?L1)) FLY.1.V) ?L2))
@@ -33911,7 +33371,6 @@
 		(!R3 (?X_E LITTLE.A))
 		(!R4 (?X_E BIRD.N))
 		(!R5 (?X_J THING.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E107.SK (?X_E ((CAN.MD SEE.V) ?X_A)))
@@ -33930,7 +33389,6 @@
 		(!R2 (?X_F TREE.N))
 		(!R3 (?X_F BRANCH.N))
 		(!R4 (?X_G BIRD.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_G ((ADV-A (ON.P ?X_F)) SIT.V)))
@@ -33976,7 +33434,6 @@
 		(!R1 (?X_F GROUND.N))
 		(!R2 (?X_G LITTLE.A))
 		(!R3 (?X_G BIRD.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_L ENTITY.N))
 	)
 	(:STEPS
@@ -33998,7 +33455,6 @@
 		(!R3 (?X_C BIRD.N))
 		(!R4 (?X_F LOCATION.N))
 		(!R5 (NOT (?X_F = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_G FOOD.N))
 	)
 	(:STEPS
@@ -34174,7 +33630,6 @@
 		(!R6 (?X_K AGENT.N))
 		(!R7 (?X_K LOCATION.N))
 		(!R8 (NOT (?X_K = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -34216,7 +33671,6 @@
 		(!R9 (NOT (?X_J = ?X_K)))
 		(!R10 (?X_J AGENT.N))
 		(!R11 (?X_K AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_J (CALL.V ?X_K)))
@@ -34259,7 +33713,6 @@
 		(!R1 (?X_C PERSON.N))
 		(!R2 (?X_F WOMAN.N))
 		(!R3 (?X_G DOCTOR.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F DIE.V))
@@ -34298,9 +33751,7 @@
 		(!R5 (?X_J (PERTAIN-TO ?X_I)))
 		(!R6 (?X_E DOG.N))
 		(!R7 (?X_E (PERTAIN-TO ?X_J)))
-		(!R8 (?X_H DESTINATION.N))
 		(!R9 ((SET-OF ?X_I ?X_J) AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A ((SET-OF ?X_I ?X_J) ((ADV-A (FROM.P ?L1)) GO.6.V) ?X_H))
@@ -34319,7 +33770,6 @@
 		(!R3 (?X_E (PERTAIN-TO ?X_H)))
 		(!R4 (?N NOISE.N))
 		(!R5 (?X_H AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_H SEE.8.V ?X_B))
@@ -34357,7 +33807,6 @@
 		(!R3 (?X_I (PLUR FLOWER.N)))
 		(!R4 (?X_K POCKET.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_L)))
-		(!R6 (?X_J DESTINATION.N))
 		(!R7 (?X_K LOCATION.N))
 		(!R8 (?X_L AGENT.N))
 		(!R9 (?X_M ENTITY.N))
@@ -34662,7 +34111,6 @@
 		(!R3 (?X_E AGENT.N))
 		(!R4 (?X_H (PLUR SHELL.N)))
 		(!R5 (?X_I GIRL.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_I ((ADV-A (FROM.P ?L1)) WALK.8.V) ?L2))
@@ -34683,11 +34131,9 @@
 		(!R2 (?X_K SHORE.N))
 		(!R3 (?X_M OCEAN.N))
 		(!R4 (?X_M SEA.N))
-		(!R5 (?X_K DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 		(!R7 (?X_M LOCATION.N))
 		(!R8 (NOT (?X_M = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_L ((ADV-A (FROM.P ?L1)) RUN.10.V) ?L2))
@@ -34706,7 +34152,6 @@
 (EPI-SCHEMA ((?X_L ((ADV-A (TO.P ?L2)) SWIM.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_C JELLYFISH.N))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 ((ANY.D PAIN.N) ENTITY.N))
 		(!R4 (?X_L AGENT.N))
 	)
@@ -34754,7 +34199,6 @@
 		(!R3 (?X_E (PLUR SHELL.N)))
 		(!R4 (?X_K POCKET.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_F)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -34776,7 +34220,6 @@
 		(!R3 (?X_E SHELL.N))
 		(!R4 (?X_K POCKET.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_F)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -34796,7 +34239,6 @@
 	(:ROLES
 		(!R1 (?X_C TURTLE.N))
 		(!R2 (?X_M OCEAN.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_L AGENT.N))
 		(!R5 (?X_M LOCATION.N))
 	)
@@ -34818,7 +34260,6 @@
 		(!R1 (?X_F BOY.N))
 		(!R2 (?X_F ((PASV NAME.V) ?X_J)))
 		(!R3 (?X_I AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 ((FIVE.D FISH.N) OBJECT.N))
 		(!R6 (NOT ((FIVE.D FISH.N) ACTION.N)))
 		(!R7 (NOT ((FIVE.D FISH.N) AGENT.N)))
@@ -34958,7 +34399,6 @@
 		(!R7 (?X_J (PERTAIN-TO ?X_M)))
 		(!R8 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R9 (?X_M AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_M LIKE.6.V (KA (GO.V (KA FISH.V)))))
@@ -35088,7 +34528,6 @@
 		(!R1 (?X_C WHILE.N))
 		(!R2 (?X_I BED.N))
 		(!R3 (?X_H AGENT.N))
-		(!R4 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_H ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_I))
@@ -35254,7 +34693,6 @@
 		(!R5 (?X_K SMALL.A))
 		(!R6 (?X_N ?X_K TOWN.N))
 		(!R7 (?X_N ENTITY.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_O ENTITY.N))
 	)
 	(:STEPS
@@ -35297,7 +34735,6 @@
 		(!R4 (?X_H AGENT.N))
 		(!R5 (?X_I LOCATION.N))
 		(!R6 (NOT (?X_I = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H ((ADV-A (FROM.P ?L1)) FLY.2.V) ?L2))
@@ -35317,7 +34754,6 @@
 		(!R4 (?X_H AGENT.N))
 		(!R5 (?X_I LOCATION.N))
 		(!R6 (NOT (?X_I = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H ((ADV-A (FROM.P ?L1)) FLY.2.V) ?L2))
@@ -35353,7 +34789,6 @@
 		(!R5 (?X_D (PERTAIN-TO ?X_E)))
 		(!R6 (?X_G SCHOOL.N))
 		(!R7 (?X_F OBJECT.N))
-		(!R8 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_D HAVE.9.V ?X_F))
@@ -35432,12 +34867,9 @@
 		(!R14 (?X_U (PERTAIN-TO ?X_P)))
 		(!R15 (?X_V SCHOOL.N))
 		(!R16 (?X_P SMALLER-THAN.N ?X_U))
-		(!R17 (?X_Q DESTINATION.N))
 		(!R18 (?X_R SMALLER-THAN.N ?X_U))
-		(!R19 (?X_S DESTINATION.N))
 		(!R20 (?X_U AGENT.N))
 		(!R21 (?X_T SMALLER-THAN.N ?X_U))
-		(!R22 (?X_V DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_U DRIVE.13.V ?X_P ?X_Q))
@@ -35693,7 +35125,6 @@
 		(!R4 (?X_J GIRL.N))
 		(!R5 (?X_K ROOM.N))
 		(!R6 (?X_K (PERTAIN-TO ?X_J)))
-		(!R7 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_J ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_K))
@@ -35733,7 +35164,6 @@
 		(!R7 (?X_H (PERTAIN-TO ?X_M)))
 		(!R8 (?X_I CAT.N))
 		(!R9 (?X_L SMALLER-THAN.N ?X_M))
-		(!R10 (?X_N DESTINATION.N))
 		(!R11 (NOT (?X_O ACTION.N)))
 		(!R12 (?X_P FOOD.N))
 	)
@@ -35906,7 +35336,6 @@
 		(!R4 (?X_K BAR.N))
 		(!R5 (?X_J MANY.A))
 		(!R6 (?X_J (PLUR PERSON.N)))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?N NOISE.N))
 	)
 	(:STEPS
@@ -36042,7 +35471,6 @@
 		(!R7 (?X_H HOUSE.N))
 		(!R8 (?X_H LOCATION.N))
 		(!R9 (NOT (?X_H = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E ((ADV-A (AT.P ?X_D)) YELL.V)))
@@ -36085,7 +35513,6 @@
 		(!R6 (?X_J (PERTAIN-TO ?X_G)))
 		(!R7 (?X_H AGENT.N))
 		(!R8 (NOT (?X_I = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -36125,7 +35552,6 @@
 		(!R5 (?X_G AGENT.N))
 		(!R6 (?X_H LOCATION.N))
 		(!R7 (NOT (?X_H = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_G ((ADV-A (AT.P ?X_D)) YELL.V)))
@@ -36170,7 +35596,6 @@
 		(!R4 (?X_G HOME.N))
 		(!R5 (?X_F AGENT.N))
 		(!R6 (NOT (?X_G = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C ((ADV-A (AT.P ?X_F)) YELL.V)))
@@ -36207,7 +35632,6 @@
 		(!R2 (?X_F MAN.N))
 		(!R3 (?X_M THING.N))
 		(!R4 (?X_M STRANGE.A))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_F ((ADV-A (ON.P ?X_E)) BE.V)))
@@ -36234,10 +35658,7 @@
 		(!R5 (?X_K AGENT.N))
 		(!R6 (?X_R TOP.A))
 		(!R7 (?X_R FLOOR.N))
-		(!R8 (?X_P DESTINATION.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_Q AGENT.N))
-		(!R11 (?X_R DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_Q ((ADV-A (FROM.P ?L1)) GO.9.V) ?X_P))
@@ -36289,7 +35710,6 @@
 		(!R6 (?X_P INFORMATION.N))
 		(!R7 (?X_O LOT.N))
 		(!R8 (?X_O (OF.P ?X_P)))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_L ((ADV-A (FROM.P ?L1)) GO.6.V) ?L2))
@@ -36332,7 +35752,6 @@
 (EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?L2)) ** ?E)
 	(:ROLES
 		(!R1 (?X_K AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_K ((ADV-A (FROM.P ?L1)) GO.6.V) ?L2))
@@ -36357,8 +35776,6 @@
 		(!R5 (?X_K AGENT.N))
 		(!R6 (?X_P TOP.A))
 		(!R7 (?X_P FLOOR.N))
-		(!R8 (?L2 DESTINATION.N))
-		(!R9 (?X_P DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_H ((ADV-A (FROM.P ?L1)) GO.6.V) ?L2))
@@ -36382,7 +35799,6 @@
 		(!R3 (?X_D (PERTAIN-TO ?X_L)))
 		(!R4 (?X_G LUNCH.N))
 		(!R5 (?X_L AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_L ((ADV-A (FROM.P ?L1)) GO.6.V) ?L2))
@@ -36403,7 +35819,6 @@
 		(!R2 (?X_E (PLUR DISH.N)))
 		(!R3 (?X_D SINK.N))
 		(!R4 (?X_D ((ADV-A (OF.P ?X_E)) FULL.A)))
-		(!R5 (?X_F DESTINATION.N))
 		(!R6 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -36615,7 +36030,6 @@
 		(!R4 (?X_L AGENT.N))
 		(!R5 (?X_M LOCATION.N))
 		(!R6 (NOT (?X_M = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L (EARLY.ADV WAKE_UP.V)))
@@ -36636,7 +36050,6 @@
 		(!R1 (?X_E DOG.N))
 		(!R2 (?X_L ENTITY.N))
 		(!R3 (?X_M AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_M ((ADV-A (FROM.P ?L1)) WALK.28.V) ?L2))
@@ -36659,7 +36072,6 @@
 		(!R4 (?X_L AGENT.N))
 		(!R5 (?X_M LOCATION.N))
 		(!R6 (NOT (?X_M = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L (EARLY.ADV WAKE_UP.V)))
@@ -36702,7 +36114,6 @@
 		(!R1 (?X_H BREAKFAST.N))
 		(!R2 (?X_M AGENT.N))
 		(!R3 (?X_N AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_N (EARLY.ADV WAKE_UP.V)))
@@ -36723,7 +36134,6 @@
 		(!R2 (?X_D DOG.N))
 		(!R3 (?X_D (PERTAIN-TO ?X_E)))
 		(!R4 (?X_E AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?N NOISE.N))
 	)
 	(:STEPS
@@ -36768,7 +36178,6 @@
 		(!R4 (?X_F DOG.N))
 		(!R5 (?X_F (PERTAIN-TO ?X_K)))
 		(!R6 (?N NOISE.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 		(!R9 ((IND (5 SELF_MOTION)) ACTION.N))
 	)
@@ -36795,7 +36204,6 @@
 		(!R5 (?X_G PERSON.N))
 		(!R6 (?X_J AGENT.N))
 		(!R7 (?X_K NOISE.N))
-		(!R8 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_J ((ADV-A (FROM.P ?L1)) WALK.8.V) ?X_K))
@@ -36816,7 +36224,6 @@
 		(!R3 (NOT (?X_G AGENT.N)))
 		(!R4 (?X_I AGENT.N))
 		(!R5 (?X_H SMALLER-THAN.N ?X_I))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_I HAVE.11.V ?X_H))
@@ -36838,7 +36245,6 @@
 		(!R4 (?X_E AGENT.N))
 		(!R5 (?X_F LOCATION.N))
 		(!R6 (NOT (?X_F = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_F ((ADV-A (FOR.P (KA BARK.V))) START.V)))
@@ -36864,7 +36270,6 @@
 		(!R8 (?N NOISE.N))
 		(!R9 (?X_J AGENT.N))
 		(!R10 (NOT (?X_K = ?L2)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F ((ADV-A (FOR.P (KA BARK.V))) START.V)))
@@ -36905,7 +36310,6 @@
 		(!R3 (?X_K AGENT.N))
 		(!R4 (?X_J (PERTAIN-TO ?X_K)))
 		(!R5 (?N NOISE.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (FOR.P (KA BARK.V))) START.V)))
@@ -36930,7 +36334,6 @@
 		(!R5 (?N NOISE.N))
 		(!R6 (?X_L NOISE.N))
 		(!R7 (?X_M AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_K ((ADV-A (FOR.P (KA BARK.V))) START.V)))
@@ -36956,7 +36359,6 @@
 		(!R4 (?X_M LOCATION.N))
 		(!R5 (NOT (?X_M = ?L2)))
 		(!R6 (?X_N AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_N ((ADV-A (FOR.P (KA ((ADV-A (ON.P ?X_C)) WALK.V)))) START.V)))
@@ -36977,7 +36379,6 @@
 	(:ROLES
 		(!R1 (?X_E (PLUR ROCK.N)))
 		(!R2 (?X_H (PLUR SHELL.N)))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -37000,7 +36401,6 @@
 		(!R2 (?X_H (PLUR ANIMAL.N)))
 		(!R3 (?X_I SMALL.A))
 		(!R4 (?X_I STREAM.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_N AGENT.N))
 		(!R7 (?F FOOD.N))
 	)
@@ -37028,8 +36428,6 @@
 		(!R5 (?X_L WILD.A))
 		(!R6 (?X_L (PLUR ANIMAL.N)))
 		(!R7 (?X_Q MOUNTAIN.N))
-		(!R8 (?L2 DESTINATION.N))
-		(!R9 (?X_Q DESTINATION.N))
 		(!R10 (?X_R AGENT.N))
 	)
 	(:STEPS
@@ -37054,7 +36452,6 @@
 		(!R3 (?X_D BOY.N))
 		(!R4 (?X_K LOCATION.N))
 		(!R5 (NOT (?X_K = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_D ((ADV-A (FOR.P ?X_C)) GO.V)))
@@ -37072,7 +36469,6 @@
 (EPI-SCHEMA ((?X_J (PICK.V ?X_C)) ** ?E)
 	(:ROLES
 		(!R1 (?X_C (PLUR FLOWER.N)))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -37111,7 +36507,6 @@
 		(!R2 (?X_I BILL.N))
 		(!R3 (?X_I TIRED.A))
 		(!R4 (?X_H (PLUR DOWNSTAIR.N)))
-		(!R5 (?X_H DESTINATION.N))
 		(!R6 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -37155,7 +36550,6 @@
 		(!R4 (?X_E MOM.N))
 		(!R5 (?X_E (PERTAIN-TO ?X_I)))
 		(!R6 (?X_H (PLUR DOWNSTAIR.N)))
-		(!R7 (?X_H DESTINATION.N))
 		(!R8 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -37433,7 +36827,6 @@
 		(!R3 (?X_D CREAM.N))
 		(!R4 (?X_I ICE.N))
 		(!R5 (?X_I CREAM.N))
-		(!R6 (?X_I DESTINATION.N))
 		(!R7 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -37483,7 +36876,6 @@
 		(!R4 (?X_D (PERTAIN-TO ?X_E)))
 		(!R5 (?L LOCATION.N))
 		(!R6 (?X_E AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_C (WANT.V (KA (GO.V (KA CAMP.V))))))
@@ -37596,7 +36988,6 @@
 		(!R6 (?X_F AGENT.N))
 		(!R7 (?L LOCATION.N))
 		(!R8 ((SET-OF ?X_F ?X_G) AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?E_1 (?X_F CAMP.1.V ?L))
@@ -37617,7 +37008,6 @@
 		(!R2 (?X_D FOOD.N))
 		(!R3 (?X_E DINNER.N))
 		(!R4 (?X_J TENT.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?L LOCATION.N))
 		(!R7 (?X_K AGENT.N))
 	)
@@ -37667,7 +37057,6 @@
 		(!R6 (?L LOCATION.N))
 		(!R7 (?X_K LOCATION.N))
 		(!R8 (?X_L AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_A (KA SUE.V) ((ADV-A (FOR.P (KA (GO.V (KA CAMP.V))))) BE.V)))
@@ -37688,7 +37077,6 @@
 		(!R3 (?X_I AGENT.N))
 		(!R4 (?L LOCATION.N))
 		(!R5 ((SET-OF ?X_I ?X_I) AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?E_1 (?X_I CAMP.1.V ?L))
@@ -37709,8 +37097,6 @@
 		(!R2 (?X_I BOY.N))
 		(!R3 (?X_H (PERTAIN-TO ?X_I)))
 		(!R4 (?X_L POOL.N))
-		(!R5 (?L2 DESTINATION.N))
-		(!R6 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_I (WANT.V (KA (GO.V (KA SWIM.V))))))
@@ -37731,8 +37117,6 @@
 	(:ROLES
 		(!R1 (?X_K DEEP.A))
 		(!R2 (?X_F WORK.N))
-		(!R3 (?L2 DESTINATION.N))
-		(!R4 (?X_K DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -37758,12 +37142,9 @@
 		(!R3 (?X_K BEACH.N))
 		(!R4 ((KA SWIM.V) ACTION.N))
 		(!R5 ((K (SWIM.22.V (SINCE.P (AND (?X_J =) (?X_J LITTLE.A))))) AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
-		(!R7 (?X_I DESTINATION.N))
 		(!R8 (?X_J AGENT.N))
 		(!R9 ((KA ((ADV-A (TO.P ?X_K)) GO.V)) ACTION.N))
 		(!R10 ((K (SWIM.V (SINCE.P (AND (?X_J =) (?X_J LITTLE.A))))) AGENT.N))
-		(!R11 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_J LOVE.21.V (KA SWIM.V)))
@@ -37789,8 +37170,6 @@
 		(!R2 (?X_I POOL.N))
 		(!R3 (?X_L PART.N))
 		(!R4 (?X_L (OF.P ?X_I)))
-		(!R5 (?L2 DESTINATION.N))
-		(!R6 (?X_J DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 		(!R8 (?X_L OBJECT.N))
 		(!R9 (NOT (?X_L ACTION.N)))
@@ -37933,7 +37312,6 @@
 		(!R5 (?X_E (PERTAIN-TO ?X_F)))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (?L LOCATION.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E106.SK (?X_I ((CAN.MD HAVE.V) ?X_B)))
@@ -38001,13 +37379,11 @@
 		(!R5 (?X_K MOTHER.N))
 		(!R6 (?X_K (PERTAIN-TO ?X_M)))
 		(!R7 (?X_M SMALLER-THAN.N ?X_K))
-		(!R8 (?X_I DESTINATION.N))
 		(!R9 (NOT (?X_J ACTION.N)))
 		(!R10 ((KA (WEAR.V ?X_L)) ACTION.N))
 		(!R11 (NOT (?X_K = ?X_M)))
 		(!R12 (NOT (?X_L AGENT.N)))
 		(!R13 (?X_M AGENT.N))
-		(!R14 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_K SAY.6.V ?X_M ?X_I))
@@ -38047,7 +37423,6 @@
 		(!R2 (?X_B (PERTAIN-TO ?X_E)))
 		(!R3 (?X_F VACATION.N))
 		(!R4 (?X_E AGENT.N))
-		(!R5 (?X_F DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_E ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_F))
@@ -38066,7 +37441,6 @@
 		(!R3 (?X_G (PLUR LOT.N)))
 		(!R4 (?X_G (OF.P ?X_H)))
 		(!R5 (?X_M GOOD.A))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 		(!R8 (?X_M FOOD.N))
 	)
@@ -38098,7 +37472,6 @@
 		(!R12 (?X_K (PERTAIN-TO ?X_L)))
 		(!R13 (?X_O FAMILY.N))
 		(!R14 (?X_O (PERTAIN-TO ?X_L)))
-		(!R15 (?L2 DESTINATION.N))
 		(!R16 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -38173,10 +37546,8 @@
 		(!R5 (?X_L (PERTAIN-TO ?X_M)))
 		(!R6 (?X_J DAD.N))
 		(!R7 (?X_J (PERTAIN-TO ?X_M)))
-		(!R8 (?X_K DESTINATION.N))
 		(!R9 (?X_L AGENT.N))
 		(!R10 (?X_M AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_L ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_K))
@@ -38197,9 +37568,7 @@
 		(!R2 (?X_G VACATION.N))
 		(!R3 (?X_D (PERTAIN-TO ?X_H)))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?X_G DESTINATION.N))
 		(!R6 (?X_H AGENT.N))
-		(!R7 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_H ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_G))
@@ -38222,9 +37591,7 @@
 		(!R6 (?X_L FAMILY.N))
 		(!R7 (?X_L (PERTAIN-TO ?X_I)))
 		(!R8 (?X_J AGENT.N))
-		(!R9 (?X_K DESTINATION.N))
 		(!R10 (?X_L AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_J ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_K))
@@ -38247,9 +37614,7 @@
 		(!R4 (?X_E (PERTAIN-TO ?X_H)))
 		(!R5 (?X_I THING.N))
 		(!R6 (?X_I SNAKE.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_H AGENT.N))
-		(!R9 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E ((ADV-A (FROM.P ?L1)) RUN.1.V) ?L2))
@@ -38347,12 +37712,9 @@
 		(!R6 (?X_F ((PASV NAME.V) ?X_L)))
 		(!R7 (?X_G (PERTAIN-TO ?X_L)))
 		(!R8 (?X_M THING.N))
-		(!R9 (?X_K DESTINATION.N))
 		(!R10 (?X_J LOCATION.N))
 		(!R11 (NOT (?X_J = ?X_K)))
-		(!R12 (?L2 DESTINATION.N))
 		(!R13 (?X_L AGENT.N))
-		(!R14 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_F ((ADV-A (FROM.P ?X_J)) WALK.8.V) ?X_K))
@@ -38374,7 +37736,6 @@
 		(!R4 (?X_F (ON.P ?X_G)))
 		(!R5 (?X_J AGENT.N))
 		(!R6 ((NO.D ONE.N) AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J SEE.10.V ?X_F))
@@ -38415,7 +37776,6 @@
 		(!R2 (?X_K GROCERY.N))
 		(!R3 (?X_K STORE.N))
 		(!R4 (?X_H SUPPER.N))
-		(!R5 (?X_K DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -38601,8 +37961,6 @@
 		(!R3 (?X_K GIRL.N))
 		(!R4 (?X_K ((PASV NAME.V) ?X_N)))
 		(!R5 (?X_L HOUSE.N))
-		(!R6 (?X_M DESTINATION.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -38624,7 +37982,6 @@
 		(!R2 (?X_F DOOR.N))
 		(!R3 (?X_L ROOM.N))
 		(!R4 (?X_I PICTURE.N))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -38687,7 +38044,6 @@
 		(!R2 (?X_D OWNER.N))
 		(!R3 (?X_J DOOR.N))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I ((ADV-A (ON.P ?X_J)) KNOCK.V)))
@@ -38709,7 +38065,6 @@
 		(!R4 (?X_P PERSON.N))
 		(!R5 (?X_N (FOR.P ?X_P (KA (ANSWER.V ?X_Q)))))
 		(!R6 (?X_O AGENT.N))
-		(!R7 ((K (FOR.P ?X_P (KA (ANSWER.V ?X_Q)))) DESTINATION.N))
 		(!R8 (?X_R AGENT.N))
 	)
 	(:STEPS
@@ -38749,7 +38104,6 @@
 		(!R3 (?X_L (PLUR FOOTSTEP.N)))
 		(!R4 (?X_K AGENT.N))
 		(!R5 (?X_L AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K ((ADV-A (ON.P ?X_H)) KNOCK.V)))
@@ -38769,7 +38123,6 @@
 		(!R1 (?X_E DOOR.N))
 		(!R2 (?X_I HOUSE.N))
 		(!R3 (?X_H AGENT.N))
-		(!R4 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H ((ADV-A (ON.P ?X_E)) KNOCK.V)))
@@ -38792,7 +38145,6 @@
 		(!R5 (?X_R (PERTAIN-TO ?X_U)))
 		(!R6 (?X_V PARK.N))
 		(!R7 (?X_U AGENT.N))
-		(!R8 (?X_V DESTINATION.N))
 	)
 	(:STEPS
 		(?X_P
@@ -38863,7 +38215,6 @@
 	(:ROLES
 		(!R1 (?X_C (PLUR FLOWER.N)))
 		(!R2 (?X_J WALK.N))
-		(!R3 (?X_J DESTINATION.N))
 		(!R4 (?X_K AGENT.N))
 		(!R5 (?X_L LOCATION.N))
 	)
@@ -39185,7 +38536,6 @@
 		(!R9 ((KA (EAT.V ?X_K)) ACTION.N))
 		(!R10 (?X_L OBJECT.N))
 		(!R11 (?X_M AGENT.N))
-		(!R12 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_M LIKE.16.V (KA (EAT.V ?X_K))))
@@ -39504,10 +38854,7 @@
 	(:ROLES
 		(!R1 (?X_M (PLUR TREE.N)))
 		(!R2 (?X_O (PLUR THING.N)))
-		(!R3 (?L2 DESTINATION.N))
-		(!R4 (?X_M DESTINATION.N))
 		(!R5 (?X_N AGENT.N))
-		(!R6 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_N (OUTSIDE.ADV PLAY.V)))
@@ -39664,7 +39011,6 @@
 		(!R2 ((TWO.D (PLUR GIRL.N)) AGENT.N))
 		(!R3 (?N NOISE.N))
 		(!R4 (?X_M AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E ((TWO.D (PLUR GIRL.N)) ((ADV-A (FROM.P ?L1)) WALK.18.V) ?L2))
@@ -39692,7 +39038,6 @@
 		(!R7 (?X_I LOCATION.N))
 		(!R8 (NOT (?X_I = ?L2)))
 		(!R9 (?X_J AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_J ((ADV-A (TO.P ?X_C)) TALK.V)))
@@ -39810,7 +39155,6 @@
 		(!R3 (?N NOISE.N))
 		(!R4 (?X_K LOCATION.N))
 		(!R5 (NOT (?X_K = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_D ((ADV-A (FROM.P ?L1)) WALK.21.V) ?L2))
@@ -39878,7 +39222,6 @@
 		(!R5 (?X_H DOG.N))
 		(!R6 (?X_H (PERTAIN-TO ?X_I)))
 		(!R7 (?X_J AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I (PUT_ON.V ?X_C)))
@@ -39898,7 +39241,6 @@
 		(!R2 (?X_H DOG.N))
 		(!R3 (?X_H LOCATION.N))
 		(!R4 (NOT (?X_H = ?L2)))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_C SEE.8.V ?X_H))
@@ -39925,8 +39267,6 @@
 		(!R9 (?X_M BOY.N))
 		(!R10 (?X_K (PERTAIN-TO ?X_M)))
 		(!R11 (?X_L (PERTAIN-TO ?X_M)))
-		(!R12 (?X_N DESTINATION.N))
-		(!R13 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_M ((ADV-A (FROM.P ?L1)) WALK.10.V) ?X_N))
@@ -39948,7 +39288,6 @@
 		(!R3 (?X_E DOG.N))
 		(!R4 (?X_K BOY.N))
 		(!R5 (?X_J (PERTAIN-TO ?X_K)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_K SEE.13.V ?X_E))
@@ -39990,7 +39329,6 @@
 		(!R5 (?X_F DOG.N))
 		(!R6 (?X_F LOCATION.N))
 		(!R7 (NOT (?X_F = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_C ((ADV-A (FROM.P ?X_F)) RUN.9.V) ?L2))
@@ -40009,7 +39347,6 @@
 		(!R4 (?X_H LOCATION.N))
 		(!R5 ((TWO.D (PLUR DOG.N)) AGENT.N))
 		(!R6 (NOT (?X_H = ?L2)))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_H ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -40098,7 +39435,6 @@
 		(!R7 (?X_L AGENT.N))
 		(!R8 ((KA (PLAY.V ?X_M)) ACTION.N))
 		(!R9 (?X AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 		(!R11 (?X_N OBJECT.N))
 	)
 	(:STEPS
@@ -40141,7 +39477,6 @@
 		(!R3 (?X_G (PLUR BALL.N)))
 		(!R4 (?X_H (PERTAIN-TO ?X_K)))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K PLAY.14.V))
@@ -40161,7 +39496,6 @@
 		(!R3 (?X_E LOVER.N))
 		(!R4 (?X_D (PERTAIN-TO ?X_E)))
 		(!R5 ((TWO.D (PLUR DOG.N)) OBJECT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_E HAVE.16.V (TWO.D (PLUR DOG.N))))
@@ -40203,7 +39537,6 @@
 		(!R5 ((KA ((ADV-A (WITH.P ?X_F)) PLAY.V)) ACTION.N))
 		(!R6 (?X_G AGENT.N))
 		(!R7 (?X_G SMALLER-THAN.N ?X_H))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_H LIKE.24.V (KA ((ADV-A (WITH.P ?X_F)) PLAY.V))))
@@ -40446,7 +39779,6 @@
 		(!R7 (?X_O BASKETBALL.N))
 		(!R8 (?X_P (PLUR KID.N)))
 		(!R9 (?X_Q AGENT.N))
-		(!R10 (?X_R DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_Q ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_R))
@@ -40492,7 +39824,6 @@
 		(!R7 (?X_K AGENT.N))
 		(!R8 (?X_L LOCATION.N))
 		(!R9 (NOT (?X_L = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_K PLAY.4.V))
@@ -40684,7 +40015,6 @@
 		(!R1 (?X_C AGENT.N))
 		(!R2 (?X_G STORE.N))
 		(!R3 (?X_F AGENT.N))
-		(!R4 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_G))
@@ -40724,7 +40054,6 @@
 		(!R4 (?X_G (PERTAIN-TO ?X_N)))
 		(!R5 (?X_L VACATION.N))
 		(!R6 (?X_M LOT.N))
-		(!R7 (?X_L DESTINATION.N))
 		(!R8 (?X_M OBJECT.N))
 		(!R9 (?X_N AGENT.N))
 	)
@@ -40792,7 +40121,6 @@
 (EPI-SCHEMA ((?X_E ((ADV-A (ON.P ?X_D)) ((ADV-A (WITH.P ?X_D)) GO.V))) ** ?E)
 	(:ROLES
 		(!R1 (?X_D VACATION.N))
-		(!R2 (?X_D DESTINATION.N))
 		(!R3 (?X_E AGENT.N))
 		(!R4 ((NO.D MONEY.N) OBJECT.N))
 	)
@@ -40841,10 +40169,7 @@
 		(!R7 (?X_I (PERTAIN-TO ?X_J)))
 		(!R8 (?X_H LOCATION.N))
 		(!R9 (NOT (?X_H = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 		(!R11 ((K (FOR.P ?X_J (KA (HOME.ADV COME.6.V)))) AGENT.N))
-		(!R12 ((K (FOR.P ?X_J (KA (HOME.ADV COME.6.V)))) DESTINATION.N))
-		(!R13 (?X_I DESTINATION.N))
 		(!R14 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -40876,7 +40201,6 @@
 		(!R7 (?X_P COFFEE.N))
 		(!R8 (?X_W ICE.N))
 		(!R9 (?X_W CREAM.N))
-		(!R10 (?X_U DESTINATION.N))
 		(!R11 (?F FOOD.N))
 		(!R12 (?X_V AGENT.N))
 		(!R13 (?X_W FOOD.N))
@@ -40902,7 +40226,6 @@
 		(!R2 (?X_C (OF.P ?X_D)))
 		(!R3 (?X_H VACATION.N))
 		(!R4 (?X_G AGENT.N))
-		(!R5 (?X_H DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_G ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_H))
@@ -40919,8 +40242,6 @@
 	(:ROLES
 		(!R1 (?X_C MONEY.N))
 		(!R2 (?X_L BUS.N))
-		(!R3 (?L2 DESTINATION.N))
-		(!R4 (?X_L DESTINATION.N))
 		(!R5 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -40945,7 +40266,6 @@
 		(!R4 (?X_O FAMILY.N))
 		(!R5 (?X_O (PERTAIN-TO ?X_M)))
 		(!R6 (?X_M AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_N FOOD.N))
 		(!R9 (?X_O AGENT.N))
 	)
@@ -40983,7 +40303,6 @@
 		(!R9 (?X_W VACATION.N))
 		(!R10 (?X_U OBJECT.N))
 		(!R11 (?X_V AGENT.N))
-		(!R12 (?X_W DESTINATION.N))
 	)
 	(:STEPS
 		(?X_R (?X_V HAVE.15.V ?X_U))
@@ -41038,8 +40357,6 @@
 		(!R2 (?X_H SAD.A))
 		(!R3 (?X_E PERSON.N))
 		(!R4 ((NO.D ONE.N) AGENT.N))
-		(!R5 (?X_H DESTINATION.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_H CRY.16.V))
@@ -41117,7 +40434,6 @@
 		(!R3 (?X_G GIRL.N))
 		(!R4 (?N NOISE.N))
 		(!R5 ((NO.D ONE.N) AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C DIE.V))
@@ -41199,7 +40515,6 @@
 		(!R3 (?X_D AGENT.N))
 		(!R4 (?X_F (PERTAIN-TO ?X_D)))
 		(!R5 (?X_E VACATION.N))
-		(!R6 (?X_E DESTINATION.N))
 		(!R7 (?X_F AGENT.N))
 	)
 	(:STEPS
@@ -41271,7 +40586,6 @@
 		(!R7 (?X_K (PERTAIN-TO ?X_J)))
 		(!R8 (?X_J (PERTAIN-TO ?X_K)))
 		(!R9 (?X_I SCHOOL.N))
-		(!R10 (?X_I DESTINATION.N))
 		(!R11 (?X_J SMALLER-THAN.N ?X_K))
 	)
 	(:STEPS
@@ -41638,7 +40952,6 @@
 		(!R2 (?X_A BOY.N))
 		(!R3 (?X_A ((PASV NAME.V) ?X_B)))
 		(!R4 (?X_E BEACH.N))
-		(!R5 (?X_E DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_A ((ADV-A (FROM.P ?L1)) WALK_ALONG.8.V) ?X_E))
@@ -41657,7 +40970,6 @@
 		(!R4 (?X_E AGENT.N))
 		(!R5 (?X_H (PLUR LOT.N)))
 		(!R6 (?X_H (OF.P ?X_I)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -41679,7 +40991,6 @@
 		(!R3 (?X_E (PLUR SHELL.N)))
 		(!R4 (?X_K POCKET.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_F)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -41720,7 +41031,6 @@
 	(:ROLES
 		(!R1 (?X_D (PLUR SHELL.N)))
 		(!R2 (?X_G AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -41742,7 +41052,6 @@
 		(!R3 (?X_J (PLUR SHELL.N)))
 		(!R4 (?X_L (PLUR POCKET.N)))
 		(!R5 (?X_L (PERTAIN-TO ?X_K)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 		(!R8 (?X_L LOCATION.N))
 	)
@@ -41769,7 +41078,6 @@
 		(!R4 (?X_G CLAM.N))
 		(!R5 (?X_J (PLUR SHELL.N)))
 		(!R6 (?X_J ((ALL.ADV OVER.P) ?X_K)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -41789,7 +41097,6 @@
 	(:ROLES
 		(!R1 (?X_D FISH.N))
 		(!R2 (?X_G (PLUR LOT.N)))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -41811,7 +41118,6 @@
 		(!R3 (?X_D TIRED.A))
 		(!R4 (?X_J TOWN.N))
 		(!R5 (?X_G DINNER.N))
-		(!R6 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_D ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_J))
@@ -41979,7 +41285,6 @@
 		(!R4 (?X_I APPLE.N))
 		(!R5 (?X_R STORE.N))
 		(!R6 ((ANY.D MONEY.N) OBJECT.N))
-		(!R7 (?X_R DESTINATION.N))
 		(!R8 (?X_S AGENT.N))
 		(!R9 (?X_T FOOD.N))
 	)
@@ -42059,7 +41364,6 @@
 		(!R3 (?X_F SAD.A))
 		(!R4 (?X_E HUSBAND.N))
 		(!R5 (?X_E (PERTAIN-TO ?X_F)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E (LEAVE.V ?X_F)))
@@ -42124,7 +41428,6 @@
 		(!R4 (?X_G (TO.P ?X_H)))
 		(!R5 (?X_I MAN.N))
 		(!R6 (?X_L BAR.N))
-		(!R7 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_L))
@@ -42143,7 +41446,6 @@
 		(!R2 (?X_E SAD.A))
 		(!R3 (?X_D WIFE.N))
 		(!R4 (?X_D (PERTAIN-TO ?X_E)))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_D (LEAVE.V ?X_E)))
@@ -42197,7 +41499,6 @@
 	(:ROLES
 		(!R1 (?X_B CAT.N))
 		(!R2 (?X_C DOG.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_C (CHASE.V ?X_B)))
@@ -42216,7 +41517,6 @@
 		(!R2 (?X_F CAT.N))
 		(!R3 (?X_K LOCATION.N))
 		(!R4 (NOT (?X_K = ?L2)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -42239,7 +41539,6 @@
 		(!R3 (?X_G (PERTAIN-TO ?X_I)))
 		(!R4 (?X_H DOG.N))
 		(!R5 (?X_H (PERTAIN-TO ?X_I)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_H CHASE.6.V ?X_G))
@@ -42371,10 +41670,8 @@
 		(!R7 (?X_T SILL.N))
 		(!R8 (?X_M CAT.N))
 		(!R9 (?X_P CAT.N))
-		(!R10 (?X_S DESTINATION.N))
 		(!R11 (?X_T LOCATION.N))
 		(!R12 (NOT (?X_T = ?L2)))
-		(!R13 (?L2 DESTINATION.N))
 		(!R14 (?X_U FOOD.N))
 	)
 	(:STEPS
@@ -42414,7 +41711,6 @@
 		(!R2 (?X_I (PLUR FRIEND.N)))
 		(!R3 (?X_I (PERTAIN-TO ?X_K)))
 		(!R4 (?X_J CATCH.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -42458,8 +41754,6 @@
 		(!R1 (?X_C FLOOR.N))
 		(!R2 (?X_K CAT.N))
 		(!R3 (?X_J DOG.N))
-		(!R4 (?L2 DESTINATION.N))
-		(!R5 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) RUN.15.V) ?L2))
@@ -42527,9 +41821,7 @@
 		(!R4 (?X_E WET.A))
 		(!R5 (?X_E (PERTAIN-TO ?X_H)))
 		(!R6 (?X_I FIELD.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_H AGENT.N))
-		(!R9 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H ((ADV-A (FROM.P ?L1)) WALK.14.V) ?L2))
@@ -42548,10 +41840,8 @@
 		(!R2 (?X_J BILL.N))
 		(!R3 (?X_L STORE.N))
 		(!R4 (?X_J AGENT.N))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 		(!R7 (NOT (?X_L = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_J ((ADV-A (FROM.P ?L1)) GO.29.V) ?X_L))
@@ -42572,7 +41862,6 @@
 		(!R2 (?X_J STORE.N))
 		(!R3 (?X_K STUFF.N))
 		(!R4 (?X_K (IN.P ?X_J)))
-		(!R5 (?X_J DESTINATION.N))
 		(!R6 ((KA ((ADV-A (AT.P ?X_K)) LOOK.V)) ACTION.N))
 		(!R7 (?X_L AGENT.N))
 	)
@@ -42595,7 +41884,6 @@
 		(!R2 (?X_G OPENER.N))
 		(!R3 (?X_J (PLUR LOT.N)))
 		(!R4 (?X_J (OF.P ?X_K)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_P AGENT.N))
 		(!R7 (?X_Q FOOD.N))
 	)
@@ -42618,7 +41906,6 @@
 		(!R2 (?X_E LOT.N))
 		(!R3 (?X_E (OF.P ?X_F)))
 		(!R4 (?X_K STORE.N))
-		(!R5 (?X_K DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 		(!R7 (NOT (?X_M AGENT.N)))
 	)
@@ -42775,7 +42062,6 @@
 		(!R1 (?X_G BALL.N))
 		(!R2 (?X_H (PLUR BOY.N)))
 		(!R3 (?X_K SOCCER.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_H PLAY.11.V))
@@ -42938,7 +42224,6 @@
 		(!R4 (?X_F (PLUR CLOTHE.N)))
 		(!R5 (?X_N MALL.N))
 		(!R6 (?X_I DRESS.N))
-		(!R7 (?X_N DESTINATION.N))
 		(!R8 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -43089,11 +42374,9 @@
 		(!R5 (?X_J MOVIE.N))
 		(!R6 (?X_G LITTLE.A))
 		(!R7 (?X_G GIRL.N))
-		(!R8 (?X_H DESTINATION.N))
 		(!R9 (?X_I AGENT.N))
 		(!R10 (NOT (?X_J ACTION.N)))
 		(!R11 (NOT (?X_J AGENT.N)))
-		(!R12 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_I ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_H))
@@ -43172,7 +42455,6 @@
 		(!R5 (NOT (?X_M ACTION.N)))
 		(!R6 (NOT (?X_M AGENT.N)))
 		(!R7 (?X_N AGENT.N))
-		(!R8 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_N LIKE.6.V ?X_M))
@@ -43485,7 +42767,6 @@
 		(!R10 (?X_L BOY.N))
 		(!R11 (?X_L ((PASV NAME.V) ?X_Q)))
 		(!R12 (?X_R BASEBALL.N))
-		(!R13 (?X_O DESTINATION.N))
 		(!R14 ((KA (READ.V ?X_P)) ACTION.N))
 		(!R15 (?X_Q AGENT.N))
 		(!R16 ((KA (PLAY.V ?X_R)) ACTION.N))
@@ -43512,7 +42793,6 @@
 		(!R2 (?X_H BOOK.N))
 		(!R3 (?X_L TIRED.A))
 		(!R4 (?X_K BED.N))
-		(!R5 (?X_K DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -43541,7 +42821,6 @@
 		(!R9 (?X_L (PERTAIN-TO ?X_M)))
 		(!R10 ((KA (PLAY.V ?X_P)) ACTION.N))
 		(!R11 (?X AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_L LIKE.9.V (KA (PLAY.V ?X_P))))
@@ -43581,7 +42860,6 @@
 		(!R5 (?X_E (PERTAIN-TO ?X_J)))
 		(!R6 (?X_K NEW.A))
 		(!R7 (?X_K (PLUR THING.N)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_J AGENT.N))
 		(!R10 ((KA (LEARN.V ?X_K)) ACTION.N))
 	)
@@ -43624,7 +42902,6 @@
 		(!R8 (?X_Q AMBULANCE.N))
 		(!R9 (?X_P ENTITY.N))
 		(!R10 (?X_Q AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -43648,7 +42925,6 @@
 		(!R4 (?X_K PERSON.N))
 		(!R5 (?X_L AGENT.N))
 		(!R6 (?X_M AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_J ((ADV-A (FOR.P ?X_E)) WAIT.V)))
@@ -43700,10 +42976,8 @@
 		(!R3 (?X_E WAY.N))
 		(!R4 (?X_K (PLUR POLICE.N)))
 		(!R5 (?X_L AMBULANCE.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
 		(!R8 (?X_J SMALLER-THAN.N ?X_K))
-		(!R9 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_K ((ADV-A (ON.P ?X_E)) BE.V)))
@@ -43723,7 +42997,6 @@
 		(!R3 (?X_D (PERTAIN-TO ?X_E)))
 		(!R4 (?X_H POLICE.N))
 		(!R5 (?X_H AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_D (CALL.V ?X_C)))
@@ -43769,7 +43042,6 @@
 		(!R3 (?X_D WIFE.N))
 		(!R4 (?X_D (PERTAIN-TO ?X_E)))
 		(!R5 (?X_H BEDROOM.N))
-		(!R6 (?X_H DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A
@@ -44237,7 +43509,6 @@
 		(!R3 (?X_H STREET.N))
 		(!R4 (?X_L (ON.P ?X_H)))
 		(!R5 (?X_K VET.N))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L SMALLER-THAN.N ?X_M))
 		(!R8 (?X_M AGENT.N))
 	)
@@ -44266,7 +43537,6 @@
 		(!R9 (?X_C (PERTAIN-TO ?X_D)))
 		(!R10 (?X_E CAT.N))
 		(!R11 (?X_E (PERTAIN-TO ?X_F)))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_E ((ADV-A (FROM.P ?L1)) RUN_AWAY.14.V) ?L2))
@@ -44313,7 +43583,6 @@
 		(!R4 (?X_C CAT.N))
 		(!R5 (?X_C (PERTAIN-TO ?X_D)))
 		(!R6 (?X_I FOOD.N))
-		(!R7 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_C EAT.6.V ?X_I))
@@ -44477,7 +43746,6 @@
 		(!R8 (?X_L MONEY.N))
 		(!R9 (NOT (?X_L AGENT.N)))
 		(!R10 (?X_O SMALLER-THAN.N ?X_M))
-		(!R11 (?X_N DESTINATION.N))
 		(!R12 (?X_O AGENT.N))
 		(!R13 (?X_P LOCATION.N))
 	)
@@ -44604,7 +43872,6 @@
 		(!R2 (?X_E (PLUR CLOTHE.N)))
 		(!R3 (?X_K SUITCASE.N))
 		(!R4 (?X_K ((ADV-A (OF.P ?X_E)) FULL.A)))
-		(!R5 (?X_J DESTINATION.N))
 		(!R6 (?X_K OBJECT.N))
 		(!R7 (?X_L ENTITY.N))
 		(!R8 (?L LOCATION.N))
@@ -44959,11 +44226,9 @@
 		(!R8 (?X_K (VERY.ADV PROUD.A)))
 		(!R9 (?X_K (PERTAIN-TO ?X_L)))
 		(!R10 (?X_I LOCATION.N))
-		(!R11 (?X_J DESTINATION.N))
 		(!R12 (NOT (?X_I = ?X_J)))
 		(!R13 (?X_L AGENT.N))
 		(!R14 (?X_K SMALLER-THAN.N ?X_L))
-		(!R15 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L ((ADV-A (FROM.P ?X_I)) COME.15.V) ?X_J))
@@ -44988,7 +44253,6 @@
 		(!R3 (?X_C TEACHER.N))
 		(!R4 (?X_C (PERTAIN-TO ?X_G)))
 		(!R5 (?X_F SCHOOL.N))
-		(!R6 (?X_F DESTINATION.N))
 		(!R7 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -45016,7 +44280,6 @@
 		(!R11 (?X_J (PERTAIN-TO ?X_K)))
 		(!R12 (?X_L AGENT.N))
 		(!R13 (?X_K SMALLER-THAN.N ?X_L))
-		(!R14 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_I (GIVE.V ?X_L ?X_G)))
@@ -45038,7 +44301,6 @@
 		(!R5 (?X_G AGENT.N))
 		(!R6 (?X_F (PERTAIN-TO ?X_G)))
 		(!R7 (?X_J LOT.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_J OBJECT.N))
 	)
 	(:STEPS
@@ -45063,7 +44325,6 @@
 		(!R5 (?X_L FOOTBALL.N))
 		(!R6 (?X_P SCHOOL.N))
 		(!R7 ((KA (PLAY.V ?X_O)) ACTION.N))
-		(!R8 (?X_P DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_D LIKE.26.V (KA (PLAY.V ?X_O))))
@@ -45138,7 +44399,6 @@
 		(!R3 (?X_J MOTHER.N))
 		(!R4 (?X_J (PERTAIN-TO ?X_L)))
 		(!R5 (NOT (?X_K AGENT.N)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 		(!R8 (?Y ENTITY.N))
 	)
@@ -45167,7 +44427,6 @@
 		(!R4 (?X_K MOTHER.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_M)))
 		(!R6 (NOT (?X_L AGENT.N)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -45191,7 +44450,6 @@
 		(!R3 (?X_F UMBRELLA.N))
 		(!R4 (?X_F (PERTAIN-TO ?X_I)))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F BREAK.V))
@@ -45322,7 +44580,6 @@
 (EPI-SCHEMA ((?X_J ((ADV-A (TO.P ?L2)) GO.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_K UMBRELLA.N))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (?X_J AGENT.N))
 		(!R4 (NOT (?X_K AGENT.N)))
 	)
@@ -45388,7 +44645,6 @@
 		(!R1 (?X_F WIFE.N))
 		(!R2 (?X_F (PERTAIN-TO ?X_L)))
 		(!R3 (?X_K HOSPITAL.N))
-		(!R4 (?X_K DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -45639,7 +44895,6 @@
 		(!R4 (?X_L BALL.N))
 		(!R5 (?X_O BASKETBALL.N))
 		(!R6 (?X_R AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_R PLAY.14.V))
@@ -45771,7 +45026,6 @@
 		(!R4 (?X_B (PERTAIN-TO ?X_C)))
 		(!R5 (?X_F AGENT.N))
 		(!R6 (?X_G AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_B ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
@@ -45793,7 +45047,6 @@
 		(!R5 (?X_M MANY.A))
 		(!R6 (?X_M (PLUR THING.N)))
 		(!R7 (?X_N AGENT.N))
-		(!R8 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_N ((ADV-A (ON.P ?X_J)) (HAS.AUX BE.V))))
@@ -45817,7 +45070,6 @@
 		(!R5 (?X_C (PERTAIN-TO ?X_D)))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (?X_K FUN.N))
-		(!R8 (?X_I DESTINATION.N))
 		(!R9 (?X_J AGENT.N))
 		(!R10 (?X_K OBJECT.N))
 	)
@@ -46081,7 +45333,6 @@
 		(!R7 (?X_H (FOR.P ?X_I)))
 		(!R8 (?X_G (OF.P ?X_H)))
 		(!R9 ((KA (GO.V (KA SHOP.V))) ACTION.N))
-		(!R10 ((|40.D| (PLUR YEAR.N)) DESTINATION.N))
 		(!R11 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -46251,7 +45502,6 @@
 		(!R5 (?X_E (PERTAIN-TO ?X_F)))
 		(!R6 (?X_I HOME.N))
 		(!R7 (?X_I (PERTAIN-TO ?X_F)))
-		(!R8 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_F (MISS.V ?X_E)))
@@ -46269,10 +45519,8 @@
 		(!R1 (?X_H PARK.N))
 		(!R2 (?X_I DOG.N))
 		(!R3 (?X_I (PERTAIN-TO ?X_J)))
-		(!R4 (?X_H DESTINATION.N))
 		(!R5 (?X_I NOISE.N))
 		(!R6 (?X_J AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_H))
@@ -46340,7 +45588,6 @@
 		(!R6 (?X_I HOME.N))
 		(!R7 (?X_I (PERTAIN-TO ?X_H)))
 		(!R8 (?X_H AGENT.N))
-		(!R9 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_H (MISS.V ?X_E)))
@@ -46503,7 +45750,6 @@
 		(!R4 (?X_G MOTHER.N))
 		(!R5 (?X_G (PERTAIN-TO ?X_H)))
 		(!R6 (?X_H AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_H (MISS.V ?X_G)))
@@ -46751,7 +45997,6 @@
 		(!R5 (?X_H LOCATION.N))
 		(!R6 (NOT (?X_H = ?L2)))
 		(!R7 (?X_I SMALLER-THAN.N ?X_J))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_J AGENT.N))
 		(!R10 ((EVERY.D THING.N) ENTITY.N))
 		(!R11 (?L LOCATION.N))
@@ -46829,12 +46074,10 @@
 		(!R7 (?X_L MONEY.N))
 		(!R8 (?X_Q LOT.N))
 		(!R9 (?X_Q (OF.P ?X_L)))
-		(!R10 (?X_O DESTINATION.N))
 		(!R11 (?X_P SMALLER-THAN.N ?X_R))
 		(!R12 (?L LOCATION.N))
 		(!R13 (?X_R AGENT.N))
 		(!R14 (?X_Q SMALLER-THAN.N ?X_R))
-		(!R15 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_R ((ADV-A (FROM.P ?L1)) GO.19.V) ?X_O))
@@ -46856,7 +46099,6 @@
 		(!R3 (?X_F MANY.A))
 		(!R4 (?X_F (PLUR PLACE.N)))
 		(!R5 (?X_K VACATION.N))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 		(!R8 ((KA TRAVEL.V) ACTION.N))
 	)
@@ -46888,7 +46130,6 @@
 		(!R8 (?X_Q (OF.P ?X_R)))
 		(!R9 (?X_U FOOD.N))
 		(!R10 (?X_X ICE.N))
-		(!R11 (?X_Y DESTINATION.N))
 		(!R12 (?X_Z AGENT.N))
 		(!R13 (?L LOCATION.N))
 	)
@@ -46913,8 +46154,6 @@
 		(!R1 (?X_C (PLUR MUSEUM.N)))
 		(!R2 (?X_K VACATION.N))
 		(!R3 (?X_J GOLF.N))
-		(!R4 (?X_K DESTINATION.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -46940,9 +46179,7 @@
 		(!R6 (?X_F STUFF.N))
 		(!R7 (?X_L (PLUR LOT.N)))
 		(!R8 (?X_L (OF.P ?X_F)))
-		(!R9 (?X_K DESTINATION.N))
 		(!R10 (?X_L SMALLER-THAN.N ?X_N))
-		(!R11 (?L2 DESTINATION.N))
 		(!R12
    ((ALL.D (L X (AND (X (PLUR {REF}.N)) (X (OF.P (THAT.D STUFF.N))))))
     ENTITY.N))
@@ -47045,7 +46282,6 @@
 		(!R5 (?X_G (PERTAIN-TO ?X_J)))
 		(!R6 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R7 (?X_J AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_J LIKE.5.V (KA (GO.V (KA FISH.V)))))
@@ -47066,7 +46302,6 @@
 		(!R3 (?X_J BEACH.N))
 		(!R4 (?X_G SHELL.N))
 		(!R5 ((KA ((ADV-A (TO.P ?X_J)) GO.V)) ACTION.N))
-		(!R6 (?X_J DESTINATION.N))
 		(!R7 (?X_K ENTITY.N))
 		(!R8 (?X_L AGENT.N))
 	)
@@ -47091,7 +46326,6 @@
 		(!R5 (?X_F (ON.P ?X_E)))
 		(!R6 (?X_G AGENT.N))
 		(!R7 (?X_F SMALLER-THAN.N ?X_G))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_G HAVE.11.V ?X_D))
@@ -47126,7 +46360,6 @@
 		(!R17 (?X_U LOCATION.N))
 		(!R18 (?X_V NOISE.N))
 		(!R19 (?X_V AGENT.N))
-		(!R20 (?X_W DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_Q LIVE.13.V ?X_U))
@@ -47152,7 +46385,6 @@
 		(!R6 (?X_J (PERTAIN-TO ?X_M)))
 		(!R7 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R8 (?X_M AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_M LIKE.16.V (KA (GO.V (KA FISH.V)))))
@@ -47176,9 +46408,7 @@
 		(!R5 (?X_K (PERTAIN-TO ?X_I)))
 		(!R6 (?X_I AGENT.N))
 		(!R7 ((KA ((ADV-A (ON.P ?X_J)) PLAY.V)) ACTION.N))
-		(!R8 (?X_J DESTINATION.N))
 		(!R9 (?X_K AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I LIKE.17.V (KA ((ADV-A (ON.P ?X_J)) PLAY.V))))
@@ -47314,7 +46544,6 @@
 		(!R3 (?X_E (PERTAIN-TO ?X_L)))
 		(!R4 (?X_K PARK.N))
 		(!R5 (?X_J BASEBALL.N))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -47560,8 +46789,6 @@
 		(!R6 (?X_I (OF.P ?X_J)))
 		(!R7 (?X_K (PLUR KID.N)))
 		(!R8 (?X_N AGENT.N))
-		(!R9 (?X_O DESTINATION.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_N ((ADV-A (FROM.P ?L1)) WALK.6.V) ?X_O))
@@ -47799,7 +47026,6 @@
 		(!R6 (?X_H (PERTAIN-TO ?X_F)))
 		(!R7 (?X_G (PERTAIN-TO ?X_H)))
 		(!R8 (?N NOISE.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_F CRY.6.V ?N))
@@ -47859,7 +47085,6 @@
 (EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?L2)) ** ?E)
 	(:ROLES
 		(!R1 (?X_G AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_G ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
@@ -47884,7 +47109,6 @@
 		(!R3 (?X_I LOCATION.N))
 		(!R4 (?X_H AGENT.N))
 		(!R5 (NOT (?X_I = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H SEE.11.V ?X_I))
@@ -47920,7 +47144,6 @@
 		(!R9 (?L LOCATION.N))
 		(!R10 (?X_S AGENT.N))
 		(!R11 (?X_T AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_O (?X_S ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
@@ -47976,7 +47199,6 @@
 		(!R9 (?X_P (PERTAIN-TO ?X_Q)))
 		(!R10 (?L LOCATION.N))
 		(!R11 (?X_P SMALLER-THAN.N ?X_Q))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_Q ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
@@ -48114,7 +47336,6 @@
 		(!R6 (?X_K AGENT.N))
 		(!R7 (?X_L FOOD.N))
 		(!R8 (?X_M AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?O ENTITY.N))
 		(!R11 (?O SMALLER-THAN.N ?X_M))
 	)
@@ -48198,10 +47419,8 @@
 		(!R7 (?X_L FAMILY.N))
 		(!R8 (?X_L (PERTAIN-TO ?X_J)))
 		(!R9 (?X_K FOOD.N))
-		(!R10 (?X_J DESTINATION.N))
 		(!R11 (?X_L AGENT.N))
 		(!R12 (?X_K SMALLER-THAN.N ?X_L))
-		(!R13 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (TO.P (ANOTHER.D TOWN.N))) MOVE.V)))
@@ -48241,7 +47460,6 @@
 		(!R10 (NOT (?X_K = ?X_I)))
 		(!R11 (?X_I AGENT.N))
 		(!R12 ((KA (PASV GROUND.V)) ACTION.N))
-		(!R13 (?X_J DESTINATION.N))
 		(!R14 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -48417,7 +47635,6 @@
 		(!R5 (?X_L WOMAN.N))
 		(!R6 (?X_J (PERTAIN-TO ?X_L)))
 		(!R7 (?X_K (PERTAIN-TO ?X_L)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_N (?X_L ((ADV-A (FROM.P ?L1)) WALK.11.V) ?L2))
@@ -48455,8 +47672,6 @@
 		(!R5 (?X_I POLICE.N))
 		(!R6 (?X_I OFFICER.N))
 		(!R7 (?X_J SMALLER-THAN.N ?X_K))
-		(!R8 (?X_L DESTINATION.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -48498,7 +47713,6 @@
 		(!R13 (?X_R BED.N))
 		(!R14 ((KA (CLEAN_UP.V ?X_O)) ACTION.N))
 		(!R15 (NOT (?X_P = ?X_Q)))
-		(!R16 (?X_R DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_Q ((ADV-A (TO.P ?X_J)) ((ADV-A (FROM.P ?X_I)) COME.V))))
@@ -48565,7 +47779,6 @@
 		(!R1 (?X_D GAME.N))
 		(!R2 (?X_K BASEBALL.N))
 		(!R3 (?X_S KITCHEN.N))
-		(!R4 (?X_S DESTINATION.N))
 		(!R5 (?X_P AGENT.N))
 		(!R6 (?X_Q (PLUR DISH.N)))
 		(!R7 (?X_R AGENT.N))
@@ -48611,7 +47824,6 @@
 		(!R1 (?X_F MAN.N))
 		(!R2 (?X_E (PLUR PANT.N)))
 		(!R3 (?X_E (PERTAIN-TO ?X_F)))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_E FALL_OFF.V))
@@ -48733,7 +47945,6 @@
 		(!R4 (NOT (?X_J ACTION.N)))
 		(!R5 (NOT (?X_J AGENT.N)))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_K LIKE.1.V ?X_J))
@@ -48774,7 +47985,6 @@
 		(!R9 ((KA ((ADV-A (FOR.P ?X_I)) WATCH_OUT.V)) ACTION.N))
 		(!R10 (NOT (?X_J = ?X_K)))
 		(!R11 (?X_K AGENT.N))
-		(!R12 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_J (TAKE.V ?X_F)))
@@ -48837,7 +48047,6 @@
 		(!R5 (?X_I DOG.N))
 		(!R6 (?X_I (PERTAIN-TO ?X_J)))
 		(!R7 ((KA SWIM.V) ACTION.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_I LIKE.7.V (KA SWIM.V)))
@@ -48898,7 +48107,6 @@
 		(!R6 (?X_M GEAR.N))
 		(!R7 (?X_M (PERTAIN-TO ?X_O)))
 		(!R8 (?X_N AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_O AGENT.N))
 		(!R11 (?L LOCATION.N))
 	)
@@ -48934,7 +48142,6 @@
 		(!R5 (?X_K (PERTAIN-TO ?X_N)))
 		(!R6 (?L LOCATION.N))
 		(!R7 (?X_N AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_N ((ADV-A (FOR.P (KA ((ADV-A (WITH.P ?X_K)) CAMP.V)))) GO.V)))
@@ -48972,9 +48179,7 @@
 		(!R4 (?X_J (PERTAIN-TO ?X_M)))
 		(!R5 (?X_I LAWN.N))
 		(!R6 (?X_I (PERTAIN-TO ?X_J)))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (NOT (?X_L = ?L2)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_M AGENT.N))
 		(!R11 (?Y ENTITY.N))
 	)
@@ -49010,7 +48215,6 @@
 		(!R6 (?X_F (PERTAIN-TO ?X_G)))
 		(!R7 (?X_H BOY.N))
 		(!R8 ((KA SWIM.V) ACTION.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H (HAVE.V ?X_G)))
@@ -49036,7 +48240,6 @@
 		(!R1 (?X_G BALL.N))
 		(!R2 (?X_M PARK.N))
 		(!R3 (?X_L BASEBALL.N))
-		(!R4 (?X_M DESTINATION.N))
 		(!R5 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -49101,8 +48304,6 @@
 		(!R4 (?X_S ADVENTURE.N))
 		(!R5 (?X_T MOUNTAIN.N))
 		(!R6 (?X_R WATERFALL.N))
-		(!R7 (?X_S DESTINATION.N))
-		(!R8 (?X_T DESTINATION.N))
 		(!R9 (?X_U AGENT.N))
 	)
 	(:STEPS
@@ -49149,7 +48350,6 @@
 		(!R2 (?X_A MAN.N))
 		(!R3 (?X_A THIRSTY.A))
 		(!R4 (?X_D BAR.N))
-		(!R5 (?X_D DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_A ((ADV-A (FROM.P ?L1)) WALK.26.V) ?X_D))
@@ -49166,7 +48366,6 @@
 		(!R1 (?X_E BALL.N))
 		(!R2 (?X_K PARK.N))
 		(!R3 (?X_J BASEBALL.N))
-		(!R4 (?X_K DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -49220,7 +48419,6 @@
 		(!R3 (?X_D DIFFERENT.A))
 		(!R4 (?X_D (PLUR KIND.N)))
 		(!R5 (?X_D (OF.P ?X_E)))
-		(!R6 (?X_H DESTINATION.N))
 		(!R7 (?X_I AGENT.N))
 		(!R8 (?X_J ENTITY.N))
 	)
@@ -49287,8 +48485,6 @@
 		(!R6 (?X_K (OF.P ?X_J)))
 		(!R7 ((SET-OF ?X_H ?X_I) AGENT.N))
 		(!R8 (NOT (?X_J = ?X_J)))
-		(!R9 (?X_J DESTINATION.N))
-		(!R10 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E ((SET-OF ?X_H ?X_I) ((ADV-A (FROM.P ?X_J)) GO_UP.7.V) ?X_J))
@@ -49309,8 +48505,6 @@
 (EPI-SCHEMA ((?X_F (((ADV-A (FROM.P ?L2)) KEEP.V) ?L2)) ** ?E)
 	(:ROLES
 		(!R1 (?X_E BOTTOM.N))
-		(!R2 (?L2 DESTINATION.N))
-		(!R3 (?X_E DESTINATION.N))
 		(!R4 (?X_F AGENT.N))
 	)
 	(:STEPS
@@ -49362,7 +48556,6 @@
 		(!R2 (?X_G DIFFERENT.A))
 		(!R3 (?X_G (PLUR KIND.N)))
 		(!R4 (?X_L ZOO.N))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -49429,9 +48622,7 @@
 		(!R6 (NOT (?X_K = ?X_K)))
 		(!R7 (?X_J LOCATION.N))
 		(!R8 (NOT (?X_J = ?L2)))
-		(!R9 (?X_K DESTINATION.N))
 		(!R10 (?X_L AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B ((SET-OF ?X_I ?X_L) ((ADV-A (FROM.P ?X_K)) GO_UP.7.V) ?X_K))
@@ -49458,9 +48649,7 @@
 		(!R2 (?X_C (PLUR ANIMAL.N)))
 		(!R3 (?X_C MORE.A))
 		(!R4 (?X_H ZOO.N))
-		(!R5 (?X_H DESTINATION.N))
 		(!R6 (?X_I AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_I ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_H))
@@ -49482,7 +48671,6 @@
 	(:ROLES
 		(!R1 (?X_C FUN.N))
 		(!R2 (?X_H AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H (OFTEN.ADV PLAY_TOGETHER.V)))
@@ -49538,7 +48726,6 @@
 		(!R4 (?X_C BASEBALL.N))
 		(!R5 (?X_D (PERTAIN-TO ?X_G)))
 		(!R6 (?X_E (PERTAIN-TO ?X_G)))
-		(!R7 (?X_F DESTINATION.N))
 		(!R8 (?X AGENT.N))
 		(!R9 (?X_G AGENT.N))
 	)
@@ -49559,7 +48746,6 @@
 		(!R1 (?X_D AGENT.N))
 		(!R2 (?X_E AGENT.N))
 		(!R3 (?X_C WALK.N))
-		(!R4 (?X_C DESTINATION.N))
 		(!R5 ((SET-OF ?X_D ?X_E) AGENT.N))
 	)
 	(:STEPS
@@ -49580,8 +48766,6 @@
 		(!R3 (?X_J PLAY.N))
 		(!R4 (?X_J (PERTAIN-TO ?X_N)))
 		(!R5 (?X_M (PLUR TREE.N)))
-		(!R6 (?L2 DESTINATION.N))
-		(!R7 (?X_M DESTINATION.N))
 		(!R8 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -49661,7 +48845,6 @@
 		(!R4 (?X_L BUCKET.N))
 		(!R5 (?X_K WELL.N))
 		(!R6 (?X_L SMALLER-THAN.N ?X_M))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?X_L LOCATION.N))
 		(!R9 (?X_M AGENT.N))
 	)
@@ -49691,7 +48874,6 @@
 		(!R2 (?X_D STREET.N))
 		(!R3 ((KA ((ADV-A (ON.P ?X_D)) WALK.V)) ACTION.N))
 		(!R4 (?X_E AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E LIKE.1.V (KA ((ADV-A (ON.P ?X_D)) WALK.V))))
@@ -49719,7 +48901,6 @@
 		(!R6 (?X_J PIECE.N))
 		(!R7 (?X_M THING.N))
 		(!R8 (?X_M PAPER.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_R AGENT.N))
 	)
 	(:STEPS
@@ -49882,10 +49063,8 @@
 		(!R5 (?X_L (PLUR CAR.N)))
 		(!R6 (?X_J (OF.P ?X_L)))
 		(!R7 (?X_M BY.P))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_K AGENT.N))
 		(!R10 (?X_L AGENT.N))
-		(!R11 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_K ((ADV-A (FROM.P ?L1)) WALK.3.V) ?L2))
@@ -50003,7 +49182,6 @@
 		(!R5 (?X_H GOOD.A))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (?X_H (PERTAIN-TO ?X_I)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E20.SK (?X_H ((CAN.MD (EASILY.ADV CATCH.V)) ?X_F)))
@@ -50037,7 +49215,6 @@
 		(!R6 (?X_I (PERTAIN-TO ?X_J)))
 		(!R7 (?X_M HOME.N))
 		(!R8 (?X_M (PERTAIN-TO ?X_J)))
-		(!R9 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_J (EARLY.ADV WAKE_UP.V)))
@@ -50067,7 +49244,6 @@
 		(!R5 (?X_M HOME.N))
 		(!R6 (?X_M (PERTAIN-TO ?X_K)))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?X_M DESTINATION.N))
 		(!R9 (?X_L LOCATION.N))
 		(!R10 (NOT (?X_L = ?X_M)))
 	)
@@ -50168,7 +49344,6 @@
 		(!R4 (?X_M NET.N))
 		(!R5 (?X_K AGENT.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K PLAY.11.V))
@@ -50203,7 +49378,6 @@
 		(!R8 ((KA (PLAY.V ?X_I)) ACTION.N))
 		(!R9 (?X AGENT.N))
 		(!R10 (?X_J AGENT.N))
-		(!R11 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_C (GIVE.V ?X_J ?X_B)))
@@ -50292,7 +49466,6 @@
 		(!R4 (?X_C EXPENSIVE.A))
 		(!R5 (?X_F (PLUR CLOTHE.N)))
 		(!R6 (?X_F (FOR.P ?X_I)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -50318,7 +49491,6 @@
 		(!R2 (?X_L BALL.N))
 		(!R3 (?X_H SOCCER.N))
 		(!R4 (?X_K AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -50437,7 +49609,6 @@
 		(!R4 (?X_K GROCERY.N))
 		(!R5 (?X_K STORE.N))
 		(!R6 (?X_J FOOD.N))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -50710,7 +49881,6 @@
 		(!R15 (?X_O LOCATION.N))
 		(!R16 (?X_N AGENT.N))
 		(!R17 (NOT (?X_O = ?L2)))
-		(!R18 (?L2 DESTINATION.N))
 		(!R19 (?X_P AGENT.N))
 		(!R20 (?X_Q FOOD.N))
 	)
@@ -50744,7 +49914,6 @@
 		(!R10 (?X_M (PERTAIN-TO ?X_P)))
 		(!R11 (?X_O FISHING.N))
 		(!R12 ((KA (((ADV-A (WITH.P ?X_N)) GO.V) ?X_O)) ACTION.N))
-		(!R13 (?X_O DESTINATION.N))
 		(!R14 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -50793,7 +49962,6 @@
 		(!R7 (?X_F (PERTAIN-TO ?X_G)))
 		(!R8 (?X_K FISH.N))
 		(!R9 (?X_J (OF.P ?X_K)))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_G ((ADV-A (FROM.P ?L1)) GO.16.V) ?L2))
@@ -50838,7 +50006,6 @@
 		(!R5 (NOT (?X_O ACTION.N)))
 		(!R6 (NOT (?X_O AGENT.N)))
 		(!R7 (?X_N AGENT.N))
-		(!R8 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_N LOVE.19.V ?X_O))
@@ -50893,7 +50060,6 @@
 		(!R3 (?X_G MOTHER.N))
 		(!R4 (?X_G (PERTAIN-TO ?X_F)))
 		(!R5 (?X_F AGENT.N))
-		(!R6 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_F (WANT.V (KA (VISIT.V ?X_G)))))
@@ -50916,7 +50082,6 @@
 		(!R5 (?X_C (VERY.ADV NICE.A)))
 		(!R6 (?X_D AGENT.N))
 		(!R7 (?X_C (PERTAIN-TO ?X_D)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_C ((ADV-A (FROM.P ?L1)) COME.23.V) ?L2))
@@ -50958,7 +50123,6 @@
 		(!R2 (?X_B MOTHER.N))
 		(!R3 (?X_B (PERTAIN-TO ?X_C)))
 		(!R4 (?L LOCATION.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E456.SK (NOT (?X_B (CAN.MD ((ADV-A (FOR.P (KA (VISIT.V ?X_C)))) COME.V)))))
@@ -51025,7 +50189,6 @@
 		(!R3 (?X_G AGENT.N))
 		(!R4 (?X_F (PERTAIN-TO ?X_G)))
 		(!R5 ((KA PLAY.V) ACTION.N))
-		(!R6 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_F LIKE.3.V (KA PLAY.V)))
@@ -51144,7 +50307,6 @@
 		(!R5 (?X_J (PERTAIN-TO ?X_G)))
 		(!R6 (?X_J LOCATION.N))
 		(!R7 (NOT (?X_J = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_G ((ADV-A (FROM.P ?X_J)) RUN.14.V) ?L2))
@@ -51361,7 +50523,6 @@
 		(!R3 (?X_E LUNCH.N))
 		(!R4 (?X_D (FOR.P ?X_E)))
 		(!R5 (?X_H SOUP.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_K FOOD.N))
 		(!R8 (?X_L AGENT.N))
 	)
@@ -51523,7 +50684,6 @@
 		(!R4 (?X_G THING.N))
 		(!R5 (?X_J FRIEND.N))
 		(!R6 (?X_J (PERTAIN-TO ?X_I)))
-		(!R7 (?X_H DESTINATION.N))
 		(!R8 ((SET-OF ?X_I ?X_J) AGENT.N))
 	)
 	(:STEPS
@@ -51550,7 +50710,6 @@
 		(!R7 ((SET-OF ?X_N ?X_O) AGENT.N))
 		(!R8 (?X_P LOCATION.N))
 		(!R9 (NOT (?X_P = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A ((SET-OF ?X_N ?X_O) ((ADV-A (FROM.P ?L1)) WALK.16.V) ?L2))
@@ -51576,7 +50735,6 @@
 		(!R5 (?X_M (PERTAIN-TO ?X_J)))
 		(!R6 (?X_M LOCATION.N))
 		(!R7 (NOT (?X_M = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_M ((ADV-A (FROM.P ?L1)) WALK.22.V) ?L2))
@@ -51597,7 +50755,6 @@
 		(!R2 (?X_F DARK.N))
 		(!R3 (?X_G AFRAID.A))
 		(!R4 (?X_G AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_G (OF.P ?X_F)))
@@ -51885,7 +51042,6 @@
 		(!R1 (?X_C TABLE.N))
 		(!R2 (?X_D CAT.N))
 		(!R3 (?X_K OWNER.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_D ((ADV-A (FROM.P ?L1)) RUN_AWAY.25.V) ?L2))
@@ -51906,7 +51062,6 @@
 		(!R3 (?X_K CAT.N))
 		(!R4 (?X_K LOCATION.N))
 		(!R5 (NOT (?X_K = ?L2)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_K ((ADV-A (FROM.P ?L1)) JUMP.28.V) ?L2))
@@ -52056,7 +51211,6 @@
 		(!R3 (?X_I AGENT.N))
 		(!R4 (NOT (?X_I = ?X_J)))
 		(!R5 (?A ACTION.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_I ((ADV-A (FOR.P (KA (PASV MARRY.V)))) GO.V)))
@@ -52132,7 +51286,6 @@
 		(!R7 (?X_Q (PLUR LOT.N)))
 		(!R8 (?X_Q (OF.P ?X_N)))
 		(!R9 (?X_Q AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L (GET.V ?X_A)))
@@ -52206,10 +51359,8 @@
 		(!R10 (?X_M AGENT.N))
 		(!R11 (NOT (?X_L = ?X_M)))
 		(!R12 (?A ACTION.N))
-		(!R13 (?X_N DESTINATION.N))
 		(!R14 (?X_O AGENT.N))
 		(!R15 (?X_P AGENT.N))
-		(!R16 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B ((SET-OF ?X_C ?X_L) (GET.V (KJ (PASV MARRY.V)))))
@@ -52233,7 +51384,6 @@
 		(!R6 (?X_L (PERTAIN-TO ?X_M)))
 		(!R7 (?X_N WEDDING.N))
 		(!R8 (?X_M AGENT.N))
-		(!R9 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L (GET.V ?X_A)))
@@ -52253,9 +51403,7 @@
 		(!R1 (?X_D (PLUR LOT.N)))
 		(!R2 (?X_J WEDDING.N))
 		(!R3 (?X_I AGENT.N))
-		(!R4 (?X_J DESTINATION.N))
 		(!R5 ((EVERY.D PERSON.N) AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_I ((ADV-A (FROM.P ?L1)) GO.10.V) ?X_J))
@@ -52278,7 +51426,6 @@
 	(:ROLES
 		(!R1 (?X_K MAN.N))
 		(!R2 (?X_L AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_L ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
@@ -52329,9 +51476,7 @@
 		(!R6 (?X_O LOT.N))
 		(!R7 (?X_P (PLUR PERSON.N)))
 		(!R8 (?X_O (OF.P ?X_P)))
-		(!R9 (?X_Q DESTINATION.N))
 		(!R10 (?X_R AGENT.N))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_R ((ADV-A (FROM.P ?L1)) TAKE.16.V) ?X_Q))
@@ -52357,7 +51502,6 @@
 		(!R4 (?X_J CAR.N))
 		(!R5 (?X_K CAR.N))
 		(!R6 (?X_R POLICEMAN.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_S PERSON.N))
 		(!R9 (?N NOISE.N))
 		(!R10 (?X_T AGENT.N))
@@ -52385,7 +51529,6 @@
 		(!R4 (?X_I CAR.N))
 		(!R5 (?X_L BILL.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_G HURT.V))
@@ -52405,7 +51548,6 @@
 		(!R2 (?X_C AGENT.N))
 		(!R3 (?X_F WOMAN.N))
 		(!R4 (?X_G MAN.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_G ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
@@ -52430,7 +51572,6 @@
 		(!R6 (?X_N FOOD.N))
 		(!R7 (?X_P MONEY.N))
 		(!R8 (?X_P (FOR.P ?X_N)))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_O AGENT.N))
 		(!R11 (NOT (?X_P AGENT.N)))
 	)
@@ -52452,7 +51593,6 @@
 		(!R1 (?X_C DRIVER.N))
 		(!R2 (?X_F CAR.N))
 		(!R3 (?X_I AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) WALK.12.V) ?L2))
@@ -52480,7 +51620,6 @@
 		(!R10 (?X_P (PERTAIN-TO ?X_N)))
 		(!R11 (?X_O HOME.N))
 		(!R12 (?X_O (PERTAIN-TO ?X_Q)))
-		(!R13 (?X_O DESTINATION.N))
 		(!R14 (?X_P SMALLER-THAN.N ?X_Q))
 		(!R15 (?X_Q AGENT.N))
 	)
@@ -52599,7 +51738,6 @@
 		(!R3 (?X_K HOME.N))
 		(!R4 (?X_K (PERTAIN-TO ?X_N)))
 		(!R5 (?X_O WATER.N))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L SMALLER-THAN.N ?X_N))
 		(!R8 (?X_M LOCATION.N))
 		(!R9 (?X_N AGENT.N))
@@ -52678,7 +51816,6 @@
 		(!R4 (?X_K (PERTAIN-TO ?X_M)))
 		(!R5 (?X_N FOOD.N))
 		(!R6 (?X_L SMALLER-THAN.N ?X_M))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 		(!R9 (?X_M AGENT.N))
 		(!R10 (NOT (?X_N AGENT.N)))
@@ -52708,8 +51845,6 @@
 		(!R8 (?X_J (PERTAIN-TO ?X_H)))
 		(!R9 (?X_G LOCATION.N))
 		(!R10 (NOT (?X_G = ?L2)))
-		(!R11 (?L2 DESTINATION.N))
-		(!R12 (?X_H DESTINATION.N))
 		(!R13 (?X_I SMALLER-THAN.N ?X_J))
 	)
 	(:STEPS
@@ -52731,7 +51866,6 @@
 		(!R5 (?X_F (PERTAIN-TO ?X_G)))
 		(!R6 (?X_H AGENT.N))
 		(!R7 (?X_G (PERTAIN-TO ?X_H)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_G ((ADV-A (FROM.P ?L1)) GO.26.V) ?L2))
@@ -52755,7 +51889,6 @@
 		(!R7 (?X_L (OF.P ?X_G)))
 		(!R8 (?X_H (PERTAIN-TO ?X_M)))
 		(!R9 (?X_J (PERTAIN-TO ?X_M)))
-		(!R10 (?X_I DESTINATION.N))
 		(!R11 (?X_J LOCATION.N))
 		(!R12 (?X_K ENTITY.N))
 		(!R13 (?X_L OBJECT.N))
@@ -53033,7 +52166,6 @@
 		(!R5 (?X_K BROTHER.N))
 		(!R6 (?X_K (PERTAIN-TO ?X_J)))
 		(!R7 (?X_J SMALLER-THAN.N ?X_K))
-		(!R8 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K COME_BY.V))
@@ -53122,7 +52254,6 @@
 		(!R3 (?X_G AGENT.N))
 		(!R4 (?X_J (PLUR FLOWER.N)))
 		(!R5 (?X_O WALK.N))
-		(!R6 (?X_O DESTINATION.N))
 		(!R7 (?X_P AGENT.N))
 	)
 	(:STEPS
@@ -53219,7 +52350,6 @@
 		(!R1 (?X_D (PLUR SHOE.N)))
 		(!R2 (?X_D (AT.P ?X_E)))
 		(!R3 (?X_H SIZE.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -53240,7 +52370,6 @@
 		(!R1 (?X_J NEW.A))
 		(!R2 (?X_J (PLUR SHOE.N)))
 		(!R3 (?X_J COMFORTABLE.A))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 ((KA (WEAR.V ?X_J)) ACTION.N))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (NOT (?X_J AGENT.N)))
@@ -53330,7 +52459,6 @@
 		(!R2 (?X_E (PLUR SHOE.N)))
 		(!R3 (?X_L PAIR.N))
 		(!R4 (?X_N BOX.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
 		(!R7 (?X_N LOCATION.N))
 	)
@@ -53412,7 +52540,6 @@
 		(!R4 (?X_F STORE.N))
 		(!R5 (?X_K HOME.N))
 		(!R6 (?X_K (PERTAIN-TO ?X_L)))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?X_M SMALLER-THAN.N ?X_L))
 		(!R9 (?X_L AGENT.N))
 		(!R10 (NOT (?X_M AGENT.N)))
@@ -53552,7 +52679,6 @@
 		(!R1 (?X_D MAKEUP.N))
 		(!R2 (?X_J DATE.N))
 		(!R3 (?X_I AGENT.N))
-		(!R4 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) GO.24.V) ?X_J))
@@ -53764,7 +52890,6 @@
 		(!R2 (?X_F DOG.N))
 		(!R3 (?X_K BOY.N))
 		(!R4 (?X_K ((PASV NAME.V) ?X_L)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -53842,7 +52967,6 @@
 		(!R8 (?X_L (PERTAIN-TO ?X_N)))
 		(!R9 (?X_M (FOR.P ?X_N)))
 		(!R10 (?X_O SCHOOL.N))
-		(!R11 (?L2 DESTINATION.N))
 		(!R12 (?X_N AGENT.N))
 		(!R13 (NOT (?X_O ACTION.N)))
 		(!R14 (NOT (?X_O AGENT.N)))
@@ -53891,7 +53015,6 @@
 		(!R10 (NOT (?X_J ACTION.N)))
 		(!R11 (NOT (?X_J AGENT.N)))
 		(!R12 (?X_K AGENT.N))
-		(!R13 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_G LIKE.22.V ?X_J))
@@ -54215,7 +53338,6 @@
 		(!R2 (?X_E CANDY.N))
 		(!R3 (?X_E AGENT.N))
 		(!R4 (?X_L PIECE.N))
-		(!R5 (?X_J DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 		(!R7 (?X_L FOOD.N))
 	)
@@ -54290,7 +53412,6 @@
 		(!R2 (?X_E CANDY.N))
 		(!R3 (?X_E AGENT.N))
 		(!R4 (?X_L PIECE.N))
-		(!R5 (?X_J DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 		(!R7 (?X_L FOOD.N))
 	)
@@ -54359,9 +53480,6 @@
 		(!R6 (?X_L (PERTAIN-TO ?X_I)))
 		(!R7 (?X_H (PERTAIN-TO ?X_I)))
 		(!R8 (?X_N HOME.N))
-		(!R9 (?X_L DESTINATION.N))
-		(!R10 (?X_M DESTINATION.N))
-		(!R11 (?X_N DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_L))
@@ -54383,7 +53501,6 @@
 		(!R2 (?X_I DOG.N))
 		(!R3 (?X_I (PERTAIN-TO ?X_J)))
 		(!R4 ((IND (6 SELF_MOTION)) ACTION.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_I CHASE.5.V ?X_J))
@@ -54474,7 +53591,6 @@
 	(:ROLES
 		(!R1 (?X_C CAT.N))
 		(!R2 (?X_D DOG.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?N NOISE.N))
 	)
 	(:STEPS
@@ -54497,9 +53613,6 @@
 		(!R4 (?X_H BOY.N))
 		(!R5 (?X_G (PERTAIN-TO ?X_H)))
 		(!R6 (?X_L HOME.N))
-		(!R7 (?L2 DESTINATION.N))
-		(!R8 (?X_K DESTINATION.N))
-		(!R9 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_G ((ADV-A (FROM.P ?L1)) RUN.6.V) ?L2))
@@ -54541,7 +53654,6 @@
 		(!R2 (?X_H BOY.N))
 		(!R3 (?X_K HOME.N))
 		(!R4 (?X_K (PERTAIN-TO ?X_H)))
-		(!R5 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_K))
@@ -54696,13 +53808,10 @@
 		(!R1 (?X_K POOL.N))
 		(!R2 (?X_M UNDERWATER.A))
 		(!R3 ((SET-OF ?X_L ?X_N) AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (NOT (?X_K ACTION.N)))
 		(!R6 (NOT (?X_K AGENT.N)))
 		(!R7 (?X_L AGENT.N))
-		(!R8 (?X_M DESTINATION.N))
 		(!R9 (?X_N AGENT.N))
-		(!R10 ((K UNDERWATER.A) DESTINATION.N))
 	)
 	(:STEPS
 		(?E_1 (?X_L ((ADV-A (FROM.P ?L1)) SWIM.37.V) ?L2))
@@ -54762,7 +53871,6 @@
 		(!R1 (?X_D FOOD.N))
 		(!R2 (?X_E MAN.N))
 		(!R3 (?X_F STORE.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -54826,8 +53934,6 @@
 (EPI-SCHEMA ((?X_L ((ADV-A (TO.P ?X_K)) WALK.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_K STORE.N))
-		(!R2 (?L2 DESTINATION.N))
-		(!R3 (?X_K DESTINATION.N))
 		(!R4 (?X_L AGENT.N))
 		(!R5 (?X_M FOOD.N))
 	)
@@ -54870,7 +53976,6 @@
 	(:ROLES
 		(!R1 (?X_C FOOD.N))
 		(!R2 (?X_H STORE.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -54890,7 +53995,6 @@
 	(:ROLES
 		(!R1 ((KA (FAST.ADV WALK.V)) ACTION.N))
 		(!R2 (?X_M AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_M LIKE.11.V (KA (FAST.ADV WALK.V))))
@@ -54915,7 +54019,6 @@
 		(!R4 ((KA WALK.V) ACTION.N))
 		(!R5 ((KA ((ADV-A (FOR.P (KA WALK.V))) GO.V)) ACTION.N))
 		(!R6 (?X_G AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E225.SK (?X_G ((ADV-A (THROUGH.P ?X_B)) WALK.V)))
@@ -54937,9 +54040,7 @@
 		(!R1 (?X_C DOG.N))
 		(!R2 (?X_K (PLUR ARM.N)))
 		(!R3 (?X_K (PERTAIN-TO ?X_J)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_J AGENT.N))
-		(!R6 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -54966,7 +54067,6 @@
 	(:ROLES
 		(!R1 (?X_Y -LSB-THE.A))
 		(!R2 (?X_Y MAN.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_Y ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -55289,7 +54389,6 @@
 		(!R3 (?X_G SNAKE.N))
 		(!R4 (?X_H AGENT.N))
 		(!R5 (?N NOISE.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_H ((ADV-A (FROM.P ?L1)) WALK.8.V) ?L2))
@@ -55328,7 +54427,6 @@
 		(!R2 (?X_E (PLUR KEY.N)))
 		(!R3 (?X_E (PERTAIN-TO ?X_H)))
 		(!R4 (?X_H AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_H ((ADV-A (FOR.P ?X_E)) LOOK.V)))
@@ -55384,7 +54482,6 @@
 		(!R2 (?X_D AGENT.N))
 		(!R3 (?X_D (PERTAIN-TO ?X_E)))
 		(!R4 (?X_E AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_E ((ADV-A (FROM.P ?L1)) LOSE.12.V) ?L2))
@@ -55403,7 +54500,6 @@
 		(!R3 (?X_L AGENT.N))
 		(!R4 (?X_K CAR.N))
 		(!R5 (?X_K (PERTAIN-TO ?X_L)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_K BREAK_DOWN.V))
@@ -55426,7 +54522,6 @@
 		(!R3 (?X_I HOUSE.N))
 		(!R4 (?X_J (PERTAIN-TO ?X_K)))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E422.SK (NOT (?X_K ((CAN.MD FIND.V) ?X_J))))
@@ -55454,7 +54549,6 @@
 		(!R8 (?X_I AGENT.N))
 		(!R9 (?X_J LOCATION.N))
 		(!R10 (NOT (?X_J = ?L2)))
-		(!R11 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I ((ADV-A (ON.P ?X_G)) PUT.V)))
@@ -55736,9 +54830,7 @@
 		(!R5 (?X_F (PLUR CLOTHE.N)))
 		(!R6 (?X_F (PERTAIN-TO ?X_G)))
 		(!R7 (?X_H LOCATION.N))
-		(!R8 (?X_I DESTINATION.N))
 		(!R9 (NOT (?X_H = ?X_I)))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_G (TAKE.V ?X_I)))
@@ -55762,10 +54854,8 @@
 		(!R7 (?X_I SISTER.N))
 		(!R8 (?X_I (PERTAIN-TO ?X_K)))
 		(!R9 (?X_M SCHOOL.N))
-		(!R10 (?X_J DESTINATION.N))
 		(!R11 (?X_K SMALLER-THAN.N ?X_L))
 		(!R12 (?X_L AGENT.N))
-		(!R13 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L DRIVE.4.V ?X_K ?X_J))
@@ -55812,7 +54902,6 @@
 		(!R7 (?X_L (PERTAIN-TO ?X_N)))
 		(!R8 (?X_K (PLUR GAME.N)))
 		(!R9 (?X_N SMALLER-THAN.N ?X_L))
-		(!R10 (?X_M DESTINATION.N))
 		(!R11 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -55899,7 +54988,6 @@
 		(!R3 (?X_I WIFE.N))
 		(!R4 (?X_H GOLF.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_K)))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_J OBJECT.N))
 		(!R8 (NOT (?X_J ACTION.N)))
 		(!R9 (NOT (?X_J AGENT.N)))
@@ -56064,7 +55152,6 @@
 		(!R6 (?X_K SCARY.A))
 		(!R7 (?X_K PART.N))
 		(!R8 (?X_N MOVIE.N))
-		(!R9 (?X_N DESTINATION.N))
 		(!R10 (?X_O AGENT.N))
 	)
 	(:STEPS
@@ -56183,8 +55270,6 @@
 		(!R1 (?X_J CAT.N))
 		(!R2 (?X_K MAN.N))
 		(!R3 (?X_I HOME.N))
-		(!R4 (?L2 DESTINATION.N))
-		(!R5 (?X_I DESTINATION.N))
 		(!R6 (?X_J SMALLER-THAN.N ?X_K))
 	)
 	(:STEPS
@@ -56205,7 +55290,6 @@
 		(!R2 (?X_E AGENT.N))
 		(!R3 (?X_D (PERTAIN-TO ?X_E)))
 		(!R4 (?X_L {REF}.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?N NOISE.N))
 		(!R7 (?X_L OBJECT.N))
 		(!R8 (NOT (?X_L ACTION.N)))
@@ -56234,7 +55318,6 @@
 		(!R6 (NOT (?X_K ACTION.N)))
 		(!R7 (?X_K SMALLER-THAN.N ?X_L))
 		(!R8 (?X_L AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_L ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
@@ -56307,7 +55390,6 @@
 	(:ROLES
 		(!R1 (?X_C CAT.N))
 		(!R2 (?X_H AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H ((ADV-A (FROM.P ?L1)) WALK.10.V) ?L2))
@@ -56368,9 +55450,7 @@
 	(:ROLES
 		(!R1 (?X_J CAT.N))
 		(!R2 (?X_I HOME.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_K AGENT.N))
-		(!R5 (?X_I DESTINATION.N))
 		(!R6 (?X_J SMALLER-THAN.N ?X_K))
 	)
 	(:STEPS
@@ -56429,7 +55509,6 @@
 		(!R5 (?X_L AGENT.N))
 		(!R6 ((K SAD.A) LOCATION.N))
 		(!R7 (NOT ((K SAD.A) = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_L SEE.3.V ?X_F))
@@ -56569,7 +55648,6 @@
 		(!R3 (?X_G MANY.A))
 		(!R4 (?X_G (PLUR KID.N)))
 		(!R5 (?X_J SCHOOL.N))
-		(!R6 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_D ((ADV-A (FROM.P ?L1)) WALK.14.V) ?X_J))
@@ -56620,7 +55698,6 @@
 		(!R11 (?X_J (PERTAIN-TO ?X_N)))
 		(!R12 (?X_K (PERTAIN-TO ?X_N)))
 		(!R13 (?X_L (PERTAIN-TO ?X_N)))
-		(!R14 (?X_M DESTINATION.N))
 		(!R15 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -56647,7 +55724,6 @@
 		(!R7 (?X_H (PLUR FRIEND.N)))
 		(!R8 (?X_H (PERTAIN-TO ?X_I)))
 		(!R9 ((KA ((ADV-A (TO.P ?X_L)) GO.V)) ACTION.N))
-		(!R10 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_H LIKE.18.V (KA ((ADV-A (TO.P ?X_L)) GO.V))))
@@ -56671,7 +55747,6 @@
 		(!R4 (?X_R TEACHER.N))
 		(!R5 (?X_L BENCH.N))
 		(!R6 (?X_Q SCHOOL.N))
-		(!R7 (?X_Q DESTINATION.N))
 		(!R8 ((KA (DOWN.ADV SIT.V)) ACTION.N))
 		(!R9 (?X_S AGENT.N))
 		(!R10 (NOT (?X_R = ?X_S)))
@@ -56719,7 +55794,6 @@
 		(!R2 (?X_C AGENT.N))
 		(!R3 (?X_D OBJECT.N))
 		(!R4 (NOT (?X_D ACTION.N)))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C HATE.23.V ?X_D))
@@ -56765,7 +55839,6 @@
 		(!R6 (?X_L BILL.N))
 		(!R7 (?X_P AGENT.N))
 		(!R8 (?X_O AGENT.N))
-		(!R9 (?X_P DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_L (IN.P ?X_K)))
@@ -56819,7 +55892,6 @@
 		(!R7 (?X_L (PLUR THING.N)))
 		(!R8 (?X_K (PLUR LOT.N)))
 		(!R9 (?X_K (OF.P ?X_L)))
-		(!R10 (?X_M DESTINATION.N))
 		(!R11 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -56843,7 +55915,6 @@
 		(!R5 (?X_I FOOD.N))
 		(!R6 (?X_N (PLUR LOT.N)))
 		(!R7 (?X_N (OF.P ?X_I)))
-		(!R8 (?X_L DESTINATION.N))
 		(!R9 (?X_M AGENT.N))
 		(!R10 (?X_N FOOD.N))
 	)
@@ -56866,8 +55937,6 @@
 		(!R4 (?X_F AGENT.N))
 		(!R5 (?X_K TOWER.N))
 		(!R6 (?X_L (PLUR ROOM.N)))
-		(!R7 (?X_K DESTINATION.N))
-		(!R8 (?X_L DESTINATION.N))
 		(!R9 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -56917,9 +55986,7 @@
 		(!R7 (?X_I (PLUR THING.N)))
 		(!R8 (?X_J LUNCH.N))
 		(!R9 (?X_O AGENT.N))
-		(!R10 (?X_P DESTINATION.N))
 		(!R11 (?X_Q AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_O ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_P))
@@ -56942,7 +56009,6 @@
 		(!R4 (?X_F (PLUR PLACE.N)))
 		(!R5 (?X_L BILL.N))
 		(!R6 (?X_K VACATION.N))
-		(!R7 (?X_K DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 		(!R9 (?X_M AGENT.N))
 		(!R10 (?F FOOD.N))
@@ -56960,7 +56026,6 @@
 	(:ROLES
 		(!R1 (?X_D WORK.N))
 		(!R2 (?X_C AGENT.N))
-		(!R3 (?X_D DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C ((ADV-A (FROM.P ?L1)) COME.12.V) ?X_D))
@@ -57072,7 +56137,6 @@
 		(!R5 (?X_H {REF}.N))
 		(!R6 (?X_L WORK.N))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) COME.12.V) ?X_L))
@@ -57094,7 +56158,6 @@
 		(!R3 (?X_A (PERTAIN-TO ?X_D)))
 		(!R4 (?X_E WORK.N))
 		(!R5 (?X_D AGENT.N))
-		(!R6 (?X_E DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_D ((ADV-A (FROM.P ?L1)) COME.12.V) ?X_E))
@@ -57115,8 +56178,6 @@
 		(!R4 (?X_N BASEBALL.N))
 		(!R5 (?X_O (PLUR KID.N)))
 		(!R6 (?X_R CATCH.N))
-		(!R7 (?X_S DESTINATION.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_T AGENT.N))
 	)
 	(:STEPS
@@ -57165,7 +56226,6 @@
 		(!R1 (?X_L INJECTION.N))
 		(!R2 (?X_J DENTIST.N))
 		(!R3 (?X_E TOOTHACHE.N))
-		(!R4 (?X_J DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 		(!R6 (?X_L AGENT.N))
 		(!R7 (?A ACTION.N))
@@ -57191,7 +56251,6 @@
 		(!R5 (?X_J DENTIST.N))
 		(!R6 (?X_L INJECTION.N))
 		(!R7 (?X_K SMALLER-THAN.N ?X_I))
-		(!R8 (?X_J DESTINATION.N))
 		(!R9 (?X_K AGENT.N))
 		(!R10 (NOT (?X_L AGENT.N)))
 	)
@@ -57211,7 +56270,6 @@
 		(!R2 (?X_B TODAY.N))
 		(!R3 (?X_E MOUTH.N))
 		(!R4 (?X_E (PERTAIN-TO ?X_I)))
-		(!R5 (?X_H DESTINATION.N))
 		(!R6 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -57260,7 +56318,6 @@
 		(!R3 (?X_L DENTIST.N))
 		(!R4 (?X_I (PLUR TOOTH.N)))
 		(!R5 (?X_I (PERTAIN-TO ?X_M)))
-		(!R6 (?X_L DESTINATION.N))
 		(!R7 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -57282,7 +56339,6 @@
 		(!R3 (?X_A (PERTAIN-TO ?X_D)))
 		(!R4 (?X_E DENTIST.N))
 		(!R5 (?X_D AGENT.N))
-		(!R6 (?X_E DESTINATION.N))
 	)
 	(:STEPS
 		(E215.SK (NOT (?X_D ((CAN.MD EAT.V) (ANY.D THING.N)))))
@@ -57306,7 +56362,6 @@
 		(!R5 (?X_G (PLUR TOOTH.N)))
 		(!R6 (?X_G (PERTAIN-TO ?X_J)))
 		(!R7 (?X_J AGENT.N))
-		(!R8 (?X_K DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_G (HURT.V ?X_J)))
@@ -57330,7 +56385,6 @@
 		(!R2 (?X_L DENTIST.N))
 		(!R3 (?X_G SORE.A))
 		(!R4 (?X_G TOOTH.N))
-		(!R5 (?X_L DESTINATION.N))
 		(!R6 (?X_M AGENT.N))
 		(!R7 (NOT (?X_N AGENT.N)))
 	)
@@ -57364,7 +56418,6 @@
 		(!R11 (?X_O AGENT.N))
 		(!R12 (?X_P FOOD.N))
 		(!R13 (?X_Q AGENT.N))
-		(!R14 (?X_R DESTINATION.N))
 		(!R15 (?X_S LOCATION.N))
 	)
 	(:STEPS
@@ -57573,7 +56626,6 @@
 		(!R4 (?X_M (PLUR TREE.N)))
 		(!R5 (?L LOCATION.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?X_M DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_L ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
@@ -57618,7 +56670,6 @@
 		(!R2 (?X_H (PLUR ANIMAL.N)))
 		(!R3 (?L LOCATION.N))
 		(!R4 (?X_M AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_M ((ADV-A (FOR.P (KA CAMP.V))) GO.V)))
@@ -57664,7 +56715,6 @@
 		(!R2 (?L LOCATION.N))
 		(!R3 (?X_G AGENT.N))
 		(!R4 (NOT (?X_H = ?L2)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_H LOCATION.N))
 	)
 	(:STEPS
@@ -57710,7 +56760,6 @@
 		(!R4 (?X_Q TREE.N))
 		(!R5 (?X_N (PLUR BERRY.N)))
 		(!R6 (?L LOCATION.N))
-		(!R7 (?X_Q DESTINATION.N))
 		(!R8 (?X_R AGENT.N))
 	)
 	(:STEPS
@@ -57773,7 +56822,6 @@
 		(!R5 (?X_H LOCATION.N))
 		(!R6 (?X_G AGENT.N))
 		(!R7 (NOT (?X_H = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_G CAMP.26.V ?L))
@@ -57795,7 +56843,6 @@
 		(!R3 (?X_G (PERTAIN-TO ?X_K)))
 		(!R4 (?X_J CAR.N))
 		(!R5 (?X_J (PERTAIN-TO ?X_K)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_J BREAK_DOWN.V))
@@ -57823,7 +56870,6 @@
 		(!R6 (?X_J LOCKED.A))
 		(!R7 (?X_J (PERTAIN-TO ?X_O)))
 		(!R8 (?X_K FOOD.N))
-		(!R9 (?X_N DESTINATION.N))
 		(!R10 (?X_N FOOD.N))
 		(!R11 (?X AGENT.N))
 		(!R12 (?X_O AGENT.N))
@@ -57846,7 +56892,6 @@
 	(:ROLES
 		(!R1 (?X_C DOOR.N))
 		(!R2 (?X_H HOUSE.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_I AGENT.N))
 	)
 	(:STEPS
@@ -57873,11 +56918,9 @@
 		(!R7 (?X_J (PLUR SOCK.N)))
 		(!R8 (?X_J WET.A))
 		(!R9 (?X_J (PERTAIN-TO ?X_M)))
-		(!R10 (?X_K DESTINATION.N))
 		(!R11 (?X_L OBJECT.N))
 		(!R12 (NOT (?X_L AGENT.N)))
 		(!R13 (?X_M AGENT.N))
-		(!R14 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_M ((ADV-A (FROM.P ?L1)) WALK.29.V) ?X_K))
@@ -57900,10 +56943,7 @@
 		(!R3 (?X_J (PLUR GROCERY.N)))
 		(!R4 (?X_O TOWN.N))
 		(!R5 (?X_Q PARK.N))
-		(!R6 (?X_O DESTINATION.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_P AGENT.N))
-		(!R9 (?X_Q DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_P ((ADV-A (FROM.P ?L1)) WALK.29.V) ?X_O))
@@ -57926,9 +56966,7 @@
 		(!R2 (?X_M TOWN.N))
 		(!R3 (?X_J BUS.N))
 		(!R4 (?X_J STOP.N))
-		(!R5 (?X_M DESTINATION.N))
 		(!R6 (?X_N AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_N ((ADV-A (FROM.P ?L1)) WALK.29.V) ?X_M))
@@ -58161,7 +57199,6 @@
 		(!R3 (?X_I DAD.N))
 		(!R4 (?X_I (PERTAIN-TO ?X_K)))
 		(!R5 (?X_K SMALLER-THAN.N ?X_I))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_J OBJECT.N))
 		(!R8 (NOT (?X_J ACTION.N)))
 		(!R9 (NOT (?X_J AGENT.N)))
@@ -58188,7 +57225,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_I)))
 		(!R5 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R6 (?X_I AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_I LIKE.13.V (KA (GO.V (KA FISH.V)))))
@@ -58261,7 +57297,6 @@
 		(!R11 (?X_M HOME.N))
 		(!R12 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R13 (?X_P AGENT.N))
-		(!R14 (?L2 DESTINATION.N))
 		(!R15 (?X_Q FOOD.N))
 	)
 	(:STEPS
@@ -58291,8 +57326,6 @@
 		(!R8 (NOT (?X_K AGENT.N)))
 		(!R9 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R10 (NOT (?X_J = ?X_L)))
-		(!R11 (?L2 DESTINATION.N))
-		(!R12 (?X_K DESTINATION.N))
 		(!R13 (?X_L AGENT.N))
 		(!R14 (?X_M FOOD.N))
 	)
@@ -58323,7 +57356,6 @@
 		(!R6 (?X_J FISH.N))
 		(!R7 ((KA (GO.V (KA FISH.V))) ACTION.N))
 		(!R8 (?X_H AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_I AGENT.N))
 		(!R11 ((KA (CATCH.V ?X_J)) ACTION.N))
 	)
@@ -58349,7 +57381,6 @@
 		(!R7 (?X_H (PERTAIN-TO ?X_J)))
 		(!R8 (?X_K FISHING.N))
 		(!R9 (?X_I AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 		(!R11 (?X_J AGENT.N))
 		(!R12 (?X_K OBJECT.N))
 		(!R13 (NOT (?X_K ACTION.N)))
@@ -58398,7 +57429,6 @@
 		(!R2 (?X_J HOME.N))
 		(!R3 (?X_J (PERTAIN-TO ?X_K)))
 		(!R4 (?X_G DINNER.N))
-		(!R5 (?X_J DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 	)
 	(:STEPS
@@ -58663,7 +57693,6 @@
 		(!R5 (?X_L AGENT.N))
 		(!R6 (?X_L LOCATION.N))
 		(!R7 (NOT (?X_L = ?L2)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_A (MEAN.V ?X_G)))
@@ -58690,7 +57719,6 @@
 		(!R7 (?X_J FRIEND.N))
 		(!R8 (?X_J (PERTAIN-TO ?X_L)))
 		(!R9 (?X_L ((ADV-A (AT.P ?X_J)) MAD.A)))
-		(!R10 (?X_K DESTINATION.N))
 		(!R11 (?X_M OBJECT.N))
 		(!R12 (?X_L AGENT.N))
 		(!R13 (NOT (?X_M AGENT.N)))
@@ -58767,7 +57795,6 @@
 	(:ROLES
 		(!R1 (?X_K BREAKFAST.N))
 		(!R2 (?X_L AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_L (EARLY.ADV WAKE_UP.V)))
@@ -58969,7 +57996,6 @@
 		(!R4 (?X_G AGENT.N))
 		(!R5 (?X_F (PERTAIN-TO ?X_G)))
 		(!R6 (?L LOCATION.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?E_1 (?X_F CAMP.11.V ?L))
@@ -58994,7 +58020,6 @@
 		(!R3 ((KA CAMP.V) ACTION.N))
 		(!R4 (?L LOCATION.N))
 		(!R5 (?X_G AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?E_1 (?X_G CAMP.11.V ?L))
@@ -59066,7 +58091,6 @@
 		(!R5 ((KA CAMP.V) ACTION.N))
 		(!R6 (?L LOCATION.N))
 		(!R7 (?X_G AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(E407.SK (?X_G (OUTSIDE.ADV SLEEP.V)))
@@ -59092,7 +58116,6 @@
 		(!R4 ((KA (GO.V (KA CAMP.V))) ACTION.N))
 		(!R5 (?L LOCATION.N))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K LOVE.23.V ?X_J))
@@ -59144,7 +58167,6 @@
 		(!R6 (?X_Q (PLUR SHOE.N)))
 		(!R7 (NOT (?X_Q AGENT.N)))
 		(!R8 (?X_R AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_R PLAY.6.V))
@@ -59238,7 +58260,6 @@
 		(!R4 (?X_G (PERTAIN-TO ?X_K)))
 		(!R5 (NOT (?X_J AGENT.N)))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_K PLAY.13.V))
@@ -59258,7 +58279,6 @@
 		(!R2 (?X_F BALL.N))
 		(!R3 (?X_I SOCCER.N))
 		(!R4 (?X_L AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_L PLAY.15.V))
@@ -59280,7 +58300,6 @@
 		(!R2 (?X_J BALL.N))
 		(!R3 (?X_M SOCCER.N))
 		(!R4 (?X_P AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_P PLAY.18.V))
@@ -59325,7 +58344,6 @@
 		(!R6 (?X_E (PERTAIN-TO ?X_F)))
 		(!R7 (?X_I MANY.A))
 		(!R8 (?X_I (PLUR TIME.N)))
-		(!R9 (?X_I DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_F ((ADV-A (FROM.P ?L1)) RUN.20.V) ?X_I))
@@ -59413,7 +58431,6 @@
 		(!R2 (?X_D LADY.N))
 		(!R3 (?X_G BENCH.N))
 		(!R4 (?X_H MAN.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_H ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -59462,7 +58479,6 @@
 		(!R2 (?X_C MAN.N))
 		(!R3 (?X_I WOMAN.N))
 		(!R4 (?X_H (TO.P ?X_I)))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_C ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -59508,7 +58524,6 @@
 		(!R3 (?X_L WHITE.A))
 		(!R4 (?X_L DRESS.N))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (NOT (?X_L AGENT.N)))
 	)
 	(:STEPS
@@ -59532,7 +58547,6 @@
 		(!R4 (?X_I TIME.N))
 		(!R5 (?X_L BASEBALL.N))
 		(!R6 (?X_O AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_O PLAY.12.V))
@@ -59575,7 +58589,6 @@
 		(!R3 (?X_G BENCH.N))
 		(!R4 (?X_I MAN.N))
 		(!R5 (?X_H (TO.P ?X_I)))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_F ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -59594,7 +58607,6 @@
 	(:ROLES
 		(!R1 (?X_E WOMAN.N))
 		(!R2 (?X_F AGENT.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_E ((ADV-A (FROM.P ?L1)) WALK.1.V) ?L2))
@@ -59778,7 +58790,6 @@
 		(!R1 (?X_E (TOO.ADV MANY.A)))
 		(!R2 (?X_E (PLUR MOSQUITO.N)))
 		(!R3 (?X_F MAN.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_F ((ADV-A (ABOUT.P (KA (GO.V (KA FISH.V))))) THINK.V)))
@@ -59991,7 +59002,6 @@
 		(!R4 (?X_F (PERTAIN-TO ?X_G)))
 		(!R5 (?X_J MECHANIC.N))
 		(!R6 (?X_J AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F BREAK_DOWN.V))
@@ -60226,7 +59236,6 @@
 		(!R1 (?X_E (PLUR LOT.N)))
 		(!R2 (?X_M PARK.N))
 		(!R3 (?X_L BASEBALL.N))
-		(!R4 (?X_M DESTINATION.N))
 		(!R5 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -60332,7 +59341,6 @@
 		(!R9 (?X_N CAR.N))
 		(!R10 (?X_N (PERTAIN-TO ?X_O)))
 		(!R11 (NOT (?X_P = ?L2)))
-		(!R12 (?L2 DESTINATION.N))
 		(!R13 (?X AGENT.N))
 		(!R14 (?L LOCATION.N))
 	)
@@ -60812,7 +59820,6 @@
 		(!R4 (?X_F (PERTAIN-TO ?X_I)))
 		(!R5 (?X_J HOSPITAL.N))
 		(!R6 (?X_I AGENT.N))
-		(!R7 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_J))
@@ -60913,7 +59920,6 @@
 		(!R4 (?X_L (PERTAIN-TO ?X_M)))
 		(!R5 (?X_I AGENT.N))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -60964,7 +59970,6 @@
 		(!R6 (?X_H ALARM.N))
 		(!R7 (?X_G ?X_H CLOCK.N))
 		(!R8 (?X_I (PLUR DOWNSTAIR.N)))
-		(!R9 (?X_I DESTINATION.N))
 		(!R10 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -61115,7 +60120,6 @@
 		(!R7 (?X_J BREAKFAST.N))
 		(!R8 (?X_M LOCATION.N))
 		(!R9 (NOT (?X_M = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 		(!R11 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -61165,7 +60169,6 @@
 		(!R4 (?X_L BILL.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_L)))
 		(!R6 (?X_L AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_L ((ADV-A (BEFORE.P ?X_H)) WAKE_UP.V)))
@@ -61450,7 +60453,6 @@
 		(!R5 (?X_L FIRST.A))
 		(!R6 (?X_L BASE.N))
 		(!R7 (?X_O AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_O PLAY.21.V))
@@ -61469,7 +60471,6 @@
 	(:ROLES
 		(!R1 (?X_C BREAD.N))
 		(!R2 (?X_F STORE.N))
-		(!R3 (?X_F DESTINATION.N))
 		(!R4 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -61530,7 +60531,6 @@
 	(:ROLES
 		(!R1 (?X_C BREAD.N))
 		(!R2 (?X_F STORE.N))
-		(!R3 (?X_F DESTINATION.N))
 		(!R4 (?X_G AGENT.N))
 	)
 	(:STEPS
@@ -61582,7 +60582,6 @@
 		(!R4 (?X_I STORE.N))
 		(!R5 (?X_F DINNER.N))
 		(!R6 (?X_J (FOR.P ?X_F)))
-		(!R7 (?X_I DESTINATION.N))
 		(!R8 (?X_J FOOD.N))
 	)
 	(:STEPS
@@ -61659,7 +60658,6 @@
 		(!R1 (?X_C BREAD.N))
 		(!R2 (?X_G STORE.N))
 		(!R3 (?X_F AGENT.N))
-		(!R4 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_F ((ADV-A (FROM.P ?L1)) GO.23.V) ?X_G))
@@ -61704,7 +60702,6 @@
 	(:ROLES
 		(!R1 (?X_C CHILD.N))
 		(!R2 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
-		(!R3 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_C LIKE.4.V (KA (OUTSIDE.ADV PLAY.V))))
@@ -61723,7 +60720,6 @@
 		(!R1 (?X_E TAG.N))
 		(!R2 ((KA (PLAY.V ?X_E)) ACTION.N))
 		(!R3 (?X_F AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_F LOVE.7.V (KA (PLAY.V ?X_E))))
@@ -61868,7 +60864,6 @@
 		(!R5 (?X_L (PERTAIN-TO ?X_P)))
 		(!R6 (?X_M (PERTAIN-TO ?X_P)))
 		(!R7 (?X_P AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_P ((ADV-A (WITH.P ?X_L)) PLAY.V)))
@@ -61917,7 +60912,6 @@
 		(!R2 (?X_J BEACH.N))
 		(!R3 (?X_L SAND.N))
 		(!R4 (?X_L (ON.P ?X_J)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
 		(!R7 (?X_L OBJECT.N))
 		(!R8 (NOT (?X_L ACTION.N)))
@@ -61947,9 +60941,7 @@
 		(!R5 (?X_M OBJECT.N))
 		(!R6 (NOT (?X_M ACTION.N)))
 		(!R7 (NOT (?X_M AGENT.N)))
-		(!R8 (?X_N DESTINATION.N))
 		(!R9 (?X_O AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_O LIKE.27.V ?X_M))
@@ -61970,9 +60962,7 @@
 		(!R2 (?X_H GOOD.A))
 		(!R3 (?X_G BEACH.N))
 		(!R4 ((KA SWIM.V) ACTION.N))
-		(!R5 (?X_G DESTINATION.N))
 		(!R6 (?X_H AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_H LOVE.28.V (KA SWIM.V)))
@@ -61994,7 +60984,6 @@
 		(!R4 ((KA ((ADV-A (TO.P ?X_G)) GO.V)) ACTION.N))
 		(!R5 (?X_E AGENT.N))
 		(!R6 (?X_F AGENT.N))
-		(!R7 (?X_G DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_E LIKE.29.V (KA ((ADV-A (TO.P ?X_G)) GO.V))))
@@ -62036,7 +61025,6 @@
 		(!R5 (?X_A (PERTAIN-TO ?X_D)))
 		(!R6 (?X_F PARK.N))
 		(!R7 (?X_D SMALLER-THAN.N ?X_E))
-		(!R8 (?X_F DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_E SAY.3.V ?X_D ?X_F))
@@ -62056,7 +61044,6 @@
 		(!R5 (?X_G LOCATION.N))
 		(!R6 (NOT (?X_G = ?L2)))
 		(!R7 (?X_H AGENT.N))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_C (?X_H LIVE.4.V ?X_G))
@@ -62225,7 +61212,6 @@
 		(!R9 (?X_M DAY.N))
 		(!R10 (?X_O HOME.N))
 		(!R11 (?X_O (PERTAIN-TO ?X_N)))
-		(!R12 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I
@@ -62472,7 +61458,6 @@
 	(:ROLES
 		(!R1 (?X_F COUCH.N))
 		(!R2 (?X_K ROOM.N))
-		(!R3 (?X_K DESTINATION.N))
 		(!R4 (?X_L AGENT.N))
 		(!R5 (?X_M AGENT.N))
 	)
@@ -62503,7 +61488,6 @@
 		(!R1 (?X_H FAMILY.N))
 		(!R2 (?X_K AGENT.N))
 		(!R3 (?X_H (PERTAIN-TO ?X_K)))
-		(!R4 (?X_K DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -62539,7 +61523,6 @@
 		(!R3 (?X_M ROOM.N))
 		(!R4 (?X_L MAN.N))
 		(!R5 (?X_O APPLE.N))
-		(!R6 (?X_M DESTINATION.N))
 		(!R7 (?X_N AGENT.N))
 		(!R8 (NOT (?X_O AGENT.N)))
 	)
@@ -62561,7 +61544,6 @@
 		(!R2 (?X_F COUCH.N))
 		(!R3 (?X_I TIRED.A))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_I ((ADV-A (FROM.P ?L1)) WALK.7.V) ?L2))
@@ -62583,7 +61565,6 @@
 		(!R5 (?X_J FRIEND.N))
 		(!R6 (?X_J (PERTAIN-TO ?X_K)))
 		(!R7 (?X_L PICTURE.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_K AGENT.N))
 		(!R10 (NOT (?X_L AGENT.N)))
 	)
@@ -62608,9 +61589,7 @@
 		(!R3 (?X_H CHAIR.N))
 		(!R4 (?X_K (PLUR LOT.N)))
 		(!R5 (?X_P ROOM.N))
-		(!R6 (?X_P DESTINATION.N))
 		(!R7 (?X_Q AGENT.N))
-		(!R8 (?X_Q DESTINATION.N))
 	)
 	(:STEPS
 		(?X_M (?X_Q ((ADV-A (FROM.P ?L1)) WALK.9.V) ?X_P))
@@ -62629,7 +61608,6 @@
 		(!R1 (?X_C AGENT.N))
 		(!R2 (?X_F COUCH.N))
 		(!R3 (?X_I ROOM.N))
-		(!R4 (?X_I DESTINATION.N))
 		(!R5 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -62688,7 +61666,6 @@
 		(!R4 (?X_H ENOUGH.A))
 		(!R5 (?X_L ?X_H MONEY.N))
 		(!R6 ((SET-OF ?X_I ?X_K) AGENT.N))
-		(!R7 (?X_J DESTINATION.N))
 		(!R8 (?X_K AGENT.N))
 		(!R9 (?X_L OBJECT.N))
 	)
@@ -62741,7 +61718,6 @@
 		(!R2 (?X_H AGENT.N))
 		(!R3 ((TWO.D (L X (AND (X CREDIT.N) (X (PLUR CARD.N))))) OBJECT.N))
 		(!R4 (?X_J AGENT.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_H HAVE.7.V (TWO.D (L X (AND (X CREDIT.N) (X (PLUR CARD.N)))))))
@@ -62762,7 +61738,6 @@
 		(!R4 (?X_G MOVIE.N))
 		(!R5 (?X_D POPCORN.N))
 		(!R6 (?X_H AGENT.N))
-		(!R7 (?X_G DESTINATION.N))
 		(!R8 ((SET-OF ?X_I ?X_H) AGENT.N))
 		(!R9 (?X_I AGENT.N))
 	)
@@ -62939,7 +61914,6 @@
 		(!R10 (?X_O (PERTAIN-TO ?X_S)))
 		(!R11 (?X_P (PERTAIN-TO ?X_S)))
 		(!R12 (?X_S AGENT.N))
-		(!R13 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_S ((ADV-A (ON.P ?X_O)) BE.V)))
@@ -63013,7 +61987,6 @@
 		(!R8 (?X_L WINDOW.N))
 		(!R9 (?X_L (PERTAIN-TO ?X_I)))
 		(!R10 (?L LOCATION.N))
-		(!R11 (?X_J DESTINATION.N))
 		(!R12 (?X_K AGENT.N))
 		(!R13 (?X_L LOCATION.N))
 	)
@@ -63063,7 +62036,6 @@
 		(!R3 (?X_O MONEY.N))
 		(!R4 (?X_Q ATM.N))
 		(!R5 (?X_Q MACHINE.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_P AGENT.N))
 		(!R8 (?X_Q LOCATION.N))
 	)
@@ -63086,7 +62058,6 @@
 		(!R1 (?X_H BANK.N))
 		(!R2 (?X_I MONEY.N))
 		(!R3 (?X_G MONEY.N))
-		(!R4 (?X_H DESTINATION.N))
 		(!R5 (?X_I OBJECT.N))
 		(!R6 (?X_J AGENT.N))
 		(!R7 (?L LOCATION.N))
@@ -63112,7 +62083,6 @@
 		(!R5 (?X_I ATM.N))
 		(!R6 (?X_J (PERTAIN-TO ?X_N)))
 		(!R7 (?X_M BANK.N))
-		(!R8 (?X_M DESTINATION.N))
 		(!R9 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -63136,7 +62106,6 @@
 		(!R5 (?X_K (PLUR BILL.N)))
 		(!R6 (?X_M PURSE.N))
 		(!R7 (?X_M (PERTAIN-TO ?X_N)))
-		(!R8 (?X_L DESTINATION.N))
 		(!R9 (?X_M LOCATION.N))
 		(!R10 (?X_N AGENT.N))
 	)
@@ -63163,8 +62132,6 @@
 		(!R5 (?X_K (PLUR COIN.N)))
 		(!R6 (?X_N ATM.N))
 		(!R7 (?X_N MACHINE.N))
-		(!R8 (?X_L DESTINATION.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_M AGENT.N))
 		(!R11 (?X_N LOCATION.N))
 	)
@@ -63270,7 +62237,6 @@
 		(!R1 (?X_F YARD.N))
 		(!R2 (?X_I FENCE.N))
 		(!R3 (?X_L AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_L (THINK.V (THT (?X_L (CAN.MD (DO.V (ANY.D THING.N))))))))
@@ -63308,7 +62274,6 @@
 		(!R1 (?X_C GROUND.N))
 		(!R2 (?X_F FENCE.N))
 		(!R3 (?X_K AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H (?X_K (THINK.V (THT (?X_K (CAN.MD (DO.V (ANY.D THING.N))))))))
@@ -63330,7 +62295,6 @@
 		(!R2 (?X_J TREE.N))
 		(!R3 (?X_H (PERTAIN-TO ?X_I)))
 		(!R4 (?X_I AGENT.N))
-		(!R5 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_I (THINK.V (THT (?X_I (CAN.MD (DO.V (ANY.D THING.N))))))))
@@ -63350,7 +62314,6 @@
 		(!R2 (?X_A BOY.N))
 		(!R3 (?X_A ((PASV NAME.V) ?X_B)))
 		(!R4 (?X_C PARK.N))
-		(!R5 (?X_C DESTINATION.N))
 	)
 	(:STEPS
 		(E4.SK (?X_A ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_C))
@@ -63369,7 +62332,6 @@
 		(!R3 (?X_I AIR.N))
 		(!R4 (?X_L FOOTBALL.N))
 		(!R5 (?X_O AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_O PLAY.2.V))
@@ -63430,7 +62392,6 @@
 		(!R3 (?X_E FOOTBALL.N))
 		(!R4 (?X_F (PERTAIN-TO ?X_I)))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_I PLAY.6.V))
@@ -63496,10 +62457,8 @@
 		(!R3 (?X_H (PLUR BOY.N)))
 		(!R4 (?X_P PARK.N))
 		(!R5 (?X_M FOOTBALL.N))
-		(!R6 (?X_P DESTINATION.N))
 		(!R7 (?X_Q AGENT.N))
 		(!R8 (?X_R AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_R ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_P))
@@ -63522,7 +62481,6 @@
 		(!R3 (?X_H TEAM.N))
 		(!R4 (?X_H (PERTAIN-TO ?X_L)))
 		(!R5 (?X_K FOOTBALL.N))
-		(!R6 (?X_K DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -63546,7 +62504,6 @@
 		(!R4 (?X_F (PERTAIN-TO ?X_G)))
 		(!R5 (?X_F AGENT.N))
 		(!R6 (?X_G AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_F (LOSE.V ?X_E)))
@@ -63565,9 +62522,7 @@
 		(!R3 (?X_J (PLUR GROCERY.N)))
 		(!R4 (?X_I HOME.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_K)))
-		(!R6 (?X_H DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?X_I DESTINATION.N))
 		(!R9 (?X_J SMALLER-THAN.N ?X_K))
 	)
 	(:STEPS
@@ -63606,7 +62561,6 @@
 		(!R1 (?X_C (PLUR GROCERY.N)))
 		(!R2 (?X_F FOOD.N))
 		(!R3 (?X_K (PLUR GROCERY.N)))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_L AGENT.N))
 		(!R6 (?L LOCATION.N))
 	)
@@ -63646,9 +62600,7 @@
 		(!R3 (?X_J (PLUR GROCERY.N)))
 		(!R4 (?X_I HOME.N))
 		(!R5 (?X_I (PERTAIN-TO ?X_K)))
-		(!R6 (?X_H DESTINATION.N))
 		(!R7 (?X_K AGENT.N))
-		(!R8 (?X_I DESTINATION.N))
 		(!R9 (?X_J SMALLER-THAN.N ?X_K))
 	)
 	(:STEPS
@@ -63671,7 +62623,6 @@
 		(!R4 (?X_L BASEBALL.N))
 		(!R5 (?X_O FIRST.A))
 		(!R6 (?X_O BASE.N))
-		(!R7 (?X_P DESTINATION.N))
 		(!R8 (?X_Q AGENT.N))
 	)
 	(:STEPS
@@ -63697,9 +62648,7 @@
 		(!R4 (?X_Q (PLUR BAG.N)))
 		(!R5 (?X_R TABLE.N))
 		(!R6 (?X_M DINNER.N))
-		(!R7 (?X_P DESTINATION.N))
 		(!R8 (?X_Q SMALLER-THAN.N ?X_S))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 (?X_R LOCATION.N))
 		(!R11 (?L LOCATION.N))
 		(!R12 (?X_S AGENT.N))
@@ -63773,8 +62722,6 @@
 	(:ROLES
 		(!R1 (?X_G BY.P))
 		(!R2 (?X_F BIRD.N))
-		(!R3 (?L2 DESTINATION.N))
-		(!R4 (?X_G DESTINATION.N))
 		(!R5 (?X_H AGENT.N))
 	)
 	(:STEPS
@@ -63794,7 +62741,6 @@
 		(!R3 (?X_A BEAUTIFUL.A))
 		(!R4 (?X_E HOUSE.N))
 		(!R5 (?X_E (PERTAIN-TO ?X_B)))
-		(!R6 (?X_E DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_A ((ADV-A (FROM.P ?L1)) FLY.1.V) ?X_E))
@@ -63816,7 +62762,6 @@
 		(!R7 (?X_F (PERTAIN-TO ?X_J)))
 		(!R8 (?X_I PERSON.N))
 		(!R9 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
-		(!R10 ((K (WHEN.P (?X_I ((ADV-A (NEAR.P ?X_J)) COME.V)))) DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C (HAVE.V ?X_J)))
@@ -63882,7 +62827,6 @@
 		(!R1 (?X_M BASEBALL.N))
 		(!R2 (?X_M BALL.N))
 		(!R3 (?X_P AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_P (THROW.V ?X_M)))
@@ -63975,7 +62919,6 @@
 		(!R2 (?X_F GOLF.N))
 		(!R3 (?X_I BALL.N))
 		(!R4 (?X_I SMALLER-THAN.N ?X_J))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_J AGENT.N))
 	)
 	(:STEPS
@@ -64039,7 +62982,6 @@
 		(!R5 (?X_H (PERTAIN-TO ?X_J)))
 		(!R6 (?X_I BOY.N))
 		(!R7 (?X_I ((PASV NAME.V) ?X_J)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_I ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
@@ -64129,7 +63071,6 @@
 		(!R5 (?X_N (PERTAIN-TO ?X_M)))
 		(!R6 (?X_J FATHER.N))
 		(!R7 (?X_J (PERTAIN-TO ?X_M)))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_M AGENT.N))
 		(!R10 (?X_N LOCATION.N))
 	)
@@ -64261,9 +63202,7 @@
 		(!R6 (?X_M HOUSE.N))
 		(!R7 (?X_M (PERTAIN-TO ?X_O)))
 		(!R8 (?X_J AGENT.N))
-		(!R9 (?L2 DESTINATION.N))
 		(!R10 ((SET-OF ?X_K ?X_L) OBJECT.N))
-		(!R11 (?X_M DESTINATION.N))
 		(!R12 (?X_O AGENT.N))
 		(!R13 (?X_N SMALLER-THAN.N ?X_O))
 	)
@@ -64491,11 +63430,9 @@
 		(!R5 (?X_N (PERTAIN-TO ?X_O)))
 		(!R6 (?X_L PARK.N))
 		(!R7 (?X_N AGENT.N))
-		(!R8 (?X_L DESTINATION.N))
 		(!R9 (?X_M ENTITY.N))
 		(!R10 (?X_M SMALLER-THAN.N ?X_N))
 		(!R11 (?X_O AGENT.N))
-		(!R12 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_H
@@ -64649,7 +63586,6 @@
 		(!R3 (?X_D (PLUR PARENT.N)))
 		(!R4 (?X_D (PERTAIN-TO ?X_G)))
 		(!R5 (?X_G AGENT.N))
-		(!R6 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_A (?X_C (AWAY.ADV MOVE.V)))
@@ -64921,7 +63857,6 @@
 		(!R6 (?X_K (SET-OF AGENT.N)))
 		(!R7 (?X_L TODAY.N))
 		(!R8 (?X_M (PLUR PERSON.N)))
-		(!R9 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B ((ADV-E ({DURING}.P ?X_L)) (?X_K (HAVE.V ?X_I))))
@@ -64962,11 +63897,9 @@
 		(!R3 (?X_L (PLUR PERSON.N)))
 		(!R4 (?X_I (OF.P ?X_L)))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?X_J DESTINATION.N))
 		(!R7 (NOT (?X_J ACTION.N)))
 		(!R8 (NOT (?X_J AGENT.N)))
 		(!R9 (?X_K AGENT.N))
-		(!R10 (?X_L DESTINATION.N))
 		(!R11 (NOT (?X_L = ?X_L)))
 	)
 	(:STEPS
@@ -64988,7 +63921,6 @@
 		(!R3 (?X_L (PLUR MEETING.N)))
 		(!R4 ((KA ((ADV-A (TO.P ?X_L)) GO.V)) ACTION.N))
 		(!R5 (?X_K AGENT.N))
-		(!R6 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_K (LIKE.V (KA ((ADV-A (TO.P ?X_H)) GO.V)))))
@@ -65026,7 +63958,6 @@
 		(!R3 (?X_B (PERTAIN-TO ?X_E)))
 		(!R4 (?X_F COLLEGE.N))
 		(!R5 (?X_E AGENT.N))
-		(!R6 (?X_F DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_E ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_F))
@@ -65073,7 +64004,6 @@
 		(!R4 (?X_H (PERTAIN-TO ?X_K)))
 		(!R5 (?X_L COLLEGE.N))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_K ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_L))
@@ -65133,7 +64063,6 @@
 		(!R9 (?X_J OBJECT.N))
 		(!R10 (NOT (?X_J ACTION.N)))
 		(!R11 (NOT (?X_J AGENT.N)))
-		(!R12 (?X_K DESTINATION.N))
 		(!R13 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -65327,7 +64256,6 @@
 		(!R2 (?X_C (PERTAIN-TO ?X_D)))
 		(!R3 (?X_E FUNERAL.A))
 		(!R4 (?X_E DIRECTOR.N))
-		(!R5 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C DIE.V))
@@ -65703,8 +64631,6 @@
 		(!R9 (?X_Q OBJECT.N))
 		(!R10 (NOT (?X_Q ACTION.N)))
 		(!R11 (NOT (?X_Q AGENT.N)))
-		(!R12 (?X_R DESTINATION.N))
-		(!R13 (?X_S DESTINATION.N))
 		(!R14 (?X_T AGENT.N))
 	)
 	(:STEPS
@@ -65731,7 +64657,6 @@
 		(!R5 (?X_K COAT.N))
 		(!R6 (?X_K (PERTAIN-TO ?X_Q)))
 		(!R7 (?X_L BILL.N))
-		(!R8 (?L2 DESTINATION.N))
 		(!R9 (?X_Q AGENT.N))
 	)
 	(:STEPS
@@ -65900,17 +64825,8 @@
 		(!R23 ((KA (PLAY.V ?X_ZP)) ACTION.N))
 		(!R24 (?X AGENT.N))
 		(!R25 (?X_ZQ OBJECT.N))
-		(!R26 (?X_ZR DESTINATION.N))
-		(!R27 (?X_ZS DESTINATION.N))
-		(!R28 (?X_ZT DESTINATION.N))
-		(!R29 (?X_ZU DESTINATION.N))
-		(!R30 (?X_ZV DESTINATION.N))
 		(!R31 (?L LOCATION.N))
 		(!R32 (?X_ZW AGENT.N))
-		(!R33 (?L2 DESTINATION.N))
-		(!R34 (?X_ZZ DESTINATION.N))
-		(!R35 (?X_ZX DESTINATION.N))
-		(!R36 (?X_ZY DESTINATION.N))
 		(!R37 (?X_ZZ AGENT.N))
 	)
 	(:STEPS
@@ -66052,7 +64968,6 @@
 		(!R3 (?X_G BALL.N))
 		(!R4 (?X_H (PLUR BOY.N)))
 		(!R5 (?X_K SOCCER.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 ((EACH.D OTHER.A) ENTITY.N))
 	)
 	(:STEPS
@@ -66078,7 +64993,6 @@
 		(!R4 (?X_J BIG.A))
 		(!R5 (?X_K ?X_J WAVE.N))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_G (?X_D ((ADV-A (FROM.P ?L1)) WALK.19.V) ?L2))
@@ -66098,10 +65012,8 @@
 	(:ROLES
 		(!R1 (?X_H BIG.A))
 		(!R2 (?X_I ?X_H WAVE.N))
-		(!R3 (?L2 DESTINATION.N))
 		(!R4 (?X_J AGENT.N))
 		(!R5 (?X_I AGENT.N))
-		(!R6 (?X_J DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_J ((ADV-A (FROM.P ?L1)) WALK.19.V) ?L2))
@@ -66128,7 +65040,6 @@
 		(!R6 (?X_M ?X_J WAVE.N))
 		(!R7 (?X_L BEACH.N))
 		(!R8 (?X_K AGENT.N))
-		(!R9 (?X_L DESTINATION.N))
 		(!R10 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -66148,7 +65059,6 @@
 		(!R1 (?X_C HAPPY.A))
 		(!R2 (?X_F BEACH.N))
 		(!R3 (?X_L OCEAN.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 		(!R6 ((KA ((ADV-A (BY.P ?X_L)) BE.V)) ACTION.N))
 	)
@@ -66170,7 +65080,6 @@
 		(!R1 (?X_D (PLUR SHELL.N)))
 		(!R2 (?X_G (PLUR LOT.N)))
 		(!R3 (?X_J ONE.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_M AGENT.N))
 	)
 	(:STEPS
@@ -66191,7 +65100,6 @@
 (EPI-SCHEMA ((?X_C ((ADV-A (FROM.P ?L2)) JUMP.V)) ** ?E)
 	(:ROLES
 		(!R1 (?X_C AGENT.N))
-		(!R2 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_B (?X_C ((ADV-A (FROM.P ?L1)) JUMP.28.V) ?L2))
@@ -66208,7 +65116,6 @@
 		(!R1 (?X_C (PLUR HOLE.N)))
 		(!R2 (?X_F (PLUR CASTLE.N)))
 		(!R3 (?X_I SAND.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_N AGENT.N))
 	)
 	(:STEPS
@@ -66230,9 +65137,7 @@
 		(!R2 (?X_F VACATION.N))
 		(!R3 (?X_L HOTEL.N))
 		(!R4 (?X_L ROOM.N))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_K AGENT.N))
-		(!R7 (?X_L DESTINATION.N))
 	)
 	(:STEPS
 		(?X_E (?X_K ((ADV-A (ON.P ?X_F)) BE.V)))
@@ -66257,7 +65162,6 @@
 		(!R5 (?X_I WORK.N))
 		(!R6 (?X_J HOME.N))
 		(!R7 (?X_J (PERTAIN-TO ?X_H)))
-		(!R8 (?X_J DESTINATION.N))
 		(!R9 (?X_I LOCATION.N))
 		(!R10 (NOT (?X_I = ?X_J)))
 	)
@@ -66379,7 +65283,6 @@
 		(!R1 (?X_G AGENT.N))
 		(!R2 ((SET-OF ?X_G ?X_H) AGENT.N))
 		(!R3 (?X_H AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D ((SET-OF ?X_G ?X_H) ((ADV-A (FROM.P ?L1)) GO.8.V) ?L2))
@@ -66459,8 +65362,6 @@
 		(!R6 (?X_O PARK.N))
 		(!R7 (?X_K (PLUR CHILD.N)))
 		(!R8 (?X_N AGENT.N))
-		(!R9 (?X_O DESTINATION.N))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_J (?X_N ((ADV-A (FROM.P ?L1)) WALK.11.V) ?X_O))
@@ -66489,7 +65390,6 @@
 		(!R5 (?X_J BOY.N))
 		(!R6 (?X_M (PERTAIN-TO ?X_S)))
 		(!R7 (?X_R PARK.N))
-		(!R8 (?X_R DESTINATION.N))
 		(!R9 (?X_S AGENT.N))
 		(!R10 ((TWO.D (L X (AND (X (PLUR BOY.N)) (X FIGHT.V)))) ENTITY.N))
 	)
@@ -66518,7 +65418,6 @@
 		(!R7 (?X_M AGENT.N))
 		(!R8 (?X_N LOCATION.N))
 		(!R9 (NOT (?X_N = ?L2)))
-		(!R10 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_M ((ADV-A (FROM.P ?L1)) WALK.14.V) ?L2))
@@ -66538,7 +65437,6 @@
 		(!R2 (?X_F (PLUR SWING.N)))
 		(!R3 (?X_I (PLUR LOT.N)))
 		(!R4 (?X_N PARK.N))
-		(!R5 (?X_N DESTINATION.N))
 		(!R6 (?X_O AGENT.N))
 		(!R7 (?Y ENTITY.N))
 	)
@@ -66559,7 +65457,6 @@
 		(!R1 (?X_C GOOD.A))
 		(!R2 (?X_C (PLUR KID.N)))
 		(!R3 (?X_F AGENT.N))
-		(!R4 (?L2 DESTINATION.N))
 		(!R5 (?X_K AGENT.N))
 		(!R6 ((TWO.D (L X (AND (X (PLUR BOY.N)) (X FIGHT.V)))) ENTITY.N))
 	)
@@ -66581,7 +65478,6 @@
 		(!R2 (?X_D (PLUR PARENT.N)))
 		(!R3 (?X_D (PERTAIN-TO ?X_H)))
 		(!R4 (?X_G (PLUR FRIEND.N)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 (?X_G OBJECT.N))
 		(!R7 (?X_H AGENT.N))
 	)
@@ -66830,7 +65726,6 @@
 		(!R7 (?X_O CAR.N))
 		(!R8 (?X_O (PERTAIN-TO ?X_P)))
 		(!R9 (?X_P SMALLER-THAN.N ?X_R))
-		(!R10 (?X_Q DESTINATION.N))
 		(!R11 (?X_R AGENT.N))
 	)
 	(:STEPS
@@ -66857,7 +65752,6 @@
 		(!R2 (?X_E DINNER.N))
 		(!R3 (?X_J WOMAN.N))
 		(!R4 (?X_K (PERTAIN-TO ?X_J)))
-		(!R5 (?L2 DESTINATION.N))
 		(!R6 ((KA WASH_UP.V) ACTION.N))
 		(!R7 (NOT (?X_J = ?X_K)))
 	)
@@ -67126,7 +66020,6 @@
 		(!R1 (?X_C DOG.N))
 		(!R2 (?X_D MAILMAN.N))
 		(!R3 (?N NOISE.N))
-		(!R4 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_F (?X_C BARK.19.V ?N))
@@ -67149,7 +66042,6 @@
 		(!R5 (?X_E (PERTAIN-TO ?X_I)))
 		(!R6 (?X_I AGENT.N))
 		(!R7 (?X_H SMALLER-THAN.N ?X_I))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_D (?X_E (SEND.V ?X_I ?X_H)))
@@ -67192,8 +66084,6 @@
 		(!R4 (?X_I (PERTAIN-TO ?X_J)))
 		(!R5 (?X_L MAILMAN.N))
 		(!R6 (?X_M TABLE.N))
-		(!R7 (?X_I DESTINATION.N))
-		(!R8 (?X_J DESTINATION.N))
 		(!R9 (?X_K SMALLER-THAN.N ?X_L))
 		(!R10 (?X_M LOCATION.N))
 	)
@@ -67246,7 +66136,6 @@
 		(!R4 (?X_K (FOR.P ?X_M)))
 		(!R5 (?X_L MAILMAN.N))
 		(!R6 (?X_K SMALLER-THAN.N ?X_L))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_M AGENT.N))
 		(!R9 (?L LOCATION.N))
 	)
@@ -67268,8 +66157,6 @@
 		(!R2 (?X_J POST.N))
 		(!R3 (?X_J OFFICE.N))
 		(!R4 (?X_K WOMAN.N))
-		(!R5 (?X_J DESTINATION.N))
-		(!R6 (?L2 DESTINATION.N))
 		(!R7 (?X_L AGENT.N))
 		(!R8 (NOT (?X_K = ?X_L)))
 		(!R9 (?A ACTION.N))
@@ -67396,7 +66283,6 @@
 		(!R5 (?X_I AGENT.N))
 		(!R6 (?X_H (PLUR PARENT.N)))
 		(!R7 (?X_H (PERTAIN-TO ?X_I)))
-		(!R8 (?L2 DESTINATION.N))
 	)
 	(:STEPS
 		(?X_K (?X_H ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
@@ -67458,7 +66344,6 @@
 		(!R3 (?X_M COUCH.N))
 		(!R4 (?X_N MAN.N))
 		(!R5 (?X_Q KITCHEN.N))
-		(!R6 (?X_Q DESTINATION.N))
 	)
 	(:STEPS
 		(?X_L (?X_N ((ADV-A (ON.P ?X_M)) SLEEP.V)))
@@ -67483,7 +66368,6 @@
 		(!R4 (?X_K PLAYING.N))
 		(!R5 (?X_K (PLUR FRIEND.N)))
 		(!R6 (?X_K (PERTAIN-TO ?X_L)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?X_L AGENT.N))
 	)
 	(:STEPS
@@ -67528,10 +66412,7 @@
              ** ?E)
 	(:ROLES
 		(!R1 (?X_O HOME.N))
-		(!R2 (?L2 DESTINATION.N))
-		(!R3 ((K (THERE.ADV LATE.A)) DESTINATION.N))
 		(!R4 (?X_N AGENT.N))
-		(!R5 (?X_O DESTINATION.N))
 	)
 	(:STEPS
 		(?X_I (?X_N ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
@@ -67556,7 +66437,6 @@
 		(!R4 (?X_M PARK.N))
 		(!R5 (?X_Q PLACE.N))
 		(!R6 (?X_Q (TO.P ?X_M)))
-		(!R7 (?L2 DESTINATION.N))
 		(!R8 (?Y ENTITY.N))
 		(!R9 (?L LOCATION.N))
 		(!R10 (?X_P AGENT.N))
@@ -67582,7 +66462,6 @@
 	(:ROLES
 		(!R1 (?X_J SCHOOL.N))
 		(!R2 (?X_G BUS.N))
-		(!R3 (?X_J DESTINATION.N))
 		(!R4 (?X_K AGENT.N))
 		(!R5 (?X_L AGENT.N))
 	)
@@ -67612,7 +66491,6 @@
 		(!R7 (?X_J (FOR.P ?X_M (KA ((ADV-A (UP.P ?X_L)) WALK.V)))))
 		(!R8 (?X_K AGENT.N))
 		(!R9 ((K (FOR.P ?X_M (KA ((ADV-A (UP.P ?X_L)) WALK.13.V)))) AGENT.N))
-		(!R10 (?L2 DESTINATION.N))
 		(!R11 (?X_M AGENT.N))
 		(!R12 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
 	)
@@ -67634,7 +66512,6 @@
 (EPI-SCHEMA ((?X_H (COMPOSITE-SCHEMA.PR ?X_C ?L2 ?Y ?L)) ** ?E)
 	(:ROLES
 		(!R1 (?X_C (THERE.ADV EARLY.A)))
-		(!R2 (?L2 DESTINATION.N))
 		(!R3 (?X_H AGENT.N))
 		(!R4 (?Y ENTITY.N))
 		(!R5 (?L LOCATION.N))

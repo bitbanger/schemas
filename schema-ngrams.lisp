@@ -1,14 +1,17 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
-(load "../ll-load.lisp")
+(load "ll-load.lisp")
 
-(ll-load "nesl-compos.lisp")
-(ll-load "test-generalize-matches.lisp")
+; (ll-load "nesl-compos.lisp")
+; (ll-load "test-generalize-matches.lisp")
 
-(ll-load-superdir "ll-util.lisp")
-(ll-load-superdir "schema-util.lisp")
+(ll-load-subdir "tests" "test-generalize-matches.lisp")
+; (ll-load-subdir "tests" "nesl-compos.lisp")
 
-(format t "~d~%" (length *NESL-COMPOS*))
+(ll-load "ll-util.lisp")
+(ll-load "schema-util.lisp")
+
+; (format t "~d~%" (length *NESL-COMPOS*))
 
 (ldefun strip-dot-tag (s)
 	(intern (car (split-str (string s) ".")))
@@ -117,11 +120,11 @@
 
 (setf counts (sort counts #'< :key (lambda (x) (length (second x)))))
 
-(return-from outer counts)
+; (loop for c in counts
+	; if (and (> (length (second c)) 1) (>= (length (car c)) 2))
+		; do (format t "~s - ~d occurrences~%" (car c) (length (second c))))
 
-;(loop for c in counts
-	;if (and (> (length (second c)) 1) (>= (length (car c)) 2))
-		;do (format t "~s - ~d occurrences~%" (car c) (length (second c))))
+(return-from outer counts)
 ))
 
 ; (extract-ngrams *NESL-COMPOS*)

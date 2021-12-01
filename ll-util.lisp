@@ -1585,3 +1585,10 @@ is replaced with replacement."
 		; else
 		(return-from outer 0.0))
 ))
+
+(ldefun write-str-to-file (s fn)
+	(with-open-file (output (pathname fn)
+				:direction :output
+				:if-exists :supersede)
+	  (format output "~a" s))
+)

@@ -1,8 +1,6 @@
-(format t "<! --- ")
+; (format t "<! --- ")
 
-(declaim (sb-ext:muffle-conditions cl:warning))
-
-(setf *random-state* (make-random-state t))
+; (setf *random-state* (make-random-state t))
 
 (load "ll-load.lisp")
 
@@ -10,7 +8,7 @@
 (ll-load "schema-util.lisp")
 (ll-load "verbalize-schemas.lisp")
 
-(format t " --- !>~%")
+; (format t " --- !>~%")
 
 (defparameter *SCHEMA-WEBPAGE-TEMPLATE* (join-str-list *NEWLINE-STR* '(
 "<html>"
@@ -33,6 +31,7 @@
 "    display: inline-block;"
 "    padding: 10px;"
 "    background: #EFE7DB;"
+"    flex: 1 1 auto;"
 "}"
 ".epi-schema {"
 "    font-weight: bold;"
@@ -196,6 +195,7 @@
 )
 
 (ldefun prop-html (prop var-color-map)
+(let ((var-color-map (if (null var-color-map) (make-hash-table :test #'equal) var-color-map)))
 (cond
 	((not (null (gethash prop var-color-map)))
 		; then
@@ -222,6 +222,17 @@
 		(format nil "<span style='color: #0000FF; font-weight: bold;'>~a</span>" prop))
 	(t
 		(format nil "~a" prop)))
+))
+
+(ldefun mk-var-color-map (vars)
+(block outer
+	(setf var-colors (n-colors (length vars)))
+	(setf var-color-map (mk-hashtable
+		(loop for i from 0 to (- (length vars) 1)
+			collect (list (nth i vars) (nth i var-colors)))))
+
+	(return-from outer var-color-map)
+)
 )
 
 (ldefun schema-html (schema)
@@ -230,17 +241,14 @@
 		if (and (listp sec) (equal (car sec) 'STEPS.))
 			collect sec)))))
 
-	(setf verbal-roles (cddr (car (loop for sec in (verbalize-schema schema)
-		if (and (listp sec) (equal (car sec) 'ADDITIONAL) (equal (second sec) 'ROLES.))
-			collect sec))))
+	;(setf verbal-roles (cddr (car (loop for sec in (verbalize-schema schema)
+		;if (and (listp sec) (equal (car sec) 'ADDITIONAL) (equal (second sec) 'ROLES.))
+			;collect sec))))
 
 	; (setf vars (dedupe (get-elements-pred schema #'varp)))
 	(setf vars (dedupe (mapcar #'car (mapcar #'second
 		(section-formulas (get-section schema ':Roles))))))
-	(setf var-colors (n-colors (length vars)))
-	(setf var-color-map (mk-hashtable
-		(loop for i from 0 to (- (length vars) 1)
-			collect (list (nth i vars) (nth i var-colors)))))
+	(setf var-color-map (mk-var-color-map vars))
 
 	(setf buf (list))
 
@@ -297,12 +305,35 @@
 )
 )
 
+(ldefun ngram-html (ngram ngram-page-fn ngram-schemas)
+	(format nil "<form method='get' action='~a'><button type='submit'><div class='eng' style='display: inline-block;'>~a</div></button></form>"
+		ngram-page-fn
+		(join-str-list "<br />"
+			(append
+				(loop for e in ngram collect (format nil "~a" e))
+				(list (format nil "<br /><span style='font-weight: bold; text-align: center;'>~d occurrences</span>" (length ngram-schemas))))))
+)
+
 (ldefun schema-webpage-html (schemas)
 	(format nil *SCHEMA-WEBPAGE-TEMPLATE*
 		(join-str-list "<br /><br />"
-			(mapcar #'schema-html schemas)))
+			(append
+				(list (format nil "<form method='get' action='index.html'><button type='submit'><div class='eng' style='display: inline-block;'>Return</div></button></form><br />"))
+				(list "<div style='display: flex; justify-content: space-between; flex-wrap: wrap;'>")
+				(mapcar #'schema-html schemas)
+				(list "</div>"))))
 )
 
-(load "tests/interesting-nesl-compos.lisp")
-(setf *NESL-COMPOS* (shuffle *NESL-COMPOS*))
-(format t "~a~%" (schema-webpage-html (subseq *NESL-COMPOS* 0 20)))
+(ldefun ngram-webpage-html (ngrams)
+	(format nil *SCHEMA-WEBPAGE-TEMPLATE*
+		(join-str-list *NEWLINE-STR* (list
+		"<div style='display: flex; justify-content: space-between; flex-wrap: wrap;'>"
+		(join-str-list "<br /><br />"
+			(loop for ng in ngrams
+				collect (ngram-html (caar ng) (second ng) (third ng))))
+		"</div>")))
+)
+
+; (load "tests/interesting-nesl-compos.lisp")
+; (setf *NESL-COMPOS* (shuffle *NESL-COMPOS*))
+; (format t "~a~%" (schema-webpage-html (subseq *NESL-COMPOS* 0 20)))

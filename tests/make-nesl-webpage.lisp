@@ -2,7 +2,7 @@
 
 (load "../ll-load.lisp")
 
-(ll-load "nesl-compos.lisp")
+(ll-load "interesting-nesl-compos.lisp")
 
 (ll-load-superdir "ll-util.lisp")
 (ll-load-superdir "schema-html-renderer.lisp")
@@ -19,6 +19,7 @@
 
 (loop for ngram in ngrams for i from 0
 	do (handler-case (block make-schema-page
+	; do (block make-schema-page
 		(setf schemas (second ngram))
 		(setf sch-html (schema-webpage-html schemas))
 		(setf fn (format nil "ngram-~d.html" i))
@@ -27,6 +28,7 @@
 			(list (list ngram fn schemas))))
 		(format t "~d / ~d~%" (+ i 1) (length ngrams))
 )
+	; )
 	(error () (format t "~d / ~d (ERROR)~%" (+ i 1) (length ngrams)))))
 
 (write-str-to-file (ngram-webpage-html ngrams-to-pages) "nesl-webpage/index.html")

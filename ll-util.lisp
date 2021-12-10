@@ -1592,3 +1592,32 @@ is replaced with replacement."
 				:if-exists :supersede)
 	  (format output "~a" s))
 )
+
+(ldefun read-str-from-file (fn)
+(block outer
+	(setf lines (list))
+
+	(with-open-file (stream fn)
+		(loop for line = (read-line stream nil)
+			until (null line)
+				do (setf lines (append lines
+					(list line)))))
+
+	(return-from outer (join-str-list *NEWLINE-STR* lines))
+)
+)
+
+(ldefun freq-dict (lst)
+(block outer
+	(setf freqs (make-hash-table :test #'equal))
+
+	(loop for e in lst
+		if (null (gethash e freqs))
+			do (setf (gethash e freqs) 1)
+		else
+			do (setf (gethash e freqs)
+				(+ 1 (gethash e freqs))))
+
+	(return-from outer freqs)
+)
+)

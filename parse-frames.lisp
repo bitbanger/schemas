@@ -18,6 +18,13 @@
 	(load "tmp-story-frames.lisp")
 )
 
+(setf start-idx 0)
+
+(if (>= (length sb-ext:*posix-argv*) 4)
+	; then
+	(setf start-idx (parse-integer (fourth sb-ext:*posix-argv*)))
+)
+
 (setf *HANDLE-ERRORS* t)
 
 ; (setf *DEBUG-SENTENCE* "Ben came home late at night.")
@@ -448,7 +455,7 @@
 )
 )
 
-(loop for story in (n-shuffles *ALL-STORY-FRAMES* *SEED*)
+(loop for story in (subseq (n-shuffles *ALL-STORY-FRAMES* *SEED*) start-idx (+ start-idx 20))
 	if *HANDLE-ERRORS*
 		do (handler-case (map-story-frames story)
 			(error () (format t "error~%")))

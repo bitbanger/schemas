@@ -407,7 +407,7 @@
 	(if (not (null (get-elements-pred best-header #'lex-skolem?)))
 		; then
 		(progn
-		(format t "ditching ~s~%" best-header)
+		; (format t "ditching ~s~%" best-header)
 		(return-from outer nil)
 		))
 

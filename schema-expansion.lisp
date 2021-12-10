@@ -16,6 +16,7 @@
 (block outer
 	; (setf invoked-schema (eval (prop-pred (second invoker))))
 	(setf invoked-schema (invoked-schema (second invoker) t))
+	; (format t "got invoked schema ~s~%" (schema-pred (invoked-schema (second invoker))))
 	(if (null invoked-schema)
 		(return-from outer nil))
 
@@ -102,6 +103,7 @@
 
 		; Collect fluent formulas as characterizations
 		(loop for sec in fluent-secs
+			if (not (equal (section-name sec) ':Paraphrases))
 			append (loop for form in (section-formulas sec)
 				; Take the formula no matter what...
 				collect (list (second form) '** (car form))
@@ -120,6 +122,7 @@
 									; (expand-nested-schema form schema)
 								)
 							)
+							(dbg 'expansion "expanding header ~s inside schema ~s~%" (second form) (schema-header schema))
 
 							(flatten-schema
 								(apply-bindings (car exp-pair) (second exp-pair))

@@ -131,6 +131,13 @@
 	(lambdify-preds-maybe-colon-with-sym ps colon (gensym))
 )
 
+(ldefun clear-registered-schemas ()
+(block outer
+	(setf *SCHEMAS-BY-PRED* (make-hash-table :test #'equal))
+	(setf *PREDS-BY-SCHEMA (make-hash-table :test #'equal))
+)
+)
+
 (ldefun register-schema (schema)
 (block outer
 	; (format t "~d schemas registered~%" (ht-count *PREDS-BY-SCHEMA*))
@@ -828,6 +835,9 @@
 			do (setf all-inds (remove-duplicates (append all-inds (extract-small-individuals phi)) :test #'equal))
 		)
 	)
+
+	(setf all-inds (dedupe (append all-inds (extract-small-individuals (schema-header schema)))))
+
 	(return-from outer all-inds)
 )
 )
@@ -1261,7 +1271,6 @@
 			(return-from gen-block)
 		)
 
-		; (format t "small ind ~s~%" si)
 		(if nil
 		(loop for constr in (schema-term-constraints schema si)
 			do (block cc
@@ -2263,6 +2272,7 @@
 	)
 (block outer
 	(if (or
+			(not (symbolp pred))
 			(null pred)
 			(member 'can.md (prop-mods phi) :test #'equal)
 		)

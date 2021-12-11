@@ -1141,7 +1141,7 @@
  )); end of mark-verb-number 
 
 
-(defun update-and-return-descr (term term-ht)
+(defun update-and-return-descr (term term-ht &optional stack)
 ;````````````````````````````````````````````
 ; term:  an atomic term, e.g., ?X, or VIOLINIST104.SK, YEHUDI.NAME, ...
 ;        the function is called only if term already has an entry for 
@@ -1178,7 +1178,7 @@
              (cond ((null same-type-terms); no prev. entity of this type?
                     (push term (gethash (cdr descr) term-ht)); omit determiner
                     ; recursive description completion
-                    (fully-expand-descr descr term-ht))
+                    (fully-expand-descr descr term-ht stack))
                    (t (setq n (length same-type-terms));
                       ; we use determiners like 'a_second, 'a_third',...,
                       ; depending on the n previous uses of the descriptor;
@@ -1193,7 +1193,7 @@
                            (t (car descr)))); give up counting after 3 more
                       (setq descr (cons det (cdr descr)))
                       (setf (gethash `(descr ,term) term-ht) descr)
-                      (fully-expand-descr descr term-ht))))
+                      (fully-expand-descr descr term-ht stack))))
             ((find (car descr); if previously mentioned but not rementioned,
                               ; change indefinite determiner to definite
                   '(a an some some_additional a_second a_third a_fourth))  
@@ -1209,14 +1209,14 @@
              (setq descr (cons det (cdr descr)))
 ;            (format t "~%#### update-and-return-descr: new descr = ~s" descr); DEBUG
              (setf (gethash `(descr ,term) term-ht) descr)
-             (fully-expand-descr descr term-ht))
+             (fully-expand-descr descr term-ht stack))
 
             ; previously mentioned & rementioned (so, already definite)
-            (t (fully-expand-descr descr term-ht)))
+            (t (fully-expand-descr descr term-ht stack)))
  )); end of update-and-return-descr
 
 
-(defun fully-expand-descr (descr term-ht)
+(defun fully-expand-descr (descr term-ht &optional stack)
 ; ``````````````````````````````````````````
 ; descr: e.g., (a person); (a friend of ?y); (the friend of Bob.name)
 ;
@@ -1225,14 +1225,17 @@
 ; E.g., obtain (a friend of the customer); (the friend of the person_named_Bob)
 ; 
  (let (term-descr)
-      (cond ((and (atom descr) 
+      (cond
+	((not (equal (length stack) (length (remove-duplicates stack :test #'equal))))
+		(list descr)) ; We're caught in an expansion loop, so terminate here
+	((and (atom descr)
                   (setq term-descr (gethash `(descr ,descr) term-ht)))
 ;            (format t "~%#### fully-expand-descr: descr = ~s" descr); DEBUG
 ;            (format t "~%#### fully-expand-descr: term-descr = ~s" term-descr); DEBUG
-             (update-and-return-descr descr term-ht)); here descr is a term
+             (update-and-return-descr descr term-ht stack)); here descr is a term
             ((atom descr) (list descr)); atom, but not EL-term (in term-ht)
             (t (apply #'append
-                 (mapcar #'(lambda (x) (fully-expand-descr x term-ht)) 
+                 (mapcar #'(lambda (x) (fully-expand-descr x term-ht (append stack (list descr)))) 
                            descr))))
  )); end of fully-expand-descr
 

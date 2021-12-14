@@ -33,7 +33,7 @@
 			(list schema))))
 )
 
-(ldefun mk-index-prop (prop constrs)
+(ldefun mk-index-prop (prop constrs &optional basic-levels)
 (block outer
 	(setf args (prop-all-args prop))
 	(setf argrcs (loop for arg in args
@@ -50,15 +50,21 @@
 
 	(setf index-prop (append (list (car argrcs) (prop-pred prop)) (cdr argrcs)))
 
+	(if basic-levels
+		(setf index-prop (loop for e in index-prop
+			if (lex-noun? e) collect (basic-level e)
+			else collect e)))
+
 	(if (loop for a in index-prop always (symbolp a))
 		; then
 		(setf index-prop (mapcar #'strip-dot-tag index-prop)))
+		; (setf index-prop index-prop))
 
 	(return-from outer index-prop)
 )
 )
 
-(ldefun extract-index-steps (schemas &optional keep-unindexed-steps)
+(ldefun extract-index-steps (schemas &optional keep-unindexed-steps basic-levels)
 (block outer
 	(setf step-lists (list))
 
@@ -77,10 +83,16 @@
 							collect a))
 					(setf index-prop (append (list (car argrcs) (prop-pred st)) (cdr argrcs)))
 
+					(if basic-levels
+						(setf index-prop (loop for e in index-prop
+							if (lex-noun? e) collect (basic-level e)
+							else collect e)))
+
 					(if (loop for a in index-prop always (symbolp a))
 						; then
 						; (format t "~s~%" (mapcar #'strip-dot-tag index-prop)))
 						(setf steps (append steps (list (mapcar #'strip-dot-tag index-prop))))
+						; (setf steps (append steps (list index-prop)))
 						; else
 						(if keep-unindexed-steps
 							(setf steps (append steps (list nil)))))
@@ -95,10 +107,10 @@
 
 ; (format t "~s~%" (max-all (mapcar #'length step-lists)))
 
-(ldefun extract-ngrams (schemas &optional min-length min-freq schema-protos hashtable)
+(ldefun extract-ngrams (schemas &optional min-length min-freq schema-protos hashtable basic-levels)
 (block outer
 
-(setf step-lists (extract-index-steps schemas))
+(setf step-lists (extract-index-steps schemas nil basic-levels))
 
 (setf ngrams (make-hash-table :test #'equal))
 (setf ngram-protos (make-hash-table :test #'equal))

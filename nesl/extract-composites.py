@@ -1,18 +1,19 @@
-import argparse
+def strip_ep_rels(schema):
+	lines = []
+	taking = True
+	for line in schema.split('\n'):
+		if 'EPISODE-' in line:
+			taking = False
+			continue
+		if (not taking) and line.strip() == ')':
+			taking = True
+			continue
+		if taking:
+			lines.append(line)
 
-parser = argparse.ArgumentParser()
+	return '\n'.join(lines)
 
-parser.add_argument('filename', type=str)
-
-parser.add_argument('--include_protos', dest='include_protos', action='store_true')
-
-parser.set_defaults(include_protos=False)
-
-args = parser.parse_args()
-
-with open(args.filename, 'r') as f:
-	lines = f.readlines()
-
+def extract_compos(lines, include_protos=False):
 	schema_proto_pairs = []
 
 	protos = []
@@ -57,33 +58,40 @@ with open(args.filename, 'r') as f:
 	protos = []
 	buf = []
 
-def strip_ep_rels(schema):
-	lines = []
-	taking = True
-	for line in schema.split('\n'):
-		if 'EPISODE-' in line:
-			taking = False
-			continue
-		if (not taking) and line.strip() == ')':
-			taking = True
-			continue
-		if taking:
-			lines.append(line)
+	return_str_buf = []
+	if include_protos:
+		for (schema, protos) in schema_proto_pairs:
+			return_str_buf.append('(')
+			return_str_buf.append('; compo')
+			compo = strip_ep_rels(schema)
+			if len(compo.strip()) > 0:
+				return_str_buf.append(compo)
+			else:
+				return_str_buf.append('nil')
+			return_str_buf.append('; protos')
+			return_str_buf.append('(')
+			for proto in protos:
+				return_str_buf.append('%s' % (strip_ep_rels(proto),))
+			return_str_buf.append(')')
+			return_str_buf.append(')\n')
+	else:
+		for schema in schemas:
+			return_str_buf.append(strip_ep_rels(schema))
+			return_str_buf.append('')
 
-	return '\n'.join(lines)
+	return '\n'.join(return_str_buf)
 
-if args.include_protos:
-	for (schema, protos) in schema_proto_pairs:
-		print('(')
-		print('; compo')
-		print('%s' % (strip_ep_rels(schema),))
-		print('; protos')
-		print('(')
-		for proto in protos:
-			print('%s' % (strip_ep_rels(proto),))
-		print(')')
-		print(')\n')
-else:
-	for schema in schemas:
-		print(strip_ep_rels(schema))
-		print('')
+if __name__ == '__main__':
+	import argparse
+
+	parser = argparse.ArgumentParser()
+
+	parser.add_argument('filename', type=str)
+
+	parser.add_argument('--include_protos', dest='include_protos', action='store_true')
+	parser.set_defaults(include_protos=False)
+
+	args = parser.parse_args()
+
+	with open(args.filename, 'r') as f:
+		print(extract_compos(f.readlines(), include_protos=args.include_protos))

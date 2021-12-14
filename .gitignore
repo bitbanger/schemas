@@ -21,3 +21,6 @@ __pycache__
 tmp
 */tmp
 .travis.yml
+lome_frame_parsing/lome-server-input
+lome_frame_parsing/lome-server-output
+lome_frame_parsing/lome-server-orig

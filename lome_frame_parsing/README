@@ -1,0 +1,5 @@
+This folder contains a Python xmlrpc server that takes a list of newline-separated stories and returns a Lisp file containing LOME-extracted frame data ready to be converted into EL schemas with parse-frames.lisp.
+
+The Dockerfile here specifies the image we used on Ubuntu 21.04 with an Nvidia RTX 3090 graphics card as its CUDA device. After building the Docker image yourself---potentially modifying the packages we add to work with your hardware---you will need to change the DOCKER_IMAGE_NAME variable in lome_server.py accordingly.
+
+This functionality is factored into an XMLRPC server because, while the Lisp portion of this project runs entirely on the CPU and should be executable on any modern machine, the LOME frame parsing component is best executed on a machine with a CUDA device.

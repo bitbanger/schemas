@@ -2,15 +2,22 @@
 
 (load "../ll-load.lisp")
 
-(ll-load "interesting-nesl-compos.lisp")
+; (ll-load "dec_10_compos_and_protos.lisp")
+
+(ll-load "nesl-compos.lisp")
 
 (ll-load-superdir "ll-util.lisp")
 (ll-load-superdir "schema-html-renderer.lisp")
 (ll-load-superdir "schema-ngrams.lisp")
+(ll-load-superdir "schema-subsumption.lisp")
+
+(setf *NESL-COMPOS* *NESL-COMPOS-AND-PROTOS*)
+
+(setf *NESL-COMPOS* (mapcar #'car *NESL-COMPOS*))
 
 (setf *NESL-COMPOS* (dedupe *NESL-COMPOS*))
 
-(setf ngrams (reverse (extract-ngrams (replace-vals 'AGENT.N 'PERSON.N *NESL-COMPOS*) 2 2)))
+(setf ngrams (replace-vals 'AGENT.N 'PERSON.N (reverse (extract-ngrams *NESL-COMPOS* 2 2 nil nil t))))
 
 (if (> (length sb-ext:*posix-argv*) 1)
 	(setf ngrams (subseq-safe ngrams 0 (parse-integer (second sb-ext:*posix-argv*)))))

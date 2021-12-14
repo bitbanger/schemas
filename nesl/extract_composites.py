@@ -29,7 +29,7 @@ def extract_compos(lines, include_protos=False):
 			continue
 		if taking and '-----' in line:
 			taking = False
-			schemas.append(''.join(buf).strip())
+			schemas.append('\n'.join(buf).strip())
 			schema_proto_pairs.append((schemas[-1], protos))
 			protos = []
 			buf = []
@@ -44,7 +44,7 @@ def extract_compos(lines, include_protos=False):
 			taking = False
 			taking_proto = False
 			buf.append(line)
-			protos.append(''.join(buf).strip())
+			protos.append('\n'.join(buf).strip())
 			buf = []
 			continue
 
@@ -53,7 +53,7 @@ def extract_compos(lines, include_protos=False):
 			buf.append(line)
 
 	if len(buf) > 0 or len(protos) > 0:
-		schemas.append(''.join(buf).strip())
+		schemas.append('\n'.join(buf).strip())
 		schema_proto_pairs.append((schemas[-1], protos))
 	protos = []
 	buf = []
@@ -81,6 +81,9 @@ def extract_compos(lines, include_protos=False):
 
 	return '\n'.join(return_str_buf)
 
+def strip_ending_newlines(lines):
+	return [line[:-1] if (len(line) > 0 and line[-1] == '\n') else line for line in lines]
+
 if __name__ == '__main__':
 	import argparse
 
@@ -94,4 +97,4 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	with open(args.filename, 'r') as f:
-		print(extract_compos(f.readlines(), include_protos=args.include_protos))
+		print(extract_compos(strip_ending_newlines(f.readlines()), include_protos=args.include_protos))

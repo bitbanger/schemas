@@ -25,12 +25,18 @@
 	(setf start-idx (parse-integer (fourth sb-ext:*posix-argv*)))
 )
 
+(setf num-frames 20)
+(if (>= (length sb-ext:*posix-argv*) 5)
+	; then
+	(setf num-frames (parse-integer (fifth sb-ext:*posix-argv*)))
+)
+
 (setf *HANDLE-ERRORS* t)
 
 ; (setf *DEBUG-SENTENCE* "Ben came home late at night.")
 (setf *DEBUG-SENTENCE* nil)
 
-(setf *DEBUG-OUTPUT* nil)
+(setf *DEBUG-OUTPUT* t)
 
 (if (not (null *DEBUG-SENTENCE*))
 	(setf *ALL-STORY-FRAMES* (loop for frame in *ALL-STORY-FRAMES*
@@ -455,7 +461,7 @@
 )
 )
 
-(loop for story in (subseq (n-shuffles *ALL-STORY-FRAMES* *SEED*) start-idx (+ start-idx 20))
+(loop for story in (subseq (n-shuffles *ALL-STORY-FRAMES* *SEED*) start-idx (+ start-idx (min num-frames (length *ALL-STORY-FRAMES*))))
 	if *HANDLE-ERRORS*
 		do (handler-case (map-story-frames story)
 			(error () (format t "error~%")))

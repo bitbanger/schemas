@@ -1,26 +1,3 @@
-TEST_LISP = r'''(epi-schema ((?x enjoy_action.v ?a) ** ?e)
-	(:Roles
-		(!r1 (?x agent.n))
-		(!r2 (?a action.n))
-	)
-
-	(:Necessities
-		(!n1 (!r1 necessary-to-degree 1.0))
-		(!n2 (!r2 necessary-to-degree 1.0))
-	)
-
-	(:Paraphrases
-		(?e (?x (want.v ?a)))
-		(?e (?x (like.v ?a)))
-		(?e (?x (love.v ?a)))
-		(?e (?x (enjoy.v ?a)))
-	)
-
-	(:Preconds
-		(?i1 (?x (think.v (that (?a fun.a)))))
-	)
-)'''
-
 def balanced_substr(s):
 	count = 1
 	for i in range(1, len(s)):
@@ -81,3 +58,45 @@ def parse_s_expr(s_expr):
 		item_buf = []
 
 	return items
+
+def list_to_s_expr(lst):
+	if type(lst) != list:
+		return str(lst)
+
+	buf = []
+
+	buf.append('(')
+	for i in range(len(lst)):
+		if i > 0:
+			buf.append(' ')
+		buf.append(list_to_s_expr(lst[i]))
+	buf.append(')')
+
+	return ''.join(buf)
+
+if __name__ == '__main__':
+	TEST_LISP = r'''(epi-schema ((?x enjoy_action.v ?a) ** ?e)
+		(:Roles
+			(!r1 (?x agent.n))
+			(!r2 (?a action.n))
+		)
+
+		(:Necessities
+			(!n1 (!r1 necessary-to-degree 1.0))
+			(!n2 (!r2 necessary-to-degree 1.0))
+		)
+
+		(:Paraphrases
+			(?e (?x (want.v ?a)))
+			(?e (?x (like.v ?a)))
+			(?e (?x (love.v ?a)))
+			(?e (?x (enjoy.v ?a)))
+		)
+
+		(:Preconds
+			(?i1 (?x (think.v (that (?a fun.a)))))
+		)
+	)'''
+
+	print(parse_s_expr(TEST_LISP))
+	print(list_to_s_expr(parse_s_expr(TEST_LISP)))

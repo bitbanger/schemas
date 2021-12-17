@@ -73,30 +73,3 @@ def list_to_s_expr(lst):
 	buf.append(')')
 
 	return ''.join(buf)
-
-if __name__ == '__main__':
-	TEST_LISP = r'''(epi-schema ((?x enjoy_action.v ?a) ** ?e)
-		(:Roles
-			(!r1 (?x agent.n))
-			(!r2 (?a action.n))
-		)
-
-		(:Necessities
-			(!n1 (!r1 necessary-to-degree 1.0))
-			(!n2 (!r2 necessary-to-degree 1.0))
-		)
-
-		(:Paraphrases
-			(?e (?x (want.v ?a)))
-			(?e (?x (like.v ?a)))
-			(?e (?x (love.v ?a)))
-			(?e (?x (enjoy.v ?a)))
-		)
-
-		(:Preconds
-			(?i1 (?x (think.v (that (?a fun.a)))))
-		)
-	)'''
-
-	print(parse_s_expr(TEST_LISP))
-	print(list_to_s_expr(parse_s_expr(TEST_LISP)))

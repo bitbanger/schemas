@@ -1,21 +1,41 @@
 from sexpr import parse_s_expr, list_to_s_expr as ls
 
-class Schema:
-	def __init__(self, schema_txt):
-		self.SEC_NAMES = [
-			'roles',
-			'goals',
-			'preconds',
-			'steps',
-			'postconds',
-			'paraphrases',
-			'episode-relations',
-			'certainties',
-			'necessities',
-			'subordinate-constraints'
-		]
+class ELFormula:
+	def __init__(self, formula_list):
+		self.formula = formula_list
 
-		s_expr = parse_s_expr(schema_txt)
+	def __str__(self):
+		return ls(self.formula)
+
+class SectionFormula:
+	def __init__(self, formula_list):
+		self.episode_id = formula_list[0]
+		self.formula = ELFormula(formula_list[1])
+
+	def __str__(self):
+		return '(%s %s)' % (self.episode_id, str(self.formula))
+
+class Section:
+	def __init__(self, section_list):
+		self.name = section_list[0][1:].lower()
+		self.formulas = []
+		for formula in section_list[1:]:
+			self.formulas.append(SectionFormula(formula))
+
+	def __str__(self):
+		buf = []
+
+		buf.append('\t(:%s%s' % (self.name[0].upper(), self.name[1:]))
+		for formula in self.formulas:
+			buf.append('\t\t%s' % formula)
+		buf.append('\t)')
+
+		return '\n'.join(buf)
+
+class Schema:
+	def __init__(self, s_expr):
+		if type(s_expr) == str:
+			s_expr = parse_s_expr(s_expr)
 
 		if s_expr[0].lower() != 'epi-schema':
 			return None
@@ -23,57 +43,20 @@ class Schema:
 		self.header_formula = s_expr[1][0]
 		self.header_episode = s_expr[1][2]
 
-		self.sections = dict()
+		self.sections = list()
 		for section in s_expr[2:]:
-			section_name = section[0][1:].lower()
-			section_formulas = []
-			for formula in section[1:]:
-				section_formulas.append(formula)
-			self.sections[section_name] = section_formulas
+			self.sections.append(Section(section))
 
 	def __str__(self):
 		buf = []
 
 		buf.append('(epi-schema (%s ** %s)' % (ls(self.header_formula), self.header_episode))
-		section_names = sorted(list(self.sections.keys()), key=lambda x: self.SEC_NAMES.index(x))
-		for i in range(len(section_names)):
+
+		for i in range(len(self.sections)):
 			if i > 0:
 				buf.append('')
-
-			section_name = section_names[i]
-
-			buf.append('\t(:%s%s' % (section_name[0].upper(), section_name[1:]))
-			section_formulas = self.sections[section_name]
-			for formula in section_formulas:
-				buf.append('\t\t%s' % ls(formula))
-			buf.append('\t)')
+			buf.append(str(self.sections[i]))
 
 		buf.append(')')
 
 		return '\n'.join(buf)
-
-if __name__ == '__main__':
-	TEST_LISP = r'''(epi-schema ((?x enjoy_action.v ?a) ** ?e)
-		(:Roles
-			(!r1 (?x agent.n))
-			(!r2 (?a action.n))
-		)
-
-		(:Necessities
-			(!n1 (!r1 necessary-to-degree 1.0))
-			(!n2 (!r2 necessary-to-degree 1.0))
-		)
-
-		(:Paraphrases
-			(?e (?x (want.v ?a)))
-			(?e (?x (like.v ?a)))
-			(?e (?x (love.v ?a)))
-			(?e (?x (enjoy.v ?a)))
-		)
-
-		(:Preconds
-			(?i1 (?x (think.v (that (?a fun.a)))))
-		)
-	)'''
-
-	print(Schema(TEST_LISP))

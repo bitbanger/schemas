@@ -61305,4 +61305,28777 @@
 	)
 	)
 	)
+	
+	
+	(
+	; compo
+	; "Eggs are hard."
+	; "You can break them easily."
+	; "You can smash an egg on the floor."
+	; "Or you can crack an egg over your head."
+	(EPI-SCHEMA ((?X_F (((ADV-A (ON.P ?X_C)) BREAK.V) ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G EGG.N))
+			(!R2 (?X_C FLOOR.N))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_H (PLUR EGG.N)))
+			(!R5 (?X_H HARD.A))
+		)
+		(:STEPS
+			(?X_E (?X_F BREAK.1.V ?X_H))
+			(?X_B (?X_F ((CAN.AUX ((ADV-A (ON.P ?X_C)) SMASH.V)) ?X_G)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((YOU.PRO BREAK.1.V EGG6.SK) ** E8.SK)
+		(:ROLES
+			(!R1 (YOU.PRO ENTITY.N))
+			(!R2 (EGG6.SK ENTITY.N))
+			(!R3 (EGG6.SK (PLUR EGG.N)))
+			(!R4 (EGG6.SK HARD.A))
+			(!R5 (YOU.PRO AGENT.N))
+		)
+		(:POSTCONDS
+			(?P1 (EGG6.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom broke an egg."
+	; "He cracked the shell."
+	; "He put the yolk in one bowl."
+	; "He put the white in another bowl."
+	; "He mixed them together."
+	; "He served the mixture on toast."
+	(EPI-SCHEMA ((?X_N ((TOGETHER.ADV MIX.V) ?X_R)) ** ?E)
+		(:ROLES
+			(!R1 (?X_Q MIXTURE.N))
+			(!R2 (?X_D TOAST.N))
+			(!R3 (?X_G MALE.A))
+			(!R4 (?X_G AGENT.N))
+			(!R5 (?X_O SHELL.N))
+			(!R6 (?X_R EGG.N))
+			(!R7 (?X_S YOLK.N))
+			(!R8 (?X_T BOWL.N))
+			(!R9 (?X_U WHITE.A))
+			(!R10 (?X_U {REF}.N))
+			(!R11 (?X_S ENTITY.N))
+			(!R12 (?X_T LOCATION.N))
+			(!R13 (?X_N AGENT.N))
+			(!R14 (?X_U ENTITY.N))
+			(!R15 ((ANOTHER.D BOWL.N) LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_N BREAK.1.V ?X_R))
+			(?X_I (?X_N (CRACK.V ?X_O)))
+			(?X_K (?X_N PUT.2.V ?X_S ?X_T))
+			(?X_M (?X_N PUT.3.V ?X_U (ANOTHER.D BOWL.N)))
+			(?X_F (?X_G ((TOGETHER.ADV MIX.V) ?X_P)))
+			(?X_C (?X_G (((ADV-A (ON.P ?X_D)) SERVE.V) ?X_Q)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME BREAK.1.V EGG27.SK) ** E28.SK)
+		(:ROLES
+			(!R1 (TOM.NAME ENTITY.N))
+			(!R2 (EGG27.SK ENTITY.N))
+			(!R3 (EGG27.SK EGG.N))
+			(!R4 (TOM.NAME AGENT.N))
+		)
+		(:POSTCONDS
+			(?P1 (EGG27.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.2.V YOLK33.SK BOWL34.SK) ** E35.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (YOLK33.SK ENTITY.N))
+			(!R3 (BOWL34.SK LOCATION.N))
+			(!R4 (YOLK33.SK YOLK.N))
+			(!R5 (BOWL34.SK BOWL.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (YOLK33.SK (AT.P BOWL34.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V YOLK33.SK)))
+			(?I2 (YOLK33.SK (NOT (AT.P BOWL34.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (YOLK33.SK (AT.P BOWL34.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.3.V {REF}39.SK (ANOTHER.D BOWL.N)) ** E38.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 ({REF}39.SK ENTITY.N))
+			(!R3 ((ANOTHER.D BOWL.N) LOCATION.N))
+			(!R4 ({REF}39.SK WHITE.A))
+			(!R5 ({REF}39.SK {REF}.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT ({REF}39.SK (AT.P (ANOTHER.D BOWL.N)))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V {REF}39.SK)))
+			(?I2 ({REF}39.SK (NOT (AT.P (ANOTHER.D BOWL.N)))))
+		)
+		(:POSTCONDS
+			(?P1 ({REF}39.SK (AT.P (ANOTHER.D BOWL.N))))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mark broke an egg on the kitchen floor."
+	; "He didn't want to eat the yolk."
+	; "He put the broken egg in a bowl."
+	; "He broke the other eggs."
+	; "He ate the yolks."
+	(EPI-SCHEMA ((?X_K (BREAK.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M YOLK.N))
+			(!R2 (?X_N EGG.N))
+			(!R3 (?X_O BOWL.N))
+			(!R4 (?X_P OTHER.A))
+			(!R5 (?X_P (PLUR EGG.N)))
+			(!R6 (?X_Q (PLUR YOLK.N)))
+			(!R7 (?X_K AGENT.N))
+			(!R8 (?X_M FOOD.N))
+			(!R9 (?X_O LOCATION.N))
+			(!R10 (?X_L AGENT.N))
+			(!R11 (?X_Q FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_K BREAK.1.V ?X_N))
+			(?X_B (NOT (?X_L (WANT.V (KA (EAT.V ?X_M))))))
+			(?E_1 (?X_K EAT.4.V ?X_M))
+			(?X_F (?X_L PUT.2.V ?X_N ?X_O))
+			(?X_H (?X_L BREAK.1.V ?X_P))
+			(?X_J (?X_L EAT.5.V ?X_Q))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARK.NAME BREAK.1.V EGG68.SK) ** E70.SK)
+		(:ROLES
+			(!R1 (MARK.NAME ENTITY.N))
+			(!R2 (EGG68.SK ENTITY.N))
+			(!R3 (MARK.NAME AGENT.N))
+			(!R4 (EGG68.SK EGG.N))
+		)
+		(:POSTCONDS
+			(?P1 (EGG68.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	(EPI-SCHEMA ((MARK.NAME EAT.4.V YOLK74.SK) ** ?E)
+		(:ROLES
+			(!R1 (MARK.NAME AGENT.N))
+			(!R2 (YOLK74.SK FOOD.N))
+			(!R3 (YOLK74.SK YOLK.N))
+		)
+		(:GOALS
+			(?G1 (MARK.NAME (WANT.V (THAT (NOT (MARK.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (MARK.NAME POSSESS.V YOLK74.SK))
+			(?I2 (MARK.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MARK.NAME (POSSESS.V YOLK74.SK))))
+			(?P2 (NOT (MARK.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO89.SK PUT.2.V EGG68.SK BOWL78.SK) ** E79.SK)
+		(:ROLES
+			(!R1 (HE-PRO89.SK AGENT.N))
+			(!R2 (EGG68.SK ENTITY.N))
+			(!R3 (BOWL78.SK LOCATION.N))
+			(!R4 (EGG68.SK EGG.N))
+			(!R5 (BOWL78.SK BOWL.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO89.SK (WANT.V (THAT (EGG68.SK (AT.P BOWL78.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO89.SK (POSSESS.V EGG68.SK)))
+			(?I2 (EGG68.SK (NOT (AT.P BOWL78.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (EGG68.SK (AT.P BOWL78.SK)))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO89.SK BREAK.1.V EGG84.SK) ** E83.SK)
+		(:ROLES
+			(!R1 (HE-PRO89.SK ENTITY.N))
+			(!R2 (EGG84.SK ENTITY.N))
+			(!R3 (HE-PRO89.SK AGENT.N))
+			(!R4 (EGG84.SK OTHER.A))
+			(!R5 (EGG84.SK (PLUR EGG.N)))
+		)
+		(:POSTCONDS
+			(?P1 (EGG84.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO89.SK EAT.5.V YOLK90.SK) ** E87.SK)
+		(:ROLES
+			(!R1 (HE-PRO89.SK AGENT.N))
+			(!R2 (YOLK90.SK FOOD.N))
+			(!R3 (YOLK90.SK (PLUR YOLK.N)))
+		)
+		(:GOALS
+			(?G1 (HE-PRO89.SK (WANT.V (THAT (NOT (HE-PRO89.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO89.SK POSSESS.V YOLK90.SK))
+			(?I2 (HE-PRO89.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO89.SK (POSSESS.V YOLK90.SK))))
+			(?P2 (NOT (HE-PRO89.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Aunt Betty broke an egg."
+	; "The yolk fell into the bowl."
+	; "She put the eggshells on the table."
+	(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C BOWL.N))
+			(!R2 (?X_G YOLK.N))
+			(!R3 (?X_F FEMALE.A))
+			(!R4 (?X_H (PLUR EGGSHELL.N)))
+			(!R5 (?X_I TABLE.N))
+			(!R6 (?X_I LOCATION.N))
+			(!R7 (?X_F AGENT.N))
+			(!R8 (?X_H ENTITY.N))
+		)
+		(:STEPS
+			(?X_B (?X_G ((ADV-A (INTO.P ?X_C)) FALL.V)))
+			(?X_E (?X_F PUT.2.V ?X_H ?X_I))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SHE.PRO PUT.2.V EGGSHELL116.SK TABLE114.SK) ** E115.SK)
+		(:ROLES
+			(!R1 (SHE.PRO AGENT.N))
+			(!R2 (EGGSHELL116.SK ENTITY.N))
+			(!R3 (TABLE114.SK LOCATION.N))
+			(!R4 (SHE.PRO FEMALE.A))
+			(!R5 (EGGSHELL116.SK (PLUR EGGSHELL.N)))
+			(!R6 (TABLE114.SK TABLE.N))
+		)
+		(:GOALS
+			(?G1 (SHE.PRO (WANT.V (THAT (EGGSHELL116.SK (AT.P TABLE114.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SHE.PRO (POSSESS.V EGGSHELL116.SK)))
+			(?I2 (EGGSHELL116.SK (NOT (AT.P TABLE114.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (EGGSHELL116.SK (AT.P TABLE114.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Beth broke an egg."
+	; "She cracked the shell."
+	; "She put the yolk in a bowl."
+	; "She added salt and pepper."
+	; "She stirred the mixture."
+	; "She poured some of the mixture on a plate."
+	; "She cooked the omelet."
+	(EPI-SCHEMA ((?X_R
+	              (COMPOSITE-SCHEMA.PR ?X_S ?X_T ?X_U ?X_V ?X_W ?X_X ?X_Y ?X_Z))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_W OMELET.N))
+			(!R2 (?X_C FEMALE.A))
+			(!R3 (?X_C AGENT.N))
+			(!R4 (?X_V {REF}.N))
+			(!R5 (?X_V (OF.P ?X_F)))
+			(!R6 (?X_G PLATE.N))
+			(!R7 (?X_U MIXTURE.N))
+			(!R8 (?X_S SHELL.N))
+			(!R9 (?X_X EGG.N))
+			(!R10 (?X_Y YOLK.N))
+			(!R11 (?X_Z BOWL.N))
+			(!R12 (?X_Y ENTITY.N))
+			(!R13 (?X_Z LOCATION.N))
+			(!R14 (?X_R AGENT.N))
+		)
+		(:STEPS
+			(?X_O (?X_R BREAK.1.V ?X_X))
+			(?X_M (?X_R (CRACK.V ?X_S)))
+			(?X_Q (?X_R PUT.2.V ?X_Y ?X_Z))
+			(?X_K (?X_R (ADD.V ?X_T)))
+			(?X_I (?X_R (STIR.V ?X_U)))
+			(?X_E (?X_R (((ADV-A (ON.P ?X_G)) POUR.V) ?X_V)))
+			(?X_B (?X_C (COOK.V ?X_W)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BETH.NAME BREAK.1.V EGG126.SK) ** E127.SK)
+		(:ROLES
+			(!R1 (BETH.NAME ENTITY.N))
+			(!R2 (EGG126.SK ENTITY.N))
+			(!R3 (EGG126.SK EGG.N))
+			(!R4 (BETH.NAME AGENT.N))
+		)
+		(:POSTCONDS
+			(?P1 (EGG126.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	(EPI-SCHEMA ((BETH.NAME PUT.2.V YOLK132.SK BOWL133.SK) ** E134.SK)
+		(:ROLES
+			(!R1 (BETH.NAME AGENT.N))
+			(!R2 (YOLK132.SK ENTITY.N))
+			(!R3 (BOWL133.SK LOCATION.N))
+			(!R4 (YOLK132.SK YOLK.N))
+			(!R5 (BOWL133.SK BOWL.N))
+		)
+		(:GOALS
+			(?G1 (BETH.NAME (WANT.V (THAT (YOLK132.SK (AT.P BOWL133.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BETH.NAME (POSSESS.V YOLK132.SK)))
+			(?I2 (YOLK132.SK (NOT (AT.P BOWL133.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (YOLK132.SK (AT.P BOWL133.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Aunt Betty broke an egg on the floor."
+	; "The egg cracked."
+	; "There were pieces of shell all over the floor."
+	; "She cleaned up the mess."
+	(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G EGG.N))
+			(!R2 (?X_H (PLUR PIECE.N)))
+			(!R3 (?X_H (OF.P ?X_D)))
+		)
+		(:STEPS
+			(?X_C (?X_G CRACK.V))
+			(?X_F (?X_A (BE.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Bill broke an egg."
+	; "He cracked the shell."
+	; "He put the egg on a plate."
+	; "He added salt and pepper."
+	; "He ate the egg."
+	(EPI-SCHEMA ((?X_J (ADD.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K SHELL.N))
+			(!R2 (?X_G BILL.N))
+			(!R3 (?X_M EGG.N))
+			(!R4 (?X_J AGENT.N))
+			(!R5 (?X_M FOOD.N))
+		)
+		(:STEPS
+			(?X_F (?X_G BREAK.1.V ?X_M))
+			(?X_D (?X_J (CRACK.V ?X_K)))
+			(?X_B (?X_J (ADD.V ?X_L)))
+			(?X_I (?X_J EAT.5.V ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BILL196.SK BREAK.1.V EGG193.SK) ** E194.SK)
+		(:ROLES
+			(!R1 (BILL196.SK ENTITY.N))
+			(!R2 (EGG193.SK ENTITY.N))
+			(!R3 (BILL196.SK BILL.N))
+			(!R4 (EGG193.SK EGG.N))
+		)
+		(:POSTCONDS
+			(?P1 (EGG193.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO208.SK EAT.5.V EGG193.SK) ** E207.SK)
+		(:ROLES
+			(!R1 (HE-PRO208.SK AGENT.N))
+			(!R2 (EGG193.SK FOOD.N))
+			(!R3 (EGG193.SK EGG.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO208.SK (WANT.V (THAT (NOT (HE-PRO208.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO208.SK POSSESS.V EGG193.SK))
+			(?I2 (HE-PRO208.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO208.SK (POSSESS.V EGG193.SK))))
+			(?P2 (NOT (HE-PRO208.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Aunt Sally broke an egg."
+	; "She cracked the shell."
+	; "She put the yolk in a bowl."
+	; "She stirred the mixture."
+	; "She poured the mixture into a pan."
+	(EPI-SCHEMA ((?X_A COMPOSITE-SCHEMA.PR) ** ?E)
+		(:STEPS
+			(E263.SK (?X_A PAN.V))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Eggs are white."
+	; "When an egg is broken, it becomes yellow."
+	; "An egg can be hard or soft."
+	; "You can break an egg by cracking it."
+	; "You can also break an egg by dropping it."
+	(EPI-SCHEMA ((?X_E (BREAK.V ?X_F)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F EGG.N))
+			(!R2 (?X_E AGENT.N))
+			(!R3 (?X_G EGG.N))
+		)
+		(:STEPS
+			(?X_D (?X_E BREAK.1.V ?X_G))
+			(?X_B
+	   (?X_E
+	    ((CAN.AUX (ALSO.ADV ((ADV-A (BY.P (KA (DROP.V ?X_F)))) BREAK.V))) ?X_F)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((YOU.PRO BREAK.1.V EGG286.SK) ** E287.SK)
+		(:ROLES
+			(!R1 (YOU.PRO ENTITY.N))
+			(!R2 (EGG286.SK ENTITY.N))
+			(!R3 (EGG286.SK EGG.N))
+			(!R4 (YOU.PRO AGENT.N))
+		)
+		(:POSTCONDS
+			(?P1 (EGG286.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tim broke a window."
+	; "He put a chair under the broken window."
+	; "He sat on the chair."
+	; "He was sad that he broke the window."
+	(EPI-SCHEMA ((?X_I (BREAK.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H SAD.A))
+			(!R2 (?X_J CHAIR.N))
+			(!R3 (?X_K WINDOW.N))
+			(!R4 (?X_K LOCATION.N))
+			(!R5 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_I (BREAK.V ?X_K)))
+			(?X_G (?X_I PUT.1.V ?X_J ?X_K))
+			(?X_E (?X_I ((ADV-A (ON.P ?X_J)) SIT.V)))
+			(?X_C (?X_I (BE.V ?X_H (THAT (?X_I (BREAK.V ?X_K))))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TIM.NAME PUT.1.V CHAIR7.SK WINDOW2.SK) ** E9.SK)
+		(:ROLES
+			(!R1 (TIM.NAME AGENT.N))
+			(!R2 (CHAIR7.SK ENTITY.N))
+			(!R3 (WINDOW2.SK LOCATION.N))
+			(!R4 (WINDOW2.SK WINDOW.N))
+			(!R5 (CHAIR7.SK CHAIR.N))
+		)
+		(:GOALS
+			(?G1 (TIM.NAME (WANT.V (THAT (CHAIR7.SK (AT.P WINDOW2.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TIM.NAME (POSSESS.V CHAIR7.SK)))
+			(?I2 (CHAIR7.SK (NOT (AT.P WINDOW2.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CHAIR7.SK (AT.P WINDOW2.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom broke a window."
+	; "He threw a rock through the window."
+	; "He smashed the glass."
+	; "He put some tape over the broken glass."
+	; "Tom was mad."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J ?X_K ?X_L ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K ROCK.N))
+			(!R2 (?X_J WINDOW.N))
+			(!R3 (?X_I MAD.A))
+			(!R4 (?X_L TAPE.N))
+			(!R5 (?X_M BROKEN.A))
+			(!R6 (?X_M GLASS.N))
+			(!R7 (?X_I AGENT.N))
+			(!R8 (?X_M LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_I (BREAK.V ?X_J)))
+			(?X_B (?X_I (((ADV-A (THROUGH.P ?X_J)) THROW.V) ?X_K)))
+			(?X_F (?X_I SMASH.2.V ?X_M))
+			(?X_H (?X_I PUT.1.V ?X_L ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME SMASH.2.V GLASS42.SK) ** E43.SK)
+		(:ROLES
+			(!R1 (TOM.NAME ENTITY.N))
+			(!R2 (GLASS42.SK ENTITY.N))
+			(!R3 (TOM.NAME AGENT.N))
+			(!R4 (TOM.NAME MAD.A))
+			(!R5 (GLASS42.SK BROKEN.A))
+			(!R6 (GLASS42.SK GLASS.N))
+		)
+		(:POSTCONDS
+			(?P1 (GLASS42.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.1.V TAPE45.SK GLASS42.SK) ** E47.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (TAPE45.SK ENTITY.N))
+			(!R3 (GLASS42.SK LOCATION.N))
+			(!R4 (TOM.NAME MAD.A))
+			(!R5 (GLASS42.SK BROKEN.A))
+			(!R6 (GLASS42.SK GLASS.N))
+			(!R7 (TAPE45.SK TAPE.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (TAPE45.SK (AT.P GLASS42.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V TAPE45.SK)))
+			(?I2 (TAPE45.SK (NOT (AT.P GLASS42.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TAPE45.SK (AT.P GLASS42.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom broke his arm."
+	; "He couldn't play baseball anymore."
+	; "He was sad."
+	; "Tom's mom came to pick him up."
+	; "Tom cried."
+	(EPI-SCHEMA ((?X_G (BREAK.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H ARM.N))
+			(!R2 (?X_I BASEBALL.N))
+			(!R3 (?X_D MOM.N))
+			(!R4 (?X_G SAD.A))
+			(!R5 (?X_G AGENT.N))
+			(!R6 (?X_H (PERTAIN-TO ?X_G)))
+			(!R7 (?X_D (PERTAIN-TO ?X_G)))
+		)
+		(:STEPS
+			(?X_A (?X_G (BREAK.V ?X_H)))
+			(E84.SK (NOT (?X_G ((CAN.MD (ANYMORE.ADV PLAY.V)) ?X_I))))
+			(?X_C (?X_D ((ADV-A (FOR.P (KA (PICK_UP.V ?X_G)))) COME.V)))
+			(?X_F (?X_G CRY.V))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The boy broke the window."
+	; "He smashed it with a rock."
+	; "He was mad."
+	; "He threw the rock away."
+	(EPI-SCHEMA ((?X_G (BREAK.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H ROCK.N))
+			(!R2 (?X_I WINDOW.N))
+			(!R3 (?X_G BOY.N))
+			(!R4 (?X_G MAD.A))
+		)
+		(:STEPS
+			(?X_D (?X_G (BREAK.V ?X_I)))
+			(?X_F (?X_G SMASH.2.V ?X_I))
+			(?X_B (?X_G ((AWAY.ADV THROW.V) ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY101.SK SMASH.2.V WINDOW103.SK) ** E107.SK)
+		(:ROLES
+			(!R1 (BOY101.SK ENTITY.N))
+			(!R2 (WINDOW103.SK ENTITY.N))
+			(!R3 (WINDOW103.SK WINDOW.N))
+			(!R4 (BOY101.SK BOY.N))
+			(!R5 (BOY101.SK MAD.A))
+			(!R6 (BOY101.SK AGENT.N))
+		)
+		(:POSTCONDS
+			(?P1 (WINDOW103.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man broke his leg."
+	; "He couldn't walk."
+	; "He called for help."
+	; "A neighbor came over."
+	; "He put the man on a stretcher."
+	; "He carried the man to an ambulance."
+	(EPI-SCHEMA ((?X_N (BREAK.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D HELP.N))
+			(!R2 (?X_L LEG.N))
+			(!R3 (?X_N MAN.N))
+			(!R4 (?X_L (PERTAIN-TO ?X_N)))
+			(!R5 (?X_M STRETCHER.N))
+			(!R6 (?X_K NEIGHBOR.N))
+			(!R7 (?X_O AMBULANCE.N))
+			(!R8 (?X_N DESTINATION.N))
+			(!R9 (?X_M LOCATION.N))
+			(!R10 (?X_O DESTINATION.N))
+			(!R11 (?X_N SMALLER-THAN.N ?X_K))
+		)
+		(:STEPS
+			(?X_A (?X_N (BREAK.V ?X_L)))
+			(E144.SK (NOT (?X_N (CAN.MD WALK.V))))
+			(?X_C (?X_N ((ADV-A (FOR.P ?X_D)) CALL.V)))
+			(?X_F (?X_K ((ADV-A (FROM.P ?L1)) COME_OVER.3.V) ?X_N))
+			(?X_H (?X_K PUT.1.V ?X_N ?X_M))
+			(?X_J (?X_K CARRY.4.V ?X_N ?X_O))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((NEIGHBOR133.SK ((ADV-A (FROM.P ?L1)) COME_OVER.3.V) MAN127.SK) **
+	             E135.SK)
+		(:ROLES
+			(!R1 (NEIGHBOR133.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (MAN127.SK LOCATION.N))
+			(!R4 (NOT (?L1 = MAN127.SK)))
+			(!R5 (MAN127.SK DESTINATION.N))
+			(!R6 (MAN127.SK AGENT.N))
+			(!R7 (MAN127.SK MAN.N))
+			(!R8 (NEIGHBOR133.SK NEIGHBOR.N))
+			(!R9 (LEG126.SK LEG.N))
+			(!R10 (LEG126.SK (PERTAIN-TO MAN127.SK)))
+		)
+		(:GOALS
+			(?G1 (NEIGHBOR133.SK (WANT.V (KA ((ADV-A (AT.P MAN127.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (NEIGHBOR133.SK (AT.P ?L1)))
+			(?I2 (NOT (NEIGHBOR133.SK (AT.P MAN127.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (NEIGHBOR133.SK (AT.P ?L1))))
+			(?P2 (NEIGHBOR133.SK (AT.P MAN127.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((NEIGHBOR133.SK PUT.1.V MAN127.SK STRETCHER138.SK) ** E139.SK)
+		(:ROLES
+			(!R1 (NEIGHBOR133.SK AGENT.N))
+			(!R2 (MAN127.SK ENTITY.N))
+			(!R3 (STRETCHER138.SK LOCATION.N))
+			(!R4 (MAN127.SK AGENT.N))
+			(!R5 (MAN127.SK MAN.N))
+			(!R6 (NEIGHBOR133.SK NEIGHBOR.N))
+			(!R7 (STRETCHER138.SK STRETCHER.N))
+			(!R8 (LEG126.SK LEG.N))
+			(!R9 (LEG126.SK (PERTAIN-TO MAN127.SK)))
+		)
+		(:GOALS
+			(?G1 (NEIGHBOR133.SK (WANT.V (THAT (MAN127.SK (AT.P STRETCHER138.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (NEIGHBOR133.SK (POSSESS.V MAN127.SK)))
+			(?I2 (MAN127.SK (NOT (AT.P STRETCHER138.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (MAN127.SK (AT.P STRETCHER138.SK)))
+		)
+	)
+	(EPI-SCHEMA ((NEIGHBOR133.SK CARRY.4.V MAN127.SK AMBULANCE142.SK) ** E143.SK)
+		(:ROLES
+			(!R1 (NEIGHBOR133.SK AGENT.N))
+			(!R2 (MAN127.SK ENTITY.N))
+			(!R3 (MAN127.SK SMALLER-THAN.N NEIGHBOR133.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (AMBULANCE142.SK LOCATION.N))
+			(!R6 (AMBULANCE142.SK DESTINATION.N))
+			(!R7 (MAN127.SK AGENT.N))
+			(!R8 (MAN127.SK MAN.N))
+			(!R9 (NEIGHBOR133.SK NEIGHBOR.N))
+			(!R10 (AMBULANCE142.SK AMBULANCE.N))
+			(!R11 (LEG126.SK LEG.N))
+			(!R12 (LEG126.SK (PERTAIN-TO MAN127.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (NEIGHBOR133.SK
+	    (WANT.V (THAT (MAN127.SK ((ADV-A (AT.P AMBULANCE142.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN127.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (NEIGHBOR133.SK (POSSESS.V MAN127.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MAN127.SK ((ADV-A (AT.P AMBULANCE142.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill broke a window."
+	; "He was angry."
+	; "He threw a rock through the window."
+	; "The glass shattered into pieces."
+	(EPI-SCHEMA ((?X_H (BREAK.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J ROCK.N))
+			(!R2 (?X_C ANGRY.A))
+			(!R3 (?X_C AGENT.N))
+			(!R4 (?X_I WINDOW.N))
+			(!R5 (?X_H BILL.N))
+			(!R6 (?X_K GLASS.N))
+		)
+		(:STEPS
+			(?X_E (?X_H (BREAK.V ?X_I)))
+			(?X_B (?X_C (((ADV-A (THROUGH.P ?X_I)) THROW.V) ?X_J)))
+			(?X_G (?X_K SHATTER.5.V ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((GLASS174.SK SHATTER.5.V GLASS174.SK) ** E176.SK)
+		(:ROLES
+			(!R1 (GLASS174.SK ENTITY.N))
+			(!R2 (GLASS174.SK GLASS.N))
+		)
+		(:POSTCONDS
+			(?P1 (GLASS174.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jack broke a window."
+	; "He threw a rock through the glass."
+	; "When he looked inside, he saw broken glass everywhere."
+	; "He yelled for his mom."
+	(EPI-SCHEMA ((?X_H (BREAK.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I WINDOW.N))
+			(!R2 (?X_D GLASS.N))
+			(!R3 (?X_J ROCK.N))
+			(!R4 (?X_H AGENT.N))
+			(!R5 (?X_G MOM.N))
+			(!R6 (?X_G (PERTAIN-TO ?X_H)))
+		)
+		(:STEPS
+			(?X_C (?X_H (BREAK.V ?X_I)))
+			(?X_F (?X_H (((ADV-A (THROUGH.P ?X_D)) THROW.V) ?X_J)))
+			(?X_A (?X_H ((ADV-A (FOR.P ?X_G)) YELL.V)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "A boy broke a window."
+	; "He was angry because someone broke his window."
+	; "Someone else broke a chair."
+	; "That person was also angry."
+	(EPI-SCHEMA ((?X_H (BREAK.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I WINDOW.N))
+			(!R2 (?X_H BOY.N))
+			(!R3 (?X_I (PERTAIN-TO ?X_H)))
+			(!R4 (?X_J ANGRY.A))
+			(!R5 (?X_K (BECAUSE.P (KE (?X_E (BREAK.V ?X_I))))))
+			(!R6 (?X_L CHAIR.N))
+		)
+		(:STEPS
+			(?X_D (?X_H (BREAK.V ?X_I)))
+			(?X_B (?X_H (BE.V ?X_J ?X_K)))
+			(?X_G (?X_A (BREAK.V ?X_L)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Carol broke the window."
+	; "She couldn't fix it."
+	; "Someone else fixed the window."
+	(EPI-SCHEMA ((?X_F (FIX.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F AGENT.N))
+			(!R2 (?X_G WINDOW.N))
+		)
+		(:STEPS
+			(?X_C (?X_F (BREAK.V ?X_G)))
+			(E275.SK (NOT (?X_F ((CAN.MD FIX.V) ?X_G))))
+			(?X_E (?X_A (FIX.V ?X_G)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom broke his arm."
+	; "He fell down."
+	; "He cried."
+	; "He screamed."
+	; "He was scared."
+	(EPI-SCHEMA ((?X_H FALL_DOWN.V) ** ?E)
+		(:ROLES
+			(!R1 (?X_I ARM.N))
+			(!R2 (?X_H SCARED.A))
+			(!R3 (?X_I (PERTAIN-TO ?X_H)))
+			(!R4 (?X_H AGENT.N))
+			(!R5 (?N NOISE.N))
+		)
+		(:STEPS
+			(?X_A (?X_H (BREAK.V ?X_I)))
+			(?X_C (?X_H (DOWN.ADV FALL.V)))
+			(?X_E (?X_H CRY.6.V))
+			(?X_G (?X_H SCREAM.7.V ?N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CRY.6.V) ** E290.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (TOM.NAME SCARED.A))
+			(!R3 (ARM285.SK ARM.N))
+			(!R4 (ARM285.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME SAD.A))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME SCREAM.7.V ?N) ** E292.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (TOM.NAME SCARED.A))
+			(!R4 (ARM285.SK ARM.N))
+			(!R5 (ARM285.SK (PERTAIN-TO TOM.NAME)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Sally brought her baby to the park."
+	; "She put the baby in a stroller."
+	; "She pushed the stroller through the park."
+	; "The baby cried."
+	(EPI-SCHEMA ((?X_H (((ADV-A (THROUGH.P ?X_I)) PUSH.V) ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K STROLLER.N))
+			(!R2 (?X_I PARK.N))
+			(!R3 (?X_J BABY.N))
+			(!R4 (?X_J (PERTAIN-TO ?X_H)))
+			(!R5 (?X_I DESTINATION.N))
+			(!R6 (?X_J SMALLER-THAN.N ?X_H))
+			(!R7 (?X_K LOCATION.N))
+			(!R8 (?X_H AGENT.N))
+			(!R9 (?N NOISE.N))
+		)
+		(:STEPS
+			(?X_A (?X_H BRING.1.V ?X_J ?X_I))
+			(?X_E (?X_H PUT.2.V ?X_J ?X_K))
+			(?X_C (?X_H (((ADV-A (THROUGH.P ?X_I)) PUSH.V) ?X_K)))
+			(?X_G (?X_J CRY.3.V ?N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME BRING.1.V BABY2.SK PARK4.SK) ** U1.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (BABY2.SK ENTITY.N))
+			(!R3 (BABY2.SK SMALLER-THAN.N SALLY.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (PARK4.SK LOCATION.N))
+			(!R6 (PARK4.SK DESTINATION.N))
+			(!R7 (PARK4.SK PARK.N))
+			(!R8 (BABY2.SK (PERTAIN-TO SALLY.NAME)))
+			(!R9 (BABY2.SK BABY.N))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (THAT (BABY2.SK ((ADV-A (AT.P PARK4.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY2.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (SALLY.NAME (POSSESS.V BABY2.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY2.SK ((ADV-A (AT.P PARK4.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME PUT.2.V BABY2.SK STROLLER7.SK) ** E8.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (BABY2.SK ENTITY.N))
+			(!R3 (STROLLER7.SK LOCATION.N))
+			(!R4 (BABY2.SK (PERTAIN-TO SALLY.NAME)))
+			(!R5 (BABY2.SK BABY.N))
+			(!R6 (STROLLER7.SK STROLLER.N))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (THAT (BABY2.SK (AT.P STROLLER7.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (POSSESS.V BABY2.SK)))
+			(?I2 (BABY2.SK (NOT (AT.P STROLLER7.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BABY2.SK (AT.P STROLLER7.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BABY2.SK CRY.3.V ?N) ** E15.SK)
+		(:ROLES
+			(!R1 (BABY2.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (BABY2.SK BABY.N))
+			(!R4 (BABY2.SK (PERTAIN-TO SALLY.NAME)))
+			(!R5 (SALLY.NAME AGENT.N))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman brought a baby to work."
+	; "She put the baby on a high chair."
+	; "She fed the baby milk."
+	; "She changed the diaper."
+	; "She sang to the baby."
+	; "She talked to the baby."
+	; "She played with the baby."
+	; "She held the baby close."
+	; "She kissed the baby."
+	; "She hugged the baby."
+	; "She rocked the baby."
+	; "She tickled the baby."
+	; "She read to the baby."
+	; "She told the baby stories."
+	; "She sang songs for the baby."
+	; "She played games with the baby."
+	; "She watched television with the baby."
+	; "She took the"
+	(EPI-SCHEMA ((?X_ZH
+	              (COMPOSITE-SCHEMA.PR ?X_ZI ?X_ZJ ?X_ZK ?X_ZL ?L2 ?X_ZM ?X_ZN))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_ZL TELEVISION.N))
+			(!R2 (?X_ZK (PLUR SONG.N)))
+			(!R3 (?X_ZJ BABY.N))
+			(!R4 (?X_ZJ (PLUR STORY.N)))
+			(!R5 (?X_ZN MILK.N))
+			(!R6 (?X_ZN BABY.N))
+			(!R7 (?X_ZI DIAPER.N))
+			(!R8 (?X_ZH WOMAN.N))
+			(!R9 (?X_ZM HIGH.A))
+			(!R10 (?X_ZM CHAIR.N))
+			(!R11 (?X_ZG (PLUR GAME.N)))
+			(!R12 (?X_ZN SMALLER-THAN.N ?X_ZH))
+			(!R13 (?L2 DESTINATION.N))
+			(!R14 (?X_ZM LOCATION.N))
+		)
+		(:STEPS
+			(?X_Z (?X_ZH BRING.4.V ?X_ZN ?L2))
+			(?X_ZB (?X_ZH PUT.2.V ?X_ZN ?X_ZM))
+			(?X_ZD (?X_ZH FED.5.V ?X_ZN))
+			(?X_X (?X_ZH (CHANGE.V ?X_ZI)))
+			(?X_V (?X_ZH ((ADV-A (TO.P ?X_ZN)) SING.V)))
+			(?X_T (?X_ZH ((ADV-A (TO.P ?X_ZN)) TALK.V)))
+			(?X_R (?X_ZH ((ADV-A (WITH.P ?X_ZN)) PLAY.V)))
+			(?X_P (?X_ZH (KISS.V ?X_ZN)))
+			(?X_N (?X_ZH (HUG.V ?X_ZN)))
+			(?X_L (?X_ZH (ROCK.V ?X_ZN)))
+			(?X_J (?X_ZH (TICKLE.V ?X_ZN)))
+			(?X_H (?X_ZH ((ADV-A (TO.P ?X_ZN)) READ.V)))
+			(?X_F (?X_ZH (TELL.V ?X_ZJ)))
+			(?X_D (?X_ZH (((ADV-A (FOR.P ?X_ZN)) SING.V) ?X_ZK)))
+			(?X_ZF (?X_ZH PLAY.6.V))
+			(?X_B (?X_ZH (((ADV-A (WITH.P ?X_ZN)) WATCH.V) ?X_ZL)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN26.SK BRING.4.V BABY28.SK ?L2) ** E29.SK)
+		(:ROLES
+			(!R1 (WOMAN26.SK AGENT.N))
+			(!R2 (BABY28.SK ENTITY.N))
+			(!R3 (BABY28.SK SMALLER-THAN.N WOMAN26.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (WOMAN26.SK WOMAN.N))
+			(!R8 (BABY28.SK MILK.N))
+			(!R9 (BABY28.SK BABY.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN26.SK (WANT.V (THAT (BABY28.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY28.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (WOMAN26.SK (POSSESS.V BABY28.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY28.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN26.SK PUT.2.V BABY28.SK CHAIR34.SK) ** E33.SK)
+		(:ROLES
+			(!R1 (WOMAN26.SK AGENT.N))
+			(!R2 (BABY28.SK ENTITY.N))
+			(!R3 (CHAIR34.SK LOCATION.N))
+			(!R4 (WOMAN26.SK WOMAN.N))
+			(!R5 (BABY28.SK MILK.N))
+			(!R6 (BABY28.SK BABY.N))
+			(!R7 (CHAIR34.SK HIGH.A))
+			(!R8 (CHAIR34.SK CHAIR.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN26.SK (WANT.V (THAT (BABY28.SK (AT.P CHAIR34.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN26.SK (POSSESS.V BABY28.SK)))
+			(?I2 (BABY28.SK (NOT (AT.P CHAIR34.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BABY28.SK (AT.P CHAIR34.SK)))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN26.SK FED.5.V BABY28.SK) ** E37.SK)
+		(:ROLES
+			(!R1 (WOMAN26.SK AGENT.N))
+			(!R2 (BABY28.SK FOOD.N))
+			(!R3 (WOMAN26.SK WOMAN.N))
+			(!R4 (BABY28.SK MILK.N))
+			(!R5 (BABY28.SK BABY.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN26.SK (WANT.V (THAT (NOT (WOMAN26.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN26.SK POSSESS.V BABY28.SK))
+			(?I2 (WOMAN26.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WOMAN26.SK (POSSESS.V BABY28.SK))))
+			(?P2 (NOT (WOMAN26.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN26.SK PLAY.6.V) ** E83.SK)
+		(:ROLES
+			(!R1 (WOMAN26.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (GAME85.SK GAME.N))
+			(!R5 (NOT (GAME85.SK AGENT.N)))
+			(!R6 (WOMAN26.SK WOMAN.N))
+			(!R7 (GAME85.SK (PLUR GAME.N)))
+		)
+		(:GOALS
+			(?G1 (WOMAN26.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN26.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (WOMAN26.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman brought a baby to her doctor."
+	; "The doctor examined the baby."
+	; "The doctor told the mother that the baby was fine."
+	; "The doctor asked if the mother would be able to take care of the baby."
+	; "The mother agreed."
+	(EPI-SCHEMA ((?X_J (((ADV-A (TO.P ?X_M)) BRING.V) ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K CARE.N))
+			(!R2 (?X_J WOMAN.N))
+			(!R3 (?X_J MOTHER.N))
+			(!R4 (?X_L BABY.N))
+			(!R5 (?X_M DOCTOR.N))
+			(!R6 (?X_M (PERTAIN-TO ?X_J)))
+			(!R7 (?X_M DESTINATION.N))
+			(!R8 (?X_L SMALLER-THAN.N ?X_J))
+		)
+		(:STEPS
+			(?X_A (?X_J BRING.1.V ?X_L ?X_M))
+			(?X_I (?X_M (EXAMINE.V ?X_L)))
+			(?X_G (?X_M (TELL.V ?X_J (THAT (?X_L FINE.A)))))
+			(?X_E
+	   (?X_M
+	    (ASK.V
+	     (K
+	      (IF.P
+	       (?X_J (WILL.MD (ABLE.A (KA (((ADV-A (OF.P ?X_L)) TAKE.V) ?X_K))))))))))
+			(?X_C (?X_J AGREE.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN152.SK BRING.1.V BABY154.SK DOCTOR151.SK) ** E150.SK)
+		(:ROLES
+			(!R1 (WOMAN152.SK AGENT.N))
+			(!R2 (BABY154.SK ENTITY.N))
+			(!R3 (BABY154.SK SMALLER-THAN.N WOMAN152.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (DOCTOR151.SK LOCATION.N))
+			(!R6 (DOCTOR151.SK DESTINATION.N))
+			(!R7 (WOMAN152.SK WOMAN.N))
+			(!R8 (WOMAN152.SK MOTHER.N))
+			(!R9 (BABY154.SK BABY.N))
+			(!R10 (DOCTOR151.SK (PERTAIN-TO WOMAN152.SK)))
+			(!R11 (DOCTOR151.SK DOCTOR.N))
+		)
+		(:GOALS
+			(?G1
+	   (WOMAN152.SK
+	    (WANT.V (THAT (BABY154.SK ((ADV-A (AT.P DOCTOR151.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY154.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (WOMAN152.SK (POSSESS.V BABY154.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY154.SK ((ADV-A (AT.P DOCTOR151.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A mother brought her baby to school."
+	; "The teacher asked the mother if the baby could sit on the desk."
+	; "The mother agreed."
+	; "The teacher told the other children not to bother the baby."
+	(EPI-SCHEMA ((?X_J
+	              ((ADV-A (FOR.P (KA (((ADV-A (TO.P ?X_J)) BRING.V) ?X_I))))
+	               AGREE.V))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_H DESK.N))
+			(!R2 (?X_I BABY.N))
+			(!R3 (?X_G MOTHER.N))
+			(!R4 (?X_I (PERTAIN-TO ?X_G)))
+			(!R5 (?X_F TEACHER.N))
+			(!R6 (?X_J SCHOOL.N))
+			(!R7 (?X_I SMALLER-THAN.N ?X_G))
+			(!R8 (?X_J DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_G BRING.1.V ?X_I ?X_J))
+			(?X_E
+	   (?X_F (ASK.V ?X_G (K (IF.P (?X_I (CAN.MD ((ADV-A (ON.P ?X_H)) SIT.V))))))))
+			(?X_C (?X_G AGREE.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOTHER187.SK BRING.1.V BABY186.SK SCHOOL190.SK) ** E185.SK)
+		(:ROLES
+			(!R1 (MOTHER187.SK AGENT.N))
+			(!R2 (BABY186.SK ENTITY.N))
+			(!R3 (BABY186.SK SMALLER-THAN.N MOTHER187.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (SCHOOL190.SK LOCATION.N))
+			(!R6 (SCHOOL190.SK DESTINATION.N))
+			(!R7 (MOTHER187.SK MOTHER.N))
+			(!R8 (SCHOOL190.SK SCHOOL.N))
+			(!R9 (BABY186.SK (PERTAIN-TO MOTHER187.SK)))
+			(!R10 (BABY186.SK BABY.N))
+		)
+		(:GOALS
+			(?G1
+	   (MOTHER187.SK
+	    (WANT.V (THAT (BABY186.SK ((ADV-A (AT.P SCHOOL190.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY186.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MOTHER187.SK (POSSESS.V BABY186.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY186.SK ((ADV-A (AT.P SCHOOL190.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A father brought his son to work."
+	; "The boy played on the computer."
+	; "The father worked on a project."
+	; "The father's boss came by."
+	; "The boss asked how things were going."
+	; "The father told the boss that everything was fine."
+	; "The boss left."
+	(EPI-SCHEMA ((?X_K ((BY.ADV BRING.V) ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K FATHER.N))
+			(!R2 (?X_L BOSS.N))
+			(!R3 (?X_L (PERTAIN-TO ?X_K)))
+			(!R4 (?X_H COMPUTER.N))
+			(!R5 (?X_M (PERTAIN-TO ?X_K)))
+			(!R6 (?X_M SMALLER-THAN.N ?X_K))
+			(!R7 (?L2 DESTINATION.N))
+			(!R8 (?X_L AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_K BRING.4.V ?X_M ?L2))
+			(?X_G (?X_M ((ADV-A (ON.P ?X_H)) PLAY.V)))
+			(?X_E (?X_L COME_BY.V))
+			(?X_C (?X_K (TELL.V ?X_L (THAT ((EVERY.D THING.N) FINE.A)))))
+			(?X_J (?X_L ((ADV-A (FROM.P ?L1)) LEAVE.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FATHER220.SK BRING.4.V SON219.SK ?L2) ** E218.SK)
+		(:ROLES
+			(!R1 (FATHER220.SK AGENT.N))
+			(!R2 (SON219.SK ENTITY.N))
+			(!R3 (SON219.SK SMALLER-THAN.N FATHER220.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (FATHER220.SK FATHER.N))
+			(!R8 (SON219.SK SON.N))
+			(!R9 (SON219.SK (PERTAIN-TO FATHER220.SK)))
+			(!R10 (SON219.SK BOY.N))
+			(!R11 (BOSS233.SK (PERTAIN-TO FATHER220.SK)))
+			(!R12 (BOSS233.SK BOSS.N))
+		)
+		(:GOALS
+			(?G1 (FATHER220.SK (WANT.V (THAT (SON219.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (SON219.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (FATHER220.SK (POSSESS.V SON219.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (SON219.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOSS233.SK ((ADV-A (FROM.P ?L1)) LEAVE.7.V) ?L2) ** E247.SK)
+		(:ROLES
+			(!R1 (BOSS233.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOSS233.SK BOSS.N))
+			(!R7 (FATHER220.SK AGENT.N))
+			(!R8 (BOSS233.SK (PERTAIN-TO FATHER220.SK)))
+			(!R9 (FATHER220.SK FATHER.N))
+			(!R10 (SON219.SK SON.N))
+			(!R11 (SON219.SK (PERTAIN-TO FATHER220.SK)))
+			(!R12 (SON219.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOSS233.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOSS233.SK (AT.P ?L1)))
+			(?I2 (NOT (BOSS233.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOSS233.SK (AT.P ?L1))))
+			(?P2 (BOSS233.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman brought a baby to school."
+	; "The baby cried all morning."
+	; "The baby's mother tried to quiet the baby."
+	; "The baby kept crying."
+	; "The teacher asked the mother if the baby could be quiet."
+	; "The mother said no."
+	; "The teacher told the mother that the baby would have to stay in the classroom until the end of school."
+	(EPI-SCHEMA ((?X_Q ((ADV-A (IN.P ?X_T)) CRY.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_U END.N))
+			(!R2 (?X_U (OF.P ?X_C)))
+			(!R3 (?X_T CLASSROOM.N))
+			(!R4 (?X_H TEACHER.N))
+			(!R5 (?X_V BABY.N))
+			(!R6 (?X_S MOTHER.N))
+			(!R7 (?X_S (PERTAIN-TO ?X_V)))
+			(!R8 (?X_W SCHOOL.N))
+			(!R9 (?X_Q WOMAN.N))
+			(!R10 (?X_W DESTINATION.N))
+			(!R11 (?X_V SMALLER-THAN.N ?X_Q))
+			(!R12 (?N NOISE.N))
+		)
+		(:STEPS
+			(?X_N (?X_Q BRING.1.V ?X_V ?X_W))
+			(?X_P (?X_V CRY.3.V ?N))
+			(?X_L (?X_S (TRY.V (KA (QUIET.V ?X_V)))))
+			(?X_J (?X_V ((ADV-A (FOR.P (KA CRY.V))) KEEP.V)))
+			(?X_G (?X_H (ASK.V ?X_S (K (IF.P (?X_V (CAN.MD QUIET.A)))))))
+			(?X_E (?X_S (SAY.V ?X_R)))
+			(?X_B
+	   (?X_H
+	    (TELL.V ?X_S
+	     (THAT
+	      (?X_V
+	       (WILL.MD
+	        (MUST.AUX-S ((ADV-A (IN.P ?X_T)) ((ADV-A (UNTIL.P ?X_U)) STAY.V)))))))))
+			(?E_1 (?X_Q CRY.8.V ?N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN257.SK BRING.1.V BABY259.SK SCHOOL262.SK) ** E260.SK)
+		(:ROLES
+			(!R1 (WOMAN257.SK AGENT.N))
+			(!R2 (BABY259.SK ENTITY.N))
+			(!R3 (BABY259.SK SMALLER-THAN.N WOMAN257.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (SCHOOL262.SK LOCATION.N))
+			(!R6 (SCHOOL262.SK DESTINATION.N))
+			(!R7 (SCHOOL262.SK SCHOOL.N))
+			(!R8 (WOMAN257.SK WOMAN.N))
+			(!R9 (BABY259.SK BABY.N))
+			(!R10 (MOTHER271.SK (PERTAIN-TO BABY259.SK)))
+			(!R11 (MOTHER271.SK MOTHER.N))
+		)
+		(:GOALS
+			(?G1
+	   (WOMAN257.SK
+	    (WANT.V (THAT (BABY259.SK ((ADV-A (AT.P SCHOOL262.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY259.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (WOMAN257.SK (POSSESS.V BABY259.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY259.SK ((ADV-A (AT.P SCHOOL262.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BABY259.SK CRY.3.V ?N) ** E265.SK)
+		(:ROLES
+			(!R1 (BABY259.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (BABY259.SK BABY.N))
+			(!R4 (MOTHER271.SK (PERTAIN-TO BABY259.SK)))
+			(!R5 (MOTHER271.SK MOTHER.N))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN257.SK CRY.8.V ?N) ** ?E)
+		(:ROLES
+			(!R1 (WOMAN257.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (WOMAN257.SK WOMAN.N))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A mother brought her baby to school."
+	; "The teacher asked if the mother could stay for a while."
+	; "The mother stayed until the end of the day."
+	(EPI-SCHEMA ((?X_E (((ADV-A (TO.P ?X_L)) BRING.V) ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 ((ADV-E (DURING ?X_D)) (?X_E OF.P)))
+			(!R2 (?X_E END.N))
+			(!R3 (?X_J WHILE.N))
+			(!R4 (?X_I MOTHER.N))
+			(!R5 (?X_H TEACHER.N))
+			(!R6 (?X_K BABY.N))
+			(!R7 (?X_K (PERTAIN-TO ?X_I)))
+			(!R8 (?X_L SCHOOL.N))
+			(!R9 (?X_K SMALLER-THAN.N ?X_I))
+			(!R10 (?X_L DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_I BRING.1.V ?X_K ?X_L))
+			(?X_G (?X_H (ASK.V (K (IF.P (?X_I (CAN.MD ((ADV-A (FOR.P ?X_J)) STAY.V))))))))
+			(?X_C (?X_I ((ADV-A (UNTIL.P ?X_E)) STAY.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOTHER305.SK BRING.1.V BABY304.SK SCHOOL308.SK) ** E303.SK)
+		(:ROLES
+			(!R1 (MOTHER305.SK AGENT.N))
+			(!R2 (BABY304.SK ENTITY.N))
+			(!R3 (BABY304.SK SMALLER-THAN.N MOTHER305.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (SCHOOL308.SK LOCATION.N))
+			(!R6 (SCHOOL308.SK DESTINATION.N))
+			(!R7 (MOTHER305.SK MOTHER.N))
+			(!R8 (SCHOOL308.SK SCHOOL.N))
+			(!R9 (BABY304.SK BABY.N))
+			(!R10 (BABY304.SK (PERTAIN-TO MOTHER305.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (MOTHER305.SK
+	    (WANT.V (THAT (BABY304.SK ((ADV-A (AT.P SCHOOL308.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY304.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MOTHER305.SK (POSSESS.V BABY304.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY304.SK ((ADV-A (AT.P SCHOOL308.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman brought a baby into the hospital."
+	; "The doctors were surprised."
+	; "They examined the baby."
+	; "They found that the baby was healthy."
+	; "They named the baby John."
+	; "John grew up."
+	(EPI-SCHEMA ((?X_M (((ADV-A (TO.P ?X_O)) BRING.V) ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M AGENT.N))
+			(!R2 (?X_N BABY.N))
+			(!R3 (?X_L (PLUR DOCTOR.N)))
+			(!R4 (?X_L SURPRISED.A))
+			(!R5 (?X_K WOMAN.N))
+			(!R6 (?X_O HOSPITAL.N))
+			(!R7 (?X_O DESTINATION.N))
+			(!R8 (?X_N SMALLER-THAN.N ?X_K))
+		)
+		(:STEPS
+			(?X_J (?X_K BRING.1.V ?X_N ?X_O))
+			(?X_H (?X_L (EXAMINE.V ?X_N)))
+			(?X_F (?X_L (FIND.V (THAT (?X_N HEALTHY.A)))))
+			(?X_D (?X_L (NAME.V ?X_N ?X_M)))
+			(?X_B (?X_N GROW_UP.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN331.SK BRING.1.V BABY333.SK HOSPITAL334.SK) ** E335.SK)
+		(:ROLES
+			(!R1 (WOMAN331.SK AGENT.N))
+			(!R2 (BABY333.SK ENTITY.N))
+			(!R3 (BABY333.SK SMALLER-THAN.N WOMAN331.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOSPITAL334.SK LOCATION.N))
+			(!R6 (HOSPITAL334.SK DESTINATION.N))
+			(!R7 (WOMAN331.SK WOMAN.N))
+			(!R8 (BABY333.SK BABY.N))
+			(!R9 (BABY333.SK AGENT.N))
+			(!R10 (HOSPITAL334.SK HOSPITAL.N))
+		)
+		(:GOALS
+			(?G1
+	   (WOMAN331.SK
+	    (WANT.V (THAT (BABY333.SK ((ADV-A (AT.P HOSPITAL334.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY333.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (WOMAN331.SK (POSSESS.V BABY333.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY333.SK ((ADV-A (AT.P HOSPITAL334.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman brought her baby to work."
+	; "She worked at a restaurant."
+	; "The baby cried all the time."
+	; "The mother had to feed the baby."
+	; "The baby was hungry."
+	; "The mother fed the baby."
+	(EPI-SCHEMA ((?X_I (((ADV-A (TO.P (KA WORK.V))) BRING.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I HUNGRY.A))
+			(!R2 (?X_I BABY.N))
+			(!R3 (?X_F RESTAURANT.N))
+			(!R4 (?X_H WOMAN.N))
+			(!R5 (?X_H MOTHER.N))
+			(!R6 (?X_I (PERTAIN-TO ?X_H)))
+			(!R7 (?X_G ((PASV FED.V) ?X_I)))
+			(!R8 (?L2 DESTINATION.N))
+			(!R9 (?X_I SMALLER-THAN.N ?X_H))
+		)
+		(:STEPS
+			(?X_A (?X_H BRING.4.V ?X_I ?L2))
+			(?X_E (?X_H ((ADV-A (AT.P ?X_F)) WORK.V)))
+			(?X_C (MUST.AUX-S (?X_H (FEED.V ?X_I))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN364.SK BRING.4.V BABY363.SK ?L2) ** E362.SK)
+		(:ROLES
+			(!R1 (WOMAN364.SK AGENT.N))
+			(!R2 (BABY363.SK ENTITY.N))
+			(!R3 (BABY363.SK SMALLER-THAN.N WOMAN364.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (WOMAN364.SK WOMAN.N))
+			(!R8 (WOMAN364.SK MOTHER.N))
+			(!R9 (BABY363.SK (PERTAIN-TO WOMAN364.SK)))
+			(!R10 (BABY363.SK HUNGRY.A))
+			(!R11 (BABY363.SK BABY.N))
+			(!R12 (OBJECT380.SK ((PASV FED.V) BABY363.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN364.SK (WANT.V (THAT (BABY363.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY363.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (WOMAN364.SK (POSSESS.V BABY363.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY363.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Dawn brought her friend into her house."
+	; "She showed her friend where everything was."
+	; "Dawn's friend sat on the couch."
+	; "Dawn put some food on the table for them both."
+	(EPI-SCHEMA ((?X_G (((ADV-A (TO.P ?X_J)) BRING.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D COUCH.N))
+			(!R2 (?X_H FRIEND.N))
+			(!R3 (?X_G DAWN.N))
+			(!R4 (?X_H (PERTAIN-TO ?X_G)))
+			(!R5 (?X_I FOOD.N))
+			(!R6 (?X_J HOUSE.N))
+			(!R7 (?X_J (PERTAIN-TO ?X_G)))
+			(!R8 (?X_H SMALLER-THAN.N ?X_G))
+			(!R9 (?X_J DESTINATION.N))
+			(!R10 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_G BRING.1.V ?X_H ?X_J))
+			(?X_C (?X_H ((ADV-A (ON.P ?X_D)) SIT.V)))
+			(?X_F (?X_G PUT.2.V ?X_I ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DAWN8.SK BRING.1.V FRIEND2.SK HOUSE3.SK) ** U1.SK)
+		(:ROLES
+			(!R1 (DAWN8.SK AGENT.N))
+			(!R2 (FRIEND2.SK ENTITY.N))
+			(!R3 (FRIEND2.SK SMALLER-THAN.N DAWN8.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOUSE3.SK LOCATION.N))
+			(!R6 (HOUSE3.SK DESTINATION.N))
+			(!R7 (DAWN8.SK DAWN.N))
+			(!R8 (FRIEND2.SK (PERTAIN-TO DAWN8.SK)))
+			(!R9 (FRIEND2.SK FRIEND.N))
+			(!R10 (HOUSE3.SK (PERTAIN-TO DAWN8.SK)))
+			(!R11 (HOUSE3.SK HOUSE.N))
+		)
+		(:GOALS
+			(?G1 (DAWN8.SK (WANT.V (THAT (FRIEND2.SK ((ADV-A (AT.P HOUSE3.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND2.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (DAWN8.SK (POSSESS.V FRIEND2.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND2.SK ((ADV-A (AT.P HOUSE3.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DAWN8.SK PUT.2.V FOOD19.SK HOUSE3.SK) ** E21.SK)
+		(:ROLES
+			(!R1 (DAWN8.SK AGENT.N))
+			(!R2 (FOOD19.SK ENTITY.N))
+			(!R3 (HOUSE3.SK LOCATION.N))
+			(!R4 (DAWN8.SK DAWN.N))
+			(!R5 (HOUSE3.SK (PERTAIN-TO DAWN8.SK)))
+			(!R6 (HOUSE3.SK HOUSE.N))
+			(!R7 (FOOD19.SK FOOD.N))
+			(!R8 (FRIEND2.SK (PERTAIN-TO DAWN8.SK)))
+			(!R9 (FRIEND2.SK FRIEND.N))
+		)
+		(:GOALS
+			(?G1 (DAWN8.SK (WANT.V (THAT (FOOD19.SK (AT.P HOUSE3.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (DAWN8.SK (POSSESS.V FOOD19.SK)))
+			(?I2 (FOOD19.SK (NOT (AT.P HOUSE3.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FOOD19.SK (AT.P HOUSE3.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A man brought his friend home."
+	; "He lived far away from home."
+	; "The man's friend had a cold."
+	; "The man put his friend on the couch."
+	; "He covered the friend with a blanket."
+	; "He turned off the lights."
+	; "Then, he left the room."
+	(EPI-SCHEMA ((?X_W (BRING.V ?X_S ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_T (PLUR LIGHT.N)))
+			(!R2 (?X_S FRIEND.N))
+			(!R3 (?X_G BLANKET.N))
+			(!R4 (?X_Q MAN.N))
+			(!R5 (?X_R COLD.N))
+			(!R6 (?X_J FRIEND.N))
+			(!R7 (?X_J (PERTAIN-TO ?X_Q)))
+			(!R8 (?X_W COUCH.N))
+			(!R9 (?X_V FRIEND.N))
+			(!R10 (?X_V (PERTAIN-TO ?X_Q)))
+			(!R11 (?X_U (PERTAIN-TO ?X_Q)))
+			(!R12 (?X_M FRIEND.N))
+			(!R13 (?X_U ?X_M HOME.N))
+			(!R14 (?X_P ROOM.N))
+			(!R15 (?X_U ENTITY.N))
+			(!R16 (?X_U SMALLER-THAN.N ?X_Q))
+			(!R17 (?L LOCATION.N))
+			(!R18 (?X_W LOCATION.N))
+			(!R19 (?X_P LOCATION.N))
+			(!R20 (NOT (?X_P = ?L2)))
+			(!R21 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_Q BRING.3.V ?X_U ?L2))
+			(?X_L (?X_Q LIVE.4.V ?L))
+			(?X_I (?X_J (HAVE.V ?X_R)))
+			(?X_B (?X_Q PUT.2.V ?X_V ?X_W))
+			(?X_F (?X_Q (((ADV-A (WITH.P ?X_G)) COVER.V) ?X_S)))
+			(?X_D (?X_Q (TURN_OFF.V ?X_T)))
+			(?X_O (?X_Q ((ADV-A (FROM.P ?X_P)) LEAVE.5.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN41.SK BRING.3.V E38.SK ?L2) ** E37.SK)
+		(:ROLES
+			(!R1 (MAN41.SK AGENT.N))
+			(!R2 (E38.SK ENTITY.N))
+			(!R3 (E38.SK SMALLER-THAN.N MAN41.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (MAN41.SK MAN.N))
+			(!R8 (E38.SK (PERTAIN-TO MAN41.SK)))
+			(!R9 (E38.SK FRIEND68.SK HOME.N))
+			(!R10 (FRIEND68.SK FRIEND.N))
+			(!R11 (FRIEND70.SK (PERTAIN-TO MAN41.SK)))
+			(!R12 (FRIEND70.SK FRIEND.N))
+			(!R13 (FRIEND72.SK (PERTAIN-TO MAN41.SK)))
+			(!R14 (FRIEND72.SK FRIEND.N))
+		)
+		(:GOALS
+			(?G1 (MAN41.SK (WANT.V (THAT (E38.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (E38.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MAN41.SK (POSSESS.V E38.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (E38.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN41.SK LIVE.4.V ?L) ** E44.SK)
+		(:ROLES
+			(!R1 (MAN41.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (?D SHELTER.N))
+			(!R4 (?D (AT.P ?L)))
+			(!R5 (MAN41.SK MAN.N))
+			(!R6 (E38.SK (PERTAIN-TO MAN41.SK)))
+			(!R7 (FRIEND70.SK (PERTAIN-TO MAN41.SK)))
+			(!R8 (FRIEND70.SK FRIEND.N))
+			(!R9 (FRIEND72.SK (PERTAIN-TO MAN41.SK)))
+			(!R10 (FRIEND72.SK FRIEND.N))
+			(!R11 (E38.SK FRIEND68.SK HOME.N))
+			(!R12 (FRIEND68.SK FRIEND.N))
+		)
+	)
+	(EPI-SCHEMA ((MAN41.SK PUT.2.V FRIEND72.SK COUCH55.SK) ** E39.SK)
+		(:ROLES
+			(!R1 (MAN41.SK AGENT.N))
+			(!R2 (FRIEND72.SK ENTITY.N))
+			(!R3 (COUCH55.SK LOCATION.N))
+			(!R4 (MAN41.SK MAN.N))
+			(!R5 (COUCH55.SK COUCH.N))
+			(!R6 (FRIEND72.SK (PERTAIN-TO MAN41.SK)))
+			(!R7 (FRIEND72.SK FRIEND.N))
+			(!R8 (E38.SK (PERTAIN-TO MAN41.SK)))
+			(!R9 (FRIEND70.SK (PERTAIN-TO MAN41.SK)))
+			(!R10 (FRIEND70.SK FRIEND.N))
+			(!R11 (E38.SK FRIEND68.SK HOME.N))
+			(!R12 (FRIEND68.SK FRIEND.N))
+		)
+		(:GOALS
+			(?G1 (MAN41.SK (WANT.V (THAT (FRIEND72.SK (AT.P COUCH55.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN41.SK (POSSESS.V FRIEND72.SK)))
+			(?I2 (FRIEND72.SK (NOT (AT.P COUCH55.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND72.SK (AT.P COUCH55.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MAN41.SK ((ADV-A (FROM.P ROOM65.SK)) LEAVE.5.V) ?L2) ** E66.SK)
+		(:ROLES
+			(!R1 (MAN41.SK AGENT.N))
+			(!R2 (ROOM65.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (ROOM65.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN41.SK MAN.N))
+			(!R7 (ROOM65.SK ROOM.N))
+			(!R8 (E38.SK (PERTAIN-TO MAN41.SK)))
+			(!R9 (FRIEND70.SK (PERTAIN-TO MAN41.SK)))
+			(!R10 (FRIEND70.SK FRIEND.N))
+			(!R11 (FRIEND72.SK (PERTAIN-TO MAN41.SK)))
+			(!R12 (FRIEND72.SK FRIEND.N))
+			(!R13 (E38.SK FRIEND68.SK HOME.N))
+			(!R14 (FRIEND68.SK FRIEND.N))
+		)
+		(:GOALS
+			(?G1 (MAN41.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN41.SK (AT.P ROOM65.SK)))
+			(?I2 (NOT (MAN41.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN41.SK (AT.P ROOM65.SK))))
+			(?P2 (MAN41.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Evelyn brought her cat inside."
+	; "The cat was hungry."
+	; "She fed the cat."
+	; "Then Evelyn put the cat on the bed."
+	(EPI-SCHEMA ((?X_F (((ADV-A (TO.P ?X_H)) BRING.V) ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G HUNGRY.A))
+			(!R2 (?X_G CAT.N))
+			(!R3 (?X_G (PERTAIN-TO ?X_F)))
+			(!R4 (?X_H BED.N))
+			(!R5 (?X_G SMALLER-THAN.N ?X_F))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (?X_H LOCATION.N))
+			(!R8 (?X_F AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_F BRING.3.V ?X_G ?L2))
+			(?X_C (?X_F (FED.V ?X_G)))
+			(?X_E (?X_F PUT.2.V ?X_G ?X_H))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((EVELYN.NAME BRING.3.V CAT96.SK ?L2) ** E95.SK)
+		(:ROLES
+			(!R1 (EVELYN.NAME AGENT.N))
+			(!R2 (CAT96.SK ENTITY.N))
+			(!R3 (CAT96.SK SMALLER-THAN.N EVELYN.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (CAT96.SK (PERTAIN-TO EVELYN.NAME)))
+			(!R8 (CAT96.SK HUNGRY.A))
+			(!R9 (CAT96.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (EVELYN.NAME (WANT.V (THAT (CAT96.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (CAT96.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (EVELYN.NAME (POSSESS.V CAT96.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (CAT96.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((EVELYN.NAME PUT.2.V CAT96.SK BED106.SK) ** E107.SK)
+		(:ROLES
+			(!R1 (EVELYN.NAME AGENT.N))
+			(!R2 (CAT96.SK ENTITY.N))
+			(!R3 (BED106.SK LOCATION.N))
+			(!R4 (CAT96.SK (PERTAIN-TO EVELYN.NAME)))
+			(!R5 (CAT96.SK HUNGRY.A))
+			(!R6 (CAT96.SK CAT.N))
+			(!R7 (BED106.SK BED.N))
+		)
+		(:GOALS
+			(?G1 (EVELYN.NAME (WANT.V (THAT (CAT96.SK (AT.P BED106.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (EVELYN.NAME (POSSESS.V CAT96.SK)))
+			(?I2 (CAT96.SK (NOT (AT.P BED106.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CAT96.SK (AT.P BED106.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman brought a baby inside."
+	; "The baby cried."
+	; "The mother tried to comfort the baby."
+	; "The baby stopped crying."
+	(EPI-SCHEMA ((?X_I (BRING.V ?X_I ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J BABY.N))
+			(!R2 (?X_I WOMAN.N))
+			(!R3 (?X_I MOTHER.N))
+			(!R4 (?X_J SMALLER-THAN.N ?X_I))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (?N NOISE.N))
+		)
+		(:STEPS
+			(?X_F (?X_I BRING.3.V ?X_J ?L2))
+			(?X_H (?X_J CRY.6.V ?N))
+			(?X_D (?X_I (TRY.V (KA (COMFORT.N ?X_J)))))
+			(?X_B (?X_J ((ADV-A (FOR.P (KA CRY.V))) STOP.V)))
+			(?E_1 (?X_I CRY.7.V ?N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN118.SK BRING.3.V BABY120.SK ?L2) ** E121.SK)
+		(:ROLES
+			(!R1 (WOMAN118.SK AGENT.N))
+			(!R2 (BABY120.SK ENTITY.N))
+			(!R3 (BABY120.SK SMALLER-THAN.N WOMAN118.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BABY120.SK BABY.N))
+			(!R8 (WOMAN118.SK WOMAN.N))
+			(!R9 (WOMAN118.SK MOTHER.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN118.SK (WANT.V (THAT (BABY120.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BABY120.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (WOMAN118.SK (POSSESS.V BABY120.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BABY120.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BABY120.SK CRY.6.V ?N) ** E124.SK)
+		(:ROLES
+			(!R1 (BABY120.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (BABY120.SK BABY.N))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN118.SK CRY.7.V ?N) ** ?E)
+		(:ROLES
+			(!R1 (WOMAN118.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (WOMAN118.SK WOMAN.N))
+			(!R4 (WOMAN118.SK MOTHER.N))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man brought his friend home."
+	; "He put his friend on the couch."
+	; "He sat down next to his friend."
+	; "The man's friend was tired."
+	; "He fell asleep."
+	; "The man left the room."
+	(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_N ?X_O ?X_P ?X_Q ?X_R ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_O ASLEEP.A))
+			(!R2 (?X_F FRIEND.N))
+			(!R3 (?X_N NEXT.A))
+			(!R4 (?X_M MAN.N))
+			(!R5 (?X_R COUCH.N))
+			(!R6 (?X_Q FRIEND.N))
+			(!R7 (?X_Q (PERTAIN-TO ?X_M)))
+			(!R8 (?X_G TIRED.A))
+			(!R9 (?X_G FRIEND.N))
+			(!R10 (?X_G (PERTAIN-TO ?X_M)))
+			(!R11 (?X_P (PERTAIN-TO ?X_M)))
+			(!R12 (?X_H FRIEND.N))
+			(!R13 (?X_P ?X_H HOME.N))
+			(!R14 (?X_I FRIEND.N))
+			(!R15 (?X_I (PERTAIN-TO ?X_M)))
+			(!R16 (?X_N (TO.P ?X_I)))
+			(!R17 (?X_P ENTITY.N))
+			(!R18 (?X_P SMALLER-THAN.N ?X_M))
+			(!R19 (?X_R LOCATION.N))
+			(!R20 ((K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N)))))) LOCATION.N))
+			(!R21 (NOT ((K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N)))))) = ?L2)))
+			(!R22 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_M BRING.3.V ?X_P ?L2))
+			(?X_B (?X_M PUT.2.V ?X_Q ?X_R))
+			(?X_C (?X_M (SIT_DOWN.V ?X_N)))
+			(?X_E (?X_F (FALL.V ?X_O)))
+			(?X_K
+	   (?X_M
+	    ((ADV-A (FROM.P (K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N))))))))
+	     LEAVE.9.V)
+	    ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME BRING.3.V FRIEND143.SK ?L2) ** E142.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (FRIEND143.SK ENTITY.N))
+			(!R3 (FRIEND143.SK SMALLER-THAN.N MARY.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (FRIEND143.SK (PERTAIN-TO MARY.NAME)))
+			(!R8 (FRIEND143.SK FRIEND.N))
+			(!R9 (SWEATER154.SK (PERTAIN-TO MARY.NAME)))
+			(!R10 (SWEATER154.SK SWEATER.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (FRIEND143.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND143.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MARY.NAME (POSSESS.V FRIEND143.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND143.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((FRIEND143.SK LIKE.8.V SWEATER154.SK) ** E158.SK)
+		(:ROLES
+			(!R1 (FRIEND143.SK AGENT.N))
+			(!R2 (NOT (SWEATER154.SK ACTION.N)))
+			(!R3 (NOT (SWEATER154.SK AGENT.N)))
+			(!R4 (SWEATER154.SK OBJECT.N))
+			(!R5 (FRIEND143.SK FRIEND.N))
+			(!R6 (SWEATER154.SK SWEATER.N))
+			(!R7 (SWEATER154.SK (PERTAIN-TO MARY.NAME)))
+			(!R8 (MARY.NAME AGENT.N))
+			(!R9 (FRIEND143.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND143.SK (WANT.V (KA (POSSESS.V SWEATER154.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((FRIEND143.SK LIKE.8.V SWEATER154.SK) ** E164.SK)
+		(:ROLES
+			(!R1 (FRIEND143.SK AGENT.N))
+			(!R2 (NOT (SWEATER154.SK ACTION.N)))
+			(!R3 (NOT (SWEATER154.SK AGENT.N)))
+			(!R4 (SWEATER154.SK OBJECT.N))
+			(!R5 (FRIEND143.SK FRIEND.N))
+			(!R6 (SWEATER154.SK SWEATER.N))
+			(!R7 (SWEATER154.SK (PERTAIN-TO MARY.NAME)))
+			(!R8 (MARY.NAME AGENT.N))
+			(!R9 (FRIEND143.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND143.SK (WANT.V (KA (POSSESS.V SWEATER154.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN183.SK BRING.3.V E178.SK ?L2) ** E177.SK)
+		(:ROLES
+			(!R1 (MAN183.SK AGENT.N))
+			(!R2 (E178.SK ENTITY.N))
+			(!R3 (E178.SK SMALLER-THAN.N MAN183.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (MAN183.SK MAN.N))
+			(!R8 (E178.SK (PERTAIN-TO MAN183.SK)))
+			(!R9 (E178.SK FRIEND200.SK HOME.N))
+			(!R10 (FRIEND200.SK FRIEND.N))
+			(!R11 (FRIEND202.SK (PERTAIN-TO MAN183.SK)))
+			(!R12 (FRIEND202.SK FRIEND.N))
+			(!R13 (FRIEND205.SK (PERTAIN-TO MAN183.SK)))
+			(!R14 (FRIEND205.SK FRIEND.N))
+			(!R15 (FRIEND208.SK TIRED.A))
+			(!R16 (FRIEND208.SK (PERTAIN-TO MAN183.SK)))
+			(!R17 (FRIEND208.SK FRIEND.N))
+			(!R18 (NEXT206.SK (TO.P FRIEND205.SK)))
+			(!R19 (NEXT206.SK NEXT.A))
+		)
+		(:GOALS
+			(?G1 (MAN183.SK (WANT.V (THAT (E178.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (E178.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MAN183.SK (POSSESS.V E178.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (E178.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN183.SK PUT.2.V FRIEND202.SK COUCH186.SK) ** E179.SK)
+		(:ROLES
+			(!R1 (MAN183.SK AGENT.N))
+			(!R2 (FRIEND202.SK ENTITY.N))
+			(!R3 (COUCH186.SK LOCATION.N))
+			(!R4 (MAN183.SK MAN.N))
+			(!R5 (COUCH186.SK COUCH.N))
+			(!R6 (FRIEND202.SK (PERTAIN-TO MAN183.SK)))
+			(!R7 (FRIEND202.SK FRIEND.N))
+			(!R8 (E178.SK (PERTAIN-TO MAN183.SK)))
+			(!R9 (FRIEND205.SK (PERTAIN-TO MAN183.SK)))
+			(!R10 (FRIEND205.SK FRIEND.N))
+			(!R11 (FRIEND208.SK TIRED.A))
+			(!R12 (FRIEND208.SK (PERTAIN-TO MAN183.SK)))
+			(!R13 (FRIEND208.SK FRIEND.N))
+			(!R14 (E178.SK FRIEND200.SK HOME.N))
+			(!R15 (FRIEND200.SK FRIEND.N))
+			(!R16 (NEXT206.SK (TO.P FRIEND205.SK)))
+			(!R17 (NEXT206.SK NEXT.A))
+		)
+		(:GOALS
+			(?G1 (MAN183.SK (WANT.V (THAT (FRIEND202.SK (AT.P COUCH186.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN183.SK (POSSESS.V FRIEND202.SK)))
+			(?I2 (FRIEND202.SK (NOT (AT.P COUCH186.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND202.SK (AT.P COUCH186.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MAN183.SK
+	              ((ADV-A
+	                (FROM.P (K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N))))))))
+	               LEAVE.9.V)
+	              ?L2)
+	             ** E198.SK)
+		(:ROLES
+			(!R1 (MAN183.SK AGENT.N))
+			(!R2 ((K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N)))))) LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT ((K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N)))))) = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN183.SK MAN.N))
+			(!R7 (E178.SK (PERTAIN-TO MAN183.SK)))
+			(!R8 (FRIEND202.SK (PERTAIN-TO MAN183.SK)))
+			(!R9 (FRIEND202.SK FRIEND.N))
+			(!R10 (FRIEND205.SK (PERTAIN-TO MAN183.SK)))
+			(!R11 (FRIEND205.SK FRIEND.N))
+			(!R12 (FRIEND208.SK TIRED.A))
+			(!R13 (FRIEND208.SK (PERTAIN-TO MAN183.SK)))
+			(!R14 (FRIEND208.SK FRIEND.N))
+			(!R15 (E178.SK FRIEND200.SK HOME.N))
+			(!R16 (FRIEND200.SK FRIEND.N))
+			(!R17 (NEXT206.SK (TO.P FRIEND205.SK)))
+			(!R18 (NEXT206.SK NEXT.A))
+		)
+		(:GOALS
+			(?G1 (MAN183.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN183.SK (AT.P (K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N)))))))))
+			(?I2 (NOT (MAN183.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1
+	   (NOT (MAN183.SK (AT.P (K (L X (AND (X NEXT.A) (X (TO.P (K FRIEND.N))))))))))
+			(?P2 (MAN183.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Aunt Mary brought her dog inside."
+	; "The dog wanted to play."
+	; "Mary let the dog out."
+	; "The dog ran around outside."
+	(EPI-SCHEMA ((?X_F (OUTSIDE.ADV (AROUND.ADV RUN.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_F DOG.N))
+			(!R2 (?X_C OUTSIDE.N))
+		)
+		(:STEPS
+			(?X_B (?X_F (WANT.V (KA PLAY.V))))
+			(?X_E (?X_F ((ADV-A (AROUND.P ?X_C)) RUN.V)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The man brought his dog inside."
+	; "The dog jumped on the couch."
+	; "The man put down some food for the dog."
+	; "The man's wife came home."
+	; "The dog ran away."
+	(EPI-SCHEMA ((?X_N (BRING.V ?X_N ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L FOOD.N))
+			(!R2 (?X_M DOG.N))
+			(!R3 (?X_K MAN.N))
+			(!R4 (?X_M (PERTAIN-TO ?X_K)))
+			(!R5 (?X_N HOME.N))
+			(!R6 (?X_J WIFE.N))
+			(!R7 (?X_J (PERTAIN-TO ?X_K)))
+			(!R8 (?X_N (PERTAIN-TO ?X_J)))
+			(!R9 (?X_M SMALLER-THAN.N ?X_K))
+			(!R10 (?X_N DESTINATION.N))
+			(!R11 (?X_J LOCATION.N))
+			(!R12 (NOT (?X_J = ?L2)))
+			(!R13 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_K BRING.3.V ?X_M ?L2))
+			(?X_E (?X_M ((ADV-A (FROM.P ?L1)) JUMP.10.V) ?L2))
+			(?X_C (?X_K (((ADV-A (FOR.P ?X_M)) PUT_DOWN.V) ?X_L)))
+			(?X_G (?X_J ((ADV-A (FROM.P ?L1)) COME.11.V) ?X_N))
+			(?X_I (?X_M ((ADV-A (FROM.P ?X_J)) RUN_AWAY.12.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN248.SK BRING.3.V DOG247.SK ?L2) ** E246.SK)
+		(:ROLES
+			(!R1 (MAN248.SK AGENT.N))
+			(!R2 (DOG247.SK ENTITY.N))
+			(!R3 (DOG247.SK SMALLER-THAN.N MAN248.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (MAN248.SK MAN.N))
+			(!R8 (DOG247.SK (PERTAIN-TO MAN248.SK)))
+			(!R9 (DOG247.SK DOG.N))
+			(!R10 (WIFE263.SK WIFE.N))
+			(!R11 (WIFE263.SK (PERTAIN-TO MAN248.SK)))
+			(!R12 (HOME268.SK (PERTAIN-TO WIFE263.SK)))
+			(!R13 (HOME268.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (MAN248.SK (WANT.V (THAT (DOG247.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (DOG247.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MAN248.SK (POSSESS.V DOG247.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (DOG247.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG247.SK ((ADV-A (FROM.P ?L1)) JUMP.10.V) ?L2) ** E253.SK)
+		(:ROLES
+			(!R1 (DOG247.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG247.SK DOG.N))
+			(!R7 (MAN248.SK AGENT.N))
+			(!R8 (DOG247.SK (PERTAIN-TO MAN248.SK)))
+			(!R9 (MAN248.SK MAN.N))
+			(!R10 (WIFE263.SK WIFE.N))
+			(!R11 (WIFE263.SK (PERTAIN-TO MAN248.SK)))
+			(!R12 (HOME268.SK (PERTAIN-TO WIFE263.SK)))
+			(!R13 (HOME268.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (DOG247.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG247.SK (AT.P ?L1)))
+			(?I2 (NOT (DOG247.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG247.SK (AT.P ?L1))))
+			(?P2 (DOG247.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WIFE263.SK ((ADV-A (FROM.P ?L1)) COME.11.V) HOME268.SK) **
+	             E261.SK)
+		(:ROLES
+			(!R1 (WIFE263.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME268.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME268.SK)))
+			(!R5 (HOME268.SK DESTINATION.N))
+			(!R6 (HOME268.SK HOME.N))
+			(!R7 (HOME268.SK (PERTAIN-TO WIFE263.SK)))
+			(!R8 (WIFE263.SK WIFE.N))
+			(!R9 (MAN248.SK AGENT.N))
+			(!R10 (WIFE263.SK (PERTAIN-TO MAN248.SK)))
+			(!R11 (MAN248.SK MAN.N))
+			(!R12 (DOG247.SK (PERTAIN-TO MAN248.SK)))
+			(!R13 (DOG247.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (WIFE263.SK (WANT.V (KA ((ADV-A (AT.P HOME268.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (WIFE263.SK (AT.P ?L1)))
+			(?I2 (NOT (WIFE263.SK (AT.P HOME268.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WIFE263.SK (AT.P ?L1))))
+			(?P2 (WIFE263.SK (AT.P HOME268.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG247.SK ((ADV-A (FROM.P WIFE263.SK)) RUN_AWAY.12.V) ?L2) **
+	             E266.SK)
+		(:ROLES
+			(!R1 (DOG247.SK AGENT.N))
+			(!R2 (WIFE263.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (WIFE263.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG247.SK DOG.N))
+			(!R7 (WIFE263.SK WIFE.N))
+			(!R8 (MAN248.SK AGENT.N))
+			(!R9 (DOG247.SK (PERTAIN-TO MAN248.SK)))
+			(!R10 (WIFE263.SK (PERTAIN-TO MAN248.SK)))
+			(!R11 (MAN248.SK MAN.N))
+			(!R12 (HOME268.SK (PERTAIN-TO WIFE263.SK)))
+			(!R13 (HOME268.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (DOG247.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG247.SK (AT.P WIFE263.SK)))
+			(?I2 (NOT (DOG247.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG247.SK (AT.P WIFE263.SK))))
+			(?P2 (DOG247.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman brought her son into a restaurant."
+	; "There were many tables in the restaurant."
+	; "The mother sat down with her son."
+	; "The waiter came over."
+	(EPI-SCHEMA ((?X_M (((ADV-A (TO.P ?X_L)) BRING.V) ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K SON.N))
+			(!R2 (?X_M WOMAN.N))
+			(!R3 (?X_M MOTHER.N))
+			(!R4 (?X_K (PERTAIN-TO ?X_M)))
+			(!R5 (?X_F MANY.A))
+			(!R6 (?X_J ?X_F (PLUR TABLE.N)))
+			(!R7 (?X_L RESTAURANT.N))
+			(!R8 (?X_J (IN.P ?X_L)))
+			(!R9 (?X_G WAITER.N))
+			(!R10 (?X_K SMALLER-THAN.N ?X_M))
+			(!R11 (?X_L DESTINATION.N))
+			(!R12 (?X_M DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_M BRING.1.V ?X_K ?X_L))
+			(?X_E (?X_A (BE.V ?X_J)))
+			(?X_C (?X_M (DOWN.ADV ((ADV-A (WITH.P ?X_K)) SIT.V))))
+			(?X_I (?X_G ((ADV-A (FROM.P ?L1)) COME_OVER.13.V) ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN283.SK BRING.1.V SON280.SK RESTAURANT285.SK) ** E279.SK)
+		(:ROLES
+			(!R1 (WOMAN283.SK AGENT.N))
+			(!R2 (SON280.SK ENTITY.N))
+			(!R3 (SON280.SK SMALLER-THAN.N WOMAN283.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (RESTAURANT285.SK LOCATION.N))
+			(!R6 (RESTAURANT285.SK DESTINATION.N))
+			(!R7 (WOMAN283.SK WOMAN.N))
+			(!R8 (WOMAN283.SK MOTHER.N))
+			(!R9 (RESTAURANT285.SK RESTAURANT.N))
+			(!R10 (SON280.SK (PERTAIN-TO WOMAN283.SK)))
+			(!R11 (SON280.SK SON.N))
+			(!R12 (OBJECT288.SK (IN.P RESTAURANT285.SK)))
+			(!R13 (OBJECT288.SK MANY296.SK (PLUR TABLE.N)))
+			(!R14 (MANY296.SK MANY.A))
+		)
+		(:GOALS
+			(?G1
+	   (WOMAN283.SK
+	    (WANT.V (THAT (SON280.SK ((ADV-A (AT.P RESTAURANT285.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (SON280.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (WOMAN283.SK (POSSESS.V SON280.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (SON280.SK ((ADV-A (AT.P RESTAURANT285.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WAITER292.SK ((ADV-A (FROM.P ?L1)) COME_OVER.13.V) WOMAN283.SK)
+	             ** E294.SK)
+		(:ROLES
+			(!R1 (WAITER292.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (WOMAN283.SK LOCATION.N))
+			(!R4 (NOT (?L1 = WOMAN283.SK)))
+			(!R5 (WOMAN283.SK DESTINATION.N))
+			(!R6 (WOMAN283.SK WOMAN.N))
+			(!R7 (WOMAN283.SK MOTHER.N))
+			(!R8 (WOMAN283.SK AGENT.N))
+			(!R9 (WAITER292.SK WAITER.N))
+			(!R10 (SON280.SK (PERTAIN-TO WOMAN283.SK)))
+			(!R11 (SON280.SK SON.N))
+		)
+		(:GOALS
+			(?G1 (WAITER292.SK (WANT.V (KA ((ADV-A (AT.P WOMAN283.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (WAITER292.SK (AT.P ?L1)))
+			(?I2 (NOT (WAITER292.SK (AT.P WOMAN283.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WAITER292.SK (AT.P ?L1))))
+			(?P2 (WAITER292.SK (AT.P WOMAN283.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man brought his son into the house."
+	; "The boy played on the floor."
+	; "The man put down some food for them to eat."
+	; "The boy ate his food."
+	; "Then they watched TV together."
+	(EPI-SCHEMA ((?X_K (BRING.V ?X_K ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E FLOOR.N))
+			(!R2 (?X_H AGENT.N))
+			(!R3 (?X_L (FOR.P ?X_H (KA EAT.V))))
+			(!R4 (?X_K HOUSE.N))
+			(!R5 (?X_I MAN.N))
+			(!R6 (?X_J (PERTAIN-TO ?X_I)))
+			(!R7 (?X_M (PERTAIN-TO ?X_J)))
+			(!R8 (?X_K DESTINATION.N))
+			(!R9 (?X_J SMALLER-THAN.N ?X_I))
+			(!R10 (?L LOCATION.N))
+			(!R11 (?X_K AGENT.N))
+			(!R12 (?X_L FOOD.N))
+			(!R13 (?X_M FOOD.N))
+		)
+		(:STEPS
+			(?X_A (?X_I BRING.1.V ?X_J ?X_K))
+			(?X_D (?X_J ((ADV-A (ON.P ?X_E)) PLAY.V)))
+			(?X_G (?X_I PUT_DOWN.14.V ?X_L ?L))
+			(?E_1 (?X_K EAT.15.V ?X_L))
+			(?X_B (?X_J EAT.16.V ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN311.SK BRING.1.V SON308.SK HOUSE313.SK) ** E307.SK)
+		(:ROLES
+			(!R1 (MAN311.SK AGENT.N))
+			(!R2 (SON308.SK ENTITY.N))
+			(!R3 (SON308.SK SMALLER-THAN.N MAN311.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOUSE313.SK LOCATION.N))
+			(!R6 (HOUSE313.SK DESTINATION.N))
+			(!R7 (MAN311.SK MAN.N))
+			(!R8 (HOUSE313.SK HOUSE.N))
+			(!R9 (SON308.SK SON.N))
+			(!R10 (SON308.SK (PERTAIN-TO MAN311.SK)))
+			(!R11 (SON308.SK AGENT.N))
+			(!R12 (SON308.SK BOY.N))
+			(!R13 (FOOD310.SK FOOD.N))
+			(!R14 (FOOD310.SK (PERTAIN-TO SON308.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (MAN311.SK (WANT.V (THAT (SON308.SK ((ADV-A (AT.P HOUSE313.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (SON308.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MAN311.SK (POSSESS.V SON308.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (SON308.SK ((ADV-A (AT.P HOUSE313.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN311.SK PUT_DOWN.14.V FOOD322.SK ?L) ** E321.SK)
+		(:ROLES
+			(!R1 (MAN311.SK AGENT.N))
+			(!R2 (FOOD322.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (MAN311.SK MAN.N))
+			(!R5 (FOOD322.SK FOOD.N))
+			(!R6 (SON308.SK SON.N))
+			(!R7 (SON308.SK (PERTAIN-TO MAN311.SK)))
+			(!R8 (SON308.SK AGENT.N))
+			(!R9 (SON308.SK BOY.N))
+			(!R10 (FOOD322.SK (FOR.P THEM-PRO329.SK (KA EAT.V))))
+			(!R11 (THEM-PRO329.SK AGENT.N))
+			(!R12 (FOOD310.SK FOOD.N))
+			(!R13 (FOOD310.SK (PERTAIN-TO SON308.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN311.SK (WANT.V (THAT (FOOD322.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN311.SK (POSSESS.V FOOD322.SK)))
+			(?I2 (FOOD322.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (FOOD322.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((HOUSE313.SK EAT.15.V FOOD322.SK) ** ?E)
+		(:ROLES
+			(!R1 (HOUSE313.SK AGENT.N))
+			(!R2 (FOOD322.SK FOOD.N))
+			(!R3 (HOUSE313.SK HOUSE.N))
+			(!R4 (FOOD322.SK (FOR.P THEM-PRO329.SK (KA EAT.V))))
+			(!R5 (THEM-PRO329.SK AGENT.N))
+		)
+		(:GOALS
+			(?G1 (HOUSE313.SK (WANT.V (THAT (NOT (HOUSE313.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE313.SK POSSESS.V FOOD322.SK))
+			(?I2 (HOUSE313.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE313.SK (POSSESS.V FOOD322.SK))))
+			(?P2 (NOT (HOUSE313.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SON308.SK EAT.16.V FOOD310.SK) ** E309.SK)
+		(:ROLES
+			(!R1 (SON308.SK AGENT.N))
+			(!R2 (FOOD310.SK FOOD.N))
+			(!R3 (SON308.SK SON.N))
+			(!R4 (SON308.SK BOY.N))
+			(!R5 (FOOD310.SK (PERTAIN-TO SON308.SK)))
+			(!R6 (MAN311.SK AGENT.N))
+			(!R7 (SON308.SK (PERTAIN-TO MAN311.SK)))
+			(!R8 (MAN311.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (SON308.SK (WANT.V (THAT (NOT (SON308.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (SON308.SK POSSESS.V FOOD310.SK))
+			(?I2 (SON308.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SON308.SK (POSSESS.V FOOD310.SK))))
+			(?P2 (NOT (SON308.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "The boy brought his book home from school."
+	; "He read it on his bed."
+	; "He watched TV after supper."
+	(EPI-SCHEMA ((?X_K (((ADV-A (TO.P ?L2)) BRING.V) ?X_E)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K AGENT.N))
+			(!R2 (?X_E SUPPER.N))
+			(!R3 (?X_J BOOK.N))
+			(!R4 (?X_F BED.N))
+			(!R5 (?X_I BOY.N))
+			(!R6 (?X_F (PERTAIN-TO ?X_I)))
+			(!R7 (?X_H BOOK.N))
+			(!R8 (?X_G SCHOOL.N))
+			(!R9 (?X_L (PERTAIN-TO ?X_I)))
+			(!R10 (?X_L ?X_H HOME.N))
+			(!R11 (?X_L ENTITY.N))
+			(!R12 (?X_L SMALLER-THAN.N ?X_I))
+			(!R13 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_I BRING.1.V ?X_L ?L2))
+			(?X_B (?X_I (((ADV-A (ON.P ?X_F)) READ.V) ?X_J)))
+			(?X_D (?X_I (((ADV-A (AFTER.P ?X_E)) WATCH.V) ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY6.SK BRING.1.V E3.SK ?L2) ** U1.SK)
+		(:ROLES
+			(!R1 (BOY6.SK AGENT.N))
+			(!R2 (E3.SK ENTITY.N))
+			(!R3 (E3.SK SMALLER-THAN.N BOY6.SK))
+			(!R4 (SCHOOL9.SK LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BOY6.SK BOY.N))
+			(!R8 (SCHOOL9.SK SCHOOL.N))
+			(!R9 (E3.SK (PERTAIN-TO BOY6.SK)))
+			(!R10 (E3.SK BOOK16.SK HOME.N))
+			(!R11 (BOOK16.SK BOOK.N))
+			(!R12 (BED5.SK BED.N))
+			(!R13 (BED5.SK (PERTAIN-TO BOY6.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY6.SK (WANT.V (THAT (E3.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (E3.SK ((ADV-A (AT.P SCHOOL9.SK)) BE.V)))
+			(?I2 (BOY6.SK (POSSESS.V E3.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (E3.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly brought home some food for dinner."
+	; "She put the food on the table."
+	; "She sat down to eat."
+	; "She ate dinner."
+	(EPI-SCHEMA ((?X_G (EAT.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H FOOD.N))
+			(!R2 (?X_I TABLE.N))
+			(!R3 (?X_J DINNER.N))
+			(!R4 (?X_I LOCATION.N))
+			(!R5 (?F FOOD.N))
+			(!R6 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_D (?X_G PUT.2.V ?X_H ?X_I))
+			(?X_B (?X_G (DOWN.ADV ((ADV-A (FOR.P (KA EAT.V))) SIT.V))))
+			(?E_1 (?X_G EAT.3.V ?F))
+			(?X_F (?X_G EAT.4.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME PUT.2.V FOOD35.SK TABLE41.SK) ** E42.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (FOOD35.SK ENTITY.N))
+			(!R3 (TABLE41.SK LOCATION.N))
+			(!R4 (FOOD35.SK FOOD.N))
+			(!R5 (TABLE41.SK TABLE.N))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (FOOD35.SK (AT.P TABLE41.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (POSSESS.V FOOD35.SK)))
+			(?I2 (FOOD35.SK (NOT (AT.P TABLE41.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FOOD35.SK (AT.P TABLE41.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME EAT.3.V ?F) ** ?E)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?F FOOD.N))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (MOLLY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME POSSESS.V ?F))
+			(?I2 (MOLLY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MOLLY.NAME (POSSESS.V ?F))))
+			(?P2 (NOT (MOLLY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME EAT.4.V DINNER38.SK) ** E46.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (DINNER38.SK FOOD.N))
+			(!R3 (DINNER38.SK DINNER.N))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (MOLLY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME POSSESS.V DINNER38.SK))
+			(?I2 (MOLLY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MOLLY.NAME (POSSESS.V DINNER38.SK))))
+			(?P2 (NOT (MOLLY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sue brought home a book."
+	; "She read it on the bus ride home."
+	; "She read some more at home."
+	; "She read all night."
+	(EPI-SCHEMA ((?X_F (COMPOSITE-SCHEMA.PR ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_A HOME.N))
+			(!R2 (?X_G MORE.A))
+			(!R3 (?X_F AGENT.N))
+		)
+		(:STEPS
+			(?X_C (?X_F (((ADV-A (AT.P ?X_A)) READ.V) ?X_G)))
+			(?X_E ((ADV-E ({DURING}.P (ALL.D NIGHT.N))) (?X_F READ.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME BRING.5.V BOOK60.SK HOME72.SK) ** E61.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BOOK60.SK ENTITY.N))
+			(!R3 (BOOK60.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOME72.SK LOCATION.N))
+			(!R6 (HOME72.SK DESTINATION.N))
+			(!R7 (HOME72.SK HOME.N))
+			(!R8 (HOME72.SK (PERTAIN-TO TOM.NAME)))
+			(!R9 (BOOK60.SK BOOK.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (BOOK60.SK ((ADV-A (AT.P HOME72.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BOOK60.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V BOOK60.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOOK60.SK ((ADV-A (AT.P HOME72.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY82.SK BRING.1.V E81.SK ?L2) ** E80.SK)
+		(:ROLES
+			(!R1 (BOY82.SK AGENT.N))
+			(!R2 (E81.SK ENTITY.N))
+			(!R3 (E81.SK SMALLER-THAN.N BOY82.SK))
+			(!R4 (STORE84.SK LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BOY82.SK BOY.N))
+			(!R8 (STORE84.SK STORE.N))
+			(!R9 (E81.SK (PERTAIN-TO BOY82.SK)))
+			(!R10 (E81.SK BIKE132.SK HOME.N))
+			(!R11 (BIKE132.SK BIKE.N))
+		)
+		(:GOALS
+			(?G1 (BOY82.SK (WANT.V (THAT (E81.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (E81.SK ((ADV-A (AT.P STORE84.SK)) BE.V)))
+			(?I2 (BOY82.SK (POSSESS.V E81.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (E81.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary brought her doll home from the store."
+	; "She put the doll on the table."
+	; "She played with the doll."
+	(EPI-SCHEMA ((?X_G (((ADV-A (TO.P ?X_H)) BRING.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I DOLL.N))
+			(!R2 (?X_I (PERTAIN-TO ?X_G)))
+			(!R3 (?X_D STORE.N))
+			(!R4 (?X_H HOME.N))
+			(!R5 (?X_H (PERTAIN-TO ?X_G)))
+			(!R6 (?X_J TABLE.N))
+			(!R7 (?X_I SMALLER-THAN.N ?X_G))
+			(!R8 (?X_H DESTINATION.N))
+			(!R9 (?X_J LOCATION.N))
+			(!R10 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_G BRING.6.V ?X_I ?X_H))
+			(?X_F (?X_G PUT.2.V ?X_I ?X_J))
+			(?X_C (?X_G ((ADV-A (WITH.P ?X_I)) PLAY.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME BRING.6.V DOLL188.SK HOME199.SK) ** E187.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (DOLL188.SK ENTITY.N))
+			(!R3 (DOLL188.SK SMALLER-THAN.N MARY.NAME))
+			(!R4 (STORE190.SK LOCATION.N))
+			(!R5 (HOME199.SK LOCATION.N))
+			(!R6 (HOME199.SK DESTINATION.N))
+			(!R7 (HOME199.SK HOME.N))
+			(!R8 (HOME199.SK (PERTAIN-TO MARY.NAME)))
+			(!R9 (DOLL188.SK (PERTAIN-TO MARY.NAME)))
+			(!R10 (DOLL188.SK DOLL.N))
+			(!R11 (STORE190.SK STORE.N))
+		)
+		(:GOALS
+			(?G1
+	   (MARY.NAME (WANT.V (THAT (DOLL188.SK ((ADV-A (AT.P HOME199.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (DOLL188.SK ((ADV-A (AT.P STORE190.SK)) BE.V)))
+			(?I2 (MARY.NAME (POSSESS.V DOLL188.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (DOLL188.SK ((ADV-A (AT.P HOME199.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.2.V DOLL188.SK TABLE193.SK) ** E194.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (DOLL188.SK ENTITY.N))
+			(!R3 (TABLE193.SK LOCATION.N))
+			(!R4 (DOLL188.SK (PERTAIN-TO MARY.NAME)))
+			(!R5 (DOLL188.SK DOLL.N))
+			(!R6 (TABLE193.SK TABLE.N))
+			(!R7 (HOME199.SK (PERTAIN-TO MARY.NAME)))
+			(!R8 (HOME199.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (DOLL188.SK (AT.P TABLE193.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V DOLL188.SK)))
+			(?I2 (DOLL188.SK (NOT (AT.P TABLE193.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (DOLL188.SK (AT.P TABLE193.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sally brought her dog home."
+	; "She put the leash on the dog."
+	; "She walked the dog around the block."
+	; "The dog ran away from Sally."
+	(EPI-SCHEMA ((?X_I (((ADV-A (TO.P ?X_J)) BRING.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K LEASH.N))
+			(!R2 (?X_J HOME.N))
+			(!R3 (?X_F BLOCK.N))
+			(!R4 (?X_J (PERTAIN-TO ?X_I)))
+			(!R5 (?X_L DOG.N))
+			(!R6 (?X_L (PERTAIN-TO ?X_I)))
+			(!R7 (?X_L (AROUND.P ?X_F)))
+			(!R8 (?X_J DESTINATION.N))
+			(!R9 (?X_L LOCATION.N))
+			(!R10 (?X_I AGENT.N))
+			(!R11 (?X_L SMALLER-THAN.N ?X_I))
+			(!R12 (?X_I LOCATION.N))
+			(!R13 (NOT (?X_I = ?L2)))
+			(!R14 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_I BRING.5.V ?X_L ?X_J))
+			(?X_C (?X_I PUT.2.V ?X_K ?X_L))
+			(?X_E (?X_I WALK.7.V ?X_L ?L2))
+			(?X_H (?X_L ((ADV-A (FROM.P ?X_I)) RUN.8.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME BRING.5.V DOG217.SK HOME232.SK) ** E216.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (DOG217.SK ENTITY.N))
+			(!R3 (DOG217.SK SMALLER-THAN.N SALLY.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOME232.SK LOCATION.N))
+			(!R6 (HOME232.SK DESTINATION.N))
+			(!R7 (HOME232.SK HOME.N))
+			(!R8 (HOME232.SK (PERTAIN-TO SALLY.NAME)))
+			(!R9 (DOG217.SK (PERTAIN-TO SALLY.NAME)))
+			(!R10 (DOG217.SK DOG.N))
+			(!R11 (BLOCK226.SK BLOCK.N))
+			(!R12 (DOG217.SK (AROUND.P BLOCK226.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (SALLY.NAME (WANT.V (THAT (DOG217.SK ((ADV-A (AT.P HOME232.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (DOG217.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (SALLY.NAME (POSSESS.V DOG217.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (DOG217.SK ((ADV-A (AT.P HOME232.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME PUT.2.V LEASH220.SK DOG217.SK) ** E222.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (LEASH220.SK ENTITY.N))
+			(!R3 (DOG217.SK LOCATION.N))
+			(!R4 (DOG217.SK (PERTAIN-TO SALLY.NAME)))
+			(!R5 (DOG217.SK DOG.N))
+			(!R6 (LEASH220.SK LEASH.N))
+			(!R7 (HOME232.SK (PERTAIN-TO SALLY.NAME)))
+			(!R8 (HOME232.SK HOME.N))
+			(!R9 (BLOCK226.SK BLOCK.N))
+			(!R10 (DOG217.SK (AROUND.P BLOCK226.SK)))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (THAT (LEASH220.SK (AT.P DOG217.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (POSSESS.V LEASH220.SK)))
+			(?I2 (LEASH220.SK (NOT (AT.P DOG217.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (LEASH220.SK (AT.P DOG217.SK)))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME WALK.7.V DOG217.SK ?L2) ** E225.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (DOG217.SK ENTITY.N))
+			(!R3 (DOG217.SK SMALLER-THAN.N SALLY.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (DOG217.SK (PERTAIN-TO SALLY.NAME)))
+			(!R8 (DOG217.SK DOG.N))
+			(!R9 (HOME232.SK (PERTAIN-TO SALLY.NAME)))
+			(!R10 (HOME232.SK HOME.N))
+			(!R11 (BLOCK226.SK BLOCK.N))
+			(!R12 (DOG217.SK (AROUND.P BLOCK226.SK)))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (THAT (DOG217.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (DOG217.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (SALLY.NAME (POSSESS.V DOG217.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (DOG217.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG217.SK ((ADV-A (FROM.P SALLY.NAME)) RUN.8.V) ?L2) ** E230.SK)
+		(:ROLES
+			(!R1 (DOG217.SK AGENT.N))
+			(!R2 (SALLY.NAME LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (SALLY.NAME = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (SALLY.NAME AGENT.N))
+			(!R7 (DOG217.SK (PERTAIN-TO SALLY.NAME)))
+			(!R8 (DOG217.SK DOG.N))
+			(!R9 (HOME232.SK (PERTAIN-TO SALLY.NAME)))
+			(!R10 (HOME232.SK HOME.N))
+			(!R11 (BLOCK226.SK BLOCK.N))
+			(!R12 (DOG217.SK (AROUND.P BLOCK226.SK)))
+		)
+		(:GOALS
+			(?G1 (DOG217.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG217.SK (AT.P SALLY.NAME)))
+			(?I2 (NOT (DOG217.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG217.SK (AT.P SALLY.NAME))))
+			(?P2 (DOG217.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jack brought home some candy."
+	; "He shared it with his family."
+	; "They all liked the candy."
+	(EPI-SCHEMA ((?X_F (((ADV-A (WITH.P ?X_B)) SHARE.V) ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_B FAMILY.N))
+			(!R2 (?X_F AGENT.N))
+			(!R3 (?X_B (PERTAIN-TO ?X_F)))
+			(!R4 (?X_E AGENT.N))
+			(!R5 (?X_H CANDY.N))
+		)
+		(:STEPS
+			(?X_A (?X_F (((ADV-A (WITH.P ?X_B)) SHARE.V) ?X_G)))
+			(?X_D ((ALL.D ({OF}.P ?X_E)) LIKE.9.V ?X_H))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA (((ALL.D ({OF}.P THEY.PRO)) LIKE.9.V CANDY248.SK) ** E253.SK)
+		(:ROLES
+			(!R1 ((ALL.D ({OF}.P THEY.PRO)) AGENT.N))
+			(!R2 (NOT (CANDY248.SK ACTION.N)))
+			(!R3 (NOT (CANDY248.SK AGENT.N)))
+			(!R4 (CANDY248.SK OBJECT.N))
+			(!R5 (CANDY248.SK CANDY.N))
+			(!R6 (THEY.PRO AGENT.N))
+		)
+		(:POSTCONDS
+			(?P1 ((ALL.D ({OF}.P THEY.PRO)) (WANT.V (KA (POSSESS.V CANDY248.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Emily brought home some groceries."
+	; "She put them away in the refrigerator."
+	; "She cleaned the kitchen."
+	; "She made dinner for her family."
+	; "Her family liked her cooking."
+	(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_K ?X_L ?X_M ?X_N ?X_O ?X_P)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K DINNER.N))
+			(!R2 (?X_I FAMILY.N))
+			(!R3 (?X_I (PERTAIN-TO ?X_J)))
+			(!R4 (?X_M (PLUR GROCERY.N)))
+			(!R5 (?X_N REFRIGERATOR.N))
+			(!R6 (?X_O KITCHEN.N))
+			(!R7 (?X_L HOME.N))
+			(!R8 (?X_L (PERTAIN-TO ?X_J)))
+			(!R9 (?X_P COOKING.N))
+			(!R10 (?X_P (PERTAIN-TO ?X_J)))
+			(!R11 (?X_L DESTINATION.N))
+			(!R12 (?X_M SMALLER-THAN.N ?X_J))
+			(!R13 (?X_N LOCATION.N))
+			(!R14 (?X_J AGENT.N))
+			(!R15 (?X_P OBJECT.N))
+			(!R16 (?X_I AGENT.N))
+			(!R17 (NOT (?X_P AGENT.N)))
+		)
+		(:STEPS
+			(?X_D (?X_J BRING.5.V ?X_M ?X_L))
+			(?X_F (?X_J PUT.2.V ?X_M ?X_N))
+			(?X_H (?X_J CLEAN.10.V ?X_O))
+			(?X_A (?X_J (((ADV-A (FOR.P ?X_I)) MAKE.V) ?X_K)))
+			(?X_B (?X_I LIKE.11.V ?X_P))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY267.SK BRING.5.V BIKE266.SK HOME283.SK) ** E265.SK)
+		(:ROLES
+			(!R1 (BOY267.SK AGENT.N))
+			(!R2 (BIKE266.SK ENTITY.N))
+			(!R3 (BIKE266.SK SMALLER-THAN.N BOY267.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOME283.SK LOCATION.N))
+			(!R6 (HOME283.SK DESTINATION.N))
+			(!R7 (HOME283.SK HOME.N))
+			(!R8 (HOME283.SK (PERTAIN-TO BOY267.SK)))
+			(!R9 (BOY267.SK BOY.N))
+			(!R10 (BIKE266.SK (PERTAIN-TO BOY267.SK)))
+			(!R11 (BIKE266.SK BIKE.N))
+		)
+		(:GOALS
+			(?G1
+	   (BOY267.SK (WANT.V (THAT (BIKE266.SK ((ADV-A (AT.P HOME283.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BIKE266.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BOY267.SK (POSSESS.V BIKE266.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BIKE266.SK ((ADV-A (AT.P HOME283.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((EMILY.NAME BRING.5.V GROCERY292.SK HOME304.SK) ** E291.SK)
+		(:ROLES
+			(!R1 (EMILY.NAME AGENT.N))
+			(!R2 (GROCERY292.SK ENTITY.N))
+			(!R3 (GROCERY292.SK SMALLER-THAN.N EMILY.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOME304.SK LOCATION.N))
+			(!R6 (HOME304.SK DESTINATION.N))
+			(!R7 (HOME304.SK HOME.N))
+			(!R8 (HOME304.SK (PERTAIN-TO EMILY.NAME)))
+			(!R9 (GROCERY292.SK (PLUR GROCERY.N)))
+			(!R10 (FAMILY285.SK (PERTAIN-TO EMILY.NAME)))
+			(!R11 (FAMILY285.SK FAMILY.N))
+			(!R12 (COOKING288.SK (PERTAIN-TO EMILY.NAME)))
+			(!R13 (COOKING288.SK COOKING.N))
+		)
+		(:GOALS
+			(?G1
+	   (EMILY.NAME
+	    (WANT.V (THAT (GROCERY292.SK ((ADV-A (AT.P HOME304.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (GROCERY292.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (EMILY.NAME (POSSESS.V GROCERY292.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (GROCERY292.SK ((ADV-A (AT.P HOME304.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((EMILY.NAME PUT.2.V GROCERY292.SK REFRIGERATOR294.SK) ** E295.SK)
+		(:ROLES
+			(!R1 (EMILY.NAME AGENT.N))
+			(!R2 (GROCERY292.SK ENTITY.N))
+			(!R3 (REFRIGERATOR294.SK LOCATION.N))
+			(!R4 (GROCERY292.SK (PLUR GROCERY.N)))
+			(!R5 (REFRIGERATOR294.SK REFRIGERATOR.N))
+			(!R6 (HOME304.SK (PERTAIN-TO EMILY.NAME)))
+			(!R7 (HOME304.SK HOME.N))
+			(!R8 (FAMILY285.SK (PERTAIN-TO EMILY.NAME)))
+			(!R9 (FAMILY285.SK FAMILY.N))
+			(!R10 (COOKING288.SK (PERTAIN-TO EMILY.NAME)))
+			(!R11 (COOKING288.SK COOKING.N))
+		)
+		(:GOALS
+			(?G1 (EMILY.NAME (WANT.V (THAT (GROCERY292.SK (AT.P REFRIGERATOR294.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (EMILY.NAME (POSSESS.V GROCERY292.SK)))
+			(?I2 (GROCERY292.SK (NOT (AT.P REFRIGERATOR294.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (GROCERY292.SK (AT.P REFRIGERATOR294.SK)))
+		)
+	)
+	(EPI-SCHEMA ((EMILY.NAME CLEAN.10.V KITCHEN297.SK) ** E298.SK)
+		(:ROLES
+			(!R1 (EMILY.NAME AGENT.N))
+			(!R2 (KITCHEN297.SK KITCHEN.N))
+			(!R3 (HOME304.SK (PERTAIN-TO EMILY.NAME)))
+			(!R4 (HOME304.SK HOME.N))
+			(!R5 (FAMILY285.SK (PERTAIN-TO EMILY.NAME)))
+			(!R6 (FAMILY285.SK FAMILY.N))
+			(!R7 (COOKING288.SK (PERTAIN-TO EMILY.NAME)))
+			(!R8 (COOKING288.SK COOKING.N))
+		)
+		(:GOALS
+			(?G1 (EMILY.NAME (WANT.V (THAT (NOT (KITCHEN297.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN297.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN297.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN297.SK DIRTY.A)))
+			(?P2 (KITCHEN297.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((FAMILY285.SK LIKE.11.V COOKING288.SK) ** E286.SK)
+		(:ROLES
+			(!R1 (FAMILY285.SK AGENT.N))
+			(!R2 (NOT (COOKING288.SK ACTION.N)))
+			(!R3 (NOT (COOKING288.SK AGENT.N)))
+			(!R4 (COOKING288.SK OBJECT.N))
+			(!R5 (FAMILY285.SK FAMILY.N))
+			(!R6 (COOKING288.SK COOKING.N))
+			(!R7 (COOKING288.SK (PERTAIN-TO EMILY.NAME)))
+			(!R8 (FAMILY285.SK (PERTAIN-TO EMILY.NAME)))
+			(!R9 (EMILY.NAME AGENT.N))
+			(!R10 (HOME304.SK (PERTAIN-TO EMILY.NAME)))
+			(!R11 (HOME304.SK HOME.N))
+		)
+		(:POSTCONDS
+			(?P1 (FAMILY285.SK (WANT.V (KA (POSSESS.V COOKING288.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Molly was cooking on the stove."
+	; "A pot fell over."
+	; "The pan broke into pieces."
+	; "Molly's hand burned."
+	(EPI-SCHEMA ((?X_K BREAK.V) ** ?E)
+		(:ROLES
+			(!R1 (?X_K POT.N))
+			(!R2 (?X_D STOVE.N))
+			(!R3 (?X_J AGENT.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_J)))
+			(!R5 (?X_F (PERTAIN-TO ?X_J)))
+			(!R6 (?X_I PAN.N))
+		)
+		(:STEPS
+			(?X_A (?X_J ((ADV-A (ON.P ?X_D)) COOK.V)))
+			(?X_C (?X_K FALL_OVER.V))
+			(?X_H (?X_I BREAK.1.V ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((PAN7.SK BREAK.1.V POT4.SK) ** E9.SK)
+		(:ROLES
+			(!R1 (PAN7.SK ENTITY.N))
+			(!R2 (POT4.SK ENTITY.N))
+			(!R3 (POT4.SK POT.N))
+			(!R4 (PAN7.SK PAN.N))
+		)
+		(:POSTCONDS
+			(?P1 (POT4.SK (EXPERIENCE.V (KJ PAIN.A))))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The fire started in the kitchen."
+	; "The fire burned the house down."
+	; "The firemen came and put out the fire."
+	(EPI-SCHEMA ((?X_F ((ADV-A (IN.P ?X_A)) START.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_A KITCHEN.N))
+			(!R2 (?X_F FIRE.N))
+			(!R3 (?X_G HOUSE.N))
+		)
+		(:STEPS
+			(?X_C (?X_F ((ADV-A (IN.P ?X_A)) START.V)))
+			(?X_E (?X_F ((DOWN.ADV BURN.V) ?X_G)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The fire started in the kitchen."
+	; "The fire grew bigger."
+	; "The fire burned the house down."
+	(EPI-SCHEMA ((?X_H ((ADV-A (IN.P ?X_A)) START.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_A KITCHEN.N))
+			(!R2 (?X_I BIGGER.A))
+			(!R3 (?X_H FIRE.N))
+			(!R4 (?X_J HOUSE.N))
+		)
+		(:STEPS
+			(?X_C (?X_H ((ADV-A (IN.P ?X_A)) START.V)))
+			(?X_E (?X_H (GROW.V ?X_I)))
+			(?X_G (?X_H ((DOWN.ADV BURN.V) ?X_J)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The fire started on the stove."
+	; "The fire burned on the stove."
+	; "The fire burned for a while."
+	; "The fire burned for a long time."
+	; "The fire burned for a short time."
+	(EPI-SCHEMA ((?X_N COMPOSITE-SCHEMA.PR) ** ?E)
+		(:ROLES
+			(!R1 (?X_B STOVE.N))
+			(!R2 (?X_A (ON.P ?X_B)))
+			(!R3 (?X_E WHILE.N))
+			(!R4 (?X_H LONG.A))
+			(!R5 (?X_H TIME.N))
+			(!R6 (?X_N FIRE.N))
+			(!R7 (?X_K SHORT.A))
+			(!R8 (?X_K TIME.N))
+		)
+		(:STEPS
+			(?X_D (?X_N ((ADV-A (ON.P ?X_B)) START.V)))
+			(?X_G (?X_N ((ADV-A (FOR.P ?X_E)) BURN.V)))
+			(?X_J (?X_N ((ADV-A (FOR.P ?X_H)) BURN.V)))
+			(?X_M (?X_N ((ADV-A (FOR.P ?X_K)) BURN.V)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The man burned wood."
+	; "The fire was on the stove."
+	; "The flames were high."
+	; "The smoke was thick."
+	; "The man put the wood on the stove."
+	; "He turned down the heat."
+	(EPI-SCHEMA ((?X_K (((ADV-A (ON.P ?X_K)) PUT.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I HEAT.N))
+			(!R2 (?X_H MAN.N))
+			(!R3 (?X_K STOVE.N))
+			(!R4 (?X_E FIRE.N))
+			(!R5 (?X_J WOOD.N))
+			(!R6 (?X_K LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_E ((ADV-A (ON.P ?X_K)) BE.V)))
+			(?X_G (?X_H PUT.2.V ?X_J ?X_K))
+			(?X_B (?X_H (TURN_DOWN.V ?X_I)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN120.SK PUT.2.V WOOD124.SK STOVE127.SK) ** E140.SK)
+		(:ROLES
+			(!R1 (MAN120.SK AGENT.N))
+			(!R2 (WOOD124.SK ENTITY.N))
+			(!R3 (STOVE127.SK LOCATION.N))
+			(!R4 (MAN120.SK MAN.N))
+			(!R5 (STOVE127.SK STOVE.N))
+			(!R6 (WOOD124.SK WOOD.N))
+		)
+		(:GOALS
+			(?G1 (MAN120.SK (WANT.V (THAT (WOOD124.SK (AT.P STOVE127.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN120.SK (POSSESS.V WOOD124.SK)))
+			(?I2 (WOOD124.SK (NOT (AT.P STOVE127.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (WOOD124.SK (AT.P STOVE127.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary liked to burn things."
+	; "She burned paper."
+	; "She burned plastic."
+	; "She burned rubber."
+	; "She burned wood."
+	; "She burned trash."
+	; "She burned trash cans."
+	; "She burned tires."
+	; "She burned matches."
+	; "She burned candles."
+	; "She burned candles on fire."
+	(EPI-SCHEMA ((?X_X (BURN.V ?X_ZG)) ** ?E)
+		(:ROLES
+			(!R1 (?X_ZF (PLUR CANDLE.N)))
+			(!R2 (?X_ZF (ON.P ?X_C)))
+			(!R3 (?X_ZE (PLUR CANDLE.N)))
+			(!R4 (?X_ZD (PLUR TIRE.N)))
+			(!R5 (?X_ZC TRASH.N))
+			(!R6 (?X_ZC (PLUR CAN.N)))
+			(!R7 (?X_ZB WOOD.N))
+			(!R8 (?X_ZA RUBBER.N))
+			(!R9 (?X_Z PLASTIC.N))
+			(!R10 (?X_Y PAPER.N))
+			(!R11 (?X_ZG (PLUR THING.N)))
+			(!R12 ((KA (BURN.V ?X_ZG)) ACTION.N))
+			(!R13 (?X_X AGENT.N))
+			(!R14 (?N NOISE.N))
+		)
+		(:STEPS
+			(?X_G (?X_X ((ADV-A (FOR.P (KA MATCH.V))) BURN.V)))
+			(?X_U (?X_X LIKE.3.V (KA (BURN.V ?X_ZG))))
+			(?X_S (?X_X (BURN.V ?X_Y)))
+			(?X_Q (?X_X (BURN.V ?X_Z)))
+			(?X_O (?X_X (BURN.V ?X_ZA)))
+			(?X_M (?X_X (BURN.V ?X_ZB)))
+			(?X_W (?X_X BURN.4.V ?N))
+			(?X_K (?X_X (BURN.V ?X_ZC)))
+			(?X_I (?X_X (BURN.V ?X_ZD)))
+			(?X_E (?X_X (BURN.V ?X_ZE)))
+			(?X_B (?X_X (BURN.V ?X_ZF)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME LIKE.3.V (KA (BURN.V THING160.SK))) ** E158.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 ((KA (BURN.V THING160.SK)) ACTION.N))
+			(!R3 (THING160.SK (PLUR THING.N)))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (THINK.V (THAT ((KA (BURN.V THING160.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME BURN.4.V ?N) ** E178.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?N NOISE.N))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man burned his hand."
+	; "He put his hand on a hot stove."
+	; "The skin started to burn."
+	; "He ran away from the stove."
+	(EPI-SCHEMA ((?X_J (((ADV-A (WITH.P ?X_J)) BURN.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D SKIN.N))
+			(!R2 (?X_E HAND.N))
+			(!R3 (?X_I HAND.N))
+			(!R4 (?X_J HOT.A))
+			(!R5 (?X_J STOVE.N))
+			(!R6 (?X_H MAN.N))
+			(!R7 (?X_E (PERTAIN-TO ?X_H)))
+			(!R8 (?X_I (PERTAIN-TO ?X_H)))
+			(!R9 (?X_J LOCATION.N))
+			(!R10 (NOT (?X_J = ?L2)))
+			(!R11 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_H PUT.2.V ?X_I ?X_J))
+			(?X_C (?X_D ((ADV-A (FOR.P (KA BURN.V))) START.V)))
+			(?X_G (?X_H ((ADV-A (FROM.P ?X_J)) RUN.5.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN217.SK PUT.2.V HAND214219.SK STOVE222.SK) ** E215.SK)
+		(:ROLES
+			(!R1 (MAN217.SK AGENT.N))
+			(!R2 (HAND214219.SK ENTITY.N))
+			(!R3 (STOVE222.SK LOCATION.N))
+			(!R4 (MAN217.SK MAN.N))
+			(!R5 (HAND214219.SK HAND.N))
+			(!R6 (HAND214219.SK (PERTAIN-TO MAN217.SK)))
+			(!R7 (STOVE222.SK HOT.A))
+			(!R8 (STOVE222.SK STOVE.N))
+			(!R9 (HAND214.SK (PERTAIN-TO MAN217.SK)))
+			(!R10 (HAND214.SK HAND.N))
+		)
+		(:GOALS
+			(?G1 (MAN217.SK (WANT.V (THAT (HAND214219.SK (AT.P STOVE222.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN217.SK (POSSESS.V HAND214219.SK)))
+			(?I2 (HAND214219.SK (NOT (AT.P STOVE222.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (HAND214219.SK (AT.P STOVE222.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MAN217.SK ((ADV-A (FROM.P STOVE222.SK)) RUN.5.V) ?L2) ** E228.SK)
+		(:ROLES
+			(!R1 (MAN217.SK AGENT.N))
+			(!R2 (STOVE222.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (STOVE222.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN217.SK MAN.N))
+			(!R7 (STOVE222.SK HOT.A))
+			(!R8 (STOVE222.SK STOVE.N))
+			(!R9 (HAND214.SK (PERTAIN-TO MAN217.SK)))
+			(!R10 (HAND214.SK HAND.N))
+			(!R11 (HAND214219.SK HAND.N))
+			(!R12 (HAND214219.SK (PERTAIN-TO MAN217.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN217.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN217.SK (AT.P STOVE222.SK)))
+			(?I2 (NOT (MAN217.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN217.SK (AT.P STOVE222.SK))))
+			(?P2 (MAN217.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The fire burned a house down."
+	; "The firemen came and put out the fire."
+	; "The fireman saved the house."
+	(EPI-SCHEMA ((?X_F (BURN_DOWN.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F FIRE.N))
+			(!R2 (?X_G HOUSE.N))
+		)
+		(:STEPS
+			(?X_C (?X_F ((DOWN.ADV BURN.V) ?X_G)))
+			(?X_E (?X_A (SAVE.V ?X_G)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "A fire started in the kitchen."
+	; "The fire burned the stove."
+	; "The fire burned the curtains."
+	; "The fire burned the carpet."
+	; "The fire burned the house down."
+	(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_M ?X_N ?X_O ?X_P)) ** ?E)
+		(:ROLES
+			(!R1 (?X_A KITCHEN.N))
+			(!R2 (?X_M STOVE.N))
+			(!R3 (?X_N (PLUR CURTAIN.N)))
+			(!R4 (?X_O CARPET.N))
+			(!R5 (?X_L FIRE.N))
+			(!R6 (?X_P HOUSE.N))
+		)
+		(:STEPS
+			(?X_C (?X_L ((ADV-A (IN.P ?X_A)) START.V)))
+			(?X_E (?X_L (BURN.V ?X_M)))
+			(?X_G (?X_L (BURN.V ?X_N)))
+			(?X_I (?X_L (BURN.V ?X_O)))
+			(?X_K (?X_L ((DOWN.ADV BURN.V) ?X_P)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The man put gasoline on fire."
+	; "The fire burned for hours."
+	; "The fire was so hot."
+	; "The flames were high."
+	; "The fire burned for days."
+	(EPI-SCHEMA ((?X_A (((ADV-A (ON.P ?X_B)) PUT.V) ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_A MAN.N))
+			(!R2 (?X_B FIRE.N))
+			(!R3 (?X_L GASOLINE.N))
+			(!R4 (?X_E (PLUR HOUR.N)))
+			(!R5 (?X_K (SO.ADV HOT.A)))
+			(!R6 (?X_K FIRE.N))
+			(!R7 (?X_H (PLUR DAY.N)))
+		)
+		(:STEPS
+			(?X_D (?X_A (((ADV-A (ON.P ?X_B)) PUT.V) ?X_L)))
+			(?X_G (?X_K ((ADV-A (FOR.P ?X_E)) BURN.V)))
+			(?X_J (?X_K ((ADV-A (FOR.P ?X_H)) BURN.V)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Sally bought a dress for her party."
+	; "She chose a red dress."
+	; "She looked great in the dress."
+	(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H ?X_I ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D PARTY.N))
+			(!R2 (?X_H DRESS.N))
+			(!R3 (?X_I RED.A))
+			(!R4 (?X_I DRESS.N))
+			(!R5 (?X_G AGENT.N))
+			(!R6 (?X_D (PERTAIN-TO ?X_G)))
+			(!R7 (?X_J ((ADV-A (IN.P ?X_I)) GREAT.A)))
+		)
+		(:STEPS
+			(?X_A (?X_G (((ADV-A (FOR.P ?X_D)) BUY.V) ?X_H)))
+			(?X_C (?X_G (CHOOSE.V ?X_I)))
+			(?X_F (?X_G (LOOK.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom's parents were going to the store."
+	; "Tom wanted to go too."
+	; "He asked if he could go."
+	; "His mom said yes."
+	; "Tom was happy."
+	(EPI-SCHEMA ((?X_J ((ADV-A (TO.P ?X_L)) GO.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D MOM.N))
+			(!R2 (?X_J HAPPY.A))
+			(!R3 (?X_D (PERTAIN-TO ?X_J)))
+			(!R4 (?X_L STORE.N))
+			(!R5 (?X_G (PLUR PARENT.N)))
+			(!R6 (?X_G (PERTAIN-TO ?X_J)))
+			(!R7 (?X_L DESTINATION.N))
+			(!R8 (?X_J AGENT.N))
+			(!R9 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_G ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_L))
+			(?X_C (?X_J (WANT.V (KA (TOO.ADV GO.V)))))
+			(?E_1 (?X_J ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2))
+			(?X_I (?X_J ((ADV-A (FROM.P ?L1)) ASK.3.V) ?L2))
+			(?X_A (?X_D (SAY.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((PARENT27.SK ((ADV-A (FROM.P ?L1)) GO.1.V) STORE24.SK) ** E25.SK)
+		(:ROLES
+			(!R1 (PARENT27.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (STORE24.SK LOCATION.N))
+			(!R4 (NOT (?L1 = STORE24.SK)))
+			(!R5 (STORE24.SK DESTINATION.N))
+			(!R6 (STORE24.SK STORE.N))
+			(!R7 (PARENT27.SK (PLUR PARENT.N)))
+			(!R8 (PARENT27.SK (PERTAIN-TO TOM.NAME)))
+			(!R9 (TOM.NAME AGENT.N))
+			(!R10 (TOM.NAME HAPPY.A))
+			(!R11 (MOM22.SK MOM.N))
+			(!R12 (MOM22.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (PARENT27.SK (WANT.V (KA ((ADV-A (AT.P STORE24.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (PARENT27.SK (AT.P ?L1)))
+			(?I2 (NOT (PARENT27.SK (AT.P STORE24.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (PARENT27.SK (AT.P ?L1))))
+			(?P2 (PARENT27.SK (AT.P STORE24.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) GO.2.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (TOM.NAME HAPPY.A))
+			(!R7 (PARENT27.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (PARENT27.SK (PLUR PARENT.N)))
+			(!R9 (MOM22.SK MOM.N))
+			(!R10 (MOM22.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) ASK.3.V) ?L2) ** E31.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (TOM.NAME HAPPY.A))
+			(!R7 (PARENT27.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (PARENT27.SK (PLUR PARENT.N)))
+			(!R9 (MOM22.SK MOM.N))
+			(!R10 (MOM22.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill bought a book for $10."
+	; "He read the book."
+	; "He liked the book."
+	; "He bought another book for $20."
+	; "He read that book too."
+	; "He liked both books."
+	(EPI-SCHEMA ((?X_I (LIKE.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J BOOK.N))
+			(!R2 (?X_K BOOK.N))
+			(!R3 (NOT (?X_K ACTION.N)))
+			(!R4 (NOT (?X_K AGENT.N)))
+			(!R5 (?X_I AGENT.N))
+			(!R6 ((BOTH.D (PLUR BOOK.N)) OBJECT.N))
+			(!R7 (NOT ((BOTH.D (PLUR BOOK.N)) ACTION.N)))
+			(!R8 (NOT ((BOTH.D (PLUR BOOK.N)) AGENT.N)))
+		)
+		(:STEPS
+			(?X_D (?X_I (READ.V ?X_K)))
+			(?X_F (?X_I LIKE.4.V ?X_K))
+			(?X_B (?X_I ((TOO.ADV READ.V) ?X_J)))
+			(?X_H (?X_I LIKE.5.V (BOTH.D (PLUR BOOK.N))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((HE-PRO65.SK LIKE.4.V BOOK48.SK) ** E57.SK)
+		(:ROLES
+			(!R1 (HE-PRO65.SK AGENT.N))
+			(!R2 (NOT (BOOK48.SK ACTION.N)))
+			(!R3 (NOT (BOOK48.SK AGENT.N)))
+			(!R4 (BOOK48.SK OBJECT.N))
+			(!R5 (BOOK48.SK BOOK.N))
+		)
+		(:POSTCONDS
+			(?P1 (HE-PRO65.SK (WANT.V (KA (POSSESS.V BOOK48.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO65.SK LIKE.5.V (BOTH.D (PLUR BOOK.N))) ** E64.SK)
+		(:ROLES
+			(!R1 (HE-PRO65.SK AGENT.N))
+			(!R2 (NOT ((BOTH.D (PLUR BOOK.N)) ACTION.N)))
+			(!R3 (NOT ((BOTH.D (PLUR BOOK.N)) AGENT.N)))
+			(!R4 ((BOTH.D (PLUR BOOK.N)) OBJECT.N))
+		)
+		(:POSTCONDS
+			(?P1 (HE-PRO65.SK (WANT.V (KA (POSSESS.V (BOTH.D (PLUR BOOK.N)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly liked to shop."
+	; "She bought lots of things."
+	; "She bought clothes for herself and for her friends."
+	; "She bought toys for her children."
+	; "She bought food for her family."
+	(EPI-SCHEMA ((?X_L (BUY.V ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P FOOD.N))
+			(!R2 (?X_I FAMILY.N))
+			(!R3 (?X_O (PLUR TOY.N)))
+			(!R4 (?X_H (PLUR CHILD.N)))
+			(!R5 (?X_N (PLUR CLOTHE.N)))
+			(!R6 (?X_M (PLUR LOT.N)))
+			(!R7 (?X_M (OF.P ?X_G)))
+			(!R8 (?X_H (PERTAIN-TO ?X_L)))
+			(!R9 (?X_I (PERTAIN-TO ?X_L)))
+			(!R10 (?X_L AGENT.N))
+			(!R11 ((KA SHOP.V) ACTION.N))
+		)
+		(:STEPS
+			(?X_K (?X_L LIKE.6.V (KA SHOP.V)))
+			(?X_F (?X_L (BUY.V ?X_M)))
+			(?X_D (?X_L (BUY.V ?X_N)))
+			(?X_A (?X_L (((ADV-A (FOR.P ?X_H)) BUY.V) ?X_O)))
+			(?X_B (?X_L (((ADV-A (FOR.P ?X_I)) BUY.V) ?X_P)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME LIKE.6.V (KA SHOP.V)) ** E79.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 ((KA SHOP.V) ACTION.N))
+			(!R3 (CHILDS75.SK (PLUR CHILD.N)))
+			(!R4 (CHILDS75.SK (PERTAIN-TO MOLLY.NAME)))
+			(!R5 (FAMILY77.SK FAMILY.N))
+			(!R6 (FAMILY77.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (THINK.V (THAT ((KA SHOP.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom bought a new shirt."
+	; "He liked the color."
+	; "He wore it on Saturday."
+	; "He wore it again on Sunday."
+	; "He wore it all week."
+	(EPI-SCHEMA ((?X_I (BUY.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K NEW.A))
+			(!R2 (?X_K SHIRT.N))
+			(!R3 (?X_J COLOR.N))
+			(!R4 (?X_J OBJECT.N))
+			(!R5 (NOT (?X_J ACTION.N)))
+			(!R6 (NOT (?X_J AGENT.N)))
+			(!R7 (?X_I AGENT.N))
+			(!R8 (NOT (?X_K AGENT.N)))
+		)
+		(:STEPS
+			(?X_B (?X_I (BUY.V ?X_K)))
+			(?X_D (?X_I LIKE.4.V ?X_J))
+			(?X_F (?X_I WEAR.7.V ?X_K))
+			(?X_H (?X_I WEAR.7.V ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME LIKE.4.V COLOR114.SK) ** E115.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (NOT (COLOR114.SK ACTION.N)))
+			(!R3 (NOT (COLOR114.SK AGENT.N)))
+			(!R4 (COLOR114.SK OBJECT.N))
+			(!R5 (COLOR114.SK COLOR.N))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (WANT.V (KA (POSSESS.V COLOR114.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME WEAR.7.V SHIRT112.SK) ** E117.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (SHIRT112.SK OBJECT.N))
+			(!R3 (NOT (SHIRT112.SK AGENT.N)))
+			(!R4 (SHIRT112.SK NEW.A))
+			(!R5 (SHIRT112.SK SHIRT.N))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 3.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME WEAR.7.V SHIRT112.SK) ** E121.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (SHIRT112.SK OBJECT.N))
+			(!R3 (NOT (SHIRT112.SK AGENT.N)))
+			(!R4 (SHIRT112.SK NEW.A))
+			(!R5 (SHIRT112.SK SHIRT.N))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 3.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary bought a book at the bookstore."
+	; "The book cost $10.00."
+	; "Mary paid for the book."
+	; "The clerk gave Mary the book."
+	(EPI-SCHEMA ((?X_I (((ADV-A (AT.P ?X_E)) BUY.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J BOOK.N))
+			(!R2 (?X_E BOOKSTORE.N))
+			(!R3 (?X_H CLERK.N))
+			(!R4 (?X_I AGENT.N))
+			(!R5 (NOT (?X_J AGENT.N)))
+		)
+		(:STEPS
+			(?X_D (?X_I (((ADV-A (AT.P ?X_E)) BUY.V) ?X_J)))
+			(?X_B (?X_I ((ADV-A (FOR.P ?X_J)) PAY.V)))
+			(?X_G (?X_H (GIVE.8.V ?X_I ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CLERK142.SK (GIVE.8.V MARY.NAME BOOK133.SK)) ** E145.SK)
+		(:ROLES
+			(!R1 (CLERK142.SK AGENT.N))
+			(!R2 (NOT (BOOK133.SK AGENT.N)))
+			(!R3 (MARY.NAME AGENT.N))
+			(!R4 (BOOK133.SK BOOK.N))
+			(!R5 (CLERK142.SK CLERK.N))
+		)
+		(:GOALS
+			(?G1 (CLERK142.SK (WANT.V (THAT (MARY.NAME (POSSESS.V BOOK133.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (CLERK142.SK POSSESS.V BOOK133.SK))
+			(?I2 (NOT (MARY.NAME POSSESS.V BOOK133.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CLERK142.SK POSSESS.V BOOK133.SK)))
+			(?P2 (MARY.NAME POSSESS.V BOOK133.SK))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The woman bought shoes."
+	; "She bought new shoes for herself."
+	; "She bought new shoes for her husband."
+	; "She bought a dress for her daughter."
+	; "She bought some food on the way home."
+	(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_M ?X_N ?X_O ?X_P ?X_Q)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M (PLUR SHOE.N)))
+			(!R2 (?X_N NEW.A))
+			(!R3 (?X_N (PLUR SHOE.N)))
+			(!R4 (?X_G HUSBAND.N))
+			(!R5 (?X_O NEW.A))
+			(!R6 (?X_O (PLUR SHOE.N)))
+			(!R7 (?X_H DAUGHTER.N))
+			(!R8 (?X_P DRESS.N))
+			(!R9 (?X_L WOMAN.N))
+			(!R10 (?X_G (PERTAIN-TO ?X_L)))
+			(!R11 (?X_H (PERTAIN-TO ?X_L)))
+			(!R12 (?X_I WAY.N))
+			(!R13 (?X_I HOME.N))
+			(!R14 (?X_Q FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_L (BUY.V ?X_M)))
+			(?X_F (?X_L (((ADV-A (FOR.P ?X_L)) BUY.V) ?X_N)))
+			(?X_A (?X_L (((ADV-A (FOR.P ?X_G)) BUY.V) ?X_O)))
+			(?X_B (?X_L (((ADV-A (FOR.P ?X_H)) BUY.V) ?X_P)))
+			(?X_K (?X_L (((ADV-A (ON.P ?X_I)) BUY.V) ?X_Q)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Emily bought a book for her brother."
+	; "She paid for the book."
+	; "She put the book on the shelf."
+	(EPI-SCHEMA ((?X_D (((ADV-A (FOR.P ?X_I)) BUY.V) ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H BOOK.N))
+			(!R2 (?X_I BROTHER.N))
+			(!R3 (?X_D AGENT.N))
+			(!R4 (?X_I (PERTAIN-TO ?X_D)))
+			(!R5 (?X_I LOCATION.N))
+			(!R6 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_D (((ADV-A (FOR.P ?X_I)) BUY.V) ?X_H)))
+			(?X_C (?X_G ((ADV-A (FOR.P ?X_H)) PAY.V)))
+			(?X_F (?X_G PUT.9.V ?X_H ?X_I))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SHE-PRO198.SK PUT.9.V BOOK190.SK BROTHER188.SK) ** E197.SK)
+		(:ROLES
+			(!R1 (SHE-PRO198.SK AGENT.N))
+			(!R2 (BOOK190.SK ENTITY.N))
+			(!R3 (BROTHER188.SK LOCATION.N))
+			(!R4 (BOOK190.SK BOOK.N))
+			(!R5 (BROTHER188.SK BROTHER.N))
+			(!R6 (EMILY.NAME AGENT.N))
+			(!R7 (BROTHER188.SK (PERTAIN-TO EMILY.NAME)))
+		)
+		(:GOALS
+			(?G1 (SHE-PRO198.SK (WANT.V (THAT (BOOK190.SK (AT.P BROTHER188.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO198.SK (POSSESS.V BOOK190.SK)))
+			(?I2 (BOOK190.SK (NOT (AT.P BROTHER188.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOOK190.SK (AT.P BROTHER188.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy loves to shop."
+	; "He likes to look around."
+	; "He buys things for himself."
+	; "He wants to find something that is special."
+	(EPI-SCHEMA ((?X_I (((ADV-A (FOR.P ?X_I)) BUY.V) ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K THING.N))
+			(!R2 (?X_J (PLUR THING.N)))
+			(!R3 ((KA SHOP.V) ACTION.N))
+			(!R4 ((KA (AROUND.ADV LOOK.V)) ACTION.N))
+			(!R5 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_F (?X_I LOVE.10.V (KA SHOP.V)))
+			(?X_H (?X_I LIKE.11.V (KA (AROUND.ADV LOOK.V))))
+			(?X_D (?X_I (((ADV-A (FOR.P ?X_I)) BUY.V) ?X_J)))
+			(?X_B (?X_I (WANT.V (KA (FIND.V ?X_K)))))
+			(?E_1 (?X_I FIND.12.V ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME LOVE.10.V (KA SHOP.V)) ** E210.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 ((KA SHOP.V) ACTION.N))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (THINK.V (THAT ((KA SHOP.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME LIKE.11.V (KA (AROUND.ADV LOOK.V))) ** E212.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 ((KA (AROUND.ADV LOOK.V)) ACTION.N))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (THINK.V (THAT ((KA (AROUND.ADV LOOK.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME FIND.12.V THING224.SK) ** ?E)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (THING224.SK ENTITY.N))
+			(!R4 (THING224.SK THING.N))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P ?L)))
+			(?I2 (THING224.SK (AT.P ?L)))
+			(?I3 (SAMMY.NAME ((ADV-A (FOR.P THING224.SK)) SEARCH.V)))
+			(?I4 (NOT (SAMMY.NAME (KNOW.V (THAT (THING224.SK (AT.P ?L)))))))
+			(?I5 (NOT (SAMMY.NAME (POSSESS.V THING224.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (SAMMY.NAME (KNOW.V (THAT (THING224.SK (AT.P ?L))))))
+			(?P2 (SAMMY.NAME (POSSESS.V THING224.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = ?E))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sam bought a new shirt."
+	; "He paid for it with cash."
+	; "He put on the shirt."
+	; "He looked in the mirror."
+	; "He liked what he saw."
+	(EPI-SCHEMA ((?X_N (BUY.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C MIRROR.N))
+			(!R2 (?X_H CASH.N))
+			(!R3 (?X_M NEW.A))
+			(!R4 (?X_M SHIRT.N))
+			(!R5 (?X_N AGENT.N))
+		)
+		(:STEPS
+			(?X_J (?X_N (BUY.V ?X_M)))
+			(?X_G (?X_N ((ADV-A (FOR.P ?X_M)) ((ADV-A (WITH.P ?X_H)) PAY.V))))
+			(?X_E (?X_N ((ADV-A (ON.P ?X_M)) PUT.V)))
+			(?X_B (?X_N ((ADV-A (IN.P ?X_C)) LOOK.V)))
+			(?X_L (?X_N LIKE.13.V (ANS-TO (?X_N (SEE.V ?X_O)))))
+			(?X_L (?X_N LIKE.14.V (ANS-TO (?X_N (SEE.V ?X_O)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAM.NAME LIKE.13.V (ANS-TO (SAM.NAME (SEE.V WHAT.PRO)))) **
+	             E263.SK)
+		(:ROLES
+			(!R1 (SAM.NAME AGENT.N))
+			(!R2 (NOT ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) ACTION.N)))
+			(!R3 (NOT ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) AGENT.N)))
+			(!R4 ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) OBJECT.N))
+		)
+		(:POSTCONDS
+			(?P1
+	   (SAM.NAME (WANT.V (KA (POSSESS.V (ANS-TO (SAM.NAME (SEE.V WHAT.PRO))))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAM.NAME LIKE.14.V (ANS-TO (SAM.NAME (SEE.V WHAT.PRO)))) **
+	             E263.SK)
+		(:ROLES
+			(!R1 (SAM.NAME AGENT.N))
+			(!R2 ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) ENTITY.N))
+			(!R3 (?L LOCATION.N))
+		)
+		(:PRECONDS
+			(?I1 (SAM.NAME (AT.P ?L)))
+			(?I2 ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) (AT.P ?L)))
+			(?I3 ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) (NEAR.P SAM.NAME)))
+		)
+		(:POSTCONDS
+			(?P1
+	   (SAM.NAME (KNOW.V (THAT ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) (AT.P ?L))))))
+			(?P2
+	   (SAM.NAME
+	    (KNOW.V (THAT ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) (NEAR.P SAM.NAME))))))
+			(?P3 ((ANS-TO (SAM.NAME (SEE.V WHAT.PRO))) (NEAR.P SAM.NAME)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Dogs have four legs."
+	; "A dog's tail is curled over its back."
+	; "Cats have four legs."
+	; "A cat's tail is curved over its back."
+	(EPI-SCHEMA ((?X_K (HAVE.V (FOUR.D (PLUR LEG.N)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_K (PLUR DOG.N)))
+			(!R2 (?X_D TAIL.N))
+			(!R3 (?X_D (PERTAIN-TO ?X_E)))
+			(!R4 (?X_L BACK.N))
+			(!R5 (?X_L (PERTAIN-TO ?X_E)))
+			(!R6 (?X_F (PLUR CAT.N)))
+			(!R7 (?X_I TAIL.N))
+			(!R8 (?X_I (PERTAIN-TO ?X_J)))
+			(!R9 (?X_M BACK.N))
+			(!R10 (?X_M (PERTAIN-TO ?X_J)))
+		)
+		(:STEPS
+			(?X_A (?X_K (HAVE.V (FOUR.D (PLUR LEG.N)))))
+			(?X_B (?X_D (OVER.P ?X_L)))
+			(?X_H (?X_F (HAVE.V (FOUR.D (PLUR LEG.N)))))
+			(?X_C (?X_I (OVER.P ?X_M)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "A dog lived in a cage."
+	; "The dog liked to play."
+	; "He ran around the cage."
+	; "He barked at other dogs."
+	(EPI-SCHEMA ((?X_D ((ADV-A (IN.P ?X_J)) LIVE.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D OTHER.A))
+			(!R2 (?X_D (PLUR DOG.N)))
+			(!R3 (?X_I DOG.N))
+			(!R4 (?X_J CAGE.N))
+			(!R5 (?X_J LOCATION.N))
+			(!R6 ((KA PLAY.V) ACTION.N))
+			(!R7 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_I LIVE.1.V ?X_J))
+			(?X_F (?X_I LIKE.2.V (KA PLAY.V)))
+			(?E_1 (?X_I PLAY.3.V))
+			(?X_H (?X_I ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2))
+			(?X_C (?X_I ((ADV-A (AT.P ?X_D)) BARK.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG45.SK LIVE.1.V CAGE47.SK) ** E48.SK)
+		(:ROLES
+			(!R1 (DOG45.SK AGENT.N))
+			(!R2 (CAGE47.SK LOCATION.N))
+			(!R3 (?D SHELTER.N))
+			(!R4 (?D (AT.P CAGE47.SK)))
+			(!R5 (DOG45.SK DOG.N))
+			(!R6 (CAGE47.SK CAGE.N))
+		)
+	)
+	(EPI-SCHEMA ((DOG45.SK LIKE.2.V (KA PLAY.V)) ** E51.SK)
+		(:ROLES
+			(!R1 (DOG45.SK AGENT.N))
+			(!R2 ((KA PLAY.V) ACTION.N))
+			(!R3 (DOG45.SK DOG.N))
+		)
+		(:PRECONDS
+			(?I1 (DOG45.SK (THINK.V (THAT ((KA PLAY.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG45.SK PLAY.3.V) ** ?E)
+		(:ROLES
+			(!R1 (DOG45.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (DOG45.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG45.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (DOG45.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (DOG45.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG45.SK ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2) ** E54.SK)
+		(:ROLES
+			(!R1 (DOG45.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG45.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG45.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG45.SK (AT.P ?L1)))
+			(?I2 (NOT (DOG45.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG45.SK (AT.P ?L1))))
+			(?P2 (DOG45.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Dogs need to be kept inside."
+	; "Dogs can bite people."
+	; "Cages keep dogs safe."
+	; "Cages protect people from dogs."
+	(EPI-SCHEMA ((?X_F (COMPOSITE-SCHEMA.PR ?X_G (KE (?X_H SAFE.A)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_F (PLUR DOG.N)))
+			(!R2 (?X_G (PLUR PERSON.N)))
+			(!R3 (?X_C (PLUR CAGE.N)))
+			(!R4 (?X_H (PLUR DOG.N)))
+		)
+		(:STEPS
+			(?X_B (?X_F ((CAN.AUX BITE.V) ?X_G)))
+			(?X_E (?X_C (KEEP.V (KE (?X_H SAFE.A)))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "A dog lived in a cage."
+	; "The dog barked all night."
+	; "The dog's owner came home."
+	; "The dog ran away."
+	(EPI-SCHEMA ((?X_I ((ADV-A (IN.P ?X_K)) LIVE.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K CAGE.N))
+			(!R2 (?X_L HOME.N))
+			(!R3 (?X_I OWNER.N))
+			(!R4 (?X_L (PERTAIN-TO ?X_I)))
+			(!R5 (?X_J DOG.N))
+			(!R6 (?X_I (PERTAIN-TO ?X_J)))
+			(!R7 (?X_K LOCATION.N))
+			(!R8 (?N NOISE.N))
+			(!R9 (?X_L DESTINATION.N))
+			(!R10 (?X_I LOCATION.N))
+			(!R11 (NOT (?X_I = ?L2)))
+			(!R12 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_J LIVE.1.V ?X_K))
+			(?X_D (?X_J BARK.5.V ?N))
+			(?X_F (?X_I ((ADV-A (FROM.P ?L1)) COME.6.V) ?X_L))
+			(?X_H (?X_J ((ADV-A (FROM.P ?X_I)) RUN_AWAY.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG108.SK LIVE.1.V CAGE110.SK) ** E111.SK)
+		(:ROLES
+			(!R1 (DOG108.SK AGENT.N))
+			(!R2 (CAGE110.SK LOCATION.N))
+			(!R3 (?D SHELTER.N))
+			(!R4 (?D (AT.P CAGE110.SK)))
+			(!R5 (DOG108.SK DOG.N))
+			(!R6 (CAGE110.SK CAGE.N))
+			(!R7 (OWNER119.SK OWNER.N))
+			(!R8 (OWNER119.SK (PERTAIN-TO DOG108.SK)))
+			(!R9 (HOME124.SK (PERTAIN-TO OWNER119.SK)))
+			(!R10 (HOME124.SK HOME.N))
+		)
+	)
+	(EPI-SCHEMA ((DOG108.SK BARK.5.V ?N) ** E114.SK)
+		(:ROLES
+			(!R1 (DOG108.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (DOG108.SK DOG.N))
+			(!R4 (OWNER119.SK OWNER.N))
+			(!R5 (OWNER119.SK (PERTAIN-TO DOG108.SK)))
+			(!R6 (HOME124.SK (PERTAIN-TO OWNER119.SK)))
+			(!R7 (HOME124.SK HOME.N))
+		)
+	)
+	(EPI-SCHEMA ((OWNER119.SK ((ADV-A (FROM.P ?L1)) COME.6.V) HOME124.SK) **
+	             E117.SK)
+		(:ROLES
+			(!R1 (OWNER119.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME124.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME124.SK)))
+			(!R5 (HOME124.SK DESTINATION.N))
+			(!R6 (HOME124.SK HOME.N))
+			(!R7 (HOME124.SK (PERTAIN-TO OWNER119.SK)))
+			(!R8 (OWNER119.SK OWNER.N))
+			(!R9 (OWNER119.SK (PERTAIN-TO DOG108.SK)))
+			(!R10 (DOG108.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (OWNER119.SK (WANT.V (KA ((ADV-A (AT.P HOME124.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (OWNER119.SK (AT.P ?L1)))
+			(?I2 (NOT (OWNER119.SK (AT.P HOME124.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (OWNER119.SK (AT.P ?L1))))
+			(?P2 (OWNER119.SK (AT.P HOME124.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG108.SK ((ADV-A (FROM.P OWNER119.SK)) RUN_AWAY.7.V) ?L2) **
+	             E122.SK)
+		(:ROLES
+			(!R1 (DOG108.SK AGENT.N))
+			(!R2 (OWNER119.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (OWNER119.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG108.SK DOG.N))
+			(!R7 (OWNER119.SK OWNER.N))
+			(!R8 (OWNER119.SK (PERTAIN-TO DOG108.SK)))
+			(!R9 (HOME124.SK (PERTAIN-TO OWNER119.SK)))
+			(!R10 (HOME124.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (DOG108.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG108.SK (AT.P OWNER119.SK)))
+			(?I2 (NOT (DOG108.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG108.SK (AT.P OWNER119.SK))))
+			(?P2 (DOG108.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen's dog was in a cage."
+	; "He barked all night."
+	; "He scratched on the door."
+	; "Karen couldn't sleep."
+	(EPI-SCHEMA ((?X_C ((ADV-A (IN.P ?X_F)) BE.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G AGENT.N))
+			(!R2 (?X_C DOOR.N))
+			(!R3 (?X_F CAGE.N))
+			(!R4 (?X_J DOG.N))
+			(!R5 (?X_J (PERTAIN-TO ?X_G)))
+			(!R6 (?N NOISE.N))
+		)
+		(:STEPS
+			(?X_E (?X_J ((ADV-A (IN.P ?X_F)) BE.V)))
+			(E143.SK (NOT (?X_G (CAN.MD SLEEP.V))))
+			(?X_I (?X_J BARK.5.V ?N))
+			(?X_B (?X_J ((ADV-A (ON.P ?X_C)) SCRATCH.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG137.SK BARK.5.V ?N) ** E139.SK)
+		(:ROLES
+			(!R1 (DOG137.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (DOG137.SK DOG.N))
+			(!R4 (DOG137.SK (PERTAIN-TO KAREN.NAME)))
+			(!R5 (KAREN.NAME AGENT.N))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A dog lived in a cage."
+	; "The dog barked all night."
+	; "The owner put food in the cage."
+	; "The dog ate the food."
+	; "The dog slept inside the cage."
+	(EPI-SCHEMA ((?X_I ((ADV-A (IN.P ?X_M)) LIVE.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M CAGE.N))
+			(!R2 (?X_L DOG.N))
+			(!R3 (?X_I OWNER.N))
+			(!R4 (?N NOISE.N))
+			(!R5 (?X_M LOCATION.N))
+			(!R6 (?X_N FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_L LIVE.1.V ?X_M))
+			(?X_F (?X_L BARK.5.V ?N))
+			(?X_H (?X_I PUT.8.V ?X_N ?X_M))
+			(?X_K (?X_L EAT.9.V ?X_N))
+			(?X_B (?X_L ((ADV-A (INSIDE.P ?X_M)) SLEEP.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG156.SK LIVE.1.V CAGE158.SK) ** E159.SK)
+		(:ROLES
+			(!R1 (DOG156.SK AGENT.N))
+			(!R2 (CAGE158.SK LOCATION.N))
+			(!R3 (?D SHELTER.N))
+			(!R4 (?D (AT.P CAGE158.SK)))
+			(!R5 (DOG156.SK DOG.N))
+			(!R6 (CAGE158.SK CAGE.N))
+		)
+	)
+	(EPI-SCHEMA ((DOG156.SK BARK.5.V ?N) ** E162.SK)
+		(:ROLES
+			(!R1 (DOG156.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (DOG156.SK DOG.N))
+		)
+	)
+	(EPI-SCHEMA ((OWNER163.SK PUT.8.V FOOD168.SK CAGE158.SK) ** E166.SK)
+		(:ROLES
+			(!R1 (OWNER163.SK AGENT.N))
+			(!R2 (FOOD168.SK ENTITY.N))
+			(!R3 (CAGE158.SK LOCATION.N))
+			(!R4 (CAGE158.SK CAGE.N))
+			(!R5 (FOOD168.SK FOOD.N))
+			(!R6 (OWNER163.SK OWNER.N))
+		)
+		(:GOALS
+			(?G1 (OWNER163.SK (WANT.V (THAT (FOOD168.SK (AT.P CAGE158.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (OWNER163.SK (POSSESS.V FOOD168.SK)))
+			(?I2 (FOOD168.SK (NOT (AT.P CAGE158.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FOOD168.SK (AT.P CAGE158.SK)))
+		)
+	)
+	(EPI-SCHEMA ((DOG156.SK EAT.9.V FOOD168.SK) ** E172.SK)
+		(:ROLES
+			(!R1 (DOG156.SK AGENT.N))
+			(!R2 (FOOD168.SK FOOD.N))
+			(!R3 (DOG156.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG156.SK (WANT.V (THAT (NOT (DOG156.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (DOG156.SK POSSESS.V FOOD168.SK))
+			(?I2 (DOG156.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG156.SK (POSSESS.V FOOD168.SK))))
+			(?P2 (NOT (DOG156.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bobby liked to play with his dog."
+	; "He played with his dog in the backyard."
+	; "He put the dog in the cage."
+	; "He closed the door."
+	; "He let the dog out again."
+	(EPI-SCHEMA ((?X_I ((ADV-A (WITH.P ?X_K)) ((ADV-A (IN.P ?X_L)) PLAY.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_K DOG.N))
+			(!R2 (?X_J DOOR.N))
+			(!R3 (?X_K (PERTAIN-TO ?X_I)))
+			(!R4 (?X_L CAGE.N))
+			(!R5 ((KA ((ADV-A (WITH.P ?X_K)) PLAY.V)) ACTION.N))
+			(!R6 (?X_L LOCATION.N))
+			(!R7 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_I LIKE.10.V (KA ((ADV-A (WITH.P ?X_K)) PLAY.V))))
+			(?E_1 (?X_I PLAY.3.V))
+			(?X_B (?X_I PLAY.11.V))
+			(?X_H (?X_I PUT.8.V ?X_K ?X_L))
+			(?X_F (?X_I (CLOSE.V ?X_J)))
+			(?X_D (?X_I ((AGAIN.ADV LET_OUT.V) ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOBBY.NAME LIKE.10.V (KA ((ADV-A (WITH.P DOG186.SK)) PLAY.V))) **
+	             E185.SK)
+		(:ROLES
+			(!R1 (BOBBY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (WITH.P DOG186.SK)) PLAY.V)) ACTION.N))
+			(!R3 (DOG186.SK (PERTAIN-TO BOBBY.NAME)))
+			(!R4 (DOG186.SK DOG.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (BOBBY.NAME
+	    (THINK.V (THAT ((KA ((ADV-A (WITH.P DOG186.SK)) PLAY.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOBBY.NAME PLAY.3.V) ** ?E)
+		(:ROLES
+			(!R1 (BOBBY.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (DOG186.SK (PERTAIN-TO BOBBY.NAME)))
+			(!R7 (DOG186.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (BOBBY.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (BOBBY.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (BOBBY.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOBBY.NAME PLAY.11.V) ** E187.SK)
+		(:ROLES
+			(!R1 (BOBBY.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (DOG186.SK (PERTAIN-TO BOBBY.NAME)))
+			(!R7 (DOG186.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (BOBBY.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (BOBBY.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (BOBBY.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOBBY.NAME PUT.8.V DOG186.SK CAGE194.SK) ** E195.SK)
+		(:ROLES
+			(!R1 (BOBBY.NAME AGENT.N))
+			(!R2 (DOG186.SK ENTITY.N))
+			(!R3 (CAGE194.SK LOCATION.N))
+			(!R4 (DOG186.SK (PERTAIN-TO BOBBY.NAME)))
+			(!R5 (DOG186.SK DOG.N))
+			(!R6 (CAGE194.SK CAGE.N))
+		)
+		(:GOALS
+			(?G1 (BOBBY.NAME (WANT.V (THAT (DOG186.SK (AT.P CAGE194.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOBBY.NAME (POSSESS.V DOG186.SK)))
+			(?I2 (DOG186.SK (NOT (AT.P CAGE194.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (DOG186.SK (AT.P CAGE194.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen's dog, Jack, liked to play in the yard."
+	; "He played in the yard all day."
+	; "He ran around the yard."
+	; "He chased squirrels."
+	; "He barked at other dogs."
+	; "He slept in the house."
+	(EPI-SCHEMA ((?X_O ((ADV-A (IN.P ?X_Q)) PLAY.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C HOUSE.N))
+			(!R2 (?X_F OTHER.A))
+			(!R3 (?X_F (PLUR DOG.N)))
+			(!R4 (?X_Q YARD.N))
+			(!R5 (?X_P DOG.N))
+			(!R6 (?X_O AGENT.N))
+			(!R7 (?X_P (PERTAIN-TO ?X_O)))
+			(!R8 (?X_R (PLUR SQUIRREL.N)))
+			(!R9 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_H (?X_P (LIKE.V (KA ((ADV-A (IN.P ?X_Q)) PLAY.V)))))
+			(?X_J (?X_P PLAY.11.V))
+			(?X_L (?X_P ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2))
+			(?X_N (?X_P CHASE.12.V ?X_R))
+			(?X_E (?X_P ((ADV-A (AT.P ?X_F)) BARK.V)))
+			(?X_B (?X_P ((ADV-A (IN.P ?X_C)) SLEEP.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JACK.NAME PLAY.11.V) ** E218.SK)
+		(:ROLES
+			(!R1 (JACK.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (JACK.NAME DOG.N))
+			(!R7 (KAREN.NAME AGENT.N))
+			(!R8 (JACK.NAME (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (JACK.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (JACK.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (JACK.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JACK.NAME ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2) ** E221.SK)
+		(:ROLES
+			(!R1 (JACK.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (JACK.NAME DOG.N))
+			(!R7 (KAREN.NAME AGENT.N))
+			(!R8 (JACK.NAME (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (JACK.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JACK.NAME (AT.P ?L1)))
+			(?I2 (NOT (JACK.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JACK.NAME (AT.P ?L1))))
+			(?P2 (JACK.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JACK.NAME CHASE.12.V SQUIRREL225.SK) ** E223.SK)
+		(:ROLES
+			(!R1 (JACK.NAME AGENT.N))
+			(!R2 (SQUIRREL225.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (JACK.NAME DOG.N))
+			(!R6 (SQUIRREL225.SK (PLUR SQUIRREL.N)))
+			(!R7 (KAREN.NAME AGENT.N))
+			(!R8 (JACK.NAME (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (JACK.NAME (WANT.V (THAT (JACK.NAME (NEAR.P SQUIRREL225.SK))))))
+		)
+		(:STEPS
+			(?E1 (SQUIRREL225.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (JACK.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly loves animals."
+	; "She has two cats."
+	; "She wants to find a dog for her family."
+	; "She is looking for a small dog."
+	(EPI-SCHEMA ((?X_J (LOVE.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K (PLUR ANIMAL.N)))
+			(!R2 (?X_G SMALL.A))
+			(!R3 (?X_G DOG.N))
+			(!R4 (NOT (?X_K ACTION.N)))
+			(!R5 ((TWO.D (PLUR CAT.N)) OBJECT.N))
+			(!R6 (?X_L ENTITY.N))
+			(!R7 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_D (?X_J LOVE.13.V ?X_K))
+			(?X_F (?X_J HAVE.14.V (TWO.D (PLUR CAT.N))))
+			(?X_B (?X_J (WANT.V (KA (FIND.V ?X_L)))))
+			(?E_1 (?X_J FIND.15.V ?X_L))
+			(?X_I (?X_J ((ADV-A (FOR.P ?X_G)) LOOK.16.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME LOVE.13.V ANIMAL260.SK) ** E258.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (NOT (ANIMAL260.SK ACTION.N)))
+			(!R3 (NOT (ANIMAL260.SK AGENT.N)))
+			(!R4 (ANIMAL260.SK OBJECT.N))
+			(!R5 (ANIMAL260.SK (PLUR ANIMAL.N)))
+		)
+		(:POSTCONDS
+			(?P1 (MOLLY.NAME (WANT.V (KA (POSSESS.V ANIMAL260.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME HAVE.14.V (TWO.D (PLUR CAT.N))) ** E262.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 ((TWO.D (PLUR CAT.N)) OBJECT.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (MOLLY.NAME (AT.P ?L)))
+			(!R5 ((TWO.D (PLUR CAT.N)) (AT.P ?L)))
+		)
+		(:NECESSITIES
+			(!N1 (!R4 NECESSARY-TO-DEGREE 0.5))
+			(!N2 (!R5 NECESSARY-TO-DEGREE 0.5))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME FIND.15.V OBJECT264.SK) ** ?E)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (OBJECT264.SK ENTITY.N))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?L)))
+			(?I2 (OBJECT264.SK (AT.P ?L)))
+			(?I3 (MOLLY.NAME ((ADV-A (FOR.P OBJECT264.SK)) SEARCH.V)))
+			(?I4 (NOT (MOLLY.NAME (KNOW.V (THAT (OBJECT264.SK (AT.P ?L)))))))
+			(?I5 (NOT (MOLLY.NAME (POSSESS.V OBJECT264.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (MOLLY.NAME (KNOW.V (THAT (OBJECT264.SK (AT.P ?L))))))
+			(?P2 (MOLLY.NAME (POSSESS.V OBJECT264.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = ?E))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME ((ADV-A (FOR.P DOG269.SK)) LOOK.16.V)) ** E268.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?LX LOCATION.N))
+			(!R3 (?LO LOCATION.N))
+			(!R4 (DOG269.SK ENTITY.N))
+			(!R5 (DOG269.SK SMALL.A))
+			(!R6 (DOG269.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (KA (FIND.V DOG269.SK)))))
+			(?G2 (MOLLY.NAME (WANT.V (KA (POSSESS.V DOG269.SK)))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?LX)))
+			(?I2 (DOG269.SK (AT.P ?LO)))
+			(?I3 (NOT (MOLLY.NAME (KNOW.V (THAT (DOG269.SK (AT.P ?LO)))))))
+		)
+		(:POSTCONDS
+			(?P1 (MOLLY.NAME (FIND.V DOG269.SK)))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?I3<- ?P1) = E268.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Cats live in boxes."
+	; "Dogs live in cages."
+	; "A dog has four legs."
+	; "A cat has eight legs."
+	(EPI-SCHEMA ((?X_L ((ADV-A (IN.P ?X_M)) LIVE.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L DOG.N))
+			(!R2 (?X_E (PLUR CAT.N)))
+			(!R3 (?X_M (PLUR BOX.N)))
+			(!R4 (?X_H (PLUR DOG.N)))
+			(!R5 (?X_K CAT.N))
+			(!R6 (?X_M LOCATION.N))
+			(!R7 ((EIGHT.D (PLUR LEG.N)) OBJECT.N))
+		)
+		(:STEPS
+			(?X_D (?X_E LIVE.1.V ?X_M))
+			(?X_G (?X_H LIVE.1.V ?X_M))
+			(?X_B (?X_L (HAVE.V (FOUR.D (PLUR LEG.N)))))
+			(?X_J (?X_K HAVE.17.V (EIGHT.D (PLUR LEG.N))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CAT293.SK LIVE.1.V BOX292.SK) ** E289.SK)
+		(:ROLES
+			(!R1 (CAT293.SK AGENT.N))
+			(!R2 (BOX292.SK LOCATION.N))
+			(!R3 (?D SHELTER.N))
+			(!R4 (?D (AT.P BOX292.SK)))
+			(!R5 (BOX292.SK (PLUR BOX.N)))
+			(!R6 (CAT293.SK (PLUR CAT.N)))
+		)
+	)
+	(EPI-SCHEMA ((DOG299.SK LIVE.1.V BOX292.SK) ** E295.SK)
+		(:ROLES
+			(!R1 (DOG299.SK AGENT.N))
+			(!R2 (BOX292.SK LOCATION.N))
+			(!R3 (?D SHELTER.N))
+			(!R4 (?D (AT.P BOX292.SK)))
+			(!R5 (BOX292.SK (PLUR BOX.N)))
+			(!R6 (DOG299.SK (PLUR DOG.N)))
+		)
+	)
+	(EPI-SCHEMA ((CAT303.SK HAVE.17.V (EIGHT.D (PLUR LEG.N))) ** E305.SK)
+		(:ROLES
+			(!R1 (CAT303.SK AGENT.N))
+			(!R2 ((EIGHT.D (PLUR LEG.N)) OBJECT.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (CAT303.SK (AT.P ?L)))
+			(!R5 ((EIGHT.D (PLUR LEG.N)) (AT.P ?L)))
+			(!R6 (CAT303.SK CAT.N))
+		)
+		(:NECESSITIES
+			(!N1 (!R4 NECESSARY-TO-DEGREE 0.5))
+			(!N2 (!R5 NECESSARY-TO-DEGREE 0.5))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Lily called 911."
+	; "She was having trouble breathing."
+	; "A policeman came to her house."
+	; "He helped Lily breathe better."
+	(EPI-SCHEMA ((?X_G (CALL.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H TROUBLE.N))
+			(!R2 (?X_G AGENT.N))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_E POLICEMAN.N))
+			(!R5 (?X_I HOUSE.N))
+			(!R6 (?X_I (PERTAIN-TO ?X_F)))
+			(!R7 (?X_I DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_F (CALL.V ?X_G)))
+			(?X_D (?X_F (HAVE.V (KE (?X_H BREATHE.V)))))
+			(?X_B (?X_E ((ADV-A (FROM.P ?L1)) COME.1.V) ?X_I))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((POLICEMAN11.SK ((ADV-A (FROM.P ?L1)) COME.1.V) HOUSE4.SK) **
+	             E3.SK)
+		(:ROLES
+			(!R1 (POLICEMAN11.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOUSE4.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOUSE4.SK)))
+			(!R5 (HOUSE4.SK DESTINATION.N))
+			(!R6 (POLICEMAN11.SK POLICEMAN.N))
+			(!R7 (HOUSE4.SK HOUSE.N))
+			(!R8 (HOUSE4.SK (PERTAIN-TO LILY.NAME)))
+			(!R9 (LILY.NAME AGENT.N))
+		)
+		(:GOALS
+			(?G1 (POLICEMAN11.SK (WANT.V (KA ((ADV-A (AT.P HOUSE4.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (POLICEMAN11.SK (AT.P ?L1)))
+			(?I2 (NOT (POLICEMAN11.SK (AT.P HOUSE4.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (POLICEMAN11.SK (AT.P ?L1))))
+			(?P2 (POLICEMAN11.SK (AT.P HOUSE4.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man called 911."
+	; "A fire broke out."
+	; "He ran into the house."
+	; "He grabbed some blankets."
+	; "He put them on the floor."
+	; "He covered his wife and son."
+	; "He called for help."
+	(EPI-SCHEMA ((?X_Q (((ADV-A (FOR.P ?X_D)) CALL.V) ?X_T)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D HELP.N))
+			(!R2 (?X_S SON.N))
+			(!R3 (?X_R WIFE.N))
+			(!R4 (?X_U (PLUR BLANKET.N)))
+			(!R5 (?X_I FIRE.N))
+			(!R6 (?X_Q AGENT.N))
+			(!R7 (?X_P MAN.N))
+			(!R8 (?X_R (PERTAIN-TO ?X_P)))
+			(!R9 (?X_T HOUSE.N))
+			(!R10 (?X_V FLOOR.N))
+			(!R11 (?X_T DESTINATION.N))
+			(!R12 (?X_V LOCATION.N))
+		)
+		(:STEPS
+			(?X_K (?X_P (CALL.V ?X_Q)))
+			(?X_H (?X_I BREAK_OUT.V))
+			(?X_M (?X_P ((ADV-A (FROM.P ?L1)) RUN.2.V) ?X_T))
+			(?X_F (?X_P (GRAB.V ?X_U)))
+			(?X_O (?X_P PUT.3.V ?X_U ?X_V))
+			(?X_A (?X_P (COVER.V (SET-OF ?X_R ?X_S))))
+			(?X_C (?X_P ((ADV-A (FOR.P ?X_D)) CALL.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN30.SK ((ADV-A (FROM.P ?L1)) RUN.2.V) HOUSE37.SK) ** E38.SK)
+		(:ROLES
+			(!R1 (MAN30.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOUSE37.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOUSE37.SK)))
+			(!R5 (HOUSE37.SK DESTINATION.N))
+			(!R6 (MAN30.SK MAN.N))
+			(!R7 (HOUSE37.SK HOUSE.N))
+			(!R8 (WIFE29.SK (PERTAIN-TO MAN30.SK)))
+			(!R9 (WIFE29.SK WIFE.N))
+		)
+		(:GOALS
+			(?G1 (MAN30.SK (WANT.V (KA ((ADV-A (AT.P HOUSE37.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN30.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN30.SK (AT.P HOUSE37.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN30.SK (AT.P ?L1))))
+			(?P2 (MAN30.SK (AT.P HOUSE37.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN30.SK PUT.3.V BLANKET42.SK FLOOR44.SK) ** E45.SK)
+		(:ROLES
+			(!R1 (MAN30.SK AGENT.N))
+			(!R2 (BLANKET42.SK ENTITY.N))
+			(!R3 (FLOOR44.SK LOCATION.N))
+			(!R4 (MAN30.SK MAN.N))
+			(!R5 (BLANKET42.SK (PLUR BLANKET.N)))
+			(!R6 (FLOOR44.SK FLOOR.N))
+			(!R7 (WIFE29.SK (PERTAIN-TO MAN30.SK)))
+			(!R8 (WIFE29.SK WIFE.N))
+		)
+		(:GOALS
+			(?G1 (MAN30.SK (WANT.V (THAT (BLANKET42.SK (AT.P FLOOR44.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN30.SK (POSSESS.V BLANKET42.SK)))
+			(?I2 (BLANKET42.SK (NOT (AT.P FLOOR44.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BLANKET42.SK (AT.P FLOOR44.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill called 911."
+	; "He said his house was on fire."
+	; "A firefighter came to help Bill."
+	(EPI-SCHEMA ((?X_H (CALL.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FIRE.N))
+			(!R2 (?X_I HOUSE.N))
+			(!R3 (?X_H AGENT.N))
+			(!R4 (?X_G BILL.N))
+			(!R5 (?X_G AGENT.N))
+			(!R6 (?X_I (PERTAIN-TO ?X_G)))
+			(!R7 (?X_F FIREFIGHTER.N))
+			(!R8 (?L2 DESTINATION.N))
+			(!R9 (?X_F AGENT.N))
+		)
+		(:STEPS
+			(?X_C (?X_G (CALL.V ?X_H)))
+			(?X_A (?X_G (SAY.V (THT (?X_I ((ADV-A (ON.P ?X_J)) BE.V))))))
+			(?X_E (?X_F ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FIREFIGHTER81.SK ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2) ** E83.SK)
+		(:ROLES
+			(!R1 (FIREFIGHTER81.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FIREFIGHTER81.SK FIREFIGHTER.N))
+		)
+		(:GOALS
+			(?G1 (FIREFIGHTER81.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (FIREFIGHTER81.SK (AT.P ?L1)))
+			(?I2 (NOT (FIREFIGHTER81.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FIREFIGHTER81.SK (AT.P ?L1))))
+			(?P2 (FIREFIGHTER81.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A man called 911."
+	; "He was sick."
+	; "He was having trouble breathing."
+	; "The police came to his house."
+	; "The ambulance came to take him away."
+	(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_M)) COME.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L TROUBLE.N))
+			(!R2 (?X_K AGENT.N))
+			(!R3 (?X_J MAN.N))
+			(!R4 (?X_J SICK.A))
+			(!R5 (?X_H POLICE.N))
+			(!R6 (?X_M HOUSE.N))
+			(!R7 (?X_M (PERTAIN-TO ?X_J)))
+			(!R8 (?X_I AMBULANCE.N))
+			(!R9 (?X_M DESTINATION.N))
+			(!R10 (?X_H AGENT.N))
+			(!R11 (?X_M SMALLER-THAN.N ?X))
+			(!R12 (?X AGENT.N))
+			(!R13 (?X_I AGENT.N))
+			(!R14 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_J (CALL.V ?X_K)))
+			(?X_C (?X_J (HAVE.V (KE (?X_L BREATHE.V)))))
+			(?X_A (?X_H ((ADV-A (FROM.P ?L1)) COME.1.V) ?X_M))
+			(?E_1 (?X TAKE.5.V ?X_M ?L2))
+			(?X_G (?X_I ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((POLICE109.SK ((ADV-A (FROM.P ?L1)) COME.1.V) HOUSE99.SK) **
+	             E98.SK)
+		(:ROLES
+			(!R1 (POLICE109.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOUSE99.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOUSE99.SK)))
+			(!R5 (HOUSE99.SK DESTINATION.N))
+			(!R6 (POLICE109.SK POLICE.N))
+			(!R7 (HOUSE99.SK HOUSE.N))
+			(!R8 (MAN100.SK MAN.N))
+			(!R9 (MAN100.SK SICK.A))
+			(!R10 (MAN100.SK AGENT.N))
+			(!R11 (HOUSE99.SK (PERTAIN-TO MAN100.SK)))
+		)
+		(:GOALS
+			(?G1 (POLICE109.SK (WANT.V (KA ((ADV-A (AT.P HOUSE99.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (POLICE109.SK (AT.P ?L1)))
+			(?I2 (NOT (POLICE109.SK (AT.P HOUSE99.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (POLICE109.SK (AT.P ?L1))))
+			(?P2 (POLICE109.SK (AT.P HOUSE99.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((?X TAKE.5.V HOUSE99.SK ?L2) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (HOUSE99.SK ENTITY.N))
+			(!R3 (HOUSE99.SK SMALLER-THAN.N ?X))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (HOUSE99.SK HOUSE.N))
+			(!R8 (MAN100.SK MAN.N))
+			(!R9 (MAN100.SK SICK.A))
+			(!R10 (MAN100.SK AGENT.N))
+			(!R11 (HOUSE99.SK (PERTAIN-TO MAN100.SK)))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (THAT (HOUSE99.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE99.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (?X (POSSESS.V HOUSE99.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (HOUSE99.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((AMBULANCE111.SK ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2) ** E113.SK)
+		(:ROLES
+			(!R1 (AMBULANCE111.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (AMBULANCE111.SK AMBULANCE.N))
+		)
+		(:GOALS
+			(?G1 (AMBULANCE111.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (AMBULANCE111.SK (AT.P ?L1)))
+			(?I2 (NOT (AMBULANCE111.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (AMBULANCE111.SK (AT.P ?L1))))
+			(?P2 (AMBULANCE111.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A man called 911."
+	; "He was having trouble breathing."
+	; "An ambulance came to take him to the hospital."
+	; "The paramedics put an oxygen mask on him."
+	; "They carried him to the ambulance."
+	(EPI-SCHEMA ((?X_P (CALL.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N OXYGEN.N))
+			(!R2 (?X_N MASK.N))
+			(!R3 (?X_K (PLUR PARAMEDIC.N)))
+			(!R4 (?X_M TROUBLE.N))
+			(!R5 (?X_L AGENT.N))
+			(!R6 (?X_P MAN.N))
+			(!R7 (?X_O HOSPITAL.N))
+			(!R8 (?X_Q AMBULANCE.N))
+			(!R9 (?X_P SMALLER-THAN.N ?X))
+			(!R10 (?X_O DESTINATION.N))
+			(!R11 (?X AGENT.N))
+			(!R12 (?X_Q AGENT.N))
+			(!R13 (?L2 DESTINATION.N))
+			(!R14 (?X_P SMALLER-THAN.N ?X_K))
+			(!R15 (?X_Q DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_P (CALL.V ?X_L)))
+			(?X_D (?X_P (HAVE.V (KE (?X_M BREATHE.V)))))
+			(?E_1 (?X TAKE.6.V ?X_P ?X_O))
+			(?X_H (?X_Q ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2))
+			(?X_B (?X_K (((ADV-A (ON.P ?X_P)) PUT.V) ?X_N)))
+			(?X_J (?X_K CARRY.7.V ?X_P ?X_Q))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((?X TAKE.6.V MAN128.SK HOSPITAL137.SK) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (MAN128.SK ENTITY.N))
+			(!R3 (MAN128.SK SMALLER-THAN.N ?X))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOSPITAL137.SK LOCATION.N))
+			(!R6 (HOSPITAL137.SK DESTINATION.N))
+			(!R7 (MAN128.SK MAN.N))
+			(!R8 (MAN128.SK AGENT.N))
+			(!R9 (HOSPITAL137.SK HOSPITAL.N))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (THAT (MAN128.SK ((ADV-A (AT.P HOSPITAL137.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN128.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (?X (POSSESS.V MAN128.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MAN128.SK ((ADV-A (AT.P HOSPITAL137.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((AMBULANCE135.SK ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2) ** E138.SK)
+		(:ROLES
+			(!R1 (AMBULANCE135.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (AMBULANCE135.SK AMBULANCE.N))
+		)
+		(:GOALS
+			(?G1 (AMBULANCE135.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (AMBULANCE135.SK (AT.P ?L1)))
+			(?I2 (NOT (AMBULANCE135.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (AMBULANCE135.SK (AT.P ?L1))))
+			(?P2 (AMBULANCE135.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((PARAMEDIC143.SK CARRY.7.V MAN128.SK AMBULANCE135.SK) ** E148.SK)
+		(:ROLES
+			(!R1 (PARAMEDIC143.SK AGENT.N))
+			(!R2 (MAN128.SK ENTITY.N))
+			(!R3 (MAN128.SK SMALLER-THAN.N PARAMEDIC143.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (AMBULANCE135.SK LOCATION.N))
+			(!R6 (AMBULANCE135.SK DESTINATION.N))
+			(!R7 (MAN128.SK MAN.N))
+			(!R8 (MAN128.SK AGENT.N))
+			(!R9 (AMBULANCE135.SK AMBULANCE.N))
+			(!R10 (PARAMEDIC143.SK (PLUR PARAMEDIC.N)))
+		)
+		(:GOALS
+			(?G1
+	   (PARAMEDIC143.SK
+	    (WANT.V (THAT (MAN128.SK ((ADV-A (AT.P AMBULANCE135.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN128.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (PARAMEDIC143.SK (POSSESS.V MAN128.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MAN128.SK ((ADV-A (AT.P AMBULANCE135.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sam called 911."
+	; "The police came to his house."
+	; "They found Sam's mom dead."
+	; "They arrested Sam."
+	(EPI-SCHEMA ((?X_H (CALL.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J MOM.N))
+			(!R2 (?X_H POLICE.N))
+			(!R3 (?X_I AGENT.N))
+			(!R4 (?X_K AGENT.N))
+			(!R5 (?X_J (PERTAIN-TO ?X_K)))
+			(!R6 (?X_L HOUSE.N))
+			(!R7 (?X_L (PERTAIN-TO ?X_K)))
+			(!R8 (?X_L DESTINATION.N))
+			(!R9 (?X_H AGENT.N))
+		)
+		(:STEPS
+			(?X_G (?X_K (CALL.V ?X_I)))
+			(?X_A (?X_H ((ADV-A (FROM.P ?L1)) COME.1.V) ?X_L))
+			(?X_E (?X_H (FIND.V (KE (?X_J DEAD.A)))))
+			(?X_C (?X_H (ARREST.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((POLICE171.SK ((ADV-A (FROM.P ?L1)) COME.1.V) HOUSE168.SK) **
+	             E167.SK)
+		(:ROLES
+			(!R1 (POLICE171.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOUSE168.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOUSE168.SK)))
+			(!R5 (HOUSE168.SK DESTINATION.N))
+			(!R6 (POLICE171.SK POLICE.N))
+			(!R7 (HOUSE168.SK HOUSE.N))
+			(!R8 (HOUSE168.SK (PERTAIN-TO SAM.NAME)))
+			(!R9 (SAM.NAME AGENT.N))
+			(!R10 (MOM176.SK (PERTAIN-TO SAM.NAME)))
+			(!R11 (MOM176.SK MOM.N))
+		)
+		(:GOALS
+			(?G1 (POLICE171.SK (WANT.V (KA ((ADV-A (AT.P HOUSE168.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (POLICE171.SK (AT.P ?L1)))
+			(?I2 (NOT (POLICE171.SK (AT.P HOUSE168.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (POLICE171.SK (AT.P ?L1))))
+			(?P2 (POLICE171.SK (AT.P HOUSE168.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The boy called 911."
+	; "The police came."
+	; "The boy told them what happened."
+	; "The boy's parents were worried."
+	(EPI-SCHEMA ((?X_H ((ADV-A (TO.P ?L2)) COME.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H AGENT.N))
+			(!R2 (?X_G BOY.N))
+			(!R3 (?X_C (PERTAIN-TO ?X_G)))
+			(!R4 (?X_F POLICE.N))
+			(!R5 (?X_F AGENT.N))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_G (CALL.V ?X_H)))
+			(?X_E (?X_F ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((POLICE198.SK ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2) ** E200.SK)
+		(:ROLES
+			(!R1 (POLICE198.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (POLICE198.SK POLICE.N))
+		)
+		(:GOALS
+			(?G1 (POLICE198.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (POLICE198.SK (AT.P ?L1)))
+			(?I2 (NOT (POLICE198.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (POLICE198.SK (AT.P ?L1))))
+			(?P2 (POLICE198.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A man called 911."
+	; "He was having trouble breathing."
+	; "The ambulance came."
+	; "The paramedics helped the man."
+	; "The man was taken to the hospital."
+	(EPI-SCHEMA ((?X_N (CALL.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_O HOSPITAL.N))
+			(!R2 (?X_D (PLUR PARAMEDIC.N)))
+			(!R3 (?X_M TROUBLE.N))
+			(!R4 (?X_L AGENT.N))
+			(!R5 (?X_N MAN.N))
+			(!R6 (?X_K AMBULANCE.N))
+			(!R7 (?X_K AGENT.N))
+			(!R8 (?L2 DESTINATION.N))
+			(!R9 (?X_O DESTINATION.N))
+			(!R10 (?X_N SMALLER-THAN.N ?X))
+			(!R11 (?X AGENT.N))
+		)
+		(:STEPS
+			(?X_H (?X_N (CALL.V ?X_L)))
+			(?X_F (?X_N (HAVE.V (KE (?X_M BREATHE.V)))))
+			(?X_J (?X_K ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2))
+			(?X_C (?X_D (HELP.V ?X_N)))
+			(?X_A (?X_N (TO.P ?X_O)))
+			(?E_1 (?X TAKE.6.V ?X_N ?X_O))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((AMBULANCE227.SK ((ADV-A (FROM.P ?L1)) COME.4.V) ?L2) ** E229.SK)
+		(:ROLES
+			(!R1 (AMBULANCE227.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (AMBULANCE227.SK AMBULANCE.N))
+		)
+		(:GOALS
+			(?G1 (AMBULANCE227.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (AMBULANCE227.SK (AT.P ?L1)))
+			(?I2 (NOT (AMBULANCE227.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (AMBULANCE227.SK (AT.P ?L1))))
+			(?P2 (AMBULANCE227.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((?X TAKE.6.V MAN220.SK HOSPITAL238.SK) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (MAN220.SK ENTITY.N))
+			(!R3 (MAN220.SK SMALLER-THAN.N ?X))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOSPITAL238.SK LOCATION.N))
+			(!R6 (HOSPITAL238.SK DESTINATION.N))
+			(!R7 (MAN220.SK AGENT.N))
+			(!R8 (MAN220.SK MAN.N))
+			(!R9 (HOSPITAL238.SK HOSPITAL.N))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (THAT (MAN220.SK ((ADV-A (AT.P HOSPITAL238.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN220.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (?X (POSSESS.V MAN220.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MAN220.SK ((ADV-A (AT.P HOSPITAL238.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sam called for help."
+	; "He was stuck in a snowdrift."
+	; "He couldn't move."
+	; "He was afraid that he would freeze to death."
+	; "He shouted for help."
+	; "A neighbor heard him."
+	; "He came over and helped Sam."
+	(EPI-SCHEMA ((?X_D ((ADV-A (FOR.P ?X_G)) CALL.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D NEIGHBOR.N))
+			(!R2 (?X_G HELP.N))
+			(!R3 (?X_N SNOWDRIFT.N))
+			(!R4 (?X_J HELP.N))
+			(!R5 (?X_O (AFRAID.A (THAT (?X_O (WILL.MD ((ADV-A (TO.P ?X_M)) FREEZE.V)))))))
+			(!R6 (?X_O AGENT.N))
+			(!R7 (?X_M DEATH.N))
+			(!R8 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_I (?X_O ((ADV-A (FOR.P ?X_J)) CALL.V)))
+			(?X_A (?X_O (IN.P ?X_N)))
+			(E281.SK (NOT (?X_O (CAN.MD MOVE.V))))
+			(?X_F (?X_O ((ADV-A (FOR.P ?X_G)) SHOUT.V)))
+			(?X_L (?X_D HEAR.8.V ?X_O))
+			(?X_B (?X_D ((ADV-A (FROM.P ?L1)) COME_OVER.9.V) ?L2))
+			(?X_C (?X_D (HELP.V ?X_O)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((NEIGHBOR275.SK HEAR.8.V SAM.NAME) ** E277.SK)
+		(:ROLES
+			(!R1 (NEIGHBOR275.SK AGENT.N))
+			(!R2 (SAM.NAME ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4
+	   (SAM.NAME
+	    (AFRAID.A
+	     (THAT (SAM.NAME (WILL.MD ((ADV-A (TO.P DEATH270.SK)) FREEZE.V)))))))
+			(!R5 (SAM.NAME AGENT.N))
+			(!R6 (NEIGHBOR275.SK NEIGHBOR.N))
+			(!R7 (DEATH270.SK DEATH.N))
+		)
+		(:PRECONDS
+			(?I1 (NEIGHBOR275.SK (AT.P ?L)))
+			(?I2 (SAM.NAME (AT.P ?L)))
+			(?I3 (SAM.NAME (NEAR.P NEIGHBOR275.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (NEIGHBOR275.SK (KNOW.V (THAT (SAM.NAME (AT.P ?L))))))
+			(?P2 (NEIGHBOR275.SK (KNOW.V (THAT (SAM.NAME (NEAR.P NEIGHBOR275.SK))))))
+			(?P3 (SAM.NAME (NEAR.P NEIGHBOR275.SK)))
+		)
+	)
+	(EPI-SCHEMA ((NEIGHBOR275.SK ((ADV-A (FROM.P ?L1)) COME_OVER.9.V) ?L2) **
+	             E282.SK)
+		(:ROLES
+			(!R1 (NEIGHBOR275.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (NEIGHBOR275.SK NEIGHBOR.N))
+		)
+		(:GOALS
+			(?G1 (NEIGHBOR275.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (NEIGHBOR275.SK (AT.P ?L1)))
+			(?I2 (NOT (NEIGHBOR275.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (NEIGHBOR275.SK (AT.P ?L1))))
+			(?P2 (NEIGHBOR275.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy called for help."
+	; "He was stuck in a hole."
+	; "He couldn't climb out."
+	; "He yelled for help."
+	(EPI-SCHEMA ((?X_H ((ADV-A (FOR.P ?X_B)) CALL.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_B HELP.N))
+			(!R2 (?X_I HOLE.N))
+			(!R3 (?X_H BOY.N))
+			(!R4 (?X_E HELP.N))
+		)
+		(:STEPS
+			(?X_D (?X_H ((ADV-A (FOR.P ?X_B)) CALL.V)))
+			(?X_A (?X_H (IN.P ?X_I)))
+			(E309.SK (NOT (?X_H (CAN.MD (OUT.ADV CLIMB.V)))))
+			(?X_G (?X_H ((ADV-A (FOR.P ?X_E)) YELL.V)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Bill called for Jenny."
+	; "He asked if she could come over."
+	; "She said yes."
+	; "She came over."
+	(EPI-SCHEMA ((?X_J ((ADV-A (FOR.P ?X_D)) CALL.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D BILL.N))
+			(!R2 (?X_I MALE.A))
+			(!R3 (?X_I AGENT.N))
+			(!R4 (?L2 DESTINATION.N))
+			(!R5 (?X_K DESTINATION.N))
+			(!R6 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_D ((ADV-A (FOR.P ?X_J)) CALL.V)))
+			(?X_F (?X_I ((ADV-A (FROM.P ?L1)) ASK.1.V) ?L2))
+			(?X_C (?X_J (SAY.V ?X_K)))
+			(?X_H (?X_J ((ADV-A (FROM.P ?L1)) COME_OVER.2.V) ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((HE.PRO ((ADV-A (FROM.P ?L1)) ASK.1.V) ?L2) ** E8.SK)
+		(:ROLES
+			(!R1 (HE.PRO AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (HE.PRO MALE.A))
+		)
+		(:GOALS
+			(?G1 (HE.PRO (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE.PRO (AT.P ?L1)))
+			(?I2 (NOT (HE.PRO (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE.PRO (AT.P ?L1))))
+			(?P2 (HE.PRO (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JENNY.NAME ((ADV-A (FROM.P ?L1)) COME_OVER.2.V) YES.X) ** E12.SK)
+		(:ROLES
+			(!R1 (JENNY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (YES.X LOCATION.N))
+			(!R4 (NOT (?L1 = YES.X)))
+			(!R5 (YES.X DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (JENNY.NAME (WANT.V (KA ((ADV-A (AT.P YES.X)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JENNY.NAME (AT.P ?L1)))
+			(?I2 (NOT (JENNY.NAME (AT.P YES.X))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JENNY.NAME (AT.P ?L1))))
+			(?P2 (JENNY.NAME (AT.P YES.X)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Cindy called on the phone."
+	; "She called her friend."
+	; "She talked to her friend."
+	; "She hung up."
+	(EPI-SCHEMA ((?X_H (CALL.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C PHONE.N))
+			(!R2 (?X_I FRIEND.N))
+			(!R3 (?X_H AGENT.N))
+			(!R4 (?X_I (PERTAIN-TO ?X_H)))
+		)
+		(:STEPS
+			(?X_E (?X_H ((ADV-A (ON.P ?X_C)) CALL.V)))
+			(?X_A (?X_H (CALL.V ?X_I)))
+			(?X_B (?X_H ((ADV-A (TO.P ?X_I)) TALK.V)))
+			(?X_G (?X_H HANG_UP.V))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called for her mom."
+	; "Her mom came home."
+	; "Mary's mom helped Mary with her homework."
+	; "Mary's mom told her mother that she would be late."
+	(EPI-SCHEMA ((?X_H ((ADV-A (FOR.P ?X_G)) CALL.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E HOME.N))
+			(!R2 (?X_F HOMEWORK.N))
+			(!R3 (?X_G MOM.N))
+			(!R4 (?X_G MOTHER.N))
+			(!R5 (?X_E (PERTAIN-TO ?X_G)))
+			(!R6 (?X_H AGENT.N))
+			(!R7 (?X_G (PERTAIN-TO ?X_H)))
+			(!R8 (?X_F (PERTAIN-TO ?X_H)))
+		)
+		(:STEPS
+			(?X_A (?X_H ((ADV-A (FOR.P ?X_G)) CALL.V)))
+			(?X_B (?X_G ((ADV-A (TO.P ?X_E)) COME.V)))
+			(?X_C (?X_G (((ADV-A (WITH.P ?X_F)) HELP.V) ?X_H)))
+			(?X_D (?X_G (TELL.V ?X_G (THAT (?X_H (WILL.MD LATE.A))))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called for her mother."
+	; "She asked her mother if she could come over."
+	; "Her mom told Mary no."
+	(EPI-SCHEMA ((?X_F ((ADV-A (FOR.P ?X_F)) CALL.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D MOM.N))
+			(!R2 (?X_E (PERTAIN-TO ?X_E)))
+			(!R3 (?X_E MOTHER.N))
+			(!R4 (?X_D (PERTAIN-TO ?X_E)))
+			(!R5 (?X_F AGENT.N))
+			(!R6 (?X_E (PERTAIN-TO ?X_F)))
+			(!R7 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_F ((ADV-A (FOR.P ?X_E)) CALL.V)))
+			(?X_B (?X_E ((ADV-A (FROM.P ?L1)) TRAVEL.3.V) ?L2))
+			(?X_C (?X_D ((NO.ADV TELL.V) ?X_F)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOTHER93.SK ((ADV-A (FROM.P ?L1)) TRAVEL.3.V) ?L2) ** E94.SK)
+		(:ROLES
+			(!R1 (MOTHER93.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MOTHER93.SK (PERTAIN-TO MOTHER93.SK)))
+			(!R7 (MOTHER93.SK MOTHER.N))
+			(!R8 (MOTHER93.SK (PERTAIN-TO MARY.NAME)))
+			(!R9 (MARY.NAME AGENT.N))
+			(!R10 (MOM97.SK MOM.N))
+			(!R11 (MOM97.SK (PERTAIN-TO MOTHER93.SK)))
+		)
+		(:GOALS
+			(?G1 (MOTHER93.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MOTHER93.SK (AT.P ?L1)))
+			(?I2 (NOT (MOTHER93.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MOTHER93.SK (AT.P ?L1))))
+			(?P2 (MOTHER93.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called for her mother."
+	; "She asked her mother if she could have some money."
+	; "Her mother told Mary that she would give her money later."
+	; "Mary hung up the phone."
+	(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H PHONE.N))
+			(!R2 (?X_E MOTHER.N))
+			(!R3 (?X_E (PERTAIN-TO ?X_G)))
+			(!R4 (?X_F MONEY.N))
+			(!R5 (?X_F (PERTAIN-TO ?X_G)))
+			(!R6 (?X_I MONEY.N))
+			(!R7 (?X_G AGENT.N))
+			(!R8 (?X_I OBJECT.N))
+		)
+		(:STEPS
+			(?X_A (?X_G ((ADV-A (FOR.P ?X_E)) CALL.V)))
+			(?X_B (?X_G POSSESS.4.V ?X_I))
+			(?X_D (?X_G (HANG_UP.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME POSSESS.4.V MONEY122.SK) ** E115.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (MONEY122.SK OBJECT.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (MARY.NAME (AT.P ?L)))
+			(!R5 (MONEY122.SK (AT.P ?L)))
+			(!R6 (MONEY122.SK MONEY.N))
+			(!R7 (MOTHER114.SK (PERTAIN-TO MARY.NAME)))
+			(!R8 (MOTHER114.SK MOTHER.N))
+			(!R9 (MOTHER114.SK AGENT.N))
+			(!R10 (MONEY119.SK (PERTAIN-TO MARY.NAME)))
+			(!R11 (MONEY119.SK MONEY.N))
+		)
+		(:NECESSITIES
+			(!N1 (!R4 NECESSARY-TO-DEGREE 0.5))
+			(!N2 (!R5 NECESSARY-TO-DEGREE 0.5))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man called for his wife."
+	; "His wife came home."
+	; "She was happy to see him."
+	; "She hugged him."
+	; "She kissed him on the cheek."
+	(EPI-SCHEMA ((?X_I ((ADV-A (FOR.P ?X_I)) CALL.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E CHEEK.N))
+			(!R2 (?X_H WIFE.N))
+			(!R3 (?X_J MAN.N))
+			(!R4 (?X_H (PERTAIN-TO ?X_J)))
+			(!R5 (?X_H (HAPPY.A (KA (SEE.V ?X_J)))))
+			(!R6 (?X_I HOME.N))
+			(!R7 (?X_I (PERTAIN-TO ?X_H)))
+			(!R8 (?X_I DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_J ((ADV-A (FOR.P ?X_H)) CALL.V)))
+			(?X_B (?X_H ((ADV-A (FROM.P ?L1)) COME.5.V) ?X_I))
+			(?X_G (?X_H (HUG.V ?X_J)))
+			(?X_D (?X_H (((ADV-A (ON.P ?X_E)) KISS.V) ?X_J)))
+			(?E_1 (?X_J SEE.6.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WIFE138.SK ((ADV-A (FROM.P ?L1)) COME.5.V) HOME152.SK) ** E139.SK)
+		(:ROLES
+			(!R1 (WIFE138.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME152.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME152.SK)))
+			(!R5 (HOME152.SK DESTINATION.N))
+			(!R6 (WIFE138.SK WIFE.N))
+			(!R7 (WIFE138.SK (HAPPY.A (KA (SEE.V MAN141.SK)))))
+			(!R8 (HOME152.SK (PERTAIN-TO WIFE138.SK)))
+			(!R9 (HOME152.SK HOME.N))
+			(!R10 (MAN141.SK MAN.N))
+			(!R11 (WIFE138.SK (PERTAIN-TO MAN141.SK)))
+			(!R12 (MAN141.SK AGENT.N))
+		)
+		(:GOALS
+			(?G1 (WIFE138.SK (WANT.V (KA ((ADV-A (AT.P HOME152.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (WIFE138.SK (AT.P ?L1)))
+			(?I2 (NOT (WIFE138.SK (AT.P HOME152.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WIFE138.SK (AT.P ?L1))))
+			(?P2 (WIFE138.SK (AT.P HOME152.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN141.SK SEE.6.V MAN141.SK) ** ?E)
+		(:ROLES
+			(!R1 (MAN141.SK AGENT.N))
+			(!R2 (MAN141.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (MAN141.SK MAN.N))
+			(!R5 (WIFE138.SK (PERTAIN-TO MAN141.SK)))
+			(!R6 (WIFE138.SK WIFE.N))
+			(!R7 (WIFE138.SK (HAPPY.A (KA (SEE.V MAN141.SK)))))
+			(!R8 (WIFE138.SK AGENT.N))
+			(!R9 (HOME152.SK (PERTAIN-TO WIFE138.SK)))
+			(!R10 (HOME152.SK HOME.N))
+		)
+		(:PRECONDS
+			(?I1 (MAN141.SK (AT.P ?L)))
+			(?I2 (MAN141.SK (AT.P ?L)))
+			(?I3 (MAN141.SK (NEAR.P MAN141.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MAN141.SK (KNOW.V (THAT (MAN141.SK (AT.P ?L))))))
+			(?P2 (MAN141.SK (KNOW.V (THAT (MAN141.SK (NEAR.P MAN141.SK))))))
+			(?P3 (MAN141.SK (NEAR.P MAN141.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sarah called for her mom."
+	; "She told her mom that she would be late."
+	; "Her mom said that's okay."
+	; "She hung up the phone."
+	(EPI-SCHEMA ((?X_H ((ADV-A (FOR.P ?X_G)) CALL.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G MOM.N))
+			(!R2 (?X_G AGENT.N))
+			(!R3 (?X_D MOM.N))
+			(!R4 (?X_D (PERTAIN-TO ?X_G)))
+			(!R5 (?X_I {REF}.N))
+			(!R6 (?X_H AGENT.N))
+			(!R7 (?X_G (PERTAIN-TO ?X_H)))
+			(!R8 (?X_J PHONE.N))
+		)
+		(:STEPS
+			(?X_A (?X_H ((ADV-A (FOR.P ?X_G)) CALL.V)))
+			(?X_B (?X_H (TELL.V ?X_G (THAT (?X_H (WILL.MD LATE.A))))))
+			(?X_C (?X_D (SAY.V (THT (?X_I OKAY.A)))))
+			(?X_F (?X_H (HANG_UP.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Sammy called in sick."
+	; "He felt bad."
+	; "He was not feeling well."
+	; "He had a headache."
+	; "He didn't want to go to work."
+	; "He stayed home from work."
+	(EPI-SCHEMA ((?X_M (CALL.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L HOME.N))
+			(!R2 (?X_P HEADACHE.N))
+			(!R3 (?X_O BAD.A))
+			(!R4 (?X_N SICK.A))
+			(!R5 (?X_N IN.P))
+			(!R6 (?X_L (PERTAIN-TO ?X_M)))
+			(!R7 (?X_M AGENT.N))
+			(!R8 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_M (CALL.V ?X_N)))
+			(?X_K (?X_M (FEEL.V ?X_O)))
+			(?X_I (NOT (?X_M ((ADV-A (FOR.P (KA (WELL.ADV FEEL.V)))) BE.V))))
+			(?X_G (?X_M (HAVE.V ?X_P)))
+			(?X_E (NOT (?X_M (WANT.V (KA ((ADV-A (TO.P (KA WORK.V))) GO.V))))))
+			(?X_C (?X_M ((ADV-A (TO.P ?X_L)) ((ADV-A (FROM.P (KA WORK.V))) STAY.V))))
+			(?E_1 (?X_M ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P ?L1)) GO.1.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (HOME26.SK (PERTAIN-TO SAMMY.NAME)))
+			(!R7 (HOME26.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAMMY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P ?L1))))
+			(?P2 (SAMMY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called in sick."
+	; "She had a headache."
+	; "She stayed home from work."
+	; "She missed work."
+	; "She felt better after resting for awhile."
+	(EPI-SCHEMA ((?X_J (CALL_IN.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K SICK.A))
+			(!R2 (?X_K IN.P))
+			(!R3 (?X_L HEADACHE.N))
+			(!R4 (?X_G HOME.N))
+			(!R5 (?X_J AGENT.N))
+			(!R6 (?X_G (PERTAIN-TO ?X_J)))
+			(!R7 (?X_M WORK.N))
+		)
+		(:STEPS
+			(?X_B (?X_J (CALL.V ?X_K)))
+			(?X_D (?X_J (HAVE.V ?X_L)))
+			(?X_F (?X_J ((ADV-A (TO.P ?X_G)) ((ADV-A (FROM.P ?X_M)) STAY.V))))
+			(?X_I (?X_J (MISS.V ?X_M)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called in sick."
+	; "She told her boss that she wasn't feeling well."
+	; "Her boss asked if she could come in later."
+	; "Mary said yes."
+	(EPI-SCHEMA ((?X_F (CALL_IN.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G SICK.A))
+			(!R2 (?X_G IN.P))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_C (PERTAIN-TO ?X_F)))
+		)
+		(:STEPS
+			(?X_B (?X_F (CALL.V ?X_G)))
+			(?X_E (?X_F (SAY.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom called in sick."
+	; "He couldn't come to work."
+	; "He had a fever."
+	; "He was too tired to play baseball."
+	; "He felt better after sleeping for a while."
+	(EPI-SCHEMA ((?X_K (((ADV-A (FOR.P ?X_K)) CALL.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L ((ADV-A (AFTER.P (KA ((ADV-A (FOR.P ?X_C)) SLEEP.V)))) BETTER.A)))
+			(!R2 (?X_K FEVER.N))
+			(!R3 (?X_J SICK.A))
+			(!R4 (?X_J IN.P))
+			(!R5 (?X_I ((TOO.ADV TIRED.A) (KA (PLAY.V ?X_H)))))
+			(!R6 (?X_H BASEBALL.N))
+			(!R7 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_G (?X_I (CALL.V ?X_J)))
+			(E111.SK (NOT (?X_I (CAN.MD ((ADV-A (TO.P (KA WORK.V))) COME.V)))))
+			(?X_E (?X_I (HAVE.V ?X_K)))
+			(?X_B (?X_I (FEEL.V ?X_L)))
+			(?E_1 (?X_I PLAY.2.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME PLAY.2.V) ** ?E)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASEBALL104.SK GAME.N))
+			(!R5 (NOT (BASEBALL104.SK AGENT.N)))
+			(!R6 (TOM.NAME ((TOO.ADV TIRED.A) (KA (PLAY.V BASEBALL104.SK)))))
+			(!R7 (BASEBALL104.SK BASEBALL.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Evelyn called in sick."
+	; "She had a headache."
+	; "She stayed home from work."
+	; "She slept all afternoon."
+	(EPI-SCHEMA ((?X_K (CALL_IN.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L SICK.A))
+			(!R2 (?X_L IN.P))
+			(!R3 (?X_M HEADACHE.N))
+			(!R4 (?X_H HOME.N))
+			(!R5 (?X_E WORK.N))
+			(!R6 (?X_K AGENT.N))
+			(!R7 (?X_H (PERTAIN-TO ?X_K)))
+		)
+		(:STEPS
+			(?X_B (?X_K (CALL.V ?X_L)))
+			(?X_D (?X_K (HAVE.V ?X_M)))
+			(?X_G (?X_K ((ADV-A (TO.P ?X_H)) ((ADV-A (FROM.P ?X_E)) STAY.V))))
+			(?X_J ((ADV-E (DURING (ALL.D AFTERNOON.N))) (?X_K SLEEP.V)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Amani called in sick."
+	; "She said she had a headache."
+	; "She stayed home from work."
+	; "She slept for a while."
+	; "She woke up and felt better."
+	; "She went to work."
+	(EPI-SCHEMA ((?X_P (CALL_IN.V ?X_P)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E WHILE.N))
+			(!R2 (?X_H WORK.N))
+			(!R3 (?X_M HOME.N))
+			(!R4 (?X_R HEADACHE.N))
+			(!R5 (?X_P SICK.A))
+			(!R6 (?X_P IN.P))
+			(!R7 (?X_M (PERTAIN-TO ?X_Q)))
+			(!R8 (?X_Q AGENT.N))
+			(!R9 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_L (?X_Q (CALL.V ?X_P)))
+			(?X_J (?X_Q (SAY.V (THT (?X_Q (HAVE.V ?X_R))))))
+			(?X_G (?X_Q ((ADV-A (TO.P ?X_M)) ((ADV-A (FROM.P ?X_H)) STAY.V))))
+			(?X_D (?X_Q ((ADV-A (FOR.P ?X_E)) SLEEP.V)))
+			(?X_A (?X_Q WAKE_UP.V))
+			(?X_B (?X_Q (BETTER.ADV FEEL.V)))
+			(?X_O (?X_Q ((ADV-A (FROM.P ?L1)) GO.3.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((AMANI.NAME ((ADV-A (FROM.P ?L1)) GO.3.V) ?L2) ** E181.SK)
+		(:ROLES
+			(!R1 (AMANI.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (HOME186.SK (PERTAIN-TO AMANI.NAME)))
+			(!R7 (HOME186.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (AMANI.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (AMANI.NAME (AT.P ?L1)))
+			(?I2 (NOT (AMANI.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (AMANI.NAME (AT.P ?L1))))
+			(?P2 (AMANI.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man called in sick."
+	; "He felt bad."
+	; "He wasn't feeling well."
+	; "He couldn't work."
+	; "His boss told him to call in sick."
+	(EPI-SCHEMA ((?X_K (CALL.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J BAD.A))
+			(!R2 (?X_I SICK.A))
+			(!R3 (?X_I IN.P))
+			(!R4 (?X_K MAN.N))
+			(!R5 (?X_H BOSS.N))
+			(!R6 (?X_H (PERTAIN-TO ?X_K)))
+			(!R7 ((KA (CALL.V (L X (AND (X IN.P) (X SICK.A))))) ACTION.N))
+			(!R8 (?X_H AGENT.N))
+			(!R9 (NOT (?X_H = ?X_K)))
+		)
+		(:STEPS
+			(?X_G (?X_K (CALL.V ?X_I)))
+			(?X_E (?X_K (FEEL.V ?X_J)))
+			(?X_C (NOT (?X_K ((ADV-A (FOR.P (KA (WELL.ADV FEEL.V)))) BE.V))))
+			(E223.SK (NOT (?X_K (CAN.MD WORK.V))))
+			(?X_A (?X_H TELL.4.V ?X_K (KA (CALL.V (L X (AND (X IN.P) (X SICK.A)))))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOSS209.SK TELL.4.V MAN210.SK
+	              (KA (CALL.V (L X (AND (X IN.P) (X SICK.A))))))
+	             ** E208.SK)
+		(:ROLES
+			(!R1 (BOSS209.SK AGENT.N))
+			(!R2 (MAN210.SK AGENT.N))
+			(!R3 ((KA (CALL.V (L X (AND (X IN.P) (X SICK.A))))) ACTION.N))
+			(!R4 (NOT (BOSS209.SK = MAN210.SK)))
+			(!R5 (MAN210.SK MAN.N))
+			(!R6 (BOSS209.SK BOSS.N))
+			(!R7 (BOSS209.SK (PERTAIN-TO MAN210.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (BOSS209.SK
+	    (WANT.V MAN210.SK (KA (CALL.V (L X (AND (X IN.P) (X SICK.A))))))))
+			(?G2
+	   (BOSS209.SK
+	    (WANT.V
+	     (THAT
+	      (MAN210.SK
+	       ((CALL.V (L X (AND (X IN.P) (X SICK.A))))
+	        (L X (AND (X IN.P) (X SICK.A)))))))))
+		)
+		(:STEPS
+			(?E1
+	   (BOSS209.SK (ASK.V MAN210.SK (KA (CALL.V (L X (AND (X IN.P) (X SICK.A))))))))
+			(?E2
+	   (MAN210.SK
+	    ((CALL.V (L X (AND (X IN.P) (X SICK.A)))) (L X (AND (X IN.P) (X SICK.A))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Billy called in sick."
+	; "He wasn't feeling well."
+	; "He stayed home from work."
+	; "He felt better after eating some food."
+	(EPI-SCHEMA ((?X_K (CALL.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M ((ADV-A (AFTER.P (KA (EAT.V ?X_N)))) BETTER.A)))
+			(!R2 (?X_E WORK.N))
+			(!R3 (?X_J HOME.N))
+			(!R4 (?X_L SICK.A))
+			(!R5 (?X_L IN.P))
+			(!R6 (?X_J (PERTAIN-TO ?X_K)))
+			(!R7 (?X_N FOOD.N))
+			(!R8 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_I (?X_K (CALL.V ?X_L)))
+			(?X_G (NOT (?X_K ((ADV-A (FOR.P (KA (WELL.ADV FEEL.V)))) BE.V))))
+			(?X_D (?X_K ((ADV-A (TO.P ?X_J)) ((ADV-A (FROM.P ?X_E)) STAY.V))))
+			(?X_B (?X_K (FEEL.V ?X_M)))
+			(?E_1 (?X_K EAT.5.V ?X_N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BILLY.NAME EAT.5.V FOOD248.SK) ** ?E)
+		(:ROLES
+			(!R1 (BILLY.NAME AGENT.N))
+			(!R2 (FOOD248.SK FOOD.N))
+			(!R3 (HOME254.SK (PERTAIN-TO BILLY.NAME)))
+			(!R4 (HOME254.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (BILLY.NAME (WANT.V (THAT (NOT (BILLY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BILLY.NAME POSSESS.V FOOD248.SK))
+			(?I2 (BILLY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BILLY.NAME (POSSESS.V FOOD248.SK))))
+			(?P2 (NOT (BILLY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sue called in sick."
+	; "She told her boss that she was sick."
+	; "She stayed home from work."
+	; "She watched TV all day."
+	(EPI-SCHEMA ((?X_G (TELL.V ?X_F (THT (?X_G SICK.A)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_F BOSS.N))
+			(!R2 (?X_G AGENT.N))
+			(!R3 (?X_F (PERTAIN-TO ?X_G)))
+			(!R4 (?X_B HOME.N))
+			(!R5 (?X_B (PERTAIN-TO ?X_G)))
+			(!R6 (?X_C WORK.N))
+		)
+		(:STEPS
+			(?X_A (?X_G (TELL.V ?X_F (THAT (?X_G SICK.A)))))
+			(?X_E (?X_G ((ADV-A (TO.P ?X_B)) ((ADV-A (FROM.P ?X_C)) STAY.V))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Jack called in sick."
+	; "He said he felt bad."
+	; "He had a headache."
+	; "He had a sore throat."
+	; "He couldn't eat anything."
+	; "He stayed home from work."
+	(EPI-SCHEMA ((?X_N (((ADV-A (FOR.P ?X_N)) CALL.V) ?X_O)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M SICK.A))
+			(!R2 (?X_M IN.P))
+			(!R3 (?X_O HEADACHE.N))
+			(!R4 (?X_P SORE.A))
+			(!R5 (?X_P THROAT.N))
+			(!R6 (?X_N AGENT.N))
+			(!R7 (?X_I HOME.N))
+			(!R8 (?X_I (PERTAIN-TO ?X_N)))
+			(!R9 (?X_J WORK.N))
+		)
+		(:STEPS
+			(?X_B (?X_N (CALL.V ?X_M)))
+			(?X_D (?X_N (SAY.V (THT (?X_N (FEEL.V BAD.A))))))
+			(?X_F (?X_N (HAVE.V ?X_O)))
+			(?X_H (?X_N (HAVE.V ?X_P)))
+			(E316.SK (NOT (?X_N ((CAN.MD EAT.V) (ANY.D THING.N)))))
+			(?X_L (?X_N ((ADV-A (TO.P ?X_I)) ((ADV-A (FROM.P ?X_J)) STAY.V))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "A boy called a girl on the phone."
+	; "He asked if she would meet him after school."
+	; "She agreed."
+	; "She walked to the park."
+	; "She waited for him there."
+	(EPI-SCHEMA ((?X_K (((ADV-A (ON.P ?X_F)) CALL.V) ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J SCHOOL.N))
+			(!R2 (?X_I GIRL.N))
+			(!R3 (?X_F PHONE.N))
+			(!R4 (?X_K BOY.N))
+			(!R5 (?X_L PARK.N))
+			(!R6 (?X_L DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_K (((ADV-A (ON.P ?X_F)) CALL.V) ?X_I)))
+			(?X_E
+	   (?X_K
+	    (ASK.V (K (IF.P (?X_I (WILL.MD (((ADV-A (AFTER.P ?X_J)) MEET.V) ?X_K))))))))
+			(?X_C (?X_I AGREE.V))
+			(?X_H (?X_I ((ADV-A (FROM.P ?L1)) WALK.1.V) ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((GIRL3.SK ((ADV-A (FROM.P ?L1)) WALK.1.V) PARK13.SK) ** E14.SK)
+		(:ROLES
+			(!R1 (GIRL3.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (PARK13.SK LOCATION.N))
+			(!R4 (NOT (?L1 = PARK13.SK)))
+			(!R5 (PARK13.SK DESTINATION.N))
+			(!R6 (GIRL3.SK GIRL.N))
+			(!R7 (PARK13.SK PARK.N))
+		)
+		(:GOALS
+			(?G1 (GIRL3.SK (WANT.V (KA ((ADV-A (AT.P PARK13.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (GIRL3.SK (AT.P ?L1)))
+			(?I2 (NOT (GIRL3.SK (AT.P PARK13.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (GIRL3.SK (AT.P ?L1))))
+			(?P2 (GIRL3.SK (AT.P PARK13.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom called his friend Jack."
+	; "He asked if he could come over."
+	; "Jack told Tom that he couldn’t come over."
+	; "Tom was sad because he wanted to play with Jack."
+	(EPI-SCHEMA ((?X_G (CALL.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1
+	   (?X_J (BECAUSE.P (KE (?X_D (WANT.V (KA ((ADV-A (WITH.P ?X_H)) PLAY.V))))))))
+			(!R2 (?X_I SAD.A))
+			(!R3 (?X_H FRIEND.N))
+			(!R4 (?X_H (PERTAIN-TO ?X_G)))
+			(!R5 (?X_G AGENT.N))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_G (CALL.V ?X_H)))
+			(?X_F (?X_G ((ADV-A (FROM.P ?L1)) ASK.2.V) ?L2))
+			(?X_C (?X_G (BE.V ?X_I ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) ASK.2.V) ?L2) ** E43.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (JACK.NAME FRIEND.N))
+			(!R7 (JACK.NAME (PERTAIN-TO TOM.NAME)))
+			(!R8 (JACK.NAME AGENT.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen called her friend."
+	; "She told her friend what happened at school."
+	; "She asked if her friend could help her with her homework."
+	(EPI-SCHEMA ((?X_F (CALL.V ?X_C)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C FRIEND.N))
+			(!R2 (?X_D FRIEND.N))
+			(!R3 (?X_D (PERTAIN-TO ?X_C)))
+			(!R4 (?X_E HOMEWORK.N))
+			(!R5 (?X_F AGENT.N))
+			(!R6 (?X_C (PERTAIN-TO ?X_F)))
+			(!R7 (?X_E (PERTAIN-TO ?X_F)))
+		)
+		(:STEPS
+			(?X_A (?X_F (CALL.V ?X_C)))
+			(?X_B
+	   (?X_F
+	    (ASK.V (K (IF.P (?X_D (CAN.MD (((ADV-A (WITH.P ?X_E)) HELP.V) ?X_F))))))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom called his mom."
+	; "He told her he was going to play baseball."
+	; "He asked if she could come watch."
+	; "His mom said yes."
+	(EPI-SCHEMA ((?X_K (CALL.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I BASEBALL.N))
+			(!R2 (?X_G MOM.N))
+			(!R3 (?X_G (PERTAIN-TO ?X_H)))
+			(!R4 (?X_K WATCH.N))
+			(!R5 (?X_G AGENT.N))
+			(!R6 (?X_H AGENT.N))
+			(!R7 (?X_K DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_H (CALL.V ?X_G)))
+			(?X_D
+	   (?X_H (TELL.V ?X_G (THT (?X_H ((ADV-A (FOR.P (KA (PLAY.V ?X_I)))) GO.V))))))
+			(?E_1 (?X_G PLAY.3.V))
+			(?X_F (?X_H ((ADV-A (FROM.P ?L1)) ASK.4.V) ?X_K))
+			(?X_B (?X_G (SAY.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOM120.SK PLAY.3.V) ** ?E)
+		(:ROLES
+			(!R1 (MOM120.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASEBALL128.SK GAME.N))
+			(!R5 (NOT (BASEBALL128.SK AGENT.N)))
+			(!R6 (MOM120.SK MOM.N))
+			(!R7 (BASEBALL128.SK BASEBALL.N))
+			(!R8 (TOM.NAME AGENT.N))
+			(!R9 (MOM120.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOM120.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (MOM120.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (MOM120.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) ASK.4.V) WATCH132.SK) ** E130.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (WATCH132.SK LOCATION.N))
+			(!R4 (NOT (?L1 = WATCH132.SK)))
+			(!R5 (WATCH132.SK DESTINATION.N))
+			(!R6 (WATCH132.SK WATCH.N))
+			(!R7 (MOM120.SK AGENT.N))
+			(!R8 (MOM120.SK MOM.N))
+			(!R9 (MOM120.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P WATCH132.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P WATCH132.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P WATCH132.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Emily called her mom."
+	; "She told her mom that she was going to play baseball."
+	; "She asked if her mom could come watch the game."
+	; "Her mom said yes."
+	(EPI-SCHEMA ((?X_G (CALL.V ?X_F)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E MOM.N))
+			(!R2 (?X_I BASEBALL.N))
+			(!R3 (?X_F MOM.N))
+			(!R4 (?X_F AGENT.N))
+			(!R5 (?X_E (PERTAIN-TO ?X_F)))
+			(!R6 (?X_F (PERTAIN-TO ?X_G)))
+			(!R7 (?X AGENT.N))
+			(!R8 (?X_I DESTINATION.N))
+			(!R9 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_G (CALL.V ?X_F)))
+			(?X_B
+	   (?X_G (TELL.V ?X_F (THAT (?X_G ((ADV-A (FOR.P (KA (PLAY.V ?X_I)))) GO.V))))))
+			(?E_1 (?X PLAY.5.V))
+			(?X_C (?X_G ((ADV-A (FROM.P ?L1)) ASK.4.V) ?X_I))
+			(?X_D (?X_E (SAY.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((?X PLAY.5.V) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASEBALL166.SK GAME.N))
+			(!R5 (NOT (BASEBALL166.SK AGENT.N)))
+			(!R6 (BASEBALL166.SK BASEBALL.N))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (?X POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (?X EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((EMILY.NAME ((ADV-A (FROM.P ?L1)) ASK.4.V) BASEBALL166.SK) **
+	             E158.SK)
+		(:ROLES
+			(!R1 (EMILY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BASEBALL166.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BASEBALL166.SK)))
+			(!R5 (BASEBALL166.SK DESTINATION.N))
+			(!R6 (BASEBALL166.SK BASEBALL.N))
+			(!R7 (BASEBALL166.SK GAME.N))
+			(!R8 (MOM155.SK (PERTAIN-TO EMILY.NAME)))
+			(!R9 (MOM155.SK MOM.N))
+			(!R10 (MOM155.SK AGENT.N))
+			(!R11 (MOM161.SK MOM.N))
+			(!R12 (MOM161.SK (PERTAIN-TO MOM155.SK)))
+		)
+		(:GOALS
+			(?G1 (EMILY.NAME (WANT.V (KA ((ADV-A (AT.P BASEBALL166.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (EMILY.NAME (AT.P ?L1)))
+			(?I2 (NOT (EMILY.NAME (AT.P BASEBALL166.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (EMILY.NAME (AT.P ?L1))))
+			(?P2 (EMILY.NAME (AT.P BASEBALL166.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jenny called her mother."
+	; "She told her mom that her dad was sick."
+	; "Her mom was worried."
+	; "Jenny's mom asked Jenny if everything was okay."
+	; "Jenny said yes."
+	(EPI-SCHEMA ((?X_K (CALL.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I MOM.N))
+			(!R2 (?X_J DAD.N))
+			(!R3 (?X_H MOTHER.N))
+			(!R4 (?X_H MOM.N))
+			(!R5 (?X_I (PERTAIN-TO ?X_H)))
+			(!R6 (?X_C (PERTAIN-TO ?X_H)))
+			(!R7 (?X_L (IF.P (KE ((EVERY.D THING.N) OKAY.A)))))
+			(!R8 (?X_K AGENT.N))
+			(!R9 (?X_H (PERTAIN-TO ?X_K)))
+			(!R10 (?X_J (PERTAIN-TO ?X_K)))
+		)
+		(:STEPS
+			(?X_A (?X_K (CALL.V ?X_H)))
+			(?X_B (?X_K (TELL.V ?X_I (THAT (?X_J SICK.A)))))
+			(?X_E (?X_H (ASK.V ?X_K ?X_L)))
+			(?X_G (?X_K (SAY.V ?X_M)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called her friend."
+	; "She asked if her friend would come over."
+	; "She told her friend what she wanted to do."
+	; "Mary's friend agreed to help her."
+	(EPI-SCHEMA ((?X_E (CALL.V ?X_F)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F FRIEND.N))
+			(!R2 (?X_F (PERTAIN-TO ?X_E)))
+			(!R3 (?X_E AGENT.N))
+			(!R4 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_E (CALL.V ?X_F)))
+			(?X_B (?X_E ((ADV-A (FROM.P ?L1)) ASK.2.V) ?L2))
+			(?X_D (?X_F ((ADV-A (FOR.P (KA (HELP.V ?X_E)))) AGREE.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME ((ADV-A (FROM.P ?L1)) ASK.2.V) ?L2) ** E229.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FRIEND228.SK (PERTAIN-TO MARY.NAME)))
+			(!R7 (FRIEND228.SK FRIEND.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MARY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MARY.NAME (AT.P ?L1))))
+			(?P2 (MARY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called her friend."
+	; "She told her what happened last night."
+	; "She asked if her friend could help her."
+	(EPI-SCHEMA ((?X_D (((ADV-A (FOR.P ?X_C)) CALL.V) ?X_C)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C FRIEND.N))
+			(!R2 (?X_D AGENT.N))
+			(!R3 (?X_C (PERTAIN-TO ?X_D)))
+		)
+		(:STEPS
+			(?X_A (?X_D (CALL.V ?X_C)))
+			(?X_B (?X_D (ASK.V (K (IF.P (?X_C (CAN.MD (HELP.V ?X_D))))))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "A person called Tom."
+	; "Tom answered the phone."
+	; "Tom told the caller what time it was."
+	; "Tom hung up the phone."
+	(EPI-SCHEMA ((?X_H (ANSWER.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I PHONE.N))
+			(!R2 (?X_J CALLER.N))
+			(!R3 (?X_H AGENT.N))
+			(!R4 (?X_L PHONE.N))
+		)
+		(:STEPS
+			(?X_A (?X_J (CALL.V ?X_H)))
+			(?X_C (?X_H (ANSWER.V ?X_I)))
+			(?X_E (?X_H (TELL.V ?X_J (ANS-TO (?X_K (BE.V (WHAT.D TIME.N)))))))
+			(?X_G (?X_H (HANG_UP.V ?X_L)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom called his friend back."
+	; "He talked to his friend for a while."
+	; "He hung up the phone."
+	(EPI-SCHEMA ((?X_F (COMPOSITE-SCHEMA.PR ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C FRIEND.N))
+			(!R2 (?X_B WHILE.N))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_C (PERTAIN-TO ?X_F)))
+			(!R5 (?X_G PHONE.N))
+		)
+		(:STEPS
+			(?X_A (?X_F ((ADV-A (TO.P ?X_C)) ((ADV-A (FOR.P ?X_B)) TALK.V))))
+			(?X_E (?X_F (HANG_UP.V ?X_G)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Karen called her friend back."
+	; "She missed her friend."
+	; "She asked her friend if she could call her back."
+	; "Her friend told Karen that it was okay."
+	(EPI-SCHEMA ((?X_F (CALL.V ?X_F)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D FRIEND.N))
+			(!R2 (?X_D (PERTAIN-TO ?X_E)))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_F)))
+		)
+		(:STEPS
+			(?X_A (?X_F (CALL.V ?X_E)))
+			(?X_B (?X_F (MISS.V ?X_E)))
+			(?X_C (?X_D (TELL.V ?X_F (THAT (?X_G OKAY.A)))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom called his friend back."
+	; "Tom's friend was busy."
+	; "Tom left a message on his phone."
+	(EPI-SCHEMA ((?X_C (COMPOSITE-SCHEMA.PR ?X_D)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C AGENT.N))
+			(!R2 (?X_A (PERTAIN-TO ?X_C)))
+			(!R3 (?X_B PHONE.N))
+			(!R4 (?X_B (PERTAIN-TO ?X_C)))
+			(!R5 (?X_D MESSAGE.N))
+		)
+		(:STEPS
+			(E78.SK (?X_C (((ADV-A (ON.P ?X_B)) LEAVE.V) ?X_D)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "A friend called Tom."
+	; "Tom was busy."
+	; "He told his friend he would call him back later."
+	; "Tom hung up the phone."
+	(EPI-SCHEMA ((?X_F (HANG_UP.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E FRIEND.N))
+			(!R2 (?X_F BUSY.A))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_F)))
+			(!R5 (?X_G PHONE.N))
+		)
+		(:STEPS
+			(?X_B (?X_E (CALL.V ?X_F)))
+			(?X_D (?X_F (HANG_UP.V ?X_G)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "The man called the radio station."
+	; "He asked for a song."
+	; "He listened to the music."
+	; "He liked the music."
+	(EPI-SCHEMA ((?Y (CALL.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J MUSIC.N))
+			(!R2 (?X_I RADIO.N))
+			(!R3 (?X_I STATION.N))
+			(!R4 (?X_H MAN.N))
+			(!R5 (NOT (?X_H = ?Y)))
+			(!R6 (?A ACTION.N))
+			(!R7 (?Y AGENT.N))
+			(!R8 (?X_J OBJECT.N))
+			(!R9 (NOT (?X_J ACTION.N)))
+			(!R10 (NOT (?X_J AGENT.N)))
+		)
+		(:STEPS
+			(?X_A (?X_H (CALL.V ?X_I)))
+			(?X_E (?X_H ASK.1.V ?Y ?A))
+			(?X_C (?X_H ((ADV-A (TO.P ?X_J)) LISTEN.V)))
+			(?X_G (?X_H LIKE.2.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN1.SK ASK.1.V ?Y ?A) ** E9.SK)
+		(:ROLES
+			(!R1 (MAN1.SK AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (MAN1.SK = ?Y)))
+			(!R5 (MAN1.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN1.SK (WANT.V ?Y ?A)))
+			(?G2 (MAN1.SK (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (MAN1.SK (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN1.SK LIKE.2.V MUSIC11.SK) ** E15.SK)
+		(:ROLES
+			(!R1 (MAN1.SK AGENT.N))
+			(!R2 (NOT (MUSIC11.SK ACTION.N)))
+			(!R3 (NOT (MUSIC11.SK AGENT.N)))
+			(!R4 (MUSIC11.SK OBJECT.N))
+			(!R5 (MAN1.SK MAN.N))
+			(!R6 (MUSIC11.SK MUSIC.N))
+		)
+		(:POSTCONDS
+			(?P1 (MAN1.SK (WANT.V (KA (POSSESS.V MUSIC11.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom called the radio station."
+	; "He asked for music."
+	; "He listened to the music."
+	; "He liked the music."
+	; "He hung up the phone."
+	(EPI-SCHEMA ((?Y (CALL.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M PHONE.N))
+			(!R2 (?X_N MUSIC.N))
+			(!R3 (?X_L RADIO.N))
+			(!R4 (?X_L STATION.N))
+			(!R5 (NOT (?X_K = ?Y)))
+			(!R6 (?A ACTION.N))
+			(!R7 (?Y AGENT.N))
+			(!R8 (?X_K AGENT.N))
+			(!R9 (?X_N OBJECT.N))
+			(!R10 (NOT (?X_N ACTION.N)))
+			(!R11 (NOT (?X_N AGENT.N)))
+		)
+		(:STEPS
+			(?X_F (?X_K (CALL.V ?X_L)))
+			(?X_H (?X_K ASK.1.V ?Y ?A))
+			(?X_D (?X_K ((ADV-A (TO.P ?X_N)) LISTEN.V)))
+			(?X_J (?X_K LIKE.2.V ?X_N))
+			(?X_B (?X_K (HANG_UP.V ?X_M)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ASK.1.V ?Y ?A) ** E38.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (TOM.NAME = ?Y)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V ?Y ?A)))
+			(?G2 (TOM.NAME (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (TOM.NAME (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME LIKE.2.V MUSIC40.SK) ** E46.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (NOT (MUSIC40.SK ACTION.N)))
+			(!R3 (NOT (MUSIC40.SK AGENT.N)))
+			(!R4 (MUSIC40.SK OBJECT.N))
+			(!R5 (MUSIC40.SK MUSIC.N))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (WANT.V (KA (POSSESS.V MUSIC40.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The woman called the radio station."
+	; "She wanted to talk to the DJ."
+	; "She talked to the DJ."
+	; "She told him what she thought."
+	; "The DJ asked her questions."
+	(EPI-SCHEMA ((?X_H (CALL.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I RADIO.N))
+			(!R2 (?X_I STATION.N))
+			(!R3 (?X_H WOMAN.N))
+			(!R4 (?X_J DJ.N))
+			(!R5 (?X_K (PLUR QUESTION.N)))
+			(!R6 (?X_K (PERTAIN-TO ?X_H)))
+		)
+		(:STEPS
+			(?X_C (?X_H (CALL.V ?X_I)))
+			(?X_E (?X_H (WANT.V (KA ((ADV-A (TO.P ?X_J)) TALK.V)))))
+			(?X_G (?X_H ((ADV-A (TO.P ?X_J)) TALK.V)))
+			(?X_A (?X_J (ASK.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The man called the radio station."
+	; "He asked for a song by The Beatles."
+	; "He listened to the song on the radio."
+	; "He liked the song."
+	(EPI-SCHEMA ((?Y (CALL.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M BEATLES.N))
+			(!R2 (?X_M SONG.N))
+			(!R3 (?X_L RADIO.N))
+			(!R4 (?X_L STATION.N))
+			(!R5 (?X_K MAN.N))
+			(!R6 (?X_G SONG.N))
+			(!R7 (?X_G (BY.P ?X_M)))
+			(!R8 (?X_H RADIO.N))
+			(!R9 (?X_M (ON.P ?X_H)))
+			(!R10 (NOT (?X_K = ?Y)))
+			(!R11 (?A ACTION.N))
+			(!R12 (?Y AGENT.N))
+			(!R13 (?X_M OBJECT.N))
+			(!R14 (NOT (?X_M ACTION.N)))
+			(!R15 (NOT (?X_M AGENT.N)))
+		)
+		(:STEPS
+			(?X_D (?X_K (CALL.V ?X_L)))
+			(?X_F (?X_K ASK.1.V ?Y ?A))
+			(?X_B (?X_K ((ADV-A (TO.P ?X_M)) LISTEN.V)))
+			(?X_J (?X_K LIKE.2.V ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN107.SK ASK.1.V ?Y ?A) ** E115.SK)
+		(:ROLES
+			(!R1 (MAN107.SK AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (MAN107.SK = ?Y)))
+			(!R5 (MAN107.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN107.SK (WANT.V ?Y ?A)))
+			(?G2 (MAN107.SK (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (MAN107.SK (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN107.SK LIKE.2.V BEATLES116.SK) ** E125.SK)
+		(:ROLES
+			(!R1 (MAN107.SK AGENT.N))
+			(!R2 (NOT (BEATLES116.SK ACTION.N)))
+			(!R3 (NOT (BEATLES116.SK AGENT.N)))
+			(!R4 (BEATLES116.SK OBJECT.N))
+			(!R5 (MAN107.SK MAN.N))
+			(!R6 (BEATLES116.SK BEATLES.N))
+			(!R7 (BEATLES116.SK SONG.N))
+			(!R8 (SONG117.SK SONG.N))
+			(!R9 (SONG117.SK (BY.P BEATLES116.SK)))
+			(!R10 (RADIO121.SK RADIO.N))
+			(!R11 (BEATLES116.SK (ON.P RADIO121.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MAN107.SK (WANT.V (KA (POSSESS.V BEATLES116.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sally called the radio station."
+	; "She asked for music."
+	; "The DJ played some songs."
+	; "Sally liked the song."
+	; "She listened to the rest of the songs."
+	(EPI-SCHEMA ((?Y (CALL.V ?X_O)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C REST.N))
+			(!R2 (?X_C (OF.P ?X_D)))
+			(!R3 (?X_P (PLUR SONG.N)))
+			(!R4 (?X_G DJ.N))
+			(!R5 (?X_O RADIO.N))
+			(!R6 (?X_O STATION.N))
+			(!R7 (?X_Q SONG.N))
+			(!R8 (NOT (?X_N = ?Y)))
+			(!R9 (?A ACTION.N))
+			(!R10 (?Y AGENT.N))
+			(!R11 (?X_N AGENT.N))
+			(!R12 (?X_Q OBJECT.N))
+			(!R13 (NOT (?X_Q ACTION.N)))
+			(!R14 (NOT (?X_Q AGENT.N)))
+		)
+		(:STEPS
+			(?X_I (?X_N (CALL.V ?X_O)))
+			(?X_K (?X_N ASK.1.V ?Y ?A))
+			(?X_F (?X_G (PLAY.V ?X_P)))
+			(?X_M (?X_N LIKE.2.V ?X_Q))
+			(?X_B (?X_N ((ADV-A (TO.P ?X_C)) LISTEN.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME ASK.1.V ?Y ?A) ** E148.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (SALLY.NAME = ?Y)))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V ?Y ?A)))
+			(?G2 (SALLY.NAME (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (SALLY.NAME (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME LIKE.2.V SONG157.SK) ** E158.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (NOT (SONG157.SK ACTION.N)))
+			(!R3 (NOT (SONG157.SK AGENT.N)))
+			(!R4 (SONG157.SK OBJECT.N))
+			(!R5 (SONG157.SK SONG.N))
+		)
+		(:POSTCONDS
+			(?P1 (SALLY.NAME (WANT.V (KA (POSSESS.V SONG157.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man called the radio station."
+	; "He asked for the weather report."
+	; "The weatherman told him what the weather would be like tomorrow."
+	; "The man listened to the weather report."
+	(EPI-SCHEMA ((?Y (CALL.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C WEATHER.N))
+			(!R2 (?X_C REPORT.N))
+			(!R3 (?X_I RADIO.N))
+			(!R4 (?X_I STATION.N))
+			(!R5 (?X_H MAN.N))
+			(!R6 (NOT (?X_H = ?Y)))
+			(!R7 (?A ACTION.N))
+			(!R8 (?Y AGENT.N))
+		)
+		(:STEPS
+			(?X_E (?X_H (CALL.V ?X_I)))
+			(?X_G (?X_H ASK.1.V ?Y ?A))
+			(?X_B (?X_H ((ADV-A (TO.P ?X_C)) LISTEN.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN183.SK ASK.1.V ?Y ?A) ** E191.SK)
+		(:ROLES
+			(!R1 (MAN183.SK AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (MAN183.SK = ?Y)))
+			(!R5 (MAN183.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN183.SK (WANT.V ?Y ?A)))
+			(?G2 (MAN183.SK (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (MAN183.SK (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom called the radio station."
+	; "He asked for news."
+	; "A woman answered the phone."
+	; "She told Tom that there was no news."
+	(EPI-SCHEMA ((?X_L (CALL.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K PHONE.N))
+			(!R2 (?X_E WOMAN.N))
+			(!R3 (?X_J RADIO.N))
+			(!R4 (?X_J STATION.N))
+			(!R5 (?X_L AGENT.N))
+			(!R6 (NOT (?X_L = ?Y)))
+			(!R7 (?A ACTION.N))
+			(!R8 (?Y AGENT.N))
+		)
+		(:STEPS
+			(?X_G (?X_L (CALL.V ?X_J)))
+			(?X_I (?X_L ASK.1.V ?Y ?A))
+			(?X_D (?X_E (ANSWER.V ?X_K)))
+			(?X_B (?X_E (TELL.V ?X_L (THAT (?X_M (BE.V (NO.D NEWS.N)))))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ASK.1.V ?Y ?A) ** E228.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (TOM.NAME = ?Y)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V ?Y ?A)))
+			(?G2 (TOM.NAME (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (TOM.NAME (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Nathan called the radio station."
+	; "He talked to the DJ."
+	; "He asked for the weather report."
+	; "He told the DJ what time it was."
+	; "The DJ told Nathan that it was 5 o'clock."
+	(EPI-SCHEMA ((?X_I (CALL.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K DJ.N))
+			(!R2 (?X_J RADIO.N))
+			(!R3 (?X_J STATION.N))
+			(!R4 (?X_I AGENT.N))
+			(!R5 (NOT (?X_I = ?Y)))
+			(!R6 (?A ACTION.N))
+			(!R7 (?Y AGENT.N))
+		)
+		(:STEPS
+			(?X_F (?X_I (CALL.V ?X_J)))
+			(?X_D (?X_I ((ADV-A (TO.P ?X_K)) TALK.V)))
+			(?X_H (?X_I ASK.1.V ?Y ?A))
+			(?X_B (?X_I (TELL.V ?X_K (ANS-TO (?X_L (BE.V (WHAT.D TIME.N)))))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((NATHAN.NAME ASK.1.V ?Y ?A) ** E266.SK)
+		(:ROLES
+			(!R1 (NATHAN.NAME AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (NATHAN.NAME = ?Y)))
+		)
+		(:GOALS
+			(?G1 (NATHAN.NAME (WANT.V ?Y ?A)))
+			(?G2 (NATHAN.NAME (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (NATHAN.NAME (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary called the radio station."
+	; "She asked for music."
+	; "She listened to music on the radio."
+	(EPI-SCHEMA ((?X_I (CALL.V ?X_C)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C MUSIC.N))
+			(!R2 (?X_C (ON.P ?X_D)))
+			(!R3 (?X_J RADIO.N))
+			(!R4 (?X_J STATION.N))
+			(!R5 (?X_I AGENT.N))
+			(!R6 (NOT (?X_I = ?Y)))
+			(!R7 (?A ACTION.N))
+			(!R8 (?Y AGENT.N))
+		)
+		(:STEPS
+			(?X_F (?X_I (CALL.V ?X_J)))
+			(?X_H (?X_I ASK.1.V ?Y ?A))
+			(?X_B (?X_I ((ADV-A (TO.P ?X_C)) LISTEN.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME ASK.1.V ?Y ?A) ** E303.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (MARY.NAME = ?Y)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V ?Y ?A)))
+			(?G2 (MARY.NAME (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (MARY.NAME (ASK.1.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Alfred carried his friend on his shoulders."
+	; "He walked slowly along the road."
+	; "Alfred's friend fell down."
+	; "Alfred ran to help his friend."
+	(EPI-SCHEMA ((?X_H (((ADV-A (TO.P ?L2)) CARRY.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I FRIEND.N))
+			(!R2 (?X_G (PLUR SHOULDER.N)))
+			(!R3 (?X_I (PERTAIN-TO ?X_H)))
+			(!R4 (?X_G (PERTAIN-TO ?X_H)))
+			(!R5 (?X_I SMALLER-THAN.N ?X_H))
+			(!R6 (?X_H AGENT.N))
+			(!R7 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_H CARRY.1.V ?X_I ?L2))
+			(?X_F (?X_H ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_D (?X_I (DOWN.ADV FALL.V)))
+			(?X_B (?X_H ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((ALFRED.NAME CARRY.1.V FRIEND2.SK ?L2) ** U1.SK)
+		(:ROLES
+			(!R1 (ALFRED.NAME AGENT.N))
+			(!R2 (FRIEND2.SK ENTITY.N))
+			(!R3 (FRIEND2.SK SMALLER-THAN.N ALFRED.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (FRIEND2.SK FRIEND.N))
+			(!R8 (FRIEND2.SK (PERTAIN-TO ALFRED.NAME)))
+			(!R9 (SHOULDERS3.SK (PLUR SHOULDER.N)))
+			(!R10 (SHOULDERS3.SK (PERTAIN-TO ALFRED.NAME)))
+		)
+		(:GOALS
+			(?G1 (ALFRED.NAME (WANT.V (THAT (FRIEND2.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND2.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (ALFRED.NAME (POSSESS.V FRIEND2.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND2.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((ALFRED.NAME ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E9.SK)
+		(:ROLES
+			(!R1 (ALFRED.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FRIEND2.SK FRIEND.N))
+			(!R7 (FRIEND2.SK (PERTAIN-TO ALFRED.NAME)))
+			(!R8 (SHOULDERS3.SK (PLUR SHOULDER.N)))
+			(!R9 (SHOULDERS3.SK (PERTAIN-TO ALFRED.NAME)))
+		)
+		(:GOALS
+			(?G1 (ALFRED.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (ALFRED.NAME (AT.P ?L1)))
+			(?I2 (NOT (ALFRED.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ALFRED.NAME (AT.P ?L1))))
+			(?P2 (ALFRED.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((ALFRED.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E4.SK)
+		(:ROLES
+			(!R1 (ALFRED.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FRIEND2.SK FRIEND.N))
+			(!R7 (FRIEND2.SK (PERTAIN-TO ALFRED.NAME)))
+			(!R8 (SHOULDERS3.SK (PLUR SHOULDER.N)))
+			(!R9 (SHOULDERS3.SK (PERTAIN-TO ALFRED.NAME)))
+		)
+		(:GOALS
+			(?G1 (ALFRED.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (ALFRED.NAME (AT.P ?L1)))
+			(?I2 (NOT (ALFRED.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ALFRED.NAME (AT.P ?L1))))
+			(?P2 (ALFRED.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom carried his sister on his shoulders."
+	; "He walked along the sidewalk."
+	; "He carried his sister on his shoulders."
+	(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H ?X_I ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H SISTER.N))
+			(!R2 (?X_E (PLUR SHOULDER.N)))
+			(!R3 (?X_F (PLUR SHOULDER.N)))
+			(!R4 (?X_H (PERTAIN-TO ?X_G)))
+			(!R5 (?X_E (PERTAIN-TO ?X_G)))
+			(!R6 (?X_F (PERTAIN-TO ?X_G)))
+			(!R7 (?X_I SISTER.N))
+			(!R8 (?X_I (PERTAIN-TO ?X_H)))
+			(!R9 (?X_H SMALLER-THAN.N ?X_G))
+			(!R10 (?X_G AGENT.N))
+			(!R11 (?L2 DESTINATION.N))
+			(!R12 (?X_I SMALLER-THAN.N ?X_G))
+		)
+		(:STEPS
+			(?X_A (?X_G CARRY.1.V ?X_H ?L2))
+			(?X_D (?X_G ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_B (?X_G CARRY.1.V ?X_I ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CARRY.1.V SISTER28.SK ?L2) ** E27.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (SISTER28.SK ENTITY.N))
+			(!R3 (SISTER28.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (SISTER28.SK SISTER.N))
+			(!R8 (SISTER28.SK (PERTAIN-TO TOM.NAME)))
+			(!R9 (SISTER28.SK AGENT.N))
+			(!R10 (SHOULDERS29.SK (PLUR SHOULDER.N)))
+			(!R11 (SHOULDERS29.SK (PERTAIN-TO TOM.NAME)))
+			(!R12 (SISTER31.SK SISTER.N))
+			(!R13 (SISTER31.SK (PERTAIN-TO SISTER28.SK)))
+			(!R14 (SHOULDERS32.SK (PLUR SHOULDER.N)))
+			(!R15 (SHOULDERS32.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (SISTER28.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (SISTER28.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V SISTER28.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (SISTER28.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E36.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (SISTER28.SK SISTER.N))
+			(!R7 (SISTER28.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (SISTER28.SK AGENT.N))
+			(!R9 (SHOULDERS29.SK (PLUR SHOULDER.N)))
+			(!R10 (SHOULDERS29.SK (PERTAIN-TO TOM.NAME)))
+			(!R11 (SHOULDERS32.SK (PLUR SHOULDER.N)))
+			(!R12 (SHOULDERS32.SK (PERTAIN-TO TOM.NAME)))
+			(!R13 (SISTER31.SK SISTER.N))
+			(!R14 (SISTER31.SK (PERTAIN-TO SISTER28.SK)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME CARRY.1.V SISTER31.SK ?L2) ** E30.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (SISTER31.SK ENTITY.N))
+			(!R3 (SISTER31.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (SISTER31.SK SISTER.N))
+			(!R8 (SISTER28.SK SISTER.N))
+			(!R9 (SISTER28.SK (PERTAIN-TO TOM.NAME)))
+			(!R10 (SISTER28.SK AGENT.N))
+			(!R11 (SISTER31.SK (PERTAIN-TO SISTER28.SK)))
+			(!R12 (SHOULDERS29.SK (PLUR SHOULDER.N)))
+			(!R13 (SHOULDERS29.SK (PERTAIN-TO TOM.NAME)))
+			(!R14 (SHOULDERS32.SK (PLUR SHOULDER.N)))
+			(!R15 (SHOULDERS32.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (SISTER31.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (SISTER31.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V SISTER31.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (SISTER31.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sarah carried her friend on her shoulders."
+	; "She walked fast."
+	; "She had to carry her friend for a long time."
+	(EPI-SCHEMA ((?X_G (((ADV-A (TO.P ?L2)) CARRY.V) ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H FRIEND.N))
+			(!R2 (?X_C TIME.N))
+			(!R3 (?X_C LONG.A))
+			(!R4 (?X_H (PERTAIN-TO ?X_G)))
+			(!R5 (?X_F (PLUR SHOULDER.N)))
+			(!R6 (?X_F (PERTAIN-TO ?X_G)))
+			(!R7 (?X_G AGENT.N))
+			(!R8 (?X_H SMALLER-THAN.N ?X_G))
+			(!R9 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_G CARRY.1.V ?X_H ?L2))
+			(?X_E (?X_G ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_B (MUST.AUX-S (?X_G (((ADV-A (FOR.P ?X_C)) CARRY.V) ?X_H))))
+			(?E_1 (?X_G CARRY.4.V ?X_H ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SARAH.NAME CARRY.1.V FRIEND54.SK ?L2) ** E53.SK)
+		(:ROLES
+			(!R1 (SARAH.NAME AGENT.N))
+			(!R2 (FRIEND54.SK ENTITY.N))
+			(!R3 (FRIEND54.SK SMALLER-THAN.N SARAH.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (FRIEND54.SK (PERTAIN-TO SARAH.NAME)))
+			(!R8 (FRIEND54.SK FRIEND.N))
+			(!R9 (SHOULDERS55.SK (PLUR SHOULDER.N)))
+			(!R10 (SHOULDERS55.SK (PERTAIN-TO SARAH.NAME)))
+		)
+		(:GOALS
+			(?G1 (SARAH.NAME (WANT.V (THAT (FRIEND54.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND54.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (SARAH.NAME (POSSESS.V FRIEND54.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND54.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SARAH.NAME ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E60.SK)
+		(:ROLES
+			(!R1 (SARAH.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FRIEND54.SK (PERTAIN-TO SARAH.NAME)))
+			(!R7 (FRIEND54.SK FRIEND.N))
+			(!R8 (SHOULDERS55.SK (PLUR SHOULDER.N)))
+			(!R9 (SHOULDERS55.SK (PERTAIN-TO SARAH.NAME)))
+		)
+		(:GOALS
+			(?G1 (SARAH.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SARAH.NAME (AT.P ?L1)))
+			(?I2 (NOT (SARAH.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SARAH.NAME (AT.P ?L1))))
+			(?P2 (SARAH.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SARAH.NAME CARRY.4.V FRIEND54.SK ?L2) ** ?E)
+		(:ROLES
+			(!R1 (SARAH.NAME AGENT.N))
+			(!R2 (FRIEND54.SK ENTITY.N))
+			(!R3 (FRIEND54.SK SMALLER-THAN.N SARAH.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (FRIEND54.SK (PERTAIN-TO SARAH.NAME)))
+			(!R8 (FRIEND54.SK FRIEND.N))
+			(!R9 (SHOULDERS55.SK (PLUR SHOULDER.N)))
+			(!R10 (SHOULDERS55.SK (PERTAIN-TO SARAH.NAME)))
+		)
+		(:GOALS
+			(?G1 (SARAH.NAME (WANT.V (THAT (FRIEND54.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND54.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (SARAH.NAME (POSSESS.V FRIEND54.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND54.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen carried her brother on her shoulders."
+	; "She walked down the street."
+	; "She carried her brother all the way home."
+	(EPI-SCHEMA ((?X_E (COMPOSITE-SCHEMA.PR ?X_F ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F BROTHER.N))
+			(!R2 (?X_B (PLUR SHOULDER.N)))
+			(!R3 (?X_F (PERTAIN-TO ?X_E)))
+			(!R4 (?X_B (PERTAIN-TO ?X_E)))
+			(!R5 (?X_F SMALLER-THAN.N ?X_E))
+			(!R6 (?X_E AGENT.N))
+			(!R7 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_E CARRY.1.V ?X_F ?L2))
+			(?X_D (?X_E ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME CARRY.1.V BROTHER75.SK ?L2) ** E74.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (BROTHER75.SK ENTITY.N))
+			(!R3 (BROTHER75.SK SMALLER-THAN.N KAREN.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BROTHER75.SK BROTHER.N))
+			(!R8 (BROTHER75.SK (PERTAIN-TO KAREN.NAME)))
+			(!R9 (SHOULDERS76.SK (PLUR SHOULDER.N)))
+			(!R10 (SHOULDERS76.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (BROTHER75.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BROTHER75.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (KAREN.NAME (POSSESS.V BROTHER75.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BROTHER75.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E82.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BROTHER75.SK BROTHER.N))
+			(!R7 (BROTHER75.SK (PERTAIN-TO KAREN.NAME)))
+			(!R8 (SHOULDERS76.SK (PLUR SHOULDER.N)))
+			(!R9 (SHOULDERS76.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy carried a girl on his shoulders."
+	; "He carried her over some steps."
+	; "He carried her into a building."
+	; "He carried her upstairs."
+	; "He put her down on the bed."
+	(EPI-SCHEMA ((?X_N (CARRY.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L (PLUR STEP.N)))
+			(!R2 (?X_M UPSTAIRS.N))
+			(!R3 (?X_J BOY.N))
+			(!R4 (?X_N AGENT.N))
+			(!R5 (?X_M (PERTAIN-TO ?X_N)))
+			(!R6 (?X_O BED.N))
+			(!R7 (?X_K ENTITY.N))
+			(!R8 (?X_K SMALLER-THAN.N ?X_J))
+			(!R9 (?L2 DESTINATION.N))
+			(!R10 (?X_N SMALLER-THAN.N ?X_J))
+			(!R11 (?X_L DESTINATION.N))
+			(!R12 (?X_M SMALLER-THAN.N ?X_J))
+			(!R13 (?X_M DESTINATION.N))
+			(!R14 (?X_O LOCATION.N))
+		)
+		(:STEPS
+			(?X_C (?X_J CARRY.1.V ?X_K ?L2))
+			(?X_E (?X_J CARRY.1.V ?X_N ?L2))
+			(?X_G (?X_J CARRY.5.V ?X_N ?X_L))
+			(?X_A (?X_J CARRY.6.V ?X_M ?X_M))
+			(?X_I (?X_J PUT.7.V ?X_N ?X_O))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME CARRY.1.V BROTHER92.SK ?L2) ** E91.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (BROTHER92.SK ENTITY.N))
+			(!R3 (BROTHER92.SK SMALLER-THAN.N MARY.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BROTHER92.SK BROTHER.N))
+			(!R8 (BROTHER92.SK (PERTAIN-TO MARY.NAME)))
+			(!R9 (BROTHER92.SK AGENT.N))
+			(!R10 (BROTHER92.SK SICK.A))
+			(!R11 (BACK93.SK BACK.N))
+			(!R12 (BACK93.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (BROTHER92.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BROTHER92.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MARY.NAME (POSSESS.V BROTHER92.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BROTHER92.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E98.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BROTHER92.SK BROTHER.N))
+			(!R7 (BROTHER92.SK (PERTAIN-TO MARY.NAME)))
+			(!R8 (BROTHER92.SK AGENT.N))
+			(!R9 (BROTHER92.SK SICK.A))
+			(!R10 (BACK93.SK BACK.N))
+			(!R11 (BACK93.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MARY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MARY.NAME (AT.P ?L1))))
+			(?P2 (MARY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY122.SK CARRY.1.V OBJECT124.SK ?L2) ** E125.SK)
+		(:ROLES
+			(!R1 (BOY122.SK AGENT.N))
+			(!R2 (OBJECT124.SK ENTITY.N))
+			(!R3 (OBJECT124.SK SMALLER-THAN.N BOY122.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BOY122.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY122.SK (WANT.V (THAT (OBJECT124.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (OBJECT124.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BOY122.SK (POSSESS.V OBJECT124.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (OBJECT124.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY122.SK CARRY.1.V HER-PRO137.SK ?L2) ** E128.SK)
+		(:ROLES
+			(!R1 (BOY122.SK AGENT.N))
+			(!R2 (HER-PRO137.SK ENTITY.N))
+			(!R3 (HER-PRO137.SK SMALLER-THAN.N BOY122.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BOY122.SK BOY.N))
+			(!R8 (HER-PRO137.SK AGENT.N))
+			(!R9 (UPSTAIRS121.SK UPSTAIRS.N))
+			(!R10 (UPSTAIRS121.SK (PERTAIN-TO HER-PRO137.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY122.SK (WANT.V (THAT (HER-PRO137.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (HER-PRO137.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BOY122.SK (POSSESS.V HER-PRO137.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (HER-PRO137.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY122.SK CARRY.5.V HER-PRO137.SK STEP129.SK) ** E132.SK)
+		(:ROLES
+			(!R1 (BOY122.SK AGENT.N))
+			(!R2 (HER-PRO137.SK ENTITY.N))
+			(!R3 (HER-PRO137.SK SMALLER-THAN.N BOY122.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (STEP129.SK LOCATION.N))
+			(!R6 (STEP129.SK DESTINATION.N))
+			(!R7 (BOY122.SK BOY.N))
+			(!R8 (STEP129.SK (PLUR STEP.N)))
+			(!R9 (HER-PRO137.SK AGENT.N))
+			(!R10 (UPSTAIRS121.SK UPSTAIRS.N))
+			(!R11 (UPSTAIRS121.SK (PERTAIN-TO HER-PRO137.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (BOY122.SK (WANT.V (THAT (HER-PRO137.SK ((ADV-A (AT.P STEP129.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (HER-PRO137.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BOY122.SK (POSSESS.V HER-PRO137.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (HER-PRO137.SK ((ADV-A (AT.P STEP129.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY122.SK CARRY.6.V UPSTAIRS121.SK UPSTAIRS121.SK) ** E120.SK)
+		(:ROLES
+			(!R1 (BOY122.SK AGENT.N))
+			(!R2 (UPSTAIRS121.SK ENTITY.N))
+			(!R3 (UPSTAIRS121.SK SMALLER-THAN.N BOY122.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (UPSTAIRS121.SK LOCATION.N))
+			(!R6 (UPSTAIRS121.SK DESTINATION.N))
+			(!R7 (BOY122.SK BOY.N))
+			(!R8 (UPSTAIRS121.SK UPSTAIRS.N))
+			(!R9 (HER-PRO137.SK AGENT.N))
+			(!R10 (UPSTAIRS121.SK (PERTAIN-TO HER-PRO137.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (BOY122.SK
+	    (WANT.V (THAT (UPSTAIRS121.SK ((ADV-A (AT.P UPSTAIRS121.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (UPSTAIRS121.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BOY122.SK (POSSESS.V UPSTAIRS121.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (UPSTAIRS121.SK ((ADV-A (AT.P UPSTAIRS121.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY122.SK PUT.7.V HER-PRO137.SK BED135.SK) ** E136.SK)
+		(:ROLES
+			(!R1 (BOY122.SK AGENT.N))
+			(!R2 (HER-PRO137.SK ENTITY.N))
+			(!R3 (BED135.SK LOCATION.N))
+			(!R4 (BOY122.SK BOY.N))
+			(!R5 (HER-PRO137.SK AGENT.N))
+			(!R6 (BED135.SK BED.N))
+			(!R7 (UPSTAIRS121.SK UPSTAIRS.N))
+			(!R8 (UPSTAIRS121.SK (PERTAIN-TO HER-PRO137.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY122.SK (WANT.V (THAT (HER-PRO137.SK (AT.P BED135.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY122.SK (POSSESS.V HER-PRO137.SK)))
+			(?I2 (HER-PRO137.SK (NOT (AT.P BED135.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (HER-PRO137.SK (AT.P BED135.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Lily carried her friend on her shoulders."
+	; "She walked slowly."
+	; "She was tired."
+	; "She was going home."
+	(EPI-SCHEMA ((?X_I (((ADV-A (TO.P ?L2)) CARRY.V) ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H FRIEND.N))
+			(!R2 (?X_D (PLUR SHOULDER.N)))
+			(!R3 (?X_G TIRED.A))
+			(!R4 (?X_H (PERTAIN-TO ?X_G)))
+			(!R5 (?X_D (PERTAIN-TO ?X_G)))
+			(!R6 (?X_I HOME.N))
+			(!R7 (?X_I (PERTAIN-TO ?X_G)))
+			(!R8 (?X_H SMALLER-THAN.N ?X_G))
+			(!R9 (?L2 DESTINATION.N))
+			(!R10 (?X_I DESTINATION.N))
+			(!R11 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_G CARRY.1.V ?X_H ?L2))
+			(?X_C (?X_G ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_F (?X_G ((ADV-A (FROM.P ?L1)) GO.8.V) ?X_I))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((LILY.NAME CARRY.1.V FRIEND150.SK ?L2) ** E149.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (FRIEND150.SK ENTITY.N))
+			(!R3 (FRIEND150.SK SMALLER-THAN.N LILY.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (LILY.NAME TIRED.A))
+			(!R8 (FRIEND150.SK FRIEND.N))
+			(!R9 (FRIEND150.SK (PERTAIN-TO LILY.NAME)))
+			(!R10 (SHOULDERS151.SK (PLUR SHOULDER.N)))
+			(!R11 (SHOULDERS151.SK (PERTAIN-TO LILY.NAME)))
+			(!R12 (HOME160.SK (PERTAIN-TO LILY.NAME)))
+			(!R13 (HOME160.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (THAT (FRIEND150.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND150.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (LILY.NAME (POSSESS.V FRIEND150.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND150.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E154.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (LILY.NAME TIRED.A))
+			(!R7 (FRIEND150.SK FRIEND.N))
+			(!R8 (FRIEND150.SK (PERTAIN-TO LILY.NAME)))
+			(!R9 (SHOULDERS151.SK (PLUR SHOULDER.N)))
+			(!R10 (SHOULDERS151.SK (PERTAIN-TO LILY.NAME)))
+			(!R11 (HOME160.SK (PERTAIN-TO LILY.NAME)))
+			(!R12 (HOME160.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME (AT.P ?L1)))
+			(?I2 (NOT (LILY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LILY.NAME (AT.P ?L1))))
+			(?P2 (LILY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME ((ADV-A (FROM.P ?L1)) GO.8.V) HOME160.SK) ** E158.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME160.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME160.SK)))
+			(!R5 (HOME160.SK DESTINATION.N))
+			(!R6 (LILY.NAME TIRED.A))
+			(!R7 (HOME160.SK (PERTAIN-TO LILY.NAME)))
+			(!R8 (HOME160.SK HOME.N))
+			(!R9 (FRIEND150.SK FRIEND.N))
+			(!R10 (FRIEND150.SK (PERTAIN-TO LILY.NAME)))
+			(!R11 (SHOULDERS151.SK (PLUR SHOULDER.N)))
+			(!R12 (SHOULDERS151.SK (PERTAIN-TO LILY.NAME)))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (KA ((ADV-A (AT.P HOME160.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME (AT.P ?L1)))
+			(?I2 (NOT (LILY.NAME (AT.P HOME160.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LILY.NAME (AT.P ?L1))))
+			(?P2 (LILY.NAME (AT.P HOME160.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man carried the woman."
+	; "He helped her walk."
+	; "He held her hand."
+	; "He walked slowly."
+	; "He stopped for a moment."
+	; "He put down the woman."
+	; "He picked up the woman again."
+	; "He walked faster."
+	; "He walked on the sidewalk."
+	; "He walked into the restaurant."
+	(EPI-SCHEMA ((?X_W (CARRY.V ?X_X)) ** ?E)
+		(:ROLES
+			(!R1 (?X_W WOMAN.N))
+			(!R2 (?X_X MOMENT.N))
+			(!R3 (?X_V HAND.N))
+			(!R4 (?X_V (PERTAIN-TO ?X_W)))
+			(!R5 (?X_U (PERTAIN-TO ?X_W)))
+			(!R6 (?X_T MAN.N))
+			(!R7 (?X_W SMALLER-THAN.N ?X_T))
+			(!R8 (?X_U AGENT.N))
+			(!R9 (?L2 DESTINATION.N))
+			(!R10 (?X_X DESTINATION.N))
+		)
+		(:STEPS
+			(?X_K (?X_T CARRY.1.V ?X_W ?L2))
+			(?X_A (?X_T (HELP.V ?X_U)))
+			(?X_B (?X_U ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_C (?X_T (HOLD.V ?X_V)))
+			(?X_M (?X_T ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_I (?X_T ((ADV-A (FOR.P ?X_X)) STOP.V)))
+			(?X_G (?X_T (PUT_DOWN.V ?X_W)))
+			(?X_E (?X_T ((AGAIN.ADV PICK_UP.V) ?X_W)))
+			(?X_O (?X_T ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_Q (?X_T ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_S (?X_T ((ADV-A (FROM.P ?L1)) WALK.9.V) ?X_X))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN178.SK CARRY.1.V WOMAN180.SK ?L2) ** E181.SK)
+		(:ROLES
+			(!R1 (MAN178.SK AGENT.N))
+			(!R2 (WOMAN180.SK ENTITY.N))
+			(!R3 (WOMAN180.SK SMALLER-THAN.N MAN178.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (WOMAN180.SK AGENT.N))
+			(!R8 (WOMAN180.SK WOMAN.N))
+			(!R9 (MAN178.SK MAN.N))
+			(!R10 (WALK183.SK (PERTAIN-TO WOMAN180.SK)))
+			(!R11 (HAND177.SK HAND.N))
+			(!R12 (HAND177.SK (PERTAIN-TO WOMAN180.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN178.SK (WANT.V (THAT (WOMAN180.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN180.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MAN178.SK (POSSESS.V WOMAN180.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (WOMAN180.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WALK183.SK ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E184.SK)
+		(:ROLES
+			(!R1 (WALK183.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (WALK183.SK (PERTAIN-TO WOMAN180.SK)))
+			(!R7 (WOMAN180.SK AGENT.N))
+			(!R8 (WOMAN180.SK WOMAN.N))
+			(!R9 (HAND177.SK HAND.N))
+			(!R10 (HAND177.SK (PERTAIN-TO WOMAN180.SK)))
+		)
+		(:GOALS
+			(?G1 (WALK183.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (WALK183.SK (AT.P ?L1)))
+			(?I2 (NOT (WALK183.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WALK183.SK (AT.P ?L1))))
+			(?P2 (WALK183.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN178.SK ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E187.SK)
+		(:ROLES
+			(!R1 (MAN178.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN178.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN178.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN178.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN178.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN178.SK (AT.P ?L1))))
+			(?P2 (MAN178.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN178.SK ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E198.SK)
+		(:ROLES
+			(!R1 (MAN178.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN178.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN178.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN178.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN178.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN178.SK (AT.P ?L1))))
+			(?P2 (MAN178.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN178.SK ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E201.SK)
+		(:ROLES
+			(!R1 (MAN178.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN178.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN178.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN178.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN178.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN178.SK (AT.P ?L1))))
+			(?P2 (MAN178.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN178.SK ((ADV-A (FROM.P ?L1)) WALK.9.V) MOMENT189.SK) **
+	             E204.SK)
+		(:ROLES
+			(!R1 (MAN178.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (MOMENT189.SK LOCATION.N))
+			(!R4 (NOT (?L1 = MOMENT189.SK)))
+			(!R5 (MOMENT189.SK DESTINATION.N))
+			(!R6 (MAN178.SK MAN.N))
+			(!R7 (MOMENT189.SK MOMENT.N))
+		)
+		(:GOALS
+			(?G1 (MAN178.SK (WANT.V (KA ((ADV-A (AT.P MOMENT189.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN178.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN178.SK (AT.P MOMENT189.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN178.SK (AT.P ?L1))))
+			(?P2 (MAN178.SK (AT.P MOMENT189.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill carried his friend."
+	; "He walked through the park."
+	; "He carried his friend on his shoulders."
+	; "He was tired from carrying his friend."
+	(EPI-SCHEMA ((?X_G (((ADV-A (TO.P ?L2)) CARRY.V) ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I FRIEND.N))
+			(!R2 (?X_I (PERTAIN-TO ?X_H)))
+			(!R3 (?X_F (PLUR SHOULDER.N)))
+			(!R4 (?X_F (PERTAIN-TO ?X_H)))
+			(!R5 (?X_G BILL.N))
+			(!R6 (?X_H AGENT.N))
+			(!R7 (?X_I SMALLER-THAN.N ?X_H))
+			(!R8 (?X_I SMALLER-THAN.N ?X_G))
+			(!R9 (?X_G AGENT.N))
+			(!R10 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_G CARRY.1.V ?X_I ?L2))
+			(?X_E (?X_H ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2))
+			(?X_B (?X_H CARRY.1.V ?X_I ?L2))
+			(?X_C (?X_H (FROM.P (KA (CARRY.V ?X_I)))))
+			(?E_1 (?X_G CARRY.4.V ?X_I ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BILL225.SK CARRY.1.V FRIEND217.SK ?L2) ** E216.SK)
+		(:ROLES
+			(!R1 (BILL225.SK AGENT.N))
+			(!R2 (FRIEND217.SK ENTITY.N))
+			(!R3 (FRIEND217.SK SMALLER-THAN.N BILL225.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BILL225.SK BILL.N))
+			(!R8 (FRIEND217.SK FRIEND.N))
+			(!R9 (FRIEND217.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R10 (HE-PRO233.SK AGENT.N))
+			(!R11 (SHOULDERS220.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R12 (SHOULDERS220.SK (PLUR SHOULDER.N)))
+		)
+		(:GOALS
+			(?G1 (BILL225.SK (WANT.V (THAT (FRIEND217.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND217.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BILL225.SK (POSSESS.V FRIEND217.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND217.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO233.SK ((ADV-A (FROM.P ?L1)) WALK.2.V) ?L2) ** E228.SK)
+		(:ROLES
+			(!R1 (HE-PRO233.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FRIEND217.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R7 (FRIEND217.SK FRIEND.N))
+			(!R8 (SHOULDERS220.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R9 (SHOULDERS220.SK (PLUR SHOULDER.N)))
+		)
+		(:GOALS
+			(?G1 (HE-PRO233.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO233.SK (AT.P ?L1)))
+			(?I2 (NOT (HE-PRO233.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO233.SK (AT.P ?L1))))
+			(?P2 (HE-PRO233.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO233.SK CARRY.1.V FRIEND217.SK ?L2) ** E218.SK)
+		(:ROLES
+			(!R1 (HE-PRO233.SK AGENT.N))
+			(!R2 (FRIEND217.SK ENTITY.N))
+			(!R3 (FRIEND217.SK SMALLER-THAN.N HE-PRO233.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (FRIEND217.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R8 (FRIEND217.SK FRIEND.N))
+			(!R9 (SHOULDERS220.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R10 (SHOULDERS220.SK (PLUR SHOULDER.N)))
+		)
+		(:GOALS
+			(?G1 (HE-PRO233.SK (WANT.V (THAT (FRIEND217.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND217.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (HE-PRO233.SK (POSSESS.V FRIEND217.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND217.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BILL225.SK CARRY.4.V FRIEND217.SK ?L2) ** ?E)
+		(:ROLES
+			(!R1 (BILL225.SK AGENT.N))
+			(!R2 (FRIEND217.SK ENTITY.N))
+			(!R3 (FRIEND217.SK SMALLER-THAN.N BILL225.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (BILL225.SK BILL.N))
+			(!R8 (FRIEND217.SK FRIEND.N))
+			(!R9 (FRIEND217.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R10 (HE-PRO233.SK AGENT.N))
+			(!R11 (SHOULDERS220.SK (PERTAIN-TO HE-PRO233.SK)))
+			(!R12 (SHOULDERS220.SK (PLUR SHOULDER.N)))
+		)
+		(:GOALS
+			(?G1 (BILL225.SK (WANT.V (THAT (FRIEND217.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FRIEND217.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BILL225.SK (POSSESS.V FRIEND217.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FRIEND217.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Sammy liked to gamble."
+	; "He played poker in the casino."
+	; "He lost all his money."
+	; "He left the casino."
+	(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR (KA GAMBLE.V) ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D POKER.N))
+			(!R2 ((KA GAMBLE.V) ACTION.N))
+			(!R3 (?X_G AGENT.N))
+			(!R4 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_G LIKE.1.V (KA GAMBLE.V)))
+			(?E_1 (?X_G ((ADV-A (FROM.P ?L1)) GAMBLE.2.V) ?L2))
+			(?X_C (?X_G PLAY.3.V))
+			(?X_F (?X_G ((ADV-A (FROM.P ?L1)) LEAVE.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME LIKE.1.V (KA GAMBLE.V)) ** E4.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 ((KA GAMBLE.V) ACTION.N))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (THINK.V (THAT ((KA GAMBLE.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P ?L1)) GAMBLE.2.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAMMY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P ?L1))))
+			(?P2 (SAMMY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME PLAY.3.V) ** E7.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (POKER9.SK GAME.N))
+			(!R5 (NOT (POKER9.SK AGENT.N)))
+			(!R6 (POKER9.SK POKER.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (SAMMY.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P ?L1)) LEAVE.4.V) ?L2) ** E14.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAMMY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P ?L1))))
+			(?P2 (SAMMY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man played cards at the casino."
+	; "He won a lot of money."
+	; "He went home happy."
+	(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_F)) GO.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K LOT.N))
+			(!R2 (?X_K (OF.P ?X_C)))
+			(!R3 (?X_J (PLUR CARD.N)))
+			(!R4 (?X_F CASINO.N))
+			(!R5 (?X_I MAN.N))
+			(!R6 ((K (HOME.ADV HAPPY.A)) DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_I (((ADV-A (AT.P ?X_F)) PLAY.V) ?X_J)))
+			(?X_B (?X_I (WIN.V ?X_K)))
+			(?X_H (?X_I ((ADV-A (FROM.P ?L1)) GO.5.V) (K (HOME.ADV HAPPY.A))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN25.SK ((ADV-A (FROM.P ?L1)) GO.5.V) (K (HOME.ADV HAPPY.A))) **
+	             E38.SK)
+		(:ROLES
+			(!R1 (MAN25.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (HOME.ADV HAPPY.A)) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (HOME.ADV HAPPY.A)))))
+			(!R5 ((K (HOME.ADV HAPPY.A)) DESTINATION.N))
+			(!R6 (MAN25.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN25.SK (WANT.V (KA ((ADV-A (AT.P (K (HOME.ADV HAPPY.A)))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN25.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN25.SK (AT.P (K (HOME.ADV HAPPY.A))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN25.SK (AT.P ?L1))))
+			(?P2 (MAN25.SK (AT.P (K (HOME.ADV HAPPY.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man played blackjack."
+	; "He lost a lot of money."
+	; "He was angry."
+	; "He left the casino."
+	(EPI-SCHEMA ((?X_I (LOSE.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J LOT.N))
+			(!R2 (?X_I AGENT.N))
+			(!R3 (?X_H MAN.N))
+			(!R4 (?X_H ANGRY.A))
+			(!R5 (?X_E MONEY.N))
+			(!R6 (?X_J (OF.P ?X_E)))
+			(!R7 (?X_J LOCATION.N))
+			(!R8 (NOT (?X_J = ?L2)))
+			(!R9 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_H (PLAY.V ?X_I)))
+			(?X_B (?X_H (LOSE.V ?X_J)))
+			(?X_G (?X_H ((ADV-A (FROM.P ?X_J)) LEAVE.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN63.SK DRANK.6.V BEER71.SK) ** E72.SK)
+		(:ROLES
+			(!R1 (MAN63.SK AGENT.N))
+			(!R2 (BEER71.SK FOOD.N))
+			(!R3 (MAN63.SK MAN.N))
+			(!R4 (BEER71.SK BEER.N))
+		)
+		(:GOALS
+			(?G1 (MAN63.SK (WANT.V (THAT (NOT (MAN63.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN63.SK POSSESS.V BEER71.SK))
+			(?I2 (MAN63.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN63.SK (POSSESS.V BEER71.SK))))
+			(?P2 (NOT (MAN63.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN158.SK ((ADV-A (FROM.P LOT166.SK)) LEAVE.7.V) ?L2) ** E171.SK)
+		(:ROLES
+			(!R1 (MAN158.SK AGENT.N))
+			(!R2 (LOT166.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (LOT166.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN158.SK MAN.N))
+			(!R7 (MAN158.SK ANGRY.A))
+			(!R8 (LOT166.SK LOT.N))
+			(!R9 (MONEY165.SK MONEY.N))
+			(!R10 (LOT166.SK (OF.P MONEY165.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN158.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN158.SK (AT.P LOT166.SK)))
+			(?I2 (NOT (MAN158.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN158.SK (AT.P LOT166.SK))))
+			(?P2 (MAN158.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man walked into a casino."
+	; "He played blackjack."
+	; "He lost all his money."
+	; "He left the casino."
+	(EPI-SCHEMA ((?X_H ((ADV-A (INTO.P ?X_I)) WALK.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H AGENT.N))
+			(!R2 (?X_G MAN.N))
+			(!R3 (?X_I CASINO.N))
+			(!R4 (?X_I DESTINATION.N))
+			(!R5 (NOT (?X_I = ?L2)))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_G ((ADV-A (FROM.P ?L1)) WALK.8.V) ?X_I))
+			(?X_B (?X_G (PLAY.V ?X_H)))
+			(?X_F (?X_G ((ADV-A (FROM.P ?X_I)) LEAVE.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN186.SK ((ADV-A (FROM.P ?L1)) WALK.8.V) CASINO188.SK) **
+	             E189.SK)
+		(:ROLES
+			(!R1 (MAN186.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CASINO188.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CASINO188.SK)))
+			(!R5 (CASINO188.SK DESTINATION.N))
+			(!R6 (MAN186.SK MAN.N))
+			(!R7 (CASINO188.SK CASINO.N))
+		)
+		(:GOALS
+			(?G1 (MAN186.SK (WANT.V (KA ((ADV-A (AT.P CASINO188.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN186.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN186.SK (AT.P CASINO188.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN186.SK (AT.P ?L1))))
+			(?P2 (MAN186.SK (AT.P CASINO188.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN186.SK ((ADV-A (FROM.P CASINO188.SK)) LEAVE.7.V) ?L2) **
+	             E196.SK)
+		(:ROLES
+			(!R1 (MAN186.SK AGENT.N))
+			(!R2 (CASINO188.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (CASINO188.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN186.SK MAN.N))
+			(!R7 (CASINO188.SK CASINO.N))
+		)
+		(:GOALS
+			(?G1 (MAN186.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN186.SK (AT.P CASINO188.SK)))
+			(?I2 (NOT (MAN186.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN186.SK (AT.P CASINO188.SK))))
+			(?P2 (MAN186.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man played blackjack."
+	; "He lost all his money."
+	; "He left the casino."
+	(EPI-SCHEMA ((?X_G (LEAVE.V ?X_E)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G AGENT.N))
+			(!R2 (?X_F MAN.N))
+			(!R3 (?X_E CASINO.N))
+			(!R4 (?X_E LOCATION.N))
+			(!R5 (NOT (?X_E = ?L2)))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_F (PLAY.V ?X_G)))
+			(?X_D (?X_F ((ADV-A (FROM.P ?X_E)) LEAVE.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((HE-PRO221.SK ((ADV-A (FROM.P ?L1)) GO.9.V) HOME223.SK) ** E220.SK)
+		(:ROLES
+			(!R1 (HE-PRO221.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME223.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME223.SK)))
+			(!R5 (HOME223.SK DESTINATION.N))
+			(!R6 (HOME223.SK (PERTAIN-TO HE-PRO221.SK)))
+			(!R7 (HOME223.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO221.SK (WANT.V (KA ((ADV-A (AT.P HOME223.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO221.SK (AT.P ?L1)))
+			(?I2 (NOT (HE-PRO221.SK (AT.P HOME223.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO221.SK (AT.P ?L1))))
+			(?P2 (HE-PRO221.SK (AT.P HOME223.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DIANE.NAME LIKE.1.V (KA GAMBLE.V)) ** E234.SK)
+		(:ROLES
+			(!R1 (DIANE.NAME AGENT.N))
+			(!R2 ((KA GAMBLE.V) ACTION.N))
+		)
+		(:PRECONDS
+			(?I1 (DIANE.NAME (THINK.V (THAT ((KA GAMBLE.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DIANE.NAME ((ADV-A (FROM.P ?L1)) GAMBLE.2.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (DIANE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (DIANE.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DIANE.NAME (AT.P ?L1)))
+			(?I2 (NOT (DIANE.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DIANE.NAME (AT.P ?L1))))
+			(?P2 (DIANE.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DIANE.NAME PLAY.3.V) ** E250.SK)
+		(:ROLES
+			(!R1 (DIANE.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BACCARAT252.SK GAME.N))
+			(!R5 (NOT (BACCARAT252.SK AGENT.N)))
+			(!R6 (BACCARAT252.SK BACCARAT.N))
+		)
+		(:GOALS
+			(?G1 (DIANE.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (DIANE.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (DIANE.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN263.SK ((ADV-A (FROM.P CASINO269.SK)) LEAVE.7.V) ?L2) **
+	             E270.SK)
+		(:ROLES
+			(!R1 (MAN263.SK AGENT.N))
+			(!R2 (CASINO269.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (CASINO269.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN263.SK MAN.N))
+			(!R7 (CASINO269.SK CASINO.N))
+		)
+		(:GOALS
+			(?G1 (MAN263.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN263.SK (AT.P CASINO269.SK)))
+			(?I2 (NOT (MAN263.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN263.SK (AT.P CASINO269.SK))))
+			(?P2 (MAN263.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Frank went to a casino."
+	; "He played poker."
+	; "He lost all his money."
+	; "He left the casino."
+	(EPI-SCHEMA ((?X_G (LEAVE.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I POKER.N))
+			(!R2 (?X_J CASINO.N))
+			(!R3 (?X_G AGENT.N))
+			(!R4 (?X_J DESTINATION.N))
+			(!R5 (?X_H AGENT.N))
+			(!R6 (NOT (?X_J = ?L2)))
+			(!R7 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_G ((ADV-A (FROM.P ?L1)) GO.9.V) ?X_J))
+			(?X_B (?X_H (PLAY.V ?X_I)))
+			(?X_F (?X_H ((ADV-A (FROM.P ?X_J)) LEAVE.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FRANK.NAME ((ADV-A (FROM.P ?L1)) GO.9.V) CASINO280.SK) ** E281.SK)
+		(:ROLES
+			(!R1 (FRANK.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CASINO280.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CASINO280.SK)))
+			(!R5 (CASINO280.SK DESTINATION.N))
+			(!R6 (CASINO280.SK CASINO.N))
+		)
+		(:GOALS
+			(?G1 (FRANK.NAME (WANT.V (KA ((ADV-A (AT.P CASINO280.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (FRANK.NAME (AT.P ?L1)))
+			(?I2 (NOT (FRANK.NAME (AT.P CASINO280.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FRANK.NAME (AT.P ?L1))))
+			(?P2 (FRANK.NAME (AT.P CASINO280.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO291.SK ((ADV-A (FROM.P CASINO280.SK)) LEAVE.7.V) ?L2) **
+	             E290.SK)
+		(:ROLES
+			(!R1 (HE-PRO291.SK AGENT.N))
+			(!R2 (CASINO280.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (CASINO280.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CASINO280.SK CASINO.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO291.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO291.SK (AT.P CASINO280.SK)))
+			(?I2 (NOT (HE-PRO291.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO291.SK (AT.P CASINO280.SK))))
+			(?P2 (HE-PRO291.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill played blackjack."
+	; "He bet $10 on each hand."
+	; "He lost $40."
+	; "He tried again."
+	; "He lost $50."
+	; "He kept losing money."
+	; "He left the casino."
+	(EPI-SCHEMA ((?X_L (((ADV-A (WITH.P ?X_L)) PLAY.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J MONEY.N))
+			(!R2 (?X_L AGENT.N))
+			(!R3 (?X_G BILL.N))
+			(!R4 (?X_K AGENT.N))
+			(!R5 (NOT (?X_J = ?L2)))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (?X_J LOCATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_G (PLAY.V ?X_L)))
+			(?X_D (?X_K (AGAIN.ADV TRY.V)))
+			(?X_B (?X_K ((ADV-A (FOR.P (KA (LOSE.V ?X_J)))) KEEP.V)))
+			(?X_I (?X_K ((ADV-A (FROM.P ?X_J)) LEAVE.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((HE-PRO323.SK ((ADV-A (FROM.P MONEY319.SK)) LEAVE.7.V) ?L2) **
+	             E322.SK)
+		(:ROLES
+			(!R1 (HE-PRO323.SK AGENT.N))
+			(!R2 (MONEY319.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (MONEY319.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MONEY319.SK MONEY.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO323.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO323.SK (AT.P MONEY319.SK)))
+			(?I2 (NOT (HE-PRO323.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO323.SK (AT.P MONEY319.SK))))
+			(?P2 (HE-PRO323.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball as it came down."
+	; "He ran after the ball."
+	; "He caught the ball before it hit the ground."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L (BEFORE.P (KE (?X_K (HIT.V ?X_D))))))
+			(!R2 (?X_G AIR.N))
+			(!R3 (?X_K BALL.N))
+			(!R4 (?X_J AGENT.N))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_J (CATCH.V ?X_K)))
+			(?X_F (?X_J (((ADV-A (INTO.P ?X_G)) THROW.V) ?X_K)))
+			(?X_I (?X_J ((ADV-A (FROM.P ?L1)) RUN.1.V) ?L2))
+			(?X_C (?X_J (CATCH.V ?X_K ?X_L)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.1.V) ?L2) ** E18.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A man caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He threw the ball again."
+	; "He caught the ball."
+	(EPI-SCHEMA ((?X_ZN (CATCH.V ?X_ZO)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C AIR.N))
+			(!R2 (?X_ZN MAN.N))
+			(!R3 (?X_ZO BALL.N))
+		)
+		(:STEPS
+			(?X_B (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_E (?X_ZN (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_ZO)))
+			(?X_G (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_I (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_K (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_M (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_O (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_Q (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_S (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_U (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_W (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_Y (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_ZA (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_ZC (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_ZE (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_ZG (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_ZI (?X_ZN (CATCH.V ?X_ZO)))
+			(?X_ZK (?X_ZN ((AGAIN.ADV THROW.V) ?X_ZO)))
+			(?X_ZM (?X_ZN (CATCH.V ?X_ZO)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "Tom threw the ball into the air."
+	; "He caught the ball as it fell down."
+	(EPI-SCHEMA ((?X_F (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F AGENT.N))
+			(!R2 (?X_C AIR.N))
+			(!R3 (?X_G BALL.N))
+		)
+		(:STEPS
+			(?X_B (?X_F (CATCH.V ?X_G)))
+			(?X_E (?X_F (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_G)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a baseball."
+	; "He threw the ball into the air."
+	; "He caught the ball on his glove."
+	; "He ran around the bases."
+	; "He scored points for his team."
+	(EPI-SCHEMA ((?X_L (CATCH.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N (PLUR POINT.N)))
+			(!R2 (?X_I TEAM.N))
+			(!R3 (?X_H GLOVE.N))
+			(!R4 (?X_E AIR.N))
+			(!R5 (?X_M BASEBALL.N))
+			(!R6 (?X_M BALL.N))
+			(!R7 (?X_H (PERTAIN-TO ?X_L)))
+			(!R8 (?X_I (PERTAIN-TO ?X_L)))
+			(!R9 (?X_L AGENT.N))
+			(!R10 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_L (CATCH.V ?X_M)))
+			(?X_D (?X_L (((ADV-A (INTO.P ?X_E)) THROW.V) ?X_M)))
+			(?X_A (?X_L (((ADV-A (ON.P ?X_H)) CATCH.V) ?X_M)))
+			(?X_K (?X_L ((ADV-A (FROM.P ?L1)) RUN.1.V) ?L2))
+			(?X_B (?X_L (((ADV-A (FOR.P ?X_I)) SCORE.V) ?X_N)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.1.V) ?L2) ** E151.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (GLOVE137.SK GLOVE.N))
+			(!R7 (GLOVE137.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (TEAM139.SK TEAM.N))
+			(!R9 (TEAM139.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball on the way down."
+	; "He hit the ball hard."
+	; "He made a catch."
+	(EPI-SCHEMA ((?X_M (CATCH.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C AIR.N))
+			(!R2 (?X_F WAY.N))
+			(!R3 (?X_F DOWN.P))
+			(!R4 (?X_N BALL.N))
+			(!R5 (?X_M AGENT.N))
+			(!R6 (?X_O CATCH.N))
+		)
+		(:STEPS
+			(?X_B (?X_M (CATCH.V ?X_N)))
+			(?X_E (?X_M (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_N)))
+			(?X_H (?X_M (((ADV-A (ON.P ?X_F)) CATCH.V) ?X_N)))
+			(?X_J (?X_M ((HARD.ADV HIT.V) ?X_N)))
+			(?X_L (?X_M (MAKE.V ?X_O)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball before it fell down."
+	(EPI-SCHEMA ((?X_F (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F AGENT.N))
+			(!R2 (?X_C AIR.N))
+			(!R3 (?X_G BALL.N))
+		)
+		(:STEPS
+			(?X_B (?X_F (CATCH.V ?X_G)))
+			(?X_E (?X_F (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_G)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball as it came down."
+	; "He tried to catch the ball again."
+	(EPI-SCHEMA ((?X_H (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C AIR.N))
+			(!R2 (?X_H AGENT.N))
+			(!R3 (?X_I BALL.N))
+		)
+		(:STEPS
+			(?X_B (?X_H (CATCH.V ?X_I)))
+			(?X_E (?X_H (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_I)))
+			(?X_G (?X_H (TRY.V (KA (AGAIN.ADV CATCH.V) ?X_I))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball as it came down."
+	; "He threw the ball again."
+	; "He caught the ball."
+	; "He ran around with the ball."
+	; "He kicked the ball."
+	; "He played catch with friends."
+	(EPI-SCHEMA ((?X_Q (COMPOSITE-SCHEMA.PR ?X_R ?X_S ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_S CATCH.N))
+			(!R2 (?X_C (PLUR FRIEND.N)))
+			(!R3 (?X_L AIR.N))
+			(!R4 (?X_R BALL.N))
+			(!R5 (?X_Q AGENT.N))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_N (?X_Q (CATCH.V ?X_R)))
+			(?X_K (?X_Q (((ADV-A (INTO.P ?X_L)) THROW.V) ?X_R)))
+			(?X_I (?X_Q ((AGAIN.ADV THROW.V) ?X_R)))
+			(?X_G (?X_Q (CATCH.V ?X_R)))
+			(?X_P (?X_Q ((ADV-A (FROM.P ?L1)) RUN_AROUND.2.V) ?L2))
+			(?X_E (?X_Q (KICK.V ?X_R)))
+			(?X_B (?X_Q (((ADV-A (WITH.P ?X_C)) PLAY.V) ?X_S)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN_AROUND.2.V) ?L2) ** E303.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tom caught a bird."
+	; "He put the bird on the ground."
+	; "He held the bird."
+	; "He let the bird fly away."
+	(EPI-SCHEMA ((?X_F (CATCH.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G BIRD.N))
+			(!R2 (?X_H GROUND.N))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_H LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_F CATCH.1.V ?X_G))
+			(?X_E (?X_F PUT.2.V ?X_G ?X_H))
+			(?X_C (?X_F (HOLD.V ?X_G)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CATCH.1.V BIRD2.SK) ** E4.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD2.SK ENTITY.N))
+			(!R4 (BIRD2.SK BIRD.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (BIRD2.SK (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P BIRD2.SK)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (BIRD2.SK (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V BIRD2.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (BIRD2.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V BIRD2.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E4.SK))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.2.V BIRD2.SK GROUND7.SK) ** E8.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BIRD2.SK ENTITY.N))
+			(!R3 (GROUND7.SK LOCATION.N))
+			(!R4 (BIRD2.SK BIRD.N))
+			(!R5 (GROUND7.SK GROUND.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (BIRD2.SK (AT.P GROUND7.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V BIRD2.SK)))
+			(?I2 (BIRD2.SK (NOT (AT.P GROUND7.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD2.SK (AT.P GROUND7.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill caught a bird."
+	; "He put the bird on a tree branch."
+	; "He looked for food for the bird."
+	; "He found some seeds."
+	; "He fed the bird."
+	; "The bird flew away."
+	(EPI-SCHEMA ((?X_O (CATCH.V ?X_O)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P BIRD.N))
+			(!R2 (?X_N BILL.N))
+			(!R3 (?X_G FOOD.N))
+			(!R4 (?X_Q (PLUR SEED.N)))
+			(!R5 (?X_N AGENT.N))
+			(!R6 (?L LOCATION.N))
+			(!R7 (?X_O AGENT.N))
+			(!R8 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_N CATCH.1.V ?X_P))
+			(?X_F (?X_O PUT.3.V ?X_P ?L))
+			(?X_I (?X_O ((ADV-A (FOR.P ?X_G)) LOOK.4.V)))
+			(?X_K (?X_O FIND.5.V ?X_Q))
+			(?X_B (?X_O (FED.V ?X_P)))
+			(?X_M (?X_P ((ADV-A (FROM.P ?L1)) FLY.6.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BILL35.SK CATCH.1.V BIRD32.SK) ** E33.SK)
+		(:ROLES
+			(!R1 (BILL35.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD32.SK ENTITY.N))
+			(!R4 (BILL35.SK BILL.N))
+			(!R5 (BIRD32.SK BIRD.N))
+		)
+		(:PRECONDS
+			(?I1 (BILL35.SK (AT.P ?L)))
+			(?I2 (BIRD32.SK (AT.P ?L)))
+			(?I3 (BILL35.SK ((ADV-A (FOR.P BIRD32.SK)) SEARCH.V)))
+			(?I4 (NOT (BILL35.SK (KNOW.V (THAT (BIRD32.SK (AT.P ?L)))))))
+			(?I5 (NOT (BILL35.SK (POSSESS.V BIRD32.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BILL35.SK (KNOW.V (THAT (BIRD32.SK (AT.P ?L))))))
+			(?P2 (BILL35.SK (POSSESS.V BIRD32.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E33.SK))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO57.SK PUT.3.V BIRD32.SK ?L) ** E39.SK)
+		(:ROLES
+			(!R1 (HE-PRO57.SK AGENT.N))
+			(!R2 (BIRD32.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BIRD32.SK BIRD.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO57.SK (WANT.V (THAT (BIRD32.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO57.SK (POSSESS.V BIRD32.SK)))
+			(?I2 (BIRD32.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD32.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO57.SK ((ADV-A (FOR.P FOOD46.SK)) LOOK.4.V)) ** E44.SK)
+		(:ROLES
+			(!R1 (HE-PRO57.SK AGENT.N))
+			(!R2 (?LX LOCATION.N))
+			(!R3 (?LO LOCATION.N))
+			(!R4 (FOOD46.SK ENTITY.N))
+			(!R5 (FOOD46.SK FOOD.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO57.SK (WANT.V (KA (FIND.V FOOD46.SK)))))
+			(?G2 (HE-PRO57.SK (WANT.V (KA (POSSESS.V FOOD46.SK)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO57.SK (AT.P ?LX)))
+			(?I2 (FOOD46.SK (AT.P ?LO)))
+			(?I3 (NOT (HE-PRO57.SK (KNOW.V (THAT (FOOD46.SK (AT.P ?LO)))))))
+		)
+		(:POSTCONDS
+			(?P1 (HE-PRO57.SK (FIND.V FOOD46.SK)))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?I3<- ?P1) = E44.SK))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO57.SK FIND.5.V SEED50.SK) ** E49.SK)
+		(:ROLES
+			(!R1 (HE-PRO57.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (SEED50.SK ENTITY.N))
+			(!R4 (SEED50.SK (PLUR SEED.N)))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO57.SK (AT.P ?L)))
+			(?I2 (SEED50.SK (AT.P ?L)))
+			(?I3 (HE-PRO57.SK ((ADV-A (FOR.P SEED50.SK)) SEARCH.V)))
+			(?I4 (NOT (HE-PRO57.SK (KNOW.V (THAT (SEED50.SK (AT.P ?L)))))))
+			(?I5 (NOT (HE-PRO57.SK (POSSESS.V SEED50.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (HE-PRO57.SK (KNOW.V (THAT (SEED50.SK (AT.P ?L))))))
+			(?P2 (HE-PRO57.SK (POSSESS.V SEED50.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E49.SK))
+		)
+	)
+	(EPI-SCHEMA ((BIRD32.SK ((ADV-A (FROM.P ?L1)) FLY.6.V) ?L2) ** E56.SK)
+		(:ROLES
+			(!R1 (BIRD32.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BIRD32.SK BIRD.N))
+		)
+		(:GOALS
+			(?G1 (BIRD32.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BIRD32.SK (AT.P ?L1)))
+			(?I2 (NOT (BIRD32.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BIRD32.SK (AT.P ?L1))))
+			(?P2 (BIRD32.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy caught a bird."
+	; "He put it in a cage."
+	; "He fed the bird seeds."
+	(EPI-SCHEMA ((?X_G (CATCH.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H BIRD.N))
+			(!R2 (?X_H (PLUR SEED.N)))
+			(!R3 (?X_G BOY.N))
+			(!R4 (?X_I BIRD.N))
+			(!R5 (?X_J CAGE.N))
+			(!R6 (?X_J LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_G CATCH.1.V ?X_I))
+			(?X_F (?X_G PUT.2.V ?X_I ?X_J))
+			(?X_B (?X_G (FED.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY70.SK CATCH.1.V BIRD72.SK) ** E73.SK)
+		(:ROLES
+			(!R1 (BOY70.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD72.SK ENTITY.N))
+			(!R4 (BIRD72.SK BIRD.N))
+			(!R5 (BOY70.SK BOY.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY70.SK (AT.P ?L)))
+			(?I2 (BIRD72.SK (AT.P ?L)))
+			(?I3 (BOY70.SK ((ADV-A (FOR.P BIRD72.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY70.SK (KNOW.V (THAT (BIRD72.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY70.SK (POSSESS.V BIRD72.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY70.SK (KNOW.V (THAT (BIRD72.SK (AT.P ?L))))))
+			(?P2 (BOY70.SK (POSSESS.V BIRD72.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E73.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY70.SK PUT.2.V BIRD72.SK CAGE75.SK) ** E76.SK)
+		(:ROLES
+			(!R1 (BOY70.SK AGENT.N))
+			(!R2 (BIRD72.SK ENTITY.N))
+			(!R3 (CAGE75.SK LOCATION.N))
+			(!R4 (BIRD72.SK BIRD.N))
+			(!R5 (BOY70.SK BOY.N))
+			(!R6 (CAGE75.SK CAGE.N))
+		)
+		(:GOALS
+			(?G1 (BOY70.SK (WANT.V (THAT (BIRD72.SK (AT.P CAGE75.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY70.SK (POSSESS.V BIRD72.SK)))
+			(?I2 (BIRD72.SK (NOT (AT.P CAGE75.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD72.SK (AT.P CAGE75.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Ben caught a bird."
+	; "He put the bird in a cage."
+	; "He showed the bird to his friends."
+	; "He let the bird fly away."
+	(EPI-SCHEMA ((?X_H (CATCH.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I BIRD.N))
+			(!R2 (?X_B (PLUR FRIEND.N)))
+			(!R3 (?X_B (PERTAIN-TO ?X_H)))
+			(!R4 (?X_J CAGE.N))
+			(!R5 (?X_G AGENT.N))
+			(!R6 (?X_J LOCATION.N))
+			(!R7 (?X_H AGENT.N))
+		)
+		(:STEPS
+			(?X_D (?X_G CATCH.1.V ?X_I))
+			(?X_F (?X_H PUT.2.V ?X_I ?X_J))
+			(?X_A (?X_H (((ADV-A (TO.P ?X_B)) SHOW.V) ?X_I)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BEN.NAME CATCH.1.V BIRD103.SK) ** E104.SK)
+		(:ROLES
+			(!R1 (BEN.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD103.SK ENTITY.N))
+			(!R4 (BIRD103.SK BIRD.N))
+		)
+		(:PRECONDS
+			(?I1 (BEN.NAME (AT.P ?L)))
+			(?I2 (BIRD103.SK (AT.P ?L)))
+			(?I3 (BEN.NAME ((ADV-A (FOR.P BIRD103.SK)) SEARCH.V)))
+			(?I4 (NOT (BEN.NAME (KNOW.V (THAT (BIRD103.SK (AT.P ?L)))))))
+			(?I5 (NOT (BEN.NAME (POSSESS.V BIRD103.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BEN.NAME (KNOW.V (THAT (BIRD103.SK (AT.P ?L))))))
+			(?P2 (BEN.NAME (POSSESS.V BIRD103.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E104.SK))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO114.SK PUT.2.V BIRD103.SK CAGE107.SK) ** E108.SK)
+		(:ROLES
+			(!R1 (HE-PRO114.SK AGENT.N))
+			(!R2 (BIRD103.SK ENTITY.N))
+			(!R3 (CAGE107.SK LOCATION.N))
+			(!R4 (BIRD103.SK BIRD.N))
+			(!R5 (CAGE107.SK CAGE.N))
+			(!R6 (FRIENDS101.SK (PLUR FRIEND.N)))
+			(!R7 (FRIENDS101.SK (PERTAIN-TO HE-PRO114.SK)))
+		)
+		(:GOALS
+			(?G1 (HE-PRO114.SK (WANT.V (THAT (BIRD103.SK (AT.P CAGE107.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO114.SK (POSSESS.V BIRD103.SK)))
+			(?I2 (BIRD103.SK (NOT (AT.P CAGE107.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD103.SK (AT.P CAGE107.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy caught a bird."
+	; "He put the bird in a cage."
+	; "He fed the bird seeds."
+	; "The bird flew away."
+	(EPI-SCHEMA ((?X_I (CATCH.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J BIRD.N))
+			(!R2 (?X_J (PLUR SEED.N)))
+			(!R3 (?X_I BOY.N))
+			(!R4 (?X_L CAGE.N))
+			(!R5 (?X_K BIRD.N))
+			(!R6 (?X_L LOCATION.N))
+			(!R7 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_I CATCH.1.V ?X_K))
+			(?X_F (?X_I PUT.2.V ?X_K ?X_L))
+			(?X_B (?X_I (FED.V ?X_J)))
+			(?X_H (?X_K ((ADV-A (FROM.P ?L1)) FLY.6.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY132.SK FIND.5.V NEST137.SK) ** E135.SK)
+		(:ROLES
+			(!R1 (BOY132.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (NEST137.SK ENTITY.N))
+			(!R4 (BOY132.SK BOY.N))
+			(!R5 (NEST137.SK NEST.N))
+			(!R6 (BIRD134.SK BIRD.N))
+			(!R7 (NEST137.SK (PERTAIN-TO BIRD134.SK)))
+			(!R8 (FRIENDS131.SK (PERTAIN-TO BOY132.SK)))
+			(!R9 (FRIENDS131.SK (PLUR FRIEND.N)))
+		)
+		(:PRECONDS
+			(?I1 (BOY132.SK (AT.P ?L)))
+			(?I2 (NEST137.SK (AT.P ?L)))
+			(?I3 (BOY132.SK ((ADV-A (FOR.P NEST137.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY132.SK (KNOW.V (THAT (NEST137.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY132.SK (POSSESS.V NEST137.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY132.SK (KNOW.V (THAT (NEST137.SK (AT.P ?L))))))
+			(?P2 (BOY132.SK (POSSESS.V NEST137.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E135.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY132.SK PUT.2.V BIRD143.SK NEST137.SK) ** E146.SK)
+		(:ROLES
+			(!R1 (BOY132.SK AGENT.N))
+			(!R2 (BIRD143.SK ENTITY.N))
+			(!R3 (NEST137.SK LOCATION.N))
+			(!R4 (BOY132.SK BOY.N))
+			(!R5 (NEST137.SK NEST.N))
+			(!R6 (BIRD143.SK BABY.N))
+			(!R7 (BIRD143.SK (PLUR BIRD.N)))
+			(!R8 (BIRD134.SK BIRD.N))
+			(!R9 (NEST137.SK (PERTAIN-TO BIRD134.SK)))
+			(!R10 (FRIENDS131.SK (PERTAIN-TO BOY132.SK)))
+			(!R11 (FRIENDS131.SK (PLUR FRIEND.N)))
+		)
+		(:GOALS
+			(?G1 (BOY132.SK (WANT.V (THAT (BIRD143.SK (AT.P NEST137.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY132.SK (POSSESS.V BIRD143.SK)))
+			(?I2 (BIRD143.SK (NOT (AT.P NEST137.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD143.SK (AT.P NEST137.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MAN181.SK CATCH.1.V BIRD183.SK) ** E184.SK)
+		(:ROLES
+			(!R1 (MAN181.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD183.SK ENTITY.N))
+			(!R4 (BIRD183.SK BIRD.N))
+			(!R5 (MAN181.SK MAN.N))
+			(!R6 (BEAK174.SK BEAK.N))
+			(!R7 (BEAK174.SK (PERTAIN-TO BIRD183.SK)))
+			(!R8 (MOUTH176.SK (PERTAIN-TO BIRD183.SK)))
+			(!R9 (MOUTH176.SK MOUTH.N))
+			(!R10 (POCKET180.SK POCKET.N))
+			(!R11 (POCKET180.SK (PERTAIN-TO MAN181.SK)))
+			(!R12 (MOUTH176.SK (PERTAIN-TO IT.PRO)))
+		)
+		(:PRECONDS
+			(?I1 (MAN181.SK (AT.P ?L)))
+			(?I2 (BIRD183.SK (AT.P ?L)))
+			(?I3 (MAN181.SK ((ADV-A (FOR.P BIRD183.SK)) SEARCH.V)))
+			(?I4 (NOT (MAN181.SK (KNOW.V (THAT (BIRD183.SK (AT.P ?L)))))))
+			(?I5 (NOT (MAN181.SK (POSSESS.V BIRD183.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (MAN181.SK (KNOW.V (THAT (BIRD183.SK (AT.P ?L))))))
+			(?P2 (MAN181.SK (POSSESS.V BIRD183.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E184.SK))
+		)
+	)
+	(EPI-SCHEMA ((MAN181.SK SEE.7.V WORM191.SK) ** E192.SK)
+		(:ROLES
+			(!R1 (MAN181.SK AGENT.N))
+			(!R2 (WORM191.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (MAN181.SK MAN.N))
+			(!R5 (WORM191.SK WORM.N))
+			(!R6 (POCKET180.SK POCKET.N))
+			(!R7 (POCKET180.SK (PERTAIN-TO MAN181.SK)))
+		)
+		(:PRECONDS
+			(?I1 (MAN181.SK (AT.P ?L)))
+			(?I2 (WORM191.SK (AT.P ?L)))
+			(?I3 (WORM191.SK (NEAR.P MAN181.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MAN181.SK (KNOW.V (THAT (WORM191.SK (AT.P ?L))))))
+			(?P2 (MAN181.SK (KNOW.V (THAT (WORM191.SK (NEAR.P MAN181.SK))))))
+			(?P3 (WORM191.SK (NEAR.P MAN181.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MAN181.SK PUT.2.V WORM191.SK POCKET180.SK) ** E179.SK)
+		(:ROLES
+			(!R1 (MAN181.SK AGENT.N))
+			(!R2 (WORM191.SK ENTITY.N))
+			(!R3 (POCKET180.SK LOCATION.N))
+			(!R4 (MAN181.SK MAN.N))
+			(!R5 (WORM191.SK WORM.N))
+			(!R6 (POCKET180.SK POCKET.N))
+			(!R7 (POCKET180.SK (PERTAIN-TO MAN181.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN181.SK (WANT.V (THAT (WORM191.SK (AT.P POCKET180.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN181.SK (POSSESS.V WORM191.SK)))
+			(?I2 (WORM191.SK (NOT (AT.P POCKET180.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (WORM191.SK (AT.P POCKET180.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY212.SK CATCH.1.V BIRD214.SK) ** E215.SK)
+		(:ROLES
+			(!R1 (BOY212.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD214.SK ENTITY.N))
+			(!R4 (BIRD214.SK BIRD.N))
+			(!R5 (BOY212.SK BOY.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY212.SK (AT.P ?L)))
+			(?I2 (BIRD214.SK (AT.P ?L)))
+			(?I3 (BOY212.SK ((ADV-A (FOR.P BIRD214.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY212.SK (KNOW.V (THAT (BIRD214.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY212.SK (POSSESS.V BIRD214.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY212.SK (KNOW.V (THAT (BIRD214.SK (AT.P ?L))))))
+			(?P2 (BOY212.SK (POSSESS.V BIRD214.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E215.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY212.SK PUT.2.V BIRD214.SK CAGE218.SK) ** E219.SK)
+		(:ROLES
+			(!R1 (BOY212.SK AGENT.N))
+			(!R2 (BIRD214.SK ENTITY.N))
+			(!R3 (CAGE218.SK LOCATION.N))
+			(!R4 (BIRD214.SK BIRD.N))
+			(!R5 (BOY212.SK BOY.N))
+			(!R6 (CAGE218.SK CAGE.N))
+		)
+		(:GOALS
+			(?G1 (BOY212.SK (WANT.V (THAT (BIRD214.SK (AT.P CAGE218.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY212.SK (POSSESS.V BIRD214.SK)))
+			(?I2 (BIRD214.SK (NOT (AT.P CAGE218.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD214.SK (AT.P CAGE218.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BIRD214.SK ((ADV-A (FROM.P ?L1)) FLY.6.V) ?L2) ** E228.SK)
+		(:ROLES
+			(!R1 (BIRD214.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BIRD214.SK BIRD.N))
+		)
+		(:GOALS
+			(?G1 (BIRD214.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BIRD214.SK (AT.P ?L1)))
+			(?I2 (NOT (BIRD214.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BIRD214.SK (AT.P ?L1))))
+			(?P2 (BIRD214.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen caught a bird."
+	; "She put it in a cage."
+	; "She fed it seeds."
+	; "It liked its food."
+	(EPI-SCHEMA ((?X_H (CATCH.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J CAGE.N))
+			(!R2 (?X_L (PLUR SEED.N)))
+			(!R3 (?X_K BIRD.N))
+			(!R4 (?X_M FOOD.N))
+			(!R5 (?X_M (PERTAIN-TO ?X_K)))
+			(!R6 (?X_H AGENT.N))
+			(!R7 (?X_J LOCATION.N))
+			(!R8 (?X_I AGENT.N))
+			(!R9 (NOT (?X_L AGENT.N)))
+			(!R10 (?X_M OBJECT.N))
+			(!R11 (NOT (?X_M ACTION.N)))
+			(!R12 (NOT (?X_M AGENT.N)))
+		)
+		(:STEPS
+			(?X_C (?X_H CATCH.1.V ?X_K))
+			(?X_E (?X_I PUT.2.V ?X_K ?X_J))
+			(?X_G (?X_I (FED.8.V ?X_K ?X_L)))
+			(?X_A (?X_K LIKE.9.V ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME CATCH.1.V BIRD248.SK) ** E249.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD248.SK ENTITY.N))
+			(!R4 (BIRD248.SK BIRD.N))
+			(!R5 (FOOD246.SK FOOD.N))
+			(!R6 (FOOD246.SK (PERTAIN-TO BIRD248.SK)))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L)))
+			(?I2 (BIRD248.SK (AT.P ?L)))
+			(?I3 (KAREN.NAME ((ADV-A (FOR.P BIRD248.SK)) SEARCH.V)))
+			(?I4 (NOT (KAREN.NAME (KNOW.V (THAT (BIRD248.SK (AT.P ?L)))))))
+			(?I5 (NOT (KAREN.NAME (POSSESS.V BIRD248.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (KAREN.NAME (KNOW.V (THAT (BIRD248.SK (AT.P ?L))))))
+			(?P2 (KAREN.NAME (POSSESS.V BIRD248.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E249.SK))
+		)
+	)
+	(EPI-SCHEMA ((SHE-PRO258.SK PUT.2.V BIRD248.SK CAGE251.SK) ** E252.SK)
+		(:ROLES
+			(!R1 (SHE-PRO258.SK AGENT.N))
+			(!R2 (BIRD248.SK ENTITY.N))
+			(!R3 (CAGE251.SK LOCATION.N))
+			(!R4 (BIRD248.SK BIRD.N))
+			(!R5 (CAGE251.SK CAGE.N))
+			(!R6 (FOOD246.SK FOOD.N))
+			(!R7 (FOOD246.SK (PERTAIN-TO BIRD248.SK)))
+		)
+		(:GOALS
+			(?G1 (SHE-PRO258.SK (WANT.V (THAT (BIRD248.SK (AT.P CAGE251.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO258.SK (POSSESS.V BIRD248.SK)))
+			(?I2 (BIRD248.SK (NOT (AT.P CAGE251.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD248.SK (AT.P CAGE251.SK)))
+		)
+	)
+	(EPI-SCHEMA ((SHE-PRO258.SK (FED.8.V BIRD248.SK SEED256.SK)) ** E254.SK)
+		(:ROLES
+			(!R1 (SHE-PRO258.SK AGENT.N))
+			(!R2 (NOT (SEED256.SK AGENT.N)))
+			(!R3 (BIRD248.SK AGENT.N))
+			(!R4 (BIRD248.SK BIRD.N))
+			(!R5 (SEED256.SK (PLUR SEED.N)))
+			(!R6 (FOOD246.SK FOOD.N))
+			(!R7 (FOOD246.SK (PERTAIN-TO BIRD248.SK)))
+		)
+		(:GOALS
+			(?G1 (SHE-PRO258.SK (WANT.V (THAT (BIRD248.SK (POSSESS.V SEED256.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO258.SK POSSESS.V SEED256.SK))
+			(?I2 (NOT (BIRD248.SK POSSESS.V SEED256.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SHE-PRO258.SK POSSESS.V SEED256.SK)))
+			(?P2 (BIRD248.SK POSSESS.V SEED256.SK))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BIRD248.SK LIKE.9.V FOOD246.SK) ** E245.SK)
+		(:ROLES
+			(!R1 (BIRD248.SK AGENT.N))
+			(!R2 (NOT (FOOD246.SK ACTION.N)))
+			(!R3 (NOT (FOOD246.SK AGENT.N)))
+			(!R4 (FOOD246.SK OBJECT.N))
+			(!R5 (BIRD248.SK BIRD.N))
+			(!R6 (FOOD246.SK FOOD.N))
+			(!R7 (FOOD246.SK (PERTAIN-TO BIRD248.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD248.SK (WANT.V (KA (POSSESS.V FOOD246.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The boy caught a bird."
+	; "He put it in a cage."
+	; "He kept the bird in a cage."
+	; "The boy fed the bird seeds."
+	; "The bird grew bigger and bigger."
+	(EPI-SCHEMA ((?X_K (CATCH.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L BIRD.N))
+			(!R2 (?X_L (PLUR SEED.N)))
+			(!R3 (?X_N BIRD.N))
+			(!R4 (?X_O CAGE.N))
+			(!R5 (?X_K BOY.N))
+			(!R6 (?X_O LOCATION.N))
+		)
+		(:STEPS
+			(?X_H (?X_K CATCH.1.V ?X_N))
+			(?X_J (?X_K PUT.2.V ?X_N ?X_O))
+			(?X_F (?X_K (((ADV-A (IN.P ?X_O)) KEEP.V) ?X_N)))
+			(?X_D (?X_K (FED.V ?X_L)))
+			(?X_B (?X_N (GROW.V (K (L X (AND (X BIGGER.A) (X BIGGER.A)))))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY276.SK CATCH.1.V BIRD278.SK) ** E279.SK)
+		(:ROLES
+			(!R1 (BOY276.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD278.SK ENTITY.N))
+			(!R4 (BIRD278.SK BIRD.N))
+			(!R5 (BOY276.SK BOY.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY276.SK (AT.P ?L)))
+			(?I2 (BIRD278.SK (AT.P ?L)))
+			(?I3 (BOY276.SK ((ADV-A (FOR.P BIRD278.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY276.SK (KNOW.V (THAT (BIRD278.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY276.SK (POSSESS.V BIRD278.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY276.SK (KNOW.V (THAT (BIRD278.SK (AT.P ?L))))))
+			(?P2 (BOY276.SK (POSSESS.V BIRD278.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E279.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY276.SK PUT.2.V BIRD278.SK CAGE281.SK) ** E282.SK)
+		(:ROLES
+			(!R1 (BOY276.SK AGENT.N))
+			(!R2 (BIRD278.SK ENTITY.N))
+			(!R3 (CAGE281.SK LOCATION.N))
+			(!R4 (BIRD278.SK BIRD.N))
+			(!R5 (BOY276.SK BOY.N))
+			(!R6 (CAGE281.SK CAGE.N))
+		)
+		(:GOALS
+			(?G1 (BOY276.SK (WANT.V (THAT (BIRD278.SK (AT.P CAGE281.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY276.SK (POSSESS.V BIRD278.SK)))
+			(?I2 (BIRD278.SK (NOT (AT.P CAGE281.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD278.SK (AT.P CAGE281.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a bird."
+	; "He put the bird in his pocket."
+	; "He ran to the park."
+	; "He played baseball."
+	(EPI-SCHEMA ((?X_L (CATCH.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J BIRD.N))
+			(!R2 (?X_L PARK.N))
+			(!R3 (?X_K POCKET.N))
+			(!R4 (?X_H BASEBALL.N))
+			(!R5 (?X_K (PERTAIN-TO ?X_I)))
+			(!R6 (?X_K LOCATION.N))
+			(!R7 (?X_L DESTINATION.N))
+			(!R8 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_C (?X_I CATCH.1.V ?X_J))
+			(?X_A (?X_I PUT.2.V ?X_J ?X_K))
+			(?X_E (?X_I ((ADV-A (FROM.P ?L1)) RUN.10.V) ?X_L))
+			(?X_G (?X_I PLAY.11.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CATCH.1.V BIRD319.SK) ** E320.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BIRD319.SK ENTITY.N))
+			(!R4 (BIRD319.SK BIRD.N))
+			(!R5 (POCKET317.SK POCKET.N))
+			(!R6 (POCKET317.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (BIRD319.SK (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P BIRD319.SK)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (BIRD319.SK (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V BIRD319.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (BIRD319.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V BIRD319.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E320.SK))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.2.V BIRD319.SK POCKET317.SK) ** E316.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BIRD319.SK ENTITY.N))
+			(!R3 (POCKET317.SK LOCATION.N))
+			(!R4 (BIRD319.SK BIRD.N))
+			(!R5 (POCKET317.SK POCKET.N))
+			(!R6 (POCKET317.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (BIRD319.SK (AT.P POCKET317.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V BIRD319.SK)))
+			(?I2 (BIRD319.SK (NOT (AT.P POCKET317.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BIRD319.SK (AT.P POCKET317.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.10.V) PARK324.SK) ** E325.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (PARK324.SK LOCATION.N))
+			(!R4 (NOT (?L1 = PARK324.SK)))
+			(!R5 (PARK324.SK DESTINATION.N))
+			(!R6 (PARK324.SK PARK.N))
+			(!R7 (POCKET317.SK POCKET.N))
+			(!R8 (POCKET317.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P PARK324.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P PARK324.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P PARK324.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PLAY.11.V) ** E327.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASEBALL329.SK GAME.N))
+			(!R5 (NOT (BASEBALL329.SK AGENT.N)))
+			(!R6 (BASEBALL329.SK BASEBALL.N))
+			(!R7 (POCKET317.SK POCKET.N))
+			(!R8 (POCKET317.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Mary caught a break."
+	; "She got into college."
+	; "She got accepted to college."
+	; "She got into a good college."
+	; "She got into a great college."
+	(EPI-SCHEMA ((?X_N (CATCH.V ?X_O)) ** ?E)
+		(:ROLES
+			(!R1 (?X_O BREAK.N))
+			(!R2 (?X_B COLLEGE.N))
+			(!R3 (?X_P (TO.P ?X_E)))
+			(!R4 (?X_H GOOD.A))
+			(!R5 (?X_H COLLEGE.N))
+			(!R6 (?X_N AGENT.N))
+			(!R7 (?X_K GREAT.A))
+			(!R8 (?X_K COLLEGE.N))
+		)
+		(:STEPS
+			(?X_A (?X_N (CATCH.V ?X_O)))
+			(?X_D (?X_N ((ADV-A (INTO.P ?X_B)) GET.V)))
+			(?X_G (?X_N (GET.V ?X_P)))
+			(?X_J (?X_N ((ADV-A (INTO.P ?X_H)) GET.V)))
+			(?X_M (?X_N ((ADV-A (INTO.P ?X_K)) GET.V)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a fish."
+	; "He cooked it for dinner."
+	; "He ate the fish."
+	; "He liked eating fish."
+	(EPI-SCHEMA ((?X_J (EAT.V ?X_C)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K FISH.N))
+			(!R2 (?X_C DINNER.N))
+			(!R3 (?X_L FISH.N))
+			(!R4 (?X_K FOOD.N))
+			(!R5 ((KA (EAT.V ?X_L)) ACTION.N))
+			(!R6 (?X_J AGENT.N))
+			(!R7 (?X_L FOOD.N))
+		)
+		(:STEPS
+			(?X_E (?X_J CATCH.1.V ?X_K))
+			(?X_B (?X_J (((ADV-A (FOR.P ?X_C)) COOK.V) ?X_K)))
+			(?X_G (?X_J EAT.2.V ?X_K))
+			(?X_I (?X_J LIKE.3.V (KA (EAT.V ?X_L))))
+			(?E_1 (?X_J EAT.4.V ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CATCH.1.V FISH50.SK) ** E51.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (FISH50.SK ENTITY.N))
+			(!R4 (FISH50.SK FISH.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (FISH50.SK (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P FISH50.SK)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (FISH50.SK (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V FISH50.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (FISH50.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V FISH50.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E51.SK))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME EAT.2.V FISH50.SK) ** E58.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (FISH50.SK FOOD.N))
+			(!R3 (FISH50.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (NOT (TOM.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V FISH50.SK))
+			(?I2 (TOM.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (POSSESS.V FISH50.SK))))
+			(?P2 (NOT (TOM.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME LIKE.3.V (KA (EAT.V FISH62.SK))) ** E60.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 ((KA (EAT.V FISH62.SK)) ACTION.N))
+			(!R3 (FISH62.SK FISH.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (THINK.V (THAT ((KA (EAT.V FISH62.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME EAT.4.V FISH62.SK) ** ?E)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (FISH62.SK FOOD.N))
+			(!R3 (FISH62.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (NOT (TOM.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V FISH62.SK))
+			(?I2 (TOM.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (POSSESS.V FISH62.SK))))
+			(?P2 (NOT (TOM.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jack wanted to catch a break."
+	; "He worked hard."
+	; "He was tired."
+	; "He fell asleep on the job."
+	; "He woke up."
+	; "He felt bad."
+	(EPI-SCHEMA ((?X_L (FALL.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M BREAK.N))
+			(!R2 (?X_N ASLEEP.A))
+			(!R3 (?X_N (ON.P ?X_E)))
+			(!R4 (?X_L TIRED.A))
+			(!R5 (?X_L AGENT.N))
+			(!R6 (?X_O BAD.A))
+		)
+		(:STEPS
+			(?X_B (?X_L (WANT.V (KA (CATCH.V ?X_M)))))
+			(?X_D (?X_L (HARD.ADV WORK.V)))
+			(?X_G (?X_L (FALL.V ?X_N)))
+			(?X_I (?X_L WAKE_UP.V))
+			(?X_K (?X_L (FEEL.V ?X_O)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The man caught a break."
+	; "He got lucky."
+	; "He won the lottery."
+	; "He bought a ticket."
+	; "He played the numbers on the ticket."
+	; "He won $1 million."
+	(EPI-SCHEMA ((?X_L (CATCH.V ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L BREAK.N))
+			(!R2 (?X_M LUCKY.A))
+			(!R3 (?X_N LOTTERY.N))
+			(!R4 (?X_K MAN.N))
+			(!R5 (?X_O TICKET.N))
+			(!R6 (?X_P (PLUR NUMBER.N)))
+		)
+		(:STEPS
+			(?X_B (?X_K (CATCH.V ?X_L)))
+			(?X_D (?X_K (GET.V ?X_M)))
+			(?X_F (?X_K (WIN.V ?X_N)))
+			(?X_H (?X_K (BUY.V ?X_O)))
+			(?X_J (?X_K (((ADV-A (ON.P ?X_O)) PLAY.V) ?X_P)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "John's car broke down."
+	; "He couldn't fix the car."
+	; "He walked to the gas station."
+	; "He asked for help."
+	; "A mechanic fixed John's car."
+	(EPI-SCHEMA ((?X_J ((ADV-A (TO.P ?X_C)) WALK.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C MECHANIC.N))
+			(!R2 (?X_K CAR.N))
+			(!R3 (?X_K (PERTAIN-TO ?X_J)))
+			(!R4 (?X_L GAS.N))
+			(!R5 (?X_L STATION.N))
+			(!R6 (?X_L DESTINATION.N))
+			(!R7 (?X_J AGENT.N))
+			(!R8 (NOT (?X_J = ?Y)))
+			(!R9 (?A ACTION.N))
+			(!R10 (?Y AGENT.N))
+		)
+		(:STEPS
+			(?X_E (?X_K BREAK_DOWN.V))
+			(E194.SK (NOT (?X_J ((CAN.MD FIX.V) ?X_K))))
+			(?X_G (?X_J ((ADV-A (FROM.P ?L1)) WALK.6.V) ?X_L))
+			(?X_I (?X_J ASK.7.V ?Y ?A))
+			(?X_B (?X_C (FIX.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOTHER149.SK CRY.5.V) ** E155.SK)
+		(:ROLES
+			(!R1 (MOTHER149.SK AGENT.N))
+			(!R2 (MOTHER149.SK SAD.A))
+			(!R3 (MOTHER149.SK MOTHER.N))
+			(!R4 (TOM.NAME AGENT.N))
+			(!R5 (MOTHER149.SK (PERTAIN-TO TOM.NAME)))
+			(!R6 (PARENT141.SK (PERTAIN-TO TOM.NAME)))
+			(!R7 (PARENT141.SK (PLUR PARENT.N)))
+			(!R8 (FATHER145.SK (PERTAIN-TO TOM.NAME)))
+			(!R9 (FATHER145.SK FATHER.N))
+		)
+		(:PRECONDS
+			(?I1 (MOTHER149.SK SAD.A))
+		)
+	)
+	(EPI-SCHEMA ((JOHN.NAME ((ADV-A (FROM.P ?L1)) WALK.6.V) GAS183.SK) ** E182.SK)
+		(:ROLES
+			(!R1 (JOHN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (GAS183.SK LOCATION.N))
+			(!R4 (NOT (?L1 = GAS183.SK)))
+			(!R5 (GAS183.SK DESTINATION.N))
+			(!R6 (GAS183.SK GAS.N))
+			(!R7 (GAS183.SK STATION.N))
+			(!R8 (CAR178.SK (PERTAIN-TO JOHN.NAME)))
+			(!R9 (CAR178.SK CAR.N))
+		)
+		(:GOALS
+			(?G1 (JOHN.NAME (WANT.V (KA ((ADV-A (AT.P GAS183.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JOHN.NAME (AT.P ?L1)))
+			(?I2 (NOT (JOHN.NAME (AT.P GAS183.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JOHN.NAME (AT.P ?L1))))
+			(?P2 (JOHN.NAME (AT.P GAS183.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOHN.NAME ASK.7.V ?Y ?A) ** E186.SK)
+		(:ROLES
+			(!R1 (JOHN.NAME AGENT.N))
+			(!R2 (?Y AGENT.N))
+			(!R3 (?A ACTION.N))
+			(!R4 (NOT (JOHN.NAME = ?Y)))
+			(!R5 (CAR178.SK (PERTAIN-TO JOHN.NAME)))
+			(!R6 (CAR178.SK CAR.N))
+		)
+		(:GOALS
+			(?G1 (JOHN.NAME (WANT.V ?Y ?A)))
+			(?G2 (JOHN.NAME (WANT.V (THAT (?Y (DO.V ?A))))))
+		)
+		(:STEPS
+			(?E1 (JOHN.NAME (ASK.7.V ?Y ?A)))
+			(?E2 (?Y (DO.V ?A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman was having trouble finding work."
+	; "She looked for jobs all day."
+	; "When she came home, she felt tired."
+	; "She went to bed early that night."
+	(EPI-SCHEMA ((?X_C (FIND.V ?X_E)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E WORK.N))
+			(!R2 (?X_D TROUBLE.N))
+			(!R3 (?X_C WOMAN.N))
+		)
+		(:STEPS
+			(?X_B (?X_C (HAVE.V (KE (?X_D (FIND.V ?X_E))))))
+			(?E_1 (?X_C FIND.8.V ?X_E))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN234.SK FIND.8.V WORK239.SK) ** ?E)
+		(:ROLES
+			(!R1 (WOMAN234.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (WORK239.SK ENTITY.N))
+			(!R4 (WORK239.SK WORK.N))
+			(!R5 (WOMAN234.SK WOMAN.N))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN234.SK (AT.P ?L)))
+			(?I2 (WORK239.SK (AT.P ?L)))
+			(?I3 (WOMAN234.SK ((ADV-A (FOR.P WORK239.SK)) SEARCH.V)))
+			(?I4 (NOT (WOMAN234.SK (KNOW.V (THAT (WORK239.SK (AT.P ?L)))))))
+			(?I5 (NOT (WOMAN234.SK (POSSESS.V WORK239.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (WOMAN234.SK (KNOW.V (THAT (WORK239.SK (AT.P ?L))))))
+			(?P2 (WOMAN234.SK (POSSESS.V WORK239.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = ?E))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "A fisherman caught a fish."
+	; "He kept it in his boat."
+	; "He cooked it on a grill."
+	; "He ate some of it."
+	(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_K ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E GRILL.N))
+			(!R2 (?X_F BOAT.N))
+			(!R3 (?X_K FISH.N))
+			(!R4 (?X_J FISHERMAN.N))
+			(!R5 (?X_F (PERTAIN-TO ?X_J)))
+			(!R6 (?X_L {REF}.N))
+			(!R7 (?X_L (OF.P ?X_G)))
+			(!R8 (?X_L FOOD.N))
+		)
+		(:STEPS
+			(?X_A (?X_J (CATCH.V ?X_K)))
+			(?X_B (?X_J (((ADV-A (IN.P ?X_F)) KEEP.V) ?X_K)))
+			(?X_D (?X_J (((ADV-A (ON.P ?X_E)) COOK.V) ?X_K)))
+			(?X_I (?X_J EAT.1.V ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN5.SK EAT.1.V {REF}16.SK) ** E15.SK)
+		(:ROLES
+			(!R1 (FISHERMAN5.SK AGENT.N))
+			(!R2 ({REF}16.SK FOOD.N))
+			(!R3 (FISHERMAN5.SK FISHERMAN.N))
+			(!R4 ({REF}16.SK {REF}.N))
+			(!R5 (BOAT4.SK BOAT.N))
+			(!R6 (BOAT4.SK (PERTAIN-TO FISHERMAN5.SK)))
+			(!R7 ({REF}16.SK (OF.P IT.PRO)))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN5.SK (WANT.V (THAT (NOT (FISHERMAN5.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN5.SK POSSESS.V {REF}16.SK))
+			(?I2 (FISHERMAN5.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISHERMAN5.SK (POSSESS.V {REF}16.SK))))
+			(?P2 (NOT (FISHERMAN5.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a fish."
+	; "He took it home."
+	; "He cleaned the fish."
+	; "He cooked the fish."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K FISH.N))
+			(!R2 (?X_J HOME.N))
+			(!R3 (?X_J (PERTAIN-TO ?X_I)))
+			(!R4 (?X_K SMALLER-THAN.N ?X_I))
+			(!R5 (?X_J DESTINATION.N))
+			(!R6 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_D (?X_I CATCH.2.V ?X_K))
+			(?X_F (?X_I TAKE.3.V ?X_K ?X_J))
+			(?X_H (?X_I CLEAN.4.V ?X_K))
+			(?X_B (?X_I (COOK.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CATCH.2.V FISH28.SK) ** E29.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (FISH28.SK ENTITY.N))
+			(!R4 (FISH28.SK FISH.N))
+			(!R5 (HOME39.SK (PERTAIN-TO TOM.NAME)))
+			(!R6 (HOME39.SK HOME.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (FISH28.SK (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P FISH28.SK)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (FISH28.SK (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V FISH28.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (FISH28.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V FISH28.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E29.SK))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME TAKE.3.V FISH28.SK HOME39.SK) ** E31.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (FISH28.SK ENTITY.N))
+			(!R3 (FISH28.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (HOME39.SK LOCATION.N))
+			(!R6 (HOME39.SK DESTINATION.N))
+			(!R7 (FISH28.SK FISH.N))
+			(!R8 (HOME39.SK (PERTAIN-TO TOM.NAME)))
+			(!R9 (HOME39.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (FISH28.SK ((ADV-A (AT.P HOME39.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (FISH28.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V FISH28.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FISH28.SK ((ADV-A (AT.P HOME39.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME CLEAN.4.V FISH28.SK) ** E34.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (FISH28.SK FISH.N))
+			(!R3 (HOME39.SK (PERTAIN-TO TOM.NAME)))
+			(!R4 (HOME39.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (NOT (FISH28.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FISH28.SK DIRTY.A))
+			(?I2 (NOT (FISH28.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISH28.SK DIRTY.A)))
+			(?P2 (FISH28.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The fisherman caught a fish."
+	; "The fish was big."
+	; "The fisherman cut the fish open."
+	; "The fish was dead."
+	; "The fisherman threw the fish away."
+	(EPI-SCHEMA ((?X_G (THROW_AWAY.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G FISHERMAN.N))
+			(!R2 (?X_H BIG.A))
+			(!R3 (?X_H DEAD.A))
+			(!R4 (?X_H FISH.N))
+		)
+		(:STEPS
+			(?X_B (?X_G (CATCH.V ?X_H)))
+			(?X_D (?X_G (CUT.V (KE (?X_H OPEN.A)))))
+			(?X_F (?X_G ((AWAY.ADV THROW.V) ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN52.SK PUT.5.V FISH54.SK ICE65.SK) ** E63.SK)
+		(:ROLES
+			(!R1 (FISHERMAN52.SK AGENT.N))
+			(!R2 (FISH54.SK ENTITY.N))
+			(!R3 (ICE65.SK LOCATION.N))
+			(!R4 (FISH54.SK FISH.N))
+			(!R5 (FISHERMAN52.SK FISHERMAN.N))
+			(!R6 (ICE65.SK ICE.N))
+			(!R7 (HOME77.SK (PERTAIN-TO FISHERMAN52.SK)))
+			(!R8 (HOME77.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN52.SK (WANT.V (THAT (FISH54.SK (AT.P ICE65.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN52.SK (POSSESS.V FISH54.SK)))
+			(?I2 (FISH54.SK (NOT (AT.P ICE65.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH54.SK (AT.P ICE65.SK)))
+		)
+	)
+	(EPI-SCHEMA ((FISHERMAN52.SK ((ADV-A (FROM.P ?L1)) GO.6.V) HOME77.SK) ** E74.SK)
+		(:ROLES
+			(!R1 (FISHERMAN52.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME77.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME77.SK)))
+			(!R5 (HOME77.SK DESTINATION.N))
+			(!R6 (FISHERMAN52.SK FISHERMAN.N))
+			(!R7 (HOME77.SK (PERTAIN-TO FISHERMAN52.SK)))
+			(!R8 (HOME77.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN52.SK (WANT.V (KA ((ADV-A (AT.P HOME77.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN52.SK (AT.P ?L1)))
+			(?I2 (NOT (FISHERMAN52.SK (AT.P HOME77.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISHERMAN52.SK (AT.P ?L1))))
+			(?P2 (FISHERMAN52.SK (AT.P HOME77.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A fisherman caught a fish."
+	; "He put the fish on the boat."
+	; "He threw the line into the water."
+	; "The fish bit the hook."
+	; "The fisherman pulled the fish onto the deck."
+	; "He cut the fish open."
+	; "He cleaned the fish."
+	(EPI-SCHEMA ((?X_O (COMPOSITE-SCHEMA.PR ?X_P (KE (?X_R OPEN.A)) ?X_Q ?X_R)) **
+	             ?E)
+		(:ROLES
+			(!R1 (?X_E DECK.N))
+			(!R2 (?X_P LINE.N))
+			(!R3 (?X_H WATER.N))
+			(!R4 (?X_R FISH.N))
+			(!R5 (?X_O FISHERMAN.N))
+			(!R6 (?X_Q BOAT.N))
+			(!R7 (?X_Q LOCATION.N))
+		)
+		(:STEPS
+			(?X_J (?X_O (CATCH.V ?X_R)))
+			(?X_L (?X_O PUT.5.V ?X_R ?X_Q))
+			(?X_G (?X_O (((ADV-A (INTO.P ?X_H)) THROW.V) ?X_P)))
+			(?X_D (?X_O (((ADV-A (ONTO.P ?X_E)) PULL.V) ?X_R)))
+			(?X_B (?X_O (CUT.V (KE (?X_R OPEN.A)))))
+			(?X_N (?X_O CLEAN.4.V ?X_R))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN125.SK PUT.5.V FISH127.SK BOAT131.SK) ** E132.SK)
+		(:ROLES
+			(!R1 (FISHERMAN125.SK AGENT.N))
+			(!R2 (FISH127.SK ENTITY.N))
+			(!R3 (BOAT131.SK LOCATION.N))
+			(!R4 (FISH127.SK FISH.N))
+			(!R5 (FISHERMAN125.SK FISHERMAN.N))
+			(!R6 (BOAT131.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN125.SK (WANT.V (THAT (FISH127.SK (AT.P BOAT131.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN125.SK (POSSESS.V FISH127.SK)))
+			(?I2 (FISH127.SK (NOT (AT.P BOAT131.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH127.SK (AT.P BOAT131.SK)))
+		)
+	)
+	(EPI-SCHEMA ((FISHERMAN125.SK CLEAN.4.V FISH127.SK) ** E149.SK)
+		(:ROLES
+			(!R1 (FISHERMAN125.SK AGENT.N))
+			(!R2 (FISH127.SK FISH.N))
+			(!R3 (FISHERMAN125.SK FISHERMAN.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN125.SK (WANT.V (THAT (NOT (FISH127.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FISH127.SK DIRTY.A))
+			(?I2 (NOT (FISH127.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISH127.SK DIRTY.A)))
+			(?P2 (FISH127.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Cathy caught a catfish."
+	; "She put it on the table."
+	; "She cleaned it and cooked it."
+	; "She ate some catfish for dinner."
+	(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_K ?X_L ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L CATFISH.N))
+			(!R2 (?X_K TABLE.N))
+			(!R3 (?X_G DINNER.N))
+			(!R4 (?X_M CATFISH.N))
+			(!R5 (?X_M (FOR.P ?X_G)))
+			(!R6 (?X_K LOCATION.N))
+			(!R7 (?X_J AGENT.N))
+			(!R8 (?X_M FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_J CATCH.2.V ?X_L))
+			(?X_F (?X_J PUT.5.V ?X_L ?X_K))
+			(?X_A (?X_J CLEAN.4.V ?X_L))
+			(?X_B (?X_J ((PASV COOK.V) ?X_L)))
+			(?X_I (?X_J EAT.1.V ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN176.SK PUT.5.V FISH178.SK GROUND182.SK) ** E183.SK)
+		(:ROLES
+			(!R1 (FISHERMAN176.SK AGENT.N))
+			(!R2 (FISH178.SK ENTITY.N))
+			(!R3 (GROUND182.SK LOCATION.N))
+			(!R4 (FISH178.SK FISH.N))
+			(!R5 (FISHERMAN176.SK FISHERMAN.N))
+			(!R6 (GROUND182.SK GROUND.N))
+			(!R7 (MOUTH189.SK (PERTAIN-TO FISH178.SK)))
+			(!R8 (MOUTH189.SK MOUTH.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN176.SK (WANT.V (THAT (FISH178.SK (AT.P GROUND182.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN176.SK (POSSESS.V FISH178.SK)))
+			(?I2 (FISH178.SK (NOT (AT.P GROUND182.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH178.SK (AT.P GROUND182.SK)))
+		)
+	)
+	(EPI-SCHEMA ((CATHY.NAME CATCH.2.V CATFISH214.SK) ** E215.SK)
+		(:ROLES
+			(!R1 (CATHY.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (CATFISH214.SK ENTITY.N))
+			(!R4 (CATFISH214.SK CATFISH.N))
+		)
+		(:PRECONDS
+			(?I1 (CATHY.NAME (AT.P ?L)))
+			(?I2 (CATFISH214.SK (AT.P ?L)))
+			(?I3 (CATHY.NAME ((ADV-A (FOR.P CATFISH214.SK)) SEARCH.V)))
+			(?I4 (NOT (CATHY.NAME (KNOW.V (THAT (CATFISH214.SK (AT.P ?L)))))))
+			(?I5 (NOT (CATHY.NAME (POSSESS.V CATFISH214.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CATHY.NAME (KNOW.V (THAT (CATFISH214.SK (AT.P ?L))))))
+			(?P2 (CATHY.NAME (POSSESS.V CATFISH214.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E215.SK))
+		)
+	)
+	(EPI-SCHEMA ((CATHY.NAME PUT.5.V CATFISH214.SK TABLE217.SK) ** E218.SK)
+		(:ROLES
+			(!R1 (CATHY.NAME AGENT.N))
+			(!R2 (CATFISH214.SK ENTITY.N))
+			(!R3 (TABLE217.SK LOCATION.N))
+			(!R4 (CATFISH214.SK CATFISH.N))
+			(!R5 (TABLE217.SK TABLE.N))
+		)
+		(:GOALS
+			(?G1 (CATHY.NAME (WANT.V (THAT (CATFISH214.SK (AT.P TABLE217.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (CATHY.NAME (POSSESS.V CATFISH214.SK)))
+			(?I2 (CATFISH214.SK (NOT (AT.P TABLE217.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CATFISH214.SK (AT.P TABLE217.SK)))
+		)
+	)
+	(EPI-SCHEMA ((CATHY.NAME CLEAN.4.V CATFISH214.SK) ** E227.SK)
+		(:ROLES
+			(!R1 (CATHY.NAME AGENT.N))
+			(!R2 (CATFISH214.SK CATFISH.N))
+		)
+		(:GOALS
+			(?G1 (CATHY.NAME (WANT.V (THAT (NOT (CATFISH214.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CATFISH214.SK DIRTY.A))
+			(?I2 (NOT (CATFISH214.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CATFISH214.SK DIRTY.A)))
+			(?P2 (CATFISH214.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CATHY.NAME EAT.1.V CATFISH226.SK) ** E223.SK)
+		(:ROLES
+			(!R1 (CATHY.NAME AGENT.N))
+			(!R2 (CATFISH226.SK FOOD.N))
+			(!R3 (CATFISH226.SK CATFISH.N))
+			(!R4 (DINNER225.SK DINNER.N))
+			(!R5 (CATFISH226.SK (FOR.P DINNER225.SK)))
+		)
+		(:GOALS
+			(?G1 (CATHY.NAME (WANT.V (THAT (NOT (CATHY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CATHY.NAME POSSESS.V CATFISH226.SK))
+			(?I2 (CATHY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CATHY.NAME (POSSESS.V CATFISH226.SK))))
+			(?P2 (NOT (CATHY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jake caught a fish."
+	; "He held it by its tail."
+	; "He pulled it into the boat."
+	; "He put the fish on ice."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D BOAT.N))
+			(!R2 (?X_G TAIL.N))
+			(!R3 (?X_K FISH.N))
+			(!R4 (?X_G (PERTAIN-TO ?X_K)))
+			(!R5 (?X_L ICE.N))
+			(!R6 (?X_J AGENT.N))
+			(!R7 (?X_L LOCATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_J (CATCH.V ?X_K)))
+			(?X_A (?X_J (((ADV-A (BY.P ?X_G)) HOLD.V) ?X_K)))
+			(?X_C (?X_J (((ADV-A (INTO.P ?X_D)) PULL.V) ?X_K)))
+			(?X_I (?X_J PUT.5.V ?X_K ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JAKE.NAME PUT.5.V FISH246.SK ICE256.SK) ** E254.SK)
+		(:ROLES
+			(!R1 (JAKE.NAME AGENT.N))
+			(!R2 (FISH246.SK ENTITY.N))
+			(!R3 (ICE256.SK LOCATION.N))
+			(!R4 (FISH246.SK FISH.N))
+			(!R5 (ICE256.SK ICE.N))
+			(!R6 (TAIL244.SK TAIL.N))
+			(!R7 (TAIL244.SK (PERTAIN-TO FISH246.SK)))
+		)
+		(:GOALS
+			(?G1 (JAKE.NAME (WANT.V (THAT (FISH246.SK (AT.P ICE256.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (JAKE.NAME (POSSESS.V FISH246.SK)))
+			(?I2 (FISH246.SK (NOT (AT.P ICE256.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH246.SK (AT.P ICE256.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A fisherman caught a fish."
+	; "He put the fish on the boat."
+	; "He threw the net over the boat."
+	; "He pulled the net up."
+	; "He lifted the net."
+	; "He saw that there were lots of fish in the net."
+	; "He pulled them all out."
+	; "He put some fish back into the water."
+	; "He put the net back on the boat."
+	; "He tied the net down."
+	; "He jumped onto the boat."
+	; "He untied the rope from the boat."
+	; "He pushed the boat away from shore."
+	(EPI-SCHEMA ((?X_Z
+	              (COMPOSITE-SCHEMA.PR ?X_ZA ?X_ZB (THAT (?X_ZC (BE.V ?X_ZD)))
+	               ?X_ZE ?X_ZF ?X_ZG ?X_ZH))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_C SHORE.N))
+			(!R2 (?X_ZA ROPE.N))
+			(!R3 (?X_ZH BOAT.N))
+			(!R4 (?X_ZF NET.N))
+			(!R5 (?X_ZF (OVER.P ?X_ZH)))
+			(!R6 (?X_ZB FISH.N))
+			(!R7 (?X_Z FISHERMAN.N))
+			(!R8 (?X_ZE FISH.N))
+			(!R9 (?X_ZG FISH.N))
+			(!R10 (?X_ZG (IN.P ?X_ZF)))
+			(!R11 (?X_ZD (OF.P ?X_ZG)))
+			(!R12 (?X_ZD (PLUR LOT.N)))
+			(!R13 (?X_ZG LOCATION.N))
+			(!R14 (?X_ZF ENTITY.N))
+			(!R15 (?X_ZH DESTINATION.N))
+		)
+		(:STEPS
+			(?X_O (?X_Z (CATCH.V ?X_ZB)))
+			(?X_Q (?X_Z PUT.5.V ?X_ZB ?X_ZH))
+			(?X_M (?X_Z (THROW.V ?X_ZF)))
+			(?X_K (?X_Z ((UP.ADV PULL.V) ?X_ZF)))
+			(?X_I (?X_Z (LIFT.V ?X_ZF)))
+			(?X_S (?X_Z SEE.7.V (THAT (?X_ZC (BE.V ?X_ZD)))))
+			(?X_U (?X_Z PUT.5.V ?X_ZE ?X_ZG))
+			(?X_W (?X_Z PUT.5.V ?X_ZF ?X_ZG))
+			(?X_G (?X_Z ((DOWN.ADV TIE.V) ?X_ZF)))
+			(?X_Y (?X_Z ((ADV-A (FROM.P ?L1)) JUMP.8.V) ?X_ZH))
+			(?X_E (?X_Z (((ADV-A (FROM.P ?X_ZH)) UNTIE.V) ?X_ZA)))
+			(?X_B (?X_Z (((ADV-A (FROM.P ?X_C)) (AWAY.ADV PUSH.V)) ?X_ZH)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN273.SK PUT.5.V FISH275.SK BOAT279.SK) ** E280.SK)
+		(:ROLES
+			(!R1 (FISHERMAN273.SK AGENT.N))
+			(!R2 (FISH275.SK ENTITY.N))
+			(!R3 (BOAT279.SK LOCATION.N))
+			(!R4 (FISH275.SK FISH.N))
+			(!R5 (FISHERMAN273.SK FISHERMAN.N))
+			(!R6 (BOAT279.SK BOAT.N))
+			(!R7 (NET285.SK (OVER.P BOAT279.SK)))
+			(!R8 (NET285.SK NET.N))
+			(!R9 (FISH298.SK (IN.P NET285.SK)))
+			(!R10 (FISH298.SK FISH.N))
+			(!R11 (LOT297.SK (OF.P FISH298.SK)))
+			(!R12 (LOT297.SK (PLUR LOT.N)))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN273.SK (WANT.V (THAT (FISH275.SK (AT.P BOAT279.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN273.SK (POSSESS.V FISH275.SK)))
+			(?I2 (FISH275.SK (NOT (AT.P BOAT279.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH275.SK (AT.P BOAT279.SK)))
+		)
+	)
+	(EPI-SCHEMA ((FISHERMAN273.SK SEE.7.V (THAT (THERE.PRO (BE.V LOT297.SK)))) **
+	             E294.SK)
+		(:ROLES
+			(!R1 (FISHERMAN273.SK AGENT.N))
+			(!R2 (LOT297.SK (PLUR LOT.N)))
+			(!R3 (FISH298.SK FISH.N))
+			(!R4 (LOT297.SK (OF.P FISH298.SK)))
+			(!R5 (FISH298.SK (IN.P NET285.SK)))
+			(!R6 (NET285.SK NET.N))
+			(!R7 (NET285.SK (OVER.P BOAT279.SK)))
+			(!R8 (BOAT279.SK BOAT.N))
+			(!R9 (FISHERMAN273.SK FISHERMAN.N))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN273.SK (NEAR.P THERE.PRO)))
+		)
+		(:STEPS
+			(?E1 (THERE.PRO (BE.V LOT297.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (FISHERMAN273.SK (KNOW.V (THAT (THERE.PRO (BE.V LOT297.SK))))))
+		)
+	)
+	(EPI-SCHEMA ((FISHERMAN273.SK PUT.5.V FISH303.SK FISH298.SK) ** E305.SK)
+		(:ROLES
+			(!R1 (FISHERMAN273.SK AGENT.N))
+			(!R2 (FISH303.SK ENTITY.N))
+			(!R3 (FISH298.SK LOCATION.N))
+			(!R4 (FISHERMAN273.SK FISHERMAN.N))
+			(!R5 (FISH298.SK FISH.N))
+			(!R6 (FISH303.SK FISH.N))
+			(!R7 (FISH298.SK (IN.P NET285.SK)))
+			(!R8 (NET285.SK NET.N))
+			(!R9 (LOT297.SK (OF.P FISH298.SK)))
+			(!R10 (LOT297.SK (PLUR LOT.N)))
+			(!R11 (NET285.SK (OVER.P BOAT279.SK)))
+			(!R12 (BOAT279.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN273.SK (WANT.V (THAT (FISH303.SK (AT.P FISH298.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN273.SK (POSSESS.V FISH303.SK)))
+			(?I2 (FISH303.SK (NOT (AT.P FISH298.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH303.SK (AT.P FISH298.SK)))
+		)
+	)
+	(EPI-SCHEMA ((FISHERMAN273.SK PUT.5.V NET285.SK FISH298.SK) ** E309.SK)
+		(:ROLES
+			(!R1 (FISHERMAN273.SK AGENT.N))
+			(!R2 (NET285.SK ENTITY.N))
+			(!R3 (FISH298.SK LOCATION.N))
+			(!R4 (FISHERMAN273.SK FISHERMAN.N))
+			(!R5 (NET285.SK NET.N))
+			(!R6 (FISH298.SK (IN.P NET285.SK)))
+			(!R7 (FISH298.SK FISH.N))
+			(!R8 (NET285.SK (OVER.P BOAT279.SK)))
+			(!R9 (BOAT279.SK BOAT.N))
+			(!R10 (LOT297.SK (OF.P FISH298.SK)))
+			(!R11 (LOT297.SK (PLUR LOT.N)))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN273.SK (WANT.V (THAT (NET285.SK (AT.P FISH298.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN273.SK (POSSESS.V NET285.SK)))
+			(?I2 (NET285.SK (NOT (AT.P FISH298.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NET285.SK (AT.P FISH298.SK)))
+		)
+	)
+	(EPI-SCHEMA ((FISHERMAN273.SK ((ADV-A (FROM.P ?L1)) JUMP.8.V) BOAT279.SK) **
+	             E315.SK)
+		(:ROLES
+			(!R1 (FISHERMAN273.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BOAT279.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BOAT279.SK)))
+			(!R5 (BOAT279.SK DESTINATION.N))
+			(!R6 (FISHERMAN273.SK FISHERMAN.N))
+			(!R7 (BOAT279.SK BOAT.N))
+			(!R8 (NET285.SK (OVER.P BOAT279.SK)))
+			(!R9 (NET285.SK NET.N))
+			(!R10 (FISH298.SK (IN.P NET285.SK)))
+			(!R11 (FISH298.SK FISH.N))
+			(!R12 (LOT297.SK (OF.P FISH298.SK)))
+			(!R13 (LOT297.SK (PLUR LOT.N)))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN273.SK (WANT.V (KA ((ADV-A (AT.P BOAT279.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN273.SK (AT.P ?L1)))
+			(?I2 (NOT (FISHERMAN273.SK (AT.P BOAT279.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISHERMAN273.SK (AT.P ?L1))))
+			(?P2 (FISHERMAN273.SK (AT.P BOAT279.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	nil
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN365.SK PUT.5.V FISH367.SK BOAT371.SK) ** E372.SK)
+		(:ROLES
+			(!R1 (FISHERMAN365.SK AGENT.N))
+			(!R2 (FISH367.SK ENTITY.N))
+			(!R3 (BOAT371.SK LOCATION.N))
+			(!R4 (FISH367.SK FISH.N))
+			(!R5 (FISHERMAN365.SK FISHERMAN.N))
+			(!R6 (BOAT371.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN365.SK (WANT.V (THAT (FISH367.SK (AT.P BOAT371.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN365.SK (POSSESS.V FISH367.SK)))
+			(?I2 (FISH367.SK (NOT (AT.P BOAT371.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH367.SK (AT.P BOAT371.SK)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "A boy caught a cat."
+	; "He put the cat in a box."
+	; "He carried the box outside."
+	; "The cat ran away."
+	(EPI-SCHEMA ((?X_H (CATCH.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J CAT.N))
+			(!R2 (?X_H BOY.N))
+			(!R3 (?X_I BOX.N))
+			(!R4 (?X_I OUTSIDE.N))
+			(!R5 (?X_I SMALLER-THAN.N ?X_H))
+			(!R6 (?X_J DESTINATION.N))
+			(!R7 (NOT (?X_I = ?L2)))
+			(!R8 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_H (CATCH.V ?X_J)))
+			(?X_C (?X_H PUT.1.V ?X_J ?X_I))
+			(?X_E (?X_H CARRY.2.V ?X_I ?X_J))
+			(?X_G (?X_J ((ADV-A (FROM.P ?X_I)) RUN_AWAY.3.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY1.SK PUT.1.V CAT3.SK BOX7.SK) ** E8.SK)
+		(:ROLES
+			(!R1 (BOY1.SK AGENT.N))
+			(!R2 (CAT3.SK ENTITY.N))
+			(!R3 (BOX7.SK LOCATION.N))
+			(!R4 (CAT3.SK CAT.N))
+			(!R5 (BOY1.SK BOY.N))
+			(!R6 (BOX7.SK BOX.N))
+			(!R7 (BOX7.SK OUTSIDE.N))
+		)
+		(:GOALS
+			(?G1 (BOY1.SK (WANT.V (THAT (CAT3.SK (AT.P BOX7.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY1.SK (POSSESS.V CAT3.SK)))
+			(?I2 (CAT3.SK (NOT (AT.P BOX7.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CAT3.SK (AT.P BOX7.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY1.SK CARRY.2.V BOX7.SK CAT3.SK) ** E11.SK)
+		(:ROLES
+			(!R1 (BOY1.SK AGENT.N))
+			(!R2 (BOX7.SK ENTITY.N))
+			(!R3 (BOX7.SK SMALLER-THAN.N BOY1.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (CAT3.SK LOCATION.N))
+			(!R6 (CAT3.SK DESTINATION.N))
+			(!R7 (CAT3.SK CAT.N))
+			(!R8 (BOY1.SK BOY.N))
+			(!R9 (BOX7.SK BOX.N))
+			(!R10 (BOX7.SK OUTSIDE.N))
+		)
+		(:GOALS
+			(?G1 (BOY1.SK (WANT.V (THAT (BOX7.SK ((ADV-A (AT.P CAT3.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BOX7.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BOY1.SK (POSSESS.V BOX7.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOX7.SK ((ADV-A (AT.P CAT3.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CAT3.SK ((ADV-A (FROM.P BOX7.SK)) RUN_AWAY.3.V) ?L2) ** E16.SK)
+		(:ROLES
+			(!R1 (CAT3.SK AGENT.N))
+			(!R2 (BOX7.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (BOX7.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT3.SK CAT.N))
+			(!R7 (BOX7.SK BOX.N))
+			(!R8 (BOX7.SK OUTSIDE.N))
+		)
+		(:GOALS
+			(?G1 (CAT3.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT3.SK (AT.P BOX7.SK)))
+			(?I2 (NOT (CAT3.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT3.SK (AT.P BOX7.SK))))
+			(?P2 (CAT3.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a rabbit."
+	; "He put the rabbit in a box."
+	; "He took the rabbit to the zoo."
+	; "He showed the rabbit to the zookeeper."
+	; "The zookeeper let Tom catch the rabbit."
+	(EPI-SCHEMA ((?X_L (CATCH.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N RABBIT.N))
+			(!R2 (?X_E ZOOKEEPER.N))
+			(!R3 (?X_M BOX.N))
+			(!R4 (?X_O ZOO.N))
+			(!R5 (?X_M LOCATION.N))
+			(!R6 (?X_L AGENT.N))
+			(!R7 (?X_N SMALLER-THAN.N ?X_L))
+			(!R8 (?X_O DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_L CATCH.4.V ?X_N))
+			(?X_I (?X_L PUT.1.V ?X_N ?X_M))
+			(?X_K (?X_L TAKE.5.V ?X_N ?X_O))
+			(?X_D (?X_L (((ADV-A (TO.P ?X_E)) SHOW.V) ?X_N)))
+			(?X_B (?X_E (((ADV-A (FOR.P (KA (CATCH.V ?X_N)))) LET.V) ?X_L)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CATCH.4.V RABBIT28.SK) ** E29.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (RABBIT28.SK ENTITY.N))
+			(!R4 (RABBIT28.SK RABBIT.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (RABBIT28.SK (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P RABBIT28.SK)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (RABBIT28.SK (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V RABBIT28.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (RABBIT28.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V RABBIT28.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E29.SK))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.1.V RABBIT28.SK BOX32.SK) ** E33.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (RABBIT28.SK ENTITY.N))
+			(!R3 (BOX32.SK LOCATION.N))
+			(!R4 (RABBIT28.SK RABBIT.N))
+			(!R5 (BOX32.SK BOX.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (RABBIT28.SK (AT.P BOX32.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V RABBIT28.SK)))
+			(?I2 (RABBIT28.SK (NOT (AT.P BOX32.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (RABBIT28.SK (AT.P BOX32.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME TAKE.5.V RABBIT28.SK ZOO36.SK) ** E37.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (RABBIT28.SK ENTITY.N))
+			(!R3 (RABBIT28.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (ZOO36.SK LOCATION.N))
+			(!R6 (ZOO36.SK DESTINATION.N))
+			(!R7 (RABBIT28.SK RABBIT.N))
+			(!R8 (ZOO36.SK ZOO.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (RABBIT28.SK ((ADV-A (AT.P ZOO36.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (RABBIT28.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V RABBIT28.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (RABBIT28.SK ((ADV-A (AT.P ZOO36.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy caught a cat."
+	; "He put the cat on his shoulder."
+	; "He walked around the neighborhood."
+	; "He played with the cat."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I CAT.N))
+			(!R2 (?X_H BOY.N))
+			(!R3 (?X_J SHOULDER.N))
+			(!R4 (?X_J (PERTAIN-TO ?X_H)))
+			(!R5 (?X_J LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_H (CATCH.V ?X_I)))
+			(?X_A (?X_H PUT.1.V ?X_I ?X_J))
+			(?X_G (?X_H ((ADV-A (FROM.P ?L1)) WALK.6.V) ?L2))
+			(?X_C (?X_H ((ADV-A (WITH.P ?X_I)) PLAY.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY68.SK PUT.1.V CAT70.SK SHOULDER67.SK) ** E66.SK)
+		(:ROLES
+			(!R1 (BOY68.SK AGENT.N))
+			(!R2 (CAT70.SK ENTITY.N))
+			(!R3 (SHOULDER67.SK LOCATION.N))
+			(!R4 (CAT70.SK CAT.N))
+			(!R5 (BOY68.SK BOY.N))
+			(!R6 (SHOULDER67.SK SHOULDER.N))
+			(!R7 (SHOULDER67.SK (PERTAIN-TO BOY68.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY68.SK (WANT.V (THAT (CAT70.SK (AT.P SHOULDER67.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY68.SK (POSSESS.V CAT70.SK)))
+			(?I2 (CAT70.SK (NOT (AT.P SHOULDER67.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CAT70.SK (AT.P SHOULDER67.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY68.SK ((ADV-A (FROM.P ?L1)) WALK.6.V) ?L2) ** E76.SK)
+		(:ROLES
+			(!R1 (BOY68.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY68.SK BOY.N))
+			(!R7 (SHOULDER67.SK SHOULDER.N))
+			(!R8 (SHOULDER67.SK (PERTAIN-TO BOY68.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY68.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY68.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY68.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY68.SK (AT.P ?L1))))
+			(?P2 (BOY68.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a cat."
+	; "He put the cat in a box."
+	; "He closed the box."
+	; "He kept the cat in the box."
+	; "He took the cat to the vet."
+	; "The vet examined the cat."
+	; "The vet said the cat was sick."
+	(EPI-SCHEMA ((?X_O (CATCH.V ?X_Q)) ** ?E)
+		(:ROLES
+			(!R1 (?X_R VET.N))
+			(!R2 (?X_P BOX.N))
+			(!R3 (?X_Q CAT.N))
+			(!R4 (?X_Q (IN.P ?X_P)))
+			(!R5 (?X_P LOCATION.N))
+			(!R6 (?X_Q SMALLER-THAN.N ?X_O))
+			(!R7 (?X_O AGENT.N))
+			(!R8 (?X_R DESTINATION.N))
+		)
+		(:STEPS
+			(?X_J (?X_O (CATCH.V ?X_Q)))
+			(?X_L (?X_O PUT.1.V ?X_Q ?X_P))
+			(?X_H (?X_O (CLOSE.V ?X_P)))
+			(?X_F (?X_O (KEEP.V ?X_Q)))
+			(?X_N (?X_O TAKE.5.V ?X_Q ?X_R))
+			(?X_D (?X_R (EXAMINE.V ?X_Q)))
+			(?X_B (?X_R (SAY.V (THT (?X_Q SICK.A)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JAKE.NAME CATCH.4.V RABBIT97.SK) ** E98.SK)
+		(:ROLES
+			(!R1 (JAKE.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (RABBIT97.SK ENTITY.N))
+			(!R4 (RABBIT97.SK MEDICINE.N))
+			(!R5 (RABBIT97.SK RABBIT.N))
+		)
+		(:PRECONDS
+			(?I1 (JAKE.NAME (AT.P ?L)))
+			(?I2 (RABBIT97.SK (AT.P ?L)))
+			(?I3 (JAKE.NAME ((ADV-A (FOR.P RABBIT97.SK)) SEARCH.V)))
+			(?I4 (NOT (JAKE.NAME (KNOW.V (THAT (RABBIT97.SK (AT.P ?L)))))))
+			(?I5 (NOT (JAKE.NAME (POSSESS.V RABBIT97.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (JAKE.NAME (KNOW.V (THAT (RABBIT97.SK (AT.P ?L))))))
+			(?P2 (JAKE.NAME (POSSESS.V RABBIT97.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E98.SK))
+		)
+	)
+	(EPI-SCHEMA ((JAKE.NAME PUT.1.V RABBIT97.SK CAGE101.SK) ** E102.SK)
+		(:ROLES
+			(!R1 (JAKE.NAME AGENT.N))
+			(!R2 (RABBIT97.SK ENTITY.N))
+			(!R3 (CAGE101.SK LOCATION.N))
+			(!R4 (RABBIT97.SK MEDICINE.N))
+			(!R5 (RABBIT97.SK RABBIT.N))
+			(!R6 (CAGE101.SK CAGE.N))
+		)
+		(:GOALS
+			(?G1 (JAKE.NAME (WANT.V (THAT (RABBIT97.SK (AT.P CAGE101.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (JAKE.NAME (POSSESS.V RABBIT97.SK)))
+			(?I2 (RABBIT97.SK (NOT (AT.P CAGE101.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (RABBIT97.SK (AT.P CAGE101.SK)))
+		)
+	)
+	(EPI-SCHEMA ((JAKE.NAME TAKE.5.V RABBIT97.SK VET105.SK) ** E106.SK)
+		(:ROLES
+			(!R1 (JAKE.NAME AGENT.N))
+			(!R2 (RABBIT97.SK ENTITY.N))
+			(!R3 (RABBIT97.SK SMALLER-THAN.N JAKE.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (VET105.SK LOCATION.N))
+			(!R6 (VET105.SK DESTINATION.N))
+			(!R7 (RABBIT97.SK MEDICINE.N))
+			(!R8 (RABBIT97.SK RABBIT.N))
+			(!R9 (VET105.SK VET.N))
+		)
+		(:GOALS
+			(?G1
+	   (JAKE.NAME (WANT.V (THAT (RABBIT97.SK ((ADV-A (AT.P VET105.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (RABBIT97.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (JAKE.NAME (POSSESS.V RABBIT97.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (RABBIT97.SK ((ADV-A (AT.P VET105.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.1.V CAT127.SK BOX131.SK) ** E132.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (CAT127.SK ENTITY.N))
+			(!R3 (BOX131.SK LOCATION.N))
+			(!R4 (CAT127.SK CAT.N))
+			(!R5 (BOX131.SK BOX.N))
+			(!R6 (CAT127.SK (IN.P BOX131.SK)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (CAT127.SK (AT.P BOX131.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V CAT127.SK)))
+			(?I2 (CAT127.SK (NOT (AT.P BOX131.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CAT127.SK (AT.P BOX131.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME TAKE.5.V CAT127.SK VET143.SK) ** E144.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (CAT127.SK ENTITY.N))
+			(!R3 (CAT127.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (VET143.SK LOCATION.N))
+			(!R6 (VET143.SK DESTINATION.N))
+			(!R7 (CAT127.SK CAT.N))
+			(!R8 (VET143.SK VET.N))
+			(!R9 (BOX131.SK BOX.N))
+			(!R10 (CAT127.SK (IN.P BOX131.SK)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (CAT127.SK ((ADV-A (AT.P VET143.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (CAT127.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V CAT127.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (CAT127.SK ((ADV-A (AT.P VET143.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A hunter shot an animal."
+	; "He caught the animal."
+	; "He skinned the animal."
+	; "He cooked the meat."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J ANIMAL.N))
+			(!R2 (?X_I HUNTER.N))
+			(!R3 (?X_K MEAT.N))
+		)
+		(:STEPS
+			(?X_B (?X_I (SHOOT.V ?X_J)))
+			(?X_D (?X_I (CATCH.V ?X_J)))
+			(?X_F (?X_I (SKIN.V ?X_J)))
+			(?X_H (?X_I (COOK.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "A boy caught a fish."
+	; "He held the fish in his hands."
+	; "He looked at the fish."
+	; "He put the fish in a bucket."
+	; "He carried the bucket to the river."
+	; "He threw the fish into the river."
+	; "The fish swam away."
+	(EPI-SCHEMA ((?X_R (CATCH.V ?X_Q)) ** ?E)
+		(:ROLES
+			(!R1 (?X_R RIVER.N))
+			(!R2 (?X_H (PLUR HAND.N)))
+			(!R3 (?X_P FISH.N))
+			(!R4 (?X_O BOY.N))
+			(!R5 (?X_H (PERTAIN-TO ?X_O)))
+			(!R6 (?X_Q BUCKET.N))
+			(!R7 (?X_R DESTINATION.N))
+			(!R8 (?X_Q SMALLER-THAN.N ?X_O))
+			(!R9 (?X_Q LOCATION.N))
+			(!R10 (NOT (?X_Q = ?L2)))
+			(!R11 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_O (CATCH.V ?X_P)))
+			(?X_A (?X_O (((ADV-A (IN.P ?X_H)) HOLD.V) ?X_P)))
+			(?X_E (?X_O ((ADV-A (AT.P ?X_P)) LOOK.V)))
+			(?X_J (?X_O PUT.1.V ?X_P ?X_Q))
+			(?X_L (?X_O CARRY.2.V ?X_Q ?X_R))
+			(?X_C (?X_O (((ADV-A (INTO.P ?X_R)) THROW.V) ?X_P)))
+			(?X_N (?X_P ((ADV-A (FROM.P ?X_Q)) SWAM.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY197.SK PUT.1.V FISH199.SK BUCKET208.SK) ** E209.SK)
+		(:ROLES
+			(!R1 (BOY197.SK AGENT.N))
+			(!R2 (FISH199.SK ENTITY.N))
+			(!R3 (BUCKET208.SK LOCATION.N))
+			(!R4 (FISH199.SK FISH.N))
+			(!R5 (BOY197.SK BOY.N))
+			(!R6 (BUCKET208.SK BUCKET.N))
+			(!R7 (HANDS196.SK (PLUR HAND.N)))
+			(!R8 (HANDS196.SK (PERTAIN-TO BOY197.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY197.SK (WANT.V (THAT (FISH199.SK (AT.P BUCKET208.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY197.SK (POSSESS.V FISH199.SK)))
+			(?I2 (FISH199.SK (NOT (AT.P BUCKET208.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH199.SK (AT.P BUCKET208.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY197.SK CARRY.2.V BUCKET208.SK RIVER212.SK) ** E213.SK)
+		(:ROLES
+			(!R1 (BOY197.SK AGENT.N))
+			(!R2 (BUCKET208.SK ENTITY.N))
+			(!R3 (BUCKET208.SK SMALLER-THAN.N BOY197.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (RIVER212.SK LOCATION.N))
+			(!R6 (RIVER212.SK DESTINATION.N))
+			(!R7 (BOY197.SK BOY.N))
+			(!R8 (BUCKET208.SK BUCKET.N))
+			(!R9 (RIVER212.SK RIVER.N))
+			(!R10 (HANDS196.SK (PLUR HAND.N)))
+			(!R11 (HANDS196.SK (PERTAIN-TO BOY197.SK)))
+		)
+		(:GOALS
+			(?G1
+	   (BOY197.SK (WANT.V (THAT (BUCKET208.SK ((ADV-A (AT.P RIVER212.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BUCKET208.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (BOY197.SK (POSSESS.V BUCKET208.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BUCKET208.SK ((ADV-A (AT.P RIVER212.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((FISH199.SK ((ADV-A (FROM.P BUCKET208.SK)) SWAM.7.V) ?L2) **
+	             E220.SK)
+		(:ROLES
+			(!R1 (FISH199.SK AGENT.N))
+			(!R2 (BUCKET208.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (BUCKET208.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FISH199.SK FISH.N))
+			(!R7 (BUCKET208.SK BUCKET.N))
+		)
+		(:GOALS
+			(?G1 (FISH199.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (FISH199.SK (AT.P BUCKET208.SK)))
+			(?I2 (NOT (FISH199.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISH199.SK (AT.P BUCKET208.SK))))
+			(?P2 (FISH199.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A hunter shot a deer."
+	; "He caught the deer."
+	; "He cut its throat."
+	; "He skinned the deer."
+	; "He put the meat on a table."
+	; "He cooked the meat."
+	; "He ate some meat."
+	; "He drank wine."
+	(EPI-SCHEMA ((?X_P (COMPOSITE-SCHEMA.PR ?X_Q ?X_R ?X_S ?X_T ?X_U ?X_V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_S MEAT.N))
+			(!R2 (?X_Q THROAT.N))
+			(!R3 (?X_R (PLUR DEER.N)))
+			(!R4 (?X_Q (PERTAIN-TO ?X_R)))
+			(!R5 (?X_P HUNTER.N))
+			(!R6 (?X_T TABLE.N))
+			(!R7 (?X_U MEAT.N))
+			(!R8 (?X_V WINE.N))
+			(!R9 (?X_T LOCATION.N))
+			(!R10 (?X_U FOOD.N))
+		)
+		(:STEPS
+			(?X_I (?X_P (SHOOT.V ?X_R)))
+			(?X_G (?X_P (CATCH.V ?X_R)))
+			(?X_A (?X_P (CUT.V ?X_Q)))
+			(?X_E (?X_P (SKIN.V ?X_R)))
+			(?X_K (?X_P PUT.1.V ?X_S ?X_T))
+			(?X_C (?X_P (COOK.V ?X_S)))
+			(?X_M (?X_P EAT.8.V ?X_U))
+			(?X_O (?X_P DRANK.9.V ?X_V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((HUNTER234.SK PUT.1.V MEAT249.SK TABLE250.SK) ** E251.SK)
+		(:ROLES
+			(!R1 (HUNTER234.SK AGENT.N))
+			(!R2 (MEAT249.SK ENTITY.N))
+			(!R3 (TABLE250.SK LOCATION.N))
+			(!R4 (HUNTER234.SK HUNTER.N))
+			(!R5 (MEAT249.SK MEAT.N))
+			(!R6 (TABLE250.SK TABLE.N))
+		)
+		(:GOALS
+			(?G1 (HUNTER234.SK (WANT.V (THAT (MEAT249.SK (AT.P TABLE250.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (HUNTER234.SK (POSSESS.V MEAT249.SK)))
+			(?I2 (MEAT249.SK (NOT (AT.P TABLE250.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (MEAT249.SK (AT.P TABLE250.SK)))
+		)
+	)
+	(EPI-SCHEMA ((HUNTER234.SK EAT.8.V MEAT256.SK) ** E257.SK)
+		(:ROLES
+			(!R1 (HUNTER234.SK AGENT.N))
+			(!R2 (MEAT256.SK FOOD.N))
+			(!R3 (HUNTER234.SK HUNTER.N))
+			(!R4 (MEAT256.SK MEAT.N))
+		)
+		(:GOALS
+			(?G1 (HUNTER234.SK (WANT.V (THAT (NOT (HUNTER234.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HUNTER234.SK POSSESS.V MEAT256.SK))
+			(?I2 (HUNTER234.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HUNTER234.SK (POSSESS.V MEAT256.SK))))
+			(?P2 (NOT (HUNTER234.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HUNTER234.SK DRANK.9.V WINE261.SK) ** E259.SK)
+		(:ROLES
+			(!R1 (HUNTER234.SK AGENT.N))
+			(!R2 (WINE261.SK FOOD.N))
+			(!R3 (HUNTER234.SK HUNTER.N))
+			(!R4 (WINE261.SK WINE.N))
+		)
+		(:GOALS
+			(?G1 (HUNTER234.SK (WANT.V (THAT (NOT (HUNTER234.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HUNTER234.SK POSSESS.V WINE261.SK))
+			(?I2 (HUNTER234.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HUNTER234.SK (POSSESS.V WINE261.SK))))
+			(?P2 (NOT (HUNTER234.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a cat."
+	; "He put the cat in a box."
+	; "He carried the box to the garage."
+	; "He put the cat outside."
+	(EPI-SCHEMA ((?X_I (CATCH.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L CAT.N))
+			(!R2 (?X_J BOX.N))
+			(!R3 (?X_K GARAGE.N))
+			(!R4 (?X_J LOCATION.N))
+			(!R5 (?X_J SMALLER-THAN.N ?X_I))
+			(!R6 (?X_K DESTINATION.N))
+			(!R7 (?X_I AGENT.N))
+			(!R8 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_I (CATCH.V ?X_L)))
+			(?X_D (?X_I PUT.1.V ?X_L ?X_J))
+			(?X_F (?X_I CARRY.2.V ?X_J ?X_K))
+			(?X_H (?X_I PUT.10.V ?X_L ?L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME PUT.1.V CAT280.SK BOX284.SK) ** E285.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (CAT280.SK ENTITY.N))
+			(!R3 (BOX284.SK LOCATION.N))
+			(!R4 (CAT280.SK CAT.N))
+			(!R5 (BOX284.SK BOX.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (CAT280.SK (AT.P BOX284.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V CAT280.SK)))
+			(?I2 (CAT280.SK (NOT (AT.P BOX284.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CAT280.SK (AT.P BOX284.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME CARRY.2.V BOX284.SK GARAGE288.SK) ** E289.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BOX284.SK ENTITY.N))
+			(!R3 (BOX284.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (GARAGE288.SK LOCATION.N))
+			(!R6 (GARAGE288.SK DESTINATION.N))
+			(!R7 (BOX284.SK BOX.N))
+			(!R8 (GARAGE288.SK GARAGE.N))
+		)
+		(:GOALS
+			(?G1
+	   (TOM.NAME (WANT.V (THAT (BOX284.SK ((ADV-A (AT.P GARAGE288.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (BOX284.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V BOX284.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOX284.SK ((ADV-A (AT.P GARAGE288.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.10.V CAT280.SK ?L) ** E292.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (CAT280.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (CAT280.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (CAT280.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V CAT280.SK)))
+			(?I2 (CAT280.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (CAT280.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a cat."
+	; "He caught the cat with a trap."
+	; "He put the cat in a cage."
+	; "He took the cat to the vet."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C TRAP.N))
+			(!R2 (?X_L CAT.N))
+			(!R3 (?X_K CAGE.N))
+			(!R4 (?X_M VET.N))
+			(!R5 (?X_K LOCATION.N))
+			(!R6 (?X_M DESTINATION.N))
+			(!R7 (?X_J AGENT.N))
+			(!R8 (?X_L SMALLER-THAN.N ?X_J))
+		)
+		(:STEPS
+			(?X_E (?X_J (CATCH.V ?X_L)))
+			(?X_B (?X_J (((ADV-A (WITH.P ?X_C)) CATCH.V) ?X_L)))
+			(?X_G (?X_J PUT.1.V ?X_L ?X_K))
+			(?X_I (?X_J TAKE.5.V ?X_L ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME PUT.1.V CAT310.SK CAGE318.SK) ** E319.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (CAT310.SK ENTITY.N))
+			(!R3 (CAGE318.SK LOCATION.N))
+			(!R4 (CAT310.SK CAT.N))
+			(!R5 (CAGE318.SK CAGE.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (CAT310.SK (AT.P CAGE318.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V CAT310.SK)))
+			(?I2 (CAT310.SK (NOT (AT.P CAGE318.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CAT310.SK (AT.P CAGE318.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME TAKE.5.V CAT310.SK VET322.SK) ** E323.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (CAT310.SK ENTITY.N))
+			(!R3 (CAT310.SK SMALLER-THAN.N TOM.NAME))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (VET322.SK LOCATION.N))
+			(!R6 (VET322.SK DESTINATION.N))
+			(!R7 (CAT310.SK CAT.N))
+			(!R8 (VET322.SK VET.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (CAT310.SK ((ADV-A (AT.P VET322.SK)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (CAT310.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (TOM.NAME (POSSESS.V CAT310.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (CAT310.SK ((ADV-A (AT.P VET322.SK)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball."
+	; "He played catch with his friends."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G AIR.N))
+			(!R2 (?X_K BALL.N))
+			(!R3 (?X_H (PLUR FRIEND.N)))
+			(!R4 (?X_H (PERTAIN-TO ?X_J)))
+			(!R5 (?X_I CATCH.N))
+			(!R6 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_J (CATCH.V ?X_K)))
+			(?X_F (?X_J (((ADV-A (INTO.P ?X_G)) THROW.V) ?X_K)))
+			(?X_D (?X_J (CATCH.V ?X_K)))
+			(?X_B (?X_J PLAY.1.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME PLAY.1.V) ** E4.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (CATCH18.SK GAME.N))
+			(!R5 (NOT (CATCH18.SK AGENT.N)))
+			(!R6 (CATCH18.SK CATCH.N))
+			(!R7 (FRIENDS5.SK (PLUR FRIEND.N)))
+			(!R8 (FRIENDS5.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball to Bob."
+	; "Bob caught the ball."
+	; "Tom threw the ball to Jenny."
+	; "Jenny caught the ball."
+	(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E AGENT.N))
+			(!R2 (?X_M AGENT.N))
+			(!R3 (?X_J AGENT.N))
+			(!R4 (?X_N BALL.N))
+		)
+		(:STEPS
+			(?X_B (?X_M (CATCH.V ?X_N)))
+			(?X_D (?X_M (((ADV-A (TO.P ?X_E)) THROW.V) ?X_N)))
+			(?X_G (?X_E (CATCH.V ?X_N)))
+			(?X_I (?X_M (((ADV-A (TO.P ?X_J)) THROW.V) ?X_N)))
+			(?X_L (?X_J (CATCH.V ?X_N)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy caught a ball."
+	; "He threw the ball high into the air."
+	; "He caught the ball before it fell to the ground."
+	; "He ran around the bases."
+	; "He scored a touchdown."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M TOUCHDOWN.N))
+			(!R2 (?X_L (BEFORE.P (KE (?X_K ((ADV-A (TO.P ?X_E)) FALL.V))))))
+			(!R3 (?X_K BALL.N))
+			(!R4 (?X_J AGENT.N))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_J (CATCH.V ?X_K)))
+			(?X_D (?X_J (CATCH.V ?X_K ?X_L)))
+			(?X_I (?X_J ((ADV-A (FROM.P ?L1)) RUN.2.V) ?L2))
+			(?X_B (?X_J (SCORE.V ?X_M)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P ?L1)) RUN.2.V) ?L2) ** E68.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAMMY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P ?L1))))
+			(?P2 (SAMMY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball in his glove."
+	; "He ran to first base."
+	(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_K ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G GLOVE.N))
+			(!R2 (?X_D AIR.N))
+			(!R3 (?X_K BALL.N))
+			(!R4 (?X_G (PERTAIN-TO ?X_J)))
+			(!R5 (?X_L FIRST.A))
+			(!R6 (?X_L BASE.N))
+			(!R7 (?X_J AGENT.N))
+			(!R8 (?X_L DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_J (CATCH.V ?X_K)))
+			(?X_C (?X_J (((ADV-A (INTO.P ?X_D)) THROW.V) ?X_K)))
+			(?X_A (?X_J (((ADV-A (IN.P ?X_G)) CATCH.V) ?X_K)))
+			(?X_I (?X_J ((ADV-A (FROM.P ?L1)) RUN.3.V) ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) BASE104.SK) ** E102.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BASE104.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BASE104.SK)))
+			(!R5 (BASE104.SK DESTINATION.N))
+			(!R6 (BASE104.SK FIRST.A))
+			(!R7 (BASE104.SK BASE.N))
+			(!R8 (GLOVE91.SK GLOVE.N))
+			(!R9 (GLOVE91.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P BASE104.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P BASE104.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P BASE104.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The boy caught a fish."
+	; "He held the fish above his head."
+	; "He threw the fish into the lake."
+	; "The fish swam away."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D LAKE.N))
+			(!R2 (?X_G HEAD.N))
+			(!R3 (?X_K FISH.N))
+			(!R4 (?X_J BOY.N))
+			(!R5 (?X_G (PERTAIN-TO ?X_J)))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_J (CATCH.V ?X_K)))
+			(?X_A (?X_J (((ADV-A (ABOVE.P ?X_G)) HOLD.V) ?X_K)))
+			(?X_C (?X_J (((ADV-A (INTO.P ?X_D)) THROW.V) ?X_K)))
+			(?X_I (?X_K ((ADV-A (FROM.P ?L1)) SWAM.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISH117.SK ((ADV-A (FROM.P ?L1)) SWAM.4.V) ?L2) ** E127.SK)
+		(:ROLES
+			(!R1 (FISH117.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FISH117.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (FISH117.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (FISH117.SK (AT.P ?L1)))
+			(?I2 (NOT (FISH117.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISH117.SK (AT.P ?L1))))
+			(?P2 (FISH117.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sarah caught a ball."
+	; "She threw the ball to her friend."
+	; "She caught a ball that her friend threw."
+	(EPI-SCHEMA ((?X_F (CATCH.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E FRIEND.N))
+			(!R2 (?X_G BALL.N))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_F)))
+			(!R5 (?X_H BALL.N))
+			(!R6 (?X_I FRIEND.N))
+			(!R7 (?X_I (PERTAIN-TO ?X_F)))
+		)
+		(:STEPS
+			(?X_D (?X_F (CATCH.V ?X_G)))
+			(?X_A (?X_F (((ADV-A (TO.P ?X_E)) THROW.V) ?X_G)))
+			(?X_B (?X_F (CATCH.V ?X_H (THAT (?X_I THROW.V)))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "A person caught a ball."
+	; "The person threw the ball."
+	; "The person caught the ball again."
+	(EPI-SCHEMA ((?X_G (CATCH.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G PERSON.N))
+			(!R2 (?X_H BALL.N))
+		)
+		(:STEPS
+			(?X_B (?X_G (CATCH.V ?X_H)))
+			(?X_D (?X_G (THROW.V ?X_H)))
+			(?X_F (?X_G ((AGAIN.ADV CATCH.V) ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY175.SK ((ADV-A (FROM.P ?L1)) RUN.2.V) ?L2) ** E184.SK)
+		(:ROLES
+			(!R1 (BOY175.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY175.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY175.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY175.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY175.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY175.SK (AT.P ?L1))))
+			(?P2 (BOY175.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball before it fell down."
+	; "He caught the ball on the first try."
+	(EPI-SCHEMA ((?X_I (((ADV-A (ON.P ?X_I)) CATCH.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C AIR.N))
+			(!R2 (?X_I AGENT.N))
+			(!R3 (?X_F FIRST.A))
+			(!R4 (?X_F TRY.N))
+			(!R5 (?X_J BALL.N))
+		)
+		(:STEPS
+			(?X_B (?X_I (CATCH.V ?X_J)))
+			(?X_E (?X_I (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_J)))
+			(?X_H (?X_I (((ADV-A (ON.P ?X_F)) CATCH.V) ?X_J)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Bill caught a ball."
+	; "He threw the ball into the air."
+	; "He caught the ball as it fell down."
+	; "He caught the ball while it was falling."
+	; "He caught the ball before it fell."
+	(EPI-SCHEMA ((?X_K (((ADV-A (INTO.P ?X_D)) THROW.V) ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_A BILL.N))
+			(!R2 (?X_D AIR.N))
+			(!R3 (?X_L (WHILE.P (KE (?X_M FALL.V)))))
+			(!R4 (?X_K AGENT.N))
+			(!R5 (?X_M BALL.N))
+			(!R6 (?X_N (BEFORE.P (KE (?X_M FALL.V)))))
+		)
+		(:STEPS
+			(?X_C (?X_A (CATCH.V ?X_M)))
+			(?X_F (?X_K (((ADV-A (INTO.P ?X_D)) THROW.V) ?X_M)))
+			(?X_H (?X_K (CATCH.V ?X_M ?X_L)))
+			(?X_J (?X_K (CATCH.V ?X_M ?X_N)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Jake caught a fish."
+	; "He cleaned the fish."
+	; "He cooked the fish."
+	; "He ate the fish."
+	(EPI-SCHEMA ((?X_H (CLEAN_UP.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I FISH.N))
+			(!R2 (?X_I FOOD.N))
+			(!R3 (?X_H AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_H (CATCH.V ?X_I)))
+			(?X_E (?X_H CLEAN.1.V ?X_I))
+			(?X_C (?X_H (COOK.V ?X_I)))
+			(?X_G (?X_H EAT.2.V ?X_I))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JAKE.NAME CLEAN.1.V FISH2.SK) ** E7.SK)
+		(:ROLES
+			(!R1 (JAKE.NAME AGENT.N))
+			(!R2 (FISH2.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (JAKE.NAME (WANT.V (THAT (NOT (FISH2.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FISH2.SK DIRTY.A))
+			(?I2 (NOT (FISH2.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISH2.SK DIRTY.A)))
+			(?P2 (FISH2.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JAKE.NAME EAT.2.V FISH2.SK) ** E13.SK)
+		(:ROLES
+			(!R1 (JAKE.NAME AGENT.N))
+			(!R2 (FISH2.SK FOOD.N))
+			(!R3 (FISH2.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (JAKE.NAME (WANT.V (THAT (NOT (JAKE.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (JAKE.NAME POSSESS.V FISH2.SK))
+			(?I2 (JAKE.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JAKE.NAME (POSSESS.V FISH2.SK))))
+			(?P2 (NOT (JAKE.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "John caught fish."
+	; "He caught many fish."
+	; "He kept them in his house."
+	; "He cooked them for dinner."
+	(EPI-SCHEMA ((?X_L (CATCH.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K FISH.N))
+			(!R2 (?X_F HOUSE.N))
+			(!R3 (?X_L MANY.A))
+			(!R4 (?X_L FISH.N))
+			(!R5 (?X_J AGENT.N))
+			(!R6 (?X_F (PERTAIN-TO ?X_J)))
+			(!R7 (?X_G DINNER.N))
+		)
+		(:STEPS
+			(?X_C (?X_J (CATCH.V ?X_K)))
+			(?X_E (?X_J (CATCH.V ?X_L)))
+			(?X_A (?X_J (((ADV-A (IN.P ?X_F)) KEEP.V) ?X_L)))
+			(?X_I (?X_J (((ADV-A (FOR.P ?X_G)) COOK.V) ?X_M)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Jim caught a fish."
+	; "He cleaned the fish."
+	; "He cooked the fish."
+	; "He ate the fish."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FISH.N))
+			(!R2 (?X_I AGENT.N))
+			(!R3 (?X_J FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_I CATCH.3.V ?X_J))
+			(?X_F (?X_I CLEAN.1.V ?X_J))
+			(?X_B (?X_I (COOK.V ?X_J)))
+			(?X_H (?X_I EAT.2.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JIM.NAME CATCH.3.V FISH62.SK) ** E63.SK)
+		(:ROLES
+			(!R1 (JIM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (FISH62.SK ENTITY.N))
+			(!R4 (FISH62.SK FISH.N))
+		)
+		(:PRECONDS
+			(?I1 (JIM.NAME (AT.P ?L)))
+			(?I2 (FISH62.SK (AT.P ?L)))
+			(?I3 (JIM.NAME ((ADV-A (FOR.P FISH62.SK)) SEARCH.V)))
+			(?I4 (NOT (JIM.NAME (KNOW.V (THAT (FISH62.SK (AT.P ?L)))))))
+			(?I5 (NOT (JIM.NAME (POSSESS.V FISH62.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (JIM.NAME (KNOW.V (THAT (FISH62.SK (AT.P ?L))))))
+			(?P2 (JIM.NAME (POSSESS.V FISH62.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E63.SK))
+		)
+	)
+	(EPI-SCHEMA ((JIM.NAME CLEAN.1.V FISH62.SK) ** E66.SK)
+		(:ROLES
+			(!R1 (JIM.NAME AGENT.N))
+			(!R2 (FISH62.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (JIM.NAME (WANT.V (THAT (NOT (FISH62.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FISH62.SK DIRTY.A))
+			(?I2 (NOT (FISH62.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISH62.SK DIRTY.A)))
+			(?P2 (FISH62.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JIM.NAME EAT.2.V FISH62.SK) ** E72.SK)
+		(:ROLES
+			(!R1 (JIM.NAME AGENT.N))
+			(!R2 (FISH62.SK FOOD.N))
+			(!R3 (FISH62.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (JIM.NAME (WANT.V (THAT (NOT (JIM.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (JIM.NAME POSSESS.V FISH62.SK))
+			(?I2 (JIM.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JIM.NAME (POSSESS.V FISH62.SK))))
+			(?P2 (NOT (JIM.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A fisherman caught a fish."
+	; "He put the fish on the ground."
+	; "He pulled out his net."
+	; "He held the net over the fish."
+	; "He tried to catch the fish."
+	; "He couldn't catch the fish."
+	(EPI-SCHEMA ((?X_M (CATCH.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K NET.N))
+			(!R2 (?X_L FISH.N))
+			(!R3 (?X_J FISHERMAN.N))
+			(!R4 (?X_K (PERTAIN-TO ?X_J)))
+			(!R5 (?X_M GROUND.N))
+			(!R6 (?X_M LOCATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_J (CATCH.V ?X_L)))
+			(E104.SK (NOT (?X_J ((CAN.MD CATCH.V) ?X_L))))
+			(?X_I (?X_J PUT.4.V ?X_L ?X_M))
+			(?X_A (?X_J (PULL_OUT.V ?X_K)))
+			(?X_E (?X_J (((ADV-A (OVER.P ?X_L)) HOLD.V) ?X_K)))
+			(?X_C (?X_J (TRY.V (KA (CATCH.V ?X_L)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN87.SK PUT.4.V FISH89.SK GROUND93.SK) ** E94.SK)
+		(:ROLES
+			(!R1 (FISHERMAN87.SK AGENT.N))
+			(!R2 (FISH89.SK ENTITY.N))
+			(!R3 (GROUND93.SK LOCATION.N))
+			(!R4 (FISH89.SK FISH.N))
+			(!R5 (FISHERMAN87.SK FISHERMAN.N))
+			(!R6 (GROUND93.SK GROUND.N))
+			(!R7 (NET86.SK (PERTAIN-TO FISHERMAN87.SK)))
+			(!R8 (NET86.SK NET.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN87.SK (WANT.V (THAT (FISH89.SK (AT.P GROUND93.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN87.SK (POSSESS.V FISH89.SK)))
+			(?I2 (FISH89.SK (NOT (AT.P GROUND93.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH89.SK (AT.P GROUND93.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The fisherman caught fish."
+	; "He put them on the boat."
+	; "He threw them into the water."
+	; "He sold some fish."
+	; "He kept some for himself."
+	(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_K ?X_L ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K FISH.N))
+			(!R2 (?X_E WATER.N))
+			(!R3 (?X_L FISH.N))
+			(!R4 (?X_J FISHERMAN.N))
+			(!R5 (?X_M BOAT.N))
+			(!R6 (?X_M LOCATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_J (CATCH.V ?X_L)))
+			(?X_I (?X_J PUT.4.V ?X_L ?X_M))
+			(?X_D (?X_J (((ADV-A (INTO.P ?X_E)) THROW.V) ?X_L)))
+			(?X_B (?X_J (SELL.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FISHERMAN115.SK PUT.4.V FISH119.SK BOAT121.SK) ** E122.SK)
+		(:ROLES
+			(!R1 (FISHERMAN115.SK AGENT.N))
+			(!R2 (FISH119.SK ENTITY.N))
+			(!R3 (BOAT121.SK LOCATION.N))
+			(!R4 (FISH119.SK FISH.N))
+			(!R5 (FISHERMAN115.SK FISHERMAN.N))
+			(!R6 (BOAT121.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (FISHERMAN115.SK (WANT.V (THAT (FISH119.SK (AT.P BOAT121.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (FISHERMAN115.SK (POSSESS.V FISH119.SK)))
+			(?I2 (FISH119.SK (NOT (AT.P BOAT121.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FISH119.SK (AT.P BOAT121.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary caught a fish."
+	; "She cleaned the fish."
+	; "She cooked the fish."
+	; "She ate the fish."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FISH.N))
+			(!R2 (?X_I AGENT.N))
+			(!R3 (?X_J FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_I CATCH.3.V ?X_J))
+			(?X_F (?X_I CLEAN.1.V ?X_J))
+			(?X_B (?X_I (COOK.V ?X_J)))
+			(?X_H (?X_I EAT.2.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME CATCH.3.V FISH150.SK) ** E151.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (FISH150.SK ENTITY.N))
+			(!R4 (FISH150.SK FISH.N))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (AT.P ?L)))
+			(?I2 (FISH150.SK (AT.P ?L)))
+			(?I3 (MARY.NAME ((ADV-A (FOR.P FISH150.SK)) SEARCH.V)))
+			(?I4 (NOT (MARY.NAME (KNOW.V (THAT (FISH150.SK (AT.P ?L)))))))
+			(?I5 (NOT (MARY.NAME (POSSESS.V FISH150.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (MARY.NAME (KNOW.V (THAT (FISH150.SK (AT.P ?L))))))
+			(?P2 (MARY.NAME (POSSESS.V FISH150.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E151.SK))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME CLEAN.1.V FISH150.SK) ** E154.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (FISH150.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (FISH150.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FISH150.SK DIRTY.A))
+			(?I2 (NOT (FISH150.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FISH150.SK DIRTY.A)))
+			(?P2 (FISH150.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME EAT.2.V FISH150.SK) ** E160.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (FISH150.SK FOOD.N))
+			(!R3 (FISH150.SK FISH.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (MARY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME POSSESS.V FISH150.SK))
+			(?I2 (MARY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MARY.NAME (POSSESS.V FISH150.SK))))
+			(?P2 (NOT (MARY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Joe caught a fish."
+	; "He threw the fish into the lake."
+	; "He caught another fish."
+	; "He threw the fish into the lake."
+	; "He caught another fish."
+	; "He threw the fish into the lake."
+	(EPI-SCHEMA ((?X_N (((ADV-A (IN.P ?X_K)) CATCH.V) ?X_P)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P FISH.N))
+			(!R2 (?X_O FISH.N))
+			(!R3 (?X_Q FISH.N))
+			(!R4 (?X_K LAKE.N))
+			(!R5 (?X_N AGENT.N))
+		)
+		(:STEPS
+			(?X_M (?X_N CATCH.3.V ?X_Q))
+			(?X_J (?X_N (((ADV-A (INTO.P ?X_K)) THROW.V) ?X_Q)))
+			(?X_H (?X_N (CATCH.V (ANOTHER.D FISH.N))))
+			(?X_F (?X_N (((ADV-A (INTO.P ?X_K)) THROW.V) ?X_O)))
+			(?X_D (?X_N (CATCH.V (ANOTHER.D FISH.N))))
+			(?X_B (?X_N (((ADV-A (INTO.P ?X_K)) THROW.V) ?X_P)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JOE.NAME CATCH.3.V FISH174.SK) ** E175.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (FISH174.SK ENTITY.N))
+			(!R4 (FISH174.SK FISH.N))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (AT.P ?L)))
+			(?I2 (FISH174.SK (AT.P ?L)))
+			(?I3 (JOE.NAME ((ADV-A (FOR.P FISH174.SK)) SEARCH.V)))
+			(?I4 (NOT (JOE.NAME (KNOW.V (THAT (FISH174.SK (AT.P ?L)))))))
+			(?I5 (NOT (JOE.NAME (POSSESS.V FISH174.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (JOE.NAME (KNOW.V (THAT (FISH174.SK (AT.P ?L))))))
+			(?P2 (JOE.NAME (POSSESS.V FISH174.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E175.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught fish."
+	; "He caught many fish."
+	; "He caught some fish."
+	; "He caught one fish."
+	(EPI-SCHEMA ((?X_A (CATCH.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_A AGENT.N))
+			(!R2 (?X_K FISH.N))
+			(!R3 (?X_L MANY.A))
+			(!R4 (?X_L FISH.N))
+			(!R5 (?X_M FISH.N))
+			(!R6 (?X_J AGENT.N))
+			(!R7 (?X_N FISH.N))
+		)
+		(:STEPS
+			(?X_C (?X_A (CATCH.V ?X_K)))
+			(?X_E (?X_J (CATCH.V ?X_L)))
+			(?X_G (?X_J (CATCH.V ?X_M)))
+			(?X_I (?X_J (CATCH.V ?X_N)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Jack caught fish."
+	; "He put them on the table."
+	; "He cooked them for dinner."
+	; "He ate his dinner."
+	(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_K ?X_L ?X_M ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D DINNER.N))
+			(!R2 (?X_K FISH.N))
+			(!R3 (?X_G AGENT.N))
+			(!R4 (?X_M TABLE.N))
+			(!R5 (?X_N DINNER.N))
+			(!R6 (?X_N (PERTAIN-TO ?X_J)))
+			(!R7 (?X_M LOCATION.N))
+			(!R8 (?X_L ENTITY.N))
+			(!R9 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_F (?X_G (CATCH.V ?X_K)))
+			(?X_I (?X_J PUT.4.V ?X_L ?X_M))
+			(?X_C (?X_J (((ADV-A (FOR.P ?X_D)) COOK.V) ?X_L)))
+			(?X_A (?X_J EAT.2.V ?X_N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((HE-PRO241.SK PUT.4.V THEM-PRO242.SK TABLE234.SK) ** E235.SK)
+		(:ROLES
+			(!R1 (HE-PRO241.SK AGENT.N))
+			(!R2 (THEM-PRO242.SK ENTITY.N))
+			(!R3 (TABLE234.SK LOCATION.N))
+			(!R4 (TABLE234.SK TABLE.N))
+			(!R5 (DINNER228.SK DINNER.N))
+			(!R6 (DINNER228.SK (PERTAIN-TO HE-PRO241.SK)))
+		)
+		(:GOALS
+			(?G1 (HE-PRO241.SK (WANT.V (THAT (THEM-PRO242.SK (AT.P TABLE234.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO241.SK (POSSESS.V THEM-PRO242.SK)))
+			(?I2 (THEM-PRO242.SK (NOT (AT.P TABLE234.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (THEM-PRO242.SK (AT.P TABLE234.SK)))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO241.SK EAT.2.V DINNER228.SK) ** E227.SK)
+		(:ROLES
+			(!R1 (HE-PRO241.SK AGENT.N))
+			(!R2 (DINNER228.SK FOOD.N))
+			(!R3 (DINNER228.SK DINNER.N))
+			(!R4 (DINNER228.SK (PERTAIN-TO HE-PRO241.SK)))
+		)
+		(:GOALS
+			(?G1 (HE-PRO241.SK (WANT.V (THAT (NOT (HE-PRO241.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO241.SK POSSESS.V DINNER228.SK))
+			(?I2 (HE-PRO241.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO241.SK (POSSESS.V DINNER228.SK))))
+			(?P2 (NOT (HE-PRO241.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy caught fish."
+	; "He caught lots of fish."
+	; "He sold them for money."
+	; "He kept the money."
+	; "He spent some of the money on candy."
+	(EPI-SCHEMA ((?X_P (CATCH.V ?X_O)) ** ?E)
+		(:ROLES
+			(!R1 (?X_Q {REF}.N))
+			(!R2 (?X_Q (OF.P ?X_C)))
+			(!R3 (?X_D CANDY.N))
+			(!R4 (?X_O FISH.N))
+			(!R5 (?X_P MONEY.N))
+			(!R6 (?X_N (PLUR LOT.N)))
+			(!R7 (?X_N (OF.P ?X_O)))
+			(!R8 (?X_M BOY.N))
+			(!R9 (?X_R FISH.N))
+		)
+		(:STEPS
+			(?X_L (?X_M CATCH.3.V ?X_R))
+			(?X_J (?X_M (CATCH.V ?X_N)))
+			(?X_H (?X_M (((ADV-A (FOR.P ?X_P)) SELL.V) ?X_O)))
+			(?X_F (?X_M (KEEP.V ?X_P)))
+			(?X_B (?X_M (((ADV-A (ON.P ?X_D)) SPEND.V) ?X_Q)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY253.SK CATCH.3.V FISH257.SK) ** E255.SK)
+		(:ROLES
+			(!R1 (BOY253.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (FISH257.SK ENTITY.N))
+			(!R4 (FISH257.SK FISH.N))
+			(!R5 (BOY253.SK BOY.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY253.SK (AT.P ?L)))
+			(?I2 (FISH257.SK (AT.P ?L)))
+			(?I3 (BOY253.SK ((ADV-A (FOR.P FISH257.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY253.SK (KNOW.V (THAT (FISH257.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY253.SK (POSSESS.V FISH257.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY253.SK (KNOW.V (THAT (FISH257.SK (AT.P ?L))))))
+			(?P2 (BOY253.SK (POSSESS.V FISH257.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E255.SK))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Lisa caught bugs on her shirt."
+	; "She put them in a jar."
+	; "She looked for bugs on her shirt."
+	; "She found some bugs."
+	; "She put them in a jar."
+	(EPI-SCHEMA ((?X_L (((ADV-A (IN.P ?X_H)) FIND.V) ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N (PLUR BUG.N)))
+			(!R2 (?X_E (PLUR BUG.N)))
+			(!R3 (?X_H JAR.N))
+			(!R4 (?X_M (PLUR BUG.N)))
+			(!R5 (?X_I SHIRT.N))
+			(!R6 (?X_I (PERTAIN-TO ?X_L)))
+			(!R7 (?X_O JAR.N))
+			(!R8 (?X_O LOCATION.N))
+			(!R9 (?X_L AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_L (((ADV-A (ON.P ?X_I)) CATCH.V) ?X_M)))
+			(?X_G (?X_L (((ADV-A (IN.P ?X_H)) PUT.V) ?X_M)))
+			(?X_B (?X_L ((ADV-A (FOR.P ?X_E)) ((ADV-A (ON.P ?X_I)) LOOK.V))))
+			(?X_D (?X_L (FIND.V ?X_N)))
+			(?X_K (?X_L PUT.1.V ?X_N ?X_O))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((LISA.NAME PUT.1.V BUG17.SK JAR19.SK) ** E20.SK)
+		(:ROLES
+			(!R1 (LISA.NAME AGENT.N))
+			(!R2 (BUG17.SK ENTITY.N))
+			(!R3 (JAR19.SK LOCATION.N))
+			(!R4 (BUG17.SK (PLUR BUG.N)))
+			(!R5 (JAR19.SK JAR.N))
+			(!R6 (SHIRT2.SK SHIRT.N))
+			(!R7 (SHIRT2.SK (PERTAIN-TO LISA.NAME)))
+		)
+		(:GOALS
+			(?G1 (LISA.NAME (WANT.V (THAT (BUG17.SK (AT.P JAR19.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (LISA.NAME (POSSESS.V BUG17.SK)))
+			(?I2 (BUG17.SK (NOT (AT.P JAR19.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BUG17.SK (AT.P JAR19.SK)))
+		)
+	)
+	(EPI-SCHEMA ((LISA.NAME PUT.1.V BUG17.SK JAR19.SK) ** E20.SK)
+		(:ROLES
+			(!R1 (LISA.NAME AGENT.N))
+			(!R2 (BUG17.SK ENTITY.N))
+			(!R3 (JAR19.SK LOCATION.N))
+			(!R4 (BUG17.SK (PLUR BUG.N)))
+			(!R5 (JAR19.SK JAR.N))
+			(!R6 (SHIRT2.SK SHIRT.N))
+			(!R7 (SHIRT2.SK (PERTAIN-TO LISA.NAME)))
+		)
+		(:GOALS
+			(?G1 (LISA.NAME (WANT.V (THAT (BUG17.SK (AT.P JAR19.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (LISA.NAME (POSSESS.V BUG17.SK)))
+			(?I2 (BUG17.SK (NOT (AT.P JAR19.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BUG17.SK (AT.P JAR19.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The boy caught an insect."
+	; "He put it on a piece of paper."
+	; "He showed it to his friend."
+	; "His friend said it was a spider."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR (THT (?X_J SPIDER.N)) ?X_J ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E FRIEND.N))
+			(!R2 (?X_J INSECT.N))
+			(!R3 (?X_I BOY.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_I)))
+			(!R5 (?X_H PAPER.N))
+			(!R6 (?X_K PIECE.N))
+			(!R7 (?X_K (OF.P ?X_H)))
+			(!R8 (?X_K LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_I (CATCH.V ?X_J)))
+			(?X_G (?X_I PUT.1.V ?X_J ?X_K))
+			(?X_A (?X_I (((ADV-A (TO.P ?X_E)) SHOW.V) ?X_J)))
+			(?X_B (?X_E (SAY.V (THT (?X_J SPIDER.N)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY37.SK PUT.1.V INSECT39.SK PIECE46.SK) ** E43.SK)
+		(:ROLES
+			(!R1 (BOY37.SK AGENT.N))
+			(!R2 (INSECT39.SK ENTITY.N))
+			(!R3 (PIECE46.SK LOCATION.N))
+			(!R4 (INSECT39.SK INSECT.N))
+			(!R5 (BOY37.SK BOY.N))
+			(!R6 (PIECE46.SK PIECE.N))
+			(!R7 (PAPER45.SK PAPER.N))
+			(!R8 (PIECE46.SK (OF.P PAPER45.SK)))
+			(!R9 (FRIEND34.SK (PERTAIN-TO BOY37.SK)))
+			(!R10 (FRIEND34.SK FRIEND.N))
+		)
+		(:GOALS
+			(?G1 (BOY37.SK (WANT.V (THAT (INSECT39.SK (AT.P PIECE46.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY37.SK (POSSESS.V INSECT39.SK)))
+			(?I2 (INSECT39.SK (NOT (AT.P PIECE46.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (INSECT39.SK (AT.P PIECE46.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Lily caught an ant."
+	; "She put it on a piece of paper."
+	; "She wrote down what she saw."
+	; "She watched ants for a while."
+	; "She found many other things."
+	(EPI-SCHEMA ((?X_M
+	              (COMPOSITE-SCHEMA.PR ?X_J ?X_K ?X_L
+	               (ANS-TO (?X_M (SEE.V ?X_N)))))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_J MANY.A))
+			(!R2 (?X_J OTHER.A))
+			(!R3 (?X_J (PLUR THING.N)))
+			(!R4 (?X_K ANT.N))
+			(!R5 (?X_G PAPER.N))
+			(!R6 (?X_L PIECE.N))
+			(!R7 (?X_L (OF.P ?X_G)))
+			(!R8 (?X_M AGENT.N))
+			(!R9 (?X_L LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_M (CATCH.V ?X_K)))
+			(?X_F (?X_M PUT.1.V ?X_K ?X_L))
+			(?X_I (?X_M WRITE_DOWN.2.V (ANS-TO (?X_M (SEE.V ?X_N)))))
+			(?X_B (?X_M (FIND.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((LILY.NAME PUT.1.V ANT63.SK PIECE70.SK) ** E67.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (ANT63.SK ENTITY.N))
+			(!R3 (PIECE70.SK LOCATION.N))
+			(!R4 (ANT63.SK ANT.N))
+			(!R5 (PIECE70.SK PIECE.N))
+			(!R6 (PAPER69.SK PAPER.N))
+			(!R7 (PIECE70.SK (OF.P PAPER69.SK)))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (THAT (ANT63.SK (AT.P PIECE70.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME (POSSESS.V ANT63.SK)))
+			(?I2 (ANT63.SK (NOT (AT.P PIECE70.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (ANT63.SK (AT.P PIECE70.SK)))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME WRITE_DOWN.2.V (ANS-TO (LILY.NAME (SEE.V WHAT.PRO))))
+	             ** E73.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 ((ANS-TO (LILY.NAME (SEE.V WHAT.PRO))) ENTITY.N))
+			(!R3 (?L LOCATION.N))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME (AT.P ?L)))
+			(?I2 ((ANS-TO (LILY.NAME (SEE.V WHAT.PRO))) (AT.P ?L)))
+			(?I3 ((ANS-TO (LILY.NAME (SEE.V WHAT.PRO))) (NEAR.P LILY.NAME)))
+		)
+		(:POSTCONDS
+			(?P1
+	   (LILY.NAME
+	    (KNOW.V (THAT ((ANS-TO (LILY.NAME (SEE.V WHAT.PRO))) (AT.P ?L))))))
+			(?P2
+	   (LILY.NAME
+	    (KNOW.V (THAT ((ANS-TO (LILY.NAME (SEE.V WHAT.PRO))) (NEAR.P LILY.NAME))))))
+			(?P3 ((ANS-TO (LILY.NAME (SEE.V WHAT.PRO))) (NEAR.P LILY.NAME)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary caught an ant."
+	; "She put it on a piece of paper."
+	; "She wrote down what she found."
+	; "She put the paper away."
+	(EPI-SCHEMA ((?X_I (CATCH.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K ANT.N))
+			(!R2 (?X_L PIECE.N))
+			(!R3 (?X_M PAPER.N))
+			(!R4 (?X_L (OF.P ?X_M)))
+			(!R5 (?X_L LOCATION.N))
+			(!R6 (?X_I AGENT.N))
+			(!R7 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_I (CATCH.V ?X_K)))
+			(?X_F (?X_I PUT.1.V ?X_K ?X_L))
+			(?X_B (?X_I (WRITE_DOWN.V (ANS-TO (?X_I (FIND.V ?X_J))))))
+			(?X_H (?X_I PUT.3.V ?X_M ?L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME PUT.1.V ANT106.SK PIECE113.SK) ** E110.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (ANT106.SK ENTITY.N))
+			(!R3 (PIECE113.SK LOCATION.N))
+			(!R4 (ANT106.SK ANT.N))
+			(!R5 (PIECE113.SK PIECE.N))
+			(!R6 (PIECE113.SK (OF.P PAPER112.SK)))
+			(!R7 (PAPER112.SK PAPER.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (ANT106.SK (AT.P PIECE113.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V ANT106.SK)))
+			(?I2 (ANT106.SK (NOT (AT.P PIECE113.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (ANT106.SK (AT.P PIECE113.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.3.V PAPER112.SK ?L) ** E119.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (PAPER112.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (PAPER112.SK PAPER.N))
+			(!R5 (PIECE113.SK PIECE.N))
+			(!R6 (PIECE113.SK (OF.P PAPER112.SK)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (PAPER112.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V PAPER112.SK)))
+			(?I2 (PAPER112.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (PAPER112.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sue caught an ant."
+	; "She put it on a piece of paper."
+	; "She put the paper in a box."
+	; "She closed the lid of the box."
+	(EPI-SCHEMA ((?X_G (((ADV-A (IN.P ?X_L)) PUT.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H LID.N))
+			(!R2 (?X_I ANT.N))
+			(!R3 (?X_J PIECE.N))
+			(!R4 (?X_K PAPER.N))
+			(!R5 (?X_J (OF.P ?X_K)))
+			(!R6 (?X_L BOX.N))
+			(!R7 (?X_H (OF.P ?X_L)))
+			(!R8 (?X_J LOCATION.N))
+			(!R9 (?X_G AGENT.N))
+			(!R10 (?X_L LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_G PUT.1.V ?X_I ?X_J))
+			(?X_F (?X_G PUT.1.V ?X_K ?X_L))
+			(?X_B (?X_G (CLOSE.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SHE-PRO158.SK PUT.1.V ANT142.SK PIECE148.SK) ** E145.SK)
+		(:ROLES
+			(!R1 (SHE-PRO158.SK AGENT.N))
+			(!R2 (ANT142.SK ENTITY.N))
+			(!R3 (PIECE148.SK LOCATION.N))
+			(!R4 (ANT142.SK ANT.N))
+			(!R5 (PIECE148.SK PIECE.N))
+			(!R6 (PIECE148.SK (OF.P PAPER147.SK)))
+			(!R7 (PAPER147.SK PAPER.N))
+		)
+		(:GOALS
+			(?G1 (SHE-PRO158.SK (WANT.V (THAT (ANT142.SK (AT.P PIECE148.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO158.SK (POSSESS.V ANT142.SK)))
+			(?I2 (ANT142.SK (NOT (AT.P PIECE148.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (ANT142.SK (AT.P PIECE148.SK)))
+		)
+	)
+	(EPI-SCHEMA ((SHE-PRO158.SK PUT.1.V PAPER147.SK BOX151.SK) ** E152.SK)
+		(:ROLES
+			(!R1 (SHE-PRO158.SK AGENT.N))
+			(!R2 (PAPER147.SK ENTITY.N))
+			(!R3 (BOX151.SK LOCATION.N))
+			(!R4 (PAPER147.SK PAPER.N))
+			(!R5 (BOX151.SK BOX.N))
+			(!R6 (PIECE148.SK PIECE.N))
+			(!R7 (PIECE148.SK (OF.P PAPER147.SK)))
+			(!R8 (LID157.SK LID.N))
+			(!R9 (LID157.SK (OF.P BOX151.SK)))
+		)
+		(:GOALS
+			(?G1 (SHE-PRO158.SK (WANT.V (THAT (PAPER147.SK (AT.P BOX151.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO158.SK (POSSESS.V PAPER147.SK)))
+			(?I2 (PAPER147.SK (NOT (AT.P BOX151.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (PAPER147.SK (AT.P BOX151.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen caught bugs."
+	; "She put them on a plate."
+	; "She ate them."
+	; "She liked eating bugs."
+	(EPI-SCHEMA ((?X_I (EAT.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K (PLUR BUG.N)))
+			(!R2 (?X_J PLATE.N))
+			(!R3 (?X_L (PLUR BUG.N)))
+			(!R4 (?X_J LOCATION.N))
+			(!R5 (?X_K FOOD.N))
+			(!R6 ((KA (EAT.V ?X_L)) ACTION.N))
+			(!R7 (?X_I AGENT.N))
+			(!R8 (?X_L FOOD.N))
+		)
+		(:STEPS
+			(?X_B (?X_I (CATCH.V ?X_K)))
+			(?X_D (?X_I PUT.1.V ?X_K ?X_J))
+			(?X_F (?X_I EAT.4.V ?X_K))
+			(?X_H (?X_I LIKE.5.V (KA (EAT.V ?X_L))))
+			(?E_1 (?X_I EAT.6.V ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME PUT.1.V BUG179.SK PLATE181.SK) ** E182.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (BUG179.SK ENTITY.N))
+			(!R3 (PLATE181.SK LOCATION.N))
+			(!R4 (BUG179.SK (PLUR BUG.N)))
+			(!R5 (PLATE181.SK PLATE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (BUG179.SK (AT.P PLATE181.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (POSSESS.V BUG179.SK)))
+			(?I2 (BUG179.SK (NOT (AT.P PLATE181.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BUG179.SK (AT.P PLATE181.SK)))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME EAT.4.V BUG179.SK) ** E184.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (BUG179.SK FOOD.N))
+			(!R3 (BUG179.SK (PLUR BUG.N)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (KAREN.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME POSSESS.V BUG179.SK))
+			(?I2 (KAREN.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (POSSESS.V BUG179.SK))))
+			(?P2 (NOT (KAREN.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME LIKE.5.V (KA (EAT.V BUG188.SK))) ** E186.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 ((KA (EAT.V BUG188.SK)) ACTION.N))
+			(!R3 (BUG188.SK (PLUR BUG.N)))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (THINK.V (THAT ((KA (EAT.V BUG188.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME EAT.6.V BUG188.SK) ** ?E)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (BUG188.SK FOOD.N))
+			(!R3 (BUG188.SK (PLUR BUG.N)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (KAREN.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME POSSESS.V BUG188.SK))
+			(?I2 (KAREN.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (POSSESS.V BUG188.SK))))
+			(?P2 (NOT (KAREN.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy caught an insect."
+	; "He put it in a jar."
+	; "He kept it in the house."
+	(EPI-SCHEMA ((?X_C (CATCH.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C HOUSE.N))
+			(!R2 (?X_I INSECT.N))
+			(!R3 (?X_H BOY.N))
+			(!R4 (?X_J JAR.N))
+			(!R5 (?X_J LOCATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_H (CATCH.V ?X_I)))
+			(?X_G (?X_H PUT.1.V ?X_I ?X_J))
+			(?X_B (?X_H (((ADV-A (IN.P ?X_C)) KEEP.V) ?X_I)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY199.SK PUT.1.V INSECT201.SK JAR204.SK) ** E205.SK)
+		(:ROLES
+			(!R1 (BOY199.SK AGENT.N))
+			(!R2 (INSECT201.SK ENTITY.N))
+			(!R3 (JAR204.SK LOCATION.N))
+			(!R4 (INSECT201.SK INSECT.N))
+			(!R5 (BOY199.SK BOY.N))
+			(!R6 (JAR204.SK JAR.N))
+		)
+		(:GOALS
+			(?G1 (BOY199.SK (WANT.V (THAT (INSECT201.SK (AT.P JAR204.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY199.SK (POSSESS.V INSECT201.SK)))
+			(?I2 (INSECT201.SK (NOT (AT.P JAR204.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (INSECT201.SK (AT.P JAR204.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Maggie caught bugs on her porch."
+	; "She put them in jars."
+	; "She kept them in her garage."
+	(EPI-SCHEMA ((?X_H (((ADV-A (IN.P ?X_J)) CATCH.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C GARAGE.N))
+			(!R2 (?X_C (PERTAIN-TO ?X_H)))
+			(!R3 (?X_I (PLUR BUG.N)))
+			(!R4 (?X_D PORCH.N))
+			(!R5 (?X_E AGENT.N))
+			(!R6 (?X_D (PERTAIN-TO ?X_E)))
+			(!R7 (?X_J (PLUR JAR.N)))
+			(!R8 (?X_H AGENT.N))
+			(!R9 (?X_J LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_E (((ADV-A (ON.P ?X_D)) CATCH.V) ?X_I)))
+			(?X_G (?X_H PUT.1.V ?X_I ?X_J))
+			(?X_B (?X_H (((ADV-A (IN.P ?X_C)) KEEP.V) ?X_I)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SHE-PRO237.SK PUT.1.V BUG231.SK JAR235.SK) ** E233.SK)
+		(:ROLES
+			(!R1 (SHE-PRO237.SK AGENT.N))
+			(!R2 (BUG231.SK ENTITY.N))
+			(!R3 (JAR235.SK LOCATION.N))
+			(!R4 (BUG231.SK (PLUR BUG.N)))
+			(!R5 (JAR235.SK (PLUR JAR.N)))
+			(!R6 (GARAGE228.SK GARAGE.N))
+			(!R7 (GARAGE228.SK (PERTAIN-TO SHE-PRO237.SK)))
+		)
+		(:GOALS
+			(?G1 (SHE-PRO237.SK (WANT.V (THAT (BUG231.SK (AT.P JAR235.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO237.SK (POSSESS.V BUG231.SK)))
+			(?I2 (BUG231.SK (NOT (AT.P JAR235.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BUG231.SK (AT.P JAR235.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom caught a fly."
+	; "He put it on a piece of paper."
+	; "He showed it to Bob."
+	; "Bob thought Tom's fly looked funny."
+	(EPI-SCHEMA ((?X_E (CATCH.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L FLY.N))
+			(!R2 (?X_E AGENT.N))
+			(!R3 (?X_L (PERTAIN-TO ?X_K)))
+			(!R4 (?X_J PAPER.N))
+			(!R5 (?X_M PIECE.N))
+			(!R6 (?X_M (OF.P ?X_J)))
+			(!R7 (?X_M LOCATION.N))
+			(!R8 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_G (?X_K CATCH.7.V ?X_L))
+			(?X_I (?X_K PUT.1.V ?X_L ?X_M))
+			(?X_D (?X_K (((ADV-A (TO.P ?X_E)) SHOW.V) ?X_L)))
+			(?X_B (?X_E (THINK.V (THT (?X_L (LOOK.V FUNNY.A))))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CATCH.7.V FLY257.SK) ** E258.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (FLY257.SK ENTITY.N))
+			(!R4 (FLY257.SK FLY.N))
+			(!R5 (FLY257.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (FLY257.SK (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P FLY257.SK)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (FLY257.SK (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V FLY257.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (FLY257.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V FLY257.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E258.SK))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.1.V FLY257.SK PIECE264.SK) ** E261.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (FLY257.SK ENTITY.N))
+			(!R3 (PIECE264.SK LOCATION.N))
+			(!R4 (FLY257.SK FLY.N))
+			(!R5 (FLY257.SK (PERTAIN-TO TOM.NAME)))
+			(!R6 (PIECE264.SK PIECE.N))
+			(!R7 (PAPER263.SK PAPER.N))
+			(!R8 (PIECE264.SK (OF.P PAPER263.SK)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (FLY257.SK (AT.P PIECE264.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V FLY257.SK)))
+			(?I2 (FLY257.SK (NOT (AT.P PIECE264.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FLY257.SK (AT.P PIECE264.SK)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "A fire started in the kitchen."
+	; "The fire burned the stove."
+	; "The firemen put out the fire."
+	(EPI-SCHEMA ((?X_H ((ADV-A (IN.P ?X_C)) START.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C KITCHEN.N))
+			(!R2 (?X_G STOVE.N))
+			(!R3 (?X_F (PLUR FIREMAN.N)))
+			(!R4 (?X_H FIRE.N))
+		)
+		(:STEPS
+			(?X_A (?X_H ((ADV-A (IN.P ?X_C)) START.V)))
+			(?X_E (?X_H (BURN.V ?X_G)))
+			(?X_B (?X_F (PUT_OUT.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy liked to play outside."
+	; "He played with matches."
+	; "The sun was shining."
+	; "Sammy's clothes were wet."
+	; "He caught on fire."
+	(EPI-SCHEMA ((?X_K (LIKE.V (KA PLAY.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_L FIRE.N))
+			(!R2 (?X_E SUN.N))
+			(!R3 (?X_H WET.A))
+			(!R4 (?X_H (PLUR CLOTHE.N)))
+			(!R5 (?X_H (PERTAIN-TO ?X_K)))
+			(!R6 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
+			(!R7 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_G (?X_K LIKE.1.V (KA (OUTSIDE.ADV PLAY.V))))
+			(?X_J (?X_K PLAY.2.V))
+			(?X_D (?X_E SHINE.V))
+			(?X_B (?X_K (CATCH_ON.V ?X_L)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME LIKE.1.V (KA (OUTSIDE.ADV PLAY.V))) ** E31.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 ((KA (OUTSIDE.ADV PLAY.V)) ACTION.N))
+			(!R3 (CLOTHE41.SK WET.A))
+			(!R4 (CLOTHE41.SK (PERTAIN-TO SAMMY.NAME)))
+			(!R5 (CLOTHE41.SK (PLUR CLOTHE.N)))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (THINK.V (THAT ((KA (OUTSIDE.ADV PLAY.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME PLAY.2.V) ** E34.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (CLOTHE41.SK WET.A))
+			(!R7 (CLOTHE41.SK (PERTAIN-TO SAMMY.NAME)))
+			(!R8 (CLOTHE41.SK (PLUR CLOTHE.N)))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (SAMMY.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy was playing outside."
+	; "He lit a match."
+	; "He threw it into a pile of leaves."
+	; "The leaves caught on fire."
+	; "The boy ran away."
+	(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_L ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C PILE.N))
+			(!R2 (?X_C (OF.P ?X_D)))
+			(!R3 (?X_L MATCH.N))
+			(!R4 (?X_K BOY.N))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_H (?X_K PLAY.2.V))
+			(?X_F (?X_K (LIGHT.V ?X_L)))
+			(?X_B (?X_K (((ADV-A (INTO.P ?X_C)) THROW.V) ?X_L)))
+			(?X_J (?X_K ((ADV-A (FROM.P ?L1)) RUN_AWAY.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CHILD144.SK PLAY.2.V) ** E147.SK)
+		(:ROLES
+			(!R1 (CHILD144.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (CHILD144.SK CHILD.N))
+		)
+		(:GOALS
+			(?G1 (CHILD144.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (CHILD144.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (CHILD144.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CHILD144.SK ((ADV-A (FROM.P FIRE168.SK)) RUN.3.V) ?L2) ** E169.SK)
+		(:ROLES
+			(!R1 (CHILD144.SK AGENT.N))
+			(!R2 (FIRE168.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (FIRE168.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CHILD144.SK CHILD.N))
+			(!R7 (FIRE168.SK FIRE.N))
+		)
+		(:GOALS
+			(?G1 (CHILD144.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CHILD144.SK (AT.P FIRE168.SK)))
+			(?I2 (NOT (CHILD144.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CHILD144.SK (AT.P FIRE168.SK))))
+			(?P2 (CHILD144.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY185.SK PLAY.2.V) ** E187.SK)
+		(:ROLES
+			(!R1 (BOY185.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (BOY185.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY185.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY185.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (BOY185.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY185.SK ((ADV-A (FROM.P ?L1)) RUN_AWAY.4.V) ?L2) ** E204.SK)
+		(:ROLES
+			(!R1 (BOY185.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY185.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY185.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY185.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY185.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY185.SK (AT.P ?L1))))
+			(?P2 (BOY185.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Alfred was cooking something."
+	; "He put some oil in a pan."
+	; "He heated the pan over the stove."
+	; "The oil started to smoke."
+	; "The smoke filled the kitchen."
+	; "Alfred ran from the kitchen."
+	(EPI-SCHEMA ((?X_R SMOKE.V) ** ?E)
+		(:ROLES
+			(!R1 (?X_Q KITCHEN.N))
+			(!R2 (?X_C SMOKE.N))
+			(!R3 (?X_R OIL.N))
+			(!R4 (?X_S PAN.N))
+			(!R5 (?X_H STOVE.N))
+			(!R6 (?X_P THING.N))
+			(!R7 (?X_S LOCATION.N))
+			(!R8 (?X_Q LOCATION.N))
+			(!R9 (?X_O AGENT.N))
+			(!R10 (NOT (?X_Q = ?L2)))
+			(!R11 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_J (?X_O (COOK.V ?X_P)))
+			(?X_L (?X_O PUT.5.V ?X_R ?X_S))
+			(?X_G (?X_O (((ADV-A (OVER.P ?X_H)) HEAT.V) ?X_S)))
+			(?X_E (?X_R ((ADV-A (FOR.P (KA SMOKE.V))) START.V)))
+			(?X_B (?X_C (FILL.V ?X_Q)))
+			(?X_N (?X_O ((ADV-A (FROM.P ?X_Q)) RUN.3.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((ALFRED.NAME PUT.5.V OIL223.SK PAN224.SK) ** E225.SK)
+		(:ROLES
+			(!R1 (ALFRED.NAME AGENT.N))
+			(!R2 (OIL223.SK ENTITY.N))
+			(!R3 (PAN224.SK LOCATION.N))
+			(!R4 (OIL223.SK OIL.N))
+			(!R5 (PAN224.SK PAN.N))
+		)
+		(:GOALS
+			(?G1 (ALFRED.NAME (WANT.V (THAT (OIL223.SK (AT.P PAN224.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (ALFRED.NAME (POSSESS.V OIL223.SK)))
+			(?I2 (OIL223.SK (NOT (AT.P PAN224.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (OIL223.SK (AT.P PAN224.SK)))
+		)
+	)
+	(EPI-SCHEMA ((ALFRED.NAME ((ADV-A (FROM.P KITCHEN235.SK)) RUN.3.V) ?L2) **
+	             E239.SK)
+		(:ROLES
+			(!R1 (ALFRED.NAME AGENT.N))
+			(!R2 (KITCHEN235.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (KITCHEN235.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (KITCHEN235.SK KITCHEN.N))
+		)
+		(:GOALS
+			(?G1 (ALFRED.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (ALFRED.NAME (AT.P KITCHEN235.SK)))
+			(?I2 (NOT (ALFRED.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ALFRED.NAME (AT.P KITCHEN235.SK))))
+			(?P2 (ALFRED.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man put gasoline on the stove."
+	; "He turned on the gas burner."
+	; "The flame came on."
+	; "The gas started to burn."
+	(EPI-SCHEMA ((?X_M ((ADV-A (ON.P ?X_M)) TURN.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E FLAME.N))
+			(!R2 (?X_K GAS.N))
+			(!R3 (?X_K BURNER.N))
+			(!R4 (?X_J MAN.N))
+			(!R5 (?X_M STOVE.N))
+			(!R6 (?X_M LOCATION.N))
+		)
+		(:STEPS
+			(?X_I (?X_J PUT.5.V ?X_L ?X_M))
+			(?X_G (?X_J (TURN_ON.V ?X_K)))
+			(?X_D (?X_E COME_ON.V))
+			(?X_B (?X_L ((ADV-A (FOR.P (KA BURN.V))) START.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN255.SK PUT.5.V GASOLINE260.SK STOVE257.SK) ** E258.SK)
+		(:ROLES
+			(!R1 (MAN255.SK AGENT.N))
+			(!R2 (GASOLINE260.SK ENTITY.N))
+			(!R3 (STOVE257.SK LOCATION.N))
+			(!R4 (GASOLINE260.SK GASOLINE.N))
+			(!R5 (GASOLINE260.SK GAS.N))
+			(!R6 (MAN255.SK MAN.N))
+			(!R7 (STOVE257.SK STOVE.N))
+		)
+		(:GOALS
+			(?G1 (MAN255.SK (WANT.V (THAT (GASOLINE260.SK (AT.P STOVE257.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN255.SK (POSSESS.V GASOLINE260.SK)))
+			(?I2 (GASOLINE260.SK (NOT (AT.P STOVE257.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (GASOLINE260.SK (AT.P STOVE257.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom was playing with matches."
+	; "He lit a match."
+	; "He blew out the match."
+	; "The match fell into a pile of leaves."
+	; "The leaves caught on fire."
+	; "Tom put the burning leaves out."
+	(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_L ?X_M ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N PILE.N))
+			(!R2 (?X_L MATCH.N))
+			(!R3 (?X_M BURNING.N))
+			(!R4 (?X_M (PLUR LEAF.N)))
+			(!R5 (?X_N (OF.P ?X_M)))
+			(!R6 (?X_N LOCATION.N))
+			(!R7 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_H (?X_K PLAY.2.V))
+			(?X_F (?X_K (LIGHT.V ?X_L)))
+			(?X_D (?X_K (BLOW_OUT.V ?X_L)))
+			(?X_B (?X_L ((ADV-A (INTO.P ?X_N)) FALL.V)))
+			(?X_J (?X_K PUT.5.V ?X_M ?X_N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME PLAY.2.V) ** E286.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.5.V LEAF298.SK PILE299.SK) ** E307.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (LEAF298.SK ENTITY.N))
+			(!R3 (PILE299.SK LOCATION.N))
+			(!R4 (LEAF298.SK BURNING.N))
+			(!R5 (LEAF298.SK (PLUR LEAF.N)))
+			(!R6 (PILE299.SK PILE.N))
+			(!R7 (PILE299.SK (OF.P LEAF298.SK)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (LEAF298.SK (AT.P PILE299.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V LEAF298.SK)))
+			(?I2 (LEAF298.SK (NOT (AT.P PILE299.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (LEAF298.SK (AT.P PILE299.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A man was cooking food."
+	; "He put some oil in a frying pan."
+	; "When he turned the stove on, the oil caught on fire."
+	; "The man yelled for help."
+	; "Someone came running."
+	; "The man grabbed a fire extinguisher."
+	; "He sprayed the fire."
+	; "The fire went out."
+	(EPI-SCHEMA ((?X_I (((ADV-A (IN.P ?L)) PUT.V) ?X_W)) ** ?E)
+		(:ROLES
+			(!R1 (?X_V FIRE.N))
+			(!R2 (?X_U FIRE.N))
+			(!R3 (?X_U EXTINGUISHER.N))
+			(!R4 (?X_I PERSON.N))
+			(!R5 (?X_L HELP.N))
+			(!R6 (?X_T FOOD.N))
+			(!R7 (?X_S MAN.N))
+			(!R8 (?X_Q FRYING.N))
+			(!R9 (?X_R FIRE.N))
+			(!R10 (?X_W OIL.N))
+			(!R11 (?X_W (IN.P ?X_Q)))
+			(!R12 (?X_W (ON.P ?X_R)))
+			(!R13 (?L LOCATION.N))
+			(!R14 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_N (?X_S (COOK.V ?X_T)))
+			(?X_P (?X_S PUT.6.V ?X_W ?L))
+			(?X_K (?X_S ((ADV-A (FOR.P ?X_L)) YELL.V)))
+			(?X_H (?X_I ((ADV-A (FOR.P (KA RUN.V))) COME.V)))
+			(?X_F (?X_S (GRAB.V ?X_U)))
+			(?X_D (?X_S (SPRAY.V ?X_V)))
+			(?X_B (?X_V GO_OUT.V))
+			(?E_1 (?X_S ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN315.SK PUT.6.V OIL324.SK ?L) ** E322.SK)
+		(:ROLES
+			(!R1 (MAN315.SK AGENT.N))
+			(!R2 (OIL324.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (MAN315.SK MAN.N))
+			(!R5 (OIL324.SK OIL.N))
+			(!R6 (FRYING323.SK FRYING.N))
+			(!R7 (OIL324.SK (IN.P FRYING323.SK)))
+			(!R8 (FIRE330.SK FIRE.N))
+			(!R9 (OIL324.SK (ON.P FIRE330.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN315.SK (WANT.V (THAT (OIL324.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN315.SK (POSSESS.V OIL324.SK)))
+			(?I2 (OIL324.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (OIL324.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MAN315.SK ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (MAN315.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (MAN315.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN315.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MAN315.SK (AT.P ?L1)))
+			(?I2 (NOT (MAN315.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MAN315.SK (AT.P ?L1))))
+			(?P2 (MAN315.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "The police caught the thief."
+	; "They arrested the thief."
+	; "They put handcuffs on the thief."
+	; "The police found stolen property in the thief's house."
+	(EPI-SCHEMA ((?X_J (CATCH.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J THIEF.N))
+			(!R2 (?X_H POLICE.N))
+			(!R3 (?X_E HOUSE.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_J)))
+			(!R5 (?X_I (PLUR HANDCUFF.N)))
+			(!R6 (?X_J LOCATION.N))
+			(!R7 (?X_H AGENT.N))
+			(!R8 (?X_K ENTITY.N))
+		)
+		(:STEPS
+			(?X_A (?X_H (CATCH.V ?X_J)))
+			(?X_D (?X_H (ARREST.V ?X_J)))
+			(?X_B (?X_H PUT.1.V ?X_I ?X_J))
+			(?X_G (?X_H FIND.2.V ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((POLICE1.SK PUT.1.V HANDCUFF12.SK THIEF3.SK) ** E10.SK)
+		(:ROLES
+			(!R1 (POLICE1.SK AGENT.N))
+			(!R2 (HANDCUFF12.SK ENTITY.N))
+			(!R3 (THIEF3.SK LOCATION.N))
+			(!R4 (THIEF3.SK THIEF.N))
+			(!R5 (POLICE1.SK POLICE.N))
+			(!R6 (HANDCUFF12.SK (PLUR HANDCUFF.N)))
+			(!R7 (HOUSE18.SK HOUSE.N))
+			(!R8 (HOUSE18.SK (PERTAIN-TO THIEF3.SK)))
+		)
+		(:GOALS
+			(?G1 (POLICE1.SK (WANT.V (THAT (HANDCUFF12.SK (AT.P THIEF3.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (POLICE1.SK (POSSESS.V HANDCUFF12.SK)))
+			(?I2 (HANDCUFF12.SK (NOT (AT.P THIEF3.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (HANDCUFF12.SK (AT.P THIEF3.SK)))
+		)
+	)
+	(EPI-SCHEMA ((POLICE1.SK FIND.2.V OBJECT19.SK) ** E16.SK)
+		(:ROLES
+			(!R1 (POLICE1.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (OBJECT19.SK ENTITY.N))
+			(!R4 (POLICE1.SK POLICE.N))
+		)
+		(:PRECONDS
+			(?I1 (POLICE1.SK (AT.P ?L)))
+			(?I2 (OBJECT19.SK (AT.P ?L)))
+			(?I3 (POLICE1.SK ((ADV-A (FOR.P OBJECT19.SK)) SEARCH.V)))
+			(?I4 (NOT (POLICE1.SK (KNOW.V (THAT (OBJECT19.SK (AT.P ?L)))))))
+			(?I5 (NOT (POLICE1.SK (POSSESS.V OBJECT19.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (POLICE1.SK (KNOW.V (THAT (OBJECT19.SK (AT.P ?L))))))
+			(?P2 (POLICE1.SK (POSSESS.V OBJECT19.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E16.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jim caught his friend stealing money from the bank."
+	; "He told his parents what happened."
+	; "They were angry."
+	; "They called Jim's father."
+	; "They asked Jim if he knew anything about this."
+	(EPI-SCHEMA ((?X_I (((ADV-A (FROM.P ?X_B)) STEAL.V) ?X_C)) ** ?E)
+		(:ROLES
+			(!R1 (?X_B BANK.N))
+			(!R2 (?X_C MONEY.N))
+			(!R3 (?X_I FRIEND.N))
+			(!R4 (?X_J FATHER.N))
+			(!R5 (?X_H (PLUR PARENT.N)))
+			(!R6 (?X_K AGENT.N))
+			(!R7 (?X_I (PERTAIN-TO ?X_K)))
+			(!R8 (?X_H (PERTAIN-TO ?X_K)))
+			(!R9 (?X_J (PERTAIN-TO ?X_K)))
+			(!R10 (?X_L {REF}.N))
+		)
+		(:STEPS
+			(?X_A
+	   (?X_K
+	    (((ADV-A (FOR.P (KA (((ADV-A (FROM.P ?X_B)) STEAL.V) ?X_C)))) CATCH.V)
+	     ?X_I)))
+			(?X_E (?X_H (CALL.V ?X_J)))
+			(?X_G
+	   (?X_H (KA ASK.V) ?X_K
+	    (IF.P (KE (?X_K (((ADV-A (ABOUT.P ?X_L)) KNOW.V) (ANY.D THING.N)))))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Cindy caught her brother stealing candy from the store."
+	; "She told her mom what happened."
+	; "Her mother called the police."
+	; "The police arrested her brother."
+	(EPI-SCHEMA ((?X_H (STEAL.V ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G AGENT.N))
+			(!R2 (?X_F (PERTAIN-TO ?X_G)))
+			(!R3 (?X_H BROTHER.N))
+			(!R4 (?X_H (PERTAIN-TO ?X_G)))
+			(!R5 (?X_I CANDY.N))
+			(!R6 (?X_I (FROM.P ?X_D)))
+			(!R7 (?X_E MOTHER.N))
+			(!R8 (?X_E (PERTAIN-TO ?X_F)))
+			(!R9 (?X_J POLICE.N))
+		)
+		(:STEPS
+			(?X_A (?X_G (CATCH.V ?X_H)))
+			(?X_B (?X_H (STEAL.V ?X_I)))
+			(?X_C (?X_E (CALL.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Emma caught Jason doing something wrong."
+	; "She told him not to do that again."
+	; "Jason promised Emma that he would not do that again."
+	(EPI-SCHEMA ((?X_D (DO.V ?X_A)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D AGENT.N))
+			(!R2 (?X_A THING.N))
+			(!R3 (?X_A WRONG.A))
+			(!R4 (?X_E AGENT.N))
+		)
+		(:STEPS
+			(?X_C (?X_D (((ADV-A (FOR.P (KA (DO.V ?X_A)))) CATCH.V) ?X_E)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The police caught the thief."
+	; "The police arrested the thief."
+	; "The police put handcuffs on the thief."
+	; "The police searched the thief."
+	; "The police found stolen property."
+	; "The police took the thief away."
+	(EPI-SCHEMA ((?X_N (CATCH.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N THIEF.N))
+			(!R2 (?X_L POLICE.N))
+			(!R3 (?X_I ((PASV ARREST.V) ?X_N)))
+			(!R4 (?X_M (PLUR HANDCUFF.N)))
+			(!R5 (?X_O PROPERTY.N))
+			(!R6 (?X_N LOCATION.N))
+			(!R7 (?X_L AGENT.N))
+		)
+		(:STEPS
+			(?X_F (?X_L (CATCH.V ?X_N)))
+			(?X_H (?X_L PUT.1.V ?X_M ?X_N))
+			(?X_D (?X_L (SEARCH.V ?X_N)))
+			(?X_K (?X_L FIND.2.V ?X_O))
+			(?X_B (?X_L ((AWAY.ADV TAKE.V) ?X_N)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME SEE.3.V
+	              (THAT
+	               (BOB.NAME (((ADV-A (FROM.P BANK181.SK)) STEAL.V) MONEY184.SK))))
+	             ** E182.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BOB.NAME AGENT.N))
+			(!R3 (MONEY184.SK MONEY.N))
+			(!R4 (BANK181.SK BANK.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (NEAR.P BOB.NAME)))
+		)
+		(:STEPS
+			(?E1 (BOB.NAME (((ADV-A (FROM.P BANK181.SK)) STEAL.V) MONEY184.SK)))
+		)
+		(:POSTCONDS
+			(?P1
+	   (TOM.NAME
+	    (KNOW.V
+	     (THAT (BOB.NAME (((ADV-A (FROM.P BANK181.SK)) STEAL.V) MONEY184.SK))))))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME TELL.4.V BOB.NAME (KA STOP.V)) ** E190.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BOB.NAME AGENT.N))
+			(!R3 ((KA STOP.V) ACTION.N))
+			(!R4 (NOT (TOM.NAME = BOB.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V BOB.NAME (KA STOP.V))))
+			(?G2 (TOM.NAME (WANT.V (THAT (BOB.NAME STOP.V)))))
+		)
+		(:STEPS
+			(?E1 (TOM.NAME (ASK.V BOB.NAME (KA STOP.V))))
+			(?E2 (BOB.NAME STOP.V))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOB.NAME STOP.5.V ?A) ** ?E)
+		(:ROLES
+			(!R1 (BOB.NAME AGENT.N))
+			(!R2 (?A ACTION.N))
+		)
+		(:GOALS
+			(?G1 (NOT (BOB.NAME (WANT.V (KA (DO.V ?A))))))
+		)
+		(:PRECONDS
+			(?I1 (BOB.NAME (DO.V ?A)))
+		)
+		(:POSTCONDS
+			(?P1 (BOB.NAME (NOT (DO.V ?A))))
+		)
+	)
+	(EPI-SCHEMA ((BOB.NAME STOP.6.V (IND (5 THEFT))) ** E188.SK)
+		(:ROLES
+			(!R1 (BOB.NAME AGENT.N))
+			(!R2 ((IND (5 THEFT)) ACTION.N))
+		)
+		(:GOALS
+			(?G1 (NOT (BOB.NAME (WANT.V (KA (DO.V (IND (5 THEFT))))))))
+		)
+		(:PRECONDS
+			(?I1 (BOB.NAME (DO.V (IND (5 THEFT)))))
+		)
+		(:POSTCONDS
+			(?P1 (BOB.NAME (NOT (DO.V (IND (5 THEFT))))))
+		)
+	)
+	(EPI-SCHEMA ((POLICE208.SK PUT.1.V HANDCUFF220.SK THIEF210.SK) ** E218.SK)
+		(:ROLES
+			(!R1 (POLICE208.SK AGENT.N))
+			(!R2 (HANDCUFF220.SK ENTITY.N))
+			(!R3 (THIEF210.SK LOCATION.N))
+			(!R4 (THIEF210.SK THIEF.N))
+			(!R5 (POLICE208.SK POLICE.N))
+			(!R6 (HANDCUFF220.SK (PLUR HANDCUFF.N)))
+			(!R7 (OBJECT213.SK ((PASV ARREST.V) THIEF210.SK)))
+		)
+		(:GOALS
+			(?G1 (POLICE208.SK (WANT.V (THAT (HANDCUFF220.SK (AT.P THIEF210.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (POLICE208.SK (POSSESS.V HANDCUFF220.SK)))
+			(?I2 (HANDCUFF220.SK (NOT (AT.P THIEF210.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (HANDCUFF220.SK (AT.P THIEF210.SK)))
+		)
+	)
+	(EPI-SCHEMA ((POLICE208.SK FIND.2.V PROPERTY233.SK) ** E227.SK)
+		(:ROLES
+			(!R1 (POLICE208.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (PROPERTY233.SK ENTITY.N))
+			(!R4 (POLICE208.SK POLICE.N))
+			(!R5 (PROPERTY233.SK PROPERTY.N))
+		)
+		(:PRECONDS
+			(?I1 (POLICE208.SK (AT.P ?L)))
+			(?I2 (PROPERTY233.SK (AT.P ?L)))
+			(?I3 (POLICE208.SK ((ADV-A (FOR.P PROPERTY233.SK)) SEARCH.V)))
+			(?I4 (NOT (POLICE208.SK (KNOW.V (THAT (PROPERTY233.SK (AT.P ?L)))))))
+			(?I5 (NOT (POLICE208.SK (POSSESS.V PROPERTY233.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (POLICE208.SK (KNOW.V (THAT (PROPERTY233.SK (AT.P ?L))))))
+			(?P2 (POLICE208.SK (POSSESS.V PROPERTY233.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E227.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary caught Bill stealing candy from the store."
+	; "Bill was caught red-handed."
+	; "He tried to deny it."
+	; "But Mary knew that he stole the candy."
+	(EPI-SCHEMA ((?X_H (TRY.V (KA (STEAL.V ?X_A)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_H AGENT.N))
+			(!R2 (?X_A CANDY.N))
+			(!R3 (?X_A (FROM.P ?X_B)))
+			(!R4 (?X_I AGENT.N))
+			(!R5 (?X_I BILL.N))
+			(!R6 (?X_I RED-HANDED.A))
+			(!R7 (?X_E MALE.A))
+			(!R8 (?X_E AGENT.N))
+		)
+		(:STEPS
+			(?X_D (?X_H (((ADV-A (FOR.P (KA (STEAL.V ?X_A)))) CATCH.V) ?X_I)))
+			(?X_G (?X_E (TRY.V (KA (DENY.V ?X_J)))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "The police caught a thief."
+	; "They found stolen goods in his car."
+	; "The police arrested him."
+	; "The police put handcuffs on him."
+	(EPI-SCHEMA ((?X_H (CATCH.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I (PLUR HANDCUFF.N)))
+			(!R2 (?X_H THIEF.N))
+			(!R3 (?X_F (PERTAIN-TO ?X_H)))
+			(!R4 (?X_G POLICE.N))
+			(!R5 (?X_J ENTITY.N))
+			(!R6 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_E (?X_G (CATCH.V ?X_H)))
+			(?X_A (?X_G FIND.2.V ?X_J))
+			(?X_C (?X_G (((ADV-A (ON.P ?X_H)) PUT.V) ?X_I)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((POLICE281.SK FIND.2.V OBJECT294.SK) ** E279.SK)
+		(:ROLES
+			(!R1 (POLICE281.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (OBJECT294.SK ENTITY.N))
+			(!R4 (POLICE281.SK POLICE.N))
+		)
+		(:PRECONDS
+			(?I1 (POLICE281.SK (AT.P ?L)))
+			(?I2 (OBJECT294.SK (AT.P ?L)))
+			(?I3 (POLICE281.SK ((ADV-A (FOR.P OBJECT294.SK)) SEARCH.V)))
+			(?I4 (NOT (POLICE281.SK (KNOW.V (THAT (OBJECT294.SK (AT.P ?L)))))))
+			(?I5 (NOT (POLICE281.SK (POSSESS.V OBJECT294.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (POLICE281.SK (KNOW.V (THAT (OBJECT294.SK (AT.P ?L))))))
+			(?P2 (POLICE281.SK (POSSESS.V OBJECT294.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E279.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The police officer saw a car speeding."
+	; "He pulled the driver over."
+	; "The driver wasn't wearing a seat belt."
+	; "The policeman told the driver that he would have to give him a ticket for not wearing a seat belt."
+	; "The driver said he couldn't afford to pay the fine."
+	; "The policeman said he could take the car away if the driver didn't pay the fine."
+	; "The driver said he would be willing to pay the fine if the policeman would just let him go."
+	; "The policeman said he wouldn't let the driver go until he paid the fine."
+	; "The driver said he'd pay the fine"
+	(EPI-SCHEMA ((?X_L
+	              (TELL.V ?X_O
+	               (THAT
+	                (?X_L
+	                 (WILL.MD
+	                  (MUST.AUX-S
+	                   (((ADV-A (FOR.P (KA (WEAR.V ?X_N)))) PAY.V) ?X_K)))))))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_K FINE.N))
+			(!R2 (?X_P TICKET.N))
+			(!R3 (?X_J POLICE.N))
+			(!R4 (?X_M SEAT.N))
+			(!R5 (?X_M BELT.N))
+			(!R6 (?X_O DRIVER.N))
+			(!R7 (?X_L SPEEDING.N))
+			(!R8 (?X_L CAR.N))
+			(!R9 (?X_N SEAT.N))
+			(!R10 (?X_N BELT.N))
+			(!R11 (NOT (?X_N AGENT.N)))
+		)
+		(:STEPS
+			(?X_I (?X_J SEE.7.V ?X_L))
+			(?X_G (NOT (?X_O ((ADV-A (FOR.P (KA (WEAR.V ?X_M)))) BE.V))))
+			(?X_E
+	   (?X_J (TELL.V ?X_O (THAT (?X_J (WILL.MD (MUST.AUX-S (GIVE.V ?X_O ?X_P))))))))
+			(?E_1 (?X_O WEAR.8.V ?X_M))
+			(?X_A (?X_P WEAR.9.V ?X_N))
+			(?X_C (?X_O (SAY.V (THT (?X_O (WILL.MD (PAY.V ?X_K)))))))
+			(?E_2 (?X_M (GIVE.10.V ?X_O ?X_P)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((POLICE315.SK SEE.7.V CAR313.SK) ** E312.SK)
+		(:ROLES
+			(!R1 (POLICE315.SK AGENT.N))
+			(!R2 (CAR313.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (POLICE315.SK POLICE.N))
+			(!R5 (POLICE315.SK OFFICER.N))
+			(!R6 (POLICE315.SK POLICEMAN.N))
+			(!R7 (CAR313.SK SPEEDING.N))
+			(!R8 (CAR313.SK CAR.N))
+		)
+		(:PRECONDS
+			(?I1 (POLICE315.SK (AT.P ?L)))
+			(?I2 (CAR313.SK (AT.P ?L)))
+			(?I3 (CAR313.SK (NEAR.P POLICE315.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (POLICE315.SK (KNOW.V (THAT (CAR313.SK (AT.P ?L))))))
+			(?P2 (POLICE315.SK (KNOW.V (THAT (CAR313.SK (NEAR.P POLICE315.SK))))))
+			(?P3 (CAR313.SK (NEAR.P POLICE315.SK)))
+		)
+	)
+	(EPI-SCHEMA ((DRIVER318.SK WEAR.8.V SEAT324.SK) ** ?E)
+		(:ROLES
+			(!R1 (DRIVER318.SK AGENT.N))
+			(!R2 (SEAT324.SK OBJECT.N))
+			(!R3 (NOT (SEAT324.SK AGENT.N)))
+			(!R4 (DRIVER318.SK DRIVER.N))
+			(!R5 (SEAT324.SK SEAT.N))
+			(!R6 (SEAT324.SK BELT.N))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 3.0))
+		)
+	)
+	(EPI-SCHEMA ((TICKET332.SK WEAR.9.V SEAT334.SK) ** E333.SK)
+		(:ROLES
+			(!R1 (TICKET332.SK AGENT.N))
+			(!R2 (SEAT334.SK OBJECT.N))
+			(!R3 (NOT (SEAT334.SK AGENT.N)))
+			(!R4 (TICKET332.SK TICKET.N))
+			(!R5 (SEAT334.SK SEAT.N))
+			(!R6 (SEAT334.SK BELT.N))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 3.0))
+		)
+	)
+	(EPI-SCHEMA ((SEAT324.SK (GIVE.10.V DRIVER318.SK TICKET332.SK)) ** ?E)
+		(:ROLES
+			(!R1 (SEAT324.SK AGENT.N))
+			(!R2 (NOT (TICKET332.SK AGENT.N)))
+			(!R3 (DRIVER318.SK AGENT.N))
+			(!R4 (DRIVER318.SK DRIVER.N))
+			(!R5 (SEAT324.SK SEAT.N))
+			(!R6 (SEAT324.SK BELT.N))
+			(!R7 (TICKET332.SK TICKET.N))
+		)
+		(:GOALS
+			(?G1 (SEAT324.SK (WANT.V (THAT (DRIVER318.SK (POSSESS.V TICKET332.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SEAT324.SK POSSESS.V TICKET332.SK))
+			(?I2 (NOT (DRIVER318.SK POSSESS.V TICKET332.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SEAT324.SK POSSESS.V TICKET332.SK)))
+			(?P2 (DRIVER318.SK POSSESS.V TICKET332.SK))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Cat's eyes are blue."
+	; "Cat's fur is white and soft."
+	; "A cat has whiskers on its face."
+	; "Cats can purr."
+	(EPI-SCHEMA ((?X_G PURR.V) ** ?E)
+		(:ROLES
+			(!R1 (?X_H (PLUR WHISKER.N)))
+			(!R2 (?X_G CAT.N))
+			(!R3 (?X_E (PLUR CAT.N)))
+			(!R4 (?X_I BLUE.A))
+			(!R5 (?X_I (PLUR EYE.N)))
+			(!R6 (?X_F CAT.N))
+			(!R7 (?X_I (PERTAIN-TO ?X_F)))
+			(!R8 (?X_I NOISE.N))
+		)
+		(:STEPS
+			(?X_B (?X_G (HAVE.V ?X_H)))
+			(?X_D (?X_E PURR.1.V ?X_I))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CAT23.SK PURR.1.V EYE8.SK) ** E21.SK)
+		(:ROLES
+			(!R1 (CAT23.SK AGENT.N))
+			(!R2 (EYE8.SK NOISE.N))
+			(!R3 (EYE8.SK BLUE.A))
+			(!R4 (EYE8.SK (PLUR EYE.N)))
+			(!R5 (CAT23.SK (PLUR CAT.N)))
+			(!R6 (CAT6.SK CAT.N))
+			(!R7 (EYE8.SK (PERTAIN-TO CAT6.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tommy liked cats."
+	; "He played with them."
+	; "He watched TV with them."
+	; "He slept with them."
+	(EPI-SCHEMA ((?X_I (LIKE.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I AGENT.N))
+			(!R2 (?X_J (PLUR CAT.N)))
+			(!R3 (?X_H AGENT.N))
+			(!R4 (NOT (?X_J ACTION.N)))
+		)
+		(:STEPS
+			(?X_A (?X_H LIKE.2.V ?X_J))
+			(?X_G (?X_H ((ADV-A (WITH.P ?X_J)) PLAY.V)))
+			(?X_E (?X_H (((ADV-A (WITH.P ?X_J)) WATCH.V) ?X_I)))
+			(?X_C (?X_H ((ADV-A (WITH.P ?X_J)) SLEEP.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOMMY.NAME LIKE.2.V CAT35.SK) ** E33.SK)
+		(:ROLES
+			(!R1 (TOMMY.NAME AGENT.N))
+			(!R2 (NOT (CAT35.SK ACTION.N)))
+			(!R3 (NOT (CAT35.SK AGENT.N)))
+			(!R4 (CAT35.SK OBJECT.N))
+			(!R5 (CAT35.SK (PLUR CAT.N)))
+		)
+		(:POSTCONDS
+			(?P1 (TOMMY.NAME (WANT.V (KA (POSSESS.V CAT35.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tiger is a cat."
+	; "She loves to play."
+	; "She likes to chase mice."
+	; "She wants to eat some cheese."
+	(EPI-SCHEMA ((?X_H (LOVE.V (KA (CHASE.V ?X_I)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_J CHEESE.N))
+			(!R2 (?X_I (PLUR MOUSE.N)))
+			(!R3 (?X_G CAT.N))
+			(!R4 ((KA PLAY.V) ACTION.N))
+			(!R5 (?X_H AGENT.N))
+			(!R6 ((KA (CHASE.V ?X_I)) ACTION.N))
+		)
+		(:STEPS
+			(?X_D (?X_H LOVE.4.V (KA PLAY.V)))
+			(?X_F (?X_H LIKE.5.V (KA (CHASE.V ?X_I))))
+			(?X_B (?X_H (WANT.V (KA (EAT.V ?X_J)))))
+			(?E_1 (?X_G CHASE.6.V ?X_I))
+			(?E_2 (?X_G EAT.7.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME LIKE.3.V (KA PLAY.V)) ** E53.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 ((KA PLAY.V) ACTION.N))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (THINK.V (THAT ((KA PLAY.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SHE-PRO74.SK LOVE.4.V (KA PLAY.V)) ** E66.SK)
+		(:ROLES
+			(!R1 (SHE-PRO74.SK AGENT.N))
+			(!R2 ((KA PLAY.V) ACTION.N))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO74.SK (THINK.V (THAT ((KA PLAY.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SHE-PRO74.SK LIKE.5.V (KA (CHASE.V MOUSE70.SK))) ** E68.SK)
+		(:ROLES
+			(!R1 (SHE-PRO74.SK AGENT.N))
+			(!R2 ((KA (CHASE.V MOUSE70.SK)) ACTION.N))
+			(!R3 (MOUSE70.SK (PLUR MOUSE.N)))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO74.SK (THINK.V (THAT ((KA (CHASE.V MOUSE70.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TIGER.NAME CHASE.6.V MOUSE70.SK) ** ?E)
+		(:ROLES
+			(!R1 (TIGER.NAME AGENT.N))
+			(!R2 (MOUSE70.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (TIGER.NAME CAT.N))
+			(!R6 (MOUSE70.SK (PLUR MOUSE.N)))
+		)
+		(:GOALS
+			(?G1 (TIGER.NAME (WANT.V (THAT (TIGER.NAME (NEAR.P MOUSE70.SK))))))
+		)
+		(:STEPS
+			(?E1 (MOUSE70.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (TIGER.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((TIGER.NAME EAT.7.V CHEESE72.SK) ** ?E)
+		(:ROLES
+			(!R1 (TIGER.NAME AGENT.N))
+			(!R2 (CHEESE72.SK FOOD.N))
+			(!R3 (TIGER.NAME CAT.N))
+			(!R4 (CHEESE72.SK CHEESE.N))
+		)
+		(:GOALS
+			(?G1 (TIGER.NAME (WANT.V (THAT (NOT (TIGER.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (TIGER.NAME POSSESS.V CHEESE72.SK))
+			(?I2 (TIGER.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TIGER.NAME (POSSESS.V CHEESE72.SK))))
+			(?P2 (NOT (TIGER.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Kitty loves to eat cat food."
+	; "She likes to play with toys."
+	; "She loves to sleep on the bed."
+	; "Kitty doesn't like to walk on the floor."
+	(EPI-SCHEMA ((?X_I
+	              (COMPOSITE-SCHEMA.PR (KA (EAT.V ?X_K ?X_J)) ?X_K
+	               (KA ((ADV-A (WITH.P ?X_L)) PLAY.V))
+	               (KA ((ADV-A (ON.P ?X_M)) SLEEP.V))
+	               (KA ((ADV-A (ON.P ?X_N)) WALK.V)) ?L2))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_J FOOD.N))
+			(!R2 (?X_K CAT.N))
+			(!R3 (?X_L (PLUR TOY.N)))
+			(!R4 (?X_M BED.N))
+			(!R5 (?X_N FLOOR.N))
+			(!R6 (?X_I KITTY.N))
+			(!R7 ((KA (EAT.V ?X_K ?X_J)) ACTION.N))
+			(!R8 (?X_K FOOD.N))
+			(!R9 ((KA ((ADV-A (WITH.P ?X_L)) PLAY.V)) ACTION.N))
+			(!R10 ((KA ((ADV-A (ON.P ?X_M)) SLEEP.V)) ACTION.N))
+			(!R11 ((KA ((ADV-A (ON.P ?X_N)) WALK.V)) ACTION.N))
+			(!R12 (?X_I AGENT.N))
+			(!R13 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_I LOVE.11.V (KA (EAT.V ?X_K ?X_J))))
+			(?E_1 (?X_I EAT.7.V ?X_K))
+			(?X_D (?X_I LIKE.12.V (KA ((ADV-A (WITH.P ?X_L)) PLAY.V))))
+			(?X_F (?X_I LOVE.13.V (KA ((ADV-A (ON.P ?X_M)) SLEEP.V))))
+			(?X_H (?X_I LIKE.14.V (KA ((ADV-A (ON.P ?X_N)) WALK.V))))
+			(?E_2 (?X_I ((ADV-A (FROM.P ?L1)) WALK.15.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TIGER.NAME LIKE.3.V (KA PLAY.V)) ** E90.SK)
+		(:ROLES
+			(!R1 (TIGER.NAME AGENT.N))
+			(!R2 ((KA PLAY.V) ACTION.N))
+			(!R3 (TOYS86.SK (PLUR TOY.N)))
+			(!R4 (TOYS86.SK (PERTAIN-TO TIGER.NAME)))
+			(!R5 (MOTHER98.SK MOTHER.N))
+			(!R6 (MOTHER98.SK (PERTAIN-TO TIGER.NAME)))
+			(!R7 (MOTHER98.SK AGENT.N))
+			(!R8 (CAGE88.SK CAGE.N))
+			(!R9 (CAGE88.SK (PERTAIN-TO TIGER.NAME)))
+			(!R10 (HOME101.SK (PERTAIN-TO MOTHER98.SK)))
+			(!R11 (HOME101.SK HOME.N))
+		)
+		(:PRECONDS
+			(?I1 (TIGER.NAME (THINK.V (THAT ((KA PLAY.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TIGER.NAME PLAY.8.V) ** ?E)
+		(:ROLES
+			(!R1 (TIGER.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (TOYS86.SK (PLUR TOY.N)))
+			(!R7 (TOYS86.SK (PERTAIN-TO TIGER.NAME)))
+			(!R8 (MOTHER98.SK MOTHER.N))
+			(!R9 (MOTHER98.SK (PERTAIN-TO TIGER.NAME)))
+			(!R10 (MOTHER98.SK AGENT.N))
+			(!R11 (CAGE88.SK CAGE.N))
+			(!R12 (CAGE88.SK (PERTAIN-TO TIGER.NAME)))
+			(!R13 (HOME101.SK (PERTAIN-TO MOTHER98.SK)))
+			(!R14 (HOME101.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (TIGER.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (TIGER.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (TIGER.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TIGER.NAME PLAY.9.V TOYS86.SK) ** E85.SK)
+		(:ROLES
+			(!R1 (TIGER.NAME AGENT.N))
+			(!R2 (TOYS86.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (TOYS86.SK (PLUR TOY.N)))
+			(!R5 (TOYS86.SK (PERTAIN-TO TIGER.NAME)))
+			(!R6 (MOTHER98.SK MOTHER.N))
+			(!R7 (MOTHER98.SK (PERTAIN-TO TIGER.NAME)))
+			(!R8 (MOTHER98.SK AGENT.N))
+			(!R9 (CAGE88.SK CAGE.N))
+			(!R10 (CAGE88.SK (PERTAIN-TO TIGER.NAME)))
+			(!R11 (HOME101.SK (PERTAIN-TO MOTHER98.SK)))
+			(!R12 (HOME101.SK HOME.N))
+		)
+		(:PRECONDS
+			(?I1 (TIGER.NAME (AT.P ?L)))
+			(?I2 (TOYS86.SK (AT.P ?L)))
+			(?I3 (TOYS86.SK (NEAR.P TIGER.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (TIGER.NAME (KNOW.V (THAT (TOYS86.SK (AT.P ?L))))))
+			(?P2 (TIGER.NAME (KNOW.V (THAT (TOYS86.SK (NEAR.P TIGER.NAME))))))
+			(?P3 (TOYS86.SK (NEAR.P TIGER.NAME)))
+		)
+	)
+	(EPI-SCHEMA ((MOTHER98.SK PUT.10.V TIGER.NAME CAGE88.SK) ** E87.SK)
+		(:ROLES
+			(!R1 (MOTHER98.SK AGENT.N))
+			(!R2 (TIGER.NAME ENTITY.N))
+			(!R3 (CAGE88.SK LOCATION.N))
+			(!R4 (TIGER.NAME AGENT.N))
+			(!R5 (MOTHER98.SK MOTHER.N))
+			(!R6 (MOTHER98.SK (PERTAIN-TO TIGER.NAME)))
+			(!R7 (CAGE88.SK CAGE.N))
+			(!R8 (CAGE88.SK (PERTAIN-TO TIGER.NAME)))
+			(!R9 (TOYS86.SK (PLUR TOY.N)))
+			(!R10 (TOYS86.SK (PERTAIN-TO TIGER.NAME)))
+			(!R11 (HOME101.SK (PERTAIN-TO MOTHER98.SK)))
+			(!R12 (HOME101.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (MOTHER98.SK (WANT.V (THAT (TIGER.NAME (AT.P CAGE88.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MOTHER98.SK (POSSESS.V TIGER.NAME)))
+			(?I2 (TIGER.NAME (NOT (AT.P CAGE88.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TIGER.NAME (AT.P CAGE88.SK)))
+		)
+	)
+	(EPI-SCHEMA ((KITTY128.SK LOVE.11.V (KA (EAT.V CAT127.SK FOOD126.SK))) **
+	             E122.SK)
+		(:ROLES
+			(!R1 (KITTY128.SK AGENT.N))
+			(!R2 ((KA (EAT.V CAT127.SK FOOD126.SK)) ACTION.N))
+			(!R3 (FOOD126.SK FOOD.N))
+			(!R4 (CAT127.SK CAT.N))
+			(!R5 (KITTY128.SK KITTY.N))
+		)
+		(:PRECONDS
+			(?I1 (KITTY128.SK (THINK.V (THAT ((KA (EAT.V CAT127.SK FOOD126.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY128.SK EAT.7.V CAT127.SK) ** ?E)
+		(:ROLES
+			(!R1 (KITTY128.SK AGENT.N))
+			(!R2 (CAT127.SK FOOD.N))
+			(!R3 (CAT127.SK CAT.N))
+			(!R4 (KITTY128.SK KITTY.N))
+		)
+		(:GOALS
+			(?G1 (KITTY128.SK (WANT.V (THAT (NOT (KITTY128.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITTY128.SK POSSESS.V CAT127.SK))
+			(?I2 (KITTY128.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITTY128.SK (POSSESS.V CAT127.SK))))
+			(?P2 (NOT (KITTY128.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY128.SK LIKE.12.V (KA ((ADV-A (WITH.P TOY132.SK)) PLAY.V)))
+	             ** E130.SK)
+		(:ROLES
+			(!R1 (KITTY128.SK AGENT.N))
+			(!R2 ((KA ((ADV-A (WITH.P TOY132.SK)) PLAY.V)) ACTION.N))
+			(!R3 (KITTY128.SK KITTY.N))
+			(!R4 (TOY132.SK (PLUR TOY.N)))
+		)
+		(:PRECONDS
+			(?I1
+	   (KITTY128.SK
+	    (THINK.V (THAT ((KA ((ADV-A (WITH.P TOY132.SK)) PLAY.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY128.SK LOVE.13.V (KA ((ADV-A (ON.P BED134.SK)) SLEEP.V))) **
+	             E135.SK)
+		(:ROLES
+			(!R1 (KITTY128.SK AGENT.N))
+			(!R2 ((KA ((ADV-A (ON.P BED134.SK)) SLEEP.V)) ACTION.N))
+			(!R3 (KITTY128.SK KITTY.N))
+			(!R4 (BED134.SK BED.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (KITTY128.SK
+	    (THINK.V (THAT ((KA ((ADV-A (ON.P BED134.SK)) SLEEP.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY128.SK LIKE.14.V (KA ((ADV-A (ON.P FLOOR137.SK)) WALK.V)))
+	             ** E138.SK)
+		(:ROLES
+			(!R1 (KITTY128.SK AGENT.N))
+			(!R2 ((KA ((ADV-A (ON.P FLOOR137.SK)) WALK.V)) ACTION.N))
+			(!R3 (KITTY128.SK KITTY.N))
+			(!R4 (FLOOR137.SK FLOOR.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (KITTY128.SK
+	    (THINK.V (THAT ((KA ((ADV-A (ON.P FLOOR137.SK)) WALK.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY128.SK ((ADV-A (FROM.P ?L1)) WALK.15.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (KITTY128.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (KITTY128.SK KITTY.N))
+		)
+		(:GOALS
+			(?G1 (KITTY128.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KITTY128.SK (AT.P ?L1)))
+			(?I2 (NOT (KITTY128.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITTY128.SK (AT.P ?L1))))
+			(?P2 (KITTY128.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly liked to play with her cat."
+	; "She played with her cat all the time."
+	; "She petted her cat."
+	; "Her cat purred loudly."
+	(EPI-SCHEMA ((?X_D
+	              (COMPOSITE-SCHEMA.PR ?X_E (KA ((ADV-A (WITH.P ?X_E)) PLAY.V))
+	               ?N))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_E CAT.N))
+			(!R2 (?X_E (PERTAIN-TO ?X_D)))
+			(!R3 ((KA ((ADV-A (WITH.P ?X_E)) PLAY.V)) ACTION.N))
+			(!R4 (?X_D AGENT.N))
+			(!R5 (?N NOISE.N))
+		)
+		(:STEPS
+			(?X_A (?X_D LIKE.12.V (KA ((ADV-A (WITH.P ?X_E)) PLAY.V))))
+			(?X_B (?X_D (PET.V ?X_E)))
+			(?E_1 (?X_D PLAY.8.V))
+			(?X_C (?X_E PUR.16.V ?N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME LIKE.12.V (KA ((ADV-A (WITH.P CAT156.SK)) PLAY.V))) **
+	             E155.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (WITH.P CAT156.SK)) PLAY.V)) ACTION.N))
+			(!R3 (CAT156.SK CAT.N))
+			(!R4 (CAT156.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1
+	   (MOLLY.NAME
+	    (THINK.V (THAT ((KA ((ADV-A (WITH.P CAT156.SK)) PLAY.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME PLAY.8.V) ** ?E)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (CAT156.SK CAT.N))
+			(!R7 (CAT156.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (MOLLY.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CAT156.SK PUR.16.V ?N) ** E161.SK)
+		(:ROLES
+			(!R1 (CAT156.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (CAT156.SK CAT.N))
+			(!R4 (MOLLY.NAME AGENT.N))
+			(!R5 (CAT156.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Lily liked to eat cat food."
+	; "She ate some cat food on the floor."
+	; "She ate more cat food on the table."
+	; "She ate all the cat food."
+	; "She cleaned up the mess with a rag."
+	(EPI-SCHEMA ((?X_J (EAT.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K MESS.N))
+			(!R2 (?X_C RAG.N))
+			(!R3 (?X_L FOOD.N))
+			(!R4 (?X_M CAT.N))
+			(!R5 (?X_N CAT.N))
+			(!R6 (?X_O MORE.A))
+			(!R7 (?X_O CAT.N))
+			(!R8 ((KA (EAT.V ?X_M ?X_L)) ACTION.N))
+			(!R9 (?X_M FOOD.N))
+			(!R10 (?X_N FOOD.N))
+			(!R11 (?X_O FOOD.N))
+			(!R12 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_E (?X_J LIKE.17.V (KA (EAT.V ?X_M ?X_L))))
+			(?E_1 (?X_J EAT.7.V ?X_M))
+			(?X_G (?X_J EAT.18.V ?X_N))
+			(?X_I (?X_J EAT.18.V ?X_O))
+			(?X_B (?X_J (((ADV-A (WITH.P ?X_C)) CLEAN_UP.V) ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((LILY.NAME LIKE.17.V (KA (EAT.V CAT182.SK FOOD181.SK))) ** E178.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 ((KA (EAT.V CAT182.SK FOOD181.SK)) ACTION.N))
+			(!R3 (FOOD181.SK FOOD.N))
+			(!R4 (CAT182.SK CAT.N))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME (THINK.V (THAT ((KA (EAT.V CAT182.SK FOOD181.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME EAT.7.V CAT182.SK) ** ?E)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (CAT182.SK FOOD.N))
+			(!R3 (CAT182.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (THAT (NOT (LILY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME POSSESS.V CAT182.SK))
+			(?I2 (LILY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LILY.NAME (POSSESS.V CAT182.SK))))
+			(?P2 (NOT (LILY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME EAT.18.V CAT187.SK) ** E186.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (CAT187.SK FOOD.N))
+			(!R3 (CAT187.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (THAT (NOT (LILY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME POSSESS.V CAT187.SK))
+			(?I2 (LILY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LILY.NAME (POSSESS.V CAT187.SK))))
+			(?P2 (NOT (LILY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME EAT.18.V CAT193.SK) ** E191.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (CAT193.SK FOOD.N))
+			(!R3 (CAT193.SK MORE.A))
+			(!R4 (CAT193.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (THAT (NOT (LILY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME POSSESS.V CAT193.SK))
+			(?I2 (LILY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LILY.NAME (POSSESS.V CAT193.SK))))
+			(?P2 (NOT (LILY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	nil
+	; protos
+	(
+	(EPI-SCHEMA ((LILY.NAME LIKE.12.V (KA ((ADV-A (WITH.P TOY214.SK)) PLAY.V))) **
+	             E212.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (WITH.P TOY214.SK)) PLAY.V)) ACTION.N))
+			(!R3 (TOY214.SK (PLUR TOY.N)))
+		)
+		(:PRECONDS
+			(?I1
+	   (LILY.NAME
+	    (THINK.V (THAT ((KA ((ADV-A (WITH.P TOY214.SK)) PLAY.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME LIKE.12.V (KA ((ADV-A (WITH.P CAT232.SK)) PLAY.V))) **
+	             E231.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (WITH.P CAT232.SK)) PLAY.V)) ACTION.N))
+			(!R3 (CAT232.SK CAT.N))
+			(!R4 (CAT232.SK (PERTAIN-TO LILY.NAME)))
+			(!R5 (CAT232.SK AGENT.N))
+			(!R6 (CAT238.SK CAT.N))
+			(!R7 (CAT238.SK (PERTAIN-TO CAT232.SK)))
+			(!R8 (BED239.SK BED.N))
+			(!R9 (BED239.SK (PERTAIN-TO LILY.NAME)))
+		)
+		(:PRECONDS
+			(?I1
+	   (LILY.NAME
+	    (THINK.V (THAT ((KA ((ADV-A (WITH.P CAT232.SK)) PLAY.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME PLAY.8.V) ** ?E)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (CAT232.SK CAT.N))
+			(!R7 (CAT232.SK (PERTAIN-TO LILY.NAME)))
+			(!R8 (CAT232.SK AGENT.N))
+			(!R9 (BED239.SK BED.N))
+			(!R10 (BED239.SK (PERTAIN-TO LILY.NAME)))
+			(!R11 (CAT238.SK CAT.N))
+			(!R12 (CAT238.SK (PERTAIN-TO CAT232.SK)))
+		)
+		(:GOALS
+			(?G1 (LILY.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (LILY.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tommy's cat played all day."
+	; "Tommy's cat chased mice."
+	; "Tommy's cat caught mice."
+	; "Tommy's cat ate mice."
+	; "Tommy's cat slept."
+	(EPI-SCHEMA (((ADV-E ({DURING}.P (ALL.D DAY.N)))
+	              (?X_H ((ADV-A (WITH.P ?X_L)) PLAY.V)))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_L (PLUR MOUSE.N)))
+			(!R2 (?X_K CAT.N))
+			(!R3 (?X_M (PLUR MOUSE.N)))
+			(!R4 (?X_H AGENT.N))
+			(!R5 (?X_K (PERTAIN-TO ?X_H)))
+			(!R6 (?X_N (PLUR MOUSE.N)))
+			(!R7 (?X_N FOOD.N))
+		)
+		(:STEPS
+			(?X_A ((ADV-E ({DURING}.P (ALL.D DAY.N))) (?X_K PLAY.V)))
+			(?X_G (?X_K CHASE.1.V ?X_M))
+			(?X_E (?X_K (CATCH.V ?X_L)))
+			(?X_J (?X_K EAT.2.V ?X_N))
+			(?X_C (?X_K SLEEP.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CAT7.SK CHASE.1.V MOUSE12.SK) ** E9.SK)
+		(:ROLES
+			(!R1 (CAT7.SK AGENT.N))
+			(!R2 (MOUSE12.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT7.SK CAT.N))
+			(!R6 (MOUSE12.SK (PLUR MOUSE.N)))
+			(!R7 (TOMMY.NAME AGENT.N))
+			(!R8 (CAT7.SK (PERTAIN-TO TOMMY.NAME)))
+		)
+		(:GOALS
+			(?G1 (CAT7.SK (WANT.V (THAT (CAT7.SK (NEAR.P MOUSE12.SK))))))
+		)
+		(:STEPS
+			(?E1 (MOUSE12.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (CAT7.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT7.SK EAT.2.V MOUSE24.SK) ** E21.SK)
+		(:ROLES
+			(!R1 (CAT7.SK AGENT.N))
+			(!R2 (MOUSE24.SK FOOD.N))
+			(!R3 (CAT7.SK CAT.N))
+			(!R4 (MOUSE24.SK (PLUR MOUSE.N)))
+			(!R5 (TOMMY.NAME AGENT.N))
+			(!R6 (CAT7.SK (PERTAIN-TO TOMMY.NAME)))
+		)
+		(:GOALS
+			(?G1 (CAT7.SK (WANT.V (THAT (NOT (CAT7.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CAT7.SK POSSESS.V MOUSE24.SK))
+			(?I2 (CAT7.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT7.SK (POSSESS.V MOUSE24.SK))))
+			(?P2 (NOT (CAT7.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Kitty liked to play."
+	; "She played with her toys."
+	; "She scratched furniture."
+	; "She played with her catnip mouse."
+	; "She jumped on the couch."
+	; "She ran around the house."
+	(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_N (KA PLAY.V) ?X_O ?Y ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N FURNITURE.N))
+			(!R2 (?X_M KITTY.N))
+			(!R3 (?X_O (PLUR TOY.N)))
+			(!R4 (?X_O (PERTAIN-TO ?X_M)))
+			(!R5 (?X_I (PERTAIN-TO ?X_M)))
+			(!R6 (?X_J CATNIP.N))
+			(!R7 (?X_I ?X_J MOUSE.N))
+			(!R8 ((KA PLAY.V) ACTION.N))
+			(!R9 (?Y ENTITY.N))
+			(!R10 (?X_M AGENT.N))
+			(!R11 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_M LIKE.3.V (KA PLAY.V)))
+			(?X_A (?X_M PLAY.4.V ?X_O))
+			(?X_D (?X_M (SCRATCH.V ?X_N)))
+			(?X_B (?X_M PLAY.5.V ?Y))
+			(?X_H (?X_M ((ADV-A (FROM.P ?L1)) JUMP.6.V) ?L2))
+			(?X_L (?X_M ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KITTY45.SK LIKE.3.V (KA PLAY.V)) ** E43.SK)
+		(:ROLES
+			(!R1 (KITTY45.SK AGENT.N))
+			(!R2 ((KA PLAY.V) ACTION.N))
+			(!R3 (KITTY45.SK KITTY.N))
+			(!R4 (TOYS39.SK (PLUR TOY.N)))
+			(!R5 (TOYS39.SK (PERTAIN-TO KITTY45.SK)))
+			(!R6 (E41.SK (PERTAIN-TO KITTY45.SK)))
+			(!R7 (E41.SK CATNIP59.SK MOUSE.N))
+			(!R8 (CATNIP59.SK CATNIP.N))
+		)
+		(:PRECONDS
+			(?I1 (KITTY45.SK (THINK.V (THAT ((KA PLAY.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY45.SK PLAY.4.V TOYS39.SK) ** E38.SK)
+		(:ROLES
+			(!R1 (KITTY45.SK AGENT.N))
+			(!R2 (TOYS39.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (KITTY45.SK KITTY.N))
+			(!R5 (TOYS39.SK (PLUR TOY.N)))
+			(!R6 (TOYS39.SK (PERTAIN-TO KITTY45.SK)))
+			(!R7 (E41.SK (PERTAIN-TO KITTY45.SK)))
+			(!R8 (E41.SK CATNIP59.SK MOUSE.N))
+			(!R9 (CATNIP59.SK CATNIP.N))
+		)
+		(:PRECONDS
+			(?I1 (KITTY45.SK (AT.P ?L)))
+			(?I2 (TOYS39.SK (AT.P ?L)))
+			(?I3 (TOYS39.SK (NEAR.P KITTY45.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (KITTY45.SK (KNOW.V (THAT (TOYS39.SK (AT.P ?L))))))
+			(?P2 (KITTY45.SK (KNOW.V (THAT (TOYS39.SK (NEAR.P KITTY45.SK))))))
+			(?P3 (TOYS39.SK (NEAR.P KITTY45.SK)))
+		)
+	)
+	(EPI-SCHEMA ((KITTY45.SK PLAY.5.V ?Y) ** E40.SK)
+		(:ROLES
+			(!R1 (KITTY45.SK AGENT.N))
+			(!R2 (?Y ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (KITTY45.SK KITTY.N))
+			(!R5 (TOYS39.SK (PLUR TOY.N)))
+			(!R6 (TOYS39.SK (PERTAIN-TO KITTY45.SK)))
+			(!R7 (E41.SK (PERTAIN-TO KITTY45.SK)))
+			(!R8 (E41.SK CATNIP59.SK MOUSE.N))
+			(!R9 (CATNIP59.SK CATNIP.N))
+		)
+		(:PRECONDS
+			(?I1 (KITTY45.SK (AT.P ?L)))
+			(?I2 (?Y (AT.P ?L)))
+			(?I3 (?Y (NEAR.P KITTY45.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (KITTY45.SK (KNOW.V (THAT (?Y (AT.P ?L))))))
+			(?P2 (KITTY45.SK (KNOW.V (THAT (?Y (NEAR.P KITTY45.SK))))))
+			(?P3 (?Y (NEAR.P KITTY45.SK)))
+		)
+	)
+	(EPI-SCHEMA ((KITTY45.SK ((ADV-A (FROM.P ?L1)) JUMP.6.V) ?L2) ** E54.SK)
+		(:ROLES
+			(!R1 (KITTY45.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (KITTY45.SK KITTY.N))
+			(!R7 (TOYS39.SK (PLUR TOY.N)))
+			(!R8 (TOYS39.SK (PERTAIN-TO KITTY45.SK)))
+			(!R9 (E41.SK (PERTAIN-TO KITTY45.SK)))
+			(!R10 (E41.SK CATNIP59.SK MOUSE.N))
+			(!R11 (CATNIP59.SK CATNIP.N))
+		)
+		(:GOALS
+			(?G1 (KITTY45.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KITTY45.SK (AT.P ?L1)))
+			(?I2 (NOT (KITTY45.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITTY45.SK (AT.P ?L1))))
+			(?P2 (KITTY45.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY45.SK ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2) ** E57.SK)
+		(:ROLES
+			(!R1 (KITTY45.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (KITTY45.SK KITTY.N))
+			(!R7 (TOYS39.SK (PLUR TOY.N)))
+			(!R8 (TOYS39.SK (PERTAIN-TO KITTY45.SK)))
+			(!R9 (E41.SK (PERTAIN-TO KITTY45.SK)))
+			(!R10 (E41.SK CATNIP59.SK MOUSE.N))
+			(!R11 (CATNIP59.SK CATNIP.N))
+		)
+		(:GOALS
+			(?G1 (KITTY45.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KITTY45.SK (AT.P ?L1)))
+			(?I2 (NOT (KITTY45.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITTY45.SK (AT.P ?L1))))
+			(?P2 (KITTY45.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Kitty likes to play."
+	; "She plays with her toys."
+	; "She runs around."
+	; "She jumps on the bed."
+	; "She gets into trouble sometimes."
+	(EPI-SCHEMA ((?X_K ((ADV-A (WITH.P ?X_K)) PLAY.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D TROUBLE.N))
+			(!R2 (?X_K KITTY.N))
+			(!R3 (?X_L (PLUR TOY.N)))
+			(!R4 (?X_L (PERTAIN-TO ?X_K)))
+			(!R5 ((KA PLAY.V) ACTION.N))
+			(!R6 (?X_K AGENT.N))
+			(!R7 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_K LIKE.3.V (KA PLAY.V)))
+			(?X_A (?X_K PLAY.4.V ?X_L))
+			(?X_H (?X_K ((ADV-A (FROM.P ?L1)) RUN_AROUND.8.V) ?L2))
+			(?X_J (?X_K ((ADV-A (FROM.P ?L1)) JUMP.6.V) ?L2))
+			(?X_C (?X_K (SOMETIMES.ADV ((ADV-A (INTO.P ?X_D)) GET.V))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KITTY87.SK LIKE.3.V (KA PLAY.V)) ** E85.SK)
+		(:ROLES
+			(!R1 (KITTY87.SK AGENT.N))
+			(!R2 ((KA PLAY.V) ACTION.N))
+			(!R3 (KITTY87.SK KITTY.N))
+			(!R4 (TOYS83.SK (PLUR TOY.N)))
+			(!R5 (TOYS83.SK (PERTAIN-TO KITTY87.SK)))
+		)
+		(:PRECONDS
+			(?I1 (KITTY87.SK (THINK.V (THAT ((KA PLAY.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY87.SK PLAY.4.V TOYS83.SK) ** E82.SK)
+		(:ROLES
+			(!R1 (KITTY87.SK AGENT.N))
+			(!R2 (TOYS83.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (KITTY87.SK KITTY.N))
+			(!R5 (TOYS83.SK (PLUR TOY.N)))
+			(!R6 (TOYS83.SK (PERTAIN-TO KITTY87.SK)))
+		)
+		(:PRECONDS
+			(?I1 (KITTY87.SK (AT.P ?L)))
+			(?I2 (TOYS83.SK (AT.P ?L)))
+			(?I3 (TOYS83.SK (NEAR.P KITTY87.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (KITTY87.SK (KNOW.V (THAT (TOYS83.SK (AT.P ?L))))))
+			(?P2 (KITTY87.SK (KNOW.V (THAT (TOYS83.SK (NEAR.P KITTY87.SK))))))
+			(?P3 (TOYS83.SK (NEAR.P KITTY87.SK)))
+		)
+	)
+	(EPI-SCHEMA ((KITTY87.SK ((ADV-A (FROM.P ?L1)) RUN_AROUND.8.V) ?L2) ** E90.SK)
+		(:ROLES
+			(!R1 (KITTY87.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (KITTY87.SK KITTY.N))
+			(!R7 (TOYS83.SK (PLUR TOY.N)))
+			(!R8 (TOYS83.SK (PERTAIN-TO KITTY87.SK)))
+		)
+		(:GOALS
+			(?G1 (KITTY87.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KITTY87.SK (AT.P ?L1)))
+			(?I2 (NOT (KITTY87.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITTY87.SK (AT.P ?L1))))
+			(?P2 (KITTY87.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KITTY87.SK ((ADV-A (FROM.P ?L1)) JUMP.6.V) ?L2) ** E93.SK)
+		(:ROLES
+			(!R1 (KITTY87.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (KITTY87.SK KITTY.N))
+			(!R7 (TOYS83.SK (PLUR TOY.N)))
+			(!R8 (TOYS83.SK (PERTAIN-TO KITTY87.SK)))
+		)
+		(:GOALS
+			(?G1 (KITTY87.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KITTY87.SK (AT.P ?L1)))
+			(?I2 (NOT (KITTY87.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITTY87.SK (AT.P ?L1))))
+			(?P2 (KITTY87.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A cat played with a toy."
+	; "It was a ball."
+	; "A dog came over."
+	; "The cat threw the ball away."
+	; "The dog chased the cat."
+	(EPI-SCHEMA ((?X_I ((ADV-A (OVER.P ?L2)) COME.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J TOY.N))
+			(!R2 (?X_J BALL.N))
+			(!R3 (?X_K CAT.N))
+			(!R4 (?X_I DOG.N))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_K ((ADV-A (WITH.P ?X_J)) PLAY.V)))
+			(?X_F (?X_I ((ADV-A (FROM.P ?L1)) COME_OVER.9.V) ?L2))
+			(?X_B (?X_K ((AWAY.ADV THROW.V) ?X_J)))
+			(?X_H (?X_I CHASE.1.V ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG115.SK ((ADV-A (FROM.P ?L1)) COME_OVER.9.V) ?L2) ** E117.SK)
+		(:ROLES
+			(!R1 (DOG115.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG115.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG115.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG115.SK (AT.P ?L1)))
+			(?I2 (NOT (DOG115.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG115.SK (AT.P ?L1))))
+			(?P2 (DOG115.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG115.SK CHASE.1.V CAT109.SK) ** E125.SK)
+		(:ROLES
+			(!R1 (DOG115.SK AGENT.N))
+			(!R2 (CAT109.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT109.SK CAT.N))
+			(!R6 (DOG115.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG115.SK (WANT.V (THAT (DOG115.SK (NEAR.P CAT109.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT109.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG115.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tommy's cat played with a toy."
+	; "He ran around the house."
+	; "Tommy's mother came home."
+	; "She saw Tommy's cat playing."
+	; "She told Tommy's father that Tommy's cat was playing."
+	(EPI-SCHEMA ((?X_N ((ADV-A (WITH.P ?X_H)) PLAY.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_O FATHER.N))
+			(!R2 (?X_E HOME.N))
+			(!R3 (?X_M MOTHER.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_M)))
+			(!R5 (?X_H TOY.N))
+			(!R6 (?X_P PLAYING.N))
+			(!R7 (?X_P CAT.N))
+			(!R8 (?X_N AGENT.N))
+			(!R9 (?X_P (PERTAIN-TO ?X_N)))
+			(!R10 (?X_M (PERTAIN-TO ?X_N)))
+			(!R11 (?X_O (PERTAIN-TO ?X_N)))
+			(!R12 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_P ((ADV-A (WITH.P ?X_H)) PLAY.V)))
+			(?X_J (?X_P ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2))
+			(?X_D (?X_M ((ADV-A (TO.P ?X_E)) COME.V)))
+			(?X_L (?X_M SEE.10.V ?X_P))
+			(?X_B (?X_M (TELL.V ?X_O (THAT (?X_P PLAY.V)))))
+			(?E_1 (?X_P PLAY.11.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CAT140.SK ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2) ** E143.SK)
+		(:ROLES
+			(!R1 (CAT140.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT140.SK PLAYING.N))
+			(!R7 (CAT140.SK CAT.N))
+			(!R8 (TOMMY.NAME AGENT.N))
+			(!R9 (CAT140.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R10 (MOTHER147.SK MOTHER.N))
+			(!R11 (MOTHER147.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R12 (MOTHER147.SK AGENT.N))
+			(!R13 (FATHER159.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R14 (FATHER159.SK FATHER.N))
+			(!R15 (HOME161.SK (PERTAIN-TO MOTHER147.SK)))
+			(!R16 (HOME161.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (CAT140.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT140.SK (AT.P ?L1)))
+			(?I2 (NOT (CAT140.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT140.SK (AT.P ?L1))))
+			(?P2 (CAT140.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOTHER147.SK SEE.10.V CAT140.SK) ** E149.SK)
+		(:ROLES
+			(!R1 (MOTHER147.SK AGENT.N))
+			(!R2 (CAT140.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (CAT140.SK AGENT.N))
+			(!R5 (CAT140.SK PLAYING.N))
+			(!R6 (CAT140.SK CAT.N))
+			(!R7 (MOTHER147.SK MOTHER.N))
+			(!R8 (MOTHER147.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R9 (TOMMY.NAME AGENT.N))
+			(!R10 (CAT140.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R11 (HOME161.SK (PERTAIN-TO MOTHER147.SK)))
+			(!R12 (HOME161.SK HOME.N))
+			(!R13 (FATHER159.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R14 (FATHER159.SK FATHER.N))
+		)
+		(:PRECONDS
+			(?I1 (MOTHER147.SK (AT.P ?L)))
+			(?I2 (CAT140.SK (AT.P ?L)))
+			(?I3 (CAT140.SK (NEAR.P MOTHER147.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (MOTHER147.SK (KNOW.V (THAT (CAT140.SK (AT.P ?L))))))
+			(?P2 (MOTHER147.SK (KNOW.V (THAT (CAT140.SK (NEAR.P MOTHER147.SK))))))
+			(?P3 (CAT140.SK (NEAR.P MOTHER147.SK)))
+		)
+	)
+	(EPI-SCHEMA ((CAT140.SK PLAY.11.V) ** ?E)
+		(:ROLES
+			(!R1 (CAT140.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (CAT140.SK PLAYING.N))
+			(!R7 (CAT140.SK CAT.N))
+			(!R8 (TOMMY.NAME AGENT.N))
+			(!R9 (CAT140.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R10 (MOTHER147.SK MOTHER.N))
+			(!R11 (MOTHER147.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R12 (MOTHER147.SK AGENT.N))
+			(!R13 (FATHER159.SK (PERTAIN-TO TOMMY.NAME)))
+			(!R14 (FATHER159.SK FATHER.N))
+			(!R15 (HOME161.SK (PERTAIN-TO MOTHER147.SK)))
+			(!R16 (HOME161.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (CAT140.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (CAT140.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (CAT140.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tiger played with a cat."
+	; "He chased the cat."
+	; "He caught the cat."
+	; "He played with the cat."
+	(EPI-SCHEMA ((?X_G (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_J CAT.N))
+			(!R2 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_F (?X_G ((ADV-A (WITH.P ?X_J)) PLAY.V)))
+			(?X_I (?X_J CHASE.12.V ?X_J))
+			(?X_D (?X_J (CATCH.V ?X_J)))
+			(?X_B (?X_J ((ADV-A (WITH.P ?X_J)) PLAY.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CAT171.SK CHASE.12.V CAT171.SK) ** E175.SK)
+		(:ROLES
+			(!R1 (CAT171.SK AGENT.N))
+			(!R2 (CAT171.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT171.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (CAT171.SK (WANT.V (THAT (CAT171.SK (NEAR.P CAT171.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT171.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (CAT171.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The cat played with the mouse."
+	; "The cat caught the mouse."
+	; "The cat ate the mouse."
+	; "The cat scratched the mouse."
+	(EPI-SCHEMA ((?X_H ((ADV-A (WITH.P ?X_H)) PLAY.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H MOUSE.N))
+			(!R2 (?X_H CAT.N))
+			(!R3 (?X_E ((PASV SCRATCH.V) ?X_H)))
+			(!R4 (?X_H FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_H ((ADV-A (WITH.P ?X_H)) PLAY.V)))
+			(?X_B (?X_H (CATCH.V ?X_H)))
+			(?X_G (?X_H EAT.13.V ?X_H))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CAT192.SK EAT.13.V CAT192.SK) ** E203.SK)
+		(:ROLES
+			(!R1 (CAT192.SK AGENT.N))
+			(!R2 (CAT192.SK FOOD.N))
+			(!R3 (CAT192.SK MOUSE.N))
+			(!R4 (CAT192.SK CAT.N))
+			(!R5 (OBJECT205.SK ((PASV SCRATCH.V) CAT192.SK)))
+		)
+		(:GOALS
+			(?G1 (CAT192.SK (WANT.V (THAT (NOT (CAT192.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CAT192.SK POSSESS.V CAT192.SK))
+			(?I2 (CAT192.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT192.SK (POSSESS.V CAT192.SK))))
+			(?P2 (NOT (CAT192.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A cat played with a mouse."
+	; "The cat caught the mouse."
+	; "The cat played with the mouse."
+	; "The cat killed the mouse."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I CAT.N))
+			(!R2 (?X_J MOUSE.N))
+		)
+		(:STEPS
+			(?X_B (?X_I ((ADV-A (WITH.P ?X_J)) PLAY.V)))
+			(?X_D (?X_I (CATCH.V ?X_J)))
+			(?X_F (?X_I ((ADV-A (WITH.P ?X_J)) PLAY.V)))
+			(?X_H (?X_I (KILL.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tiger played with Tiger."
+	; "Lion played with Lion."
+	; "Panther played with Panther."
+	; "Leopard played with Leopard."
+	(EPI-SCHEMA ((?X_C ((ADV-A (WITH.P ?X_C)) PLAY.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C AGENT.N))
+			(!R2 (?X_F AGENT.N))
+			(!R3 (?X_L AGENT.N))
+			(!R4 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_J (?X_K PLAY.14.V))
+			(?X_H (?X_L ((ADV-A (WITH.P ?X_K)) PLAY.V)))
+			(?X_E (?X_F ((ADV-A (WITH.P ?X_F)) PLAY.V)))
+			(?X_B (?X_C ((ADV-A (WITH.P ?X_C)) PLAY.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TIGER.NAME PLAY.14.V) ** E244.SK)
+		(:ROLES
+			(!R1 (TIGER.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+		)
+		(:GOALS
+			(?G1 (TIGER.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (TIGER.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (TIGER.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Pete's cat played in the yard."
+	; "He chased the birds."
+	; "He caught a mouse."
+	; "He played with the other cats."
+	(EPI-SCHEMA ((?X_J (PLAY.V (K (WITH.P (SET-OF ?X_M ?X_E) ?X_L)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_L MOUSE.N))
+			(!R2 (?X_E YARD.N))
+			(!R3 (?X_K CAT.N))
+			(!R4 (?X_M (PLUR BIRD.N)))
+			(!R5 (?X_J AGENT.N))
+			(!R6 (?X_K (PERTAIN-TO ?X_J)))
+			(!R7 (?Y ENTITY.N))
+		)
+		(:STEPS
+			(?X_D (?X_K ((ADV-A (IN.P ?X_E)) PLAY.V)))
+			(?X_G (?X_K CHASE.1.V ?X_M))
+			(?X_B (?X_K (CATCH.V ?X_L)))
+			(?X_I (?X_K PLAY.5.V ?Y))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CAT263.SK CHASE.1.V BIRD267.SK) ** E266.SK)
+		(:ROLES
+			(!R1 (CAT263.SK AGENT.N))
+			(!R2 (BIRD267.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT263.SK CAT.N))
+			(!R6 (BIRD267.SK (PLUR BIRD.N)))
+			(!R7 (PETE.NAME AGENT.N))
+			(!R8 (CAT263.SK (PERTAIN-TO PETE.NAME)))
+		)
+		(:GOALS
+			(?G1 (CAT263.SK (WANT.V (THAT (CAT263.SK (NEAR.P BIRD267.SK))))))
+		)
+		(:STEPS
+			(?E1 (BIRD267.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (CAT263.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT263.SK PLAY.5.V ?Y) ** E273.SK)
+		(:ROLES
+			(!R1 (CAT263.SK AGENT.N))
+			(!R2 (?Y ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (CAT263.SK CAT.N))
+			(!R5 (PETE.NAME AGENT.N))
+			(!R6 (CAT263.SK (PERTAIN-TO PETE.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (CAT263.SK (AT.P ?L)))
+			(?I2 (?Y (AT.P ?L)))
+			(?I3 (?Y (NEAR.P CAT263.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (CAT263.SK (KNOW.V (THAT (?Y (AT.P ?L))))))
+			(?P2 (CAT263.SK (KNOW.V (THAT (?Y (NEAR.P CAT263.SK))))))
+			(?P3 (?Y (NEAR.P CAT263.SK)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "The dog chased the cat."
+	; "The cat ran away from the dog."
+	; "The dog caught the cat."
+	; "The cat ran into the house."
+	(EPI-SCHEMA ((?X_J (CHASE.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I CAT.N))
+			(!R2 (?X_H DOG.N))
+			(!R3 (?X_J HOUSE.N))
+			(!R4 (?X_H LOCATION.N))
+			(!R5 (NOT (?X_H = ?L2)))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (?X_J DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_H CHASE.1.V ?X_I))
+			(?X_E (?X_I ((ADV-A (FROM.P ?X_H)) RUN.2.V) ?L2))
+			(?X_C (?X_H (CATCH.V ?X_I)))
+			(?X_G (?X_I ((ADV-A (FROM.P ?L1)) RUN.3.V) ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG1.SK CHASE.1.V CAT3.SK) ** E4.SK)
+		(:ROLES
+			(!R1 (DOG1.SK AGENT.N))
+			(!R2 (CAT3.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT3.SK CAT.N))
+			(!R6 (DOG1.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG1.SK (WANT.V (THAT (DOG1.SK (NEAR.P CAT3.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT3.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG1.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT3.SK ((ADV-A (FROM.P DOG1.SK)) RUN.2.V) ?L2) ** E8.SK)
+		(:ROLES
+			(!R1 (CAT3.SK AGENT.N))
+			(!R2 (DOG1.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG1.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT3.SK CAT.N))
+			(!R7 (DOG1.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (CAT3.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT3.SK (AT.P DOG1.SK)))
+			(?I2 (NOT (CAT3.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT3.SK (AT.P DOG1.SK))))
+			(?P2 (CAT3.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CAT3.SK ((ADV-A (FROM.P ?L1)) RUN.3.V) HOUSE15.SK) ** E16.SK)
+		(:ROLES
+			(!R1 (CAT3.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOUSE15.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOUSE15.SK)))
+			(!R5 (HOUSE15.SK DESTINATION.N))
+			(!R6 (CAT3.SK CAT.N))
+			(!R7 (HOUSE15.SK HOUSE.N))
+		)
+		(:GOALS
+			(?G1 (CAT3.SK (WANT.V (KA ((ADV-A (AT.P HOUSE15.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT3.SK (AT.P ?L1)))
+			(?I2 (NOT (CAT3.SK (AT.P HOUSE15.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT3.SK (AT.P ?L1))))
+			(?P2 (CAT3.SK (AT.P HOUSE15.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom chased a rabbit."
+	; "He ran after the rabbit."
+	; "He caught the rabbit."
+	; "He held the rabbit by its ears."
+	; "The rabbit tried to escape."
+	; "Tom let the rabbit go."
+	(EPI-SCHEMA ((?X_M (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_O RABBIT.N))
+			(!R2 (?X_M AGENT.N))
+			(!R3 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_J (?X_M CHASE.1.V ?X_O))
+			(?X_L (?X_M ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2))
+			(?X_H (?X_M (CATCH.V ?X_O)))
+			(?X_F (?X_M (HOLD.V ?X_N)))
+			(?X_D (?X_O (TRY.V (KA ESCAPE.V))))
+			(?X_B (?X_M (LET.V (KE (?X_O GO.V)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CHASE.1.V RABBIT28.SK) ** E29.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (RABBIT28.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (RABBIT28.SK RABBIT.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (TOM.NAME (NEAR.P RABBIT28.SK))))))
+		)
+		(:STEPS
+			(?E1 (RABBIT28.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (TOM.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2) ** E32.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A dog chased a cat."
+	; "The cat ran away from the dog."
+	; "The dog caught the cat."
+	; "The dog bit the cat's tail."
+	; "The cat scratched the dog."
+	; "The dog chased the cat again."
+	(EPI-SCHEMA ((?X_L (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_M CAT.N))
+			(!R2 (?X_L DOG.N))
+			(!R3 (?X_I ((PASV SCRATCH.V) ?X_L)))
+			(!R4 (?X_K TAIL.N))
+			(!R5 (?X_K (PERTAIN-TO ?X_M)))
+			(!R6 (?X_J DOG.N))
+			(!R7 (?X_J (BIT.N ?X_K)))
+			(!R8 (?X_L LOCATION.N))
+			(!R9 (NOT (?X_L = ?L2)))
+			(!R10 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_L CHASE.1.V ?X_M))
+			(?X_F (?X_M ((ADV-A (FROM.P ?X_L)) RUN.2.V) ?L2))
+			(?X_B (?X_L (CATCH.V ?X_M)))
+			(?X_H (?X_L CHASE.1.V ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG51.SK CHASE.1.V CAT53.SK) ** E54.SK)
+		(:ROLES
+			(!R1 (DOG51.SK AGENT.N))
+			(!R2 (CAT53.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT53.SK CAT.N))
+			(!R6 (DOG51.SK DOG.N))
+			(!R7 (TAIL67.SK (PERTAIN-TO CAT53.SK)))
+			(!R8 (TAIL67.SK TAIL.N))
+			(!R9 (OBJECT69.SK ((PASV SCRATCH.V) DOG51.SK)))
+			(!R10 (BIT65.SK (BIT.N TAIL67.SK)))
+			(!R11 (BIT65.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG51.SK (WANT.V (THAT (DOG51.SK (NEAR.P CAT53.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT53.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG51.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT53.SK ((ADV-A (FROM.P DOG51.SK)) RUN.2.V) ?L2) ** E58.SK)
+		(:ROLES
+			(!R1 (CAT53.SK AGENT.N))
+			(!R2 (DOG51.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG51.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT53.SK CAT.N))
+			(!R7 (DOG51.SK DOG.N))
+			(!R8 (TAIL67.SK (PERTAIN-TO CAT53.SK)))
+			(!R9 (TAIL67.SK TAIL.N))
+			(!R10 (OBJECT69.SK ((PASV SCRATCH.V) DOG51.SK)))
+			(!R11 (BIT65.SK (BIT.N TAIL67.SK)))
+			(!R12 (BIT65.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (CAT53.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT53.SK (AT.P DOG51.SK)))
+			(?I2 (NOT (CAT53.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT53.SK (AT.P DOG51.SK))))
+			(?P2 (CAT53.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG51.SK CHASE.1.V CAT53.SK) ** E74.SK)
+		(:ROLES
+			(!R1 (DOG51.SK AGENT.N))
+			(!R2 (CAT53.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT53.SK CAT.N))
+			(!R6 (DOG51.SK DOG.N))
+			(!R7 (TAIL67.SK (PERTAIN-TO CAT53.SK)))
+			(!R8 (TAIL67.SK TAIL.N))
+			(!R9 (OBJECT69.SK ((PASV SCRATCH.V) DOG51.SK)))
+			(!R10 (BIT65.SK (BIT.N TAIL67.SK)))
+			(!R11 (BIT65.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG51.SK (WANT.V (THAT (DOG51.SK (NEAR.P CAT53.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT53.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG51.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly chased a rabbit."
+	; "She ran after it."
+	; "The rabbit ran away from her."
+	(EPI-SCHEMA ((?X_G (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_H RABBIT.N))
+			(!R2 (?X_G AGENT.N))
+			(!R3 (?X_G LOCATION.N))
+			(!R4 (NOT (?X_G = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_G CHASE.1.V ?X_H))
+			(?X_D (?X_G ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2))
+			(?X_F (?X_H ((ADV-A (FROM.P ?X_G)) RUN.2.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME CHASE.1.V RABBIT82.SK) ** E83.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (RABBIT82.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (RABBIT82.SK RABBIT.N))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (MOLLY.NAME (NEAR.P RABBIT82.SK))))))
+		)
+		(:STEPS
+			(?E1 (RABBIT82.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (MOLLY.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2) ** E85.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MOLLY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MOLLY.NAME (AT.P ?L1))))
+			(?P2 (MOLLY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((RABBIT82.SK ((ADV-A (FROM.P MOLLY.NAME)) RUN.2.V) ?L2) ** E88.SK)
+		(:ROLES
+			(!R1 (RABBIT82.SK AGENT.N))
+			(!R2 (MOLLY.NAME LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (MOLLY.NAME = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (RABBIT82.SK RABBIT.N))
+			(!R7 (MOLLY.NAME AGENT.N))
+		)
+		(:GOALS
+			(?G1 (RABBIT82.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (RABBIT82.SK (AT.P MOLLY.NAME)))
+			(?I2 (NOT (RABBIT82.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (RABBIT82.SK (AT.P MOLLY.NAME))))
+			(?P2 (RABBIT82.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A fox chased a rabbit."
+	; "The fox caught the rabbit."
+	; "The fox ate the rabbit."
+	(EPI-SCHEMA ((?X_H (CATCH.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H RABBIT.N))
+			(!R2 (?X_G FOX.N))
+			(!R3 (?X_H FOOD.N))
+		)
+		(:STEPS
+			(?X_D (?X_G CHASE.1.V ?X_H))
+			(?X_B (?X_G (CATCH.V ?X_H)))
+			(?X_F (?X_G EAT.5.V ?X_H))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((FOX95.SK CHASE.1.V RABBIT97.SK) ** E98.SK)
+		(:ROLES
+			(!R1 (FOX95.SK AGENT.N))
+			(!R2 (RABBIT97.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (RABBIT97.SK RABBIT.N))
+			(!R6 (FOX95.SK FOX.N))
+		)
+		(:GOALS
+			(?G1 (FOX95.SK (WANT.V (THAT (FOX95.SK (NEAR.P RABBIT97.SK))))))
+		)
+		(:STEPS
+			(?E1 (RABBIT97.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (FOX95.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((FOX95.SK EAT.5.V RABBIT97.SK) ** E106.SK)
+		(:ROLES
+			(!R1 (FOX95.SK AGENT.N))
+			(!R2 (RABBIT97.SK FOOD.N))
+			(!R3 (RABBIT97.SK RABBIT.N))
+			(!R4 (FOX95.SK FOX.N))
+		)
+		(:GOALS
+			(?G1 (FOX95.SK (WANT.V (THAT (NOT (FOX95.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FOX95.SK POSSESS.V RABBIT97.SK))
+			(?I2 (FOX95.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FOX95.SK (POSSESS.V RABBIT97.SK))))
+			(?P2 (NOT (FOX95.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The dog chased the cat."
+	; "The cat ran away from the dog."
+	; "The dog caught the cat."
+	; "The dog bit the cat."
+	; "The cat scratched the dog."
+	; "The dog barked at the cat."
+	; "The dog chased the cat again."
+	; "The cat ran away from the dog."
+	; "The dog caught the cat."
+	; "The dog bit the cat."
+	; "The cat scratched the dog."
+	; "The dog barked at the cat."
+	; "The dog chased the cat again."
+	; "The cat ran away from the dog."
+	; "The dog caught the cat."
+	; "The dog bit the cat."
+	; "The cat"
+	(EPI-SCHEMA ((?X_Y (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_Y DOG.N))
+			(!R2 (?X_Z CAT.N))
+			(!R3 (?X_U ((PASV SCRATCH.V) ?X_Y)))
+			(!R4 (?X_V ((PASV SCRATCH.V) ?X_Y)))
+			(!R5 (?N NOISE.N))
+			(!R6 (NOT (?X_Y = ?L2)))
+			(!R7 (?X_Y LOCATION.N))
+			(!R8 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_P (?X_Y CHASE.1.V ?X_Z))
+			(?X_N (?X_Z ((ADV-A (FROM.P ?X_Y)) (AWAY.ADV RUN.V))))
+			(?X_L (?X_Y (CATCH.V ?X_Z)))
+			(?X_J (?X_Y ((ADV-A (AT.P ?X_Z)) BARK.V)))
+			(?X_H (?X_Y ((AGAIN.ADV CHASE.V) ?X_Z)))
+			(?X_F (?X_Z ((ADV-A (FROM.P ?X_Y)) (AWAY.ADV RUN.V))))
+			(?X_D (?X_Y (CATCH.V ?X_Z)))
+			(?X_R (?X_Y BARK.6.V ?N))
+			(?X_T (?X_Y CHASE.1.V ?X_Z))
+			(?X_X (?X_Z ((ADV-A (FROM.P ?X_Y)) RUN.2.V) ?L2))
+			(?X_B (?X_Y (CATCH.V ?X_Z)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG116.SK CHASE.1.V CAT118.SK) ** E119.SK)
+		(:ROLES
+			(!R1 (DOG116.SK AGENT.N))
+			(!R2 (CAT118.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT118.SK CAT.N))
+			(!R6 (DOG116.SK DOG.N))
+			(!R7 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R8 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+		(:GOALS
+			(?G1 (DOG116.SK (WANT.V (THAT (DOG116.SK (NEAR.P CAT118.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT118.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG116.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT118.SK ((ADV-A (FROM.P DOG116.SK)) RUN.2.V) ?L2) ** E165.SK)
+		(:ROLES
+			(!R1 (CAT118.SK AGENT.N))
+			(!R2 (DOG116.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG116.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT118.SK CAT.N))
+			(!R7 (DOG116.SK DOG.N))
+			(!R8 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R9 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+		(:GOALS
+			(?G1 (CAT118.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT118.SK (AT.P DOG116.SK)))
+			(?I2 (NOT (CAT118.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT118.SK (AT.P DOG116.SK))))
+			(?P2 (CAT118.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG116.SK BARK.6.V ?N) ** E157.SK)
+		(:ROLES
+			(!R1 (DOG116.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (DOG116.SK DOG.N))
+			(!R4 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R5 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+	)
+	(EPI-SCHEMA ((DOG116.SK CHASE.1.V CAT118.SK) ** E161.SK)
+		(:ROLES
+			(!R1 (DOG116.SK AGENT.N))
+			(!R2 (CAT118.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT118.SK CAT.N))
+			(!R6 (DOG116.SK DOG.N))
+			(!R7 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R8 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+		(:GOALS
+			(?G1 (DOG116.SK (WANT.V (THAT (DOG116.SK (NEAR.P CAT118.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT118.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG116.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT118.SK ((ADV-A (FROM.P DOG116.SK)) RUN.2.V) ?L2) ** E165.SK)
+		(:ROLES
+			(!R1 (CAT118.SK AGENT.N))
+			(!R2 (DOG116.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG116.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT118.SK CAT.N))
+			(!R7 (DOG116.SK DOG.N))
+			(!R8 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R9 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+		(:GOALS
+			(?G1 (CAT118.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT118.SK (AT.P DOG116.SK)))
+			(?I2 (NOT (CAT118.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT118.SK (AT.P DOG116.SK))))
+			(?P2 (CAT118.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG116.SK BARK.6.V ?N) ** E157.SK)
+		(:ROLES
+			(!R1 (DOG116.SK AGENT.N))
+			(!R2 (?N NOISE.N))
+			(!R3 (DOG116.SK DOG.N))
+			(!R4 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R5 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+	)
+	(EPI-SCHEMA ((DOG116.SK CHASE.1.V CAT118.SK) ** E161.SK)
+		(:ROLES
+			(!R1 (DOG116.SK AGENT.N))
+			(!R2 (CAT118.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT118.SK CAT.N))
+			(!R6 (DOG116.SK DOG.N))
+			(!R7 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R8 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+		(:GOALS
+			(?G1 (DOG116.SK (WANT.V (THAT (DOG116.SK (NEAR.P CAT118.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT118.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG116.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT118.SK ((ADV-A (FROM.P DOG116.SK)) RUN.2.V) ?L2) ** E165.SK)
+		(:ROLES
+			(!R1 (CAT118.SK AGENT.N))
+			(!R2 (DOG116.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG116.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT118.SK CAT.N))
+			(!R7 (DOG116.SK DOG.N))
+			(!R8 (OBJECT131.SK ((PASV SCRATCH.V) DOG116.SK)))
+			(!R9 (OBJECT152.SK ((PASV SCRATCH.V) DOG116.SK)))
+		)
+		(:GOALS
+			(?G1 (CAT118.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT118.SK (AT.P DOG116.SK)))
+			(?I2 (NOT (CAT118.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT118.SK (AT.P DOG116.SK))))
+			(?P2 (CAT118.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A dog chased a cat."
+	; "The cat ran away from the dog."
+	; "The dog kept running after the cat."
+	; "The cat jumped on a table."
+	; "The dog jumped over the table."
+	; "The cat hid under the table."
+	; "The dog found the cat."
+	; "The dog caught the cat."
+	(EPI-SCHEMA ((?X_R (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_E TABLE.N))
+			(!R2 (?X_S CAT.N))
+			(!R3 (?X_R DOG.N))
+			(!R4 (?X_R LOCATION.N))
+			(!R5 (NOT (?X_R = ?L2)))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_I (?X_R CHASE.1.V ?X_S))
+			(?X_K (?X_S ((ADV-A (FROM.P ?X_R)) RUN.2.V) ?L2))
+			(?X_G (?X_R ((ADV-A (FOR.P (KA ((ADV-A (AFTER.P ?X_S)) RUN.V)))) KEEP.V)))
+			(?E_1 (?X_R ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2))
+			(?X_M (?X_S ((ADV-A (FROM.P ?L1)) JUMP.8.V) ?L2))
+			(?X_O (?X_R ((ADV-A (FROM.P ?L1)) JUMP.8.V) ?L2))
+			(?X_D (?X_S ((ADV-A (UNDER.P ?X_E)) HIDE.V)))
+			(?X_Q (?X_R FIND.9.V ?X_S))
+			(?X_B (?X_R (CATCH.V ?X_S)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG178.SK CHASE.1.V CAT180.SK) ** E181.SK)
+		(:ROLES
+			(!R1 (DOG178.SK AGENT.N))
+			(!R2 (CAT180.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT180.SK CAT.N))
+			(!R6 (DOG178.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG178.SK (WANT.V (THAT (DOG178.SK (NEAR.P CAT180.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT180.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG178.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT180.SK ((ADV-A (FROM.P DOG178.SK)) RUN.2.V) ?L2) ** E185.SK)
+		(:ROLES
+			(!R1 (CAT180.SK AGENT.N))
+			(!R2 (DOG178.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG178.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT180.SK CAT.N))
+			(!R7 (DOG178.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (CAT180.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT180.SK (AT.P DOG178.SK)))
+			(?I2 (NOT (CAT180.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT180.SK (AT.P DOG178.SK))))
+			(?P2 (CAT180.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG178.SK ((ADV-A (FROM.P ?L1)) RUN.7.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (DOG178.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG178.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG178.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG178.SK (AT.P ?L1)))
+			(?I2 (NOT (DOG178.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG178.SK (AT.P ?L1))))
+			(?P2 (DOG178.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CAT180.SK ((ADV-A (FROM.P ?L1)) JUMP.8.V) ?L2) ** E193.SK)
+		(:ROLES
+			(!R1 (CAT180.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT180.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (CAT180.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT180.SK (AT.P ?L1)))
+			(?I2 (NOT (CAT180.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT180.SK (AT.P ?L1))))
+			(?P2 (CAT180.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG178.SK ((ADV-A (FROM.P ?L1)) JUMP.8.V) ?L2) ** E197.SK)
+		(:ROLES
+			(!R1 (DOG178.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG178.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG178.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG178.SK (AT.P ?L1)))
+			(?I2 (NOT (DOG178.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG178.SK (AT.P ?L1))))
+			(?P2 (DOG178.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG178.SK FIND.9.V CAT180.SK) ** E205.SK)
+		(:ROLES
+			(!R1 (DOG178.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (CAT180.SK ENTITY.N))
+			(!R4 (CAT180.SK CAT.N))
+			(!R5 (DOG178.SK DOG.N))
+		)
+		(:PRECONDS
+			(?I1 (DOG178.SK (AT.P ?L)))
+			(?I2 (CAT180.SK (AT.P ?L)))
+			(?I3 (DOG178.SK ((ADV-A (FOR.P CAT180.SK)) SEARCH.V)))
+			(?I4 (NOT (DOG178.SK (KNOW.V (THAT (CAT180.SK (AT.P ?L)))))))
+			(?I5 (NOT (DOG178.SK (POSSESS.V CAT180.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (DOG178.SK (KNOW.V (THAT (CAT180.SK (AT.P ?L))))))
+			(?P2 (DOG178.SK (POSSESS.V CAT180.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E205.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy chased a dog."
+	; "He tried to catch the dog."
+	; "He ran after the dog."
+	; "He caught the dog."
+	; "He held the dog by its collar."
+	; "He let the dog go."
+	(EPI-SCHEMA ((?X_M (TRY.V (KA (CATCH.V ?X_O)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_O DOG.N))
+			(!R2 (?X_M BOY.N))
+			(!R3 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_J (?X_M CHASE.1.V ?X_O))
+			(?X_H (?X_M (TRY.V (KA (CATCH.V ?X_O)))))
+			(?X_L (?X_M ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2))
+			(?X_F (?X_M (CATCH.V ?X_O)))
+			(?X_D (?X_M (HOLD.V ?X_N)))
+			(?X_B (?X_M (LET.V (KE (?X_O GO.V)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY216.SK CHASE.1.V DOG218.SK) ** E219.SK)
+		(:ROLES
+			(!R1 (BOY216.SK AGENT.N))
+			(!R2 (DOG218.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (DOG218.SK DOG.N))
+			(!R6 (BOY216.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY216.SK (WANT.V (THAT (BOY216.SK (NEAR.P DOG218.SK))))))
+		)
+		(:STEPS
+			(?E1 (DOG218.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (BOY216.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((BOY216.SK ((ADV-A (FROM.P ?L1)) RUN.4.V) ?L2) ** E225.SK)
+		(:ROLES
+			(!R1 (BOY216.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY216.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY216.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY216.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY216.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY216.SK (AT.P ?L1))))
+			(?P2 (BOY216.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy chased a rabbit."
+	; "He caught the rabbit."
+	; "He held the rabbit by its ears."
+	; "He put the rabbit on the ground."
+	; "The rabbit ran away."
+	(EPI-SCHEMA ((?X_K (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_M RABBIT.N))
+			(!R2 (?X_K BOY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_K CHASE.1.V ?X_M))
+			(?X_D (?X_K (CATCH.V ?X_M)))
+			(?X_B (?X_K (HOLD.V ?X_L)))
+			(?X_H (?X_K PUT.10.V ?X_M ?L))
+			(?X_J (?X_M ((ADV-A (FROM.P ?L1)) RUN_AWAY.11.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY243.SK CHASE.1.V RABBIT245.SK) ** E246.SK)
+		(:ROLES
+			(!R1 (BOY243.SK AGENT.N))
+			(!R2 (RABBIT245.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (RABBIT245.SK RABBIT.N))
+			(!R6 (BOY243.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY243.SK (WANT.V (THAT (BOY243.SK (NEAR.P RABBIT245.SK))))))
+		)
+		(:STEPS
+			(?E1 (RABBIT245.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (BOY243.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((BOY243.SK PUT.10.V RABBIT245.SK ?L) ** E256.SK)
+		(:ROLES
+			(!R1 (BOY243.SK AGENT.N))
+			(!R2 (RABBIT245.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (RABBIT245.SK RABBIT.N))
+			(!R5 (BOY243.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY243.SK (WANT.V (THAT (RABBIT245.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY243.SK (POSSESS.V RABBIT245.SK)))
+			(?I2 (RABBIT245.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (RABBIT245.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((RABBIT245.SK ((ADV-A (FROM.P ?L1)) RUN_AWAY.11.V) ?L2) ** E259.SK)
+		(:ROLES
+			(!R1 (RABBIT245.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (RABBIT245.SK RABBIT.N))
+		)
+		(:GOALS
+			(?G1 (RABBIT245.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (RABBIT245.SK (AT.P ?L1)))
+			(?I2 (NOT (RABBIT245.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (RABBIT245.SK (AT.P ?L1))))
+			(?P2 (RABBIT245.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A dog chased a cat."
+	; "The cat ran away from the dog."
+	; "The dog caught the cat."
+	; "The dog killed the cat."
+	(EPI-SCHEMA ((?X_I (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_J CAT.N))
+			(!R2 (?X_I DOG.N))
+			(!R3 (?X_I LOCATION.N))
+			(!R4 (NOT (?X_I = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_I CHASE.1.V ?X_J))
+			(?X_H (?X_J ((ADV-A (FROM.P ?X_I)) RUN.2.V) ?L2))
+			(?X_D (?X_I (CATCH.V ?X_J)))
+			(?X_B (?X_I (KILL.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG266.SK CHASE.1.V CAT268.SK) ** E269.SK)
+		(:ROLES
+			(!R1 (DOG266.SK AGENT.N))
+			(!R2 (CAT268.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT268.SK CAT.N))
+			(!R6 (DOG266.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG266.SK (WANT.V (THAT (DOG266.SK (NEAR.P CAT268.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT268.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG266.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT268.SK ((ADV-A (FROM.P DOG266.SK)) RUN.2.V) ?L2) ** E273.SK)
+		(:ROLES
+			(!R1 (CAT268.SK AGENT.N))
+			(!R2 (DOG266.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG266.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT268.SK CAT.N))
+			(!R7 (DOG266.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (CAT268.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT268.SK (AT.P DOG266.SK)))
+			(?I2 (NOT (CAT268.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT268.SK (AT.P DOG266.SK))))
+			(?P2 (CAT268.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tom chased a cat."
+	; "He caught the cat."
+	; "He threw the cat into the air."
+	; "The cat flew away."
+	; "Tom ran after the cat."
+	(EPI-SCHEMA ((?X_K (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_D AIR.N))
+			(!R2 (?X_L CAT.N))
+			(!R3 (?X_L LOCATION.N))
+			(!R4 (NOT (?X_L = ?L2)))
+			(!R5 (?X_K AGENT.N))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_K CHASE.1.V ?X_L))
+			(?X_F (?X_K (CATCH.V ?X_L)))
+			(?X_C (?X_K (((ADV-A (INTO.P ?X_D)) THROW.V) ?X_L)))
+			(?X_H (?X_L ((ADV-A (FROM.P ?X_L)) FLY.2.V) ?L2))
+			(?X_J (?X_K ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CHASE.1.V CAT2.SK) ** E5.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (CAT2.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT2.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (TOM.NAME (NEAR.P CAT2.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT2.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (TOM.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT2.SK ((ADV-A (FROM.P CAT2.SK)) FLY.2.V) ?L2) ** E15.SK)
+		(:ROLES
+			(!R1 (CAT2.SK AGENT.N))
+			(!R2 (CAT2.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (CAT2.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT2.SK CAT.N))
+		)
+		(:GOALS
+			(?G1 (CAT2.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT2.SK (AT.P CAT2.SK)))
+			(?I2 (NOT (CAT2.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT2.SK (AT.P CAT2.SK))))
+			(?P2 (CAT2.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E18.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The boy chased the ball."
+	; "He ran after the ball."
+	; "He caught the ball."
+	; "He threw the ball to the girl."
+	; "The girl caught the ball."
+	; "The boy caught the ball."
+	; "He threw the ball to the girl."
+	(EPI-SCHEMA ((?X_P (COMPOSITE-SCHEMA.PR ?X_Q ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_I GIRL.N))
+			(!R2 (?X_Q BALL.N))
+			(!R3 (?X_P BOY.N))
+			(!R4 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_M (?X_P CHASE.1.V ?X_Q))
+			(?X_O (?X_P ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_K (?X_P (CATCH.V ?X_Q)))
+			(?X_H (?X_P (((ADV-A (TO.P ?X_I)) THROW.V) ?X_Q)))
+			(?X_F (?X_I (CATCH.V ?X_Q)))
+			(?X_D (?X_P (CATCH.V ?X_Q)))
+			(?X_B (?X_P (((ADV-A (TO.P ?X_I)) THROW.V) ?X_Q)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY25.SK CHASE.1.V BALL27.SK) ** E28.SK)
+		(:ROLES
+			(!R1 (BOY25.SK AGENT.N))
+			(!R2 (BALL27.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (BALL27.SK BALL.N))
+			(!R6 (BOY25.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY25.SK (WANT.V (THAT (BOY25.SK (NEAR.P BALL27.SK))))))
+		)
+		(:STEPS
+			(?E1 (BALL27.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (BOY25.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((BOY25.SK ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E31.SK)
+		(:ROLES
+			(!R1 (BOY25.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY25.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY25.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY25.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY25.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY25.SK (AT.P ?L1))))
+			(?P2 (BOY25.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom chased after a ball."
+	; "He ran fast."
+	; "He caught the ball."
+	; "He threw the ball into the air."
+	; "The ball fell down."
+	; "Tom caught the ball again."
+	; "He threw the ball higher."
+	; "The ball flew over the fence."
+	; "Tom caught the ball for the third time."
+	; "He threw the ball farther than before."
+	; "The ball landed on the other side of the field."
+	; "Tom caught the ball for the fourth time."
+	; "He threw the ball as far as possible."
+	; "The ball flew over the roof of the school."
+	; "Tom caught the ball for the fifth time."
+	(EPI-SCHEMA ((?X_ZJ (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_C FIFTH.A))
+			(!R2 (?X_C TIME.N))
+			(!R3 (?X_H FOURTH.A))
+			(!R4 (?X_H TIME.N))
+			(!R5 (?X_L (OF.P ?X_K)))
+			(!R6 (?X_L ?X_M SIDE.N))
+			(!R7 (?X_P THIRD.A))
+			(!R8 (?X_P TIME.N))
+			(!R9 (?X_Y AIR.N))
+			(!R10 (?X_ZL BALL.N))
+			(!R11 (?X_ZJ AGENT.N))
+			(!R12 (?X_ZL AGENT.N))
+			(!R13 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_ZC (?X_ZJ CHASE.1.V ?X_ZL))
+			(?X_ZE (?X_ZJ ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_ZA (?X_ZJ (CATCH.V ?X_ZL)))
+			(?X_X (?X_ZJ (((ADV-A (INTO.P ?X_Y)) THROW.V) ?X_ZL)))
+			(?X_V (?X_ZL (DOWN.ADV FALL.V)))
+			(?X_T (?X_ZJ ((AGAIN.ADV CATCH.V) ?X_ZL)))
+			(?X_R (?X_ZJ ((HIGHER.ADV THROW.V) ?X_ZL)))
+			(?X_ZG (?X_ZL ((ADV-A (FROM.P ?L1)) FLY.4.V) ?L2))
+			(?X_O (?X_ZJ (((ADV-A (FOR.P ?X_P)) CATCH.V) ?X_ZL)))
+			(?X_J (?X_ZL ((ADV-A (ON.P ?X_L)) LAND.V)))
+			(?X_G (?X_ZJ (((ADV-A (FOR.P ?X_H)) CATCH.V) ?X_ZL)))
+			(?X_E (?X_ZJ (THROW.V ?X_ZL ?X_ZK)))
+			(?X_ZI (?X_ZL ((ADV-A (FROM.P ?L1)) FLY.4.V) ?L2))
+			(?X_B (?X_ZJ (((ADV-A (FOR.P ?X_C)) CATCH.V) ?X_ZL)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CHASE.1.V BALL69.SK) ** E70.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BALL69.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (BALL69.SK BALL.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (TOM.NAME (NEAR.P BALL69.SK))))))
+		)
+		(:STEPS
+			(?E1 (BALL69.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (TOM.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E72.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BALL69.SK ((ADV-A (FROM.P ?L1)) FLY.4.V) ?L2) ** E92.SK)
+		(:ROLES
+			(!R1 (BALL69.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BALL69.SK BALL.N))
+		)
+		(:GOALS
+			(?G1 (BALL69.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BALL69.SK (AT.P ?L1)))
+			(?I2 (NOT (BALL69.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BALL69.SK (AT.P ?L1))))
+			(?P2 (BALL69.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BALL69.SK ((ADV-A (FROM.P ?L1)) FLY.4.V) ?L2) ** E117.SK)
+		(:ROLES
+			(!R1 (BALL69.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BALL69.SK BALL.N))
+		)
+		(:GOALS
+			(?G1 (BALL69.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BALL69.SK (AT.P ?L1)))
+			(?I2 (NOT (BALL69.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BALL69.SK (AT.P ?L1))))
+			(?P2 (BALL69.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom chased a ball."
+	; "He ran after the ball."
+	; "He caught the ball."
+	; "He threw the ball into the air."
+	; "He caught the ball again."
+	(EPI-SCHEMA ((?X_L (CHASE.V ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E AIR.N))
+			(!R2 (?X_M BALL.N))
+			(!R3 (?X_L AGENT.N))
+			(!R4 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_I (?X_L CHASE.1.V ?X_M))
+			(?X_K (?X_L ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_G (?X_L (CATCH.V ?X_M)))
+			(?X_D (?X_L (((ADV-A (INTO.P ?X_E)) THROW.V) ?X_M)))
+			(?X_B (?X_L ((AGAIN.ADV CATCH.V) ?X_M)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CHASE.1.V BALL135.SK) ** E136.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (BALL135.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (BALL135.SK BALL.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (TOM.NAME (NEAR.P BALL135.SK))))))
+		)
+		(:STEPS
+			(?E1 (BALL135.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (TOM.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E139.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy chased a ball."
+	; "He ran after the ball."
+	; "He caught the ball."
+	; "He threw the ball into the air."
+	; "He caught the ball again."
+	; "He threw the ball into the air again."
+	; "He caught the ball again."
+	; "He threw the ball into the air again."
+	; "He caught the ball again."
+	; "He threw the ball into the air again."
+	; "He caught the ball again."
+	; "He threw the ball into the air again."
+	; "He caught the ball again."
+	; "He threw the ball into the air again."
+	; "He caught the ball again."
+	; "He threw the ball into"
+	(EPI-SCHEMA ((?X_ZI (((ADV-A (INTO.P ?X_W)) THROW.V) ?X_ZK)) ** ?E)
+		(:ROLES
+			(!R1 (?X_ZJ INTO.P))
+			(!R2 (?X_W AIR.N))
+			(!R3 (?X_ZB AIR.N))
+			(!R4 (?X_ZK BALL.N))
+			(!R5 (?X_ZI BOY.N))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_ZF (?X_ZI CHASE.1.V ?X_ZK))
+			(?X_ZH (?X_ZI ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_ZD (?X_ZI (CATCH.V ?X_ZK)))
+			(?X_ZA (?X_ZI (((ADV-A (INTO.P ?X_ZB)) THROW.V) ?X_ZK)))
+			(?X_Y (?X_ZI ((AGAIN.ADV CATCH.V) ?X_ZK)))
+			(?X_V (?X_ZI ((AGAIN.ADV ((ADV-A (INTO.P ?X_W)) THROW.V)) ?X_ZK)))
+			(?X_T (?X_ZI ((AGAIN.ADV CATCH.V) ?X_ZK)))
+			(?X_R (?X_ZI ((AGAIN.ADV ((ADV-A (INTO.P ?X_W)) THROW.V)) ?X_ZK)))
+			(?X_P (?X_ZI ((AGAIN.ADV CATCH.V) ?X_ZK)))
+			(?X_N (?X_ZI ((AGAIN.ADV ((ADV-A (INTO.P ?X_W)) THROW.V)) ?X_ZK)))
+			(?X_L (?X_ZI ((AGAIN.ADV CATCH.V) ?X_ZK)))
+			(?X_J (?X_ZI ((AGAIN.ADV ((ADV-A (INTO.P ?X_W)) THROW.V)) ?X_ZK)))
+			(?X_H (?X_ZI ((AGAIN.ADV CATCH.V) ?X_ZK)))
+			(?X_F (?X_ZI ((AGAIN.ADV ((ADV-A (INTO.P ?X_W)) THROW.V)) ?X_ZK)))
+			(?X_D (?X_ZI ((AGAIN.ADV CATCH.V) ?X_ZK)))
+			(?X_B (?X_ZI (THROW.V ?X_ZK ?X_ZJ)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY165.SK CHASE.1.V BALL167.SK) ** E168.SK)
+		(:ROLES
+			(!R1 (BOY165.SK AGENT.N))
+			(!R2 (BALL167.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (BALL167.SK BALL.N))
+			(!R6 (BOY165.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY165.SK (WANT.V (THAT (BOY165.SK (NEAR.P BALL167.SK))))))
+		)
+		(:STEPS
+			(?E1 (BALL167.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (BOY165.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((BOY165.SK ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E171.SK)
+		(:ROLES
+			(!R1 (BOY165.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY165.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY165.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY165.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY165.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY165.SK (AT.P ?L1))))
+			(?P2 (BOY165.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A dog chased a cat."
+	; "The cat ran away from the dog."
+	; "The dog caught the cat."
+	; "The cat tried to escape again."
+	; "The dog chased the cat."
+	(EPI-SCHEMA ((?X_K (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_L CAT.N))
+			(!R2 (?X_K DOG.N))
+			(!R3 (?X_K LOCATION.N))
+			(!R4 (NOT (?X_K = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_K CHASE.1.V ?X_L))
+			(?X_H (?X_L ((ADV-A (FROM.P ?X_K)) RUN.5.V) ?L2))
+			(?X_D (?X_K (CATCH.V ?X_L)))
+			(?X_B (?X_L (TRY.V (KA (AGAIN.ADV ESCAPE.V)))))
+			(?X_J (?X_K CHASE.1.V ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((DOG238.SK CHASE.1.V CAT240.SK) ** E241.SK)
+		(:ROLES
+			(!R1 (DOG238.SK AGENT.N))
+			(!R2 (CAT240.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT240.SK CAT.N))
+			(!R6 (DOG238.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG238.SK (WANT.V (THAT (DOG238.SK (NEAR.P CAT240.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT240.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG238.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((CAT240.SK ((ADV-A (FROM.P DOG238.SK)) RUN.5.V) ?L2) ** E245.SK)
+		(:ROLES
+			(!R1 (CAT240.SK AGENT.N))
+			(!R2 (DOG238.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOG238.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (CAT240.SK CAT.N))
+			(!R7 (DOG238.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (CAT240.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CAT240.SK (AT.P DOG238.SK)))
+			(?I2 (NOT (CAT240.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CAT240.SK (AT.P DOG238.SK))))
+			(?P2 (CAT240.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG238.SK CHASE.1.V CAT240.SK) ** E256.SK)
+		(:ROLES
+			(!R1 (DOG238.SK AGENT.N))
+			(!R2 (CAT240.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (CAT240.SK CAT.N))
+			(!R6 (DOG238.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (DOG238.SK (WANT.V (THAT (DOG238.SK (NEAR.P CAT240.SK))))))
+		)
+		(:STEPS
+			(?E1 (CAT240.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (DOG238.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Joe was running after the ball."
+	; "He tried hard to catch it."
+	; "He ran fast."
+	; "He caught the ball."
+	; "He threw the ball to someone else."
+	(EPI-SCHEMA ((?X_G (COMPOSITE-SCHEMA.PR ?X_H ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H BALL.N))
+			(!R2 (?X_G AGENT.N))
+			(!R3 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_G ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_F (?X_G ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_B (?X_G (CATCH.V ?X_H)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JOE.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E265.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (JOE.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (AT.P ?L1)))
+			(?I2 (NOT (JOE.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JOE.NAME (AT.P ?L1))))
+			(?P2 (JOE.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E269.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (JOE.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (AT.P ?L1)))
+			(?I2 (NOT (JOE.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JOE.NAME (AT.P ?L1))))
+			(?P2 (JOE.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The boy chased the dog."
+	; "He ran after the dog."
+	; "The dog ran away from the boy."
+	; "The boy caught the dog."
+	(EPI-SCHEMA ((?X_I (CHASE.V (ANOTHER.D PERSON.N))) ** ?E)
+		(:ROLES
+			(!R1 (?X_J DOG.N))
+			(!R2 (?X_I BOY.N))
+			(!R3 (?X_I LOCATION.N))
+			(!R4 (NOT (?X_I = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_I CHASE.1.V ?X_J))
+			(?X_F (?X_I ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_H (?X_J ((ADV-A (FROM.P ?X_I)) RUN.5.V) ?L2))
+			(?X_B (?X_I (CATCH.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY285.SK CHASE.1.V DOG287.SK) ** E288.SK)
+		(:ROLES
+			(!R1 (BOY285.SK AGENT.N))
+			(!R2 (DOG287.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (DOG287.SK DOG.N))
+			(!R6 (BOY285.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY285.SK (WANT.V (THAT (BOY285.SK (NEAR.P DOG287.SK))))))
+		)
+		(:STEPS
+			(?E1 (DOG287.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (BOY285.SK TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((BOY285.SK ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E291.SK)
+		(:ROLES
+			(!R1 (BOY285.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY285.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY285.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY285.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY285.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY285.SK (AT.P ?L1))))
+			(?P2 (BOY285.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DOG287.SK ((ADV-A (FROM.P BOY285.SK)) RUN.5.V) ?L2) ** E295.SK)
+		(:ROLES
+			(!R1 (DOG287.SK AGENT.N))
+			(!R2 (BOY285.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (BOY285.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOG287.SK DOG.N))
+			(!R7 (BOY285.SK AGENT.N))
+			(!R8 (BOY285.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (DOG287.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DOG287.SK (AT.P BOY285.SK)))
+			(?I2 (NOT (DOG287.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DOG287.SK (AT.P BOY285.SK))))
+			(?P2 (DOG287.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen chased a ball."
+	; "She ran after the ball."
+	; "She caught the ball."
+	; "She threw the ball."
+	; "She missed the ball."
+	; "She tried again."
+	; "She caught the ball."
+	; "She threw the ball."
+	; "She missed the ball."
+	; "She tried again."
+	; "She caught the ball."
+	; "She threw the ball."
+	; "She missed the ball."
+	; "She tried again."
+	; "She caught the ball."
+	; "She threw the ball."
+	; "She missed the ball."
+	; "She tried again."
+	; "She caught the ball."
+	; "She threw the ball."
+	; "She missed the ball."
+	; "She tried"
+	(EPI-SCHEMA ((?X_ZS (CHASE.V ?X_ZT)) ** ?E)
+		(:ROLES
+			(!R1 (?X_ZT BALL.N))
+			(!R2 (?X_ZS AGENT.N))
+			(!R3 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_ZS CHASE.1.V ?X_ZT))
+			(?X_B (?X_ZS ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_F (?X_ZS (CATCH.V ?X_ZT)))
+			(?X_H (?X_ZS (THROW.V ?X_ZT)))
+			(?X_J (?X_ZS (MISS.V ?X_ZT)))
+			(?X_L (?X_ZS (AGAIN.ADV TRY.V)))
+			(?X_N (?X_ZS (CATCH.V ?X_ZT)))
+			(?X_P (?X_ZS (THROW.V ?X_ZT)))
+			(?X_R (?X_ZS (MISS.V ?X_ZT)))
+			(?X_T (?X_ZS (AGAIN.ADV TRY.V)))
+			(?X_V (?X_ZS (CATCH.V ?X_ZT)))
+			(?X_X (?X_ZS (THROW.V ?X_ZT)))
+			(?X_Z (?X_ZS (MISS.V ?X_ZT)))
+			(?X_ZB (?X_ZS (AGAIN.ADV TRY.V)))
+			(?X_ZD (?X_ZS (CATCH.V ?X_ZT)))
+			(?X_ZF (?X_ZS (THROW.V ?X_ZT)))
+			(?X_ZH (?X_ZS (MISS.V ?X_ZT)))
+			(?X_ZJ (?X_ZS (AGAIN.ADV TRY.V)))
+			(?X_ZL (?X_ZS (CATCH.V ?X_ZT)))
+			(?X_ZN (?X_ZS (THROW.V ?X_ZT)))
+			(?X_ZP (?X_ZS (MISS.V ?X_ZT)))
+			(?X_ZR (?X_ZS TRY.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME CHASE.1.V BALL307.SK) ** E308.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (BALL307.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (BALL307.SK BALL.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (KAREN.NAME (NEAR.P BALL307.SK))))))
+		)
+		(:STEPS
+			(?E1 (BALL307.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (KAREN.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E311.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Alice chased a dog."
+	; "She ran after it."
+	; "She caught the dog."
+	; "She held onto it."
+	; "She put the dog down on the ground."
+	(EPI-SCHEMA ((?X_K (CHASE.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L DOG.N))
+			(!R2 (?X_M GROUND.N))
+			(!R3 (?L2 DESTINATION.N))
+			(!R4 (?X_K AGENT.N))
+			(!R5 (?X_M LOCATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_K CHASE.1.V ?X_L))
+			(?X_H (?X_K ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2))
+			(?X_D (?X_K (CATCH.V ?X_L)))
+			(?X_B (?X_K ((ADV-A (ONTO.P ?X_L)) HOLD.V)))
+			(?X_J (?X_K PUT.6.V ?X_L ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((ALICE.NAME CHASE.1.V DOG379.SK) ** E380.SK)
+		(:ROLES
+			(!R1 (ALICE.NAME AGENT.N))
+			(!R2 (DOG379.SK ENTITY.N))
+			(!R3 (?L1 LOCATION.N))
+			(!R4 (?L2 LOCATION.N))
+			(!R5 (DOG379.SK DOG.N))
+		)
+		(:GOALS
+			(?G1 (ALICE.NAME (WANT.V (THAT (ALICE.NAME (NEAR.P DOG379.SK))))))
+		)
+		(:STEPS
+			(?E1 (DOG379.SK TRAVEL.V ?L1 ?L2))
+			(?E2 (ALICE.NAME TRAVEL.V ?L1 ?L2))
+		)
+	)
+	(EPI-SCHEMA ((ALICE.NAME ((ADV-A (FROM.P ?L1)) RUN.3.V) ?L2) ** E382.SK)
+		(:ROLES
+			(!R1 (ALICE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (ALICE.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (ALICE.NAME (AT.P ?L1)))
+			(?I2 (NOT (ALICE.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ALICE.NAME (AT.P ?L1))))
+			(?P2 (ALICE.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((ALICE.NAME PUT.6.V DOG379.SK GROUND390.SK) ** E391.SK)
+		(:ROLES
+			(!R1 (ALICE.NAME AGENT.N))
+			(!R2 (DOG379.SK ENTITY.N))
+			(!R3 (GROUND390.SK LOCATION.N))
+			(!R4 (DOG379.SK DOG.N))
+			(!R5 (GROUND390.SK GROUND.N))
+		)
+		(:GOALS
+			(?G1 (ALICE.NAME (WANT.V (THAT (DOG379.SK (AT.P GROUND390.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (ALICE.NAME (POSSESS.V DOG379.SK)))
+			(?I2 (DOG379.SK (NOT (AT.P GROUND390.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (DOG379.SK (AT.P GROUND390.SK)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "The man checked on his dog."
+	; "He fed the dog."
+	; "He walked the dog."
+	; "He put the dog's leash around its neck."
+	; "He took the dog for a walk."
+	(EPI-SCHEMA ((?X_J (COMPOSITE-SCHEMA.PR ?X_K ?X_L ?X_M ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M DOG.N))
+			(!R2 (?X_J MAN.N))
+			(!R3 (?X_M (PERTAIN-TO ?X_J)))
+			(!R4 (?X_K LEASH.N))
+			(!R5 (?X_K (PERTAIN-TO ?X_M)))
+			(!R6 (?X_L NECK.N))
+			(!R7 (?X_L (PERTAIN-TO ?X_M)))
+			(!R8 (?X_G WALK.N))
+			(!R9 (?X_M (FOR.P ?X_G)))
+			(!R10 (?X_L LOCATION.N))
+			(!R11 (?L2 DESTINATION.N))
+			(!R12 (?X_M SMALLER-THAN.N ?X_J))
+		)
+		(:STEPS
+			(?X_A (?X_J ((ADV-A (ON.P ?X_M)) CHECK.V)))
+			(?X_F (?X_J (FED.V ?X_M)))
+			(?X_D (?X_J (WALK.V ?X_M)))
+			(?X_B (?X_J PUT.1.V ?X_K ?X_L))
+			(?X_I (?X_J TAKE.2.V ?X_M ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN6.SK PUT.1.V LEASH17.SK NECK5.SK) ** E4.SK)
+		(:ROLES
+			(!R1 (MAN6.SK AGENT.N))
+			(!R2 (LEASH17.SK ENTITY.N))
+			(!R3 (NECK5.SK LOCATION.N))
+			(!R4 (MAN6.SK MAN.N))
+			(!R5 (LEASH17.SK LEASH.N))
+			(!R6 (NECK5.SK NECK.N))
+			(!R7 (DOG2.SK (PERTAIN-TO MAN6.SK)))
+			(!R8 (NECK5.SK (PERTAIN-TO DOG2.SK)))
+			(!R9 (LEASH17.SK (PERTAIN-TO DOG2.SK)))
+			(!R10 (DOG2.SK DOG.N))
+			(!R11 (WALK21.SK WALK.N))
+			(!R12 (DOG2.SK (FOR.P WALK21.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN6.SK (WANT.V (THAT (LEASH17.SK (AT.P NECK5.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MAN6.SK (POSSESS.V LEASH17.SK)))
+			(?I2 (LEASH17.SK (NOT (AT.P NECK5.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (LEASH17.SK (AT.P NECK5.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MAN6.SK TAKE.2.V DOG2.SK ?L2) ** E20.SK)
+		(:ROLES
+			(!R1 (MAN6.SK AGENT.N))
+			(!R2 (DOG2.SK ENTITY.N))
+			(!R3 (DOG2.SK SMALLER-THAN.N MAN6.SK))
+			(!R4 (?L1 LOCATION.N))
+			(!R5 (?L2 LOCATION.N))
+			(!R6 (?L2 DESTINATION.N))
+			(!R7 (MAN6.SK MAN.N))
+			(!R8 (DOG2.SK (PERTAIN-TO MAN6.SK)))
+			(!R9 (DOG2.SK DOG.N))
+			(!R10 (LEASH17.SK (PERTAIN-TO DOG2.SK)))
+			(!R11 (LEASH17.SK LEASH.N))
+			(!R12 (NECK5.SK (PERTAIN-TO DOG2.SK)))
+			(!R13 (NECK5.SK NECK.N))
+			(!R14 (WALK21.SK WALK.N))
+			(!R15 (DOG2.SK (FOR.P WALK21.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN6.SK (WANT.V (THAT (DOG2.SK ((ADV-A (AT.P ?L2)) BE.V))))))
+		)
+		(:PRECONDS
+			(?I1 (DOG2.SK ((ADV-A (AT.P ?L1)) BE.V)))
+			(?I2 (MAN6.SK (POSSESS.V DOG2.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (DOG2.SK ((ADV-A (AT.P ?L2)) BE.V)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sam checked the mailbox."
+	; "There were no letters for him."
+	; "He looked through the mail."
+	; "There was nothing for him."
+	; "He put the mail away."
+	(EPI-SCHEMA ((?X_N (CHECK.V ?X_O)) ** ?E)
+		(:ROLES
+			(!R1 (?X_O MAILBOX.N))
+			(!R2 (?X_G MAIL.N))
+			(!R3 (?X_N AGENT.N))
+			(!R4 (?X_R MAIL.N))
+		)
+		(:STEPS
+			(?X_D (?X_N (CHECK.V ?X_O)))
+			(?X_F (?X_A (BE.V (NO.D (PLUR LETTER.N)))))
+			(?X_I (?X_N ((ADV-A (THROUGH.P ?X_G)) LOOK.V)))
+			(?X_K (?X_B (BE.V (NO.D (L X (AND (X THING.N) (X (FOR.P ?X_Q))))))))
+			(?X_M (?X_N ((AWAY.ADV PUT.V) ?X_R)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Mary checked on the baby."
+	; "The baby was sleeping."
+	; "Mary put the baby down for a nap."
+	(EPI-SCHEMA ((?X_G ((ADV-A (ON.P ?X_H)) CHECK.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_H BABY.N))
+			(!R2 (?X_G AGENT.N))
+			(!R3 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_G ((ADV-A (ON.P ?X_H)) CHECK.V)))
+			(?X_B (?X_H SLEEP.V))
+			(?X_F (?X_G PUT.3.V ?X_H ?L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME PUT.3.V BABY68.SK ?L) ** E76.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (BABY68.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BABY68.SK BABY.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (BABY68.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V BABY68.SK)))
+			(?I2 (BABY68.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (BABY68.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill checked the furnace."
+	; "The furnace was working fine."
+	; "The furnace was not working well."
+	; "Bill called a repairman."
+	(EPI-SCHEMA ((?X_J (WORK.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K FINE.A))
+			(!R2 (?X_J FURNACE.N))
+			(!R3 (?X_I BILL.N))
+			(!R4 (?X_L REPAIRMAN.N))
+		)
+		(:STEPS
+			(?X_B (?X_I (CHECK.V ?X_J)))
+			(?X_D (?X_J (WORK.V ?X_K)))
+			(?X_F (NOT (?X_J ((ADV-A (FOR.P (KA (WELL.ADV WORK.V)))) BE.V))))
+			(?X_H (?X_I (CALL.V ?X_L)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Jenny checked on her plants."
+	; "She looked at them carefully."
+	; "She saw that they were fine."
+	(EPI-SCHEMA ((?X_G ((ADV-A (ON.P ?X_G)) CHECK.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F AGENT.N))
+			(!R2 (?X_G (PLUR PLANT.N)))
+			(!R3 (?X_G AGENT.N))
+			(!R4 (?X_G (PERTAIN-TO ?X_F)))
+		)
+		(:STEPS
+			(?X_A (?X_F ((ADV-A (ON.P ?X_G)) CHECK.V)))
+			(?X_C (?X_F (CAREFULLY.ADV ((ADV-A (AT.P ?X_G)) LOOK.V))))
+			(?X_E (?X_F (SEE.V (THAT (?X_G FINE.A)))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Tom checked on his car."
+	; "He looked under the hood."
+	; "He found some problems."
+	; "He fixed them."
+	(EPI-SCHEMA ((?X_J (CHECK.V ?X_G)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G CAR.N))
+			(!R2 (?X_B HOOD.N))
+			(!R3 (?X_K (PLUR PROBLEM.N)))
+			(!R4 (?X_J AGENT.N))
+			(!R5 (?X_G (PERTAIN-TO ?X_J)))
+		)
+		(:STEPS
+			(?X_A (?X_J ((ADV-A (ON.P ?X_G)) CHECK.V)))
+			(?X_D (?X_J ((ADV-A (UNDER.P ?X_B)) LOOK.V)))
+			(?X_F (?X_J (FIND.V ?X_K)))
+			(?X_I (?X_J (FIX.V ?X_L)))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	(
+	; compo
+	; "Sue checked her mailbox."
+	; "There were no letters there."
+	; "She looked through the mail."
+	; "She found an envelope."
+	; "It was from her friend."
+	(EPI-SCHEMA ((?X_I (((ADV-A (IN.P ?X_D)) FIND.V) ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E FRIEND.N))
+			(!R2 (?X_J ENVELOPE.N))
+			(!R3 (?X_D MAIL.N))
+			(!R4 (?X_E (PERTAIN-TO ?X_I)))
+			(!R5 (?X_F MAILBOX.N))
+			(!R6 (?X_F (PERTAIN-TO ?X_I)))
+			(!R7 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_C (?X_I ((ADV-A (THROUGH.P ?X_D)) LOOK.V)))
+			(?X_H (?X_I FIND.4.V ?X_J))
+			(?X_A (?X_J ((ADV-A (FROM.P ?X_E)) BE.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SHE-PRO181.SK FIND.4.V ENVELOPE178.SK) ** E179.SK)
+		(:ROLES
+			(!R1 (SHE-PRO181.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (ENVELOPE178.SK ENTITY.N))
+			(!R4 (ENVELOPE178.SK ENVELOPE.N))
+			(!R5 (MAILBOX169.SK MAILBOX.N))
+			(!R6 (MAILBOX169.SK (PERTAIN-TO SHE-PRO181.SK)))
+			(!R7 (FRIEND171.SK FRIEND.N))
+			(!R8 (FRIEND171.SK (PERTAIN-TO SHE-PRO181.SK)))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO181.SK (AT.P ?L)))
+			(?I2 (ENVELOPE178.SK (AT.P ?L)))
+			(?I3 (SHE-PRO181.SK ((ADV-A (FOR.P ENVELOPE178.SK)) SEARCH.V)))
+			(?I4 (NOT (SHE-PRO181.SK (KNOW.V (THAT (ENVELOPE178.SK (AT.P ?L)))))))
+			(?I5 (NOT (SHE-PRO181.SK (POSSESS.V ENVELOPE178.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (SHE-PRO181.SK (KNOW.V (THAT (ENVELOPE178.SK (AT.P ?L))))))
+			(?P2 (SHE-PRO181.SK (POSSESS.V ENVELOPE178.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E179.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom checked on his sister."
+	; "He looked for his sister."
+	; "He found her."
+	; "He hugged his sister."
+	(EPI-SCHEMA ((?X_F ((ADV-A (ON.P ?X_G)) CHECK.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G SISTER.N))
+			(!R2 (?X_G (PERTAIN-TO ?X_F)))
+			(!R3 (?X_F AGENT.N))
+			(!R4 (?X_H ENTITY.N))
+		)
+		(:STEPS
+			(?X_A (?X_F ((ADV-A (ON.P ?X_G)) CHECK.V)))
+			(?X_B (?X_F ((ADV-A (FOR.P ?X_G)) LOOK.V)))
+			(?X_E (?X_F FIND.4.V ?X_H))
+			(?X_C (?X_F (HUG.V ?X_G)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME FIND.4.V HER.PRO) ** E201.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (HER.PRO ENTITY.N))
+			(!R4 (SISTER193.SK SISTER.N))
+			(!R5 (SISTER193.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (HER.PRO (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P HER.PRO)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (HER.PRO (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V HER.PRO))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (HER.PRO (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V HER.PRO)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E201.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jessie checked the stove."
+	; "She turned the burner down."
+	; "She looked for leaks."
+	; "There were no leaks."
+	(EPI-SCHEMA ((?X_L (COMPOSITE-SCHEMA.PR ?X_M ?X_N (NO.D (PLUR LEAK.N)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_M STOVE.N))
+			(!R2 (?X_L AGENT.N))
+			(!R3 (?X_N BURNER.N))
+			(!R4 (?X_F FEMALE.A))
+			(!R5 (?X_F AGENT.N))
+			(!R6 (?X_G (PLUR LEAK.N)))
+		)
+		(:STEPS
+			(?X_C (?X_L (CHECK.V ?X_M)))
+			(?X_E (?X_L (TURN_DOWN.V ?X_N)))
+			(?X_I (?X_F ((ADV-A (FOR.P ?X_G)) LOOK.V)))
+			(?X_K (?X_A (BE.V (NO.D (PLUR LEAK.N)))))
+		)
+	)
+	; protos
+	(
+	)
+	)
+	
+	
+	(
+	; compo
+	; "The boy played baseball."
+	; "He threw the ball hard."
+	; "He hit the ball."
+	; "He ran around the bases."
+	; "He scored a run."
+	(EPI-SCHEMA ((?X_L ((ADV-A (WITH.P ?X_M)) PLAY.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N RUN.N))
+			(!R2 (?X_M BALL.N))
+			(!R3 (?X_L BOY.N))
+			(!R4 (?X_I BASEBALL.N))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_H (?X_L PLAY.1.V))
+			(?X_F (?X_L ((HARD.ADV THROW.V) ?X_M)))
+			(?X_D (?X_L (HIT.V ?X_M)))
+			(?X_K (?X_L ((ADV-A (FROM.P ?L1)) RUN.5.V) ?L2))
+			(?X_B (?X_L (SCORE.V ?X_N)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((GIRL21.SK PLAY.1.V) ** E24.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (PLAYGROUND23.SK GAME.N))
+			(!R5 (NOT (PLAYGROUND23.SK AGENT.N)))
+			(!R6 (GIRL21.SK GIRL.N))
+			(!R7 (PLAYGROUND23.SK PLAYGROUND.N))
+		)
+		(:GOALS
+			(?G1 (GIRL21.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK PLAY.2.V) ** E66.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (GIRL21.SK GIRL.N))
+		)
+		(:GOALS
+			(?G1 (GIRL21.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK ((ADV-A (FROM.P ?L1)) PLAY.3.V) HOPSCOTCH38.SK) **
+	             E36.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOPSCOTCH38.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOPSCOTCH38.SK)))
+			(!R5 (HOPSCOTCH38.SK DESTINATION.N))
+			(!R6 (GIRL21.SK GIRL.N))
+			(!R7 (HOPSCOTCH38.SK HOPSCOTCH.N))
+		)
+		(:GOALS
+			(?G1 (GIRL21.SK (WANT.V (KA ((ADV-A (AT.P HOPSCOTCH38.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK (AT.P ?L1)))
+			(?I2 (NOT (GIRL21.SK (AT.P HOPSCOTCH38.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (GIRL21.SK (AT.P ?L1))))
+			(?P2 (GIRL21.SK (AT.P HOPSCOTCH38.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK PLAY.4.V KICKBALL42.SK) ** E80.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (KICKBALL42.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (GIRL21.SK GIRL.N))
+			(!R5 (KICKBALL42.SK KICKBALL.N))
+			(!R6 (KICKBALL42.SK TAG.N))
+			(!R7 (KICKBALL42.SK CATCH.N))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK (AT.P ?L)))
+			(?I2 (KICKBALL42.SK (AT.P ?L)))
+			(?I3 (KICKBALL42.SK (NEAR.P GIRL21.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK (KNOW.V (THAT (KICKBALL42.SK (AT.P ?L))))))
+			(?P2 (GIRL21.SK (KNOW.V (THAT (KICKBALL42.SK (NEAR.P GIRL21.SK))))))
+			(?P3 (KICKBALL42.SK (NEAR.P GIRL21.SK)))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK PLAY.1.V) ** E84.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (DODGEBALL86.SK GAME.N))
+			(!R5 (NOT (DODGEBALL86.SK AGENT.N)))
+			(!R6 (GIRL21.SK GIRL.N))
+			(!R7 (DODGEBALL86.SK DODGEBALL.N))
+		)
+		(:GOALS
+			(?G1 (GIRL21.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK PLAY.4.V KICKBALL42.SK) ** E80.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (KICKBALL42.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (GIRL21.SK GIRL.N))
+			(!R5 (KICKBALL42.SK KICKBALL.N))
+			(!R6 (KICKBALL42.SK TAG.N))
+			(!R7 (KICKBALL42.SK CATCH.N))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK (AT.P ?L)))
+			(?I2 (KICKBALL42.SK (AT.P ?L)))
+			(?I3 (KICKBALL42.SK (NEAR.P GIRL21.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK (KNOW.V (THAT (KICKBALL42.SK (AT.P ?L))))))
+			(?P2 (GIRL21.SK (KNOW.V (THAT (KICKBALL42.SK (NEAR.P GIRL21.SK))))))
+			(?P3 (KICKBALL42.SK (NEAR.P GIRL21.SK)))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK PLAY.2.V) ** E66.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (GIRL21.SK GIRL.N))
+		)
+		(:GOALS
+			(?G1 (GIRL21.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK PLAY.4.V KICKBALL42.SK) ** E80.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (KICKBALL42.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (GIRL21.SK GIRL.N))
+			(!R5 (KICKBALL42.SK KICKBALL.N))
+			(!R6 (KICKBALL42.SK TAG.N))
+			(!R7 (KICKBALL42.SK CATCH.N))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK (AT.P ?L)))
+			(?I2 (KICKBALL42.SK (AT.P ?L)))
+			(?I3 (KICKBALL42.SK (NEAR.P GIRL21.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK (KNOW.V (THAT (KICKBALL42.SK (AT.P ?L))))))
+			(?P2 (GIRL21.SK (KNOW.V (THAT (KICKBALL42.SK (NEAR.P GIRL21.SK))))))
+			(?P3 (KICKBALL42.SK (NEAR.P GIRL21.SK)))
+		)
+	)
+	(EPI-SCHEMA ((GIRL21.SK PLAY.1.V) ** E84.SK)
+		(:ROLES
+			(!R1 (GIRL21.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (DODGEBALL86.SK GAME.N))
+			(!R5 (NOT (DODGEBALL86.SK AGENT.N)))
+			(!R6 (GIRL21.SK GIRL.N))
+			(!R7 (DODGEBALL86.SK DODGEBALL.N))
+		)
+		(:GOALS
+			(?G1 (GIRL21.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (GIRL21.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (GIRL21.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY101.SK PLAY.1.V) ** E103.SK)
+		(:ROLES
+			(!R1 (BOY101.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASEBALL105.SK GAME.N))
+			(!R5 (NOT (BASEBALL105.SK AGENT.N)))
+			(!R6 (BASEBALL105.SK BASEBALL.N))
+			(!R7 (BOY101.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY101.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY101.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (BOY101.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY101.SK ((ADV-A (FROM.P ?L1)) RUN.5.V) ?L2) ** E114.SK)
+		(:ROLES
+			(!R1 (BOY101.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY101.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY101.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY101.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY101.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY101.SK (AT.P ?L1))))
+			(?P2 (BOY101.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen loves to play games."
+	; "She plays with dolls."
+	; "She plays with other kids."
+	; "She plays on the computer."
+	; "She plays on the playground."
+	; "She rides her bike."
+	; "She goes swimming."
+	(EPI-SCHEMA ((?X_O (COMPOSITE-SCHEMA.PR (KA (PLAY.V ?X_P)) ?X_Q ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E COMPUTER.N))
+			(!R2 (?X_Q (PLUR DOLL.N)))
+			(!R3 (?X_P (PLUR GAME.N)))
+			(!R4 (?X_N BIKE.N))
+			(!R5 (?X_O ((PLUR RIDE.N) ?X_N)))
+			(!R6 (?X_N (PERTAIN-TO ?X_O)))
+			(!R7 ((KA (PLAY.V ?X_P)) ACTION.N))
+			(!R8 (?X AGENT.N))
+			(!R9 (?X_O AGENT.N))
+			(!R10 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_O LOVE.6.V (KA (PLAY.V ?X_P))))
+			(?E_1 (?X PLAY.7.V))
+			(?X_I (?X_O PLAY.4.V ?X_Q))
+			(?X_K (?X_O PLAY.2.V))
+			(?X_D (?X_O ((ADV-A (ON.P ?X_E)) PLAY.V)))
+			(?X_M (?X_O PLAY.1.V))
+			(?X_B (?X_O ((ADV-A (FOR.P (KA SWIM.V))) GO.V)))
+			(?E_2 (?X_O ((ADV-A (FROM.P ?L1)) SWIM.8.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME LOVE.6.V (KA (PLAY.V GAME132.SK))) ** E130.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 ((KA (PLAY.V GAME132.SK)) ACTION.N))
+			(!R3 (GAME132.SK (PLUR GAME.N)))
+			(!R4 (KAREN.NAME ((PLUR RIDE.N) BIKE128.SK)))
+			(!R5 (BIKE128.SK (PERTAIN-TO KAREN.NAME)))
+			(!R6 (BIKE128.SK BIKE.N))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (THINK.V (THAT ((KA (PLAY.V GAME132.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((?X PLAY.7.V) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (GAME132.SK GAME.N))
+			(!R5 (NOT (GAME132.SK AGENT.N)))
+			(!R6 (GAME132.SK (PLUR GAME.N)))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (?X POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (?X EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME PLAY.4.V DOLL136.SK) ** E134.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (DOLL136.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (DOLL136.SK (PLUR DOLL.N)))
+			(!R5 (KAREN.NAME ((PLUR RIDE.N) BIKE128.SK)))
+			(!R6 (BIKE128.SK (PERTAIN-TO KAREN.NAME)))
+			(!R7 (BIKE128.SK BIKE.N))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L)))
+			(?I2 (DOLL136.SK (AT.P ?L)))
+			(?I3 (DOLL136.SK (NEAR.P KAREN.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (KAREN.NAME (KNOW.V (THAT (DOLL136.SK (AT.P ?L))))))
+			(?P2 (KAREN.NAME (KNOW.V (THAT (DOLL136.SK (NEAR.P KAREN.NAME))))))
+			(?P3 (DOLL136.SK (NEAR.P KAREN.NAME)))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME PLAY.2.V) ** E138.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (KAREN.NAME ((PLUR RIDE.N) BIKE128.SK)))
+			(!R7 (BIKE128.SK (PERTAIN-TO KAREN.NAME)))
+			(!R8 (BIKE128.SK BIKE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (KAREN.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME PLAY.1.V) ** E146.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (GAME132.SK GAME.N))
+			(!R5 (NOT (GAME132.SK AGENT.N)))
+			(!R6 (GAME132.SK (PLUR GAME.N)))
+			(!R7 (KAREN.NAME ((PLUR RIDE.N) BIKE128.SK)))
+			(!R8 (BIKE128.SK (PERTAIN-TO KAREN.NAME)))
+			(!R9 (BIKE128.SK BIKE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (KAREN.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) SWIM.8.V) ?L2) ** ?E)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (KAREN.NAME ((PLUR RIDE.N) BIKE128.SK)))
+			(!R7 (BIKE128.SK (PERTAIN-TO KAREN.NAME)))
+			(!R8 (BIKE128.SK BIKE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	nil
+	; protos
+	(
+	(EPI-SCHEMA ((BOY167.SK PLAY.2.V) ** E169.SK)
+		(:ROLES
+			(!R1 (BOY167.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (BOY167.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY167.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY167.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (BOY167.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY167.SK ((ADV-A (FROM.P ?L1)) RUN_AROUND.9.V) ?L2) ** E180.SK)
+		(:ROLES
+			(!R1 (BOY167.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY167.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY167.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY167.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY167.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY167.SK (AT.P ?L1))))
+			(?P2 (BOY167.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY167.SK ((ADV-A (FROM.P ?L1)) JUMP.10.V) ?L2) ** E187.SK)
+		(:ROLES
+			(!R1 (BOY167.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY167.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY167.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY167.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY167.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY167.SK (AT.P ?L1))))
+			(?P2 (BOY167.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY167.SK ((ADV-A (FROM.P ?L1)) CLIMB.11.V) TREE189.SK) **
+	             E190.SK)
+		(:ROLES
+			(!R1 (BOY167.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE189.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE189.SK)))
+			(!R5 (TREE189.SK DESTINATION.N))
+			(!R6 (BOY167.SK BOY.N))
+			(!R7 (TREE189.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (BOY167.SK (WANT.V (KA ((ADV-A (AT.P TREE189.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY167.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY167.SK (AT.P TREE189.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY167.SK (AT.P ?L1))))
+			(?P2 (BOY167.SK (AT.P TREE189.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY211.SK PLAY.12.V ?Y) ** E214.SK)
+		(:ROLES
+			(!R1 (BOY211.SK AGENT.N))
+			(!R2 (?Y ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOY211.SK BOY.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY211.SK (AT.P ?L)))
+			(?I2 (?Y (AT.P ?L)))
+			(?I3 (?Y (NEAR.P BOY211.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOY211.SK (KNOW.V (THAT (?Y (AT.P ?L))))))
+			(?P2 (BOY211.SK (KNOW.V (THAT (?Y (NEAR.P BOY211.SK))))))
+			(?P3 (?Y (NEAR.P BOY211.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY239.SK PLAY.12.V ?Y) ** E238.SK)
+		(:ROLES
+			(!R1 (BOY239.SK AGENT.N))
+			(!R2 (?Y ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOY239.SK BOY.N))
+			(!R5 (BOY239.SK ((PASV NAME.V) TOM.NAME)))
+			(!R6 (TOM.NAME AGENT.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY239.SK (AT.P ?L)))
+			(?I2 (?Y (AT.P ?L)))
+			(?I3 (?Y (NEAR.P BOY239.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOY239.SK (KNOW.V (THAT (?Y (AT.P ?L))))))
+			(?P2 (BOY239.SK (KNOW.V (THAT (?Y (NEAR.P BOY239.SK))))))
+			(?P3 (?Y (NEAR.P BOY239.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PLAY.1.V) ** E241.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASEBALL243.SK GAME.N))
+			(!R5 (NOT (BASEBALL243.SK AGENT.N)))
+			(!R6 (BASEBALL243.SK BASEBALL.N))
+			(!R7 (BOY239.SK BOY.N))
+			(!R8 (BOY239.SK ((PASV NAME.V) TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) RUN.5.V) ?L2) ** E250.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY239.SK BOY.N))
+			(!R7 (BOY239.SK ((PASV NAME.V) TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.11.V) TREE254.SK) ** E252.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE254.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE254.SK)))
+			(!R5 (TREE254.SK DESTINATION.N))
+			(!R6 (TREE254.SK (PLUR TREE.N)))
+			(!R7 (BOY239.SK BOY.N))
+			(!R8 (BOY239.SK ((PASV NAME.V) TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P TREE254.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P TREE254.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P TREE254.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) JUMP.10.V) ?L2) ** E257.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY239.SK BOY.N))
+			(!R7 (BOY239.SK ((PASV NAME.V) TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CHILD312.SK LOVE.13.V (KA PLAY.V)) ** E310.SK)
+		(:ROLES
+			(!R1 (CHILD312.SK AGENT.N))
+			(!R2 ((KA PLAY.V) ACTION.N))
+			(!R3 (CHILD312.SK (PLUR CHILD.N)))
+		)
+		(:PRECONDS
+			(?I1 (CHILD312.SK (THINK.V (THAT ((KA PLAY.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CHILD312.SK PLAY.2.V) ** E314.SK)
+		(:ROLES
+			(!R1 (CHILD312.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (?G GAME.N))
+			(!R5 (NOT (?G AGENT.N)))
+			(!R6 (CHILD312.SK (PLUR CHILD.N)))
+		)
+		(:GOALS
+			(?G1 (CHILD312.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (CHILD312.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (CHILD312.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CHILD312.SK HAVE.14.V LOT319.SK) ** E316.SK)
+		(:ROLES
+			(!R1 (CHILD312.SK AGENT.N))
+			(!R2 (LOT319.SK OBJECT.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (CHILD312.SK (AT.P ?L)))
+			(!R5 (LOT319.SK (AT.P ?L)))
+			(!R6 (CHILD312.SK (PLUR CHILD.N)))
+			(!R7 (LOT319.SK (PLUR LOT.N)))
+			(!R8 (LOT319.SK (OF.P GAME320.SK)))
+			(!R9 (GAME320.SK (PLUR GAME.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R4 NECESSARY-TO-DEGREE 0.5))
+			(!N2 (!R5 NECESSARY-TO-DEGREE 0.5))
+		)
+	)
+	(EPI-SCHEMA ((EMILY.NAME PLAY.12.V ?Y) ** E366.SK)
+		(:ROLES
+			(!R1 (EMILY.NAME AGENT.N))
+			(!R2 (?Y ENTITY.N))
+			(!R3 (?L LOCATION.N))
+		)
+		(:PRECONDS
+			(?I1 (EMILY.NAME (AT.P ?L)))
+			(?I2 (?Y (AT.P ?L)))
+			(?I3 (?Y (NEAR.P EMILY.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (EMILY.NAME (KNOW.V (THAT (?Y (AT.P ?L))))))
+			(?P2 (EMILY.NAME (KNOW.V (THAT (?Y (NEAR.P EMILY.NAME))))))
+			(?P3 (?Y (NEAR.P EMILY.NAME)))
+		)
+	)
+	(EPI-SCHEMA ((EMILY.NAME PLAY.4.V TOY368.SK) ** E370.SK)
+		(:ROLES
+			(!R1 (EMILY.NAME AGENT.N))
+			(!R2 (TOY368.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (TOY368.SK (PLUR TOY.N)))
+		)
+		(:PRECONDS
+			(?I1 (EMILY.NAME (AT.P ?L)))
+			(?I2 (TOY368.SK (AT.P ?L)))
+			(?I3 (TOY368.SK (NEAR.P EMILY.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (EMILY.NAME (KNOW.V (THAT (TOY368.SK (AT.P ?L))))))
+			(?P2 (EMILY.NAME (KNOW.V (THAT (TOY368.SK (NEAR.P EMILY.NAME))))))
+			(?P3 (TOY368.SK (NEAR.P EMILY.NAME)))
+		)
+	)
+	(EPI-SCHEMA ((EMILY.NAME ((ADV-A (FROM.P ?L1)) CLIMB.15.V) ?L2) ** E380.SK)
+		(:ROLES
+			(!R1 (EMILY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (EMILY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (EMILY.NAME (AT.P ?L1)))
+			(?I2 (NOT (EMILY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (EMILY.NAME (AT.P ?L1))))
+			(?P2 (EMILY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LILY.NAME PLAY.12.V ?Y) ** E397.SK)
+		(:ROLES
+			(!R1 (LILY.NAME AGENT.N))
+			(!R2 (?Y ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (FRIENDS391.SK (PLUR FRIEND.N)))
+			(!R5 (FRIENDS391.SK (PERTAIN-TO LILY.NAME)))
+			(!R6 (BIKE393.SK BIKE.N))
+			(!R7 (BIKE393.SK (PERTAIN-TO LILY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (LILY.NAME (AT.P ?L)))
+			(?I2 (?Y (AT.P ?L)))
+			(?I3 (?Y (NEAR.P LILY.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (LILY.NAME (KNOW.V (THAT (?Y (AT.P ?L))))))
+			(?P2 (LILY.NAME (KNOW.V (THAT (?Y (NEAR.P LILY.NAME))))))
+			(?P3 (?Y (NEAR.P LILY.NAME)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Sally went to church."
+	; "She sat next to her friend."
+	; "The pastor preached about Jesus."
+	; "He told them how much God loves us."
+	; "The pastor asked everyone to say they love God."
+	(EPI-SCHEMA ((?X_J
+	              (COMPOSITE-SCHEMA.PR ?X_K ?X_L (EVERY.D PERSON.N)
+	               (KA (SAY.V (THT (?X_M (LOVE.V ?X_N))))) (IND (9 ?X_O))))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_E AGENT.N))
+			(!R2 (?X_F AGENT.N))
+			(!R3 (?X_F PASTOR.N))
+			(!R4 (?X_K NEXT.A))
+			(!R5 (?X_G FRIEND.N))
+			(!R6 (?X_G (PERTAIN-TO ?X_J)))
+			(!R7 (?X_K (TO.P ?X_G)))
+			(!R8 (?X_L CHURCH.N))
+			(!R9 (?X_N AGENT.N))
+			(!R10 (?X_M AGENT.N))
+			(!R11 (?X_L DESTINATION.N))
+			(!R12 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_J ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_L))
+			(?X_B (?X_J (SIT.V ?X_K)))
+			(?X_D (?X_F ((ADV-A (ABOUT.P ?X_E)) PREACH.V)))
+			(?X_I
+	   (?X_F ASK.2.V (EVERY.D PERSON.N) (KA (SAY.V (THT (?X_M (LOVE.V ?X_N)))))))
+			(?E_1 (?X_M ENJOY_ACTION.3.V (IND (9 ?X_O))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME ((ADV-A (FROM.P ?L1)) GO.1.V) CHURCH9.SK) ** E7.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH9.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH9.SK)))
+			(!R5 (CHURCH9.SK DESTINATION.N))
+			(!R6 (CHURCH9.SK CHURCH.N))
+			(!R7 (FRIEND4.SK FRIEND.N))
+			(!R8 (FRIEND4.SK (PERTAIN-TO SALLY.NAME)))
+			(!R9 (NEXT22.SK (TO.P FRIEND4.SK)))
+			(!R10 (NEXT22.SK NEXT.A))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH9.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SALLY.NAME (AT.P CHURCH9.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SALLY.NAME (AT.P ?L1))))
+			(?P2 (SALLY.NAME (AT.P CHURCH9.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((PASTOR11.SK ASK.2.V (EVERY.D PERSON.N)
+	              (KA (SAY.V (THT (THEY.PRO (LOVE.V GOD.NAME))))))
+	             ** E20.SK)
+		(:ROLES
+			(!R1 (PASTOR11.SK AGENT.N))
+			(!R2 ((EVERY.D PERSON.N) AGENT.N))
+			(!R3 ((KA (SAY.V (THT (THEY.PRO (LOVE.V GOD.NAME))))) ACTION.N))
+			(!R4 (NOT (PASTOR11.SK = (EVERY.D PERSON.N))))
+			(!R5 (PASTOR11.SK PASTOR.N))
+			(!R6 (GOD.NAME AGENT.N))
+			(!R7 (THEY.PRO AGENT.N))
+		)
+		(:GOALS
+			(?G1
+	   (PASTOR11.SK
+	    (WANT.V (EVERY.D PERSON.N)
+	     (KA (SAY.V (THT (THEY.PRO (LOVE.V GOD.NAME))))))))
+			(?G2
+	   (PASTOR11.SK
+	    (WANT.V
+	     (THAT ((EVERY.D PERSON.N) (SAY.V (THT (THEY.PRO (LOVE.V GOD.NAME)))))))))
+		)
+		(:STEPS
+			(?E1
+	   (PASTOR11.SK
+	    (ASK.2.V (EVERY.D PERSON.N)
+	     (KA (SAY.V (THT (THEY.PRO (LOVE.V GOD.NAME))))))))
+			(?E2 ((EVERY.D PERSON.N) (SAY.V (THT (THEY.PRO (LOVE.V GOD.NAME))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((THEY.PRO ENJOY_ACTION.3.V (IND (9 STATEMENT))) ** ?E)
+		(:ROLES
+			(!R1 (THEY.PRO AGENT.N))
+			(!R2 ((IND (9 STATEMENT)) ACTION.N))
+		)
+		(:PRECONDS
+			(?I1 (THEY.PRO (THINK.V (THAT ((IND (9 STATEMENT)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary went to church."
+	; "She sang in the choir."
+	; "She liked going to church."
+	; "She enjoyed singing hymns."
+	(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_L)) GO.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C (PLUR HYMN.N)))
+			(!R2 (?X_F CHOIR.N))
+			(!R3 (?X_L CHURCH.N))
+			(!R4 (?X_M CHURCH.N))
+			(!R5 (?X_L DESTINATION.N))
+			(!R6 ((KA ((ADV-A (TO.P ?X_M)) GO.V)) ACTION.N))
+			(!R7 (?X_K AGENT.N))
+			(!R8 (?X_M DESTINATION.N))
+		)
+		(:STEPS
+			(?X_H (?X_K ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_L))
+			(?X_E (?X_K ((ADV-A (IN.P ?X_F)) SING.V)))
+			(?X_J (?X_K LIKE.4.V (KA ((ADV-A (TO.P ?X_M)) GO.V))))
+			(?X_B (?X_K ((ADV-A (FOR.P (KA (SING.V ?X_C)))) ENJOY.V)))
+			(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME ((ADV-A (FROM.P ?L1)) GO.1.V) CHURCH46.SK) ** E44.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH46.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH46.SK)))
+			(!R5 (CHURCH46.SK DESTINATION.N))
+			(!R6 (CHURCH46.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH46.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MARY.NAME (AT.P CHURCH46.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MARY.NAME (AT.P ?L1))))
+			(?P2 (MARY.NAME (AT.P CHURCH46.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME LIKE.4.V (KA ((ADV-A (TO.P CHURCH53.SK)) GO.V))) **
+	             E51.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P CHURCH53.SK)) GO.V)) ACTION.N))
+			(!R3 (CHURCH53.SK CHURCH.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (MARY.NAME (THINK.V (THAT ((KA ((ADV-A (TO.P CHURCH53.SK)) GO.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME ((ADV-A (FROM.P ?L1)) GO.5.V) CHURCH53.SK) ** ?E)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH53.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH53.SK)))
+			(!R5 (CHURCH53.SK DESTINATION.N))
+			(!R6 (CHURCH53.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH53.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MARY.NAME (AT.P CHURCH53.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MARY.NAME (AT.P ?L1))))
+			(?P2 (MARY.NAME (AT.P CHURCH53.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "John liked going to church."
+	; "He sang in the choir."
+	; "He prayed before meals."
+	; "He read Bible stories."
+	(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_J)) GO.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C (PLUR MEAL.N)))
+			(!R2 (?X_F CHOIR.N))
+			(!R3 (?X_J CHURCH.N))
+			(!R4 ((KA ((ADV-A (TO.P ?X_J)) GO.V)) ACTION.N))
+			(!R5 (?X_I AGENT.N))
+			(!R6 (?X_J DESTINATION.N))
+		)
+		(:STEPS
+			(?X_H (?X_I LIKE.4.V (KA ((ADV-A (TO.P ?X_J)) GO.V))))
+			(?X_E (?X_I ((ADV-A (IN.P ?X_F)) SING.V)))
+			(?X_B (?X_I ((ADV-A (BEFORE.P ?X_C)) PRAY.V)))
+			(?E_1 (?X_I ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JOHN.NAME LIKE.4.V (KA ((ADV-A (TO.P CHURCH72.SK)) GO.V))) **
+	             E70.SK)
+		(:ROLES
+			(!R1 (JOHN.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P CHURCH72.SK)) GO.V)) ACTION.N))
+			(!R3 (CHURCH72.SK CHURCH.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (JOHN.NAME (THINK.V (THAT ((KA ((ADV-A (TO.P CHURCH72.SK)) GO.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOHN.NAME ((ADV-A (FROM.P ?L1)) GO.5.V) CHURCH72.SK) ** ?E)
+		(:ROLES
+			(!R1 (JOHN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH72.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH72.SK)))
+			(!R5 (CHURCH72.SK DESTINATION.N))
+			(!R6 (CHURCH72.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (JOHN.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH72.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JOHN.NAME (AT.P ?L1)))
+			(?I2 (NOT (JOHN.NAME (AT.P CHURCH72.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JOHN.NAME (AT.P ?L1))))
+			(?P2 (JOHN.NAME (AT.P CHURCH72.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The pastor preached on Sunday."
+	; "The preacher told stories about God."
+	; "God is everywhere."
+	; "God is always watching us."
+	; "God loves us."
+	; "God will help us if we ask for help."
+	(EPI-SCHEMA ((?X_L (TELL.V ?X_P)) ** ?E)
+		(:ROLES
+			(!R1 (?X_Q (IF.P (KE (?X_R ((ADV-A (FOR.P ?X_B)) ASK.V))))))
+			(!R2 (?X_P (PLUR STORY.N)))
+			(!R3 (?X_P (ABOUT.P ?X_O)))
+			(!R4 (?X_K AGENT.N))
+			(!R5 (?X_L PASTOR.N))
+			(!R6 (?X_L PREACHER.N))
+			(!R7 (?X_O AGENT.N))
+			(!R8 (?X_R OBJECT.N))
+			(!R9 (NOT (?X_R ACTION.N)))
+		)
+		(:STEPS
+			(?X_J (?X_L ((ADV-A (ON.P ?X_K)) PREACH.V)))
+			(?X_H (?X_L (TELL.V ?X_P)))
+			(?X_F (?X_O (EVERYWHERE.ADV BE.V)))
+			(?X_D (?X_O (ALWAYS.ADV ((ADV-A (FOR.P (KA (WATCH.V ?X_R)))) BE.V))))
+			(?X_N (?X_O LOVE.6.V ?X_R))
+			(?X_A (?X_O (HELP.V ?X_R ?X_Q)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((GOD.NAME LOVE.6.V US-PRO109.SK) ** E103.SK)
+		(:ROLES
+			(!R1 (GOD.NAME AGENT.N))
+			(!R2 (NOT (US-PRO109.SK ACTION.N)))
+			(!R3 (NOT (US-PRO109.SK AGENT.N)))
+			(!R4 (US-PRO109.SK OBJECT.N))
+			(!R5 (US-PRO109.SK AGENT.N))
+			(!R6 (STORY97.SK (PLUR STORY.N)))
+			(!R7 (STORY97.SK (ABOUT.P GOD.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (GOD.NAME (WANT.V (KA (POSSESS.V US-PRO109.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sally went to church."
+	; "She sang songs with other people."
+	; "She joined a choir."
+	; "She helped others."
+	; "She prayed with other people."
+	(EPI-SCHEMA ((?X_M ((ADV-A (TO.P ?X_Q)) GO.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C OTHER.A))
+			(!R2 (?X_C (PLUR PERSON.N)))
+			(!R3 (?X_P (PLUR OTHER.N)))
+			(!R4 (?X_O CHOIR.N))
+			(!R5 (?X_N (PLUR SONG.N)))
+			(!R6 (?X_N (WITH.P ?X_J)))
+			(!R7 (?X_Q CHURCH.N))
+			(!R8 (?X_M AGENT.N))
+			(!R9 (?X_Q DESTINATION.N))
+		)
+		(:STEPS
+			(?X_L (?X_M ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_Q))
+			(?X_I (?X_M (SING.V ?X_N)))
+			(?X_G (?X_M (JOIN.V ?X_O)))
+			(?X_E (?X_M (HELP.V ?X_P)))
+			(?X_B (?X_M ((ADV-A (WITH.P ?X_C)) PRAY.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME ((ADV-A (FROM.P ?L1)) GO.1.V) CHURCH125.SK) ** E123.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH125.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH125.SK)))
+			(!R5 (CHURCH125.SK DESTINATION.N))
+			(!R6 (CHURCH125.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH125.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SALLY.NAME (AT.P CHURCH125.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SALLY.NAME (AT.P ?L1))))
+			(?P2 (SALLY.NAME (AT.P CHURCH125.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Joe liked going to church."
+	; "He liked listening to the sermon."
+	; "He liked singing the songs."
+	; "He liked being part of the congregation."
+	; "Joe enjoyed going to church."
+	(EPI-SCHEMA ((?X_L (LIKE.V (KA ((ADV-A (TO.P ?X_Q)) GO.V)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_Q CHURCH.N))
+			(!R2 (?X_M CHURCH.N))
+			(!R3 (?X_N SERMON.N))
+			(!R4 (?X_O (PLUR SONG.N)))
+			(!R5 (?X_K PART.N))
+			(!R6 (?X_P CONGREGATION.N))
+			(!R7 (?X_K (OF.P ?X_P)))
+			(!R8 ((KA ((ADV-A (TO.P ?X_M)) GO.V)) ACTION.N))
+			(!R9 (?X_M DESTINATION.N))
+			(!R10 ((KA ((ADV-A (TO.P ?X_N)) LISTEN.V)) ACTION.N))
+			(!R11 (?X_N NOISE.N))
+			(!R12 ((KA (SING.V ?X_O)) ACTION.N))
+			(!R13 (?X_P OBJECT.N))
+			(!R14 (NOT (?X_P ACTION.N)))
+			(!R15 (NOT (?X_P AGENT.N)))
+			(!R16 (?X_Q DESTINATION.N))
+			(!R17 (?X_L AGENT.N))
+		)
+		(:STEPS
+			(?X_D (?X_L LIKE.4.V (KA ((ADV-A (TO.P ?X_M)) GO.V))))
+			(?E_1 (?X_L ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_M))
+			(?X_F (?X_L LIKE.7.V (KA ((ADV-A (TO.P ?X_N)) LISTEN.V))))
+			(?E_2 (?X_L LISTEN.8.V ?X_N))
+			(?X_H (?X_L LIKE.9.V (KA (SING.V ?X_O))))
+			(?X_J (?X_L LIKE.10.V ?X_P))
+			(?X_B (?X_L ((ADV-A (FOR.P (KA ((ADV-A (TO.P ?X_Q)) GO.V)))) ENJOY.V)))
+			(?E_3 (?X_L ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_Q))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JOE.NAME LIKE.4.V (KA ((ADV-A (TO.P CHURCH156.SK)) GO.V))) **
+	             E154.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P CHURCH156.SK)) GO.V)) ACTION.N))
+			(!R3 (CHURCH156.SK CHURCH.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (JOE.NAME (THINK.V (THAT ((KA ((ADV-A (TO.P CHURCH156.SK)) GO.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME ((ADV-A (FROM.P ?L1)) GO.5.V) CHURCH156.SK) ** ?E)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH156.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH156.SK)))
+			(!R5 (CHURCH156.SK DESTINATION.N))
+			(!R6 (CHURCH156.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (JOE.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH156.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (AT.P ?L1)))
+			(?I2 (NOT (JOE.NAME (AT.P CHURCH156.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JOE.NAME (AT.P ?L1))))
+			(?P2 (JOE.NAME (AT.P CHURCH156.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME LIKE.7.V (KA ((ADV-A (TO.P SERMON158.SK)) LISTEN.V))) **
+	             E159.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P SERMON158.SK)) LISTEN.V)) ACTION.N))
+			(!R3 (SERMON158.SK SERMON.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (JOE.NAME
+	    (THINK.V (THAT ((KA ((ADV-A (TO.P SERMON158.SK)) LISTEN.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME LISTEN.8.V SERMON158.SK) ** ?E)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (SERMON158.SK NOISE.N))
+			(!R3 (SERMON158.SK SERMON.N))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME LIKE.9.V (KA (SING.V SONG163.SK))) ** E162.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 ((KA (SING.V SONG163.SK)) ACTION.N))
+			(!R3 (SONG163.SK (PLUR SONG.N)))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (THINK.V (THAT ((KA (SING.V SONG163.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME LIKE.10.V CONGREGATION168.SK) ** E165.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (NOT (CONGREGATION168.SK ACTION.N)))
+			(!R3 (NOT (CONGREGATION168.SK AGENT.N)))
+			(!R4 (CONGREGATION168.SK OBJECT.N))
+			(!R5 (CONGREGATION168.SK CONGREGATION.N))
+			(!R6 (PART167.SK (OF.P CONGREGATION168.SK)))
+			(!R7 (PART167.SK PART.N))
+		)
+		(:POSTCONDS
+			(?P1 (JOE.NAME (WANT.V (KA (POSSESS.V CONGREGATION168.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME ((ADV-A (FROM.P ?L1)) GO.5.V) CHURCH172.SK) ** ?E)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH172.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH172.SK)))
+			(!R5 (CHURCH172.SK DESTINATION.N))
+			(!R6 (CHURCH172.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (JOE.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH172.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (AT.P ?L1)))
+			(?I2 (NOT (JOE.NAME (AT.P CHURCH172.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JOE.NAME (AT.P ?L1))))
+			(?P2 (JOE.NAME (AT.P CHURCH172.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sue liked going to church."
+	; "She went to church on Sunday."
+	; "She sang in the choir."
+	; "She prayed before meals."
+	; "She read Bible stories."
+	(EPI-SCHEMA ((?X ((ADV-A (TO.P ?X_M)) GO.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D (PLUR MEAL.N)))
+			(!R2 (?X_G CHOIR.N))
+			(!R3 (?X_M CHURCH.N))
+			(!R4 (?X_N CHURCH.N))
+			(!R5 ((KA ((ADV-A (TO.P ?X_M)) GO.V)) ACTION.N))
+			(!R6 (?X_M DESTINATION.N))
+			(!R7 (?X AGENT.N))
+			(!R8 (?X_N DESTINATION.N))
+			(!R9 (?X_L AGENT.N))
+		)
+		(:STEPS
+			(?X_I
+	   (?X_A ((ADV-A (FOR.P (KA (LIKE.V (KA ((ADV-A (TO.P ?X_M)) GO.V)))))) SUE.V)))
+			(?E_1 (?X LIKE.11.V (KA ((ADV-A (TO.P ?X_M)) GO.V))))
+			(?E_2 (?X ((ADV-A (FROM.P ?L1)) GO.12.V) ?X_M))
+			(?X_K (?X_L ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_N))
+			(?X_F (?X_L ((ADV-A (IN.P ?X_G)) SING.V)))
+			(?X_C (?X_L ((ADV-A (BEFORE.P ?X_D)) PRAY.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((?X LIKE.11.V (KA ((ADV-A (TO.P CHURCH186.SK)) GO.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P CHURCH186.SK)) GO.V)) ACTION.N))
+			(!R3 (CHURCH186.SK CHURCH.N))
+		)
+		(:PRECONDS
+			(?I1 (?X (THINK.V (THAT ((KA ((ADV-A (TO.P CHURCH186.SK)) GO.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((?X ((ADV-A (FROM.P ?L1)) GO.12.V) CHURCH186.SK) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH186.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH186.SK)))
+			(!R5 (CHURCH186.SK DESTINATION.N))
+			(!R6 (CHURCH186.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (KA ((ADV-A (AT.P CHURCH186.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (?X (AT.P ?L1)))
+			(?I2 (NOT (?X (AT.P CHURCH186.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (?X (AT.P ?L1))))
+			(?P2 (?X (AT.P CHURCH186.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SHE-PRO198.SK ((ADV-A (FROM.P ?L1)) GO.1.V) CHURCH190.SK) **
+	             E188.SK)
+		(:ROLES
+			(!R1 (SHE-PRO198.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH190.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH190.SK)))
+			(!R5 (CHURCH190.SK DESTINATION.N))
+			(!R6 (CHURCH190.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (SHE-PRO198.SK (WANT.V (KA ((ADV-A (AT.P CHURCH190.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SHE-PRO198.SK (AT.P ?L1)))
+			(?I2 (NOT (SHE-PRO198.SK (AT.P CHURCH190.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SHE-PRO198.SK (AT.P ?L1))))
+			(?P2 (SHE-PRO198.SK (AT.P CHURCH190.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary liked going to church."
+	; "When she was little, she went to Sunday School."
+	; "Her parents took her to church on Sundays."
+	(EPI-SCHEMA ((?X_E (LIKE.V (KA ((ADV-A (TO.P ?X_B)) GO.V)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_B CHURCH.N))
+			(!R2 (?X_F (PLUR PARENT.N)))
+			(!R3 (?X_E FEMALE.A))
+			(!R4 (?X_E AGENT.N))
+			(!R5 (?X_F (PERTAIN-TO ?X_E)))
+			(!R6 (?X_H CHURCH.N))
+			(!R7 ((KA ((ADV-A (TO.P ?X_H)) GO.V)) ACTION.N))
+			(!R8 (?X_H DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_F LIKE.4.V (KA ((ADV-A (TO.P ?X_H)) GO.V))))
+			(?X_A (?X_F (((ADV-A (TO.P ?X_B)) TAKE.V) ?X_G)))
+			(?E_1 (?X_F ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_H))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME LIKE.4.V (KA ((ADV-A (TO.P CHURCH214.SK)) GO.V))) **
+	             E212.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P CHURCH214.SK)) GO.V)) ACTION.N))
+			(!R3 (MARY.NAME (PLUR PARENT.N)))
+			(!R4 (CHURCH214.SK CHURCH.N))
+			(!R5 (MARY.NAME (PERTAIN-TO SHE.PRO)))
+			(!R6 (SHE.PRO FEMALE.A))
+			(!R7 (SHE.PRO AGENT.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (MARY.NAME (THINK.V (THAT ((KA ((ADV-A (TO.P CHURCH214.SK)) GO.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME ((ADV-A (FROM.P ?L1)) GO.5.V) CHURCH214.SK) ** ?E)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH214.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH214.SK)))
+			(!R5 (CHURCH214.SK DESTINATION.N))
+			(!R6 (MARY.NAME (PLUR PARENT.N)))
+			(!R7 (CHURCH214.SK CHURCH.N))
+			(!R8 (MARY.NAME (PERTAIN-TO SHE.PRO)))
+			(!R9 (SHE.PRO FEMALE.A))
+			(!R10 (SHE.PRO AGENT.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH214.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MARY.NAME (AT.P CHURCH214.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MARY.NAME (AT.P ?L1))))
+			(?P2 (MARY.NAME (AT.P CHURCH214.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy loved going to church."
+	; "He liked the preacher's sermons."
+	; "He liked singing in the choir."
+	; "He liked being part of the congregation."
+	(EPI-SCHEMA ((?X_K (LIKE.V (KA ((ADV-A (TO.P ?X_L)) GO.V)))) ** ?E)
+		(:ROLES
+			(!R1 (?X_L CHURCH.N))
+			(!R2 (?X_E PREACHER.N))
+			(!R3 (?X_M (PLUR SERMON.N)))
+			(!R4 (?X_M (PERTAIN-TO ?X_E)))
+			(!R5 (?X_N CHOIR.N))
+			(!R6 (?X_J PART.N))
+			(!R7 (?X_O CONGREGATION.N))
+			(!R8 (?X_J (OF.P ?X_O)))
+			(!R9 ((KA ((ADV-A (TO.P ?X_L)) GO.V)) ACTION.N))
+			(!R10 (?X_L DESTINATION.N))
+			(!R11 (?X_M OBJECT.N))
+			(!R12 (NOT (?X_M ACTION.N)))
+			(!R13 (NOT (?X_M AGENT.N)))
+			(!R14 ((KA ((ADV-A (IN.P ?X_N)) SING.V)) ACTION.N))
+			(!R15 (?X_K AGENT.N))
+			(!R16 (?X_O OBJECT.N))
+			(!R17 (NOT (?X_O ACTION.N)))
+			(!R18 (NOT (?X_O AGENT.N)))
+		)
+		(:STEPS
+			(?X_B (?X_K LOVE.13.V (KA ((ADV-A (TO.P ?X_L)) GO.V))))
+			(?E_1 (?X_K ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_L))
+			(?X_D (?X_K LIKE.10.V ?X_M))
+			(?X_G (?X_K LIKE.14.V (KA ((ADV-A (IN.P ?X_N)) SING.V))))
+			(?X_I (?X_K LIKE.10.V ?X_O))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME LOVE.13.V (KA ((ADV-A (TO.P CHURCH236.SK)) GO.V))) **
+	             E234.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P CHURCH236.SK)) GO.V)) ACTION.N))
+			(!R3 (CHURCH236.SK CHURCH.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (SAMMY.NAME
+	    (THINK.V (THAT ((KA ((ADV-A (TO.P CHURCH236.SK)) GO.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P ?L1)) GO.5.V) CHURCH236.SK) ** ?E)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH236.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH236.SK)))
+			(!R5 (CHURCH236.SK DESTINATION.N))
+			(!R6 (CHURCH236.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH236.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAMMY.NAME (AT.P CHURCH236.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P ?L1))))
+			(?P2 (SAMMY.NAME (AT.P CHURCH236.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME LIKE.10.V SERMON241.SK) ** E239.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (NOT (SERMON241.SK ACTION.N)))
+			(!R3 (NOT (SERMON241.SK AGENT.N)))
+			(!R4 (SERMON241.SK OBJECT.N))
+			(!R5 (SERMON241.SK (PLUR SERMON.N)))
+			(!R6 (PREACHER238.SK PREACHER.N))
+			(!R7 (SERMON241.SK (PERTAIN-TO PREACHER238.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (SAMMY.NAME (WANT.V (KA (POSSESS.V SERMON241.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME LIKE.14.V (KA ((ADV-A (IN.P CHOIR243.SK)) SING.V))) **
+	             E244.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (IN.P CHOIR243.SK)) SING.V)) ACTION.N))
+			(!R3 (CHOIR243.SK CHOIR.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (SAMMY.NAME
+	    (THINK.V (THAT ((KA ((ADV-A (IN.P CHOIR243.SK)) SING.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME LIKE.10.V CONGREGATION249.SK) ** E246.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (NOT (CONGREGATION249.SK ACTION.N)))
+			(!R3 (NOT (CONGREGATION249.SK AGENT.N)))
+			(!R4 (CONGREGATION249.SK OBJECT.N))
+			(!R5 (CONGREGATION249.SK CONGREGATION.N))
+			(!R6 (PART248.SK (OF.P CONGREGATION249.SK)))
+			(!R7 (PART248.SK PART.N))
+		)
+		(:POSTCONDS
+			(?P1 (SAMMY.NAME (WANT.V (KA (POSSESS.V CONGREGATION249.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mike went to church."
+	; "He liked going to church."
+	; "He sang songs at church."
+	; "The preacher told Mike some things."
+	; "Mike listened carefully."
+	; "Mike liked what the preacher said."
+	(EPI-SCHEMA ((?X_O ((ADV-A (TO.P ?X_G)) GO.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P (PLUR THING.N)))
+			(!R2 (?X_S PREACHER.N))
+			(!R3 (?X_N (PLUR SONG.N)))
+			(!R4 (?X_G CHURCH.N))
+			(!R5 (?X_Q CHURCH.N))
+			(!R6 (?X_R CHURCH.N))
+			(!R7 (?X_Q DESTINATION.N))
+			(!R8 ((KA ((ADV-A (TO.P ?X_R)) GO.V)) ACTION.N))
+			(!R9 (?X_R DESTINATION.N))
+			(!R10 ((KE (?X_S (SAY.V ?X_T))) ACTION.N))
+			(!R11 (?X_O AGENT.N))
+		)
+		(:STEPS
+			(?X_I (?X_O ((ADV-A (FROM.P ?L1)) GO.1.V) ?X_Q))
+			(?X_K (?X_O LIKE.4.V (KA ((ADV-A (TO.P ?X_R)) GO.V))))
+			(?X_F (?X_O (((ADV-A (AT.P ?X_G)) SING.V) ?X_N)))
+			(?X_D (?X_S (TELL.V ?X_O ?X_P)))
+			(?X_B (?X_O (CAREFULLY.ADV LISTEN.V)))
+			(?E_1 (?X_O ((ADV-A (FROM.P ?L1)) GO.5.V) ?X_R))
+			(?X_M (?X_O LIKE.15.V (KE (?X_S (SAY.V ?X_T)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MIKE.NAME ((ADV-A (FROM.P ?L1)) GO.1.V) CHURCH263.SK) ** E261.SK)
+		(:ROLES
+			(!R1 (MIKE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH263.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH263.SK)))
+			(!R5 (CHURCH263.SK DESTINATION.N))
+			(!R6 (CHURCH263.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (MIKE.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH263.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MIKE.NAME (AT.P ?L1)))
+			(?I2 (NOT (MIKE.NAME (AT.P CHURCH263.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MIKE.NAME (AT.P ?L1))))
+			(?P2 (MIKE.NAME (AT.P CHURCH263.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MIKE.NAME LIKE.4.V (KA ((ADV-A (TO.P CHURCH267.SK)) GO.V))) **
+	             E265.SK)
+		(:ROLES
+			(!R1 (MIKE.NAME AGENT.N))
+			(!R2 ((KA ((ADV-A (TO.P CHURCH267.SK)) GO.V)) ACTION.N))
+			(!R3 (CHURCH267.SK CHURCH.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (MIKE.NAME (THINK.V (THAT ((KA ((ADV-A (TO.P CHURCH267.SK)) GO.V)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MIKE.NAME ((ADV-A (FROM.P ?L1)) GO.5.V) CHURCH267.SK) ** ?E)
+		(:ROLES
+			(!R1 (MIKE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (CHURCH267.SK LOCATION.N))
+			(!R4 (NOT (?L1 = CHURCH267.SK)))
+			(!R5 (CHURCH267.SK DESTINATION.N))
+			(!R6 (CHURCH267.SK CHURCH.N))
+		)
+		(:GOALS
+			(?G1 (MIKE.NAME (WANT.V (KA ((ADV-A (AT.P CHURCH267.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MIKE.NAME (AT.P ?L1)))
+			(?I2 (NOT (MIKE.NAME (AT.P CHURCH267.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MIKE.NAME (AT.P ?L1))))
+			(?P2 (MIKE.NAME (AT.P CHURCH267.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MIKE.NAME LIKE.15.V (KE (PREACHER274.SK (SAY.V WHAT.PRO)))) **
+	             E284.SK)
+		(:ROLES
+			(!R1 (MIKE.NAME AGENT.N))
+			(!R2 ((KE (PREACHER274.SK (SAY.V WHAT.PRO))) ACTION.N))
+			(!R3 (PREACHER274.SK PREACHER.N))
+		)
+		(:PRECONDS
+			(?I1
+	   (MIKE.NAME (THINK.V (THAT ((KE (PREACHER274.SK (SAY.V WHAT.PRO))) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tina cleaned her room."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She vacuumed the rug."
+	; "She put away her things."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J ?X_K ?X_L ?X_M ?L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FLOOR.N))
+			(!R2 (?X_L RUG.N))
+			(!R3 (?X_K ROOM.N))
+			(!R4 (?X_K (PERTAIN-TO ?X_I)))
+			(!R5 (?X_M (PLUR THING.N)))
+			(!R6 (?X_M (PERTAIN-TO ?X_I)))
+			(!R7 (?X_I AGENT.N))
+			(!R8 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_I CLEAN.1.V ?X_K))
+			(?X_F (?X_I (SWEEP.V ?X_J)))
+			(?X_D (?X_I (MOP.V ?X_J)))
+			(?X_H (?X_I VACUUM.2.V ?X_L))
+			(?X_B (?X_I PUT_AWAY.3.V ?X_M ?L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TINA.NAME CLEAN.1.V ROOM2.SK) ** U1.SK)
+		(:ROLES
+			(!R1 (TINA.NAME AGENT.N))
+			(!R2 (ROOM2.SK ROOM.N))
+			(!R3 (ROOM2.SK (PERTAIN-TO TINA.NAME)))
+			(!R4 (THINGS6.SK (PLUR THING.N)))
+			(!R5 (THINGS6.SK (PERTAIN-TO TINA.NAME)))
+		)
+		(:GOALS
+			(?G1 (TINA.NAME (WANT.V (THAT (NOT (ROOM2.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (ROOM2.SK DIRTY.A))
+			(?I2 (NOT (ROOM2.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ROOM2.SK DIRTY.A)))
+			(?P2 (ROOM2.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TINA.NAME VACUUM.2.V RUG15.SK) ** E16.SK)
+		(:ROLES
+			(!R1 (TINA.NAME AGENT.N))
+			(!R2 (RUG15.SK RUG.N))
+			(!R3 (ROOM2.SK ROOM.N))
+			(!R4 (ROOM2.SK (PERTAIN-TO TINA.NAME)))
+			(!R5 (THINGS6.SK (PLUR THING.N)))
+			(!R6 (THINGS6.SK (PERTAIN-TO TINA.NAME)))
+		)
+		(:GOALS
+			(?G1 (TINA.NAME (WANT.V (THAT (NOT (RUG15.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (RUG15.SK DIRTY.A))
+			(?I2 (NOT (RUG15.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (RUG15.SK DIRTY.A)))
+			(?P2 (RUG15.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TINA.NAME PUT_AWAY.3.V THINGS6.SK ?L) ** E5.SK)
+		(:ROLES
+			(!R1 (TINA.NAME AGENT.N))
+			(!R2 (THINGS6.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (THINGS6.SK (PLUR THING.N)))
+			(!R5 (THINGS6.SK (PERTAIN-TO TINA.NAME)))
+			(!R6 (ROOM2.SK ROOM.N))
+			(!R7 (ROOM2.SK (PERTAIN-TO TINA.NAME)))
+		)
+		(:GOALS
+			(?G1 (TINA.NAME (WANT.V (THAT (THINGS6.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (TINA.NAME (POSSESS.V THINGS6.SK)))
+			(?I2 (THINGS6.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (THINGS6.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman cleaned the kitchen floor."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She vacuumed the floor."
+	; "She scrubbed the floor."
+	; "She put down some rugs."
+	; "She put down some mats."
+	; "She put down some towels."
+	; "She put down some plastic sheets."
+	; "She put down some paper."
+	; "She put down some magazines."
+	; "She put down some books."
+	; "She put down some toys."
+	; "She put down some dishes."
+	(EPI-SCHEMA ((?X_Y (CLEAN.V ?X_ZB)) ** ?E)
+		(:ROLES
+			(!R1 (?X_ZB (PLUR TOWEL.N)))
+			(!R2 (?X_ZA (PLUR MAT.N)))
+			(!R3 (?X_Z (PLUR RUG.N)))
+			(!R4 (?X_ZC KITCHEN.N))
+			(!R5 (?X_ZC FLOOR.N))
+			(!R6 (?X_Y WOMAN.N))
+			(!R7 (?X_ZD (PLUR MAGAZINE.N)))
+			(!R8 (?X_ZE (PLUR BOOK.N)))
+			(!R9 (?X_ZF (PLUR TOY.N)))
+			(!R10 (?X_ZG (PLUR DISH.N)))
+			(!R11 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_N (?X_Y CLEAN.1.V ?X_ZC))
+			(?X_L (?X_Y (SWEEP.V ?X_ZC)))
+			(?X_J (?X_Y (MOP.V ?X_ZC)))
+			(?X_P (?X_Y VACUUM.2.V ?X_ZC))
+			(?X_H (?X_Y (SCRUB.V ?X_ZC)))
+			(?X_F (?X_Y (PUT_DOWN.V ?X_Z)))
+			(?X_D (?X_Y (PUT_DOWN.V ?X_ZA)))
+			(?X_B (?X_Y (PUT_DOWN.V ?X_ZB)))
+			(?X_R (?X_Y PUT_DOWN.4.V ?X_ZD ?L))
+			(?X_T (?X_Y PUT_DOWN.4.V ?X_ZE ?L))
+			(?X_V (?X_Y PUT_DOWN.4.V ?X_ZF ?L))
+			(?X_X (?X_Y PUT_DOWN.4.V ?X_ZG ?L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN38.SK CLEAN.1.V KITCHEN42.SK) ** E41.SK)
+		(:ROLES
+			(!R1 (WOMAN38.SK AGENT.N))
+			(!R2 (WOMAN38.SK WOMAN.N))
+			(!R3 (KITCHEN42.SK KITCHEN.N))
+			(!R4 (KITCHEN42.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN38.SK (WANT.V (THAT (NOT (KITCHEN42.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN42.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN42.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN42.SK DIRTY.A)))
+			(?P2 (KITCHEN42.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN38.SK VACUUM.2.V KITCHEN42.SK) ** E52.SK)
+		(:ROLES
+			(!R1 (WOMAN38.SK AGENT.N))
+			(!R2 (WOMAN38.SK WOMAN.N))
+			(!R3 (KITCHEN42.SK KITCHEN.N))
+			(!R4 (KITCHEN42.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN38.SK (WANT.V (THAT (NOT (KITCHEN42.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN42.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN42.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN42.SK DIRTY.A)))
+			(?P2 (KITCHEN42.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN38.SK PUT_DOWN.4.V MAGAZINE78.SK ?L) ** E77.SK)
+		(:ROLES
+			(!R1 (WOMAN38.SK AGENT.N))
+			(!R2 (MAGAZINE78.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (WOMAN38.SK WOMAN.N))
+			(!R5 (MAGAZINE78.SK (PLUR MAGAZINE.N)))
+		)
+		(:GOALS
+			(?G1 (WOMAN38.SK (WANT.V (THAT (MAGAZINE78.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN38.SK (POSSESS.V MAGAZINE78.SK)))
+			(?I2 (MAGAZINE78.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (MAGAZINE78.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN38.SK PUT_DOWN.4.V BOOK82.SK ?L) ** E81.SK)
+		(:ROLES
+			(!R1 (WOMAN38.SK AGENT.N))
+			(!R2 (BOOK82.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (WOMAN38.SK WOMAN.N))
+			(!R5 (BOOK82.SK (PLUR BOOK.N)))
+		)
+		(:GOALS
+			(?G1 (WOMAN38.SK (WANT.V (THAT (BOOK82.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN38.SK (POSSESS.V BOOK82.SK)))
+			(?I2 (BOOK82.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (BOOK82.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN38.SK PUT_DOWN.4.V TOY86.SK ?L) ** E85.SK)
+		(:ROLES
+			(!R1 (WOMAN38.SK AGENT.N))
+			(!R2 (TOY86.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (WOMAN38.SK WOMAN.N))
+			(!R5 (TOY86.SK (PLUR TOY.N)))
+		)
+		(:GOALS
+			(?G1 (WOMAN38.SK (WANT.V (THAT (TOY86.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN38.SK (POSSESS.V TOY86.SK)))
+			(?I2 (TOY86.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (TOY86.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN38.SK PUT_DOWN.4.V DISH90.SK ?L) ** E89.SK)
+		(:ROLES
+			(!R1 (WOMAN38.SK AGENT.N))
+			(!R2 (DISH90.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (WOMAN38.SK WOMAN.N))
+			(!R5 (DISH90.SK (PLUR DISH.N)))
+		)
+		(:GOALS
+			(?G1 (WOMAN38.SK (WANT.V (THAT (DISH90.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN38.SK (POSSESS.V DISH90.SK)))
+			(?I2 (DISH90.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (DISH90.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jane cleaned the kitchen floor."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She scrubbed the floor."
+	; "She wiped the floor."
+	; "She polished the floor."
+	; "She waxed the floor."
+	(EPI-SCHEMA ((?X_O (CLEAN.V ?X_P)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P KITCHEN.N))
+			(!R2 (?X_P FLOOR.N))
+			(!R3 (?X_O AGENT.N))
+		)
+		(:STEPS
+			(?X_N (?X_O CLEAN.1.V ?X_P))
+			(?X_L (?X_O (SWEEP.V ?X_P)))
+			(?X_J (?X_O (MOP.V ?X_P)))
+			(?X_H (?X_O (SCRUB.V ?X_P)))
+			(?X_F (?X_O (WIPE.V ?X_P)))
+			(?X_D (?X_O (POLISH.V ?X_P)))
+			(?X_B (?X_O (WAX.V ?X_P)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JANE.NAME CLEAN.1.V KITCHEN102.SK) ** E101.SK)
+		(:ROLES
+			(!R1 (JANE.NAME AGENT.N))
+			(!R2 (KITCHEN102.SK KITCHEN.N))
+			(!R3 (KITCHEN102.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (JANE.NAME (WANT.V (THAT (NOT (KITCHEN102.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN102.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN102.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN102.SK DIRTY.A)))
+			(?P2 (KITCHEN102.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A woman cleaned a floor."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She vacuumed the floor."
+	; "She swept the floor again."
+	; "She mopped the floor again."
+	; "She vacuumed the floor again."
+	(EPI-SCHEMA ((?X_O (CLEAN.V ?X_P)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P FLOOR.N))
+			(!R2 (?X_O WOMAN.N))
+		)
+		(:STEPS
+			(?X_J (?X_O CLEAN.1.V ?X_P))
+			(?X_H (?X_O (SWEEP.V ?X_P)))
+			(?X_F (?X_O (MOP.V ?X_P)))
+			(?X_L (?X_O VACUUM.2.V ?X_P))
+			(?X_D (?X_O ((AGAIN.ADV SWEEP.V) ?X_P)))
+			(?X_B (?X_O ((AGAIN.ADV MOP.V) ?X_P)))
+			(?X_N (?X_O VACUUM.2.V ?X_P))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN130.SK CLEAN.1.V FLOOR132.SK) ** E133.SK)
+		(:ROLES
+			(!R1 (WOMAN130.SK AGENT.N))
+			(!R2 (FLOOR132.SK FLOOR.N))
+			(!R3 (WOMAN130.SK WOMAN.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN130.SK (WANT.V (THAT (NOT (FLOOR132.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR132.SK DIRTY.A))
+			(?I2 (NOT (FLOOR132.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR132.SK DIRTY.A)))
+			(?P2 (FLOOR132.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN130.SK VACUUM.2.V FLOOR132.SK) ** E142.SK)
+		(:ROLES
+			(!R1 (WOMAN130.SK AGENT.N))
+			(!R2 (FLOOR132.SK FLOOR.N))
+			(!R3 (WOMAN130.SK WOMAN.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN130.SK (WANT.V (THAT (NOT (FLOOR132.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR132.SK DIRTY.A))
+			(?I2 (NOT (FLOOR132.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR132.SK DIRTY.A)))
+			(?P2 (FLOOR132.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN130.SK VACUUM.2.V FLOOR132.SK) ** E151.SK)
+		(:ROLES
+			(!R1 (WOMAN130.SK AGENT.N))
+			(!R2 (FLOOR132.SK FLOOR.N))
+			(!R3 (WOMAN130.SK WOMAN.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN130.SK (WANT.V (THAT (NOT (FLOOR132.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR132.SK DIRTY.A))
+			(?I2 (NOT (FLOOR132.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR132.SK DIRTY.A)))
+			(?P2 (FLOOR132.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The woman cleaned the floor."
+	; "She worked hard."
+	; "She swept the floor."
+	; "She mopped the floor."
+	(EPI-SCHEMA ((?X_I (CLEAN.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FLOOR.N))
+			(!R2 (?X_I WOMAN.N))
+		)
+		(:STEPS
+			(?X_H (?X_I CLEAN.1.V ?X_J))
+			(?X_F (?X_I (HARD.ADV WORK.V)))
+			(?X_D (?X_I (SWEEP.V ?X_J)))
+			(?X_B (?X_I (MOP.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN160.SK CLEAN.1.V FLOOR162.SK) ** E163.SK)
+		(:ROLES
+			(!R1 (WOMAN160.SK AGENT.N))
+			(!R2 (FLOOR162.SK FLOOR.N))
+			(!R3 (WOMAN160.SK WOMAN.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN160.SK (WANT.V (THAT (NOT (FLOOR162.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR162.SK DIRTY.A))
+			(?I2 (NOT (FLOOR162.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR162.SK DIRTY.A)))
+			(?P2 (FLOOR162.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy cleaned the kitchen floor."
+	; "He swept the floor."
+	; "He mopped the floor."
+	; "He vacuumed the floor."
+	; "He wiped the floor dry."
+	(EPI-SCHEMA ((?X_K (CLEAN.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L KITCHEN.N))
+			(!R2 (?X_L FLOOR.N))
+			(!R3 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_H (?X_K CLEAN.1.V ?X_L))
+			(?X_F (?X_K (SWEEP.V ?X_L)))
+			(?X_D (?X_K (MOP.V ?X_L)))
+			(?X_J (?X_K VACUUM.2.V ?X_L))
+			(?X_B (?X_K (WIPE.V (KE (?X_L DRY.A)))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME CLEAN.1.V KITCHEN183.SK) ** E182.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (KITCHEN183.SK KITCHEN.N))
+			(!R3 (KITCHEN183.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (THAT (NOT (KITCHEN183.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN183.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN183.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN183.SK DIRTY.A)))
+			(?P2 (KITCHEN183.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME VACUUM.2.V KITCHEN183.SK) ** E193.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (KITCHEN183.SK KITCHEN.N))
+			(!R3 (KITCHEN183.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (THAT (NOT (KITCHEN183.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN183.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN183.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN183.SK DIRTY.A)))
+			(?P2 (KITCHEN183.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy cleaned the floor."
+	; "He swept the floor."
+	; "He mopped the floor."
+	; "He vacuumed the floor."
+	(EPI-SCHEMA ((?X_I (CLEAN.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FLOOR.N))
+			(!R2 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_F (?X_I CLEAN.1.V ?X_J))
+			(?X_D (?X_I (SWEEP.V ?X_J)))
+			(?X_B (?X_I (MOP.V ?X_J)))
+			(?X_H (?X_I VACUUM.2.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME CLEAN.1.V FLOOR206.SK) ** E207.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (FLOOR206.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (THAT (NOT (FLOOR206.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR206.SK DIRTY.A))
+			(?I2 (NOT (FLOOR206.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR206.SK DIRTY.A)))
+			(?P2 (FLOOR206.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME VACUUM.2.V FLOOR206.SK) ** E216.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (FLOOR206.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (THAT (NOT (FLOOR206.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR206.SK DIRTY.A))
+			(?I2 (NOT (FLOOR206.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR206.SK DIRTY.A)))
+			(?P2 (FLOOR206.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom cleaned the kitchen floor."
+	; "He swept the floor."
+	; "He mopped the floor."
+	; "He vacuumed the floor."
+	; "He put down some rugs."
+	; "He polished the floor."
+	(EPI-SCHEMA ((?X_M (CLEAN.V ?X_O)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N (PLUR RUG.N)))
+			(!R2 (?X_O KITCHEN.N))
+			(!R3 (?X_O FLOOR.N))
+			(!R4 (?X_M AGENT.N))
+		)
+		(:STEPS
+			(?X_J (?X_M CLEAN.1.V ?X_O))
+			(?X_H (?X_M (SWEEP.V ?X_O)))
+			(?X_F (?X_M (MOP.V ?X_O)))
+			(?X_L (?X_M VACUUM.2.V ?X_O))
+			(?X_D (?X_M (PUT_DOWN.V ?X_N)))
+			(?X_B (?X_M (POLISH.V ?X_O)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CLEAN.1.V KITCHEN228.SK) ** E227.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (KITCHEN228.SK KITCHEN.N))
+			(!R3 (KITCHEN228.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (NOT (KITCHEN228.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN228.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN228.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN228.SK DIRTY.A)))
+			(?P2 (KITCHEN228.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME VACUUM.2.V KITCHEN228.SK) ** E238.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (KITCHEN228.SK KITCHEN.N))
+			(!R3 (KITCHEN228.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (NOT (KITCHEN228.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN228.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN228.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN228.SK DIRTY.A)))
+			(?P2 (KITCHEN228.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom cleaned the kitchen floor."
+	; "He swept the floor."
+	; "He mopped the floor."
+	; "He put down a rug."
+	; "He wiped the countertops."
+	(EPI-SCHEMA ((?X_I (CLEAN.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J (PLUR COUNTERTOP.N)))
+			(!R2 (?X_K KITCHEN.N))
+			(!R3 (?X_K FLOOR.N))
+			(!R4 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_H (?X_I CLEAN.1.V ?X_K))
+			(?X_F (?X_I (SWEEP.V ?X_K)))
+			(?X_D (?X_I (MOP.V ?X_K)))
+			(?X_B (?X_I (WIPE.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME CLEAN.1.V KITCHEN257.SK) ** E256.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (KITCHEN257.SK KITCHEN.N))
+			(!R3 (KITCHEN257.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (NOT (KITCHEN257.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN257.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN257.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN257.SK DIRTY.A)))
+			(?P2 (KITCHEN257.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "John cleaned the floor."
+	; "He swept the floor."
+	; "He mopped the floor."
+	; "He swept the dust into a bucket."
+	; "He put the bucket outside."
+	(EPI-SCHEMA ((?X_K (CLEAN.V ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L DUST.N))
+			(!R2 (?X_N BUCKET.N))
+			(!R3 (?X_M FLOOR.N))
+			(!R4 (?X_K AGENT.N))
+			(!R5 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_H (?X_K CLEAN.1.V ?X_M))
+			(?X_F (?X_K (SWEEP.V ?X_M)))
+			(?X_D (?X_K (MOP.V ?X_M)))
+			(?X_B (?X_K (((ADV-A (INTO.P ?X_N)) SWEEP.V) ?X_L)))
+			(?X_J (?X_K PUT.5.V ?X_N ?L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JOHN.NAME CLEAN.1.V FLOOR281.SK) ** E282.SK)
+		(:ROLES
+			(!R1 (JOHN.NAME AGENT.N))
+			(!R2 (FLOOR281.SK FLOOR.N))
+		)
+		(:GOALS
+			(?G1 (JOHN.NAME (WANT.V (THAT (NOT (FLOOR281.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR281.SK DIRTY.A))
+			(?I2 (NOT (FLOOR281.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR281.SK DIRTY.A)))
+			(?P2 (FLOOR281.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOHN.NAME PUT.5.V BUCKET291.SK ?L) ** E295.SK)
+		(:ROLES
+			(!R1 (JOHN.NAME AGENT.N))
+			(!R2 (BUCKET291.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BUCKET291.SK BUCKET.N))
+		)
+		(:GOALS
+			(?G1 (JOHN.NAME (WANT.V (THAT (BUCKET291.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (JOHN.NAME (POSSESS.V BUCKET291.SK)))
+			(?I2 (BUCKET291.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (BUCKET291.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "The woman cleaned her kitchen."
+	; "She wiped down all the countertops."
+	; "She scrubbed the sink."
+	; "She washed the dishes."
+	; "She put away the dishes."
+	; "She cleaned the stove."
+	; "She cleaned the refrigerator."
+	; "She cleaned the oven."
+	; "She cleaned the floor."
+	(EPI-SCHEMA ((?X_Q (CLEAN.V ?X_R)) ** ?E)
+		(:ROLES
+			(!R1 (?X_Q SINK.N))
+			(!R2 (?X_P WOMAN.N))
+			(!R3 (?X_S (PLUR DISH.N)))
+			(!R4 (?X_T STOVE.N))
+			(!R5 (?X_U REFRIGERATOR.N))
+			(!R6 (?X_V OVEN.N))
+			(!R7 (?X_R KITCHEN.N))
+			(!R8 (?X_R (PERTAIN-TO ?X_P)))
+			(!R9 (?X_W FLOOR.N))
+			(!R10 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_P CLEAN.1.V ?X_R))
+			(?X_C (?X_P (SCRUB.V ?X_Q)))
+			(?X_E (?X_P WASH.2.V ?X_S))
+			(?X_G (?X_P PUT_AWAY.3.V ?X_S ?L))
+			(?X_I (?X_P CLEAN.1.V ?X_T))
+			(?X_K (?X_P CLEAN.1.V ?X_U))
+			(?X_M (?X_P CLEAN.1.V ?X_V))
+			(?X_O (?X_P CLEAN.1.V ?X_W))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN3.SK CLEAN.1.V KITCHEN2.SK) ** U1.SK)
+		(:ROLES
+			(!R1 (WOMAN3.SK AGENT.N))
+			(!R2 (WOMAN3.SK WOMAN.N))
+			(!R3 (KITCHEN2.SK KITCHEN.N))
+			(!R4 (KITCHEN2.SK (PERTAIN-TO WOMAN3.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN3.SK (WANT.V (THAT (NOT (KITCHEN2.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN2.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN2.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN2.SK DIRTY.A)))
+			(?P2 (KITCHEN2.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN3.SK WASH.2.V DISH16.SK) ** E15.SK)
+		(:ROLES
+			(!R1 (WOMAN3.SK AGENT.N))
+			(!R2 (WOMAN3.SK WOMAN.N))
+			(!R3 (DISH16.SK (PLUR DISH.N)))
+			(!R4 (KITCHEN2.SK KITCHEN.N))
+			(!R5 (KITCHEN2.SK (PERTAIN-TO WOMAN3.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN3.SK (WANT.V (THAT (NOT (DISH16.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (DISH16.SK DIRTY.A))
+			(?I2 (NOT (DISH16.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DISH16.SK DIRTY.A)))
+			(?P2 (DISH16.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN3.SK PUT_AWAY.3.V DISH16.SK ?L) ** E19.SK)
+		(:ROLES
+			(!R1 (WOMAN3.SK AGENT.N))
+			(!R2 (DISH16.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (WOMAN3.SK WOMAN.N))
+			(!R5 (DISH16.SK (PLUR DISH.N)))
+			(!R6 (KITCHEN2.SK KITCHEN.N))
+			(!R7 (KITCHEN2.SK (PERTAIN-TO WOMAN3.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN3.SK (WANT.V (THAT (DISH16.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (WOMAN3.SK (POSSESS.V DISH16.SK)))
+			(?I2 (DISH16.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (DISH16.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN3.SK CLEAN.1.V STOVE22.SK) ** E23.SK)
+		(:ROLES
+			(!R1 (WOMAN3.SK AGENT.N))
+			(!R2 (WOMAN3.SK WOMAN.N))
+			(!R3 (STOVE22.SK STOVE.N))
+			(!R4 (KITCHEN2.SK KITCHEN.N))
+			(!R5 (KITCHEN2.SK (PERTAIN-TO WOMAN3.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN3.SK (WANT.V (THAT (NOT (STOVE22.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (STOVE22.SK DIRTY.A))
+			(?I2 (NOT (STOVE22.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (STOVE22.SK DIRTY.A)))
+			(?P2 (STOVE22.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN3.SK CLEAN.1.V REFRIGERATOR25.SK) ** E26.SK)
+		(:ROLES
+			(!R1 (WOMAN3.SK AGENT.N))
+			(!R2 (WOMAN3.SK WOMAN.N))
+			(!R3 (REFRIGERATOR25.SK REFRIGERATOR.N))
+			(!R4 (KITCHEN2.SK KITCHEN.N))
+			(!R5 (KITCHEN2.SK (PERTAIN-TO WOMAN3.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN3.SK (WANT.V (THAT (NOT (REFRIGERATOR25.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (REFRIGERATOR25.SK DIRTY.A))
+			(?I2 (NOT (REFRIGERATOR25.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (REFRIGERATOR25.SK DIRTY.A)))
+			(?P2 (REFRIGERATOR25.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN3.SK CLEAN.1.V OVEN28.SK) ** E29.SK)
+		(:ROLES
+			(!R1 (WOMAN3.SK AGENT.N))
+			(!R2 (WOMAN3.SK WOMAN.N))
+			(!R3 (OVEN28.SK OVEN.N))
+			(!R4 (KITCHEN2.SK KITCHEN.N))
+			(!R5 (KITCHEN2.SK (PERTAIN-TO WOMAN3.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN3.SK (WANT.V (THAT (NOT (OVEN28.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (OVEN28.SK DIRTY.A))
+			(?I2 (NOT (OVEN28.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (OVEN28.SK DIRTY.A)))
+			(?P2 (OVEN28.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN3.SK CLEAN.1.V FLOOR31.SK) ** E32.SK)
+		(:ROLES
+			(!R1 (WOMAN3.SK AGENT.N))
+			(!R2 (WOMAN3.SK WOMAN.N))
+			(!R3 (FLOOR31.SK FLOOR.N))
+			(!R4 (KITCHEN2.SK KITCHEN.N))
+			(!R5 (KITCHEN2.SK (PERTAIN-TO WOMAN3.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN3.SK (WANT.V (THAT (NOT (FLOOR31.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR31.SK DIRTY.A))
+			(?I2 (NOT (FLOOR31.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR31.SK DIRTY.A)))
+			(?P2 (FLOOR31.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tina cleaned her room."
+	; "She put things away."
+	; "She organized her books."
+	; "She read a book."
+	; "She watched TV."
+	; "She played video games."
+	(EPI-SCHEMA ((?X_K (COMPOSITE-SCHEMA.PR ?X_L ?X_M ?X_N ?X_O ?X_P ?X_Q)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P VIDEO.N))
+			(!R2 (?X_P (PLUR GAME.N)))
+			(!R3 (?X_O AGENT.N))
+			(!R4 (?X_N BOOK.N))
+			(!R5 (?X_M (PLUR BOOK.N)))
+			(!R6 (?X_L (PLUR THING.N)))
+			(!R7 (?X_M (PERTAIN-TO ?X_K)))
+			(!R8 (?X_Q ROOM.N))
+			(!R9 (?X_Q (PERTAIN-TO ?X_K)))
+			(!R10 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_K CLEAN.1.V ?X_Q))
+			(?X_J (?X_K ((AWAY.ADV PUT.V) ?X_L)))
+			(?X_B (?X_K (ORGANIZE.V ?X_M)))
+			(?X_H (?X_K (READ.V ?X_N)))
+			(?X_F (?X_K (WATCH.V ?X_O)))
+			(?X_D (?X_K (PLAY.V ?X_P)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME CLEAN.1.V HOUSE42.SK) ** E43.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (HOUSE42.SK HOUSE.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (HOUSE42.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE42.SK DIRTY.A))
+			(?I2 (NOT (HOUSE42.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE42.SK DIRTY.A)))
+			(?P2 (HOUSE42.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME VACUUM.4.V CARPET49.SK) ** E50.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (CARPET49.SK CARPET.N))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (CARPET49.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET49.SK DIRTY.A))
+			(?I2 (NOT (CARPET49.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET49.SK DIRTY.A)))
+			(?P2 (CARPET49.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT_AWAY.3.V THING56.SK ?L) ** E55.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (THING56.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (THING56.SK (PLUR THING.N)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (THING56.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V THING56.SK)))
+			(?I2 (THING56.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (THING56.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((TINA.NAME CLEAN.1.V ROOM75.SK) ** E74.SK)
+		(:ROLES
+			(!R1 (TINA.NAME AGENT.N))
+			(!R2 (ROOM75.SK ROOM.N))
+			(!R3 (ROOM75.SK (PERTAIN-TO TINA.NAME)))
+			(!R4 (BOOKS77.SK (PLUR BOOK.N)))
+			(!R5 (BOOKS77.SK (PERTAIN-TO TINA.NAME)))
+		)
+		(:GOALS
+			(?G1 (TINA.NAME (WANT.V (THAT (NOT (ROOM75.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (ROOM75.SK DIRTY.A))
+			(?I2 (NOT (ROOM75.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ROOM75.SK DIRTY.A)))
+			(?P2 (ROOM75.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The kids cleaned up their rooms."
+	; "They put away toys."
+	; "They swept the floor."
+	; "They picked up trash."
+	(EPI-SCHEMA ((?X_I (SWEEP.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K TRASH.N))
+			(!R2 (?X_J FLOOR.N))
+			(!R3 (?X_I AGENT.N))
+			(!R4 (?X_G (PLUR ROOM.N)))
+			(!R5 (?X_H (PLUR KID.N)))
+			(!R6 (?X_G (PERTAIN-TO ?X_H)))
+			(!R7 (?X_L (PLUR TOY.N)))
+			(!R8 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_H PUT_AWAY.3.V ?X_L ?L))
+			(?X_D (?X_I (SWEEP.V ?X_J)))
+			(?X_B (?X_I (PICK_UP.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KID129.SK PUT_AWAY.3.V TOY134.SK ?L) ** E132.SK)
+		(:ROLES
+			(!R1 (KID129.SK AGENT.N))
+			(!R2 (TOY134.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (KID129.SK (PLUR KID.N)))
+			(!R5 (TOY134.SK (PLUR TOY.N)))
+			(!R6 (ROOMS126.SK (PERTAIN-TO KID129.SK)))
+			(!R7 (ROOMS126.SK (PLUR ROOM.N)))
+		)
+		(:GOALS
+			(?G1 (KID129.SK (WANT.V (THAT (TOY134.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (KID129.SK (POSSESS.V TOY134.SK)))
+			(?I2 (TOY134.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (TOY134.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man cleaned the house."
+	; "He swept the floor."
+	; "He vacuumed the carpet."
+	; "He mopped the kitchen floor."
+	; "He put away some things in the closet."
+	; "He cleaned the bathroom."
+	; "He cleaned the toilet."
+	; "He cleaned the bathtub."
+	(EPI-SCHEMA ((?X_U (CLEAN.V ?X_T)) ** ?E)
+		(:ROLES
+			(!R1 (?X_U (PLUR THING.N)))
+			(!R2 (?X_C CLOSET.N))
+			(!R3 (?X_T KITCHEN.N))
+			(!R4 (?X_T FLOOR.N))
+			(!R5 (?X_S FLOOR.N))
+			(!R6 (?X_R MAN.N))
+			(!R7 (?X_V HOUSE.N))
+			(!R8 (?X_W CARPET.N))
+			(!R9 (?X_X BATHROOM.N))
+			(!R10 (?X_Y TOILET.N))
+			(!R11 (?X_Z BATHTUB.N))
+		)
+		(:STEPS
+			(?X_I (?X_R CLEAN.1.V ?X_V))
+			(?X_G (?X_R (SWEEP.V ?X_S)))
+			(?X_K (?X_R VACUUM.4.V ?X_W))
+			(?X_E (?X_R (MOP.V ?X_T)))
+			(?X_B (?X_R (((ADV-A (IN.P ?X_C)) PUT_AWAY.V) ?X_U)))
+			(?X_M (?X_R CLEAN.1.V ?X_X))
+			(?X_O (?X_R CLEAN.1.V ?X_Y))
+			(?X_Q (?X_R CLEAN.1.V ?X_Z))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN160.SK CLEAN.1.V HOUSE162.SK) ** E163.SK)
+		(:ROLES
+			(!R1 (MAN160.SK AGENT.N))
+			(!R2 (HOUSE162.SK HOUSE.N))
+			(!R3 (MAN160.SK MAN.N))
+		)
+		(:GOALS
+			(?G1 (MAN160.SK (WANT.V (THAT (NOT (HOUSE162.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE162.SK DIRTY.A))
+			(?I2 (NOT (HOUSE162.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE162.SK DIRTY.A)))
+			(?P2 (HOUSE162.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN160.SK VACUUM.4.V CARPET168.SK) ** E169.SK)
+		(:ROLES
+			(!R1 (MAN160.SK AGENT.N))
+			(!R2 (MAN160.SK MAN.N))
+			(!R3 (CARPET168.SK CARPET.N))
+		)
+		(:GOALS
+			(?G1 (MAN160.SK (WANT.V (THAT (NOT (CARPET168.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET168.SK DIRTY.A))
+			(?I2 (NOT (CARPET168.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET168.SK DIRTY.A)))
+			(?P2 (CARPET168.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN160.SK CLEAN.1.V BATHROOM181.SK) ** E182.SK)
+		(:ROLES
+			(!R1 (MAN160.SK AGENT.N))
+			(!R2 (MAN160.SK MAN.N))
+			(!R3 (BATHROOM181.SK BATHROOM.N))
+		)
+		(:GOALS
+			(?G1 (MAN160.SK (WANT.V (THAT (NOT (BATHROOM181.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BATHROOM181.SK DIRTY.A))
+			(?I2 (NOT (BATHROOM181.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BATHROOM181.SK DIRTY.A)))
+			(?P2 (BATHROOM181.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN160.SK CLEAN.1.V TOILET184.SK) ** E185.SK)
+		(:ROLES
+			(!R1 (MAN160.SK AGENT.N))
+			(!R2 (MAN160.SK MAN.N))
+			(!R3 (TOILET184.SK TOILET.N))
+		)
+		(:GOALS
+			(?G1 (MAN160.SK (WANT.V (THAT (NOT (TOILET184.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (TOILET184.SK DIRTY.A))
+			(?I2 (NOT (TOILET184.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOILET184.SK DIRTY.A)))
+			(?P2 (TOILET184.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN160.SK CLEAN.1.V BATHTUB187.SK) ** E188.SK)
+		(:ROLES
+			(!R1 (MAN160.SK AGENT.N))
+			(!R2 (MAN160.SK MAN.N))
+			(!R3 (BATHTUB187.SK BATHTUB.N))
+		)
+		(:GOALS
+			(?G1 (MAN160.SK (WANT.V (THAT (NOT (BATHTUB187.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BATHTUB187.SK DIRTY.A))
+			(?I2 (NOT (BATHTUB187.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BATHTUB187.SK DIRTY.A)))
+			(?P2 (BATHTUB187.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy cleaned his room."
+	; "He threw things away."
+	; "He put some things back on shelves."
+	; "He cleaned his desk."
+	; "He swept under his bed."
+	; "He washed the floor."
+	; "He vacuumed the carpet."
+	; "He made sure everything was neat."
+	(EPI-SCHEMA ((?X_O
+	              (COMPOSITE-SCHEMA.PR ?X_P ?X_Q ?X_R ?X_S ?X_T ?X_U ?X_V ?X_W))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_Q (SURE.A (THT ((EVERY.D THING.N) NEAT.A)))))
+			(!R2 (?X_H BED.N))
+			(!R3 (?X_P (PLUR THING.N)))
+			(!R4 (?X_O BOY.N))
+			(!R5 (?X_H (PERTAIN-TO ?X_O)))
+			(!R6 (?X_S (PLUR THING.N)))
+			(!R7 (?X_T (PLUR SHELF.N)))
+			(!R8 (?X_V FLOOR.N))
+			(!R9 (?X_R ROOM.N))
+			(!R10 (?X_R (PERTAIN-TO ?X_O)))
+			(!R11 (?X_U DESK.N))
+			(!R12 (?X_U (PERTAIN-TO ?X_O)))
+			(!R13 (?X_W CARPET.N))
+			(!R14 (?X_T LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_O CLEAN.1.V ?X_R))
+			(?X_G (?X_O ((AWAY.ADV THROW.V) ?X_P)))
+			(?X_J (?X_O PUT.5.V ?X_S ?X_T))
+			(?X_B (?X_O CLEAN.1.V ?X_U))
+			(?X_C (?X_O ((ADV-A (UNDER.P ?X_H)) SWEEP.V)))
+			(?X_L (?X_O WASH.2.V ?X_V))
+			(?X_N (?X_O VACUUM.4.V ?X_W))
+			(?X_E (?X_O (MAKE.V ?X_Q)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY203.SK CLEAN.1.V ROOM198.SK) ** E197.SK)
+		(:ROLES
+			(!R1 (BOY203.SK AGENT.N))
+			(!R2 (BOY203.SK BOY.N))
+			(!R3 (ROOM198.SK ROOM.N))
+			(!R4 (ROOM198.SK (PERTAIN-TO BOY203.SK)))
+			(!R5 (DESK200.SK DESK.N))
+			(!R6 (DESK200.SK (PERTAIN-TO BOY203.SK)))
+			(!R7 (BED202.SK BED.N))
+			(!R8 (BED202.SK (PERTAIN-TO BOY203.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY203.SK (WANT.V (THAT (NOT (ROOM198.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (ROOM198.SK DIRTY.A))
+			(?I2 (NOT (ROOM198.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ROOM198.SK DIRTY.A)))
+			(?P2 (ROOM198.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY203.SK PUT.5.V THING212.SK SHELF214.SK) ** E211.SK)
+		(:ROLES
+			(!R1 (BOY203.SK AGENT.N))
+			(!R2 (THING212.SK ENTITY.N))
+			(!R3 (SHELF214.SK LOCATION.N))
+			(!R4 (BOY203.SK BOY.N))
+			(!R5 (SHELF214.SK (PLUR SHELF.N)))
+			(!R6 (THING212.SK (PLUR THING.N)))
+			(!R7 (ROOM198.SK ROOM.N))
+			(!R8 (ROOM198.SK (PERTAIN-TO BOY203.SK)))
+			(!R9 (DESK200.SK DESK.N))
+			(!R10 (DESK200.SK (PERTAIN-TO BOY203.SK)))
+			(!R11 (BED202.SK BED.N))
+			(!R12 (BED202.SK (PERTAIN-TO BOY203.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY203.SK (WANT.V (THAT (THING212.SK (AT.P SHELF214.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY203.SK (POSSESS.V THING212.SK)))
+			(?I2 (THING212.SK (NOT (AT.P SHELF214.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (THING212.SK (AT.P SHELF214.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY203.SK CLEAN.1.V DESK200.SK) ** E199.SK)
+		(:ROLES
+			(!R1 (BOY203.SK AGENT.N))
+			(!R2 (BOY203.SK BOY.N))
+			(!R3 (DESK200.SK DESK.N))
+			(!R4 (DESK200.SK (PERTAIN-TO BOY203.SK)))
+			(!R5 (ROOM198.SK ROOM.N))
+			(!R6 (ROOM198.SK (PERTAIN-TO BOY203.SK)))
+			(!R7 (BED202.SK BED.N))
+			(!R8 (BED202.SK (PERTAIN-TO BOY203.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY203.SK (WANT.V (THAT (NOT (DESK200.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (DESK200.SK DIRTY.A))
+			(?I2 (NOT (DESK200.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DESK200.SK DIRTY.A)))
+			(?P2 (DESK200.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY203.SK WASH.2.V FLOOR218.SK) ** E219.SK)
+		(:ROLES
+			(!R1 (BOY203.SK AGENT.N))
+			(!R2 (BOY203.SK BOY.N))
+			(!R3 (FLOOR218.SK FLOOR.N))
+			(!R4 (ROOM198.SK ROOM.N))
+			(!R5 (ROOM198.SK (PERTAIN-TO BOY203.SK)))
+			(!R6 (DESK200.SK DESK.N))
+			(!R7 (DESK200.SK (PERTAIN-TO BOY203.SK)))
+			(!R8 (BED202.SK BED.N))
+			(!R9 (BED202.SK (PERTAIN-TO BOY203.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY203.SK (WANT.V (THAT (NOT (FLOOR218.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR218.SK DIRTY.A))
+			(?I2 (NOT (FLOOR218.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR218.SK DIRTY.A)))
+			(?P2 (FLOOR218.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY203.SK VACUUM.4.V CARPET221.SK) ** E222.SK)
+		(:ROLES
+			(!R1 (BOY203.SK AGENT.N))
+			(!R2 (BOY203.SK BOY.N))
+			(!R3 (CARPET221.SK CARPET.N))
+			(!R4 (ROOM198.SK ROOM.N))
+			(!R5 (ROOM198.SK (PERTAIN-TO BOY203.SK)))
+			(!R6 (DESK200.SK DESK.N))
+			(!R7 (DESK200.SK (PERTAIN-TO BOY203.SK)))
+			(!R8 (BED202.SK BED.N))
+			(!R9 (BED202.SK (PERTAIN-TO BOY203.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY203.SK (WANT.V (THAT (NOT (CARPET221.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET221.SK DIRTY.A))
+			(?I2 (NOT (CARPET221.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET221.SK DIRTY.A)))
+			(?P2 (CARPET221.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The man cleaned his house."
+	; "He swept the floor."
+	; "He vacuumed the carpet."
+	; "He mopped the kitchen floor."
+	(EPI-SCHEMA ((?X_L (CLEAN.V ?X_J)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J KITCHEN.N))
+			(!R2 (?X_J FLOOR.N))
+			(!R3 (?X_I FLOOR.N))
+			(!R4 (?X_H MAN.N))
+			(!R5 (?X_K HOUSE.N))
+			(!R6 (?X_K (PERTAIN-TO ?X_H)))
+			(!R7 (?X_L CARPET.N))
+		)
+		(:STEPS
+			(?X_A (?X_H CLEAN.1.V ?X_K))
+			(?X_E (?X_H (SWEEP.V ?X_I)))
+			(?X_G (?X_H VACUUM.4.V ?X_L))
+			(?X_C (?X_H (MOP.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MAN269.SK CLEAN.1.V HOUSE268.SK) ** E267.SK)
+		(:ROLES
+			(!R1 (MAN269.SK AGENT.N))
+			(!R2 (MAN269.SK MAN.N))
+			(!R3 (HOUSE268.SK HOUSE.N))
+			(!R4 (HOUSE268.SK (PERTAIN-TO MAN269.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN269.SK (WANT.V (THAT (NOT (HOUSE268.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE268.SK DIRTY.A))
+			(?I2 (NOT (HOUSE268.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE268.SK DIRTY.A)))
+			(?P2 (HOUSE268.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MAN269.SK VACUUM.4.V CARPET275.SK) ** E276.SK)
+		(:ROLES
+			(!R1 (MAN269.SK AGENT.N))
+			(!R2 (MAN269.SK MAN.N))
+			(!R3 (CARPET275.SK CARPET.N))
+			(!R4 (HOUSE268.SK HOUSE.N))
+			(!R5 (HOUSE268.SK (PERTAIN-TO MAN269.SK)))
+		)
+		(:GOALS
+			(?G1 (MAN269.SK (WANT.V (THAT (NOT (CARPET275.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET275.SK DIRTY.A))
+			(?I2 (NOT (CARPET275.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET275.SK DIRTY.A)))
+			(?P2 (CARPET275.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sally cleaned her room."
+	; "She put away all her toys."
+	; "She picked up her toys."
+	; "She put them in her closet."
+	(EPI-SCHEMA ((?X_D (CLEAN.V ?X_F)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E (PLUR TOY.N)))
+			(!R2 (?X_E (PERTAIN-TO ?X_D)))
+			(!R3 (?X_F ROOM.N))
+			(!R4 (?X_F (PERTAIN-TO ?X_D)))
+			(!R5 (?X_H CLOSET.N))
+			(!R6 (?X_H (PERTAIN-TO ?X_D)))
+			(!R7 (?X_D AGENT.N))
+			(!R8 (?X_H LOCATION.N))
+			(!R9 (?X_G ENTITY.N))
+		)
+		(:STEPS
+			(?X_A (?X_D CLEAN.1.V ?X_F))
+			(?X_B (?X_D (PICK_UP.V ?X_E)))
+			(?X_C (?X_D PUT.5.V ?X_G ?X_H))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME CLEAN.1.V ROOM291.SK) ** E290.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (ROOM291.SK ROOM.N))
+			(!R3 (ROOM291.SK (PERTAIN-TO SALLY.NAME)))
+			(!R4 (TOYS293.SK (PLUR TOY.N)))
+			(!R5 (TOYS293.SK (PERTAIN-TO SALLY.NAME)))
+			(!R6 (CLOSET295.SK CLOSET.N))
+			(!R7 (CLOSET295.SK (PERTAIN-TO SALLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (THAT (NOT (ROOM291.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (ROOM291.SK DIRTY.A))
+			(?I2 (NOT (ROOM291.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ROOM291.SK DIRTY.A)))
+			(?P2 (ROOM291.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME PUT.5.V THEM.PRO CLOSET295.SK) ** E294.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (THEM.PRO ENTITY.N))
+			(!R3 (CLOSET295.SK LOCATION.N))
+			(!R4 (CLOSET295.SK CLOSET.N))
+			(!R5 (CLOSET295.SK (PERTAIN-TO SALLY.NAME)))
+			(!R6 (ROOM291.SK ROOM.N))
+			(!R7 (ROOM291.SK (PERTAIN-TO SALLY.NAME)))
+			(!R8 (TOYS293.SK (PLUR TOY.N)))
+			(!R9 (TOYS293.SK (PERTAIN-TO SALLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (THAT (THEM.PRO (AT.P CLOSET295.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (POSSESS.V THEM.PRO)))
+			(?I2 (THEM.PRO (NOT (AT.P CLOSET295.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (THEM.PRO (AT.P CLOSET295.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen cleaned her room."
+	; "She picked up toys."
+	; "She put them away."
+	; "She organized her books."
+	(EPI-SCHEMA ((?X_G (CLEAN.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G FEMALE.A))
+			(!R2 (?X_G AGENT.N))
+			(!R3 (?X_H (PLUR TOY.N)))
+			(!R4 (?X_J (PLUR BOOK.N)))
+			(!R5 (?X_J (PERTAIN-TO ?X_G)))
+			(!R6 (?X_K ROOM.N))
+			(!R7 (?X_K (PERTAIN-TO ?X_J)))
+			(!R8 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_J CLEAN.1.V ?X_K))
+			(?X_F (?X_J (PICK_UP.V ?X_H)))
+			(?X_D (?X_G ((AWAY.ADV PUT.V) ?X_I)))
+			(?X_B (?X_G (ORGANIZE.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V ROOM310.SK) ** E309.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (KAREN.NAME (PLUR BOOK.N)))
+			(!R3 (ROOM310.SK ROOM.N))
+			(!R4 (ROOM310.SK (PERTAIN-TO KAREN.NAME)))
+			(!R5 (KAREN.NAME (PERTAIN-TO SHE.PRO)))
+			(!R6 (SHE.PRO FEMALE.A))
+			(!R7 (SHE.PRO AGENT.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (ROOM310.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (ROOM310.SK DIRTY.A))
+			(?I2 (NOT (ROOM310.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ROOM310.SK DIRTY.A)))
+			(?P2 (ROOM310.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The woman cleaned the house."
+	; "She picked up toys."
+	; "She put them away."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She vacuumed the carpet."
+	; "She dusted the furniture."
+	; "She washed the windows."
+	(EPI-SCHEMA ((?X_X (CLEAN.V ?X_R)) ** ?E)
+		(:ROLES
+			(!R1 (?X_Y HOUSE.N))
+			(!R2 (?X_C WOMAN.N))
+			(!R3 (?X_S (PLUR TOY.N)))
+			(!R4 (?X_U FLOOR.N))
+			(!R5 (?X_V CARPET.N))
+			(!R6 (?X_W FURNITURE.N))
+			(!R7 (?X_R FEMALE.A))
+			(!R8 (?X_R AGENT.N))
+			(!R9 (?X_X (PLUR WINDOW.N)))
+		)
+		(:STEPS
+			(?X_B (?X_C CLEAN.1.V ?X_Y))
+			(?X_E (?X_C (PICK_UP.V ?X_S)))
+			(?X_G (?X_R ((AWAY.ADV PUT.V) ?X_T)))
+			(?X_I (?X_R (SWEEP.V ?X_U)))
+			(?X_K (?X_R (MOP.V ?X_U)))
+			(?X_M (?X_R (VACUUM.V ?X_V)))
+			(?X_O (?X_R (DUST.V ?X_W)))
+			(?X_Q (?X_R (WASH.V ?X_X)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN331.SK CLEAN.1.V HOUSE333.SK) ** E334.SK)
+		(:ROLES
+			(!R1 (WOMAN331.SK AGENT.N))
+			(!R2 (HOUSE333.SK HOUSE.N))
+			(!R3 (WOMAN331.SK WOMAN.N))
+		)
+		(:GOALS
+			(?G1 (WOMAN331.SK (WANT.V (THAT (NOT (HOUSE333.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE333.SK DIRTY.A))
+			(?I2 (NOT (HOUSE333.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE333.SK DIRTY.A)))
+			(?P2 (HOUSE333.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Karen cleaned her house."
+	; "She took all the garbage outside."
+	; "She put it in the trash can."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She washed the dishes."
+	; "She washed the windows."
+	; "She cleaned the bathroom."
+	; "She cleaned the kitchen."
+	; "She cleaned the living room."
+	; "She cleaned the bedroom."
+	; "She vacuumed the furniture."
+	; "She dusted the furniture."
+	; "She cleaned the carpet."
+	; "She cleaned the walls."
+	; "She cleaned the refrigerator."
+	; "She cleaned the stove."
+	; "She cleaned the oven."
+	; "She cleaned the sink."
+	; "She cleaned"
+	(EPI-SCHEMA ((?X_ZL (CLEAN.V ?X_ZU)) ** ?E)
+		(:ROLES
+			(!R1 (?X_ZW FURNITURE.N))
+			(!R2 (?X_ZM FLOOR.N))
+			(!R3 (?X_ZP TRASH.N))
+			(!R4 (?X_ZP CAN.N))
+			(!R5 (?X_ZQ (PLUR DISH.N)))
+			(!R6 (?X_ZR (PLUR WINDOW.N)))
+			(!R7 (?X_ZS BATHROOM.N))
+			(!R8 (?X_ZT KITCHEN.N))
+			(!R9 (?X_ZU LIVING.N))
+			(!R10 (?X_ZU ROOM.N))
+			(!R11 (?X_ZV BEDROOM.N))
+			(!R12 (?X_ZX CARPET.N))
+			(!R13 (?X_ZY (PLUR WALL.N)))
+			(!R14 (?X_ZZ REFRIGERATOR.N))
+			(!R15 (?X_ZZA STOVE.N))
+			(!R16 (?X_ZZB OVEN.N))
+			(!R17 (?X_ZZC SINK.N))
+			(!R18 (?X_ZN HOUSE.N))
+			(!R19 (?X_ZN (PERTAIN-TO ?X_ZL)))
+			(!R20 (?X_ZP LOCATION.N))
+			(!R21 (?X_ZO ENTITY.N))
+			(!R22 (?X_ZL AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_ZL CLEAN.1.V ?X_ZN))
+			(?X_I (?X_ZL PUT.2.V ?X_ZO ?X_ZP))
+			(?X_G (?X_ZL (SWEEP.V ?X_ZM)))
+			(?X_E (?X_ZL (MOP.V ?X_ZM)))
+			(?X_K (?X_ZL WASH.3.V ?X_ZQ))
+			(?X_M (?X_ZL WASH.3.V ?X_ZR))
+			(?X_O (?X_ZL CLEAN.1.V ?X_ZS))
+			(?X_Q (?X_ZL CLEAN.1.V ?X_ZT))
+			(?X_S (?X_ZL CLEAN.1.V ?X_ZU))
+			(?X_U (?X_ZL CLEAN.1.V ?X_ZV))
+			(?X_W (?X_ZL VACUUM.4.V ?X_ZW))
+			(?X_C (?X_ZL (DUST.V ?X_ZW)))
+			(?X_Y (?X_ZL CLEAN.1.V ?X_ZX))
+			(?X_ZA (?X_ZL CLEAN.1.V ?X_ZY))
+			(?X_ZC (?X_ZL CLEAN.1.V ?X_ZZ))
+			(?X_ZE (?X_ZL CLEAN.1.V ?X_ZZA))
+			(?X_ZG (?X_ZL CLEAN.1.V ?X_ZZB))
+			(?X_ZI (?X_ZL CLEAN.1.V ?X_ZZC))
+			(?X_ZK (?X_ZL CLEAN.5.V ?Y))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V HOUSE2.SK) ** U1.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (HOUSE2.SK HOUSE.N))
+			(!R3 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (HOUSE2.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE2.SK DIRTY.A))
+			(?I2 (NOT (HOUSE2.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE2.SK DIRTY.A)))
+			(?P2 (HOUSE2.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME PUT.2.V IT-PRO81.SK TRASH24.SK) ** E23.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (IT-PRO81.SK ENTITY.N))
+			(!R3 (TRASH24.SK LOCATION.N))
+			(!R4 (TRASH24.SK TRASH.N))
+			(!R5 (TRASH24.SK CAN.N))
+			(!R6 (HOUSE2.SK HOUSE.N))
+			(!R7 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (IT-PRO81.SK (AT.P TRASH24.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (POSSESS.V IT-PRO81.SK)))
+			(?I2 (IT-PRO81.SK (NOT (AT.P TRASH24.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (IT-PRO81.SK (AT.P TRASH24.SK)))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME WASH.3.V DISH35.SK) ** E34.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (DISH35.SK (PLUR DISH.N)))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (DISH35.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (DISH35.SK DIRTY.A))
+			(?I2 (NOT (DISH35.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DISH35.SK DIRTY.A)))
+			(?P2 (DISH35.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME WASH.3.V WINDOW39.SK) ** E38.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (WINDOW39.SK (PLUR WINDOW.N)))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (WINDOW39.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (WINDOW39.SK DIRTY.A))
+			(?I2 (NOT (WINDOW39.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WINDOW39.SK DIRTY.A)))
+			(?P2 (WINDOW39.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V BATHROOM41.SK) ** E42.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (BATHROOM41.SK BATHROOM.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (BATHROOM41.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BATHROOM41.SK DIRTY.A))
+			(?I2 (NOT (BATHROOM41.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BATHROOM41.SK DIRTY.A)))
+			(?P2 (BATHROOM41.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V KITCHEN44.SK) ** E45.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (KITCHEN44.SK KITCHEN.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (KITCHEN44.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN44.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN44.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN44.SK DIRTY.A)))
+			(?P2 (KITCHEN44.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V LIVING49.SK) ** E48.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (LIVING49.SK LIVING.N))
+			(!R3 (LIVING49.SK ROOM.N))
+			(!R4 (HOUSE2.SK HOUSE.N))
+			(!R5 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (LIVING49.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (LIVING49.SK DIRTY.A))
+			(?I2 (NOT (LIVING49.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LIVING49.SK DIRTY.A)))
+			(?P2 (LIVING49.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V BEDROOM52.SK) ** E53.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (BEDROOM52.SK BEDROOM.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (BEDROOM52.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BEDROOM52.SK DIRTY.A))
+			(?I2 (NOT (BEDROOM52.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BEDROOM52.SK DIRTY.A)))
+			(?P2 (BEDROOM52.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME VACUUM.4.V FURNITURE55.SK) ** E56.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (FURNITURE55.SK FURNITURE.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (FURNITURE55.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FURNITURE55.SK DIRTY.A))
+			(?I2 (NOT (FURNITURE55.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FURNITURE55.SK DIRTY.A)))
+			(?P2 (FURNITURE55.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V CARPET61.SK) ** E62.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (CARPET61.SK CARPET.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (CARPET61.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET61.SK DIRTY.A))
+			(?I2 (NOT (CARPET61.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET61.SK DIRTY.A)))
+			(?P2 (CARPET61.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V WALL66.SK) ** E65.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (WALL66.SK (PLUR WALL.N)))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (WALL66.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (WALL66.SK DIRTY.A))
+			(?I2 (NOT (WALL66.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WALL66.SK DIRTY.A)))
+			(?P2 (WALL66.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V REFRIGERATOR68.SK) ** E69.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (REFRIGERATOR68.SK REFRIGERATOR.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (REFRIGERATOR68.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (REFRIGERATOR68.SK DIRTY.A))
+			(?I2 (NOT (REFRIGERATOR68.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (REFRIGERATOR68.SK DIRTY.A)))
+			(?P2 (REFRIGERATOR68.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V STOVE71.SK) ** E72.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (STOVE71.SK STOVE.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (STOVE71.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (STOVE71.SK DIRTY.A))
+			(?I2 (NOT (STOVE71.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (STOVE71.SK DIRTY.A)))
+			(?P2 (STOVE71.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V OVEN74.SK) ** E75.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (OVEN74.SK OVEN.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (OVEN74.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (OVEN74.SK DIRTY.A))
+			(?I2 (NOT (OVEN74.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (OVEN74.SK DIRTY.A)))
+			(?P2 (OVEN74.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.1.V SINK77.SK) ** E78.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (SINK77.SK SINK.N))
+			(!R3 (HOUSE2.SK HOUSE.N))
+			(!R4 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (SINK77.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (SINK77.SK DIRTY.A))
+			(?I2 (NOT (SINK77.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SINK77.SK DIRTY.A)))
+			(?P2 (SINK77.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME CLEAN.5.V ?Y) ** E80.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (HOUSE2.SK HOUSE.N))
+			(!R3 (HOUSE2.SK (PERTAIN-TO KAREN.NAME)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (THAT (NOT (?Y DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (?Y DIRTY.A))
+			(?I2 (NOT (?Y CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (?Y DIRTY.A)))
+			(?P2 (?Y CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tina cleaned her house."
+	; "She swept the floor."
+	; "She dusted the furniture."
+	; "She vacuumed the carpet."
+	(EPI-SCHEMA ((?X_H (CLEAN.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FURNITURE.N))
+			(!R2 (?X_I FLOOR.N))
+			(!R3 (?X_K HOUSE.N))
+			(!R4 (?X_K (PERTAIN-TO ?X_H)))
+			(!R5 (?X_L CARPET.N))
+			(!R6 (?X_H AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_H CLEAN.1.V ?X_K))
+			(?X_E (?X_H (SWEEP.V ?X_I)))
+			(?X_C (?X_H (DUST.V ?X_J)))
+			(?X_G (?X_H VACUUM.4.V ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TINA.NAME CLEAN.1.V HOUSE91.SK) ** E90.SK)
+		(:ROLES
+			(!R1 (TINA.NAME AGENT.N))
+			(!R2 (HOUSE91.SK HOUSE.N))
+			(!R3 (HOUSE91.SK (PERTAIN-TO TINA.NAME)))
+		)
+		(:GOALS
+			(?G1 (TINA.NAME (WANT.V (THAT (NOT (HOUSE91.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE91.SK DIRTY.A))
+			(?I2 (NOT (HOUSE91.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE91.SK DIRTY.A)))
+			(?P2 (HOUSE91.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TINA.NAME VACUUM.4.V CARPET100.SK) ** E101.SK)
+		(:ROLES
+			(!R1 (TINA.NAME AGENT.N))
+			(!R2 (CARPET100.SK CARPET.N))
+			(!R3 (HOUSE91.SK HOUSE.N))
+			(!R4 (HOUSE91.SK (PERTAIN-TO TINA.NAME)))
+		)
+		(:GOALS
+			(?G1 (TINA.NAME (WANT.V (THAT (NOT (CARPET100.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET100.SK DIRTY.A))
+			(?I2 (NOT (CARPET100.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET100.SK DIRTY.A)))
+			(?P2 (CARPET100.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jenny cleaned her house."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She vacuumed the carpet."
+	; "She put away all the dishes."
+	; "She folded the laundry."
+	(EPI-SCHEMA ((?X_J (CLEAN.V ?X_M)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L LAUNDRY.N))
+			(!R2 (?X_K FLOOR.N))
+			(!R3 (?X_M HOUSE.N))
+			(!R4 (?X_M (PERTAIN-TO ?X_J)))
+			(!R5 (?X_N CARPET.N))
+			(!R6 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_J CLEAN.1.V ?X_M))
+			(?X_G (?X_J (SWEEP.V ?X_K)))
+			(?X_E (?X_J (MOP.V ?X_K)))
+			(?X_I (?X_J VACUUM.4.V ?X_N))
+			(?X_C (?X_J (FOLD.V ?X_L)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JENNY.NAME CLEAN.1.V HOUSE111.SK) ** E110.SK)
+		(:ROLES
+			(!R1 (JENNY.NAME AGENT.N))
+			(!R2 (HOUSE111.SK HOUSE.N))
+			(!R3 (HOUSE111.SK (PERTAIN-TO JENNY.NAME)))
+		)
+		(:GOALS
+			(?G1 (JENNY.NAME (WANT.V (THAT (NOT (HOUSE111.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE111.SK DIRTY.A))
+			(?I2 (NOT (HOUSE111.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE111.SK DIRTY.A)))
+			(?P2 (HOUSE111.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JENNY.NAME VACUUM.4.V CARPET120.SK) ** E121.SK)
+		(:ROLES
+			(!R1 (JENNY.NAME AGENT.N))
+			(!R2 (CARPET120.SK CARPET.N))
+			(!R3 (HOUSE111.SK HOUSE.N))
+			(!R4 (HOUSE111.SK (PERTAIN-TO JENNY.NAME)))
+		)
+		(:GOALS
+			(?G1 (JENNY.NAME (WANT.V (THAT (NOT (CARPET120.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET120.SK DIRTY.A))
+			(?I2 (NOT (CARPET120.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET120.SK DIRTY.A)))
+			(?P2 (CARPET120.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Linda cleaned her house."
+	; "She swept her floor."
+	; "She mopped the floor."
+	; "She vacuumed her carpet."
+	; "She dusted her furniture."
+	(EPI-SCHEMA ((?X_G (CLEAN.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J FURNITURE.N))
+			(!R2 (?X_I FLOOR.N))
+			(!R3 (?X_H FLOOR.N))
+			(!R4 (?X_H (PERTAIN-TO ?X_G)))
+			(!R5 (?X_J (PERTAIN-TO ?X_G)))
+			(!R6 (?X_K HOUSE.N))
+			(!R7 (?X_K (PERTAIN-TO ?X_G)))
+			(!R8 (?X_L CARPET.N))
+			(!R9 (?X_L (PERTAIN-TO ?X_G)))
+			(!R10 (?X_G AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_G CLEAN.1.V ?X_K))
+			(?X_B (?X_G (SWEEP.V ?X_H)))
+			(?X_F (?X_G (MOP.V ?X_I)))
+			(?X_C (?X_G VACUUM.4.V ?X_L))
+			(?X_D (?X_G (DUST.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((LINDA.NAME CLEAN.1.V HOUSE136.SK) ** E135.SK)
+		(:ROLES
+			(!R1 (LINDA.NAME AGENT.N))
+			(!R2 (HOUSE136.SK HOUSE.N))
+			(!R3 (HOUSE136.SK (PERTAIN-TO LINDA.NAME)))
+			(!R4 (FLOOR138.SK FLOOR.N))
+			(!R5 (FLOOR138.SK (PERTAIN-TO LINDA.NAME)))
+			(!R6 (CARPET140.SK CARPET.N))
+			(!R7 (CARPET140.SK (PERTAIN-TO LINDA.NAME)))
+			(!R8 (FURNITURE142.SK FURNITURE.N))
+			(!R9 (FURNITURE142.SK (PERTAIN-TO LINDA.NAME)))
+		)
+		(:GOALS
+			(?G1 (LINDA.NAME (WANT.V (THAT (NOT (HOUSE136.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE136.SK DIRTY.A))
+			(?I2 (NOT (HOUSE136.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE136.SK DIRTY.A)))
+			(?P2 (HOUSE136.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((LINDA.NAME VACUUM.4.V CARPET140.SK) ** E139.SK)
+		(:ROLES
+			(!R1 (LINDA.NAME AGENT.N))
+			(!R2 (CARPET140.SK CARPET.N))
+			(!R3 (CARPET140.SK (PERTAIN-TO LINDA.NAME)))
+			(!R4 (HOUSE136.SK HOUSE.N))
+			(!R5 (HOUSE136.SK (PERTAIN-TO LINDA.NAME)))
+			(!R6 (FLOOR138.SK FLOOR.N))
+			(!R7 (FLOOR138.SK (PERTAIN-TO LINDA.NAME)))
+			(!R8 (FURNITURE142.SK FURNITURE.N))
+			(!R9 (FURNITURE142.SK (PERTAIN-TO LINDA.NAME)))
+		)
+		(:GOALS
+			(?G1 (LINDA.NAME (WANT.V (THAT (NOT (CARPET140.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET140.SK DIRTY.A))
+			(?I2 (NOT (CARPET140.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET140.SK DIRTY.A)))
+			(?P2 (CARPET140.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly liked to clean her house."
+	; "She cleaned the kitchen."
+	; "She cleaned the bathroom."
+	; "She cleaned under the sink."
+	; "She vacuumed the floor."
+	; "She cleaned the living room."
+	; "She cleaned the bedroom."
+	; "She cleaned the dining room."
+	(EPI-SCHEMA ((?X_P (CLEAN.V ?X_W)) ** ?E)
+		(:ROLES
+			(!R1 (?X_R KITCHEN.N))
+			(!R2 (?X_S BATHROOM.N))
+			(!R3 (?X_T FLOOR.N))
+			(!R4 (?X_U LIVING.N))
+			(!R5 (?X_U ROOM.N))
+			(!R6 (?X_V BEDROOM.N))
+			(!R7 (?X_Q HOUSE.N))
+			(!R8 (?X_Q (PERTAIN-TO ?X_P)))
+			(!R9 (?X_W DINING.N))
+			(!R10 (?X_W ROOM.N))
+			(!R11 ((KA (CLEAN.V ?X_Q)) ACTION.N))
+			(!R12 (?X_P AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_P LIKE.6.V (KA (CLEAN.V ?X_Q))))
+			(?X_C (?X_P CLEAN.1.V ?X_R))
+			(?X_E (?X_P CLEAN.1.V ?X_S))
+			(?X_G (?X_P CLEAN.5.V ?Y))
+			(?X_I (?X_P VACUUM.4.V ?X_T))
+			(?X_K (?X_P CLEAN.1.V ?X_U))
+			(?X_M (?X_P CLEAN.1.V ?X_V))
+			(?X_O (?X_P CLEAN.1.V ?X_W))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME LIKE.6.V (KA (CLEAN.V HOUSE159.SK))) ** E158.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 ((KA (CLEAN.V HOUSE159.SK)) ACTION.N))
+			(!R3 (HOUSE159.SK HOUSE.N))
+			(!R4 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (THINK.V (THAT ((KA (CLEAN.V HOUSE159.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V KITCHEN162.SK) ** E163.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (KITCHEN162.SK KITCHEN.N))
+			(!R3 (HOUSE159.SK HOUSE.N))
+			(!R4 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (KITCHEN162.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN162.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN162.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN162.SK DIRTY.A)))
+			(?P2 (KITCHEN162.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V BATHROOM165.SK) ** E166.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (BATHROOM165.SK BATHROOM.N))
+			(!R3 (HOUSE159.SK HOUSE.N))
+			(!R4 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (BATHROOM165.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BATHROOM165.SK DIRTY.A))
+			(?I2 (NOT (BATHROOM165.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BATHROOM165.SK DIRTY.A)))
+			(?P2 (BATHROOM165.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.5.V ?Y) ** E169.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (HOUSE159.SK HOUSE.N))
+			(!R3 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (?Y DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (?Y DIRTY.A))
+			(?I2 (NOT (?Y CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (?Y DIRTY.A)))
+			(?P2 (?Y CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME VACUUM.4.V FLOOR171.SK) ** E172.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (FLOOR171.SK FLOOR.N))
+			(!R3 (HOUSE159.SK HOUSE.N))
+			(!R4 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (FLOOR171.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR171.SK DIRTY.A))
+			(?I2 (NOT (FLOOR171.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR171.SK DIRTY.A)))
+			(?P2 (FLOOR171.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V LIVING176.SK) ** E175.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (LIVING176.SK LIVING.N))
+			(!R3 (LIVING176.SK ROOM.N))
+			(!R4 (HOUSE159.SK HOUSE.N))
+			(!R5 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (LIVING176.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (LIVING176.SK DIRTY.A))
+			(?I2 (NOT (LIVING176.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LIVING176.SK DIRTY.A)))
+			(?P2 (LIVING176.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V BEDROOM179.SK) ** E180.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (BEDROOM179.SK BEDROOM.N))
+			(!R3 (HOUSE159.SK HOUSE.N))
+			(!R4 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (BEDROOM179.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BEDROOM179.SK DIRTY.A))
+			(?I2 (NOT (BEDROOM179.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BEDROOM179.SK DIRTY.A)))
+			(?P2 (BEDROOM179.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V DINING184.SK) ** E183.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (DINING184.SK DINING.N))
+			(!R3 (DINING184.SK ROOM.N))
+			(!R4 (HOUSE159.SK HOUSE.N))
+			(!R5 (HOUSE159.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (DINING184.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (DINING184.SK DIRTY.A))
+			(?I2 (NOT (DINING184.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DINING184.SK DIRTY.A)))
+			(?P2 (DINING184.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The woman cleaned her house."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She vacuumed the carpet."
+	; "She washed the windows."
+	; "She scrubbed the kitchen sink."
+	; "She cleaned the bathroom."
+	; "She cleaned the refrigerator."
+	; "She cleaned the stove."
+	; "She cleaned the oven."
+	; "She cleaned the countertops."
+	; "She cleaned the table."
+	; "She cleaned the chairs."
+	; "She cleaned the walls."
+	; "She cleaned the ceiling."
+	; "She cleaned the floors."
+	; "She cleaned the rug."
+	; "She cleaned the windows."
+	; "She cleaned the curtains."
+	; "She cleaned the garage."
+	(EPI-SCHEMA ((?X_ZS (CLEAN.V ?X_ZP)) ** ?E)
+		(:ROLES
+			(!R1 (?X_ZP KITCHEN.N))
+			(!R2 (?X_ZP SINK.N))
+			(!R3 (?X_ZO FLOOR.N))
+			(!R4 (?X_ZN WOMAN.N))
+			(!R5 (?X_ZR CARPET.N))
+			(!R6 (?X_ZS (PLUR WINDOW.N)))
+			(!R7 (?X_ZT BATHROOM.N))
+			(!R8 (?X_ZU REFRIGERATOR.N))
+			(!R9 (?X_ZV STOVE.N))
+			(!R10 (?X_ZW OVEN.N))
+			(!R11 (?X_ZX (PLUR COUNTERTOP.N)))
+			(!R12 (?X_ZY TABLE.N))
+			(!R13 (?X_ZZ (PLUR CHAIR.N)))
+			(!R14 (?X_ZZA (PLUR WALL.N)))
+			(!R15 (?X_ZZB CEILING.N))
+			(!R16 (?X_ZZC (PLUR FLOOR.N)))
+			(!R17 (?X_ZZD RUG.N))
+			(!R18 (?X_ZZE (PLUR WINDOW.N)))
+			(!R19 (?X_ZZF (PLUR CURTAIN.N)))
+			(!R20 (?X_ZQ HOUSE.N))
+			(!R21 (?X_ZQ (PERTAIN-TO ?X_ZN)))
+			(!R22 (?X_ZZG GARAGE.N))
+		)
+		(:STEPS
+			(?X_A (?X_ZN CLEAN.1.V ?X_ZQ))
+			(?X_G (?X_ZN (SWEEP.V ?X_ZO)))
+			(?X_E (?X_ZN (MOP.V ?X_ZO)))
+			(?X_I (?X_ZN VACUUM.4.V ?X_ZR))
+			(?X_K (?X_ZN WASH.3.V ?X_ZS))
+			(?X_C (?X_ZN (SCRUB.V ?X_ZP)))
+			(?X_M (?X_ZN CLEAN.1.V ?X_ZT))
+			(?X_O (?X_ZN CLEAN.1.V ?X_ZU))
+			(?X_Q (?X_ZN CLEAN.1.V ?X_ZV))
+			(?X_S (?X_ZN CLEAN.1.V ?X_ZW))
+			(?X_U (?X_ZN CLEAN.1.V ?X_ZX))
+			(?X_W (?X_ZN CLEAN.1.V ?X_ZY))
+			(?X_Y (?X_ZN CLEAN.1.V ?X_ZZ))
+			(?X_ZA (?X_ZN CLEAN.1.V ?X_ZZA))
+			(?X_ZC (?X_ZN CLEAN.1.V ?X_ZZB))
+			(?X_ZE (?X_ZN CLEAN.1.V ?X_ZZC))
+			(?X_ZG (?X_ZN CLEAN.1.V ?X_ZZD))
+			(?X_ZI (?X_ZN CLEAN.1.V ?X_ZZE))
+			(?X_ZK (?X_ZN CLEAN.1.V ?X_ZZF))
+			(?X_ZM (?X_ZN CLEAN.1.V ?X_ZZG))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V HOUSE195.SK) ** E194.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (HOUSE195.SK HOUSE.N))
+			(!R4 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (HOUSE195.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE195.SK DIRTY.A))
+			(?I2 (NOT (HOUSE195.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE195.SK DIRTY.A)))
+			(?P2 (HOUSE195.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK VACUUM.4.V CARPET205.SK) ** E206.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (CARPET205.SK CARPET.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (CARPET205.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET205.SK DIRTY.A))
+			(?I2 (NOT (CARPET205.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET205.SK DIRTY.A)))
+			(?P2 (CARPET205.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK WASH.3.V WINDOW210.SK) ** E209.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (WINDOW210.SK (PLUR WINDOW.N)))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (WINDOW210.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (WINDOW210.SK DIRTY.A))
+			(?I2 (NOT (WINDOW210.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WINDOW210.SK DIRTY.A)))
+			(?P2 (WINDOW210.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V BATHROOM217.SK) ** E218.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (BATHROOM217.SK BATHROOM.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (BATHROOM217.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BATHROOM217.SK DIRTY.A))
+			(?I2 (NOT (BATHROOM217.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BATHROOM217.SK DIRTY.A)))
+			(?P2 (BATHROOM217.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V REFRIGERATOR220.SK) ** E221.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (REFRIGERATOR220.SK REFRIGERATOR.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (REFRIGERATOR220.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (REFRIGERATOR220.SK DIRTY.A))
+			(?I2 (NOT (REFRIGERATOR220.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (REFRIGERATOR220.SK DIRTY.A)))
+			(?P2 (REFRIGERATOR220.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V STOVE223.SK) ** E224.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (STOVE223.SK STOVE.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (STOVE223.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (STOVE223.SK DIRTY.A))
+			(?I2 (NOT (STOVE223.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (STOVE223.SK DIRTY.A)))
+			(?P2 (STOVE223.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V OVEN226.SK) ** E227.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (OVEN226.SK OVEN.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (OVEN226.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (OVEN226.SK DIRTY.A))
+			(?I2 (NOT (OVEN226.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (OVEN226.SK DIRTY.A)))
+			(?P2 (OVEN226.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V COUNTERTOP231.SK) ** E230.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (COUNTERTOP231.SK (PLUR COUNTERTOP.N)))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (COUNTERTOP231.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (COUNTERTOP231.SK DIRTY.A))
+			(?I2 (NOT (COUNTERTOP231.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (COUNTERTOP231.SK DIRTY.A)))
+			(?P2 (COUNTERTOP231.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V TABLE233.SK) ** E234.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (TABLE233.SK TABLE.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (TABLE233.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (TABLE233.SK DIRTY.A))
+			(?I2 (NOT (TABLE233.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TABLE233.SK DIRTY.A)))
+			(?P2 (TABLE233.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V CHAIR238.SK) ** E237.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (CHAIR238.SK (PLUR CHAIR.N)))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (CHAIR238.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CHAIR238.SK DIRTY.A))
+			(?I2 (NOT (CHAIR238.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CHAIR238.SK DIRTY.A)))
+			(?P2 (CHAIR238.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V WALL242.SK) ** E241.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (WALL242.SK (PLUR WALL.N)))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (WALL242.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (WALL242.SK DIRTY.A))
+			(?I2 (NOT (WALL242.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WALL242.SK DIRTY.A)))
+			(?P2 (WALL242.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V CEILING244.SK) ** E245.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (CEILING244.SK CEILING.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (CEILING244.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CEILING244.SK DIRTY.A))
+			(?I2 (NOT (CEILING244.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CEILING244.SK DIRTY.A)))
+			(?P2 (CEILING244.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V FLOOR249.SK) ** E248.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (FLOOR249.SK (PLUR FLOOR.N)))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (FLOOR249.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (FLOOR249.SK DIRTY.A))
+			(?I2 (NOT (FLOOR249.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (FLOOR249.SK DIRTY.A)))
+			(?P2 (FLOOR249.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V RUG251.SK) ** E252.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (RUG251.SK RUG.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (RUG251.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (RUG251.SK DIRTY.A))
+			(?I2 (NOT (RUG251.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (RUG251.SK DIRTY.A)))
+			(?P2 (RUG251.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V WINDOW256.SK) ** E255.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (WINDOW256.SK (PLUR WINDOW.N)))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (WINDOW256.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (WINDOW256.SK DIRTY.A))
+			(?I2 (NOT (WINDOW256.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WINDOW256.SK DIRTY.A)))
+			(?P2 (WINDOW256.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V CURTAIN260.SK) ** E259.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (CURTAIN260.SK (PLUR CURTAIN.N)))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (CURTAIN260.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CURTAIN260.SK DIRTY.A))
+			(?I2 (NOT (CURTAIN260.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CURTAIN260.SK DIRTY.A)))
+			(?P2 (CURTAIN260.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((WOMAN196.SK CLEAN.1.V GARAGE262.SK) ** E263.SK)
+		(:ROLES
+			(!R1 (WOMAN196.SK AGENT.N))
+			(!R2 (WOMAN196.SK WOMAN.N))
+			(!R3 (GARAGE262.SK GARAGE.N))
+			(!R4 (HOUSE195.SK HOUSE.N))
+			(!R5 (HOUSE195.SK (PERTAIN-TO WOMAN196.SK)))
+		)
+		(:GOALS
+			(?G1 (WOMAN196.SK (WANT.V (THAT (NOT (GARAGE262.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (GARAGE262.SK DIRTY.A))
+			(?I2 (NOT (GARAGE262.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (GARAGE262.SK DIRTY.A)))
+			(?P2 (GARAGE262.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly liked to clean."
+	; "She cleaned her room."
+	; "She cleaned the kitchen."
+	; "She cleaned the bathroom."
+	; "She cleaned the living room."
+	(EPI-SCHEMA ((?X_J (CLEAN.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_L KITCHEN.N))
+			(!R2 (?X_M BATHROOM.N))
+			(!R3 (?X_K ROOM.N))
+			(!R4 (?X_K (PERTAIN-TO ?X_J)))
+			(!R5 (?X_N LIVING.N))
+			(!R6 (?X_N ROOM.N))
+			(!R7 ((KA CLEAN.V) ACTION.N))
+			(!R8 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_C (?X_J LIKE.7.V (KA CLEAN.V)))
+			(?E_1 (?X_J CLEAN.8.V ?Y))
+			(?X_A (?X_J CLEAN.1.V ?X_K))
+			(?X_E (?X_J CLEAN.1.V ?X_L))
+			(?X_G (?X_J CLEAN.1.V ?X_M))
+			(?X_I (?X_J CLEAN.1.V ?X_N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME LIKE.7.V (KA CLEAN.V)) ** E275.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 ((KA CLEAN.V) ACTION.N))
+			(!R3 (ROOM273.SK ROOM.N))
+			(!R4 (ROOM273.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (THINK.V (THAT ((KA CLEAN.V) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.8.V ?Y) ** ?E)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (ROOM273.SK ROOM.N))
+			(!R3 (ROOM273.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (?Y DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (?Y DIRTY.A))
+			(?I2 (NOT (?Y CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (?Y DIRTY.A)))
+			(?P2 (?Y CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V ROOM273.SK) ** E272.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (ROOM273.SK ROOM.N))
+			(!R3 (ROOM273.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (ROOM273.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (ROOM273.SK DIRTY.A))
+			(?I2 (NOT (ROOM273.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ROOM273.SK DIRTY.A)))
+			(?P2 (ROOM273.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V KITCHEN278.SK) ** E279.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (KITCHEN278.SK KITCHEN.N))
+			(!R3 (ROOM273.SK ROOM.N))
+			(!R4 (ROOM273.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (KITCHEN278.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (KITCHEN278.SK DIRTY.A))
+			(?I2 (NOT (KITCHEN278.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KITCHEN278.SK DIRTY.A)))
+			(?P2 (KITCHEN278.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V BATHROOM281.SK) ** E282.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (BATHROOM281.SK BATHROOM.N))
+			(!R3 (ROOM273.SK ROOM.N))
+			(!R4 (ROOM273.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (BATHROOM281.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BATHROOM281.SK DIRTY.A))
+			(?I2 (NOT (BATHROOM281.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BATHROOM281.SK DIRTY.A)))
+			(?P2 (BATHROOM281.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME CLEAN.1.V LIVING286.SK) ** E285.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (LIVING286.SK LIVING.N))
+			(!R3 (LIVING286.SK ROOM.N))
+			(!R4 (ROOM273.SK ROOM.N))
+			(!R5 (ROOM273.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NOT (LIVING286.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (LIVING286.SK DIRTY.A))
+			(?I2 (NOT (LIVING286.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (LIVING286.SK DIRTY.A)))
+			(?P2 (LIVING286.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary cleaned her house."
+	; "She swept the floor."
+	; "She mopped the floor."
+	; "She vacuumed the carpet."
+	; "She put away the dishes."
+	; "She washed the dishes."
+	; "She hung up the clothes."
+	; "She folded the clothes."
+	; "She put away the laundry."
+	; "She ironed the clothes."
+	; "She put them in the closet."
+	; "She put the shoes away."
+	; "She put the toys away."
+	; "She put the books away."
+	; "She put the toys away."
+	; "She put the books away."
+	; "She put the toys away."
+	; "She put the books away."
+	; "She put the"
+	(EPI-SCHEMA ((?X_ZJ (CLEAN.V ?X_ZL)) ** ?E)
+		(:ROLES
+			(!R1 (?X_ZT (PLUR BOOK.N)))
+			(!R2 (?X_ZS (PLUR TOY.N)))
+			(!R3 (?X_ZP (PLUR CLOTHE.N)))
+			(!R4 (?X_ZK FLOOR.N))
+			(!R5 (?X_ZM CARPET.N))
+			(!R6 (?X_ZN (PLUR DISH.N)))
+			(!R7 (?X_ZO LAUNDRY.N))
+			(!R8 (?X_ZQ CLOSET.N))
+			(!R9 (?X_ZR (PLUR SHOE.N)))
+			(!R10 (?X_ZL HOUSE.N))
+			(!R11 (?X_ZL (PERTAIN-TO ?X_ZJ)))
+			(!R12 (?X_ZP ENTITY.N))
+			(!R13 (?X_ZQ LOCATION.N))
+			(!R14 (?X_ZJ AGENT.N))
+			(!R15 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_ZJ CLEAN.1.V ?X_ZL))
+			(?X_O (?X_ZJ (SWEEP.V ?X_ZK)))
+			(?X_M (?X_ZJ (MOP.V ?X_ZK)))
+			(?X_Q (?X_ZJ VACUUM.4.V ?X_ZM))
+			(?X_S (?X_ZJ PUT_AWAY.9.V ?X_ZN ?L))
+			(?X_U (?X_ZJ WASH.3.V ?X_ZN))
+			(?X_W (?X_ZJ HANG_UP.10.V ?X_ZP ?L))
+			(?X_K (?X_ZJ (FOLD.V ?X_ZP)))
+			(?X_Y (?X_ZJ PUT_AWAY.9.V ?X_ZO ?L))
+			(?X_ZA (?X_ZJ IRON.11.V ?X_ZP))
+			(?X_ZC (?X_ZJ PUT.2.V ?X_ZP ?X_ZQ))
+			(?X_ZE (?X_ZJ PUT.12.V ?X_ZR ?L))
+			(?X_I (?X_ZJ ((AWAY.ADV PUT.V) ?X_ZS)))
+			(?X_G (?X_ZJ ((AWAY.ADV PUT.V) ?X_ZT)))
+			(?X_E (?X_ZJ ((AWAY.ADV PUT.V) ?X_ZS)))
+			(?X_C (?X_ZJ ((AWAY.ADV PUT.V) ?X_ZT)))
+			(?X_ZG (?X_ZJ PUT.12.V ?X_ZS ?L))
+			(?X_ZI (?X_ZJ PUT.12.V ?X_ZT ?L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME CLEAN.1.V HOUSE297.SK) ** E296.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (HOUSE297.SK HOUSE.N))
+			(!R3 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (HOUSE297.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE297.SK DIRTY.A))
+			(?I2 (NOT (HOUSE297.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE297.SK DIRTY.A)))
+			(?P2 (HOUSE297.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME VACUUM.4.V CARPET306.SK) ** E307.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (CARPET306.SK CARPET.N))
+			(!R3 (HOUSE297.SK HOUSE.N))
+			(!R4 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (CARPET306.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET306.SK DIRTY.A))
+			(?I2 (NOT (CARPET306.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET306.SK DIRTY.A)))
+			(?P2 (CARPET306.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT_AWAY.9.V DISH311.SK ?L) ** E310.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (DISH311.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (DISH311.SK (PLUR DISH.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (DISH311.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V DISH311.SK)))
+			(?I2 (DISH311.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (DISH311.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME WASH.3.V DISH311.SK) ** E314.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (DISH311.SK (PLUR DISH.N)))
+			(!R3 (HOUSE297.SK HOUSE.N))
+			(!R4 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (DISH311.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (DISH311.SK DIRTY.A))
+			(?I2 (NOT (DISH311.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DISH311.SK DIRTY.A)))
+			(?P2 (DISH311.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME HANG_UP.10.V CLOTHE319.SK ?L) ** E318.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (CLOTHE319.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (CLOTHE319.SK (PLUR CLOTHE.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (CLOTHE319.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V CLOTHE319.SK)))
+			(?I2 (CLOTHE319.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (CLOTHE319.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT_AWAY.9.V LAUNDRY325.SK ?L) ** E326.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (LAUNDRY325.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (LAUNDRY325.SK LAUNDRY.N))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (LAUNDRY325.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V LAUNDRY325.SK)))
+			(?I2 (LAUNDRY325.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (LAUNDRY325.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME IRON.11.V CLOTHE319.SK) ** E329.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (CLOTHE319.SK (PLUR CLOTHE.N)))
+			(!R3 (HOUSE297.SK HOUSE.N))
+			(!R4 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (CLOTHE319.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CLOTHE319.SK DIRTY.A))
+			(?I2 (NOT (CLOTHE319.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CLOTHE319.SK DIRTY.A)))
+			(?P2 (CLOTHE319.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.2.V CLOTHE319.SK CLOSET332.SK) ** E333.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (CLOTHE319.SK ENTITY.N))
+			(!R3 (CLOSET332.SK LOCATION.N))
+			(!R4 (CLOTHE319.SK (PLUR CLOTHE.N)))
+			(!R5 (CLOSET332.SK CLOSET.N))
+			(!R6 (HOUSE297.SK HOUSE.N))
+			(!R7 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (CLOTHE319.SK (AT.P CLOSET332.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V CLOTHE319.SK)))
+			(?I2 (CLOTHE319.SK (NOT (AT.P CLOSET332.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (CLOTHE319.SK (AT.P CLOSET332.SK)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.12.V SHOE337.SK ?L) ** E336.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (SHOE337.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (SHOE337.SK (PLUR SHOE.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (SHOE337.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V SHOE337.SK)))
+			(?I2 (SHOE337.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (SHOE337.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.12.V TOY341.SK ?L) ** E356.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (TOY341.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (TOY341.SK (PLUR TOY.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (TOY341.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V TOY341.SK)))
+			(?I2 (TOY341.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (TOY341.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.12.V BOOK345.SK ?L) ** E360.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (BOOK345.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOOK345.SK (PLUR BOOK.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (BOOK345.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V BOOK345.SK)))
+			(?I2 (BOOK345.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (BOOK345.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.12.V TOY341.SK ?L) ** E356.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (TOY341.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (TOY341.SK (PLUR TOY.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (TOY341.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V TOY341.SK)))
+			(?I2 (TOY341.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (TOY341.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.12.V BOOK345.SK ?L) ** E360.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (BOOK345.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOOK345.SK (PLUR BOOK.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (BOOK345.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V BOOK345.SK)))
+			(?I2 (BOOK345.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (BOOK345.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.12.V TOY341.SK ?L) ** E356.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (TOY341.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (TOY341.SK (PLUR TOY.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (TOY341.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V TOY341.SK)))
+			(?I2 (TOY341.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (TOY341.SK (AT.P ?L)))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT.12.V BOOK345.SK ?L) ** E360.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (BOOK345.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOOK345.SK (PLUR BOOK.N)))
+			(!R5 (HOUSE297.SK HOUSE.N))
+			(!R6 (HOUSE297.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (BOOK345.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V BOOK345.SK)))
+			(?I2 (BOOK345.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (BOOK345.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mary cleaned her house."
+	; "She scrubbed the floor."
+	; "She washed the windows."
+	; "She polished the table."
+	; "She vacuumed the carpet."
+	; "She made the bed."
+	; "She put away some things."
+	; "She hung up clothes."
+	(EPI-SCHEMA ((?X_P (CLEAN.V ?X_U)) ** ?E)
+		(:ROLES
+			(!R1 (?X_T (PLUR CLOTHE.N)))
+			(!R2 (?X_S BED.N))
+			(!R3 (?X_R TABLE.N))
+			(!R4 (?X_Q FLOOR.N))
+			(!R5 (?X_V (PLUR WINDOW.N)))
+			(!R6 (?X_W CARPET.N))
+			(!R7 (?X_U HOUSE.N))
+			(!R8 (?X_U (PERTAIN-TO ?X_P)))
+			(!R9 (?X_X (PLUR THING.N)))
+			(!R10 (?X_P AGENT.N))
+			(!R11 (?L LOCATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_P CLEAN.1.V ?X_U))
+			(?X_I (?X_P (SCRUB.V ?X_Q)))
+			(?X_K (?X_P WASH.3.V ?X_V))
+			(?X_G (?X_P (POLISH.V ?X_R)))
+			(?X_M (?X_P VACUUM.4.V ?X_W))
+			(?X_E (?X_P (MAKE.V ?X_S)))
+			(?X_O (?X_P PUT_AWAY.9.V ?X_X ?L))
+			(?X_C (?X_P (HANG_UP.V ?X_T)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MARY.NAME CLEAN.1.V HOUSE399.SK) ** E398.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (HOUSE399.SK HOUSE.N))
+			(!R3 (HOUSE399.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (HOUSE399.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (HOUSE399.SK DIRTY.A))
+			(?I2 (NOT (HOUSE399.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HOUSE399.SK DIRTY.A)))
+			(?P2 (HOUSE399.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME WASH.3.V WINDOW407.SK) ** E406.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (WINDOW407.SK (PLUR WINDOW.N)))
+			(!R3 (HOUSE399.SK HOUSE.N))
+			(!R4 (HOUSE399.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (WINDOW407.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (WINDOW407.SK DIRTY.A))
+			(?I2 (NOT (WINDOW407.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (WINDOW407.SK DIRTY.A)))
+			(?P2 (WINDOW407.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME VACUUM.4.V CARPET412.SK) ** E413.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (CARPET412.SK CARPET.N))
+			(!R3 (HOUSE399.SK HOUSE.N))
+			(!R4 (HOUSE399.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (NOT (CARPET412.SK DIRTY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (CARPET412.SK DIRTY.A))
+			(?I2 (NOT (CARPET412.SK CLEAN.A)))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CARPET412.SK DIRTY.A)))
+			(?P2 (CARPET412.SK CLEAN.A))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MARY.NAME PUT_AWAY.9.V THING420.SK ?L) ** E419.SK)
+		(:ROLES
+			(!R1 (MARY.NAME AGENT.N))
+			(!R2 (THING420.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (THING420.SK (PLUR THING.N)))
+			(!R5 (HOUSE399.SK HOUSE.N))
+			(!R6 (HOUSE399.SK (PERTAIN-TO MARY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MARY.NAME (WANT.V (THAT (THING420.SK (AT.P ?L))))))
+		)
+		(:PRECONDS
+			(?I1 (MARY.NAME (POSSESS.V THING420.SK)))
+			(?I2 (THING420.SK (NOT (AT.P ?L))))
+		)
+		(:POSTCONDS
+			(?P1 (THING420.SK (AT.P ?L)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sally loves to clean her house."
+	; "She likes to make things neat and tidy."
+	; "She likes to organize her stuff."
+	(EPI-SCHEMA ((?X_E
+	              (COMPOSITE-SCHEMA.PR (KA (CLEAN.V ?X_F))
+	               (KA (MAKE.V ?X_G (L X (AND (X NEAT.A) (X TIDY.A)))))
+	               (KA (ORGANIZE.V ?X_I))))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_G (PLUR THING.N)))
+			(!R2 (?X_F HOUSE.N))
+			(!R3 (?X_F (PERTAIN-TO ?X_E)))
+			(!R4 (?X_I STUFF.N))
+			(!R5 (?X_I (PERTAIN-TO ?X_E)))
+			(!R6 ((KA (CLEAN.V ?X_F)) ACTION.N))
+			(!R7 ((KA (MAKE.V ?X_G (L X (AND (X NEAT.A) (X TIDY.A))))) ACTION.N))
+			(!R8 ((KA (ORGANIZE.V ?X_I)) ACTION.N))
+			(!R9 (?X_E AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_E LOVE.13.V (KA (CLEAN.V ?X_F))))
+			(?X_D (?X_E LIKE.14.V (KA (MAKE.V ?X_G (L X (AND (X NEAT.A) (X TIDY.A)))))))
+			(?X_B (?X_E LIKE.15.V (KA (ORGANIZE.V ?X_I))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME LOVE.13.V (KA (CLEAN.V HOUSE434.SK))) ** E433.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 ((KA (CLEAN.V HOUSE434.SK)) ACTION.N))
+			(!R3 (HOUSE434.SK HOUSE.N))
+			(!R4 (HOUSE434.SK (PERTAIN-TO SALLY.NAME)))
+			(!R5 (STUFF436.SK STUFF.N))
+			(!R6 (STUFF436.SK (PERTAIN-TO SALLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (THINK.V (THAT ((KA (CLEAN.V HOUSE434.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME LIKE.14.V
+	              (KA (MAKE.V THING441.SK (L X (AND (X NEAT.A) (X TIDY.A))))))
+	             ** E439.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 ((KA (MAKE.V THING441.SK (L X (AND (X NEAT.A) (X TIDY.A))))) ACTION.N))
+			(!R3 (THING441.SK (PLUR THING.N)))
+			(!R4 (HOUSE434.SK HOUSE.N))
+			(!R5 (HOUSE434.SK (PERTAIN-TO SALLY.NAME)))
+			(!R6 (STUFF436.SK STUFF.N))
+			(!R7 (STUFF436.SK (PERTAIN-TO SALLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1
+	   (SALLY.NAME
+	    (THINK.V
+	     (THAT
+	      ((KA (MAKE.V THING441.SK (L X (AND (X NEAT.A) (X TIDY.A))))) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME LIKE.15.V (KA (ORGANIZE.V STUFF436.SK))) ** E435.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 ((KA (ORGANIZE.V STUFF436.SK)) ACTION.N))
+			(!R3 (STUFF436.SK STUFF.N))
+			(!R4 (STUFF436.SK (PERTAIN-TO SALLY.NAME)))
+			(!R5 (HOUSE434.SK HOUSE.N))
+			(!R6 (HOUSE434.SK (PERTAIN-TO SALLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (THINK.V (THAT ((KA (ORGANIZE.V STUFF436.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Karen climbed a tree."
+	; "She looked for bugs on the tree."
+	; "She found some bugs."
+	; "She climbed higher on the tree."
+	; "She saw a bird's nest."
+	; "She climbed higher on the tree."
+	; "She found a snake."
+	; "She climbed down from the tree."
+	(EPI-SCHEMA ((?X_R (CLIMB.V ?X_T)) ** ?E)
+		(:ROLES
+			(!R1 (?X_S (PLUR BUG.N)))
+			(!R2 (?X_T TREE.N))
+			(!R3 (?X_H (PLUR BUG.N)))
+			(!R4 (?X_K BIRD.N))
+			(!R5 (?X_U NEST.N))
+			(!R6 (?X_U (PERTAIN-TO ?X_K)))
+			(!R7 (?X_V SNAKE.N))
+			(!R8 (?X_T DESTINATION.N))
+			(!R9 (?X_R AGENT.N))
+			(!R10 (NOT (?X_T = ?L2)))
+			(!R11 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_R ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_T))
+			(?X_G (?X_R ((ADV-A (FOR.P ?X_H)) ((ADV-A (ON.P ?X_T)) LOOK.V))))
+			(?X_E (?X_R (FIND.V ?X_S)))
+			(?X_C (?X_R (HIGHER.ADV ((ADV-A (ON.P ?X_T)) CLIMB.V))))
+			(?X_J (?X_R SEE.3.V ?X_U))
+			(?X_M (?X_R ((ADV-A (FROM.P ?L1)) CLIMB.2.V) ?L2))
+			(?X_O (?X_R FIND.4.V ?X_V))
+			(?X_Q (?X_R ((ADV-A (FROM.P ?X_T)) CLIMB.5.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE2.SK) ** E8.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE2.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE2.SK)))
+			(!R5 (TREE2.SK DESTINATION.N))
+			(!R6 (TREE2.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P TREE2.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P TREE2.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P TREE2.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.2.V) ?L2) ** E28.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME SEE.3.V NEST25.SK) ** E23.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (NEST25.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (NEST25.SK NEST.N))
+			(!R5 (BIRD22.SK BIRD.N))
+			(!R6 (NEST25.SK (PERTAIN-TO BIRD22.SK)))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L)))
+			(?I2 (NEST25.SK (AT.P ?L)))
+			(?I3 (NEST25.SK (NEAR.P KAREN.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (KAREN.NAME (KNOW.V (THAT (NEST25.SK (AT.P ?L))))))
+			(?P2 (KAREN.NAME (KNOW.V (THAT (NEST25.SK (NEAR.P KAREN.NAME))))))
+			(?P3 (NEST25.SK (NEAR.P KAREN.NAME)))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.2.V) ?L2) ** E28.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME FIND.4.V SNAKE30.SK) ** E31.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (SNAKE30.SK ENTITY.N))
+			(!R4 (SNAKE30.SK SNAKE.N))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L)))
+			(?I2 (SNAKE30.SK (AT.P ?L)))
+			(?I3 (KAREN.NAME ((ADV-A (FOR.P SNAKE30.SK)) SEARCH.V)))
+			(?I4 (NOT (KAREN.NAME (KNOW.V (THAT (SNAKE30.SK (AT.P ?L)))))))
+			(?I5 (NOT (KAREN.NAME (POSSESS.V SNAKE30.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (KAREN.NAME (KNOW.V (THAT (SNAKE30.SK (AT.P ?L))))))
+			(?P2 (KAREN.NAME (POSSESS.V SNAKE30.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E31.SK))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P TREE2.SK)) CLIMB.5.V) ?L2) ** E34.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (TREE2.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (TREE2.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (TREE2.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P TREE2.SK)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P TREE2.SK))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Climbing trees is hard work."
+	; "You need to use your hands and feet."
+	; "You can climb a tall tree."
+	; "You can fall from a high place."
+	; "If you fall, you might hurt yourself."
+	(EPI-SCHEMA ((?X_I (CLIMB.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C HIGH.A))
+			(!R2 (?X_C PLACE.N))
+			(!R3 (?X_J HARD.A))
+			(!R4 (?X_J WORK.N))
+			(!R5 (?X_K (PLUR TREE.N)))
+			(!R6 (?X_F (PLUR HAND.N)))
+			(!R7 (?X_F (PERTAIN-TO ?X_I)))
+			(!R8 (?X_L TALL.A))
+			(!R9 (?X_L TREE.N))
+			(!R10 (?X_K DESTINATION.N))
+			(!R11 (?X AGENT.N))
+			(!R12 (?X_I AGENT.N))
+			(!R13 (?X_L DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E ((KA (CLIMB.V ?X_K)) (= ?X_J)))
+			(?E_1 (?X ((ADV-A (FROM.P ?L1)) CLIMB.6.V) ?X_K))
+			(?X_H (?X_I ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_L))
+			(?X_B (?X_I (CAN.AUX ((ADV-A (FROM.P ?X_C)) FALL.V))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE58.SK) ** E57.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE58.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE58.SK)))
+			(!R5 (TREE58.SK DESTINATION.N))
+			(!R6 (TREE58.SK TALL.A))
+			(!R7 (TREE58.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P TREE58.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P TREE58.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P TREE58.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME SEE.3.V ANT68.SK) ** E67.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (ANT68.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (ANT68.SK (PLUR ANT.N)))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (ANT68.SK (AT.P ?L)))
+			(?I3 (ANT68.SK (NEAR.P TOM.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (ANT68.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (KNOW.V (THAT (ANT68.SK (NEAR.P TOM.NAME))))))
+			(?P3 (ANT68.SK (NEAR.P TOM.NAME)))
+		)
+	)
+	(EPI-SCHEMA ((?X ((ADV-A (FROM.P ?L1)) CLIMB.6.V) TREE96.SK) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE96.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE96.SK)))
+			(!R5 (TREE96.SK DESTINATION.N))
+			(!R6 (TREE96.SK (PLUR TREE.N)))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (KA ((ADV-A (AT.P TREE96.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (?X (AT.P ?L1)))
+			(?I2 (NOT (?X (AT.P TREE96.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (?X (AT.P ?L1))))
+			(?P2 (?X (AT.P TREE96.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((YOU.PRO ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE104.SK) ** E103.SK)
+		(:ROLES
+			(!R1 (YOU.PRO AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE104.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE104.SK)))
+			(!R5 (TREE104.SK DESTINATION.N))
+			(!R6 (TREE104.SK TALL.A))
+			(!R7 (TREE104.SK TREE.N))
+			(!R8 (HANDS91.SK (PERTAIN-TO YOU.PRO)))
+			(!R9 (HANDS91.SK (PLUR HAND.N)))
+		)
+		(:GOALS
+			(?G1 (YOU.PRO (WANT.V (KA ((ADV-A (AT.P TREE104.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (YOU.PRO (AT.P ?L1)))
+			(?I2 (NOT (YOU.PRO (AT.P TREE104.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (YOU.PRO (AT.P ?L1))))
+			(?P2 (YOU.PRO (AT.P TREE104.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Charlie climbed a tree."
+	; "He climbed higher than anyone else."
+	; "He climbed so high that he could see the sky."
+	; "He looked down from the top of the tree."
+	(EPI-SCHEMA ((?X_K (((ADV-A (FROM.P ?X_L)) CLIMB.V) ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C TOP.N))
+			(!R2 (?X_L TREE.N))
+			(!R3 (?X_C (OF.P ?X_L)))
+			(!R4 (?X_M ((ELSE.ADV THAN.P) (ANY.D (L X (AND (X PERSON.N)))))))
+			(!R5 (?X_M HIGHER.A))
+			(!R6 (?X_L DESTINATION.N))
+			(!R7 (?X_M DESTINATION.N))
+			(!R8 ((K (SO.ADV HIGH.A)) DESTINATION.N))
+			(!R9 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_E (?X_K ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_L))
+			(?X_H (?X_K ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_M))
+			(?X_J (?X_K ((ADV-A (FROM.P ?L1)) CLIMB.7.V) (K (SO.ADV HIGH.A))))
+			(?X_J (?X_K CLIMB.8.V (K (SO.ADV HIGH.A))))
+			(?X_B (?X_K ((ADV-A (FROM.P ?X_C)) (DOWN.ADV LOOK.V))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((CHARLIE.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE120.SK) **
+	             E121.SK)
+		(:ROLES
+			(!R1 (CHARLIE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE120.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE120.SK)))
+			(!R5 (TREE120.SK DESTINATION.N))
+			(!R6 (TREE120.SK TREE.N))
+			(!R7 (TOP131.SK TOP.N))
+			(!R8 (TOP131.SK (OF.P TREE120.SK)))
+		)
+		(:GOALS
+			(?G1 (CHARLIE.NAME (WANT.V (KA ((ADV-A (AT.P TREE120.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CHARLIE.NAME (AT.P ?L1)))
+			(?I2 (NOT (CHARLIE.NAME (AT.P TREE120.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CHARLIE.NAME (AT.P ?L1))))
+			(?P2 (CHARLIE.NAME (AT.P TREE120.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CHARLIE.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) HIGHER133.SK) **
+	             E123.SK)
+		(:ROLES
+			(!R1 (CHARLIE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HIGHER133.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HIGHER133.SK)))
+			(!R5 (HIGHER133.SK DESTINATION.N))
+			(!R6 (HIGHER133.SK ((ELSE.ADV THAN.P) (ANY.D (L X (AND (X PERSON.N)))))))
+			(!R7 (HIGHER133.SK HIGHER.A))
+		)
+		(:GOALS
+			(?G1 (CHARLIE.NAME (WANT.V (KA ((ADV-A (AT.P HIGHER133.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CHARLIE.NAME (AT.P ?L1)))
+			(?I2 (NOT (CHARLIE.NAME (AT.P HIGHER133.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CHARLIE.NAME (AT.P ?L1))))
+			(?P2 (CHARLIE.NAME (AT.P HIGHER133.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CHARLIE.NAME ((ADV-A (FROM.P ?L1)) CLIMB.7.V)
+	              (K (SO.ADV HIGH.A)))
+	             ** E126.SK)
+		(:ROLES
+			(!R1 (CHARLIE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (SO.ADV HIGH.A)) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (SO.ADV HIGH.A)))))
+			(!R5 ((K (SO.ADV HIGH.A)) DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (CHARLIE.NAME (WANT.V (KA ((ADV-A (AT.P (K (SO.ADV HIGH.A)))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (CHARLIE.NAME (AT.P ?L1)))
+			(?I2 (NOT (CHARLIE.NAME (AT.P (K (SO.ADV HIGH.A))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (CHARLIE.NAME (AT.P ?L1))))
+			(?P2 (CHARLIE.NAME (AT.P (K (SO.ADV HIGH.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((CHARLIE.NAME CLIMB.8.V (K (SO.ADV HIGH.A))) ** E126.SK)
+		(:ROLES
+			(!R1 (CHARLIE.NAME AGENT.N))
+			(!R2 ((K (SO.ADV HIGH.A)) ENTITY.N))
+			(!R3 (?L LOCATION.N))
+		)
+		(:PRECONDS
+			(?I1 (CHARLIE.NAME (AT.P ?L)))
+			(?I2 ((K (SO.ADV HIGH.A)) (AT.P ?L)))
+			(?I3 ((K (SO.ADV HIGH.A)) (NEAR.P CHARLIE.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (CHARLIE.NAME (KNOW.V (THAT ((K (SO.ADV HIGH.A)) (AT.P ?L))))))
+			(?P2
+	   (CHARLIE.NAME (KNOW.V (THAT ((K (SO.ADV HIGH.A)) (NEAR.P CHARLIE.NAME))))))
+			(?P3 ((K (SO.ADV HIGH.A)) (NEAR.P CHARLIE.NAME)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy climbed a tree."
+	; "The tree was tall."
+	; "He climbed higher and higher."
+	; "He reached the top of the tree."
+	; "He looked around."
+	; "He saw lots of birds."
+	(EPI-SCHEMA ((?X_L (CLIMB.V ?X_N)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M TOP.N))
+			(!R2 (?X_L BOY.N))
+			(!R3 (?X_N TALL.A))
+			(!R4 (?X_N TREE.N))
+			(!R5 (?X_M (OF.P ?X_N)))
+			(!R6 (?X_K (PLUR BIRD.N)))
+			(!R7 (?X_P (PLUR LOT.N)))
+			(!R8 (?X_P (OF.P ?X_K)))
+			(!R9 (?X_N DESTINATION.N))
+			(!R10 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_L ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_N))
+			(?X_H
+	   (?X_L ((ADV-A (FROM.P ?L1)) CLIMB.10.V)
+	    (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))
+			(?X_D (?X_L (REACH.V ?X_M)))
+			(?X_B (?X_L (AROUND.ADV LOOK.V)))
+			(?X_J (?X_L SEE.3.V ?X_P))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE146.SK) **
+	             E147.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE146.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE146.SK)))
+			(!R5 (TREE146.SK DESTINATION.N))
+			(!R6 (TREE146.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (KA ((ADV-A (AT.P TREE146.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SALLY.NAME (AT.P TREE146.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SALLY.NAME (AT.P ?L1))))
+			(?P2 (SALLY.NAME (AT.P TREE146.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME SEE.3.V BERRY158.SK) ** E157.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (BERRY158.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BERRY158.SK (PLUR BERRY.N)))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (AT.P ?L)))
+			(?I2 (BERRY158.SK (AT.P ?L)))
+			(?I3 (BERRY158.SK (NEAR.P SALLY.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (SALLY.NAME (KNOW.V (THAT (BERRY158.SK (AT.P ?L))))))
+			(?P2 (SALLY.NAME (KNOW.V (THAT (BERRY158.SK (NEAR.P SALLY.NAME))))))
+			(?P3 (BERRY158.SK (NEAR.P SALLY.NAME)))
+		)
+	)
+	(EPI-SCHEMA ((SALLY.NAME EAT.9.V BERRY158.SK) ** E160.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (BERRY158.SK FOOD.N))
+			(!R3 (BERRY158.SK (PLUR BERRY.N)))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (THAT (NOT (SALLY.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME POSSESS.V BERRY158.SK))
+			(?I2 (SALLY.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SALLY.NAME (POSSESS.V BERRY158.SK))))
+			(?P2 (NOT (SALLY.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY176.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE178.SK) ** E179.SK)
+		(:ROLES
+			(!R1 (BOY176.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE178.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE178.SK)))
+			(!R5 (TREE178.SK DESTINATION.N))
+			(!R6 (TREE178.SK TALL.A))
+			(!R7 (TREE178.SK TREE.N))
+			(!R8 (BOY176.SK BOY.N))
+			(!R9 (TOP189.SK TOP.N))
+			(!R10 (TOP189.SK (OF.P TREE178.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY176.SK (WANT.V (KA ((ADV-A (AT.P TREE178.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY176.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY176.SK (AT.P TREE178.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY176.SK (AT.P ?L1))))
+			(?P2 (BOY176.SK (AT.P TREE178.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY176.SK ((ADV-A (FROM.P ?L1)) CLIMB.10.V)
+	              (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))
+	             ** E184.SK)
+		(:ROLES
+			(!R1 (BOY176.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+			(!R6 (BOY176.SK BOY.N))
+		)
+		(:GOALS
+			(?G1
+	   (BOY176.SK
+	    (WANT.V
+	     (KA ((ADV-A (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY176.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY176.SK (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY176.SK (AT.P ?L1))))
+			(?P2 (BOY176.SK (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY176.SK SEE.3.V LOT197.SK) ** E193.SK)
+		(:ROLES
+			(!R1 (BOY176.SK AGENT.N))
+			(!R2 (LOT197.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOY176.SK BOY.N))
+			(!R5 (LOT197.SK (PLUR LOT.N)))
+			(!R6 (BIRD196.SK (PLUR BIRD.N)))
+			(!R7 (LOT197.SK (OF.P BIRD196.SK)))
+		)
+		(:PRECONDS
+			(?I1 (BOY176.SK (AT.P ?L)))
+			(?I2 (LOT197.SK (AT.P ?L)))
+			(?I3 (LOT197.SK (NEAR.P BOY176.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOY176.SK (KNOW.V (THAT (LOT197.SK (AT.P ?L))))))
+			(?P2 (BOY176.SK (KNOW.V (THAT (LOT197.SK (NEAR.P BOY176.SK))))))
+			(?P3 (LOT197.SK (NEAR.P BOY176.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy climbed a tall tree."
+	; "He climbed higher and higher."
+	; "He found an apple on a branch."
+	; "He climbed down from the tree."
+	(EPI-SCHEMA ((?X_J (CLIMB.V ?X_E)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E BRANCH.N))
+			(!R2 (?X_M APPLE.N))
+			(!R3 (?X_M (ON.P ?X_E)))
+			(!R4 (?X_K TALL.A))
+			(!R5 (?X_K TREE.N))
+			(!R6 (?X_J BOY.N))
+			(!R7 (?X_K DESTINATION.N))
+			(!R8 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+			(!R9 (NOT (?X_K = ?L2)))
+			(!R10 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_K))
+			(?X_D
+	   (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.10.V)
+	    (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))
+			(?X_G (?X_J FIND.4.V ?X_M))
+			(?X_I (?X_J ((ADV-A (FROM.P ?X_K)) CLIMB.5.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY213.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE217.SK) ** E216.SK)
+		(:ROLES
+			(!R1 (BOY213.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE217.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE217.SK)))
+			(!R5 (TREE217.SK DESTINATION.N))
+			(!R6 (BOY213.SK BOY.N))
+			(!R7 (TREE217.SK TALL.A))
+			(!R8 (TREE217.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (BOY213.SK (WANT.V (KA ((ADV-A (AT.P TREE217.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY213.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY213.SK (AT.P TREE217.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY213.SK (AT.P ?L1))))
+			(?P2 (BOY213.SK (AT.P TREE217.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY213.SK ((ADV-A (FROM.P ?L1)) CLIMB.10.V)
+	              (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))
+	             ** E219.SK)
+		(:ROLES
+			(!R1 (BOY213.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+			(!R6 (BOY213.SK BOY.N))
+		)
+		(:GOALS
+			(?G1
+	   (BOY213.SK
+	    (WANT.V
+	     (KA ((ADV-A (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY213.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY213.SK (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY213.SK (AT.P ?L1))))
+			(?P2 (BOY213.SK (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY213.SK FIND.4.V APPLE224.SK) ** E222.SK)
+		(:ROLES
+			(!R1 (BOY213.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (APPLE224.SK ENTITY.N))
+			(!R4 (BOY213.SK BOY.N))
+			(!R5 (APPLE224.SK APPLE.N))
+			(!R6 (BRANCH223.SK BRANCH.N))
+			(!R7 (APPLE224.SK (ON.P BRANCH223.SK)))
+		)
+		(:PRECONDS
+			(?I1 (BOY213.SK (AT.P ?L)))
+			(?I2 (APPLE224.SK (AT.P ?L)))
+			(?I3 (BOY213.SK ((ADV-A (FOR.P APPLE224.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY213.SK (KNOW.V (THAT (APPLE224.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY213.SK (POSSESS.V APPLE224.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY213.SK (KNOW.V (THAT (APPLE224.SK (AT.P ?L))))))
+			(?P2 (BOY213.SK (POSSESS.V APPLE224.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E222.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY213.SK ((ADV-A (FROM.P TREE217.SK)) CLIMB.5.V) ?L2) ** E227.SK)
+		(:ROLES
+			(!R1 (BOY213.SK AGENT.N))
+			(!R2 (TREE217.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (TREE217.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY213.SK BOY.N))
+			(!R7 (TREE217.SK TALL.A))
+			(!R8 (TREE217.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (BOY213.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY213.SK (AT.P TREE217.SK)))
+			(?I2 (NOT (BOY213.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY213.SK (AT.P TREE217.SK))))
+			(?P2 (BOY213.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy climbed a tree."
+	; "He looked for birds' nests."
+	; "He found one nest."
+	; "He put some bird eggs in the nest."
+	; "He thought the eggs would hatch."
+	(EPI-SCHEMA ((?X_J (CLIMB.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K (FOR.P (KE (?X_C (PLUR NEST.N))))))
+			(!R2 (?X_J BOY.N))
+			(!R3 (?X_L TREE.N))
+			(!R4 (?X_M BIRD.N))
+			(!R5 (?X_M (PLUR EGG.N)))
+			(!R6 (?X_N NEST.N))
+			(!R7 (?X_L DESTINATION.N))
+			(!R8 (?X_N LOCATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_L))
+			(?X_B (?X_J (LOOK.V ?X_K)))
+			(?X_G (?X_J FIND.4.V ?X_N))
+			(?X_I (?X_J PUT.12.V ?X_M ?X_N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY244.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE246.SK) ** E247.SK)
+		(:ROLES
+			(!R1 (BOY244.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE246.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE246.SK)))
+			(!R5 (TREE246.SK DESTINATION.N))
+			(!R6 (TREE246.SK TREE.N))
+			(!R7 (BOY244.SK BOY.N))
+			(!R8 (BOY244.SK AFRAID.A))
+			(!R9 (TOP277.SK TOP.N))
+			(!R10 (TOP277.SK (OF.P TREE246.SK)))
+		)
+		(:GOALS
+			(?G1 (BOY244.SK (WANT.V (KA ((ADV-A (AT.P TREE246.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY244.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY244.SK (AT.P TREE246.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY244.SK (AT.P ?L1))))
+			(?P2 (BOY244.SK (AT.P TREE246.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY244.SK FIND.4.V BRANCH259.SK) ** E254.SK)
+		(:ROLES
+			(!R1 (BOY244.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BRANCH259.SK ENTITY.N))
+			(!R4 (BOY244.SK BOY.N))
+			(!R5 (BOY244.SK AFRAID.A))
+			(!R6 (BRANCH259.SK (PLUR BRANCH.N)))
+		)
+		(:PRECONDS
+			(?I1 (BOY244.SK (AT.P ?L)))
+			(?I2 (BRANCH259.SK (AT.P ?L)))
+			(?I3 (BOY244.SK ((ADV-A (FOR.P BRANCH259.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY244.SK (KNOW.V (THAT (BRANCH259.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY244.SK (POSSESS.V BRANCH259.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY244.SK (KNOW.V (THAT (BRANCH259.SK (AT.P ?L))))))
+			(?P2 (BOY244.SK (POSSESS.V BRANCH259.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E254.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY244.SK ((ADV-A (FROM.P ?L1)) CLIMB.2.V) ?L2) ** E262.SK)
+		(:ROLES
+			(!R1 (BOY244.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY244.SK BOY.N))
+			(!R7 (BOY244.SK AFRAID.A))
+		)
+		(:GOALS
+			(?G1 (BOY244.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY244.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY244.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY244.SK (AT.P ?L1))))
+			(?P2 (BOY244.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((?X EAT.11.V (K (FOR.P THING266.SK (KA EAT.11.V)))) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 ((K (FOR.P THING266.SK (KA EAT.11.V))) FOOD.N))
+			(!R3 (THING266.SK (PLUR THING.N)))
+			(!R4 (OBJECT278.SK (FOR.P THING266.SK (KA EAT.V))))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (THAT (NOT (?X HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (?X POSSESS.V (K (FOR.P THING266.SK (KA EAT.11.V)))))
+			(?I2 (?X HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (?X (POSSESS.V (K (FOR.P THING266.SK (KA EAT.11.V)))))))
+			(?P2 (NOT (?X HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY244.SK FIND.4.V APPLE268.SK) ** E269.SK)
+		(:ROLES
+			(!R1 (BOY244.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (APPLE268.SK ENTITY.N))
+			(!R4 (BOY244.SK BOY.N))
+			(!R5 (BOY244.SK AFRAID.A))
+			(!R6 (APPLE268.SK APPLE.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY244.SK (AT.P ?L)))
+			(?I2 (APPLE268.SK (AT.P ?L)))
+			(?I3 (BOY244.SK ((ADV-A (FOR.P APPLE268.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY244.SK (KNOW.V (THAT (APPLE268.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY244.SK (POSSESS.V APPLE268.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY244.SK (KNOW.V (THAT (APPLE268.SK (AT.P ?L))))))
+			(?P2 (BOY244.SK (POSSESS.V APPLE268.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E269.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY244.SK EAT.9.V APPLE268.SK) ** E272.SK)
+		(:ROLES
+			(!R1 (BOY244.SK AGENT.N))
+			(!R2 (APPLE268.SK FOOD.N))
+			(!R3 (BOY244.SK BOY.N))
+			(!R4 (BOY244.SK AFRAID.A))
+			(!R5 (APPLE268.SK APPLE.N))
+		)
+		(:GOALS
+			(?G1 (BOY244.SK (WANT.V (THAT (NOT (BOY244.SK HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY244.SK POSSESS.V APPLE268.SK))
+			(?I2 (BOY244.SK HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY244.SK (POSSESS.V APPLE268.SK))))
+			(?P2 (NOT (BOY244.SK HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY294.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE296.SK) ** E297.SK)
+		(:ROLES
+			(!R1 (BOY294.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE296.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE296.SK)))
+			(!R5 (TREE296.SK DESTINATION.N))
+			(!R6 (TREE296.SK TREE.N))
+			(!R7 (BOY294.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY294.SK (WANT.V (KA ((ADV-A (AT.P TREE296.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY294.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY294.SK (AT.P TREE296.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY294.SK (AT.P ?L1))))
+			(?P2 (BOY294.SK (AT.P TREE296.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY294.SK FIND.4.V NEST303.SK) ** E304.SK)
+		(:ROLES
+			(!R1 (BOY294.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (NEST303.SK ENTITY.N))
+			(!R4 (BOY294.SK BOY.N))
+			(!R5 (NEST303.SK NEST.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY294.SK (AT.P ?L)))
+			(?I2 (NEST303.SK (AT.P ?L)))
+			(?I3 (BOY294.SK ((ADV-A (FOR.P NEST303.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY294.SK (KNOW.V (THAT (NEST303.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY294.SK (POSSESS.V NEST303.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY294.SK (KNOW.V (THAT (NEST303.SK (AT.P ?L))))))
+			(?P2 (BOY294.SK (POSSESS.V NEST303.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E304.SK))
+		)
+	)
+	(EPI-SCHEMA ((BOY294.SK PUT.12.V EGG311.SK NEST303.SK) ** E308.SK)
+		(:ROLES
+			(!R1 (BOY294.SK AGENT.N))
+			(!R2 (EGG311.SK ENTITY.N))
+			(!R3 (NEST303.SK LOCATION.N))
+			(!R4 (BOY294.SK BOY.N))
+			(!R5 (NEST303.SK NEST.N))
+			(!R6 (EGG311.SK BIRD.N))
+			(!R7 (EGG311.SK (PLUR EGG.N)))
+		)
+		(:GOALS
+			(?G1 (BOY294.SK (WANT.V (THAT (EGG311.SK (AT.P NEST303.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY294.SK (POSSESS.V EGG311.SK)))
+			(?I2 (EGG311.SK (NOT (AT.P NEST303.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (EGG311.SK (AT.P NEST303.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Mike climbed a tall tree."
+	; "He got scared."
+	; "He thought he would fall down."
+	; "He looked around for something to hold on to."
+	; "He found a branch that was strong enough."
+	; "He held on to the branch."
+	; "He climbed higher."
+	(EPI-SCHEMA ((?X_Q (CLIMB.V ?X_S)) ** ?E)
+		(:ROLES
+			(!R1 (?X_S BRANCH.N))
+			(!R2 (?X_P SCARED.A))
+			(!R3 (?X_R TALL.A))
+			(!R4 (?X_R TREE.N))
+			(!R5 (?X_R DESTINATION.N))
+			(!R6 ((K SCARED.A) DESTINATION.N))
+			(!R7 (?X_Q AGENT.N))
+		)
+		(:STEPS
+			(?X_K (?X_Q ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_R))
+			(?X_I (?X_Q (GET.V ?X_P)))
+			(?X_G (?X_Q (THINK.V (THT (?X_Q (WILL.MD FALL_DOWN.V))))))
+			(?X_E (?X_Q ((ADV-A (FOR.P ?X_A)) LOOK_AROUND.V)))
+			(?X_M (?X_Q FIND.4.V ?X_S))
+			(?X_C (?X_Q ((ADV-A (TO.P ?X_S)) HOLD_ON.V)))
+			(?X_O (?X_Q ((ADV-A (FROM.P ?L1)) CLIMB.13.V) (K SCARED.A)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MIKE.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE341.SK) ** E340.SK)
+		(:ROLES
+			(!R1 (MIKE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE341.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE341.SK)))
+			(!R5 (TREE341.SK DESTINATION.N))
+			(!R6 (TREE341.SK TALL.A))
+			(!R7 (TREE341.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (MIKE.NAME (WANT.V (KA ((ADV-A (AT.P TREE341.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MIKE.NAME (AT.P ?L1)))
+			(?I2 (NOT (MIKE.NAME (AT.P TREE341.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MIKE.NAME (AT.P ?L1))))
+			(?P2 (MIKE.NAME (AT.P TREE341.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MIKE.NAME FIND.4.V BRANCH356.SK) ** E351.SK)
+		(:ROLES
+			(!R1 (MIKE.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (BRANCH356.SK ENTITY.N))
+			(!R4 (BRANCH356.SK BRANCH.N))
+		)
+		(:PRECONDS
+			(?I1 (MIKE.NAME (AT.P ?L)))
+			(?I2 (BRANCH356.SK (AT.P ?L)))
+			(?I3 (MIKE.NAME ((ADV-A (FOR.P BRANCH356.SK)) SEARCH.V)))
+			(?I4 (NOT (MIKE.NAME (KNOW.V (THAT (BRANCH356.SK (AT.P ?L)))))))
+			(?I5 (NOT (MIKE.NAME (POSSESS.V BRANCH356.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (MIKE.NAME (KNOW.V (THAT (BRANCH356.SK (AT.P ?L))))))
+			(?P2 (MIKE.NAME (POSSESS.V BRANCH356.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E351.SK))
+		)
+	)
+	(EPI-SCHEMA ((MIKE.NAME ((ADV-A (FROM.P ?L1)) CLIMB.13.V) (K SCARED.A)) **
+	             E361.SK)
+		(:ROLES
+			(!R1 (MIKE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K SCARED.A) LOCATION.N))
+			(!R4 (NOT (?L1 = (K SCARED.A))))
+			(!R5 ((K SCARED.A) DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (MIKE.NAME (WANT.V (KA ((ADV-A (AT.P (K SCARED.A))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MIKE.NAME (AT.P ?L1)))
+			(?I2 (NOT (MIKE.NAME (AT.P (K SCARED.A)))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MIKE.NAME (AT.P ?L1))))
+			(?P2 (MIKE.NAME (AT.P (K SCARED.A))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tom climbed on a boat."
+	; "He sat down on the deck."
+	; "He looked around."
+	; "He saw some fish swimming by."
+	(EPI-SCHEMA ((?X_I ((ADV-A (FROM.P ?L2)) CLIMB_DOWN.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_F DECK.N))
+			(!R2 (?X_J FISH.N))
+			(!R3 (?X_J SWIMMING.N))
+			(!R4 (?L2 DESTINATION.N))
+			(!R5 (?X_I AGENT.N))
+		)
+		(:STEPS
+			(?X_A (?X_I ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2))
+			(?X_E (?X_I (DOWN.ADV ((ADV-A (ON.P ?X_F)) SIT.V))))
+			(?X_C (?X_I (AROUND.ADV LOOK.V)))
+			(?X_H (?X_I SEE_BY.2.V ?X_J))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E4.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME SEE_BY.2.V FISH13.SK) ** E12.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (FISH13.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (FISH13.SK FISH.N))
+			(!R5 (FISH13.SK SWIMMING.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (FISH13.SK (AT.P ?L)))
+			(?I3 (FISH13.SK (NEAR.P TOM.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (FISH13.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (KNOW.V (THAT (FISH13.SK (NEAR.P TOM.NAME))))))
+			(?P3 (FISH13.SK (NEAR.P TOM.NAME)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The boy climbed on top of the boat."
+	; "He sat down and looked around."
+	; "He saw some fish swimming in the ocean."
+	; "He watched them for a while."
+	; "He jumped into the water."
+	; "He swam away from the boat."
+	; "He found a rock and sat down."
+	(EPI-SCHEMA ((?X_N (COMPOSITE-SCHEMA.PR ?X_O ?X_P ?L2 ?X_Q)) ** ?E)
+		(:ROLES
+			(!R1 (?X_N BOY.N))
+			(!R2 (?X_O FISH.N))
+			(!R3 (?X_O SWIMMING.N))
+			(!R4 (?X_P OCEAN.N))
+			(!R5 (?X_M BOAT.N))
+			(!R6 (?X_Q ROCK.N))
+			(!R7 (?X_P DESTINATION.N))
+			(!R8 (?X_M LOCATION.N))
+			(!R9 (NOT (?X_M = ?L2)))
+			(!R10 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_F (?X_N ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2))
+			(?X_A (?X_N SIT_DOWN.V))
+			(?X_B (?X_N LOOK_AROUND.V))
+			(?X_H (?X_N SEE.3.V ?X_O))
+			(?X_J (?X_N ((ADV-A (FROM.P ?L1)) JUMP.4.V) ?X_P))
+			(?X_L (?X_N ((ADV-A (FROM.P ?X_M)) SWAM.5.V) ?L2))
+			(?X_C (?X_N FIND.6.V ?X_Q))
+			(?X_D (?X_N SIT_DOWN.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY31.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E34.SK)
+		(:ROLES
+			(!R1 (BOY31.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY31.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY31.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY31.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY31.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY31.SK (AT.P ?L1))))
+			(?P2 (BOY31.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY31.SK SEE.3.V FISH42.SK) ** E41.SK)
+		(:ROLES
+			(!R1 (BOY31.SK AGENT.N))
+			(!R2 (FISH42.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOY31.SK BOY.N))
+			(!R5 (FISH42.SK FISH.N))
+			(!R6 (FISH42.SK SWIMMING.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY31.SK (AT.P ?L)))
+			(?I2 (FISH42.SK (AT.P ?L)))
+			(?I3 (FISH42.SK (NEAR.P BOY31.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOY31.SK (KNOW.V (THAT (FISH42.SK (AT.P ?L))))))
+			(?P2 (BOY31.SK (KNOW.V (THAT (FISH42.SK (NEAR.P BOY31.SK))))))
+			(?P3 (FISH42.SK (NEAR.P BOY31.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY31.SK ((ADV-A (FROM.P ?L1)) JUMP.4.V) OCEAN40.SK) ** E49.SK)
+		(:ROLES
+			(!R1 (BOY31.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (OCEAN40.SK LOCATION.N))
+			(!R4 (NOT (?L1 = OCEAN40.SK)))
+			(!R5 (OCEAN40.SK DESTINATION.N))
+			(!R6 (BOY31.SK BOY.N))
+			(!R7 (OCEAN40.SK OCEAN.N))
+			(!R8 (OCEAN40.SK WATER.N))
+		)
+		(:GOALS
+			(?G1 (BOY31.SK (WANT.V (KA ((ADV-A (AT.P OCEAN40.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY31.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY31.SK (AT.P OCEAN40.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY31.SK (AT.P ?L1))))
+			(?P2 (BOY31.SK (AT.P OCEAN40.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY31.SK ((ADV-A (FROM.P BOAT33.SK)) SWAM.5.V) ?L2) ** E52.SK)
+		(:ROLES
+			(!R1 (BOY31.SK AGENT.N))
+			(!R2 (BOAT33.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (BOAT33.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY31.SK BOY.N))
+			(!R7 (BOAT33.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (BOY31.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY31.SK (AT.P BOAT33.SK)))
+			(?I2 (NOT (BOY31.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY31.SK (AT.P BOAT33.SK))))
+			(?P2 (BOY31.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY31.SK FIND.6.V ROCK54.SK) ** E59.SK)
+		(:ROLES
+			(!R1 (BOY31.SK AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (ROCK54.SK ENTITY.N))
+			(!R4 (BOY31.SK BOY.N))
+			(!R5 (ROCK54.SK ROCK.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY31.SK (AT.P ?L)))
+			(?I2 (ROCK54.SK (AT.P ?L)))
+			(?I3 (BOY31.SK ((ADV-A (FOR.P ROCK54.SK)) SEARCH.V)))
+			(?I4 (NOT (BOY31.SK (KNOW.V (THAT (ROCK54.SK (AT.P ?L)))))))
+			(?I5 (NOT (BOY31.SK (POSSESS.V ROCK54.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (BOY31.SK (KNOW.V (THAT (ROCK54.SK (AT.P ?L))))))
+			(?P2 (BOY31.SK (POSSESS.V ROCK54.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E59.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom climbed on top of a boat."
+	; "He sat down."
+	; "He looked around."
+	; "There were lots of other boats."
+	; "He looked for a place to sit."
+	; "He found a seat."
+	; "He sat down."
+	(EPI-SCHEMA ((?X_R (AROUND.ADV ((ADV-A (FOR.P ?X_Q)) LOOK.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_S (PLUR LOT.N)))
+			(!R2 (?X_S (OF.P ?X_F)))
+			(!R3 (?X_T SEAT.N))
+			(!R4 (?L2 DESTINATION.N))
+			(!R5 (?X_Q ENTITY.N))
+			(!R6 (?X_R AGENT.N))
+		)
+		(:STEPS
+			(?X_L (?X_R ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2))
+			(?X_J (?X_R (DOWN.ADV SIT.V)))
+			(?X_H (?X_R (AROUND.ADV LOOK.V)))
+			(?X_E (?X_A (BE.V ?X_S)))
+			(?X_N (?X_R ((ADV-A (FOR.P ?X_Q)) LOOK.7.V)))
+			(?X_P (?X_R FIND.6.V ?X_T))
+			(?X_C (?X_R (DOWN.ADV SIT.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E79.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FOR.P OBJECT91.SK)) LOOK.7.V)) ** E92.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?LX LOCATION.N))
+			(!R3 (?LO LOCATION.N))
+			(!R4 (OBJECT91.SK ENTITY.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA (FIND.V OBJECT91.SK)))))
+			(?G2 (TOM.NAME (WANT.V (KA (POSSESS.V OBJECT91.SK)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?LX)))
+			(?I2 (OBJECT91.SK (AT.P ?LO)))
+			(?I3 (NOT (TOM.NAME (KNOW.V (THAT (OBJECT91.SK (AT.P ?LO)))))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (FIND.V OBJECT91.SK)))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?I3<- ?P1) = E92.SK))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME FIND.6.V SEAT94.SK) ** E95.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (SEAT94.SK ENTITY.N))
+			(!R4 (SEAT94.SK SEAT.N))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L)))
+			(?I2 (SEAT94.SK (AT.P ?L)))
+			(?I3 (TOM.NAME ((ADV-A (FOR.P SEAT94.SK)) SEARCH.V)))
+			(?I4 (NOT (TOM.NAME (KNOW.V (THAT (SEAT94.SK (AT.P ?L)))))))
+			(?I5 (NOT (TOM.NAME (POSSESS.V SEAT94.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (TOM.NAME (KNOW.V (THAT (SEAT94.SK (AT.P ?L))))))
+			(?P2 (TOM.NAME (POSSESS.V SEAT94.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E95.SK))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Joe climbed onto the boat."
+	; "He sat down on the deck."
+	; "He looked around."
+	; "There were other boats nearby."
+	; "He saw some fish swimming near the shore."
+	(EPI-SCHEMA ((?X_L ((ADV-A (INTO.P ?X_M)) CLIMB.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E DECK.N))
+			(!R2 (?X_M BOAT.N))
+			(!R3 (?X_J SHORE.N))
+			(!R4 (?X_K FISH.N))
+			(!R5 (?X_N (NEAR.P ?X_J)))
+			(!R6 (?X_N ?X_K SWIMMING.N))
+			(!R7 (?X_M DESTINATION.N))
+			(!R8 (?X_L AGENT.N))
+			(!R9 (?X_N ENTITY.N))
+		)
+		(:STEPS
+			(?X_G (?X_L ((ADV-A (FROM.P ?L1)) CLIMB.8.V) ?X_M))
+			(?X_D (?X_L (DOWN.ADV ((ADV-A (ON.P ?X_E)) SIT.V))))
+			(?X_B (?X_L (AROUND.ADV LOOK.V)))
+			(?X_I (?X_L SEE.3.V ?X_N))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((ALEX.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E108.SK)
+		(:ROLES
+			(!R1 (ALEX.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (ALEX.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (ALEX.NAME (AT.P ?L1)))
+			(?I2 (NOT (ALEX.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (ALEX.NAME (AT.P ?L1))))
+			(?P2 (ALEX.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME ((ADV-A (FROM.P ?L1)) CLIMB.8.V) BOAT125.SK) ** E126.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BOAT125.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BOAT125.SK)))
+			(!R5 (BOAT125.SK DESTINATION.N))
+			(!R6 (BOAT125.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (JOE.NAME (WANT.V (KA ((ADV-A (AT.P BOAT125.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (AT.P ?L1)))
+			(?I2 (NOT (JOE.NAME (AT.P BOAT125.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JOE.NAME (AT.P ?L1))))
+			(?P2 (JOE.NAME (AT.P BOAT125.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JOE.NAME SEE.3.V OBJECT137.SK) ** E138.SK)
+		(:ROLES
+			(!R1 (JOE.NAME AGENT.N))
+			(!R2 (OBJECT137.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (SHORE139.SK SHORE.N))
+			(!R5 (OBJECT137.SK (NEAR.P SHORE139.SK)))
+			(!R6 (OBJECT137.SK FISH141.SK SWIMMING.N))
+			(!R7 (FISH141.SK FISH.N))
+		)
+		(:PRECONDS
+			(?I1 (JOE.NAME (AT.P ?L)))
+			(?I2 (OBJECT137.SK (AT.P ?L)))
+			(?I3 (OBJECT137.SK (NEAR.P JOE.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (JOE.NAME (KNOW.V (THAT (OBJECT137.SK (AT.P ?L))))))
+			(?P2 (JOE.NAME (KNOW.V (THAT (OBJECT137.SK (NEAR.P JOE.NAME))))))
+			(?P3 (OBJECT137.SK (NEAR.P JOE.NAME)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy climbed onto a boat."
+	; "He sat on the top deck."
+	; "He saw some fish swimming around."
+	; "He watched them for a while."
+	; "Then he jumped into the water."
+	(EPI-SCHEMA ((?X_J (((ADV-A (FROM.P ?X_K)) CLIMB.V) ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C TOP.A))
+			(!R2 (?X_C DECK.N))
+			(!R3 (?X_J BOY.N))
+			(!R4 (?X_L BOAT.N))
+			(!R5 (?X_K ENTITY.N))
+			(!R6 (?X_L DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.8.V) ?X_L))
+			(?X_B (?X_J ((ADV-A (ON.P ?X_C)) SIT.V)))
+			(?X_G (?X_J SEE.3.V ?X_K))
+			(?X_I (?X_J ((ADV-A (FROM.P ?L1)) JUMP.4.V) ?X_L))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY152.SK ((ADV-A (FROM.P ?L1)) CLIMB.8.V) BOAT154.SK) ** E155.SK)
+		(:ROLES
+			(!R1 (BOY152.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BOAT154.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BOAT154.SK)))
+			(!R5 (BOAT154.SK DESTINATION.N))
+			(!R6 (BOY152.SK BOY.N))
+			(!R7 (BOAT154.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (BOY152.SK (WANT.V (KA ((ADV-A (AT.P BOAT154.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY152.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY152.SK (AT.P BOAT154.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY152.SK (AT.P ?L1))))
+			(?P2 (BOY152.SK (AT.P BOAT154.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY152.SK SEE.3.V OBJECT161.SK) ** E162.SK)
+		(:ROLES
+			(!R1 (BOY152.SK AGENT.N))
+			(!R2 (OBJECT161.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BOY152.SK BOY.N))
+		)
+		(:PRECONDS
+			(?I1 (BOY152.SK (AT.P ?L)))
+			(?I2 (OBJECT161.SK (AT.P ?L)))
+			(?I3 (OBJECT161.SK (NEAR.P BOY152.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (BOY152.SK (KNOW.V (THAT (OBJECT161.SK (AT.P ?L))))))
+			(?P2 (BOY152.SK (KNOW.V (THAT (OBJECT161.SK (NEAR.P BOY152.SK))))))
+			(?P3 (OBJECT161.SK (NEAR.P BOY152.SK)))
+		)
+	)
+	(EPI-SCHEMA ((BOY152.SK ((ADV-A (FROM.P ?L1)) JUMP.4.V) BOAT154.SK) ** E168.SK)
+		(:ROLES
+			(!R1 (BOY152.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BOAT154.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BOAT154.SK)))
+			(!R5 (BOAT154.SK DESTINATION.N))
+			(!R6 (BOY152.SK BOY.N))
+			(!R7 (BOAT154.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (BOY152.SK (WANT.V (KA ((ADV-A (AT.P BOAT154.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY152.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY152.SK (AT.P BOAT154.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY152.SK (AT.P ?L1))))
+			(?P2 (BOY152.SK (AT.P BOAT154.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy climbed on top of a boat."
+	; "He liked boats."
+	; "He jumped from the boat."
+	; "He fell into the water."
+	(EPI-SCHEMA ((?X_K (CLIMB.V ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C WATER.N))
+			(!R2 (?X_L (PLUR BOAT.N)))
+			(!R3 (?X_J BOAT.N))
+			(!R4 (NOT (?X_L ACTION.N)))
+			(!R5 (NOT (?X_L AGENT.N)))
+			(!R6 (?X_K AGENT.N))
+			(!R7 (NOT (?X_J = ?L2)))
+			(!R8 (?L2 DESTINATION.N))
+			(!R9 (?X_J LOCATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_K ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2))
+			(?X_G (?X_K LIKE.9.V ?X_L))
+			(?X_I (?X_K ((ADV-A (FROM.P ?X_J)) JUMP.10.V) ?L2))
+			(?X_B (?X_K ((ADV-A (INTO.P ?X_C)) FALL.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E182.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAMMY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P ?L1))))
+			(?P2 (SAMMY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME LIKE.9.V BOAT186.SK) ** E184.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (NOT (BOAT186.SK ACTION.N)))
+			(!R3 (NOT (BOAT186.SK AGENT.N)))
+			(!R4 (BOAT186.SK OBJECT.N))
+			(!R5 (BOAT186.SK (PLUR BOAT.N)))
+		)
+		(:POSTCONDS
+			(?P1 (SAMMY.NAME (WANT.V (KA (POSSESS.V BOAT186.SK)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P BOAT181.SK)) JUMP.10.V) ?L2) **
+	             E189.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (BOAT181.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (BOAT181.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOAT181.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P BOAT181.SK)))
+			(?I2 (NOT (SAMMY.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P BOAT181.SK))))
+			(?P2 (SAMMY.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen climbed on top of a boat."
+	; "A wave came along."
+	; "She slid down into the water."
+	; "She climbed back on top of the boat."
+	(EPI-SCHEMA ((?X_J (CLIMB_UP.V ?L2)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C WAVE.N))
+			(!R2 (?X_K WATER.N))
+			(!R3 (?X_K DESTINATION.N))
+			(!R4 (?X_J AGENT.N))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2))
+			(?X_B (?X_C (ALONG.ADV COME.V)))
+			(?X_G (?X_J ((ADV-A (FROM.P ?L1)) SLIDE_DOWN.11.V) ?X_K))
+			(?X_I (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E207.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) SLIDE_DOWN.11.V) WATER212.SK) **
+	             E213.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (WATER212.SK LOCATION.N))
+			(!R4 (NOT (?L1 = WATER212.SK)))
+			(!R5 (WATER212.SK DESTINATION.N))
+			(!R6 (WATER212.SK WATER.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P WATER212.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P WATER212.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P WATER212.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E216.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom climbed on top of a boat."
+	; "He sat down."
+	; "He put his feet on the dock."
+	; "He jumped into the water."
+	; "He swam away from the dock."
+	(EPI-SCHEMA ((?X_J ((ADV-A (DOWN.P ?X_L)) CLIMB.V)) ** ?E)
+		(:ROLES
+			(!R1 (?X_M WATER.N))
+			(!R2 (?X_K (PLUR FOOT.N)))
+			(!R3 (?X_K (PERTAIN-TO ?X_J)))
+			(!R4 (?X_L DOCK.N))
+			(!R5 (?X_M DESTINATION.N))
+			(!R6 (?X_J AGENT.N))
+			(!R7 (?X_L LOCATION.N))
+			(!R8 (NOT (?X_L = ?L2)))
+			(!R9 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2))
+			(?X_C (?X_J (DOWN.ADV SIT.V)))
+			(?X_A (?X_J PUT.14.V ?X_K ?X_L))
+			(?X_G (?X_J ((ADV-A (FROM.P ?L1)) JUMP.4.V) ?X_M))
+			(?X_I (?X_J ((ADV-A (FROM.P ?X_L)) SWAM.5.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY231.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E234.SK)
+		(:ROLES
+			(!R1 (BOY231.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY231.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY231.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY231.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY231.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY231.SK (AT.P ?L1))))
+			(?P2 (BOY231.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY231.SK ((ADV-A (FROM.P BOAT233.SK)) JUMP_OFF.12.V) BOAT233.SK)
+	             ** E237.SK)
+		(:ROLES
+			(!R1 (BOY231.SK AGENT.N))
+			(!R2 (BOAT233.SK LOCATION.N))
+			(!R3 (NOT (BOAT233.SK = BOAT233.SK)))
+			(!R4 (BOAT233.SK DESTINATION.N))
+			(!R5 (BOY231.SK BOY.N))
+			(!R6 (BOAT233.SK BOAT.N))
+		)
+		(:GOALS
+			(?G1 (BOY231.SK (WANT.V (KA ((ADV-A (AT.P BOAT233.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY231.SK (AT.P BOAT233.SK)))
+			(?I2 (NOT (BOY231.SK (AT.P BOAT233.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY231.SK (AT.P BOAT233.SK))))
+			(?P2 (BOY231.SK (AT.P BOAT233.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY231.SK ((ADV-A (FROM.P ?L1)) SWAM.13.V) ?L2) ** E242.SK)
+		(:ROLES
+			(!R1 (BOY231.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BOY231.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY231.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY231.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY231.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY231.SK (AT.P ?L1))))
+			(?P2 (BOY231.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?L2) ** E261.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (FOOTS258.SK (PLUR FOOT.N)))
+			(!R7 (FOOTS258.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME PUT.14.V FOOTS258.SK DOCK265.SK) ** E257.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (FOOTS258.SK ENTITY.N))
+			(!R3 (DOCK265.SK LOCATION.N))
+			(!R4 (DOCK265.SK DOCK.N))
+			(!R5 (FOOTS258.SK (PLUR FOOT.N)))
+			(!R6 (FOOTS258.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (FOOTS258.SK (AT.P DOCK265.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (POSSESS.V FOOTS258.SK)))
+			(?I2 (FOOTS258.SK (NOT (AT.P DOCK265.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (FOOTS258.SK (AT.P DOCK265.SK)))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) JUMP.4.V) WATER267.SK) ** E268.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (WATER267.SK LOCATION.N))
+			(!R4 (NOT (?L1 = WATER267.SK)))
+			(!R5 (WATER267.SK DESTINATION.N))
+			(!R6 (WATER267.SK WATER.N))
+			(!R7 (FOOTS258.SK (PLUR FOOT.N)))
+			(!R8 (FOOTS258.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P WATER267.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P WATER267.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P WATER267.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P DOCK265.SK)) SWAM.5.V) ?L2) ** E271.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (DOCK265.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (DOCK265.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (DOCK265.SK DOCK.N))
+			(!R7 (FOOTS258.SK (PLUR FOOT.N)))
+			(!R8 (FOOTS258.SK (PERTAIN-TO TOM.NAME)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P DOCK265.SK)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P DOCK265.SK))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Peter climbed a tree."
+	; "He climbed higher and higher."
+	; "He climbed to the top of the tree."
+	; "He saw some birds on the branches."
+	; "He watched the birds for awhile."
+	; "He climbed down from the tree."
+	(EPI-SCHEMA ((?X_J (CLIMB.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_O (PLUR BIRD.N)))
+			(!R2 (?X_N TOP.N))
+			(!R3 (?X_L TREE.N))
+			(!R4 (?X_N (OF.P ?X_L)))
+			(!R5 (?X_L DESTINATION.N))
+			(!R6 (?X_J AGENT.N))
+			(!R7 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+			(!R8 (?X_N DESTINATION.N))
+			(!R9 (?X_K AGENT.N))
+			(!R10 (NOT (?X_L = ?L2)))
+			(!R11 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_L))
+			(?X_C
+	   (?X_K ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	    (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))
+			(?X_E (?X_K ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_N))
+			(?X_G (?X_K SEE.3.V ?X_O))
+			(?X_I (?X_K ((ADV-A (FROM.P ?X_L)) CLIMB.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((PETER.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE2.SK) ** E6.SK)
+		(:ROLES
+			(!R1 (PETER.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE2.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE2.SK)))
+			(!R5 (TREE2.SK DESTINATION.N))
+			(!R6 (TREE2.SK TREE.N))
+			(!R7 (TOP13.SK TOP.N))
+			(!R8 (TOP13.SK (OF.P TREE2.SK)))
+		)
+		(:GOALS
+			(?G1 (PETER.NAME (WANT.V (KA ((ADV-A (AT.P TREE2.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (PETER.NAME (AT.P ?L1)))
+			(?I2 (NOT (PETER.NAME (AT.P TREE2.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (PETER.NAME (AT.P ?L1))))
+			(?P2 (PETER.NAME (AT.P TREE2.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO27.SK ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	              (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))
+	             ** E8.SK)
+		(:ROLES
+			(!R1 (HE-PRO27.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+		)
+		(:GOALS
+			(?G1
+	   (HE-PRO27.SK
+	    (WANT.V
+	     (KA ((ADV-A (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO27.SK (AT.P ?L1)))
+			(?I2 (NOT (HE-PRO27.SK (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO27.SK (AT.P ?L1))))
+			(?P2 (HE-PRO27.SK (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO27.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TOP13.SK) ** E11.SK)
+		(:ROLES
+			(!R1 (HE-PRO27.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TOP13.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TOP13.SK)))
+			(!R5 (TOP13.SK DESTINATION.N))
+			(!R6 (TOP13.SK TOP.N))
+			(!R7 (TOP13.SK (OF.P TREE2.SK)))
+			(!R8 (TREE2.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (HE-PRO27.SK (WANT.V (KA ((ADV-A (AT.P TOP13.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO27.SK (AT.P ?L1)))
+			(?I2 (NOT (HE-PRO27.SK (AT.P TOP13.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO27.SK (AT.P ?L1))))
+			(?P2 (HE-PRO27.SK (AT.P TOP13.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO27.SK SEE.3.V BIRD19.SK) ** E17.SK)
+		(:ROLES
+			(!R1 (HE-PRO27.SK AGENT.N))
+			(!R2 (BIRD19.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (BIRD19.SK (PLUR BIRD.N)))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO27.SK (AT.P ?L)))
+			(?I2 (BIRD19.SK (AT.P ?L)))
+			(?I3 (BIRD19.SK (NEAR.P HE-PRO27.SK)))
+		)
+		(:POSTCONDS
+			(?P1 (HE-PRO27.SK (KNOW.V (THAT (BIRD19.SK (AT.P ?L))))))
+			(?P2 (HE-PRO27.SK (KNOW.V (THAT (BIRD19.SK (NEAR.P HE-PRO27.SK))))))
+			(?P3 (BIRD19.SK (NEAR.P HE-PRO27.SK)))
+		)
+	)
+	(EPI-SCHEMA ((HE-PRO27.SK ((ADV-A (FROM.P TREE2.SK)) CLIMB.4.V) ?L2) ** E26.SK)
+		(:ROLES
+			(!R1 (HE-PRO27.SK AGENT.N))
+			(!R2 (TREE2.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (TREE2.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (TREE2.SK TREE.N))
+			(!R7 (TOP13.SK TOP.N))
+			(!R8 (TOP13.SK (OF.P TREE2.SK)))
+		)
+		(:GOALS
+			(?G1 (HE-PRO27.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (HE-PRO27.SK (AT.P TREE2.SK)))
+			(?I2 (NOT (HE-PRO27.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (HE-PRO27.SK (AT.P TREE2.SK))))
+			(?P2 (HE-PRO27.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen climbed a tree."
+	; "She climbed a tall tree."
+	; "She reached the top of the tree."
+	; "She jumped down from the tree."
+	(EPI-SCHEMA ((?X_I (CLIMB_UP.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J TOP.N))
+			(!R2 (?X_K TREE.N))
+			(!R3 (?X_L TALL.A))
+			(!R4 (?X_L TREE.N))
+			(!R5 (?X_J (OF.P ?X_L)))
+			(!R6 (?X_K DESTINATION.N))
+			(!R7 (?X_L DESTINATION.N))
+			(!R8 (?X_I AGENT.N))
+			(!R9 (NOT (?X_L = ?L2)))
+			(!R10 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_D (?X_I ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_K))
+			(?X_F (?X_I ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_L))
+			(?X_B (?X_I (REACH.V ?X_J)))
+			(?X_H (?X_I ((ADV-A (FROM.P ?X_L)) JUMP.5.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE47.SK) ** E48.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE47.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE47.SK)))
+			(!R5 (TREE47.SK DESTINATION.N))
+			(!R6 (TREE47.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P TREE47.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P TREE47.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P TREE47.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE52.SK) ** E51.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE52.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE52.SK)))
+			(!R5 (TREE52.SK DESTINATION.N))
+			(!R6 (TREE52.SK TALL.A))
+			(!R7 (TREE52.SK TREE.N))
+			(!R8 (TOP57.SK TOP.N))
+			(!R9 (TOP57.SK (OF.P TREE52.SK)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P TREE52.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P TREE52.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P TREE52.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P TREE52.SK)) JUMP.5.V) ?L2) ** E60.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (TREE52.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (TREE52.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (TREE52.SK TALL.A))
+			(!R7 (TREE52.SK TREE.N))
+			(!R8 (TOP57.SK TOP.N))
+			(!R9 (TOP57.SK (OF.P TREE52.SK)))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P TREE52.SK)))
+			(?I2 (NOT (KAREN.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P TREE52.SK))))
+			(?P2 (KAREN.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly climbed the tree."
+	; "She looked for nuts in the branches."
+	; "She found some nuts."
+	; "She put them in her pocket."
+	(EPI-SCHEMA ((?X_J (((ADV-A (IN.P ?X_K)) FIND.V) ?X_D)) ** ?E)
+		(:ROLES
+			(!R1 (?X_K TREE.N))
+			(!R2 (?X_E (PLUR BRANCH.N)))
+			(!R3 (?X_D (PLUR NUT.N)))
+			(!R4 (?X_D (IN.P ?X_E)))
+			(!R5 (?X_L (PLUR NUT.N)))
+			(!R6 (?X_M POCKET.N))
+			(!R7 (?X_M (PERTAIN-TO ?X_J)))
+			(!R8 (?X_K DESTINATION.N))
+			(!R9 (?X_J AGENT.N))
+			(!R10 (?X_M LOCATION.N))
+		)
+		(:STEPS
+			(?X_C (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_K))
+			(?X_G (?X_J ((ADV-A (FOR.P ?X_D)) LOOK.6.V)))
+			(?X_I (?X_J FIND.7.V ?X_L))
+			(?X_A (?X_J PUT.8.V ?X_L ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE78.SK) ** E79.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE78.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE78.SK)))
+			(!R5 (TREE78.SK DESTINATION.N))
+			(!R6 (TREE78.SK TREE.N))
+			(!R7 (POCKET76.SK POCKET.N))
+			(!R8 (POCKET76.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (KA ((ADV-A (AT.P TREE78.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MOLLY.NAME (AT.P TREE78.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MOLLY.NAME (AT.P ?L1))))
+			(?P2 (MOLLY.NAME (AT.P TREE78.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME ((ADV-A (FOR.P NUT83.SK)) LOOK.6.V)) ** E81.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?LX LOCATION.N))
+			(!R3 (?LO LOCATION.N))
+			(!R4 (NUT83.SK ENTITY.N))
+			(!R5 (NUT83.SK (PLUR NUT.N)))
+			(!R6 (NUT83.SK (IN.P BRANCH85.SK)))
+			(!R7 (BRANCH85.SK (PLUR BRANCH.N)))
+			(!R8 (POCKET76.SK POCKET.N))
+			(!R9 (POCKET76.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (KA (FIND.V NUT83.SK)))))
+			(?G2 (MOLLY.NAME (WANT.V (KA (POSSESS.V NUT83.SK)))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?LX)))
+			(?I2 (NUT83.SK (AT.P ?LO)))
+			(?I3 (NOT (MOLLY.NAME (KNOW.V (THAT (NUT83.SK (AT.P ?LO)))))))
+		)
+		(:POSTCONDS
+			(?P1 (MOLLY.NAME (FIND.V NUT83.SK)))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?I3<- ?P1) = E81.SK))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME FIND.7.V NUT89.SK) ** E88.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (NUT89.SK ENTITY.N))
+			(!R4 (NUT89.SK (PLUR NUT.N)))
+			(!R5 (POCKET76.SK POCKET.N))
+			(!R6 (POCKET76.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?L)))
+			(?I2 (NUT89.SK (AT.P ?L)))
+			(?I3 (MOLLY.NAME ((ADV-A (FOR.P NUT89.SK)) SEARCH.V)))
+			(?I4 (NOT (MOLLY.NAME (KNOW.V (THAT (NUT89.SK (AT.P ?L)))))))
+			(?I5 (NOT (MOLLY.NAME (POSSESS.V NUT89.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (MOLLY.NAME (KNOW.V (THAT (NUT89.SK (AT.P ?L))))))
+			(?P2 (MOLLY.NAME (POSSESS.V NUT89.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E88.SK))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME PUT.8.V NUT89.SK POCKET76.SK) ** E75.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (NUT89.SK ENTITY.N))
+			(!R3 (POCKET76.SK LOCATION.N))
+			(!R4 (NUT89.SK (PLUR NUT.N)))
+			(!R5 (POCKET76.SK POCKET.N))
+			(!R6 (POCKET76.SK (PERTAIN-TO MOLLY.NAME)))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (THAT (NUT89.SK (AT.P POCKET76.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (POSSESS.V NUT89.SK)))
+			(?I2 (NUT89.SK (NOT (AT.P POCKET76.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NUT89.SK (AT.P POCKET76.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Dylan climbed a tree."
+	; "He liked to climb trees."
+	; "He climbed higher and higher."
+	; "He found an owl nest."
+	; "He looked for eggs."
+	; "He found some eggs."
+	; "He put them in a box."
+	(EPI-SCHEMA ((?X_P
+	              (COMPOSITE-SCHEMA.PR ?X_Q (KA (CLIMB.V ?X_R)) ?X_R
+	               (K (L X (AND (X HIGHER.A) (X HIGHER.A)))) ?X_T ?X_U ?X_V))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_C (PLUR EGG.N)))
+			(!R2 (?X_Q TREE.N))
+			(!R3 (?X_R (PLUR TREE.N)))
+			(!R4 (?X_T OWL.N))
+			(!R5 (?X_T NEST.N))
+			(!R6 (?X_U (PLUR EGG.N)))
+			(!R7 (?X_V BOX.N))
+			(!R8 (?X_Q DESTINATION.N))
+			(!R9 ((KA (CLIMB.V ?X_R)) ACTION.N))
+			(!R10 (?X_R DESTINATION.N))
+			(!R11 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+			(!R12 (?X_V LOCATION.N))
+			(!R13 (?X_P AGENT.N))
+		)
+		(:STEPS
+			(?X_E (?X_P ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_Q))
+			(?X_G (?X_P LIKE.10.V (KA (CLIMB.V ?X_R))))
+			(?E_1 (?X_P ((ADV-A (FROM.P ?L1)) CLIMB.11.V) ?X_R))
+			(?X_I
+	   (?X_P ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	    (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))
+			(?X_K (?X_P FIND.7.V ?X_T))
+			(?X_B (?X_P ((ADV-A (FOR.P ?X_C)) LOOK.V)))
+			(?X_M (?X_P FIND.7.V ?X_U))
+			(?X_O (?X_P PUT.8.V ?X_U ?X_V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE107.SK) ** E108.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE107.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE107.SK)))
+			(!R5 (TREE107.SK DESTINATION.N))
+			(!R6 (TREE107.SK TREE.N))
+			(!R7 (TOP115.SK TOP.N))
+			(!R8 (TOP115.SK (OF.P TREE107.SK)))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P TREE107.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P TREE107.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P TREE107.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	              (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))
+	             ** E110.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+		)
+		(:GOALS
+			(?G1
+	   (TOM.NAME
+	    (WANT.V
+	     (KA ((ADV-A (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) JUMP_DOWN.9.V) ?L2) ** E117.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DYLAN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE134.SK) **
+	             E135.SK)
+		(:ROLES
+			(!R1 (DYLAN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE134.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE134.SK)))
+			(!R5 (TREE134.SK DESTINATION.N))
+			(!R6 (TREE134.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (DYLAN.NAME (WANT.V (KA ((ADV-A (AT.P TREE134.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DYLAN.NAME (AT.P ?L1)))
+			(?I2 (NOT (DYLAN.NAME (AT.P TREE134.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DYLAN.NAME (AT.P ?L1))))
+			(?P2 (DYLAN.NAME (AT.P TREE134.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DYLAN.NAME LIKE.10.V (KA (CLIMB.V TREE139.SK))) ** E137.SK)
+		(:ROLES
+			(!R1 (DYLAN.NAME AGENT.N))
+			(!R2 ((KA (CLIMB.V TREE139.SK)) ACTION.N))
+			(!R3 (TREE139.SK (PLUR TREE.N)))
+		)
+		(:PRECONDS
+			(?I1 (DYLAN.NAME (THINK.V (THAT ((KA (CLIMB.V TREE139.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DYLAN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.11.V) TREE139.SK) ** ?E)
+		(:ROLES
+			(!R1 (DYLAN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE139.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE139.SK)))
+			(!R5 (TREE139.SK DESTINATION.N))
+			(!R6 (TREE139.SK (PLUR TREE.N)))
+		)
+		(:GOALS
+			(?G1 (DYLAN.NAME (WANT.V (KA ((ADV-A (AT.P TREE139.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DYLAN.NAME (AT.P ?L1)))
+			(?I2 (NOT (DYLAN.NAME (AT.P TREE139.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DYLAN.NAME (AT.P ?L1))))
+			(?P2 (DYLAN.NAME (AT.P TREE139.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DYLAN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	              (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))
+	             ** E141.SK)
+		(:ROLES
+			(!R1 (DYLAN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+		)
+		(:GOALS
+			(?G1
+	   (DYLAN.NAME
+	    (WANT.V
+	     (KA ((ADV-A (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (DYLAN.NAME (AT.P ?L1)))
+			(?I2 (NOT (DYLAN.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (DYLAN.NAME (AT.P ?L1))))
+			(?P2 (DYLAN.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((DYLAN.NAME FIND.7.V OWL145.SK) ** E144.SK)
+		(:ROLES
+			(!R1 (DYLAN.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (OWL145.SK ENTITY.N))
+			(!R4 (OWL145.SK OWL.N))
+			(!R5 (OWL145.SK NEST.N))
+		)
+		(:PRECONDS
+			(?I1 (DYLAN.NAME (AT.P ?L)))
+			(?I2 (OWL145.SK (AT.P ?L)))
+			(?I3 (DYLAN.NAME ((ADV-A (FOR.P OWL145.SK)) SEARCH.V)))
+			(?I4 (NOT (DYLAN.NAME (KNOW.V (THAT (OWL145.SK (AT.P ?L)))))))
+			(?I5 (NOT (DYLAN.NAME (POSSESS.V OWL145.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (DYLAN.NAME (KNOW.V (THAT (OWL145.SK (AT.P ?L))))))
+			(?P2 (DYLAN.NAME (POSSESS.V OWL145.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E144.SK))
+		)
+	)
+	(EPI-SCHEMA ((DYLAN.NAME FIND.7.V EGG154.SK) ** E153.SK)
+		(:ROLES
+			(!R1 (DYLAN.NAME AGENT.N))
+			(!R2 (?L LOCATION.N))
+			(!R3 (EGG154.SK ENTITY.N))
+			(!R4 (EGG154.SK (PLUR EGG.N)))
+		)
+		(:PRECONDS
+			(?I1 (DYLAN.NAME (AT.P ?L)))
+			(?I2 (EGG154.SK (AT.P ?L)))
+			(?I3 (DYLAN.NAME ((ADV-A (FOR.P EGG154.SK)) SEARCH.V)))
+			(?I4 (NOT (DYLAN.NAME (KNOW.V (THAT (EGG154.SK (AT.P ?L)))))))
+			(?I5 (NOT (DYLAN.NAME (POSSESS.V EGG154.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (DYLAN.NAME (KNOW.V (THAT (EGG154.SK (AT.P ?L))))))
+			(?P2 (DYLAN.NAME (POSSESS.V EGG154.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+		(:SUBORDINATE-CONSTRAINTS
+			(!S1 ((?P1<- ?I3) = E153.SK))
+		)
+	)
+	(EPI-SCHEMA ((DYLAN.NAME PUT.8.V EGG154.SK BOX156.SK) ** E157.SK)
+		(:ROLES
+			(!R1 (DYLAN.NAME AGENT.N))
+			(!R2 (EGG154.SK ENTITY.N))
+			(!R3 (BOX156.SK LOCATION.N))
+			(!R4 (EGG154.SK (PLUR EGG.N)))
+			(!R5 (BOX156.SK BOX.N))
+		)
+		(:GOALS
+			(?G1 (DYLAN.NAME (WANT.V (THAT (EGG154.SK (AT.P BOX156.SK))))))
+		)
+		(:PRECONDS
+			(?I1 (DYLAN.NAME (POSSESS.V EGG154.SK)))
+			(?I2 (EGG154.SK (NOT (AT.P BOX156.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (EGG154.SK (AT.P BOX156.SK)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sam climbed a tree."
+	; "He liked to climb trees."
+	; "He could climb tall trees."
+	; "He could even climb a big tree."
+	(EPI-SCHEMA ((?X_E (CLIMB.V ?X_H)) ** ?E)
+		(:ROLES
+			(!R1 (?X_G BIG.A))
+			(!R2 (?X_G TREE.N))
+			(!R3 (?X_F TALL.A))
+			(!R4 (?X_F (PLUR TREE.N)))
+			(!R5 (?X_H TREE.N))
+			(!R6 (?X_I (PLUR TREE.N)))
+			(!R7 (?X_H DESTINATION.N))
+			(!R8 ((KA (CLIMB.V ?X_I)) ACTION.N))
+			(!R9 (?X_I DESTINATION.N))
+			(!R10 (?X_E AGENT.N))
+		)
+		(:STEPS
+			(E201.SK (?X_E ((CAN.MD CLIMB.V) ?X_F)))
+			(E202.SK (?X_E ((CAN.MD (EVEN.ADV CLIMB.V)) ?X_G)))
+			(?X_B (?X_E ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_H))
+			(?X_D (?X_E LIKE.10.V (KA (CLIMB.V ?X_I))))
+			(?E_1 (?X_E ((ADV-A (FROM.P ?L1)) CLIMB.11.V) ?X_I))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE191.SK) ** E192.SK)
+		(:ROLES
+			(!R1 (SAM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE191.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE191.SK)))
+			(!R5 (TREE191.SK DESTINATION.N))
+			(!R6 (TREE191.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (SAM.NAME (WANT.V (KA ((ADV-A (AT.P TREE191.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAM.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAM.NAME (AT.P TREE191.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAM.NAME (AT.P ?L1))))
+			(?P2 (SAM.NAME (AT.P TREE191.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAM.NAME LIKE.10.V (KA (CLIMB.V TREE196.SK))) ** E194.SK)
+		(:ROLES
+			(!R1 (SAM.NAME AGENT.N))
+			(!R2 ((KA (CLIMB.V TREE196.SK)) ACTION.N))
+			(!R3 (TREE196.SK (PLUR TREE.N)))
+		)
+		(:PRECONDS
+			(?I1 (SAM.NAME (THINK.V (THAT ((KA (CLIMB.V TREE196.SK)) FUN.A)))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((SAM.NAME ((ADV-A (FROM.P ?L1)) CLIMB.11.V) TREE196.SK) ** ?E)
+		(:ROLES
+			(!R1 (SAM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE196.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE196.SK)))
+			(!R5 (TREE196.SK DESTINATION.N))
+			(!R6 (TREE196.SK (PLUR TREE.N)))
+		)
+		(:GOALS
+			(?G1 (SAM.NAME (WANT.V (KA ((ADV-A (AT.P TREE196.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAM.NAME (AT.P ?L1)))
+			(?I2 (NOT (SAM.NAME (AT.P TREE196.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAM.NAME (AT.P ?L1))))
+			(?P2 (SAM.NAME (AT.P TREE196.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Karen climbed a tree."
+	; "She climbed higher and higher."
+	; "She looked down on the ground."
+	; "She saw some squirrels."
+	(EPI-SCHEMA ((?X_J (CLIMB.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C GROUND.N))
+			(!R2 (?X_K TREE.N))
+			(!R3 (?X_M (PLUR SQUIRREL.N)))
+			(!R4 (?X_K DESTINATION.N))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+			(!R6 (?X_J AGENT.N))
+		)
+		(:STEPS
+			(?X_E (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_K))
+			(?X_G
+	   (?X_J ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	    (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))
+			(?X_B (?X_J (DOWN.ADV ((ADV-A (ON.P ?X_C)) LOOK.V))))
+			(?X_I (?X_J SEE.3.V ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE212.SK) **
+	             E213.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE212.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE212.SK)))
+			(!R5 (TREE212.SK DESTINATION.N))
+			(!R6 (TREE212.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (KAREN.NAME (WANT.V (KA ((ADV-A (AT.P TREE212.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P TREE212.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P TREE212.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	              (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))
+	             ** E215.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+		)
+		(:GOALS
+			(?G1
+	   (KAREN.NAME
+	    (WANT.V
+	     (KA ((ADV-A (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L1)))
+			(?I2 (NOT (KAREN.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KAREN.NAME (AT.P ?L1))))
+			(?P2 (KAREN.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KAREN.NAME SEE.3.V SQUIRREL222.SK) ** E221.SK)
+		(:ROLES
+			(!R1 (KAREN.NAME AGENT.N))
+			(!R2 (SQUIRREL222.SK ENTITY.N))
+			(!R3 (?L LOCATION.N))
+			(!R4 (SQUIRREL222.SK (PLUR SQUIRREL.N)))
+		)
+		(:PRECONDS
+			(?I1 (KAREN.NAME (AT.P ?L)))
+			(?I2 (SQUIRREL222.SK (AT.P ?L)))
+			(?I3 (SQUIRREL222.SK (NEAR.P KAREN.NAME)))
+		)
+		(:POSTCONDS
+			(?P1 (KAREN.NAME (KNOW.V (THAT (SQUIRREL222.SK (AT.P ?L))))))
+			(?P2 (KAREN.NAME (KNOW.V (THAT (SQUIRREL222.SK (NEAR.P KAREN.NAME))))))
+			(?P3 (SQUIRREL222.SK (NEAR.P KAREN.NAME)))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy climbed a tree."
+	; "He sat on a branch."
+	; "He looked for bugs."
+	; "He found some bugs."
+	; "He threw them away."
+	; "He climbed down from the tree."
+	(EPI-SCHEMA ((?X_O (CLIMB_UP.V ?X_Q)) ** ?E)
+		(:ROLES
+			(!R1 (?X_P (PLUR BUG.N)))
+			(!R2 (?X_G (PLUR BUG.N)))
+			(!R3 (?X_J BRANCH.N))
+			(!R4 (?X_O BOY.N))
+			(!R5 (?X_Q TREE.N))
+			(!R6 (?X_Q DESTINATION.N))
+			(!R7 (NOT (?X_Q = ?L2)))
+			(!R8 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_L (?X_O ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_Q))
+			(?X_I (?X_O ((ADV-A (ON.P ?X_J)) SIT.V)))
+			(?X_F (?X_O ((ADV-A (FOR.P ?X_G)) LOOK.V)))
+			(?X_D (?X_O (FIND.V ?X_P)))
+			(?X_B (?X_O ((AWAY.ADV THROW.V) ?X_P)))
+			(?X_N (?X_O ((ADV-A (FROM.P ?X_Q)) CLIMB.4.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY241.SK ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE243.SK) ** E244.SK)
+		(:ROLES
+			(!R1 (BOY241.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE243.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE243.SK)))
+			(!R5 (TREE243.SK DESTINATION.N))
+			(!R6 (TREE243.SK TREE.N))
+			(!R7 (BOY241.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY241.SK (WANT.V (KA ((ADV-A (AT.P TREE243.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY241.SK (AT.P ?L1)))
+			(?I2 (NOT (BOY241.SK (AT.P TREE243.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY241.SK (AT.P ?L1))))
+			(?P2 (BOY241.SK (AT.P TREE243.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY241.SK ((ADV-A (FROM.P TREE243.SK)) CLIMB.4.V) ?L2) ** E260.SK)
+		(:ROLES
+			(!R1 (BOY241.SK AGENT.N))
+			(!R2 (TREE243.SK LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (TREE243.SK = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (TREE243.SK TREE.N))
+			(!R7 (BOY241.SK BOY.N))
+		)
+		(:GOALS
+			(?G1 (BOY241.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY241.SK (AT.P TREE243.SK)))
+			(?I2 (NOT (BOY241.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY241.SK (AT.P TREE243.SK))))
+			(?P2 (BOY241.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sally climbed a tree."
+	; "She sat on a branch."
+	; "She looked down."
+	; "A bird flew by."
+	(EPI-SCHEMA ((?X_K (CLIMB.V ?X_L)) ** ?E)
+		(:ROLES
+			(!R1 (?X_E BRANCH.N))
+			(!R2 (?X_L TREE.N))
+			(!R3 (?X_H BIRD.N))
+			(!R4 (?X_L DESTINATION.N))
+			(!R5 (?X_K AGENT.N))
+			(!R6 (?L2 DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_K ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_L))
+			(?X_D (?X_K ((ADV-A (ON.P ?X_E)) SIT.V)))
+			(?X_B (?X_K (DOWN.ADV LOOK.V)))
+			(?X_J (?X_H ((ADV-A (FROM.P ?L1)) FLY.12.V) ?L2))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SALLY.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE280.SK) **
+	             E281.SK)
+		(:ROLES
+			(!R1 (SALLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE280.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE280.SK)))
+			(!R5 (TREE280.SK DESTINATION.N))
+			(!R6 (TREE280.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (SALLY.NAME (WANT.V (KA ((ADV-A (AT.P TREE280.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SALLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (SALLY.NAME (AT.P TREE280.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SALLY.NAME (AT.P ?L1))))
+			(?P2 (SALLY.NAME (AT.P TREE280.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BIRD287.SK ((ADV-A (FROM.P ?L1)) FLY.12.V) ?L2) ** E289.SK)
+		(:ROLES
+			(!R1 (BIRD287.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (?L2 LOCATION.N))
+			(!R4 (NOT (?L1 = ?L2)))
+			(!R5 (?L2 DESTINATION.N))
+			(!R6 (BIRD287.SK BIRD.N))
+		)
+		(:GOALS
+			(?G1 (BIRD287.SK (WANT.V (KA ((ADV-A (AT.P ?L2)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BIRD287.SK (AT.P ?L1)))
+			(?I2 (NOT (BIRD287.SK (AT.P ?L2))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BIRD287.SK (AT.P ?L1))))
+			(?P2 (BIRD287.SK (AT.P ?L2)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Molly climbed a tree."
+	; "She climbed higher and higher."
+	; "She looked down from a high branch."
+	; "She could see far away."
+	(EPI-SCHEMA ((?X_H (((ADV-A (FROM.P ?X_I)) CLIMB.V) ?X_I)) ** ?E)
+		(:ROLES
+			(!R1 (?X_C HIGH.A))
+			(!R2 (?X_C BRANCH.N))
+			(!R3 (?X_I TREE.N))
+			(!R4 (?X_I DESTINATION.N))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+			(!R6 (?X_H AGENT.N))
+		)
+		(:STEPS
+			(E312.SK (?X_H (CAN.MD ((ADV (FAR.ADV AWAY.A)) SEE.V))))
+			(?X_E (?X_H ((ADV-A (FROM.P ?L1)) CLIMB.1.V) ?X_I))
+			(?X_G
+	   (?X_H ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	    (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))
+			(?X_B (?X_H ((ADV-A (FROM.P ?X_C)) (DOWN.ADV LOOK.V))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((MOLLY.NAME ((ADV-A (FROM.P ?L1)) CLIMB.1.V) TREE304.SK) **
+	             E305.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (TREE304.SK LOCATION.N))
+			(!R4 (NOT (?L1 = TREE304.SK)))
+			(!R5 (TREE304.SK DESTINATION.N))
+			(!R6 (TREE304.SK TREE.N))
+		)
+		(:GOALS
+			(?G1 (MOLLY.NAME (WANT.V (KA ((ADV-A (AT.P TREE304.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MOLLY.NAME (AT.P TREE304.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MOLLY.NAME (AT.P ?L1))))
+			(?P2 (MOLLY.NAME (AT.P TREE304.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((MOLLY.NAME ((ADV-A (FROM.P ?L1)) CLIMB.2.V)
+	              (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))
+	             ** E307.SK)
+		(:ROLES
+			(!R1 (MOLLY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) LOCATION.N))
+			(!R4 (NOT (?L1 = (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+			(!R5 ((K (L X (AND (X HIGHER.A) (X HIGHER.A)))) DESTINATION.N))
+		)
+		(:GOALS
+			(?G1
+	   (MOLLY.NAME
+	    (WANT.V
+	     (KA ((ADV-A (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (MOLLY.NAME (AT.P ?L1)))
+			(?I2 (NOT (MOLLY.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A))))))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (MOLLY.NAME (AT.P ?L1))))
+			(?P2 (MOLLY.NAME (AT.P (K (L X (AND (X HIGHER.A) (X HIGHER.A)))))))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	
+	(
+	; compo
+	; "Tom came home late from work."
+	; "He wanted to play basketball."
+	; "He played for an hour."
+	; "He went to bed."
+	(EPI-SCHEMA ((?X_J (PLAY.V ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_D HOUR.N))
+			(!R2 (?X_K BASKETBALL.N))
+			(!R3 (?X_I WORK.N))
+			(!R4 (?X_L HOME.N))
+			(!R5 (?X_L (PERTAIN-TO ?X_J)))
+			(!R6 (?X_M BED.N))
+			(!R7 (?X_L DESTINATION.N))
+			(!R8 (NOT (?X_I = ?X_L)))
+			(!R9 (?X_I LOCATION.N))
+			(!R10 (?X AGENT.N))
+			(!R11 (?X_J AGENT.N))
+			(!R12 (?X_M DESTINATION.N))
+		)
+		(:STEPS
+			(?X_A (?X_J ((ADV-A (FROM.P ?X_I)) COME.1.V) ?X_L))
+			(?X_F (?X_J (WANT.V (KA (PLAY.V ?X_K)))))
+			(?X_C (?X_J ((ADV-A (FOR.P ?X_D)) PLAY.V)))
+			(?E_1 (?X PLAY.2.V))
+			(?X_H (?X_J ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_M))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P WORK6.SK)) COME.1.V) HOME19.SK) ** E4.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (WORK6.SK LOCATION.N))
+			(!R3 (HOME19.SK LOCATION.N))
+			(!R4 (NOT (WORK6.SK = HOME19.SK)))
+			(!R5 (HOME19.SK DESTINATION.N))
+			(!R6 (HOME19.SK HOME.N))
+			(!R7 (HOME19.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (WORK6.SK WORK.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P HOME19.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P WORK6.SK)))
+			(?I2 (NOT (TOM.NAME (AT.P HOME19.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P WORK6.SK))))
+			(?P2 (TOM.NAME (AT.P HOME19.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((?X PLAY.2.V) ** ?E)
+		(:ROLES
+			(!R1 (?X AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASKETBALL10.SK GAME.N))
+			(!R5 (NOT (BASKETBALL10.SK AGENT.N)))
+			(!R6 (BASKETBALL10.SK BASKETBALL.N))
+		)
+		(:GOALS
+			(?G1 (?X (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (?X POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (?X EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) GO.3.V) BED17.SK) ** E15.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BED17.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BED17.SK)))
+			(!R5 (BED17.SK DESTINATION.N))
+			(!R6 (BED17.SK BED.N))
+			(!R7 (HOME19.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (HOME19.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P BED17.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P BED17.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P BED17.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Bill came home late."
+	; "His mom was mad at him."
+	; "She yelled at him."
+	; "He felt bad."
+	(EPI-SCHEMA ((?X_I (COMPOSITE-SCHEMA.PR ?X_J ?X_K)) ** ?E)
+		(:ROLES
+			(!R1 (?X_J BAD.A))
+			(!R2 (?X_E AGENT.N))
+			(!R3 (?X_I MOM.N))
+			(!R4 (?X_I ((ADV-A (AT.P ?X_E)) MAD.A)))
+			(!R5 (?X_I AGENT.N))
+			(!R6 (?X_I (PERTAIN-TO ?X_E)))
+			(!R7 (?X_H BILL.N))
+			(!R8 (?X_K HOME.N))
+			(!R9 (?X_K (PERTAIN-TO ?X_H)))
+			(!R10 (?X_H AGENT.N))
+			(!R11 (?X_K DESTINATION.N))
+		)
+		(:STEPS
+			(?X_G (?X_H ((ADV-A (FROM.P ?L1)) COME.4.V) ?X_K))
+			(?X_D (?X_I ((ADV-A (AT.P ?X_E)) YELL.V)))
+			(?X_B (?X_E (FEEL.V ?X_J)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BILL37.SK ((ADV-A (FROM.P ?L1)) COME.4.V) HOME45.SK) ** E35.SK)
+		(:ROLES
+			(!R1 (BILL37.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME45.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME45.SK)))
+			(!R5 (HOME45.SK DESTINATION.N))
+			(!R6 (HOME45.SK HOME.N))
+			(!R7 (HOME45.SK (PERTAIN-TO BILL37.SK)))
+			(!R8 (BILL37.SK BILL.N))
+		)
+		(:GOALS
+			(?G1 (BILL37.SK (WANT.V (KA ((ADV-A (AT.P HOME45.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BILL37.SK (AT.P ?L1)))
+			(?I2 (NOT (BILL37.SK (AT.P HOME45.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BILL37.SK (AT.P ?L1))))
+			(?P2 (BILL37.SK (AT.P HOME45.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Sammy came home late from work."
+	; "He had been working on a project."
+	; "He was tired."
+	; "He fell asleep on the couch."
+	(EPI-SCHEMA ((?X_J ((ADV-A (TO.P ?X_L)) ((ADV-A (FROM.P ?X_I)) COME.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_K ASLEEP.A))
+			(!R2 (?X_K (ON.P ?X_C)))
+			(!R3 (?X_F PROJECT.N))
+			(!R4 (?X_J TIRED.A))
+			(!R5 (?X_I WORK.N))
+			(!R6 (?X_L HOME.N))
+			(!R7 (?X_L (PERTAIN-TO ?X_J)))
+			(!R8 (?X_J AGENT.N))
+			(!R9 (?X_I LOCATION.N))
+			(!R10 (?X_L DESTINATION.N))
+			(!R11 (NOT (?X_I = ?X_L)))
+		)
+		(:STEPS
+			(?X_H (?X_J ((ADV-A (FROM.P ?X_I)) COME.1.V) ?X_L))
+			(?X_E (MUST.AUX-S (?X_J ((ADV-A (ON.P ?X_F)) WORK.V))))
+			(?X_B (?X_J (FALL.V ?X_K)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((SAMMY.NAME ((ADV-A (FROM.P WORK57.SK)) COME.1.V) HOME67.SK) **
+	             E55.SK)
+		(:ROLES
+			(!R1 (SAMMY.NAME AGENT.N))
+			(!R2 (WORK57.SK LOCATION.N))
+			(!R3 (HOME67.SK LOCATION.N))
+			(!R4 (NOT (WORK57.SK = HOME67.SK)))
+			(!R5 (HOME67.SK DESTINATION.N))
+			(!R6 (HOME67.SK HOME.N))
+			(!R7 (HOME67.SK (PERTAIN-TO SAMMY.NAME)))
+			(!R8 (SAMMY.NAME TIRED.A))
+			(!R9 (WORK57.SK WORK.N))
+		)
+		(:GOALS
+			(?G1 (SAMMY.NAME (WANT.V (KA ((ADV-A (AT.P HOME67.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (SAMMY.NAME (AT.P WORK57.SK)))
+			(?I2 (NOT (SAMMY.NAME (AT.P HOME67.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (SAMMY.NAME (AT.P WORK57.SK))))
+			(?P2 (SAMMY.NAME (AT.P HOME67.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Jenny came home late from work."
+	; "She was tired."
+	; "She went to bed early."
+	; "She woke up in the middle of the night."
+	; "She couldn't sleep."
+	; "She thought about her family."
+	; "She missed them."
+	; "She cried for a while."
+	; "She fell asleep again."
+	(EPI-SCHEMA (((ADV-E
+	               (L X
+	                (AND (X DURING) (X ASLEEP.A)
+	                     (X
+	                      (IN.P
+	                       (THE.D
+	                        (L X (AND (X MIDDLE.N) (X (OF.P (THE.D DAY.N)))))))))))
+	              (?X_Q FALL.V))
+	             ** ?E)
+		(:ROLES
+			(!R1 (?X_R FAMILY.N))
+			(!R2 ((ADV-E (DURING ?X_H)) (?X_I OF.P)))
+			(!R3 (?X_I MIDDLE.N))
+			(!R4 (?X_Q TIRED.A))
+			(!R5 (?X_R (PERTAIN-TO ?X_Q)))
+			(!R6 (?X_P WORK.N))
+			(!R7 (?X_T BED.N))
+			(!R8 (?X_S HOME.N))
+			(!R9 (?X_S (PERTAIN-TO ?X_Q)))
+			(!R10 (?X_S DESTINATION.N))
+			(!R11 (?X_P LOCATION.N))
+			(!R12 (NOT (?X_P = ?X_S)))
+			(!R13 (?X_T DESTINATION.N))
+			(!R14 (?X_Q AGENT.N))
+		)
+		(:STEPS
+			(E116.SK (NOT (?X_Q (CAN.MD SLEEP.V))))
+			(?X_K (?X_Q ((ADV-A (FROM.P ?X_P)) COME.1.V) ?X_S))
+			(?X_M (?X_Q ((ADV-A (FROM.P ?L1)) GO.3.V) ?X_T))
+			(?X_G (?X_Q ((ADV-A (IN.P ?X_I)) WAKE_UP.V)))
+			(?X_A (?X_Q ((ADV-A (ABOUT.P ?X_R)) THINK.V)))
+			(?X_E (?X_Q (MISS.V ?X_R)))
+			(?X_O (?X_Q CRY.5.V))
+			(?X_C (?X_Q ((ADV (ASLEEP.ADV AGAIN.A)) FALL.V)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((JENNY.NAME ((ADV-A (FROM.P WORK94.SK)) COME.1.V) HOME115.SK) **
+	             E92.SK)
+		(:ROLES
+			(!R1 (JENNY.NAME AGENT.N))
+			(!R2 (WORK94.SK LOCATION.N))
+			(!R3 (HOME115.SK LOCATION.N))
+			(!R4 (NOT (WORK94.SK = HOME115.SK)))
+			(!R5 (HOME115.SK DESTINATION.N))
+			(!R6 (HOME115.SK HOME.N))
+			(!R7 (HOME115.SK (PERTAIN-TO JENNY.NAME)))
+			(!R8 (JENNY.NAME TIRED.A))
+			(!R9 (WORK94.SK WORK.N))
+			(!R10 (FAMILY90.SK FAMILY.N))
+			(!R11 (FAMILY90.SK (PERTAIN-TO JENNY.NAME)))
+		)
+		(:GOALS
+			(?G1 (JENNY.NAME (WANT.V (KA ((ADV-A (AT.P HOME115.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JENNY.NAME (AT.P WORK94.SK)))
+			(?I2 (NOT (JENNY.NAME (AT.P HOME115.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JENNY.NAME (AT.P WORK94.SK))))
+			(?P2 (JENNY.NAME (AT.P HOME115.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JENNY.NAME ((ADV-A (FROM.P ?L1)) GO.3.V) BED100.SK) ** E98.SK)
+		(:ROLES
+			(!R1 (JENNY.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BED100.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BED100.SK)))
+			(!R5 (BED100.SK DESTINATION.N))
+			(!R6 (JENNY.NAME TIRED.A))
+			(!R7 (BED100.SK BED.N))
+			(!R8 (HOME115.SK (PERTAIN-TO JENNY.NAME)))
+			(!R9 (HOME115.SK HOME.N))
+			(!R10 (FAMILY90.SK FAMILY.N))
+			(!R11 (FAMILY90.SK (PERTAIN-TO JENNY.NAME)))
+		)
+		(:GOALS
+			(?G1 (JENNY.NAME (WANT.V (KA ((ADV-A (AT.P BED100.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (JENNY.NAME (AT.P ?L1)))
+			(?I2 (NOT (JENNY.NAME (AT.P BED100.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (JENNY.NAME (AT.P ?L1))))
+			(?P2 (JENNY.NAME (AT.P BED100.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((JENNY.NAME CRY.5.V) ** E111.SK)
+		(:ROLES
+			(!R1 (JENNY.NAME AGENT.N))
+			(!R2 (JENNY.NAME TIRED.A))
+			(!R3 (HOME115.SK (PERTAIN-TO JENNY.NAME)))
+			(!R4 (HOME115.SK HOME.N))
+			(!R5 (FAMILY90.SK FAMILY.N))
+			(!R6 (FAMILY90.SK (PERTAIN-TO JENNY.NAME)))
+		)
+		(:PRECONDS
+			(?I1 (JENNY.NAME SAD.A))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom came home late from work."
+	; "He was tired."
+	; "He ate dinner."
+	; "He watched TV."
+	; "He fell asleep on the couch."
+	(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_N)) ((ADV-A (FROM.P ?X_J)) COME.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_M ASLEEP.A))
+			(!R2 (?X_M (ON.P ?X_C)))
+			(!R3 (?X_L AGENT.N))
+			(!R4 (?X_K TIRED.A))
+			(!R5 (?X_J WORK.N))
+			(!R6 (?X_N HOME.N))
+			(!R7 (?X_N (PERTAIN-TO ?X_K)))
+			(!R8 (?X_O DINNER.N))
+			(!R9 (?X_N DESTINATION.N))
+			(!R10 (?X_J LOCATION.N))
+			(!R11 (NOT (?X_J = ?X_N)))
+			(!R12 (?X_K AGENT.N))
+		)
+		(:STEPS
+			(?X_G (?X_K ((ADV-A (FROM.P ?X_J)) COME.1.V) ?X_N))
+			(?X_I (?X_K EAT.6.V ?X_O))
+			(?X_E (?X_K (WATCH.V ?X_L)))
+			(?X_B (?X_K (FALL.V ?X_M)))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P WORK142.SK)) COME.1.V) HOME154.SK) **
+	             E140.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (WORK142.SK LOCATION.N))
+			(!R3 (HOME154.SK LOCATION.N))
+			(!R4 (NOT (WORK142.SK = HOME154.SK)))
+			(!R5 (HOME154.SK DESTINATION.N))
+			(!R6 (HOME154.SK HOME.N))
+			(!R7 (HOME154.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (TOM.NAME TIRED.A))
+			(!R9 (WORK142.SK WORK.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P HOME154.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P WORK142.SK)))
+			(?I2 (NOT (TOM.NAME (AT.P HOME154.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P WORK142.SK))))
+			(?P2 (TOM.NAME (AT.P HOME154.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME EAT.6.V DINNER148.SK) ** E146.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (DINNER148.SK FOOD.N))
+			(!R3 (TOM.NAME TIRED.A))
+			(!R4 (DINNER148.SK DINNER.N))
+			(!R5 (HOME154.SK (PERTAIN-TO TOM.NAME)))
+			(!R6 (HOME154.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (THAT (NOT (TOM.NAME HUNGRY.A))))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME POSSESS.V DINNER148.SK))
+			(?I2 (TOM.NAME HUNGRY.A))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (POSSESS.V DINNER148.SK))))
+			(?P2 (NOT (TOM.NAME HUNGRY.A)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "The bus came home late."
+	; "The kids were tired."
+	; "The bus driver told them to hurry up."
+	; "The kids ran home."
+	(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_I)) ((ADV-A (FROM.P ?X_I)) COME.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_H BUS.N))
+			(!R2 (?X_I HOME.N))
+			(!R3 (?X_I (PERTAIN-TO ?X_H)))
+			(!R4 (?X_G BUS.N))
+			(!R5 (?X_G DRIVER.N))
+			(!R6 (?X_J TIRED.A))
+			(!R7 (?X_J (PLUR KID.N)))
+			(!R8 (?X_K HOME.N))
+			(!R9 (?X_K (PERTAIN-TO ?X_J)))
+			(!R10 (?X_H AGENT.N))
+			(!R11 (?X_I DESTINATION.N))
+			(!R12 ((KA HURRY_UP.V) ACTION.N))
+			(!R13 (NOT (?X_G = ?X_J)))
+			(!R14 (?X_K DESTINATION.N))
+		)
+		(:STEPS
+			(?X_B (?X_H ((ADV-A (FROM.P ?L1)) COME.4.V) ?X_I))
+			(?X_D (?X_G TELL.8.V ?X_J (KA HURRY_UP.V)))
+			(?X_F (?X_J ((ADV-A (FROM.P ?L1)) RUN.9.V) ?X_K))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BILL177.SK ((ADV-A (FROM.P ?L1)) WALK.7.V) HOUSE184.SK) **
+	             E185.SK)
+		(:ROLES
+			(!R1 (BILL177.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOUSE184.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOUSE184.SK)))
+			(!R5 (HOUSE184.SK DESTINATION.N))
+			(!R6 (BILL177.SK BILL.N))
+			(!R7 (HOUSE184.SK HOUSE.N))
+		)
+		(:GOALS
+			(?G1 (BILL177.SK (WANT.V (KA ((ADV-A (AT.P HOUSE184.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BILL177.SK (AT.P ?L1)))
+			(?I2 (NOT (BILL177.SK (AT.P HOUSE184.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BILL177.SK (AT.P ?L1))))
+			(?P2 (BILL177.SK (AT.P HOUSE184.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BILL177.SK ((ADV-A (FROM.P ?L1)) GO.3.V) BED189.SK) ** E187.SK)
+		(:ROLES
+			(!R1 (BILL177.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (BED189.SK LOCATION.N))
+			(!R4 (NOT (?L1 = BED189.SK)))
+			(!R5 (BED189.SK DESTINATION.N))
+			(!R6 (BILL177.SK BILL.N))
+			(!R7 (BED189.SK BED.N))
+		)
+		(:GOALS
+			(?G1 (BILL177.SK (WANT.V (KA ((ADV-A (AT.P BED189.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BILL177.SK (AT.P ?L1)))
+			(?I2 (NOT (BILL177.SK (AT.P BED189.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BILL177.SK (AT.P ?L1))))
+			(?P2 (BILL177.SK (AT.P BED189.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BUS205.SK ((ADV-A (FROM.P ?L1)) COME.4.V) HOME222.SK) ** E207.SK)
+		(:ROLES
+			(!R1 (BUS205.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME222.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME222.SK)))
+			(!R5 (HOME222.SK DESTINATION.N))
+			(!R6 (HOME222.SK HOME.N))
+			(!R7 (HOME222.SK (PERTAIN-TO BUS205.SK)))
+			(!R8 (BUS205.SK BUS.N))
+		)
+		(:GOALS
+			(?G1 (BUS205.SK (WANT.V (KA ((ADV-A (AT.P HOME222.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BUS205.SK (AT.P ?L1)))
+			(?I2 (NOT (BUS205.SK (AT.P HOME222.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BUS205.SK (AT.P ?L1))))
+			(?P2 (BUS205.SK (AT.P HOME222.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BUS215.SK TELL.8.V KID211.SK (KA HURRY_UP.V)) ** E214.SK)
+		(:ROLES
+			(!R1 (BUS215.SK AGENT.N))
+			(!R2 (KID211.SK AGENT.N))
+			(!R3 ((KA HURRY_UP.V) ACTION.N))
+			(!R4 (NOT (BUS215.SK = KID211.SK)))
+			(!R5 (KID211.SK TIRED.A))
+			(!R6 (KID211.SK (PLUR KID.N)))
+			(!R7 (BUS215.SK BUS.N))
+			(!R8 (BUS215.SK DRIVER.N))
+			(!R9 (HOME224.SK (PERTAIN-TO KID211.SK)))
+			(!R10 (HOME224.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (BUS215.SK (WANT.V KID211.SK (KA HURRY_UP.V))))
+			(?G2 (BUS215.SK (WANT.V (THAT (KID211.SK HURRY_UP.V)))))
+		)
+		(:STEPS
+			(?E1 (BUS215.SK (ASK.V KID211.SK (KA HURRY_UP.V))))
+			(?E2 (KID211.SK HURRY_UP.V))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R2 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N4 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((KID211.SK ((ADV-A (FROM.P ?L1)) RUN.9.V) HOME224.SK) ** E219.SK)
+		(:ROLES
+			(!R1 (KID211.SK AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOME224.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOME224.SK)))
+			(!R5 (HOME224.SK DESTINATION.N))
+			(!R6 (KID211.SK TIRED.A))
+			(!R7 (KID211.SK (PLUR KID.N)))
+			(!R8 (HOME224.SK (PERTAIN-TO KID211.SK)))
+			(!R9 (HOME224.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (KID211.SK (WANT.V (KA ((ADV-A (AT.P HOME224.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (KID211.SK (AT.P ?L1)))
+			(?I2 (NOT (KID211.SK (AT.P HOME224.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (KID211.SK (AT.P ?L1))))
+			(?P2 (KID211.SK (AT.P HOME224.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "Tom came home from work."
+	; "He was tired."
+	; "He walked into the house."
+	; "He sat down on the couch."
+	(EPI-SCHEMA ((?X_K ((ADV-A (TO.P ?X_J)) ((ADV-A (FROM.P ?X_H)) COME.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_C COUCH.N))
+			(!R2 (?X_I TIRED.A))
+			(!R3 (?X_H WORK.N))
+			(!R4 (?X_J HOME.N))
+			(!R5 (?X_J (PERTAIN-TO ?X_I)))
+			(!R6 (?X_K HOUSE.N))
+			(!R7 (?X_J DESTINATION.N))
+			(!R8 (?X_H LOCATION.N))
+			(!R9 (NOT (?X_H = ?X_J)))
+			(!R10 (?X_I AGENT.N))
+			(!R11 (?X_K DESTINATION.N))
+		)
+		(:STEPS
+			(?X_E (?X_I ((ADV-A (FROM.P ?X_H)) COME.1.V) ?X_J))
+			(?X_G (?X_I ((ADV-A (FROM.P ?L1)) WALK.7.V) ?X_K))
+			(?X_B (?X_I (DOWN.ADV ((ADV-A (ON.P ?X_C)) SIT.V))))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P WORK240.SK)) COME.1.V) HOME250.SK) **
+	             E238.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (WORK240.SK LOCATION.N))
+			(!R3 (HOME250.SK LOCATION.N))
+			(!R4 (NOT (WORK240.SK = HOME250.SK)))
+			(!R5 (HOME250.SK DESTINATION.N))
+			(!R6 (HOME250.SK HOME.N))
+			(!R7 (HOME250.SK (PERTAIN-TO TOM.NAME)))
+			(!R8 (TOM.NAME TIRED.A))
+			(!R9 (WORK240.SK WORK.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P HOME250.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P WORK240.SK)))
+			(?I2 (NOT (TOM.NAME (AT.P HOME250.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P WORK240.SK))))
+			(?P2 (TOM.NAME (AT.P HOME250.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((TOM.NAME ((ADV-A (FROM.P ?L1)) WALK.7.V) HOUSE244.SK) ** E245.SK)
+		(:ROLES
+			(!R1 (TOM.NAME AGENT.N))
+			(!R2 (?L1 LOCATION.N))
+			(!R3 (HOUSE244.SK LOCATION.N))
+			(!R4 (NOT (?L1 = HOUSE244.SK)))
+			(!R5 (HOUSE244.SK DESTINATION.N))
+			(!R6 (TOM.NAME TIRED.A))
+			(!R7 (HOUSE244.SK HOUSE.N))
+			(!R8 (HOME250.SK (PERTAIN-TO TOM.NAME)))
+			(!R9 (HOME250.SK HOME.N))
+		)
+		(:GOALS
+			(?G1 (TOM.NAME (WANT.V (KA ((ADV-A (AT.P HOUSE244.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (TOM.NAME (AT.P ?L1)))
+			(?I2 (NOT (TOM.NAME (AT.P HOUSE244.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (TOM.NAME (AT.P ?L1))))
+			(?P2 (TOM.NAME (AT.P HOUSE244.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
+	
+	(
+	; compo
+	; "A boy came home late from school."
+	; "His parents were mad at him."
+	; "He told them that he had been playing baseball."
+	(EPI-SCHEMA ((?X_I ((ADV-A (TO.P ?X_I)) ((ADV-A (FROM.P ?X_G)) COME.V))) ** ?E)
+		(:ROLES
+			(!R1 (?X_G SCHOOL.N))
+			(!R2 (?X_I HOME.N))
+			(!R3 (?X_F (PLUR PARENT.N)))
+			(!R4 (?X_E BASEBALL.N))
+			(!R5 (?X_H BOY.N))
+			(!R6 (?X_I (PERTAIN-TO ?X_H)))
+			(!R7 (?X_F (PERTAIN-TO ?X_H)))
+			(!R8 (?X_F ((ADV-A (AT.P ?X_H)) MAD.A)))
+			(!R9 (?X_I DESTINATION.N))
+			(!R10 (?X_G LOCATION.N))
+			(!R11 (NOT (?X_G = ?X_I)))
+		)
+		(:STEPS
+			(?X_B (?X_H ((ADV-A (FROM.P ?X_G)) COME.1.V) ?X_I))
+			(?X_D (?X_H TELL.10.V))
+		)
+	)
+	; protos
+	(
+	(EPI-SCHEMA ((BOY269.SK ((ADV-A (FROM.P SCHOOL273.SK)) COME.1.V) HOME282.SK) **
+	             E271.SK)
+		(:ROLES
+			(!R1 (BOY269.SK AGENT.N))
+			(!R2 (SCHOOL273.SK LOCATION.N))
+			(!R3 (HOME282.SK LOCATION.N))
+			(!R4 (NOT (SCHOOL273.SK = HOME282.SK)))
+			(!R5 (HOME282.SK DESTINATION.N))
+			(!R6 (HOME282.SK HOME.N))
+			(!R7 (HOME282.SK (PERTAIN-TO BOY269.SK)))
+			(!R8 (BOY269.SK BOY.N))
+			(!R9 (SCHOOL273.SK SCHOOL.N))
+			(!R10 (PARENTS268.SK (PLUR PARENT.N)))
+			(!R11 (PARENTS268.SK (PERTAIN-TO BOY269.SK)))
+			(!R12 (PARENTS268.SK ((ADV-A (AT.P BOY269.SK)) MAD.A)))
+		)
+		(:GOALS
+			(?G1 (BOY269.SK (WANT.V (KA ((ADV-A (AT.P HOME282.SK)) BE.V)))))
+		)
+		(:PRECONDS
+			(?I1 (BOY269.SK (AT.P SCHOOL273.SK)))
+			(?I2 (NOT (BOY269.SK (AT.P HOME282.SK))))
+		)
+		(:POSTCONDS
+			(?P1 (NOT (BOY269.SK (AT.P SCHOOL273.SK))))
+			(?P2 (BOY269.SK (AT.P HOME282.SK)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R4 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	(EPI-SCHEMA ((BOY269.SK TELL.10.V) ** E278.SK)
+		(:ROLES
+			(!R1 (BOY269.SK AGENT.N))
+			(!R2 (?T TOY.N))
+			(!R3 (NOT (?T AGENT.N)))
+			(!R4 (BASEBALL280.SK GAME.N))
+			(!R5 (NOT (BASEBALL280.SK AGENT.N)))
+			(!R6 (BOY269.SK BOY.N))
+			(!R7 (BASEBALL280.SK BASEBALL.N))
+			(!R8 (HOME282.SK (PERTAIN-TO BOY269.SK)))
+			(!R9 (HOME282.SK HOME.N))
+			(!R10 (PARENTS268.SK (PLUR PARENT.N)))
+			(!R11 (PARENTS268.SK (PERTAIN-TO BOY269.SK)))
+			(!R12 (PARENTS268.SK ((ADV-A (AT.P BOY269.SK)) MAD.A)))
+		)
+		(:GOALS
+			(?G1 (BOY269.SK (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		)
+		(:PRECONDS
+			(?I1 (BOY269.SK POSSESS.V ?T))
+		)
+		(:POSTCONDS
+			(?P1 (BOY269.SK EXPERIENCE.V (K PLEASURE.N)))
+		)
+		(:NECESSITIES
+			(!N1 (!R1 NECESSARY-TO-DEGREE 1.0))
+			(!N2 (!R3 NECESSARY-TO-DEGREE 1.0))
+			(!N3 (!R5 NECESSARY-TO-DEGREE 1.0))
+		)
+	)
+	)
+	)
 ))

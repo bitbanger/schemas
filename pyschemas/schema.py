@@ -44,8 +44,11 @@ class Schema:
 		self.header_episode = s_expr[1][2]
 
 		self.sections = list()
+		self.sections_by_name = dict()
 		for section in s_expr[2:]:
-			self.sections.append(Section(section))
+			sec = Section(section)
+			self.sections.append(sec)
+			self.sections_by_name[sec.name.lower()] = sec
 
 	def __str__(self):
 		buf = []

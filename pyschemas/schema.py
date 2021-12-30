@@ -50,6 +50,9 @@ class Schema:
 			self.sections.append(sec)
 			self.sections_by_name[sec.name.lower()] = sec
 
+	def get_section(self, sec_name):
+		return self.sections_by_name[sec_name.lower()]
+
 	def __str__(self):
 		buf = []
 

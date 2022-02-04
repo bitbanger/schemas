@@ -276,7 +276,10 @@
 			; Add the verbalization
 			(if (equal (section-name sec) ':Steps)
 				(setf buf (append buf (list
-					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>" (nth i verbal-steps))))))
+					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
+						; (gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
+						(nth i verbal-steps)
+					)))))
 
 			; Start the step div
 			(setf buf (append buf (list "<div class='step'>")))
@@ -327,10 +330,14 @@
 (ldefun ngram-webpage-html (ngrams)
 	(format nil *SCHEMA-WEBPAGE-TEMPLATE*
 		(join-str-list *NEWLINE-STR* (list
+		"<div style='display: flex; justify-content: center; margin-bottom: 10px;'><div style='display: inline; font-size: 24px; border: 2px solid black; border-radius: 3px; background: #DDDDDD; padding: 5px;'>Click on any n-gram to view its contained schemas!</div></div>"
 		"<div style='display: flex; justify-content: space-between; flex-wrap: wrap;'>"
 		(join-str-list "<br /><br />"
+			(loop for i from 1 to (max-all (mapcar (lambda (x) (length (caar x))) ngrams)) append (append
+			(list (format nil "<div style='display: flex; justify-content: center; margin-bottom: 10px;'><div style='display: inline; font-size: 24px; border: 2px solid black; border-radius: 3px; background: #DDDDDD; padding: 5px;'>~d-grams</div></div>" i))
 			(loop for ng in ngrams
-				collect (ngram-html (caar ng) (second ng) (third ng))))
+				if (equal (length (caar ng)) i)
+					collect (ngram-html (caar ng) (second ng) (third ng))))))
 		"</div>")))
 )
 

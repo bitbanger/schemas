@@ -1,0 +1,15 @@
+To run the code in Lisp,
+
+(load "init.lisp")
+
+To verbalize a schema, suppose you have made the schema the value of some
+variable, say 'SCHEMA'. Decide on a name of the verbalized version,
+say 'SCHEMA-IN-WORDS'. Then do
+
+(v 'schema-in-words schema)
+
+If the output is partially abbreviated by the standard-out printing, use
+
+(show schema-in-words)
+
+_________________________________________________________________

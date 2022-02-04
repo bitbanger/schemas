@@ -13,7 +13,7 @@ def strip_ep_rels(schema):
 
 	return '\n'.join(lines)
 
-def extract_compos(lines, include_protos=False):
+def extract_compos(lines, include_protos=False, as_list=False):
 	schema_proto_pairs = []
 
 	protos = []
@@ -79,7 +79,10 @@ def extract_compos(lines, include_protos=False):
 			return_str_buf.append(strip_ep_rels(schema))
 			return_str_buf.append('')
 
-	return '\n'.join(return_str_buf)
+	if as_list:
+		return schemas
+	else:
+		return '\n'.join(return_str_buf)
 
 def strip_ending_newlines(lines):
 	return [line[:-1] if (len(line) > 0 and line[-1] == '\n') else line for line in lines]

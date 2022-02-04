@@ -6,7 +6,7 @@
 (ll-load-superdir "new-ulf-parser.lisp")
 (ll-load-superdir "schema-ngrams.lisp")
 
-(ll-load "interesting-nesl-compos.lisp")
+(ll-load "nesl-compos.lisp")
 
 (if (< (length sb-ext:*posix-argv*) 2)
 	(progn
@@ -24,10 +24,18 @@
 ;(if (not (equal last-char "/"))
 	;(setf path (concat-strs path "/")))
 
-(setf ngram-to-schema-map (extract-ngrams (shuffle *NESL-COMPOS*) 2 1 nil t))
+(setf *NESL-COMPOS* (loop for s in (mapcar #'car *NESL-COMPOS-AND-PROTOS*) if (not (null s)) collect s))
+
+(setf ngram-to-schema-map (counts-to-hash-table (un-abstract-ngrams (extract-ngrams (shuffle *NESL-COMPOS*) 2 1 nil nil t))))
+(setf all-basic-ngram-to-schema-map (extract-ngrams (shuffle *NESL-COMPOS*) 2 1 nil t t))
 
 (setf idx-prop-to-ngram-map (make-hash-table :test #'equal))
 (loop for ngram being the hash-keys of ngram-to-schema-map
+	do (loop for idx-step in ngram
+		do (setf (gethash idx-step idx-prop-to-ngram-map)
+			(dedupe (append (gethash idx-step idx-prop-to-ngram-map)
+				(list ngram))))))
+(loop for ngram being the hash-keys of all-basic-ngram-to-schema-map
 	do (loop for idx-step in ngram
 		do (setf (gethash idx-step idx-prop-to-ngram-map)
 			(dedupe (append (gethash idx-step idx-prop-to-ngram-map)
@@ -58,7 +66,7 @@
 				collect phi)))
 
 	(return-from outer (loop for charstar in charstars
-		collect (list charstar (mk-index-prop (car charstar) nonfluents))))
+		collect (list charstar (mk-index-prop (car charstar) (story-select-term-constraints parsed-story (prop-all-args charstar)) t))))
 )
 )
 

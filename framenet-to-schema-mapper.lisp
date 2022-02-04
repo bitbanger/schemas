@@ -15,15 +15,15 @@
 
 (defparameter *MAPPING-RULES* '(
 	(self_motion * -> travel.v
-		(?x
+		((?x self_mover)
 			pre-arg
 			self_mover
 		)
-		(?l1
+		((?l1 source)
 			(adv from.p)
 			(source (if not event))
 		)
-		(?l2
+		((?l2 goal)
 			(adv to.p)
 			(post-arg (1 of any))
 			(goal (if not event))
@@ -31,16 +31,16 @@
 	)
 
 	(motion * -> travel.v
-		(?x
+		((?x theme)
 			pre-arg
 			(theme (if not event))
 		)
-		(?l1
+		((?l1 source)
 			(adv from.p)
 			(source (if not event))
 			path
 		)
-		(?l2
+		((?l2 goal)
 			(adv to.p)
 			(goal (if not event))
 			path
@@ -48,89 +48,89 @@
 	)
 
 	(bringing * -> transport_object.v
-		(?x
+		((?x agent)
 			pre-arg
 			agent
 		)
-		(?o
+		((?o theme)
 			(post-arg (1 of any))
 			theme
 		)
-		(?l1
+		((?l1 source)
 			(adv from.p)
 			(source (if not event))
 		)
-		(?l2
+		((?l2 goal)
 			(adv to.p)
 			(goal (if not event))
 		)
 	)
 
 	(experiencer_focus * -> enjoy_action.v
-		(?x
+		((?x experiencer)
 			pre-arg
 			experiencer
 		)
 
 
-		(?a required
+		((?a content) required
 			(post-arg (1 of 1) (if event))
 			(content (if event))
 		)
 	)
 
 	(experiencer_focus * -> like.v
-		(?x
+		((?x experiencer)
 			pre-arg
 			experiencer
 		)
 
 
-		(?o
+		((?o content)
 			(post-arg (1 of 1) (if not event))
 			(content (if not event))
 		)
 	)
 
 	(ingestion * -> eat.v
-		(?x
+		((?x ingestor)
 			pre-arg
 			ingestor
 		)
-		(?f
+		((?f ingestibles)
 			(post-arg (1 of any))
 			ingestibles
 		)
 	)
 
 	(seeking * -> search.v
-		(?x
+		((?x cognizer_agent)
 			pre-arg
 			cognizer_agent
 		)
-		(?o
+		((?o sought_entity)
 			(adv for.p)
 			sought_entity
 		)
 	)
 
 	(losing * -> lose.v
-		(?x
+		((?x owner)
 			pre-arg
 			owner
 		)
-		(?o
+		((?o possession)
 			(post-arg (1 of any))
 			possession
 		)
 	)
 
 	(locating * -> find.v
-		(?x
+		((?x perceiver)
 			pre-arg
 			perceiver
 		)
-		(?o
+		((?o sought_entity)
 			(post-arg (1 of 1))
 			(post-arg (2 of 2))
 			sought_entity
@@ -138,44 +138,44 @@
 	)
 
 	(have_associated * -> possess.v
-		(?x
+		((?x topical_entity)
 			pre-arg
 			topical_entity
 		)
-		(?o
+		((?o entity)
 			(post-arg (1 of 1))
 			entity
 		)
 	)
 
 	(possession * -> possess.v
-		(?x
+		((?x owner)
 			pre-arg
 			(owner (if not event))
 		)
-		(?o
+		((?o possession)
 			(post-arg (1 of 1))
 			(possession (if not event))
 		)
 	)
 
 	(retaining * -> possess.v
-		(?x
+		((?x agent)
 			pre-arg
 			agent
 		)
-		(?o
+		((?o theme)
 			(post-arg (1 of 1))
 			(theme (if not event))
 		)
 	)
 
 	(grooming * -> clean.v
-		(?x
+		((?x agent)
 			pre-arg
 			agent
 		)
-		(?y
+		((?y patient)
 			(post-arg (1 of 1))
 			(body_part (if not event))
 			(patient (if not event))
@@ -183,109 +183,110 @@
 	)
 
 	(activity_stop * -> stop_activity.v
-		(?x
+		((?x agent)
 			pre-arg
 			(agent (if not event))
 		)
-		(?a
+		((?a activity)
 			(post-arg (1 of any) (if event))
 			(activity (if event))
 		)
 	)
 
 	(perception_experience * -> witness.v
-		(?x
+		((?x perceiver_passive)
 			pre-arg
 			(perceiver_passive (if not event))
 		)
-		(?h required
+		((?h phenomenon) required
 			(post-arg (1 of any) (if event))
 			(phenomenon (if event))
 		)
 	)
 
 	(perception_experience * -> see.v
-		(?x
+		((?x perceiver_passive)
 			pre-arg
 			(perceiver_passive (if not event))
 		)
-		(?y
+		((?y phenomenon)
 			(post-arg (1 of any) (if not event))
 			(phenomenon (if not event))
 		)
 	)
 
 	(wearing * -> wear.v
-		(?x
+		((?x wearer)
 			pre-arg
 			(wearer (if not event))
 		)
-		(?o
+		((?o clothing)
 			(post-arg (1 of any))
 			(clothing (if not event))
 		)
 	)
 
 	(hiding_objects * -> hide.v
-		(?x
+		((?x agent)
 			pre-arg
 			(agent (if not event))
 		)
-		(?y
+		((?y hidden_object)
 			(post-arg (1 of any))
 			pre-arg ; if no post args available
+			hidden_object
 		)
-		(?f
+		((?f potential_observer)
 			(adv from.p)
 			(potential_observer (if not event))
 		)
-		(?l
+		((?l hiding_place)
 			(adv in.p)
 			(hiding_place (if not event))
 		)
 	)
 
 	(placing * -> place.v
-		(?x
+		((?x agent)
 			pre-arg
 			(agent (if not event))
 		)
-		(?y
+		((?y theme)
 			(post-arg (1 of any))
 			(theme (if not event))
 		)
-		(?l
+		((?l goal)
 			(adv in.p)
 			(goal (if not event))
 		)
 	)
 
 	(attempt_suasion * -> request_action.v
-		(?x
+		((?x speaker)
 			pre-arg
 			speaker
 		)
-		(?y
+		((?y addressee)
 			addressee
 			(post-arg (1 of 2))
 		)
-		(?a
+		((?a content)
 			(content (if event))
 			(adv for.p (if event))
 		)
 	)
 
 	(request * -> request_action.v
-		(?x
+		((?x speaker)
 			pre-arg
 			(speaker (if not event))
 		)
-		(?y
+		((?y addressee)
 			(post-arg (1 of any) (if not event))
 			(post-arg (2 of 2) (if not event))
 			(addressee (if not event))
 		)
-		(?a
+		((?a message)
 			(post-arg (2 of 2) (if event))
 			(post-arg (1 of any) (if event))
 			(message (if event))
@@ -294,15 +295,15 @@
 	)
 
 	(departing * -> travel.v
-		(?x
+		((?x theme)
 			pre-arg
 			(theme (if not event))
 		)
-		(?l1
+		((?l1 source)
 			(adv from.p)
 			(source (if not event))
 		)
-		(?l2
+		((?l2 goal)
 			(adv to.p)
 			(goal (if not event))
 			(journey (if not event))
@@ -310,31 +311,31 @@
 	)
 
 	(arriving * -> travel.v
-		(?x
+		((?x theme)
 			pre-arg
 			(theme (if not event))
 		)
-		(?l1
+		((?l1 source)
 			(adv from.p)
 			(source (if not event))
 		)
-		(?l2
+		((?l2 goal)
 			(adv to.p)
 			(goal (if not event))
 		)
 	)
 
 	(giving * -> give.v
-		(?x
+		((?x donor)
 			pre-arg
 			(donor (if not event))
 		)
-		(?y
+		((?y recipient)
 			(adv to.p)
 			(post-arg (1 of 2))
 			(recipient (if not event))
 		)
-		(?o
+		((?o theme)
 			(post-arg (1 of 1))
 			(post-arg (2 of 2))
 			(theme (if not event))
@@ -342,21 +343,21 @@
 	)
 
 	(residence * -> reside.v
-		(?x
+		((?x resident)
 			pre-arg
 			(resident (if not event))
 		)
-		(?l
+		((?l location)
 			(location (if not event))
 		)
 	)
 
 	(earnings_and_losses lose.v -> lose.v
-		(?x
+		((?x earner)
 			pre-arg
 			earner
 		)
-		(?o
+		((?o earnings)
 			(post-arg (1 of 1))
 			(post-arg (2 of 2))
 			earnings
@@ -364,77 +365,79 @@
 	)
 
 	(cause_to_fragment * -> damage.v
-		(?x
+		((?x agent)
 			pre-arg
 			agent
 		)
-		(?y
+		((?y whole_patient)
 			(post-arg (1 of 1))
 			whole_patient
 		)
 	)
 
 	(competition * -> play.v
-		(?x
+		((?x participant_1)
 			pre-arg
 			participant_1
 		)
-		(?g
+		((?g competition)
 			(post-arg (1 of 1))
 			competition
 		)
 	)
 
 	(communication_noise cry.v -> cry.v
-		(?x
+		((?x speaker)
 			pre-arg
 			speaker
 		)
 	)
 
 	(cotheme * -> follow.v
-		(?x
+		((?x theme)
 			pre-arg
 			theme
 		)
-		(?y
+		((?y cotheme)
 			(post-arg (1 of 1))
 			cotheme
 		)
-		(?l1
+		((?l1 source)
 			(adv from.p)
 			(adv out_of.p)
+			source
 		)
-		(?l2
+		((?l2 goal)
 			(adv to.p)
 			(adv into.p)
 			(adv toward.p)
+			goal
 		)
 	)
 
 	(make_noise * -> make_noise.v
-		(?x
+		((?x sound_source)
 			pre-arg
 			sound_source
 		)
-		(?n
+		((?n sound)
 			sound
 		)
 	)
 
 	(operate_vehicle * -> ride.v
-		(?x
+		((?x driver)
 			pre-arg
 			driver
 		)
-		(?v
+		((?v vehicle)
 			vehicle
 		)
-		(?l1
+		((?l1 source)
 			(adv from.p)
 			source
 		)
-		(?l2
+		((?l2 goal)
 			(adv to.p)
 			goal
 		)
@@ -479,7 +482,23 @@
 )
 )
 
-(ldefun frame-to-schema (frame el-story)
+(ldefun rule-var (rule)
+	(if (listp (car rule))
+		; then
+		(caar rule)
+		; else
+		(car rule))
+)
+
+(ldefun rule-fn-role (rule)
+	(if (listp (car rule))
+		; then
+		(second (car rule))
+		; else
+		nil)
+)
+
+(ldefun frame-to-schema (frame el-story &optional use-protos)
 (block outer
 	(setf invoker-ep nil)
 	(setf invoker (third (car frame)))
@@ -504,6 +523,16 @@
 			(setf (gethash '?e bindings) invoker-ep))
 
 		(setf schema (eval schema-name))
+
+		(setf blank-header (list))
+		(setf blank-roles (list))
+		; (format t "rule here is ~s~%" rule)
+		(loop for arg in (rule-args rule)
+			; do (format t "got ~s with mapped ~s~%" (car arg) (gethash (rule-var arg) bindings)))
+			if (not (null (gethash (rule-var arg) bindings)))
+				do (setf blank-roles (append blank-roles (list (list (gethash (rule-var arg) bindings) (intern (format nil "~a-~a.N" (second (car frame)) (rule-fn-role arg)))))))
+			if (not (null (gethash (rule-var arg) bindings)))
+				do (setf blank-header (append blank-header (list (gethash (rule-var arg) bindings)))))
 
 		; Fix the witness.v schema with our special
 		; case function, if we generated it.
@@ -530,9 +559,25 @@
 			(setf schema (replace-vals old-header new-header schema))
 		))
 
-		(setf registered-schema-pair (create-from-match
-			(apply-bindings schema bindings)
-			t))
+		(setf blank-header (append
+			(list (car blank-header)
+				(intern (format nil "~a-~a" (second (car frame)) new-verb)))
+			(cdr blank-header)))
+
+		(setf blank-schema *BLANK-SCHEMA*)
+		(setf blank-schema (replace-vals '(?x blank.v) blank-header blank-schema))
+		(loop for rc in blank-roles
+			do (setf blank-schema (add-role-constraint blank-schema rc)))
+
+		(setf registered-schema-pair nil)
+		(if (null use-protos)
+			; then
+			(setf registered-schema-pair (create-from-match blank-schema t))
+			; else
+			(setf registered-schema-pair (create-from-match
+				(apply-bindings schema bindings)
+				t))
+		)
 
 		(setf reg-schema-name (car registered-schema-pair))
 		(setf reg-schema-bindings (second registered-schema-pair))
@@ -556,7 +601,7 @@
 
 	(setf req-vars (required-vars rule))
 
-	(loop for var in (mapcar #'car (rule-args rule))
+	(loop for var in (mapcar #'rule-var (rule-args rule))
 		do (let ((mapping (map-frame-var-rule frame var rule)))
 			(if (not (null mapping))
 				(setf (gethash var bindings)
@@ -601,8 +646,10 @@
 		(return-from outer nil))
 
 	(setf our-rule (car (loop for var-rule in (rule-args rule)
-		if (equal (car var-rule) var)
+		if (equal (rule-var var-rule) var)
 			collect var-rule)))
+
+	(setf rule-role (rule-fn-role our-rule))
 
 	(setf is-req (equal (second our-rule) 'REQUIRED))
 	(setf options (cdr our-rule))
@@ -716,6 +763,7 @@
 				(setf cand (list 'IND cand)))
 
 			; If we're here, add it to the final option list.
+			; (format t "cand ~s mapped to FN role ~s~%" cand rule-role)
 			(setf final-option-cands (append final-option-cands (list cand)))
 		))
 

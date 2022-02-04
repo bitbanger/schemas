@@ -1543,7 +1543,8 @@ is replaced with replacement."
 			:wait nil))
 		(s (sb-ext:process-input p)))
 			(progn
-				(format s inp)
+				(if (not (null inp))
+					(format s inp))
 				(finish-output s)
 				(close s)
 				(return-from outer (loop for line = (read-line (sb-ext:process-output p) nil)
@@ -1619,5 +1620,21 @@ is replaced with replacement."
 				(+ 1 (gethash e freqs))))
 
 	(return-from outer freqs)
+)
+)
+
+(ldefun all-permutations (lst)
+(cond
+	((<= (length lst) 1)
+		(list lst))
+	(t (loop for i from 0 to (- (length lst) 1)
+		; collect (append (list (nth i lst))
+		append (loop for perm in 
+			(all-permutations
+				(append
+					(subseq-safe lst 0 i)
+					(subseq-safe lst (+ i 1) (length lst))))
+		collect (append (list (nth i lst)) (if (listp perm) perm (list perm)))
+	)))
 )
 )

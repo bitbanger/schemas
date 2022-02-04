@@ -1,5 +1,3 @@
-(load "schema-el-lex.lisp")
-(load "ll-util.lisp")
 ; Oct 3/21 Copied from 
 ; ~schubert/lawley/research/stories-converted-to-schemas-oct03-21-my-tt-speculations
 ; There are more examples in
@@ -66,12 +64,6 @@
                  *role-names*))
   (setq *role-names* (reverse *role-names*))
 ; **
-
-(defun gpt-reverbalize (verbalized-sent)
-	(car (run-proc-with-stdin "/home/lane/miniconda3/bin/python"
-		(list "/home/lane/Code/schemas/gpt-reverbalizer.py" verbalized-sent)
-		nil))
-)
 
 (defun verbalize-schema (schema)
 ;``````````````````````````````
@@ -1149,7 +1141,7 @@
  )); end of mark-verb-number 
 
 
-(defun update-and-return-descr (term term-ht &optional stack)
+(defun update-and-return-descr (term term-ht)
 ;````````````````````````````````````````````
 ; term:  an atomic term, e.g., ?X, or VIOLINIST104.SK, YEHUDI.NAME, ...
 ;        the function is called only if term already has an entry for 
@@ -1180,14 +1172,13 @@
       (setq same-type-terms (gethash (cdr descr) term-ht)); omit determiner;
                                                      ; NB: embedded terms
                                                      ; like ?y need to match
-      (cond ((lex-name? term) (list term))
-		((null (gethash `(mentioned ,term) term-ht)); discourse-new?
+      (cond ((null (gethash `(mentioned ,term) term-ht)); discourse-new?
 ;            (format t "~%#### update-and-return-descr: ~s unmentioned" term); DEBUG
              (setf (gethash `(mentioned ,term) term-ht) T)
              (cond ((null same-type-terms); no prev. entity of this type?
                     (push term (gethash (cdr descr) term-ht)); omit determiner
                     ; recursive description completion
-                    (fully-expand-descr descr term-ht stack))
+                    (fully-expand-descr descr term-ht))
                    (t (setq n (length same-type-terms));
                       ; we use determiners like 'a_second, 'a_third',...,
                       ; depending on the n previous uses of the descriptor;
@@ -1202,7 +1193,7 @@
                            (t (car descr)))); give up counting after 3 more
                       (setq descr (cons det (cdr descr)))
                       (setf (gethash `(descr ,term) term-ht) descr)
-                      (fully-expand-descr descr term-ht stack))))
+                      (fully-expand-descr descr term-ht))))
             ((find (car descr); if previously mentioned but not rementioned,
                               ; change indefinite determiner to definite
                   '(a an some some_additional a_second a_third a_fourth))  
@@ -1218,14 +1209,14 @@
              (setq descr (cons det (cdr descr)))
 ;            (format t "~%#### update-and-return-descr: new descr = ~s" descr); DEBUG
              (setf (gethash `(descr ,term) term-ht) descr)
-             (fully-expand-descr descr term-ht stack))
+             (fully-expand-descr descr term-ht))
 
             ; previously mentioned & rementioned (so, already definite)
-            (t (fully-expand-descr descr term-ht stack)))
+            (t (fully-expand-descr descr term-ht)))
  )); end of update-and-return-descr
 
 
-(defun fully-expand-descr (descr term-ht &optional stack)
+(defun fully-expand-descr (descr term-ht)
 ; ``````````````````````````````````````````
 ; descr: e.g., (a person); (a friend of ?y); (the friend of Bob.name)
 ;
@@ -1234,17 +1225,14 @@
 ; E.g., obtain (a friend of the customer); (the friend of the person_named_Bob)
 ; 
  (let (term-descr)
-      (cond
-	((not (equal (length stack) (length (remove-duplicates stack :test #'equal))))
-		(list descr)) ; We're caught in an expansion loop, so terminate here
-	((and (atom descr)
+      (cond ((and (atom descr) 
                   (setq term-descr (gethash `(descr ,descr) term-ht)))
 ;            (format t "~%#### fully-expand-descr: descr = ~s" descr); DEBUG
 ;            (format t "~%#### fully-expand-descr: term-descr = ~s" term-descr); DEBUG
-             (update-and-return-descr descr term-ht stack)); here descr is a term
+             (update-and-return-descr descr term-ht)); here descr is a term
             ((atom descr) (list descr)); atom, but not EL-term (in term-ht)
             (t (apply #'append
-                 (mapcar #'(lambda (x) (fully-expand-descr x term-ht (append stack (list descr)))) 
+                 (mapcar #'(lambda (x) (fully-expand-descr x term-ht)) 
                            descr))))
  )); end of fully-expand-descr
 

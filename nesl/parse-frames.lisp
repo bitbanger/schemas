@@ -1,15 +1,15 @@
 (declaim (sb-ext:muffle-conditions cl:warning))
 
 ; (load "all-story-frames.lisp")
-(load "ll-load.lisp")
+(load "../ll-load.lisp")
 
-(ll-load "new-ulf-parser.lisp")
-(ll-load "ll-util.lisp")
-(ll-load "schema-util.lisp")
-(ll-load "schema-link.lisp")
-(ll-load "schema-to-english.lisp")
-(ll-load "framenet-to-schema-mapper.lisp")
-(ll-load "protoschemas.lisp")
+(ll-load-superdir "new-ulf-parser.lisp")
+(ll-load-superdir "ll-util.lisp")
+(ll-load-superdir "schema-util.lisp")
+(ll-load-superdir "schema-link.lisp")
+(ll-load-superdir "schema-to-english.lisp")
+(ll-load-superdir "framenet-to-schema-mapper.lisp")
+(ll-load-superdir "protoschemas.lisp")
 
 (if (>= (length sb-ext:*posix-argv*) 3)
 	; then
@@ -31,7 +31,7 @@
 	(setf num-frames (parse-integer (fifth sb-ext:*posix-argv*)))
 )
 
-(setf *HANDLE-ERRORS* nil)
+(setf *HANDLE-ERRORS* t)
 
 ; (setf *DEBUG-SENTENCE* "Ben came home late at night.")
 (setf *DEBUG-SENTENCE* nil)
@@ -354,72 +354,6 @@
 )
 )
 
-(ldefun backup-frame-mapper (frame el-story)
-(block outer
-	(setf invoker-ep (second (third (car frame))))
-	(setf invoker-phi (car (loop for phi in el-story
-		if (and (canon-charstar? phi) (equal (third phi) invoker-ep))
-			collect (car phi))))
-
-	(setf invoker-args (prop-all-args invoker-phi))
-
-	; Make a map of all FrameNet role IDs to the individuals that could
-	; fill them
-	(setf fn-roles-to-individuals (make-hash-table :test #'equal))
-	(loop for role-tuple in (car (cddddr frame))
-		do (loop for individual in (second role-tuple)
-			do (setf (gethash (car role-tuple) fn-roles-to-individuals)
-				(append (gethash (car role-tuple) fn-roles-to-individuals)
-					(list individual)))))
-
-	; Try every mapping of FN roles to individuals and take the one
-	; that maximizes non-duplicate role labels
-	(setf best-matches (make-hash-table :test #'equal))
-	(loop for ind-list in (all-permutations invoker-args) do (block srl
-		(setf chosen-inds (list))
-		(setf matches (make-hash-table :test #'equal))
-		(loop for role being the hash-keys of fn-roles-to-individuals
-			do (block bind-role
-				(loop for ind in ind-list
-				if (and (not (contains chosen-inds ind))
-					(contains (gethash role fn-roles-to-individuals) ind))
-					; then
-					do (progn
-						(setf chosen-inds (append chosen-inds (list ind)))
-						(setf (gethash role matches) ind)
-						(return-from bind-role)
-					)
-				))
-		)
-
-		(if (> (ht-count matches) (ht-count best-matches))
-			; then
-			(setf best-matches matches))
-	))
-
-	; (format t "best bindings:~%")
-	(setf rcs (list))
-	(loop for role being the hash-keys of best-matches
-		do (setf rcs (append rcs
-			(list (list (gethash role best-matches)
-				(intern (format nil "~a-~a.N" (second (car frame)) role)))))))
-
-	(setf header (replace-vals (prop-pred invoker-phi)
-		(intern (format nil "~a-~a" (second (car frame)) (prop-pred invoker-phi)))
-		invoker-phi))
-
-	(setf blank-schema *BLANK-SCHEMA*)
-	(setf blank-schema (replace-vals '((?x blank.v) ** ?E) (list header '** invoker-ep) blank-schema))
-	(loop for rc in rcs
-		do (setf blank-schema (add-role-constraint blank-schema rc)))
-
-	(setf registered-schema-pair (create-from-match blank-schema t))
-
-	(return-from outer registered-schema-pair)
-	; (return-from outer (list header rcs))
-)
-)
-
 (ldefun map-story-frames (story)
 (block outer
 	(setf frames-for-mapping-pair (get-frames-to-map story))
@@ -459,13 +393,8 @@
 
 	(loop for frame in frames-for-mapping do (block print-schema
 		(setf map-pair (frame-to-schema frame el-story))
-		(if (null map-pair)
-			; then
-			; (format t "no mapping for frame ~s~%" frame)
-			(setf map-pair (backup-frame-mapper frame el-story))
-			; else
-			(format t "mapping frame ~s to schema ~s~%" frame (car map-pair))
-		)
+		;(if (null map-pair)
+			;(format t "no mapping~%"))
 		(if (null map-pair)
 			(return-from print-schema))
 
@@ -514,7 +443,6 @@
 		el-sents))
 
 
-	(handler-case (block gpt-header
 	(setf new-header (gpt-schema-header composite-schema))
 
 	(if (not (null new-header))
@@ -522,7 +450,6 @@
 			(schema-header composite-schema)
 			(list new-header '** '?E)
 			composite-schema)))
-	) (error () nil))
 
 	(format t "~%COMPOSITE SCHEMA:~%~%")
 

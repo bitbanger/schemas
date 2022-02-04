@@ -17,9 +17,24 @@
 	(intern (car (split-str (string s) ".")))
 )
 
+(defparameter *UNINTERESTING-RCS* '(
+	LOCATION.N
+	DESTINATION.N
+	OBJECT.N
+	ENTITY.N
+	AGENT.N
+))
+
 (ldefun take-best-rc (rcs)
 (block outer
 	(setf nouns (loop for rc in rcs if (lex-noun? rc) collect rc))
+
+	(setf interesting-nouns (loop for noun in nouns
+		if (not (contains *UNINTERESTING-RCS* noun))
+			collect noun))
+	(if (not (null interesting-nouns))
+		(setf nouns interesting-nouns))
+
 	(if (not (null nouns))
 		(return-from outer (car nouns)))
 
@@ -36,31 +51,74 @@
 (ldefun mk-index-prop (prop constrs &optional basic-levels)
 (block outer
 	(setf args (prop-all-args prop))
-	(setf argrcs (loop for arg in args
-		collect (take-best-rc
-			(loop for constr in constrs
-				if (and (equal (length constr) 2) (equal (car constr) arg))
-					collect (second constr)))))
-	
+	(setf argrcs (mapcar #'take-best-rc constrs))
 	(setf argrcs (loop for a in argrcs
 		if (and (listp a) (equal (car a) 'PLUR))
 			collect (second a)
 		else
 			collect a))
 
-	(setf index-prop (append (list (car argrcs) (prop-pred prop)) (cdr argrcs)))
+	(setf pred (list (prop-pred prop)))
+	(if (contains (prop-mods prop) 'NOT)
+		(setf pred (list 'NOT pred)))
+	(if (contains (prop-mods prop) 'CAN.MD)
+		(setf pred (list 'CAN pred)))
+	(setf pred (flatten pred))
+
+	(setf index-prop (append (list (car argrcs)) pred (cdr argrcs)))
 
 	(if basic-levels
 		(setf index-prop (loop for e in index-prop
 			if (lex-noun? e) collect (basic-level e)
 			else collect e)))
 
-	(if (loop for a in index-prop always (symbolp a))
+	(setf index-prop (list (car (get-elements-pred index-prop #'lex-verb?))))
+
+	(if (and (not (null index-prop)) (loop for a in index-prop always (symbolp a)))
 		; then
-		(setf index-prop (mapcar #'strip-dot-tag index-prop)))
+		(setf index-prop (mapcar #'strip-dot-tag index-prop))
+		; else
+		(return-from outer nil))
 		; (setf index-prop index-prop))
 
 	(return-from outer index-prop)
+)
+)
+
+(ldefun hash-table-to-counts (ngrams get-rid-of &optional ngram-protos min-freq)
+(block outer
+	(setf counts nil)
+	(if (null ngram-protos)
+		; then
+		(setf counts (loop for k being the hash-keys of ngrams
+			collect (list k (gethash k ngrams))))
+		; else
+		(setf counts (loop for k being the hash-keys of ngrams
+			collect (list k (gethash k ngrams) (gethash k ngram-protos))))
+	)
+
+	(setf counts (sort counts #'< :key (lambda (x) (length (second x)))))
+	(setf counts (loop for c in counts
+		if (not (gethash (car c) get-rid-of))
+			collect c))
+
+	(if (not (null min-freq))
+		(setf counts (loop for c in counts
+			if (>= (length (second c)) min-freq)
+				collect c)))
+
+	(return-from outer counts)
+
+	)
+)
+
+(ldefun counts-to-hash-table (counts)
+(block outer
+	(setf ngrams (make-hash-table :test #'equal))
+	(loop for c in counts
+		do (setf (gethash (car c) ngrams) (second c)))
+
+	(return-from outer ngrams)
 )
 )
 
@@ -75,13 +133,35 @@
 		(loop for st in (mapcar #'second
 			(section-formulas (get-section sch ':Steps)))
 				do (block make-index
+					(setf index-prop (mk-index-prop st (get-args-rcs (prop-all-args st) sch) basic-levels))
+
+					(if (null index-prop)
+						; then
+						(if keep-unindexed-steps
+							; then
+							(setf steps (append steps (list nil))))
+						; else
+						(setf steps (append steps (list index-prop))))
+
+					(return-from make-index)
+
+
+
 					(setf argrcs (mapcar #'take-best-rc (get-args-rcs (prop-all-args st) sch)))
 					(setf argrcs (loop for a in argrcs
 						if (and (listp a) (equal (car a) 'PLUR))
 							collect (second a)
 						else
 							collect a))
-					(setf index-prop (append (list (car argrcs) (prop-pred st)) (cdr argrcs)))
+
+					(setf pred (list (prop-pred st)))
+					(if (contains (prop-mods st) 'NOT)
+						(setf pred (list 'NOT pred)))
+					(if (contains (prop-mods st) 'CAN.MD)
+						(setf pred (list 'CAN pred)))
+					(setf pred (flatten pred))
+
+					(setf index-prop (append (list (car argrcs)) pred (cdr argrcs)))
 
 					(if basic-levels
 						(setf index-prop (loop for e in index-prop
@@ -98,7 +178,8 @@
 							(setf steps (append steps (list nil)))))
 				))
 
-		(setf step-lists (append step-lists (list (list sch steps))))
+		; (setf step-lists (append step-lists (list (list sch steps))))
+		(setf step-lists (append step-lists (list (list sch (dedupe steps)))))
 	))
 
 	(return-from outer step-lists)
@@ -160,28 +241,9 @@
 	; if (> (length (gethash k schemas-to-ngrams)) 1)
 		; do (format t "	choosing ~s~%" (max-all (gethash k schemas-to-ngrams) #'length)))
 
-(setf counts nil)
-(if (null schema-protos)
-	; then
-	(setf counts (loop for k being the hash-keys of ngrams
-		collect (list k (gethash k ngrams))))
-	; else
-	(setf counts (loop for k being the hash-keys of ngrams
-		collect (list k (gethash k ngrams) (gethash k ngram-protos))))
-)
-
-(setf counts (sort counts #'< :key (lambda (x) (length (second x)))))
-(setf counts (loop for c in counts
-	if (not (gethash (car c) get-rid-of))
-		collect c))
-
-(if (not (null min-freq))
-	(setf counts (loop for c in counts
-		if (>= (length (second c)) min-freq)
-			collect c)))
-
-(return-from outer counts)
-
+(return-from outer (hash-table-to-counts ngrams get-rid-of
+	(if (not (null schema-protos)) ngram-protos nil)
+	min-freq))
 ))
 
 (ldefun old-extract-ngrams (schemas &optional min-length min-freq)
@@ -333,5 +395,58 @@
 				(reduce (lambda (x y) (intersection x y :test (lambda (a b) (equal (second a) (second b))))) arg)
 					do (format t "			~s~%" constr)))
 	))
+)
+)
+
+; Un-abstract basic levels where more specific
+; values are shared by all matched schemas.
+(ldefun un-abstract-ngrams (counts)
+(block outer
+	(setf new-counts (list))
+
+	(loop for pair in counts do (block inner
+		(setf ngram (car pair))
+		(setf schemas (second pair))
+
+		(setf schema-basic-steps (mapcar #'second (extract-index-steps schemas nil t)))
+
+		(setf schema-steps (loop for steps in (mapcar #'second (extract-index-steps schemas))
+				for basic-steps in schema-basic-steps
+			collect (loop for i from 0 to (- (length basic-steps) 1)
+				if (contains ngram (nth i basic-steps))
+					collect (nth i steps))))
+
+		(setf new-ngram (list))
+
+		(loop for i from 0 to (- (length ngram) 1) do (block ng
+			(setf ng-step (nth i ngram))
+			(setf sch-steps (loop for s in schema-steps
+				collect (nth i s)))
+
+			(setf new-ng-step (list))
+
+			(loop for j from 0 to (- (length ng-step) 1) do (block el
+				(setf elem (nth j ng-step))
+				(setf sch-elems (dedupe (loop for sch-st in sch-steps
+					collect (nth j sch-st))))
+
+				(if (and
+					(equal (length sch-elems) 1)
+					(not (equal (car sch-elems) elem))
+					(not (null (car sch-elems))))
+						; then
+						(setf new-ng-step (append new-ng-step (list (car sch-elems))))
+						; else
+						(setf new-ng-step (append new-ng-step (list elem))))
+			))
+
+			(setf new-ngram (append new-ngram (list new-ng-step)))
+		))
+
+		(setf new-counts (append new-counts
+			(list (list new-ngram schemas))))
+	))
+
+	(return-from outer new-counts)
 )
 )

@@ -1,0 +1,49 @@
+(; "Bill's father argued with Bill."
+; "Bill's mother told Bill not to argue."
+; "Bill's father told Bill that he should be quiet."
+; "Bill's father yelled at Bill."
+; "Bill's mother tried to stop the argument."
+; "Bill's father told his mother that she didn't understand."
+; "Bill's mother told Bill to be quiet."
+(EPI-SCHEMA ((?X_O ((ADV-A (WITH.P ?X_M)) ARGUE.V)) ** ?E)
+	(:ROLES
+		(!R1 (?X_M ARGUMENT.N))
+		(!R2 (?X_N MOTHER.N))
+		(!R3 (?X_O AGENT.N))
+		(!R4 (?X_N (PERTAIN-TO ?X_O)))
+		(!R5 (?X_L FATHER.N))
+		(!R6 (?X_L (PERTAIN-TO ?X_O)))
+		(!R7 (?X_L ACTIVITY_STOP-AGENT.N))
+		(!R8 ((KA QUIET.A) REQUEST-MESSAGE.N))
+		(!R9 (?X_N REQUEST-SPEAKER.N))
+		(!R10 (?X_O REQUEST-ADDRESSEE.N))
+	)
+	(:STEPS
+		(?X_K (?X_L ((ADV-A (WITH.P ?X_O)) ARGUE.V)))
+		(?X_I (?X_L (TELL.V ?X_O (THAT (?X_O (SHOULD.MD QUIET.A))))))
+		(?X_G (?X_L ((ADV-A (AT.P ?X_O)) YELL.V)))
+		(?X_E (?X_N (TRY.V (KA (STOP.V ?X_M)))))
+		(?X_A (?X_L (TELL.V ?X_N (THAT (?X_O (NOT UNDERSTAND.V))))))
+		(?X_C (?X_N (TELL.V ?X_O (KA QUIET.A))))
+		(?E_1 (?X_L ACTIVITY_STOP-STOP.12.V))
+		(?E_2 (?X_N REQUEST-TELL.17.V ?X_O (KA QUIET.A)))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?X_K (BEFORE ?X_I)))
+		(!W2 (?X_K (BEFORE ?X_G)))
+		(!W3 (?X_K (BEFORE ?X_E)))
+		(!W4 (?X_K (BEFORE ?X_A)))
+		(!W5 (?X_K (BEFORE ?X_C)))
+		(!W6 (?X_I (BEFORE ?X_G)))
+		(!W7 (?X_I (BEFORE ?X_E)))
+		(!W8 (?X_I (BEFORE ?X_A)))
+		(!W9 (?X_I (BEFORE ?X_C)))
+		(!W10 (?X_G (BEFORE ?X_E)))
+		(!W11 (?X_G (BEFORE ?X_A)))
+		(!W12 (?X_G (BEFORE ?X_C)))
+		(!W13 (?X_E (BEFORE ?X_A)))
+		(!W14 (?X_E (BEFORE ?X_C)))
+		(!W15 (?X_A (BEFORE ?X_C)))
+		(!W16 (?E_1 BEFORE ?E_2))
+	)
+))

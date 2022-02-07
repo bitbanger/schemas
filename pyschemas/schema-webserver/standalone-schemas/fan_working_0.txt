@@ -1,0 +1,44 @@
+(; "A fan worked for the team."
+; "He wore a uniform."
+; "He played on the field."
+; "He ran around the bases."
+; "He scored points."
+(EPI-SCHEMA ((?X_M (COMPOSITE-SCHEMA.PR ?X_N ?X_O ?X_P)) ** ?E)
+	(:ROLES
+		(!R1 (?X_N (PLUR POINT.N)))
+		(!R2 (?X_E (PLUR BASE.N)))
+		(!R3 (?X_P FIELD.N))
+		(!R4 (?X_O UNIFORM.N))
+		(!R5 (?X_L TEAM.N))
+		(!R6 (?X_M FAN.N))
+		(!R7 (?X_M WEARING-WEARER.N))
+		(!R8 (?X_O WEARING-CLOTHING.N))
+		(!R9 (?X_P COMPETITION-COMPETITION.N))
+		(!R10 (?X_M COMPETITION-PARTICIPANT_1.N))
+		(!R11 (?X_M SELF_MOTION-SELF_MOVER.N))
+	)
+	(:STEPS
+		(?X_K (?X_M ((ADV-A (FOR.P ?X_L)) WORK.V)))
+		(?X_I (?X_M (WEAR.V ?X_O)))
+		(?X_G (?X_M ((ADV-A (ON.P ?X_P)) PLAY.V)))
+		(?X_D (?X_M ((ADV-A (AROUND.P ?X_E)) RUN.V)))
+		(?X_B (?X_M (SCORE.V ?X_N)))
+		(?E_1 (?X_M WEARING-WEAR.14.V ?X_O))
+		(?E_2 (?X_M COMPETITION-PLAY.11.V ?X_P))
+		(?E_3 (?X_M SELF_MOTION-RUN.15.V))
+	)
+	(:EPISODE-RELATIONS
+		(!W1 (?X_K (BEFORE ?X_I)))
+		(!W2 (?X_K (BEFORE ?X_G)))
+		(!W3 (?X_K (BEFORE ?X_D)))
+		(!W4 (?X_K (BEFORE ?X_B)))
+		(!W5 (?X_I (BEFORE ?X_G)))
+		(!W6 (?X_I (BEFORE ?X_D)))
+		(!W7 (?X_I (BEFORE ?X_B)))
+		(!W8 (?X_G (BEFORE ?X_D)))
+		(!W9 (?X_G (BEFORE ?X_B)))
+		(!W10 (?X_D (BEFORE ?X_B)))
+		(!W11 (?E_1 BEFORE ?E_2))
+		(!W12 (?E_2 BEFORE ?E_3))
+	)
+))

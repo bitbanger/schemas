@@ -44,8 +44,16 @@ def mk_test_gr_prop(sent):
 
 def test():
 	matcher = SchemaMatcher(compos)
+	# story = parse_s_expr('(((?X EAT.V ?Y) ** E1.SK) (?X BOY.N) (?Y STEAK.N) (?Y PERTAIN-TO ?X) (?Z OTHER.N) (?X HUNGRY.A))')
+	story = parse_s_expr('(((BOY1.SK CRY.V) ** E1.SK) (BOY1.SK BOY.N))')
+	match_pairs = matcher.match_story_prop(story[0], story)
+	for pair in match_pairs:
+		(schema, matched_id) = pair
+		print(matched_id)
+		print('%s' % (schema))
+	
 
-	test_sents = ['BOBBY CRY']
+	'''test_sents = ['BOBBY CRY']
 
 	for test_sent in test_sents:
 		print(test_sent)
@@ -54,6 +62,6 @@ def test():
 		for pair in match_pairs:
 			(schema, matched_id) = pair
 			print(matched_id)
-			print('%s' % (schema))
+			print('%s' % (schema))'''
 
 test()

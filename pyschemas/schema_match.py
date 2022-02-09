@@ -100,7 +100,33 @@ def get_role_types(schema):
 
 	return role_types
 
-def grounded_prop(prop, schema):
+def grounded_prop(prop, context_formulas):
+	if len(prop) == 3 and prop[1] == '**':
+		prop = prop[0]
+
+	inds = [prop[0]] + prop[2:]
+	inds = [x for x in inds if type(x) != list]
+	inds = set(inds)
+
+	roles = defaultdict(set)
+	for phi in context_formulas:
+		if len(phi) == 2 and phi[0] in inds:
+			roles[phi[0]].add(strip_tags(phi[1]))
+
+	for ind in inds:
+		print('%s: %s' % (ind, list(roles[ind])))
+
+	gr_prop = []
+	if prop[0] in inds:
+		gr_prop.append(list(roles[prop[0]]))
+	gr_prop.append(strip_tags(prop[1]))
+	for e in prop[2:]:
+		if e in inds:
+			gr_prop.append(list(roles[e]))
+
+	return gr_prop
+
+def grounded_schema_prop(prop, schema):
 	role_types = get_role_types(schema)
 
 	try:
@@ -181,7 +207,7 @@ def prop_to_vec(prop, schema):
 
 	return final
 
-def grounded_prop_to_vec(gr_prop):
+def grounded_schema_prop_to_vec(gr_prop):
 	pre = gr_prop[0]
 	verb = gr_prop[1]
 	posts = gr_prop[2:4]
@@ -225,13 +251,13 @@ class SchemaMatcher:
 				if prop_vec is None:
 					continue
 
-				self.schemas_by_prop[str(grounded_prop(formula.formula.formula, schema))].append(schema)
+				self.schemas_by_prop[str(grounded_schema_prop(formula.formula.formula, schema))].append(schema)
 
 				self.prop_vecs.append(prop_vec)
-				self.props_by_vec[prop_vec.tobytes()].append(str(grounded_prop(formula.formula.formula, schema)))
+				self.props_by_vec[prop_vec.tobytes()].append(str(grounded_schema_prop(formula.formula.formula, schema)))
 
 	def match_candidates(self, gr_prop):
-		gr_vec = grounded_prop_to_vec(gr_prop)
+		gr_vec = grounded_schema_prop_to_vec(gr_prop)
 		
 		closest = k_closest(gr_vec, self.prop_vecs, 5)
 
@@ -253,10 +279,14 @@ class SchemaMatcher:
 			grounded = match[1]
 			matched_formula_id = None
 			for step in match[0].get_section('steps').formulas:
-				if str(grounded_prop(step.formula.formula, match[0])) == str(grounded):
+				if str(grounded_schema_prop(step.formula.formula, match[0])) == str(grounded):
 					matched_formula_id = step.episode_id
 
 			# return (match[0], matched_formula_id)
 			ret.append((match[0], matched_formula_id))
 
 		return ret
+
+	def match_story_prop(self, prop, story):
+		gr_prop = grounded_prop(prop, story)
+		return self.match_candidates(gr_prop)

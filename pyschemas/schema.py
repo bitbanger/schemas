@@ -2,7 +2,10 @@ from sexpr import parse_s_expr, list_to_s_expr as ls
 
 class ELFormula:
 	def __init__(self, formula_list):
-		self.formula = formula_list
+		if type(formula_list) == str:
+			self.formula = parse_s_expr(formula_list)
+		else:
+			self.formula = formula_list
 
 	def __str__(self):
 		return ls(self.formula)

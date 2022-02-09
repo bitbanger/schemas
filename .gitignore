@@ -15,6 +15,8 @@ output*.lisp
 *.svg
 *.png
 coref-spanbert-large-2020.02.27.tar.gz
+coref-spanbert-large-2021.03.10.tar.gz
+GoogleNews-vectors-negative300.bin
 .DS_STORE
 __pycache__
 */__pycache__

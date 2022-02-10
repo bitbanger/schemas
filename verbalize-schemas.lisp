@@ -67,12 +67,6 @@
   (setq *role-names* (reverse *role-names*))
 ; **
 
-(defun gpt-reverbalize (verbalized-sent)
-	(car (run-proc-with-stdin "/home/lane/miniconda3/bin/python"
-		(list "/home/lane/Code/schemas/gpt-reverbalizer.py" verbalized-sent)
-		nil))
-)
-
 (defun verbalize-schema (schema)
 ;``````````````````````````````
 ; schema: an epi-schema in the form assumed by Lane.
@@ -314,12 +308,17 @@
       (setq types type-info)
       (setq types- (remove 'entity.n 
                       (remove '(plur entity.n) types :test 'equal)))
+
+      ; handle adjective-only roles (shouldn't form, but when they do, it's a predicate argument)
+      (if (and (not (find-if #'!noun~ types-)) (find-if #'!adj~ types-))
+		(setq types types-))
+
       (if (find-if #'!noun~ types-) (setq types types-))
       (setq types- (remove 'agent.n 
                       (remove '(plur agent.n) types :test 'equal)))
       (if (find-if #'!noun~ types-) (setq types types-))
 ;     (format t "~%## select-type: modified type-info = ~s" types); DEBUG
-      (setq type (find-if #'!noun~ types)); finds sing or plur noun
+      (setq type (or (find-if #'!noun~ types) (find-if #'!adj~ types))); finds sing or plur noun (or adjective -L)
 ;     (format t "~%## select-type: type = ~s" type); DEBUG
       ; (NB: still nil if no noun type found)
       
@@ -440,6 +439,14 @@
                    (string= (subseq str (- n 2) n) ".V"))))
  )); end of !verb~
  
+(defun !adj~ (expr)
+(let (str n)
+            (cond ((not (symbolp expr)) nil)
+            (t (setq str (string expr))
+               (setq n (length str))
+               (if (< n 3) nil
+                   (string= (subseq str (- n 2) n) ".A")))))
+)
 
 (defun !noun~ (expr); singular or plural noun? tested
 ;``````````````````
@@ -1280,3 +1287,27 @@
   upkeep urine validity variety violence warmth water wealth welfare work 
   worth writing  ; etc etc
 ))
+
+(defun verbalize-steps (schema)
+(block outer
+	(setf verbal-steps (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+		if (and (listp sec) (equal (car sec) 'STEPS.))
+			collect sec)))))
+
+	(return-from outer verbal-steps)
+)
+)
+
+(defun stringify-verbalization (verbalization)
+	(join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) verbalization))
+)
+
+(defun gpt-reverbalize (verbalized-sent)
+	(car (run-proc-with-stdin "/home/lane/miniconda3/bin/python"
+		(list "/home/lane/Code/schemas/gpt-reverbalizer.py" verbalized-sent)
+		nil))
+)
+
+(defun gpt-verbalize-steps (schema)
+	(mapcar #'gpt-reverbalize (mapcar #'stringify-verbalization (verbalize-steps schema)))
+)

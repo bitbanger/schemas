@@ -92,7 +92,7 @@ def get_role_types(schema):
 			if type(role[1]) != list:
 				word = strip_tags(role[1])
 				role_types[role[0]].append(word)
-			elif len(role[1]) == 2 and role[1][0].upper() == 'PLUR':
+			elif len(role[1]) == 2 and role[1][0].upper() == 'PLUR' and type(role[1][1]) != list:
 				word = strip_tags(role[1][1])
 				role_types[role[0]].append(word)
 		except:
@@ -104,6 +104,23 @@ def grounded_prop(prop, context_formulas):
 	if len(prop) == 3 and prop[1] == '**':
 		prop = prop[0]
 
+	# Flatten out nested verb+postarg expressions
+	verb = prop[1]
+	flat_verb = []
+	got_verb = False
+	for x in verb:
+		if type(x) == str and x[-2:].upper() == ".V":
+			got_verb = True
+		if got_verb:
+			flat_verb.append(x)
+	verb = flat_verb
+
+	if type(verb) == list:
+		if len(verb) == 1:
+			prop = [prop[0], verb[0]] + prop[2:]
+		else:
+			prop = [prop[0], verb[0]] + verb[1:] + prop[2:]
+
 	inds = [prop[0]] + prop[2:]
 	inds = [x for x in inds if type(x) != list]
 	inds = set(inds)
@@ -111,7 +128,11 @@ def grounded_prop(prop, context_formulas):
 	roles = defaultdict(set)
 	for phi in context_formulas:
 		if len(phi) == 2 and phi[0] in inds:
-			roles[phi[0]].add(strip_tags(phi[1]))
+			role_type = phi[1]
+			if type(role_type) == list and len(role_type) == 2 and role_type[0] in ['PLUR', 'K', 'KA'] and type(role_type[1]) != list:
+				roles[phi[0]].add(strip_tags(role_type[1]))
+			elif type(role_type) != list:
+				roles[phi[0]].add(strip_tags(role_type))
 
 	for ind in inds:
 		print('%s: %s' % (ind, list(roles[ind])))
@@ -119,6 +140,7 @@ def grounded_prop(prop, context_formulas):
 	gr_prop = []
 	if prop[0] in inds:
 		gr_prop.append(list(roles[prop[0]]))
+	print(prop[1])
 	gr_prop.append(strip_tags(prop[1]))
 	for e in prop[2:]:
 		if e in inds:
@@ -156,7 +178,7 @@ def grounded_schema_prop(prop, schema):
 
 	post_types = [role_types[x] for x in posts]
 
-	return [pre, verb, post_types[:2]]
+	return [pre, verb] + post_types[:2]
 
 def prop_to_vec(prop, schema):
 	role_types = get_role_types(schema)
@@ -237,14 +259,8 @@ class SchemaMatcher:
 			print('%d / %d' % (i+1, len(self.schemas)))
 
 			all_formulas = []
-			try:
-				all_formulas = all_formulas + schema.get_section('steps').formulas
-			except:
-				pass
-			try:
-				all_formulas = all_formulas + schema.get_section('roles').formulas
-			except:
-				pass
+			all_formulas = all_formulas + schema.get_section('steps').formulas
+			all_formulas = all_formulas + schema.get_section('roles').formulas
 
 			for formula in all_formulas:
 				prop_vec = prop_to_vec(formula.formula.formula, schema)
@@ -290,3 +306,56 @@ class SchemaMatcher:
 	def match_story_prop(self, prop, story):
 		gr_prop = grounded_prop(prop, story)
 		return self.match_candidates(gr_prop)
+
+if __name__ == '__main__':
+	compos = []
+	'''
+	with open('nesl-compos.lisp', 'r') as f:
+		compos_txt = f.read()
+		compos_s_expr = parse_s_expr(compos_txt)
+
+		for c in compos_s_expr[3]:
+			for e in c:
+				if type(e) == list and len(e) > 0 and type(e[0]) == str and e[0].upper() == 'EPI-SCHEMA':
+					compos.append(e)
+	'''
+	for i in range(0, 9):
+		with open('standalone-schemas/farming_%d.txt' % i, 'r') as f:
+			compos_txt = f.read()
+			compos_lines = compos_txt.strip().split('\n')
+			compos_lines = [line.split(';')[0] for line in compos_lines]
+			compos_txt = '\n'.join(compos_lines)
+			compos_s_expr = parse_s_expr(compos_txt)
+			compos.append(compos_s_expr[0])
+
+	matcher = SchemaMatcher(compos)
+	def cut_balanced_parens(s):
+		pts = []
+		count = 0
+		buf = []
+		for i in range(len(s)):
+			c = s[i]
+			if c == '(':
+				count += 1
+			elif c == ')':
+				count -= 1
+			buf.append(c)
+			if i > 0 and count == 0:
+				pts.append(''.join(buf))
+				buf = []
+
+		if len(buf) > 0:
+			pts.append(''.join(buf))
+
+		pts = [p for p in pts if len(p.strip()) > 0]
+
+		return pts
+
+	prop_and_story = ''.join(sys.stdin.read().strip().split('\n'))
+	spl = cut_balanced_parens(prop_and_story)
+	prop = spl[0].strip()
+	story = spl[1].strip()
+
+	pairs = matcher.match_story_prop(parse_s_expr(prop), parse_s_expr(story))
+
+	print(pairs)

@@ -392,7 +392,7 @@
 	(setf schema-match-tuples (list))
 
 	(loop for frame in frames-for-mapping do (block print-schema
-		(setf map-pair (frame-to-schema frame el-story))
+		(setf map-pair (frame-to-schema frame el-story t))
 		;(if (null map-pair)
 			;(format t "no mapping~%"))
 		(if (null map-pair)

@@ -115,6 +115,7 @@ for topic in topics_in_order:
 	for compo in extract_compos(lome_to_el_output.split('\n'), include_protos=False, as_list=True):
 		with open('standalone-schemas/%s_%d.txt' % (topic, i), 'w') as f:
 			f.write('(%s)' % (compo))
+		i += 1
 
 	# Make the webpage with the new schemas and upload
 	# it to cycle3

@@ -308,6 +308,8 @@
       (setq types type-info)
       (setq types- (remove 'entity.n 
                       (remove '(plur entity.n) types :test 'equal)))
+      (setq types- (remove 'physical_entity.n 
+                      (remove '(plur physical_entity.n) types :test 'equal)))
 
       ; handle adjective-only roles (shouldn't form, but when they do, it's a predicate argument)
       (if (and (not (find-if #'!noun~ types-)) (find-if #'!adj~ types-))

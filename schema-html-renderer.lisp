@@ -264,6 +264,9 @@
 		(format nil "<span class='fluent-id'>~a</span>" (third (schema-header schema))))))
 
 	(loop for sec in (nonmeta-sections schema) do (block sec
+		(if (equal (section-name sec) ':Episode-relations)
+			(return-from sec))
+
 		(setf fluent (equal (section-type sec) 'FLUENT))
 		(setf css-class (if fluent "fluent-id" "nonfluent-id"))
 		(setf buf (append buf (list

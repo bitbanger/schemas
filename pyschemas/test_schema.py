@@ -11,6 +11,9 @@ from scipy.spatial.distance import cosine
 
 import numpy
 
+import xmlrpc.client
+match_client = xmlrpc.client.ServerProxy('http://localhost:8415')
+
 compos = []
 with open('nesl-compos.lisp', 'r') as f:
 	compos_txt = f.read()
@@ -43,12 +46,18 @@ def mk_test_gr_prop(sent):
 	return [pre, verb] + posts
 
 def test():
-	matcher = SchemaMatcher(compos)
+	# matcher = SchemaMatcher(compos)
 	# story = parse_s_expr('(((?X EAT.V ?Y) ** E1.SK) (?X BOY.N) (?Y STEAK.N) (?Y PERTAIN-TO ?X) (?Z OTHER.N) (?X HUNGRY.A))')
-	story = parse_s_expr('(((BOY1.SK CRY.V) ** E1.SK) (BOY1.SK BOY.N))')
-	match_pairs = matcher.match_story_prop(story[0], story)
+	# story = parse_s_expr('(((BOY1.SK CRY.V) ** E1.SK) (BOY1.SK BOY.N))')
+	# match_pairs = matcher.match_story_prop(story[0], story)
+
+	prop = '((BOY1.SK CRY.V) ** E1.SK)'
+	story = '(((BOY1.SK CRY.V) ** E1.SK) (BOY1.SK BOY.N))'
+	match_pairs = match_client.match(prop, story)
+	
 	for pair in match_pairs:
 		(schema, matched_id) = pair
+		schema = Schema(schema)
 		print(matched_id)
 		print('%s' % (schema))
 	

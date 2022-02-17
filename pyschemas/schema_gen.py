@@ -16,7 +16,7 @@ for i in range(9):
 		schemas.append(schema_from_file('standalone-schemas/%s_%d.txt' % (schema_prompt, i)))
 	except:
 		pass
-	print(str(schemas[-1]))
+	# print(str(schemas[-1]))
 
 coref_edges = defaultdict(lambda: defaultdict(lambda: defaultdict(bool)))
 
@@ -106,9 +106,9 @@ for i in range(len(step_vecs)):
 print('Generalized schema steps for topic prompt %s:' % (schema_prompt))
 
 clusters = [list_to_s_expr(c) for c in clusters]
-clusters = set(clusters)
+clusters = sorted(list(set(clusters)))
 
-sorted_clusters = sorted(clusters, key=lambda c: len(parse_s_expr(c)[0]), reverse=True)
+sorted_clusters = sorted(list(clusters), key=lambda c: len(parse_s_expr(c)[0]), reverse=True)
 handled_clusters = set()
 merged_clusters = []
 for i in range(len(sorted_clusters)):
@@ -147,6 +147,9 @@ for mc_idcs in merged_clusters:
 		instances = set(mc[2])
 		all_instances = all_instances.union(instances)
 
+	all_formulas = sorted(list(all_formulas))
+	all_instances = sorted(list(all_instances))
+
 	# TODO: choosing the max dist score of all merged clusters
 	# is inaccurate, but good enough. We should really re-calculate
 	# it here (or only calculate it here, honestly)
@@ -157,7 +160,7 @@ for mc_idcs in merged_clusters:
 
 	new_clusters.append(list_to_s_expr([all_formulas, max_dist_score, all_instances]))
 
-clusters = new_clusters
+clusters = sorted(new_clusters)
 
 # Map gen cluster IDs to step IDs
 gen_idcs_to_step_idcs = defaultdict(set)
@@ -613,6 +616,7 @@ def flatten_schema_step(step):
 
 # Loop over each schema, then each pair of steps,
 # then each pair of arguments.
+edges = set()
 for schema_id in range(len(schemas)):
 	schema = schemas[schema_id]
 
@@ -643,6 +647,7 @@ for schema_id in range(len(schemas)):
 					# Draw an edge for the schema between the args
 					if step1[k1] == step2[k2]:
 						multigraph[step1_gen_id][k1][step2_gen_id][k2].add(schema_id)
+						edges.add((step1_gen_id, k1, step2_gen_id, k2, schema_id))
 
 def coref_certainty(gen1_id, arg1_idx, gen2_id, arg2_idx):
 	schema_edges = multigraph[step1_gen_id][arg1_idx][step2_gen_id][arg2_idx]
@@ -663,10 +668,10 @@ def corefers(gen1_id, arg1_idx, gen2_id, arg2_idx, threshold=0.5):
 
 coref_pairs = set()
 
-for step1_gen_id in multigraph.keys():
-	for arg1_idx in multigraph[step1_gen_id].keys():
-		for step2_gen_id in multigraph[step1_gen_id][arg1_idx].keys():
-			for arg2_idx in multigraph[step1_gen_id][arg1_idx][step2_gen_id].keys():
+for step1_gen_id in sorted(multigraph.keys()):
+	for arg1_idx in sorted(multigraph[step1_gen_id].keys()):
+		for step2_gen_id in sorted(multigraph[step1_gen_id][arg1_idx].keys()):
+			for arg2_idx in sorted(multigraph[step1_gen_id][arg1_idx][step2_gen_id].keys()):
 				if corefers(step1_gen_id, arg1_idx, step2_gen_id, arg2_idx):
 					v = (step1_gen_id, arg1_idx)
 					e = (step2_gen_id, arg2_idx)

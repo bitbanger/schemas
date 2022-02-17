@@ -3,6 +3,8 @@ import sys
 
 from collections import defaultdict
 
+from functools import cmp_to_key
+
 from schema import Schema, schema_from_file
 from schema_match import prop_to_vec, grounded_schema_prop
 from scipy.spatial import distance
@@ -30,6 +32,7 @@ gr_steps = []
 step_vecs = []
 step_idcs_to_schema_idcs = dict()
 schema_step_ids_to_step_idcs = defaultdict(lambda: defaultdict(int))
+valid_steps = set()
 total_idx = 0
 for i in range(len(schemas)):
 	schema = schemas[i]
@@ -40,7 +43,10 @@ for i in range(len(schemas)):
 		step_vec = prop_to_vec(step, schema)
 		if step_vec is None:
 			continue
+
 		# valid_steps.add(j)
+		valid_steps.add((i, steps[j].episode_id))
+
 		step_vecs.append(step_vec)
 
 		step_idcs_to_schema_idcs[total_idx] = i
@@ -52,13 +58,6 @@ for i in range(len(schemas)):
 		ungr_steps.append(step)
 
 		total_idx += 1
-
-
-'''for i in [0, 2, 3]:
-	for j in coref_edges[i].keys():
-		for k in coref_edges[i][j].keys():
-			if coref_edges[i][j][k]:
-				print('%s and %s share arg %d' % (gr_steps[j], gr_steps[k], i))'''
 
 clusters = []
 
@@ -178,342 +177,6 @@ for cluster_idx in gen_idcs_to_step_idcs.keys():
 	for step_idx in gen_idcs_to_step_idcs[cluster_idx]:
 		step_idcs_to_gen_idcs[step_idx] = cluster_idx
 
-if False:
-	total_idx = 0
-	for i in range(len(schemas)):
-		schema = schemas[i]
-		steps = schema.get_section('steps').formulas
-		valid_steps = set() # Steps that got vectorized (don't try to draw coref edges between others)
-		skipped = 0
-		seen_in_this_schema = set()
-		for j in range(len(steps)):
-			step = steps[j].formula.formula
-
-			step_vec = prop_to_vec(step, schema)
-			if step_vec is None:
-				skipped += 1
-				continue
-			valid_steps.add(j)
-			# step_vecs.append(step_vec)
-
-			# step_idcs_to_schema_idcs[total_idx] = i
-
-			flat_ungrounded_prop = [pre_arg(step)] + [verb_pred(step)] + post_args(step)
-
-			# for k in range(j+1, len(steps)):
-			for k in range(0, j+1):
-				if k not in valid_steps:
-					continue
-				step2 = steps[k].formula.formula
-				fup2 = [pre_arg(step2)] + [verb_pred(step2)] + post_args(step2)
-				if 'EAT' in flat_ungrounded_prop[1] or 'EAT' in fup2[1]:
-					print(flat_ungrounded_prop, fup2)
-				for k1 in range(min(len(flat_ungrounded_prop), len(fup2))):
-					if k1 == 1:
-						continue
-					if flat_ungrounded_prop[k1] == fup2[k1]:
-						absolute_step2_idx = total_idx - (j-k)
-						# print('%s and %s share arg %d' % (flat_ungrounded_prop, fup2, k1))
-						if 'EAT' in flat_ungrounded_prop[1] or 'EAT' in fup2[1]:
-							print('(verb %s and %s) %d and %d share arg %d' % (flat_ungrounded_prop[1], fup2[1], total_idx, absolute_step2_idx, k1))
-						coref_edges[k1][total_idx][absolute_step2_idx] = True
-				for k1 in range(len(flat_ungrounded_prop)):
-					if k1 == 1:
-						continue
-					for k2 in range(len(fup2)):
-						if k2 == 1:
-							continue
-
-						if j == k and k1 == k2:
-							continue
-
-						if flat_ungrounded_prop[k1] == fup2[k2]:
-							absolute_step2_idx = total_idx - ((j-k) - skipped)
-							# print('ijk %d %d %d' % (i, j, k))
-							print(flat_ungrounded_prop, fup2)
-							# print(flat_ungrounded_prop[k1], fup2[k2])
-							# print('gen ids are %d and %d' % (step_idcs_to_gen_idcs[j], step_idcs_to_gen_idcs[k]))
-							# print('(verb %s and %s) %d and %d share args %d and %d' % (flat_ungrounded_prop[1], fup2[1], total_idx, absolute_step2_idx, k1, k2))
-							# print('\tgens are %d and %d' % (step_idcs_to_gen_idcs[total_idx], step_idcs_to_gen_idcs[absolute_step2_idx]))
-							coref_lhs = (total_idx, k1)
-							coref_rhs = (absolute_step2_idx, k2)
-
-							gen_lhs = (step_idcs_to_gen_idcs[total_idx], k1)
-							gen_rhs = (step_idcs_to_gen_idcs[absolute_step2_idx], k2)
-							# if (gen_lhs, gen_rhs) in seen_in_this_schema:
-								# print('steps %d and %d (%d and %d) have already had their general coref measured in schema %d' % (total_idx, absolute_step2_idx, step_idcs_to_gen_idcs[total_idx], step_idcs_to_gen_idcs[absolute_step2_idx], i))
-								# continue
-							# seen_in_this_schema.add((gen_lhs, gen_rhs))
-
-							(coref_lhs, coref_rhs) = (gen_lhs, gen_rhs)
-
-							lhs_steps = parse_s_expr(clusters[coref_lhs[0]])[2]
-							rhs_steps = parse_s_expr(clusters[coref_rhs[0]])[2]
-							lhs_schemas = set([step_idcs_to_schema_idcs[int(x)] for x in lhs_steps if int(x) in step_idcs_to_schema_idcs])
-							rhs_schemas = set([step_idcs_to_schema_idcs[int(x)] for x in rhs_steps if int(x) in step_idcs_to_schema_idcs])
-							num_schemas = len(lhs_schemas.intersection(rhs_schemas))
-							print('gen step %d has schemas %s' % (coref_lhs[0], lhs_schemas))
-							print('gen step %d has schemas %s' % (coref_rhs[0], rhs_schemas))
-							print('%s and %s co-refer with denominator %d' % (coref_lhs, coref_rhs, num_schemas))
-							print('\t%s' % (lhs_schemas.intersection(rhs_schemas)))
-
-							coref_lhs = (coref_lhs[0], coref_lhs[1])
-							coref_rhs = (coref_rhs[0], coref_rhs[1])
-
-							found = False
-							for scc in step_coref_clusters:
-								if coref_lhs in scc or coref_rhs in scc:
-									if coref_lhs not in seen_in_this_schema:
-										scc.append(coref_lhs)
-										# scc.append((coref_lhs[0], coref_lhs[1], num_schemas))
-										seen_in_this_schema.add(coref_lhs)
-									if coref_rhs not in seen_in_this_schema:
-										scc.append(coref_rhs)
-										# scc.append((coref_rhs[0], coref_rhs[1], num_schemas))
-										seen_in_this_schema.add(coref_rhs)
-									found = True
-									break
-							if not found:
-								step_coref_clusters.append(([coref_lhs, coref_rhs]))
-								# step_coref_clusters.append(([(coref_lhs[0], coref_lhs[1], num_schemas), (coref_rhs[0], coref_rhs[1], num_schemas)]))
-
-			total_idx += 1
-
-	# print(step_coref_clusters)
-
-	gen_sccs = [set(x) for x in step_coref_clusters]
-	next_id = 'A'
-	new_gen_sccs = []
-	for scc in gen_sccs:
-		new_gen_sccs.append((next_id, scc))
-		next_id = chr(ord(next_id)+1)
-	gen_sccs = new_gen_sccs
-
-	'''
-	print(step_coref_clusters)
-	gen_sccs = [[e for e in scc if len(e) == 3] for scc in step_coref_clusters]
-	gen_sccs = [e for e in gen_sccs if len(e) > 0]
-	print(gen_sccs)
-	for gen_scc in gen_sccs:
-		factors = defaultdict(lambda: defaultdict(int))
-		for elem in gen_scc:
-			factors[(elem[0], elem[1])][elem[2]] += 1
-		# print(factors)
-
-		for coref_arg in factors.keys():
-			total = 0
-			total_denom = 0
-			for denom in factors[coref_arg]:
-				total += factors[coref_arg][denom]
-				total_denom += denom
-			print('%s: %d / %d' % (coref_arg, total, total_denom))
-
-
-		print('-----')'''
-
-	# Actually do the conversion below
-	'''
-	gen_sccs = []
-	for scc in step_coref_clusters:
-		# gen_idx_to_schemas = defaultdict(set)
-
-		new_scc = set()
-
-		for elem in scc:
-			gen_idx = step_idcs_to_gen_idcs[elem[0]]
-			new_scc.add((gen_idx, elem[1]))
-
-		# gen_sccs.append(new_scc)
-		# Check to see whether any of the new, generalized
-		# argument coreferences fit into an existing cluster.
-		# Make a new one only if they don't.
-		found = False
-		for gen_arg in new_scc:
-			for gen_scc in gen_sccs:
-				if gen_arg in gen_scc:
-					for gen_arg_2 in new_scc:
-						gen_scc.add(gen_arg_2)
-					found = True
-					break
-			if found:
-				break
-		if not found:
-			gen_sccs.append(new_scc)
-	'''
-
-	# for st_idx in range(len(gr_steps)):
-		# print('%d: %s' % (st_idx, gr_steps[st_idx]))
-	# print(step_coref_clusters)
-	print(gen_sccs)
-	next_id = 'A'
-	real_arg_coref_clusters = []
-	for gen_scc in gen_sccs:
-		real_arg_coref_clusters.append((next_id, gen_scc))
-		next_id = chr(ord(next_id)+1)
-
-	# Convert each coref edge between two steps into one between two step clusters
-	# (in a multi-graph)
-	cluster_coref_edges = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
-	for arg_idx in [0, 2, 3]:
-		seen = set()
-		for st1_idx in coref_edges[arg_idx].keys():
-			for st2_idx in coref_edges[arg_idx][st1_idx].keys():
-				# print('converting co-occurring steps %d and %d into clusters' % (st1_idx, st2_idx))
-				# print('st1 %s, st2 %s' % (gr_steps[st1_idx], gr_steps[st2_idx]))
-				if coref_edges[arg_idx][st1_idx][st2_idx]:
-					# NOTE: this could fail, if there's somehow no cluster that contains a vectorized
-					# step, but I can't see right now why that'd happen (not ruling it out, though)
-					cl1_idx = [i for i in range(len(clusters)) if str(st1_idx) in parse_s_expr(clusters[i])[2]][0]
-					cl2_idx = [i for i in range(len(clusters)) if str(st2_idx) in parse_s_expr(clusters[i])[2]][0]
-					# print('got cluster idcs %d and %d' % (cl1_idx, cl2_idx))
-					if cl1_idx == cl2_idx:
-						continue
-
-					schema1_idx = step_idcs_to_schema_idcs[st1_idx]
-					schema2_idx = step_idcs_to_schema_idcs[st2_idx]
-
-					if (cl1_idx, cl2_idx, schema1_idx, schema2_idx) in seen:
-						continue
-					# print('%d and %d share a cluster coref edge for arg %d' % (cl1_idx, cl2_idx, arg_idx))
-					cluster_coref_edges[arg_idx][cl1_idx][cl2_idx] += 1
-					seen.add((cl1_idx, cl2_idx, schema1_idx, schema2_idx))
-
-	arg_coref_clusters_by_idx = defaultdict(list)
-	next_id = 'A'
-	for arg_idx in [0, 2, 3]:
-		arg_coref_clusters = []
-		for cl1_idx in cluster_coref_edges[arg_idx].keys():
-			for cl2_idx in cluster_coref_edges[arg_idx][cl1_idx].keys():
-				cl1 = parse_s_expr(clusters[cl1_idx])
-				cl2 = parse_s_expr(clusters[cl2_idx])
-
-				cl1_steps = [int(x) for x in cl1[2]]
-				cl2_steps = [int(x) for x in cl2[2]]
-				cl1_schemas = set([step_idcs_to_schema_idcs[x] for x in cl1_steps])
-				cl2_schemas = set([step_idcs_to_schema_idcs[x] for x in cl2_steps])
-
-				co_occurring_schemas = cl1_schemas.intersection(cl2_schemas)
-
-				edge_count = cluster_coref_edges[arg_idx][cl1_idx][cl2_idx]
-				certainty = edge_count * 1.0 / len(co_occurring_schemas)
-
-				print('clusters %d and %d share arg %d with certainty %d / %d' % (cl1_idx, cl2_idx, arg_idx, cluster_coref_edges[arg_idx][cl1_idx][cl2_idx], len(co_occurring_schemas)))
-				if certainty >= 0.5:
-					# print('clusters %d and %d share arg %d with certainty %d / %d' % (cl1_idx, cl2_idx, arg_idx, cluster_coref_edges[arg_idx][cl1_idx][cl2_idx], len(co_occurring_schemas)))
-					# find the coref cluster that contains either edge and
-					# add both
-					found = False
-					for acc_idx in range(len(arg_coref_clusters)):
-						acc = arg_coref_clusters[acc_idx]
-						if cl1_idx in acc[1] or cl2_idx in acc[1]:
-							found = True
-							acc[1].add(cl1_idx)
-							acc[1].add(cl2_idx)
-							break
-					if not found:
-						arg_coref_clusters.append((next_id, set([cl1_idx, cl2_idx])))
-						next_id = chr(ord(next_id)+1)
-		# print('coref clusters for arg %d: %s' % (arg_idx, arg_coref_clusters))
-		arg_coref_clusters_by_idx[arg_idx] = arg_coref_clusters
-
-	var_options = defaultdict(set)
-	sorted_clusters = sorted(clusters, key=lambda c: len(parse_s_expr(c)[0]), reverse=True)
-	next_id_for_new_vars = max(gen_sccs, key=lambda x: x[0])[0]
-	next_id_for_new_vars = chr(ord(next_id_for_new_vars)+1)
-# print('Steps (no temporal order):')
-for cluster_idx in range(len(sorted_clusters)):
-	cluster = sorted_clusters[cluster_idx]
-	'''
-	print('CLUSTER:')
-	for e in parse_s_expr(cluster):
-		print('\t%s' % e)
-	print('')
-	'''
-
-	options = defaultdict(set)
-	verb = None
-	cluster_dist = float(parse_s_expr(cluster)[1])
-	cluster_step_idcs = set(parse_s_expr(cluster)[2])
-	cluster = parse_s_expr(cluster)[0]
-
-
-	type_counts = defaultdict(lambda: defaultdict(int))
-	# Count how many times each argument type was used
-	for inst_idx in cluster_step_idcs:
-		inst = gr_steps[int(inst_idx)]
-		for i in range(len(inst)):
-			# skip the verb
-			if i == 1:
-				continue
-			for t in inst[i]:
-				type_counts[i][t] += 1
-
-	for formula in cluster:
-		verb = formula[1]
-		for i in range(len(formula)):
-			elem = formula[i]
-			if type(elem) == list:
-				for option in elem:
-					if type_counts[i][option] * 1.0 / len(cluster_step_idcs) > 0.2:
-						options[i].add(option)
-	'''
-	for arg_idx in options.keys():
-		coref_clusters = arg_coref_clusters_by_idx[arg_idx]
-		for coref_cluster in coref_clusters:
-			if cluster_idx in coref_cluster[1]:
-				print('arg %d in cluster %d is %s' % (arg_idx, cluster_idx, coref_cluster[0]))
-				pass
-
-
-	for arg_idx in options.keys():
-		coref_cluster_id = (cluster_idx, arg_idx)
-		replaced = False
-		for coref_cluster in gen_sccs:
-			if coref_cluster_id in coref_cluster[1]:
-				# print('arg %d in cluster %d is %s' % (arg_idx, cluster_idx, coref_cluster[0]))
-				for option in options[arg_idx]:
-					var_options[coref_cluster[0]].add(option)
-				options[arg_idx] = coref_cluster[0]
-				replaced = True
-				break
-		if not replaced:
-			for option in options[arg_idx]:
-				var_options[next_id_for_new_vars].add(option)
-			options[arg_idx] = next_id_for_new_vars
-			next_id_for_new_vars = chr(ord(next_id_for_new_vars)+1)
-	'''
-
-
-	if len(cluster_step_idcs) <= 1:
-		continue
-
-	instance_schemas = set([step_idcs_to_schema_idcs[int(x)] for x in cluster_step_idcs])
-
-	'''
-	if len(options[3]) > 0:
-		print('\t?%s %s ?%s ?%s' % (options[0], verb, options[2], options[3]))
-		# print('\t\t%s' % cluster_step_idcs)
-		# print('\t\t%s' % [step_idcs_to_schema_idcs[int(x)] for x in cluster_step_idcs])
-	else:
-		print('\t?%s %s ?%s' % (options[0], verb, options[2]))
-		# print('\t\t%s' % cluster_step_idcs)
-		# print('\t\t%s' % [step_idcs_to_schema_idcs[int(x)] for x in cluster_step_idcs])
-	print('\t\t(seen %d time%s (avg. centroid dist. %.2f))' % (len(instance_schemas), 's' if len(instance_schemas) != 1 else '', cluster_dist))
-	'''
-
-'''
-for var in var_options.keys():
-	print('?%s: %s' % (var, var_options[var]))
-'''
-
-
-
-
-
-
-# NEW WORLD ORDER UNDER HERE!
-# NEW ARG COREF STRAT FROM SCRATCH!
-
 def cluster_steps(cluster):
 	step_ids = cluster[2]
 	grs = [gr_steps[sid] for sid in step_ids]
@@ -526,13 +189,6 @@ def cluster_steps(cluster):
 new_clusters = [parse_s_expr(c) for c in clusters]
 new_clusters = [[c[0], float(c[1]), [int(x) for x in c[2]]] for c in new_clusters]
 gen_steps = new_clusters
-'''
-for cluster_id in range(len(clusters)):
-	cluster = clusters[cluster_id]
-	print('cluster %d: %s' % (cluster_id, cluster))
-	for (step_id, schema_id, ungr, gr) in cluster_steps(cluster):
-		print('\t%d (schema %d): %s (%s)' % (step_id, schema_id, ungr, gr))
-'''
 
 # Make a multigraph where vertices are of the form
 # 	(genstep id, arg idx)
@@ -557,6 +213,19 @@ for cluster_id in range(len(clusters)):
 # two arguments once, to penalize repetition within
 # a single schema, which is common when using GPT.
 multigraph = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(set))))
+
+# We're also going to build a *directed* multigraph for
+# temporal ordering between the steps. Vertices are
+# single step IDs for gen step clusters, and each edge
+# represents a "happens-before" relationship between two
+# general step instances in one specific schema that
+# instantiates them both.
+
+# This graph dictionary is indexed like [A][B] and its values,
+# as in the coref multigraph, are sets of schemas, each of
+# which schemas represents an edge A->B indicating that A
+# happened before B in that schema.
+temporal_multigraph = defaultdict(lambda: defaultdict(set))
 
 def has_suff(e, suff):
 	if type(e) == str and len(e) > len(suff)+1 and len(e.split('.')) > 1 and len(e.split('.')[-1]) >= len(suff) and e.split('.')[-1][:len(suff)].lower() == suff.lower():
@@ -625,10 +294,61 @@ def flatten_schema_step(step):
 # Loop over each schema, then each pair of steps,
 # then each pair of arguments.
 edges = set()
+all_temporal_eps = set()
 for schema_id in range(len(schemas)):
 	schema = schemas[schema_id]
 
 	steps = schema.get_section('steps').formulas
+
+	'''
+	# Index all of the schema's episode relations
+	# (the BEFORE and AFTER ones, anyway) to use
+	# for the temporal analysis below.
+	schema_temporal_graph = defaultdict(lambda: defaultdict(bool))
+	for ep_rel in schema.get_section('episode-relations').formulas:
+		a = ep_rel.formula.formula[0]
+		rel = ep_rel.formula.formula[1][0]
+		b = ep_rel.formula.formula[1][1]
+		if rel.upper() == 'BEFORE':
+			schema_temporal_graph[a][b] = True
+		elif rel.upper() == 'AFTER':
+			schema_temporal_graph[b][a] = True
+	'''
+
+	# TODO: build an actual time graph instead of using
+	# the implicit order from the linearization of steps.
+	schema_temporal_graph = defaultdict(lambda: defaultdict(bool))
+	for step1_idx in range(len(steps)):
+		# If the step is malformed, we'll ignore it.
+		step1 = flatten_schema_step(steps[step1_idx].formula.formula)
+		if step1 is None:
+			continue
+
+		# If the step wasn't properly vectorized, we'll ignore it.
+		if (schema_id, steps[step1_idx].episode_id) not in valid_steps:
+			continue
+
+		for step2_idx in range(step1_idx, len(steps)):
+			# If the step is malformed, we'll ignore it.
+			step2 = flatten_schema_step(steps[step2_idx].formula.formula)
+			if step2 is None:
+				continue
+
+			# If the step wasn't properly vectorized, we'll ignore it.
+			if (schema_id, steps[step2_idx].episode_id) not in valid_steps:
+				continue
+
+			if step1_idx == step2_idx:
+				continue
+			step1_gen_id = step_idcs_to_gen_idcs[step1_idx]
+			step2_gen_id = step_idcs_to_gen_idcs[step2_idx]
+			if step1_gen_id != step2_gen_id:
+				# No idea why some schemas can fail to "officially"
+				# instantiate the gen step, according to the gen step's
+				# list of instances & the instance-idx-to-schema-idx map,
+				# but this check works for now.
+				if schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step1_gen_id][2]] and schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step2_gen_id][2]]:
+					temporal_multigraph[step1_gen_id][step2_gen_id].add(schema_id)
 
 	# Loop over steps
 	# (we'll allow i==j, but only if the
@@ -645,6 +365,8 @@ for schema_id in range(len(schemas)):
 				continue
 			step2_idx = schema_step_ids_to_step_idcs[schema_id][steps[j].episode_id]
 			step2_gen_id = step_idcs_to_gen_idcs[step2_idx]
+
+			# OK, now we can do coreference indexing:
 
 			# Loop over pairs of arguments
 			for k1 in range(len(step1)):
@@ -678,6 +400,26 @@ def corefers(gen1_id, arg1_idx, gen2_id, arg2_idx, threshold=0.5):
 
 	return (num*1.0 / denom) >= threshold
 
+# Analyze the temporal multigraph to extract ordering
+gen_before_rels = defaultdict(lambda: defaultdict(bool))
+for step1_gen_id in sorted(temporal_multigraph.keys()):
+	for step2_gen_id in sorted(temporal_multigraph[step1_gen_id].keys()):
+		# Find all schemas that contain instances of both general steps
+		step1_gen = gen_steps[step1_gen_id]
+		step2_gen = gen_steps[step2_gen_id]
+		step1_schemas = set([step_idcs_to_schema_idcs[x] for x in step1_gen[2]])
+		step2_schemas = set([step_idcs_to_schema_idcs[x] for x in step2_gen[2]])
+		both_schemas = step1_schemas.intersection(step2_schemas)
+
+		# Count how many schemas ranked step1 before step2
+		count = len(temporal_multigraph[step1_gen_id][step2_gen_id])
+		after_count = len(temporal_multigraph[step2_gen_id][step1_gen_id])
+		if count > after_count:
+			gen_before_rels[step1_gen_id][step2_gen_id] = True
+		elif count < after_count:
+			gen_before_rels[step2_gen_id][step1_gen_id] = True
+
+# Analyze the coref multigraph to form clusters
 coref_pairs = set()
 
 for step1_gen_id in sorted(multigraph.keys()):
@@ -782,11 +524,12 @@ for gen_step in gen_steps:
 
 # Now print out the cluster steps with the new variables subbed in
 # for the argument indices that have been scooped into coref clusters.
-new_steps_str = '(:Steps '
+new_step_strings = []
 for new_step_id in range(len(new_steps)):
 	new_step = new_steps[new_step_id]
 	new_step_str = ''
-	new_step_str = new_step_str + '(?E%d (' % (new_step_id+1)
+	# new_step_str = new_step_str + '(?E%d (' % (new_step_id+1)
+	new_step_str = new_step_str + '('
 	for arg_idx in range(len(new_step)):
 		if arg_idx > 0:
 			new_step_str = new_step_str + ' '
@@ -800,9 +543,41 @@ for new_step_id in range(len(new_steps)):
 			new_step_str = new_step_str + '?%s' % next_id
 			next_id = chr(ord(next_id)+1)
 			# print(new_step[arg_idx], end='')
-	new_step_str = new_step_str + '))'
+	new_step_str = new_step_str + ')'
+	# new_step_str = new_step_str + ')'
+	new_step_strings.append(new_step_str)
 
-	new_steps_str = new_steps_str + new_step_str
+
+# Topsort steps according to the temporal ordering
+handled_idcs = set()
+gen_step_idcs = list(range(len(gen_steps)))
+topsorted_gen_step_idcs = []
+while len(handled_idcs) < len(gen_step_idcs):
+	for gen_step_idx in gen_step_idcs:
+		# Skip it if we've handled it
+		if gen_step_idx in handled_idcs:
+			continue
+
+		# Skip it if anything unhandled happens before it
+		should_skip = False
+		for idx2 in gen_step_idcs:
+			if idx2 != gen_step_idx and idx2 not in handled_idcs and gen_before_rels[idx2][gen_step_idx]:
+				should_skip = True
+				break
+		if should_skip:
+			continue
+
+		# Handle it
+		topsorted_gen_step_idcs.append(gen_step_idx)
+		handled_idcs.add(gen_step_idx)
+
+# Apply the topsort ordering to the new step strings
+new_step_strings = [new_step_strings[i] for i in topsorted_gen_step_idcs]
+
+new_steps_str = '(:Steps'
+for i in range(len(new_step_strings)):
+	nss = new_step_strings[i]
+	new_steps_str = new_steps_str + ' (?E%d %s)' % (i+1, nss)
 new_steps_str = new_steps_str + ')'
 
 new_roles = '(:Roles '

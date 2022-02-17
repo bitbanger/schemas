@@ -1,4 +1,5 @@
 import numpy
+import sys
 
 from collections import defaultdict
 
@@ -8,7 +9,9 @@ from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
 from el_expr import pre_arg, verb_pred, post_args
 
-schema_prompt = 'farming'
+schema_prompt = 'feeding_pets'
+if len(sys.argv) > 1:
+	schema_prompt = sys.argv[1].strip()
 
 schemas = []
 for i in range(9):
@@ -103,7 +106,7 @@ for i in range(len(step_vecs)):
 
 	clusters.append([sorted(cluster, key=lambda x: str(x)), avg_dist, sorted(list(cluster_step_idcs))])
 
-print('Generalized schema steps for topic prompt %s:' % (schema_prompt))
+# print('Generalized schema steps for topic prompt %s:' % (schema_prompt))
 
 clusters = [list_to_s_expr(c) for c in clusters]
 clusters = sorted(list(set(clusters)))
@@ -417,7 +420,7 @@ if False:
 	sorted_clusters = sorted(clusters, key=lambda c: len(parse_s_expr(c)[0]), reverse=True)
 	next_id_for_new_vars = max(gen_sccs, key=lambda x: x[0])[0]
 	next_id_for_new_vars = chr(ord(next_id_for_new_vars)+1)
-print('Steps (no temporal order):')
+# print('Steps (no temporal order):')
 for cluster_idx in range(len(sorted_clusters)):
 	cluster = sorted_clusters[cluster_idx]
 	'''
@@ -486,6 +489,7 @@ for cluster_idx in range(len(sorted_clusters)):
 
 	instance_schemas = set([step_idcs_to_schema_idcs[int(x)] for x in cluster_step_idcs])
 
+	'''
 	if len(options[3]) > 0:
 		print('\t?%s %s ?%s ?%s' % (options[0], verb, options[2], options[3]))
 		# print('\t\t%s' % cluster_step_idcs)
@@ -495,6 +499,7 @@ for cluster_idx in range(len(sorted_clusters)):
 		# print('\t\t%s' % cluster_step_idcs)
 		# print('\t\t%s' % [step_idcs_to_schema_idcs[int(x)] for x in cluster_step_idcs])
 	print('\t\t(seen %d time%s (avg. centroid dist. %.2f))' % (len(instance_schemas), 's' if len(instance_schemas) != 1 else '', cluster_dist))
+	'''
 
 '''
 for var in var_options.keys():
@@ -610,6 +615,9 @@ def flatten_schema_step(step):
 			else:
 				verb_posts.append(e)
 
+	if verb_pred is None:
+		return None
+
 	verb_pred = verb_pred.split('.')[0]
 
 	return [pre_arg, verb_pred] + verb_posts + posts
@@ -627,10 +635,14 @@ for schema_id in range(len(schemas)):
 	# arguments are different)
 	for i in range(len(steps)):
 		step1 = flatten_schema_step(steps[i].formula.formula)
+		if step1 is None:
+			continue
 		step1_idx = schema_step_ids_to_step_idcs[schema_id][steps[i].episode_id]
 		step1_gen_id = step_idcs_to_gen_idcs[step1_idx]
 		for j in range(len(steps)):
 			step2 = flatten_schema_step(steps[j].formula.formula)
+			if step2 is None:
+				continue
 			step2_idx = schema_step_ids_to_step_idcs[schema_id][steps[j].episode_id]
 			step2_gen_id = step_idcs_to_gen_idcs[step2_idx]
 
@@ -679,7 +691,7 @@ for step1_gen_id in sorted(multigraph.keys()):
 					coref_pairs.add((v, e))
 
 
-print('\n\n-----------\n\n')
+# print('\n\n-----------\n\n')
 
 coref_vtcs = set()
 for (v, e) in coref_pairs:
@@ -700,11 +712,108 @@ for v in coref_vtcs:
 	if not found:
 		coref_clusters.append(set([v]))
 
+# Now that we've formed coreference clusters, we'll
+# take reasonably high-frequency role types for them
+# for the roles section of the new generalized schema.
+var_options = defaultdict(list)
 next_id = 'A'
+arg_pairs_to_vars = dict()
 for cc in coref_clusters:
-	print('%s is:' % next_id)
+	option_counts = defaultdict(int)
+	options = set()
+
+	# Associate every arg pair in the cluster with the
+	# new variable name
+	for e in cc:
+		arg_pairs_to_vars[e] = next_id
+
 	for e in cc:
 		(gen_step_id, arg_idx) = e
-		print('\t%d of %s' % (arg_idx, gen_steps[gen_step_id][0][0]))
+		instance_ids = gen_steps[gen_step_id][2]
+		instance_gr_steps = [gr_steps[inst_id] for inst_id in instance_ids]
+
+		for instance in instance_gr_steps:
+			if len(instance) > arg_idx:
+				for option in instance[arg_idx]:
+					option_counts[option] += 1
+
+		for instance in instance_gr_steps:
+			if len(instance) > arg_idx:
+				for option in instance[arg_idx]:
+					num_cluster_instances = len(instance_ids)
+					option_freq = option_counts[option] * 1.0 / num_cluster_instances
+					if option_freq > 0.2:
+						options.add(option)
+		# If no options are frequent enough, take the highest
+		# frequency one
+		if len(options) == 0:
+			options_with_freqs = []
+			for instance in instance_gr_steps:
+				if len(instance) > arg_idx:
+					for option in instance[arg_idx]:
+						num_cluster_instances = len(instance_ids)
+						option_freq = option_counts[option] * 1.0 / num_cluster_instances
+						options_with_freqs.append((option, option_freq))
+			options = [max(options_with_freqs, key=lambda x: x[1])[0]]
+
+	var_options[next_id] = sorted(list(options))
 
 	next_id = chr(ord(next_id)+1)
+
+# Reform gen_steps to have sets of variable options
+new_steps = []
+for gen_step in gen_steps:
+	options = defaultdict(set)
+	for inst_form in gen_step[0]:
+		for arg_idx in range(len(inst_form)):
+			if arg_idx == 1:
+				continue
+			for option in inst_form[arg_idx]:
+				options[arg_idx].add(option)
+
+	new_step = []
+	for arg_idx in sorted(options.keys()):
+		new_step.append(sorted(list(options[arg_idx])))
+
+	# TODO: update this if the verbs are ever allowed to differ
+	new_step = [new_step[0], gen_step[0][0][1]] + new_step[1:]
+
+	new_steps.append(new_step)
+
+# Now print out the cluster steps with the new variables subbed in
+# for the argument indices that have been scooped into coref clusters.
+new_steps_str = '(:Steps '
+for new_step_id in range(len(new_steps)):
+	new_step = new_steps[new_step_id]
+	new_step_str = ''
+	new_step_str = new_step_str + '(?E%d (' % (new_step_id+1)
+	for arg_idx in range(len(new_step)):
+		if arg_idx > 0:
+			new_step_str = new_step_str + ' '
+		if arg_idx == 1:
+			new_step_str = new_step_str + '%s.V' % new_step[arg_idx]
+			continue
+		if (new_step_id, arg_idx) in arg_pairs_to_vars:
+			new_step_str = new_step_str + '?%s' % arg_pairs_to_vars[(new_step_id, arg_idx)]
+		else:
+			var_options[next_id] = new_step[arg_idx]
+			new_step_str = new_step_str + '?%s' % next_id
+			next_id = chr(ord(next_id)+1)
+			# print(new_step[arg_idx], end='')
+	new_step_str = new_step_str + '))'
+
+	new_steps_str = new_steps_str + new_step_str
+new_steps_str = new_steps_str + ')'
+
+new_roles = '(:Roles '
+var_num = 1
+for var in var_options.keys():
+	for option in var_options[var]:
+		new_roles = new_roles + ('(!R%d (?%s %s.N))' % (var_num, var, option))
+		var_num += 1
+new_roles = new_roles + ')'
+
+new_schema = '(epi-schema ((?x new_schema.v) ** ?e) %s %s)' % (new_roles, new_steps_str)
+
+print(Schema(new_schema))
+

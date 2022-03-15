@@ -1,4 +1,5 @@
 import os
+import random
 import subprocess
 import time
 import xmlrpc.client
@@ -50,6 +51,8 @@ for story in stories:
 	stories_by_topic[story_topic(story)].append(story)
 
 topics_in_order = [story_topic(story) for story in stories]
+
+random.shuffle(topics_in_order)
 
 # topics_in_order contains duplicates, so we'll hack out
 # a fix for that here :|
@@ -115,6 +118,11 @@ for topic in topics_in_order:
 	for compo in extract_compos(lome_to_el_output.split('\n'), include_protos=False, as_list=True):
 		with open('standalone-schemas/%s_%d.txt' % (topic, i), 'w') as f:
 			f.write('(%s)' % (compo))
+		i += 1
+	i = 0
+	for compo_and_protos in extract_compos(lome_to_el_output.split('\n'), include_protos=True):
+		with open('standalone-schemas-with-protos/%s_%d.txt' % (topic, i), 'w') as f:
+			f.write('(%s)' % (compo_and_protos))
 		i += 1
 
 	# Make the webpage with the new schemas and upload

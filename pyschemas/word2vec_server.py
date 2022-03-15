@@ -27,5 +27,5 @@ with SimpleXMLRPCServer(('localhost', 8414), requestHandler=RequestHandler) as s
 		server.register_function(similarity)
 		server.register_function(vector)
 
-		print('server started')
+		print('word2vec server started')
 		server.serve_forever()

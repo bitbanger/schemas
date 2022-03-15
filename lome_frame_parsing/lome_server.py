@@ -1,12 +1,21 @@
 #!/home/lane/miniconda3/bin/python
 
 import lispify_comm_frames
+import logging
 import os
 import subprocess
 
 from allennlp.predictors import predictor
 from concrete.util import read_communication_from_file as read_comm
 from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
+
+logging.getLogger('allennlp.common.params').disabled = True 
+logging.getLogger('allennlp.data.vocabulary').disabled = True 
+logging.getLogger('allennlp.modules.token_embedders.embedding').disabled = True 
+logging.getLogger('allennlp.common.plugins').disabled = True 
+logging.getLogger('allennlp.models.archival').disabled = True 
+logging.getLogger('allennlp.nn.initializers').disabled = True 
+logging.getLogger('urllib3.connectionpool').disabled = True 
 
 coref = predictor.Predictor.from_path("/home/lane/Code/schemas/allen-coref/coref-spanbert-large-2021.03.10.tar.gz")
 

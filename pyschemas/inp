@@ -1,0 +1,7 @@
+((JOHN.NAME (CATCH.V TROUT4.SK)) ** E3.SK) ((TROUT4.SK (HAS-DET.PR (IND A.D)))
+                                            (E3.SK (HAS-DET.PR (IND SOME)))
+                                            ((JOHN.NAME (CATCH.V TROUT4.SK)) **
+                                             E3.SK)
+                                            (E3.SK (AT-ABOUT NOW0))
+                                            (TROUT4.SK (PLUR TROUT.N))
+                                            (JOHN.NAME AGENT.N))

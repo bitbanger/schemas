@@ -40,5 +40,5 @@ with SimpleXMLRPCServer(('localhost', 8415), requestHandler=RequestHandler) as s
 
 	server.register_function(match)
 
-	print('server started')
+	print('schema match server started')
 	server.serve_forever()

@@ -1,4 +1,5 @@
 import numpy
+import os
 import sys
 
 from collections import defaultdict
@@ -16,12 +17,23 @@ if len(sys.argv) > 1:
 	schema_prompt = sys.argv[1].strip()
 
 schemas = []
+for f in os.listdir('tmp-standalones/'):
+	if len(f) <= len(schema_prompt) or f[:len(schema_prompt)] != schema_prompt:
+		continue
+	try:
+		schemas.append(schema_from_file('tmp-standalones/%s' % f))
+	except:
+		pass
+
+'''
+schemas = []
 for i in range(9):
 	try:
-		schemas.append(schema_from_file('standalone-schemas/%s_%d.txt' % (schema_prompt, i)))
+		schemas.append(schema_from_file('tmp-standalones/%s_%d.txt' % (schema_prompt, i)))
 	except:
 		pass
 	# print(str(schemas[-1]))
+'''
 
 coref_edges = defaultdict(lambda: defaultdict(lambda: defaultdict(bool)))
 
@@ -103,6 +115,7 @@ for i in range(len(step_vecs)):
 	centroid = numpy.average(cluster_vecs, axis=0)
 	avg_dist = sum([distance.cosine(x, centroid) for x in cluster_vecs]) * 1.0 / len(cluster_vecs)
 
+	# print('%d instances' % (len(cluster_step_idcs)))
 	clusters.append([sorted(cluster, key=lambda x: str(x)), avg_dist, sorted(list(cluster_step_idcs))])
 
 # print('Generalized schema steps for topic prompt %s:' % (schema_prompt))
@@ -397,6 +410,8 @@ def coref_certainty(gen1_id, arg1_idx, gen2_id, arg2_idx):
 
 def corefers(gen1_id, arg1_idx, gen2_id, arg2_idx, threshold=0.5):
 	(num, denom) = coref_certainty(gen1_id, arg1_idx, gen2_id, arg2_idx)
+	if denom == 0:
+		return None
 
 	return (num*1.0 / denom) >= threshold
 
@@ -496,7 +511,7 @@ for cc in coref_clusters:
 						num_cluster_instances = len(instance_ids)
 						option_freq = option_counts[option] * 1.0 / num_cluster_instances
 						options_with_freqs.append((option, option_freq))
-			options = [max(options_with_freqs, key=lambda x: x[1])[0]]
+			options.add(max(options_with_freqs, key=lambda x: x[1])[0])
 
 	var_options[next_id] = sorted(list(options))
 
@@ -525,6 +540,7 @@ for gen_step in gen_steps:
 # Now print out the cluster steps with the new variables subbed in
 # for the argument indices that have been scooped into coref clusters.
 new_step_strings = []
+used_vars = set()
 for new_step_id in range(len(new_steps)):
 	new_step = new_steps[new_step_id]
 	new_step_str = ''
@@ -538,15 +554,21 @@ for new_step_id in range(len(new_steps)):
 			continue
 		if (new_step_id, arg_idx) in arg_pairs_to_vars:
 			new_step_str = new_step_str + '?%s' % arg_pairs_to_vars[(new_step_id, arg_idx)]
+			# We're removing role constraints that don't contain vars
+			# used by high-frequency steps, so if this is a high-frequency
+			# step, save the var for that culling later.
+			if len(gen_steps[new_step_id][2]) > 2:
+				used_vars.add(arg_pairs_to_vars[(new_step_id, arg_idx)])
 		else:
 			var_options[next_id] = new_step[arg_idx]
 			new_step_str = new_step_str + '?%s' % next_id
+			if len(gen_steps[new_step_id][2]) > 2:
+				used_vars.add(next_id)
 			next_id = chr(ord(next_id)+1)
 			# print(new_step[arg_idx], end='')
 	new_step_str = new_step_str + ')'
 	# new_step_str = new_step_str + ')'
 	new_step_strings.append(new_step_str)
-
 
 # Topsort steps according to the temporal ordering
 handled_idcs = set()
@@ -571,8 +593,9 @@ while len(handled_idcs) < len(gen_step_idcs):
 		topsorted_gen_step_idcs.append(gen_step_idx)
 		handled_idcs.add(gen_step_idx)
 
-# Apply the topsort ordering to the new step strings
-new_step_strings = [new_step_strings[i] for i in topsorted_gen_step_idcs]
+# Apply the topsort ordering to the new step strings, and
+# filter out gen steps that didn't have at least 3 instances
+new_step_strings = [new_step_strings[i] for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) > 2]
 
 new_steps_str = '(:Steps'
 for i in range(len(new_step_strings)):
@@ -583,7 +606,11 @@ new_steps_str = new_steps_str + ')'
 new_roles = '(:Roles '
 var_num = 1
 for var in var_options.keys():
+	if var not in used_vars:
+		continue
 	for option in var_options[var]:
+		if option[0] == '?':
+			continue
 		new_roles = new_roles + ('(!R%d (?%s %s.N))' % (var_num, var, option))
 		var_num += 1
 new_roles = new_roles + ')'

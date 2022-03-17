@@ -2,6 +2,8 @@ import numpy
 import os
 import sys
 
+from kneed import KneeLocator
+
 from collections import defaultdict
 
 from functools import cmp_to_key
@@ -10,6 +12,10 @@ from schema import Schema, schema_from_file
 from schema_match import prop_to_vec, grounded_schema_prop
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
+
+from sklearn.cluster import KMeans
+from sklearn.metrics import calinski_harabasz_score as ch_score
+
 from el_expr import pre_arg, verb_pred, post_args
 
 schema_prompt = 'feeding_pets'
@@ -73,174 +79,78 @@ for i in range(len(schemas)):
 
 clusters = []
 
-for i in range(len(step_vecs)):
-	st1 = step_vecs[i]
-	# print(gr_steps[i])
-	other_steps = [(step_vecs[j], gr_steps[j], j) for j in range(len(step_vecs)) if j != i]
-	other_steps = sorted(other_steps, key=lambda x: distance.cosine(x[0], st1))
-	last = 0
+step_vecs = numpy.array(step_vecs)
 
-	# Remove all other steps that share a schema index
-	# (this schema is telling us, by having dupes, that
-	# the steps SHOULD NOT be clustered together)
-	other_steps = [x for x in other_steps if step_idcs_to_schema_idcs[x[2]] != step_idcs_to_schema_idcs[i]]
+# Normalize EL vectors so that Euclidean distance is
+# linearly correlated to cosine distance, allowing us
+# to use the Euclidean KMeans and CH distance in sklearn
+length = numpy.sqrt((step_vecs**2).sum(axis=1))[:,None]
+step_vecs = step_vecs / length
 
-	# Make sure only one step from each represented schema
-	# is kept (the one with the smallest distance to us)
-	new_other_steps = []
-	seen_schemas = list(set([step_idcs_to_schema_idcs[x[2]] for x in other_steps]))
-	for ss in seen_schemas:
-		best = min([x for x in other_steps if step_idcs_to_schema_idcs[x[2]] == ss], key=lambda y: distance.cosine(y[0], st1))
-		new_other_steps.append(best)
-	other_steps = new_other_steps
+ch_dists = []
 
-	# Do a pass to calculate the derivative of the
-	# sorted cosine distances
-	delta_dist = []
-	for j in range(len(other_steps)):
-		dist = distance.cosine(other_steps[j][0], st1)
-		delta = dist-last
-		if j == 0:
-			delta = 0
-		last = dist
-		delta_dist.append(delta)
+cluster_maps = []
 
-	max_delta_idx = max(range(len(delta_dist)), key=lambda i: delta_dist[i])
+MIN_CLUSTERS = 4
+MAX_CLUSTERS = 20
 
-	cluster_vecs = [st1]
-	cluster = [gr_steps[i]]
-	cluster_step_idcs = set([i])
+for n in range(MIN_CLUSTERS, MAX_CLUSTERS):
+	kmeans = KMeans(n_clusters=n).fit(step_vecs)
+	# print(kmeans.labels_)
+	grs_by_cluster = defaultdict(list)
+	for i in range(len(step_vecs)):
+		grs_by_cluster[kmeans.labels_[i]].append(i)
+	cluster_maps.append(grs_by_cluster)
+	print('%d: %.2f' % (n, ch_score(step_vecs, kmeans.labels_)))
+	# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
+	ch_dists.append(kmeans.inertia_)
+	# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
+	'''
+	for label in sorted(list(set(kmeans.labels_))):
+		print('cluster %d:' % label)
+		for gr in grs_by_cluster[label]:
+			print('\t%s' % gr)
 
-	for j in range(max_delta_idx):
-		root_verb = gr_steps[i][1]
-		this_verb = other_steps[j][1][1]
-		if root_verb == this_verb:
-			cluster.append(other_steps[j][1])
-			cluster_vecs.append(other_steps[j][0])
-			cluster_step_idcs.add(other_steps[j][2])
-		dist = distance.cosine(other_steps[j][0], st1)
-		# print('\t%.2f: %s' % (dist, other_steps[j][1]))
-	# print('\t------')
-	for j in range(max_delta_idx+1, len(other_steps)):
-		dist = distance.cosine(other_steps[j][0], st1)
-		# print('\t%.2f: %s' % (dist, other_steps[j][1]))
+	input()
+	'''
 
-	# calculate avg. distance from centroid
-	centroid = numpy.average(cluster_vecs, axis=0)
-	avg_dist = sum([distance.cosine(x, centroid) for x in cluster_vecs]) * 1.0 / len(cluster_vecs)
+import matplotlib.pyplot as plt
 
-	# print('%d instances' % (len(cluster_step_idcs)))
-	clusters.append([sorted(cluster, key=lambda x: str(x)), avg_dist, sorted(list(cluster_step_idcs))])
+xpoints = numpy.array(list(range(MIN_CLUSTERS, MAX_CLUSTERS)))
+ypoints = numpy.array(ch_dists)
 
-# print('Generalized schema steps for topic prompt %s:' % (schema_prompt))
+cnum = KneeLocator(xpoints, ypoints, curve='convex', direction='decreasing').knee
 
-'''
-for cluster in clusters:
-	print('cluster:')
-	for e in cluster:
-		print('\t%s' % e)
-quit()
-'''
+for label in range(cnum+MIN_CLUSTERS):
+	print('cluster %d:' % (label))
+	for gr in cluster_maps[cnum][label]:
+		print('\t%s' % gr)
+
+clusters = []
+for label in range(cnum+MIN_CLUSTERS):
+	cluster_step_idcs = []
+
+	for step_idx in cluster_maps[cnum][label]:
+		cluster_step_idcs.append(step_idx)
+
+	# Remove steps that don't have the majority verb
+	verb_freqs = defaultdict(int)
+	for gr_step in [gr_steps[i] for i in cluster_step_idcs]:
+		verb_freqs[gr_step[1]] += 1
+	best_verb = max([gr_step[1] for gr_step in [gr_steps[i] for i in cluster_step_idcs]], key=lambda x: verb_freqs[x])
+	cluster_step_idcs = [idx for idx in cluster_step_idcs if gr_steps[idx][1] == best_verb]
+
+	# Form the cluster
+	avg_dist = ypoints[cnum]
+	cluster_vecs = [step_vecs[i] for i in cluster_step_idcs]
+	cluster_grs = [gr_steps[i] for i in cluster_step_idcs]
+
+	cluster = [sorted(cluster_grs, key=lambda x: str(x)), avg_dist, sorted(list(cluster_step_idcs))]
+
+	clusters.append(cluster)
 
 clusters = [list_to_s_expr(c) for c in clusters]
 clusters = sorted(list(set(clusters)))
-
-
-sorted_clusters = sorted(list(clusters), key=lambda c: len(parse_s_expr(c)[0]), reverse=True)
-handled_clusters = set()
-merged_clusters = []
-for i in range(len(sorted_clusters)):
-	if i in handled_clusters:
-		continue
-	handled_clusters.add(i)
-	cluster1 = parse_s_expr(sorted_clusters[i])
-	instances1 = set(cluster1[2])
-
-	all_merged = []
-	merged = []
-
-	split_steps = set()
-	unsplit_steps = set()
-
-	for j in range(len(sorted_clusters)):
-		if j in handled_clusters:
-			continue
-		cluster2 = parse_s_expr(sorted_clusters[j])
-		instances2 = set(cluster2[2])
-
-		shared = len(instances1.intersection(instances2)) * 1.0 / len(instances1.union(instances2))
-		# if len(instances1.intersection(instances2)) > 0:
-		if shared > 0.33:
-			print('in here (shared %.2f):' % shared)
-			schemas1 = [step_idcs_to_schema_idcs[int(x)] for x in instances1]
-			schemas2 = [step_idcs_to_schema_idcs[int(x)] for x in instances2]
-			# print('merging schemas %s with schemas %s' % (schemas1, schemas2))
-			skip_outer = False
-			for instance1 in instances1:
-				skip = False
-				for instance2 in instances2:
-					if step_idcs_to_schema_idcs[int(instance1)] == step_idcs_to_schema_idcs[int(instance2)]:
-						instep1 = str(gr_steps[int(instance1)])
-						instep2 = str(gr_steps[int(instance2)])
-						if instep1 != instep2:
-							print('\tBAD: %s and %s' % (instep1, instep2))
-							skip = True
-							split_steps.add(int(instance1))
-							split_steps.add(int(instance2))
-						else:
-							print('\t OK: %s and %s' % (instep1, instep2))
-							unsplit_steps.add(int(instance1))
-							unsplit_steps.add(int(instance2))
-				if skip:
-					skip_outer = True
-			if skip_outer:
-				print('cannot merge')
-			else:
-				print('can merge')
-
-			print('cluster is:')
-			for inst in instances1.union(instances2):
-				print(gr_steps[int(inst)])
-
-		if skip_outer:
-			# continue
-			pass
-		# if len(instances1.intersection(instances2)) > 0:
-		if shared > 0.4:
-			merged.append(j)
-
-	for m in merged:
-		handled_clusters.add(m)
-
-	merged_clusters.append([i] + merged)
-
-new_clusters = []
-for mc_idcs in merged_clusters:
-	mc_sexps = [sorted_clusters[i] for i in mc_idcs]
-	mcs = [parse_s_expr(x) for x in mc_sexps]
-	all_formulas = set()
-	all_instances = set()
-	for mc in mcs:
-		formulas = set([list_to_s_expr(x) for x in mc[0]])
-		all_formulas = all_formulas.union(formulas)
-
-		instances = set(mc[2])
-		all_instances = all_instances.union(instances)
-
-	all_formulas = sorted(list(all_formulas))
-	all_instances = sorted(list(all_instances))
-
-	# TODO: choosing the max dist score of all merged clusters
-	# is inaccurate, but good enough. We should really re-calculate
-	# it here (or only calculate it here, honestly)
-	max_dist_score = float(max(mcs, key=lambda x: float(x[1]))[1])
-
-	all_formulas = [parse_s_expr(f) for f in list(all_formulas)]
-	all_instances = [int(x) for x in list(all_instances)]
-
-	new_clusters.append(list_to_s_expr([all_formulas, max_dist_score, all_instances]))
-
-clusters = sorted(new_clusters)
 
 # Map gen cluster IDs to step IDs
 gen_idcs_to_step_idcs = defaultdict(set)
@@ -397,6 +307,8 @@ for schema_id in range(len(schemas)):
 	# the implicit order from the linearization of steps.
 	schema_temporal_graph = defaultdict(lambda: defaultdict(bool))
 	for step1_idx in range(len(steps)):
+		if step1_idx not in step_idcs_to_gen_idcs.keys():
+			continue
 		# If the step is malformed, we'll ignore it.
 		step1 = flatten_schema_step(steps[step1_idx].formula.formula)
 		if step1 is None:
@@ -407,6 +319,8 @@ for schema_id in range(len(schemas)):
 			continue
 
 		for step2_idx in range(step1_idx, len(steps)):
+			if step2_idx not in step_idcs_to_gen_idcs.keys():
+				continue
 			# If the step is malformed, we'll ignore it.
 			step2 = flatten_schema_step(steps[step2_idx].formula.formula)
 			if step2 is None:
@@ -432,16 +346,24 @@ for schema_id in range(len(schemas)):
 	# (we'll allow i==j, but only if the
 	# arguments are different)
 	for i in range(len(steps)):
+		if i not in step_idcs_to_gen_idcs.keys():
+			continue
 		step1 = flatten_schema_step(steps[i].formula.formula)
 		if step1 is None:
 			continue
 		step1_idx = schema_step_ids_to_step_idcs[schema_id][steps[i].episode_id]
+		if step1_idx not in step_idcs_to_gen_idcs.keys():
+			continue
 		step1_gen_id = step_idcs_to_gen_idcs[step1_idx]
 		for j in range(len(steps)):
+			if j not in step_idcs_to_gen_idcs.keys():
+				continue
 			step2 = flatten_schema_step(steps[j].formula.formula)
 			if step2 is None:
 				continue
 			step2_idx = schema_step_ids_to_step_idcs[schema_id][steps[j].episode_id]
+			if step2_idx not in step_idcs_to_gen_idcs.keys():
+				continue
 			step2_gen_id = step_idcs_to_gen_idcs[step2_idx]
 
 			# OK, now we can do coreference indexing:

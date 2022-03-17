@@ -87,6 +87,9 @@ def get_role_types(schema):
 			if type(role[0]) != str:
 				continue
 
+			if len(role) > 2:
+				continue
+
 			if role[1] == 'AGENT.N':
 				role = [role[0], 'PERSON.N']
 			if type(role[1]) != list:

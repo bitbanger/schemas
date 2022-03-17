@@ -103,7 +103,7 @@ def get_role_types(schema):
 
 	return role_types
 
-def grounded_prop(prop, context_formulas):
+def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 	if len(prop) == 3 and prop[1] == '**':
 		prop = prop[0]
 
@@ -137,14 +137,17 @@ def grounded_prop(prop, context_formulas):
 			elif type(role_type) != list:
 				roles[phi[0]].add(strip_tags(role_type))
 
-	for ind in inds:
-		print('%s: %s' % (ind, list(roles[ind])))
+	# for ind in inds:
+		# print('%s: %s' % (ind, list(roles[ind])))
 
 	gr_prop = []
 	if prop[0] in inds:
 		gr_prop.append(list(roles[prop[0]]))
-	print(prop[1])
-	gr_prop.append(strip_tags(prop[1]))
+	# print(prop[1])
+	if strip_dot_tags:
+		gr_prop.append(strip_tags(prop[1]))
+	else:
+		gr_prop.append(prop[1])
 	for e in prop[2:]:
 		if e in inds:
 			gr_prop.append(list(roles[e]))

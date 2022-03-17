@@ -78,3 +78,12 @@ def schema_from_file(fn):
 		txt = '\n'.join(lines)
 		s_expr = parse_s_expr(txt)
 		return Schema(s_expr[0])
+
+def schema_and_protos_from_file(fn):
+	with open(fn, 'r') as f:
+		txt = f.read()
+		lines = txt.strip().split('\n')
+		lines = [line.split(';')[0] for line in lines]
+		txt = '\n'.join(lines)
+		s_expr = parse_s_expr(txt)
+		return (Schema(s_expr[0]), [Schema(proto) for proto in s_expr[1]])

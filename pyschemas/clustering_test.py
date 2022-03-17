@@ -8,8 +8,8 @@ from collections import defaultdict
 
 from functools import cmp_to_key
 
-from schema import Schema, schema_from_file
-from schema_match import prop_to_vec, grounded_schema_prop
+from schema import Schema, schema_from_file, schema_and_protos_from_file
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
 
@@ -23,11 +23,13 @@ if len(sys.argv) > 1:
 	schema_prompt = sys.argv[1].strip()
 
 schemas = []
-for f in os.listdir('tmp-standalones/'):
+for f in os.listdir('tmp-with-protos/'):
 	if len(f) <= len(schema_prompt) or f[:len(schema_prompt)] != schema_prompt:
 		continue
 	try:
-		schemas.append(schema_from_file('tmp-standalones/%s' % f))
+		# schemas.append(schema_from_file('tmp-standalones/%s' % f))
+		(compo, protos) = schema_and_protos_from_file('tmp-with-protos/%s' % f)
+		schemas.append(compo)
 	except:
 		pass
 
@@ -57,6 +59,10 @@ for i in range(len(schemas)):
 	steps = schema.get_section('steps').formulas
 	for j in range(len(steps)):
 		step = steps[j].formula.formula
+		try:
+			print(grounded_prop(step, [], strip_dot_tags=False))
+		except:
+			pass
 
 		step_vec = prop_to_vec(step, schema)
 		if step_vec is None:
@@ -121,10 +127,12 @@ ypoints = numpy.array(ch_dists)
 
 cnum = KneeLocator(xpoints, ypoints, curve='convex', direction='decreasing').knee
 
+'''
 for label in range(cnum+MIN_CLUSTERS):
 	print('cluster %d:' % (label))
 	for gr in cluster_maps[cnum][label]:
 		print('\t%s' % gr)
+'''
 
 clusters = []
 for label in range(cnum+MIN_CLUSTERS):
@@ -156,9 +164,9 @@ clusters = sorted(list(set(clusters)))
 gen_idcs_to_step_idcs = defaultdict(set)
 for cluster_idx in range(len(clusters)):
 	cluster = parse_s_expr(clusters[cluster_idx])
-	print(cluster)
+	# print(cluster)
 	for step_idx in cluster[2]:
-		print('adding step %s to gen step %s' % (step_idx, cluster_idx))
+		# print('adding step %s to gen step %s' % (step_idx, cluster_idx))
 		gen_idcs_to_step_idcs[cluster_idx].add(int(step_idx))
 
 # Map step IDs to gen cluster IDs
@@ -286,7 +294,7 @@ def flatten_schema_step(step):
 edges = set()
 all_temporal_eps = set()
 for schema_id in range(len(schemas)):
-	print('testing schema %d' % (schema_id))
+	# print('testing schema %d' % (schema_id))
 	schema = schemas[schema_id]
 
 	steps = schema.get_section('steps').formulas
@@ -353,9 +361,9 @@ for schema_id in range(len(schemas)):
 				# list of instances & the instance-idx-to-schema-idx map,
 				# but this check works for now.
 				# if schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step1_gen_id][2]] and schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step2_gen_id][2]]:
-					if schema_id not in temporal_multigraph[step1_gen_id][step2_gen_id]:
-						print('%s before %s in schema %d' % (gr_steps[abs1_idx], gr_steps[abs2_idx], schema_id))
-						print(schemas[schema_id])
+					# if schema_id not in temporal_multigraph[step1_gen_id][step2_gen_id]:
+						# print('%s before %s in schema %d' % (gr_steps[abs1_idx], gr_steps[abs2_idx], schema_id))
+						# print(schemas[schema_id])
 					temporal_multigraph[step1_gen_id][step2_gen_id].add(schema_id)
 
 	# Loop over steps
@@ -433,10 +441,10 @@ for step1_gen_id in sorted(temporal_multigraph.keys()):
 		count = len(temporal_multigraph[step1_gen_id][step2_gen_id])
 		after_count = len(temporal_multigraph[step2_gen_id][step1_gen_id])
 		if count > after_count:
-			print('step %s before step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], count, after_count))
+			# print('step %s before step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], count, after_count))
 			gen_before_rels[step1_gen_id][step2_gen_id] = True
 		elif count < after_count:
-			print('step %s after step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], after_count, count))
+			# print('step %s after step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], after_count, count))
 			gen_before_rels[step2_gen_id][step1_gen_id] = True
 
 # Analyze the coref multigraph to form clusters
@@ -516,7 +524,8 @@ for cc in coref_clusters:
 						num_cluster_instances = len(instance_ids)
 						option_freq = option_counts[option] * 1.0 / num_cluster_instances
 						options_with_freqs.append((option, option_freq))
-			options.add(max(options_with_freqs, key=lambda x: x[1])[0])
+			if len(options_with_freqs) > 0:
+				options.add(max(options_with_freqs, key=lambda x: x[1])[0])
 
 	var_options[next_id] = sorted(list(options))
 

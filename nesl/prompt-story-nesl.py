@@ -10,8 +10,8 @@ from extract_composites import extract_compos
 
 from collections import defaultdict
 
-PROMPT = 'going outside in the wintertime'
-NUM_STORIES = 15
+PROMPT = 'going to a festival'
+NUM_STORIES = 5
 
 US_PROMPT = '_'.join(PROMPT.split(' '))
 
@@ -89,13 +89,19 @@ def gen(prompt, num):
 			continue
 	if len(standalone_nums) > 0:
 		i = max(standalone_nums) + 1
-	for compo in extract_compos(lome_to_el_output.split('\n'), include_protos=False, as_list=True):
+	for (compo, protos) in extract_compos(lome_to_el_output.split('\n'), include_protos=True, as_list=True):
 		if len(compo.strip()) < 10:
 			continue
 		standalone_txts.append('(%s)' % compo)
 		with open('prompt-standalones/%s_%d.txt' % ('_'.join(prompt.split(' ')), i), 'w') as f:
 			f.write('(%s)' % compo)
+		with open('prompt-protos/%s_%d.txt' % ('_'.join(prompt.split(' ')), i), 'w') as f:
+			f.write('(%s (' % compo)
+			for proto in protos:
+				f.write('%s' % proto)
+			f.write('))')
 		i += 1
+
 
 	return i
 

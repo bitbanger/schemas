@@ -80,7 +80,10 @@ def extract_compos(lines, include_protos=False, as_list=False):
 			return_str_buf.append('')
 
 	if as_list:
-		return schemas
+		if include_protos:
+			return schema_proto_pairs
+		else:
+			return schemas
 	else:
 		return '\n'.join(return_str_buf)
 

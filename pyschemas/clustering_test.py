@@ -138,7 +138,7 @@ for label in range(cnum+MIN_CLUSTERS):
 	for gr_step in [gr_steps[i] for i in cluster_step_idcs]:
 		verb_freqs[gr_step[1]] += 1
 	best_verb = max([gr_step[1] for gr_step in [gr_steps[i] for i in cluster_step_idcs]], key=lambda x: verb_freqs[x])
-	cluster_step_idcs = [idx for idx in cluster_step_idcs if gr_steps[idx][1] == best_verb]
+	# cluster_step_idcs = [idx for idx in cluster_step_idcs if gr_steps[idx][1] == best_verb]
 
 	# Form the cluster
 	avg_dist = ypoints[cnum]
@@ -156,7 +156,9 @@ clusters = sorted(list(set(clusters)))
 gen_idcs_to_step_idcs = defaultdict(set)
 for cluster_idx in range(len(clusters)):
 	cluster = parse_s_expr(clusters[cluster_idx])
+	print(cluster)
 	for step_idx in cluster[2]:
+		print('adding step %s to gen step %s' % (step_idx, cluster_idx))
 		gen_idcs_to_step_idcs[cluster_idx].add(int(step_idx))
 
 # Map step IDs to gen cluster IDs
@@ -284,6 +286,7 @@ def flatten_schema_step(step):
 edges = set()
 all_temporal_eps = set()
 for schema_id in range(len(schemas)):
+	print('testing schema %d' % (schema_id))
 	schema = schemas[schema_id]
 
 	steps = schema.get_section('steps').formulas
@@ -307,8 +310,13 @@ for schema_id in range(len(schemas)):
 	# the implicit order from the linearization of steps.
 	schema_temporal_graph = defaultdict(lambda: defaultdict(bool))
 	for step1_idx in range(len(steps)):
-		if step1_idx not in step_idcs_to_gen_idcs.keys():
+		abs1_idx = schema_step_ids_to_step_idcs[schema_id][steps[step1_idx].episode_id]
+
+		if step_idcs_to_schema_idcs[abs1_idx] != schema_id:
 			continue
+		if abs1_idx not in step_idcs_to_gen_idcs.keys():
+			continue
+
 		# If the step is malformed, we'll ignore it.
 		step1 = flatten_schema_step(steps[step1_idx].formula.formula)
 		if step1 is None:
@@ -319,8 +327,13 @@ for schema_id in range(len(schemas)):
 			continue
 
 		for step2_idx in range(step1_idx, len(steps)):
-			if step2_idx not in step_idcs_to_gen_idcs.keys():
+			abs2_idx = schema_step_ids_to_step_idcs[schema_id][steps[step2_idx].episode_id]
+
+			if step_idcs_to_schema_idcs[abs2_idx] != schema_id:
 				continue
+			if abs2_idx not in step_idcs_to_gen_idcs.keys():
+				continue
+
 			# If the step is malformed, we'll ignore it.
 			step2 = flatten_schema_step(steps[step2_idx].formula.formula)
 			if step2 is None:
@@ -332,14 +345,17 @@ for schema_id in range(len(schemas)):
 
 			if step1_idx == step2_idx:
 				continue
-			step1_gen_id = step_idcs_to_gen_idcs[step1_idx]
-			step2_gen_id = step_idcs_to_gen_idcs[step2_idx]
+			step1_gen_id = step_idcs_to_gen_idcs[abs1_idx]
+			step2_gen_id = step_idcs_to_gen_idcs[abs2_idx]
 			if step1_gen_id != step2_gen_id:
 				# No idea why some schemas can fail to "officially"
 				# instantiate the gen step, according to the gen step's
 				# list of instances & the instance-idx-to-schema-idx map,
 				# but this check works for now.
-				if schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step1_gen_id][2]] and schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step2_gen_id][2]]:
+				# if schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step1_gen_id][2]] and schema_id in [step_idcs_to_schema_idcs[int(x)] for x in gen_steps[step2_gen_id][2]]:
+					if schema_id not in temporal_multigraph[step1_gen_id][step2_gen_id]:
+						print('%s before %s in schema %d' % (gr_steps[abs1_idx], gr_steps[abs2_idx], schema_id))
+						print(schemas[schema_id])
 					temporal_multigraph[step1_gen_id][step2_gen_id].add(schema_id)
 
 	# Loop over steps
@@ -417,10 +433,10 @@ for step1_gen_id in sorted(temporal_multigraph.keys()):
 		count = len(temporal_multigraph[step1_gen_id][step2_gen_id])
 		after_count = len(temporal_multigraph[step2_gen_id][step1_gen_id])
 		if count > after_count:
-			print('step %s before step %s' % (gen_steps[step1_gen_id][0], gen_steps[step2_gen_id][0]))
+			print('step %s before step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], count, after_count))
 			gen_before_rels[step1_gen_id][step2_gen_id] = True
 		elif count < after_count:
-			print('step %s after step %s' % (gen_steps[step1_gen_id][0], gen_steps[step2_gen_id][0]))
+			print('step %s after step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], after_count, count))
 			gen_before_rels[step2_gen_id][step1_gen_id] = True
 
 # Analyze the coref multigraph to form clusters
@@ -563,6 +579,7 @@ for new_step_id in range(len(new_steps)):
 handled_idcs = set()
 gen_step_idcs = list(range(len(gen_steps)))
 topsorted_gen_step_idcs = []
+skip_counts = defaultdict(int)
 while len(handled_idcs) < len(gen_step_idcs):
 	for gen_step_idx in gen_step_idcs:
 		# Skip it if we've handled it
@@ -573,7 +590,11 @@ while len(handled_idcs) < len(gen_step_idcs):
 		should_skip = False
 		for idx2 in gen_step_idcs:
 			if idx2 != gen_step_idx and idx2 not in handled_idcs and gen_before_rels[idx2][gen_step_idx]:
-				should_skip = True
+				if skip_counts[idx2] == 0:
+					# Mark events as handled if we've seen them more than once
+					# (i.e., if they're part of a cycle)
+					should_skip = True
+				skip_counts[idx2] += 1
 				break
 		if should_skip:
 			continue

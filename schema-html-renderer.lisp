@@ -280,8 +280,8 @@
 			(if (equal (section-name sec) ':Steps)
 				(setf buf (append buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
-						; (gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
-						(nth i verbal-steps)
+						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
+						; (nth i verbal-steps)
 					)))))
 
 			; Start the step div

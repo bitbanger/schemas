@@ -498,7 +498,7 @@
 		nil)
 )
 
-(ldefun frame-to-schema (frame el-story &optional use-protos)
+(ldefun frame-to-schema (frame el-story &optional use-protos return-proto-names)
 (block outer
 	(setf invoker-ep nil)
 	(setf invoker (third (car frame)))
@@ -582,7 +582,12 @@
 		(setf reg-schema-name (car registered-schema-pair))
 		(setf reg-schema-bindings (second registered-schema-pair))
 
-		(return-from outer (list reg-schema-name reg-schema-bindings))
+		(if return-proto-names
+			; then
+			(return-from outer (list reg-schema-name reg-schema-bindings schema-name))
+			; else
+			(return-from outer (list reg-schema-name reg-schema-bindings))
+		)
 	))
 
 	(return-from outer nil)

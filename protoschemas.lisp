@@ -683,15 +683,6 @@
 			(!r5 (?l2 destination.n))
 		)
 
-		(:Paraphrases
-			(?e (?x ((adv-a (destination_prep.? ?l2)) travel.v)))
-			(?e (?x ((adv-a (from.p ?l1)) ((adv-a (destination_prep.? ?l2)) travel.v))))
-			(?e (?x ((adv-a (destination_prep.? ?l2)) travel.v) ?l2))
-			(?e (?x travel.v))
-			(?e (?x travel.v ?l2))
-			(?e (?x (location_adv.? travel.v)))
-		)
-
 		(:Necessities
 			(!n1 (!r1 necessary-to-degree 1.0))
 			(!n2 (!r4 necessary-to-degree 1.0))

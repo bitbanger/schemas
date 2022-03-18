@@ -10,8 +10,8 @@ from extract_composites import extract_compos
 
 from collections import defaultdict
 
-PROMPT = 'going to a festival'
-NUM_STORIES = 5
+PROMPT = 'cooking dinner'
+NUM_STORIES = 15
 
 US_PROMPT = '_'.join(PROMPT.split(' '))
 
@@ -126,15 +126,10 @@ def loop_gen(prompt, total_num=15, chunk_size=5):
 			break
 		print('made %d out of %d' % (num_already, total_num))
 
-		# Generate them, either chunk_size at a time, or, if we need N<chunk_size, N at a time
-		if need_to_make >= chunk_size:
-			print('trying to make %d more' % chunk_size)
-			gen(prompt, chunk_size)
-		else:
-			print('trying to make %d more' % (need_to_make))
-			gen(prompt, need_to_make)
+		print('trying to make %d more' % chunk_size)
+		gen(prompt, chunk_size)
 
-loop_gen(PROMPT, total_num=NUM_STORIES, chunk_size=5)
+loop_gen(PROMPT, total_num=NUM_STORIES, chunk_size=10)
 
 '''
 # Append all of the new extracted schemas to nesl-compos.txt, then

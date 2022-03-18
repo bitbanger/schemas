@@ -642,7 +642,7 @@
 ))
 
 ; print-schema prints a schema with proper formatting, for readability purposes.
-(ldefun print-schema (schema &optional show-invisibles)
+(ldefun print-schema (schema &optional show-invisibles skip-ending-newline)
 (block outer
 	(check #'schema? schema)
 
@@ -660,7 +660,12 @@
 				(format t "	)~%")
 			)
 	)
-	(format t ")~%")
+	(if skip-ending-newline
+		; then
+		(format t ")")
+		; else
+		(format t ")~%")
+	)
 )
 )
 

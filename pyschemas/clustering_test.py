@@ -8,7 +8,7 @@ from collections import defaultdict
 
 from functools import cmp_to_key
 
-from schema import Schema, schema_from_file, schema_and_protos_from_file
+from schema import ELFormula, Schema, schema_from_file, schema_and_protos_from_file
 from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
@@ -18,20 +18,29 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args
 
+FREQ_THRESHOLD = 2
+ROLE_TYPE_FREQ_THRESHOLD = 2
+
 schema_prompt = 'feeding_pets'
 if len(sys.argv) > 1:
 	schema_prompt = sys.argv[1].strip()
 
 schemas = []
+schema_proto_maps = []
 for f in os.listdir('tmp-with-protos/'):
 	if len(f) <= len(schema_prompt) or f[:len(schema_prompt)] != schema_prompt:
 		continue
-	try:
-		# schemas.append(schema_from_file('tmp-standalones/%s' % f))
-		(compo, protos) = schema_and_protos_from_file('tmp-with-protos/%s' % f)
-		schemas.append(compo)
-	except:
-		pass
+	# schemas.append(schema_from_file('tmp-standalones/%s' % f))
+	(compo, proto_pairs) = schema_and_protos_from_file('tmp-with-protos/%s' % f)
+	schemas.append(compo)
+
+	proto_map = dict()
+	for proto_pair in proto_pairs:
+		(orig_proto_name, proto) = proto_pair
+		print('orig: %s' % orig_proto_name)
+		proto_verb = verb_pred(proto.header_formula)
+		proto_map[proto_verb] = proto
+	schema_proto_maps.append(proto_map)
 
 '''
 schemas = []
@@ -101,24 +110,19 @@ MIN_CLUSTERS = 4
 MAX_CLUSTERS = 20
 
 for n in range(MIN_CLUSTERS, MAX_CLUSTERS):
-	kmeans = KMeans(n_clusters=n).fit(step_vecs)
-	# print(kmeans.labels_)
-	grs_by_cluster = defaultdict(list)
-	for i in range(len(step_vecs)):
-		grs_by_cluster[kmeans.labels_[i]].append(i)
-	cluster_maps.append(grs_by_cluster)
-	print('%d: %.2f' % (n, ch_score(step_vecs, kmeans.labels_)))
-	# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
-	ch_dists.append(kmeans.inertia_)
-	# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
-	'''
-	for label in sorted(list(set(kmeans.labels_))):
-		print('cluster %d:' % label)
-		for gr in grs_by_cluster[label]:
-			print('\t%s' % gr)
-
-	input()
-	'''
+	try:
+		kmeans = KMeans(n_clusters=n).fit(step_vecs)
+		# print(kmeans.labels_)
+		grs_by_cluster = defaultdict(list)
+		for i in range(len(step_vecs)):
+			grs_by_cluster[kmeans.labels_[i]].append(i)
+		cluster_maps.append(grs_by_cluster)
+		print('%d: %.2f' % (n, ch_score(step_vecs, kmeans.labels_)))
+		# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
+		ch_dists.append(kmeans.inertia_)
+		# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
+	except:
+		break
 
 import matplotlib.pyplot as plt
 
@@ -571,12 +575,12 @@ for new_step_id in range(len(new_steps)):
 			# We're removing role constraints that don't contain vars
 			# used by high-frequency steps, so if this is a high-frequency
 			# step, save the var for that culling later.
-			if len(gen_steps[new_step_id][2]) > 2:
+			if len(gen_steps[new_step_id][2]) > ROLE_TYPE_FREQ_THRESHOLD:
 				used_vars.add(arg_pairs_to_vars[(new_step_id, arg_idx)])
 		else:
 			var_options[next_id] = new_step[arg_idx]
 			new_step_str = new_step_str + '?%s' % next_id
-			if len(gen_steps[new_step_id][2]) > 2:
+			if len(gen_steps[new_step_id][2]) > ROLE_TYPE_FREQ_THRESHOLD:
 				used_vars.add(next_id)
 			next_id = chr(ord(next_id)+1)
 			# print(new_step[arg_idx], end='')
@@ -614,7 +618,8 @@ while len(handled_idcs) < len(gen_step_idcs):
 
 # Apply the topsort ordering to the new step strings, and
 # filter out gen steps that didn't have at least 3 instances
-new_step_strings = [new_step_strings[i] for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) > 2]
+filtered_gen_step_idcs = [i for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) > FREQ_THRESHOLD]
+new_step_strings = [new_step_strings[i] for i in filtered_gen_step_idcs]
 
 new_steps_str = '(:Steps'
 for i in range(len(new_step_strings)):
@@ -636,5 +641,25 @@ new_roles = new_roles + ')'
 
 new_schema = '(epi-schema ((?x new_schema.v) ** ?e) %s %s)' % (new_roles, new_steps_str)
 
-print(Schema(new_schema))
+# print(Schema(new_schema))
+new_schema = Schema(new_schema)
 
+for i in range(0, len(filtered_gen_step_idcs)):
+	gsi = filtered_gen_step_idcs[i]
+	for inst_idx in gen_steps[gsi][2]:
+		vp = verb_pred(ungr_steps[inst_idx])
+		schema_idx = step_idcs_to_schema_idcs[inst_idx]
+		if vp in schema_proto_maps[schema_idx]:
+			header = list_to_s_expr(schema_proto_maps[schema_idx][vp].header_formula)
+			proto_invoker = new_schema.get_section('steps').formulas[i].formula.formula
+			proto_invoker_verb = verb_pred(proto_invoker)
+			# if len(proto_invoker_verb) > len('PROTO') and proto_invoker_verb[:len('PROTO')] == 'PROTO':
+			if 'PROTO' in proto_invoker_verb:
+				continue
+			new_verb = '%s_PROTO.V' % (proto_invoker_verb.split('.')[0])
+			new_invoker = ELFormula([proto_invoker[0], new_verb] + proto_invoker[2:])
+			new_schema.get_section('steps').formulas[i].formula = new_invoker
+			# print('gen step %d has proto %s' % (i, header))
+			# print(str(schema_proto_maps[schema_idx][vp]))
+
+print(str(new_schema))

@@ -365,6 +365,8 @@
 		if (canon-prop? prop)
 			collect prop))
 
+	(clear-registered-schemas)
+
 	(if *DEBUG-OUTPUT*
 	(loop for sent in (car story)
 		for el-sent in el-sents do (block prs
@@ -391,15 +393,22 @@
 
 	(setf schema-match-tuples (list))
 
+	(setf match-to-orig-proto-names (make-hash-table :test #'equal))
+
 	(loop for frame in frames-for-mapping do (block print-schema
-		(setf map-pair (frame-to-schema frame el-story t))
-		;(if (null map-pair)
+		(setf map-tuple (frame-to-schema frame el-story t t))
+		;(if (null map-tuple)
 			;(format t "no mapping~%"))
-		(if (null map-pair)
+		(if (null map-tuple)
 			(return-from print-schema))
 
-		(setf schema-template (eval (car map-pair)))
-		(setf bindings (second map-pair))
+		(setf schema-template (eval (car map-tuple)))
+		(setf bindings (second map-tuple))
+		(setf orig-proto-name (third map-tuple))
+		(setf new-proto-name (car map-tuple))
+
+		(setf (gethash new-proto-name match-to-orig-proto-names)
+			orig-proto-name)
 
 		(setf bound-vars (dedupe (loop for k being the hash-keys of bindings
 			collect k)))
@@ -424,8 +433,9 @@
 		(setf schema-match-tuples (append schema-match-tuples
 			(list (list schema-template nil bindings))))
 
-		(print-schema (fully-clean-schema-no-gen
-			(apply-bindings schema-template bindings)))
+		; (print-schema (fully-clean-schema-no-gen
+			; (apply-bindings schema-template bindings)))
+		
 	))
 		;do (format t "~s~%" (second (car frame)))
 		;do (print-ht (map-frame frame))
@@ -450,6 +460,19 @@
 			(schema-header composite-schema)
 			(list new-header '** '?E)
 			composite-schema)))
+
+	; Print protos as expanded, shared-scope children
+	; of the compo
+	(loop for s in (section-formulas (get-section composite-schema ':Steps))
+		if (not (null (invoked-schema (second s) t)))
+			; do (format t "~s invokes a schema~%" s))
+			do (let ((bind-pair (expand-nested-schema s composite-schema)))
+				(progn
+				(format t "(~s " (gethash (schema-pred (car bind-pair)) match-to-orig-proto-names))
+				(print-schema (apply-bindings (car bind-pair) (second bind-pair)) nil t)
+				(format t ")~%")
+				)
+			))
 
 	(format t "~%COMPOSITE SCHEMA:~%~%")
 

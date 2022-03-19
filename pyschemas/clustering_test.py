@@ -20,6 +20,9 @@ from el_expr import pre_arg, verb_pred, post_args
 
 FREQ_THRESHOLD = 2
 ROLE_TYPE_FREQ_THRESHOLD = 2
+OPTION_FREQ = 0.5
+
+MERGE_ALL_PRE_ARGS = True
 
 schema_prompt = 'feeding_pets'
 if len(sys.argv) > 1:
@@ -37,7 +40,7 @@ for f in os.listdir('tmp-with-protos/'):
 	proto_map = dict()
 	for proto_pair in proto_pairs:
 		(orig_proto_name, proto) = proto_pair
-		print('orig: %s' % orig_proto_name)
+		# print('orig: %s' % orig_proto_name)
 		proto_verb = verb_pred(proto.header_formula)
 		proto_map[proto_verb] = proto
 	schema_proto_maps.append(proto_map)
@@ -150,7 +153,7 @@ for label in range(cnum+MIN_CLUSTERS):
 	for gr_step in [gr_steps[i] for i in cluster_step_idcs]:
 		verb_freqs[gr_step[1]] += 1
 	best_verb = max([gr_step[1] for gr_step in [gr_steps[i] for i in cluster_step_idcs]], key=lambda x: verb_freqs[x])
-	# cluster_step_idcs = [idx for idx in cluster_step_idcs if gr_steps[idx][1] == best_verb]
+	cluster_step_idcs = [idx for idx in cluster_step_idcs if gr_steps[idx][1] == best_verb]
 
 	# Form the cluster
 	avg_dist = ypoints[cnum]
@@ -432,8 +435,11 @@ def corefers(gen1_id, arg1_idx, gen2_id, arg2_idx, threshold=0.5):
 
 # Analyze the temporal multigraph to extract ordering
 gen_before_rels = defaultdict(lambda: defaultdict(bool))
+all_gen_ids = set()
 for step1_gen_id in sorted(temporal_multigraph.keys()):
 	for step2_gen_id in sorted(temporal_multigraph[step1_gen_id].keys()):
+		all_gen_ids.add(step1_gen_id)
+		all_gen_ids.add(step2_gen_id)
 		# Find all schemas that contain instances of both general steps
 		step1_gen = gen_steps[step1_gen_id]
 		step2_gen = gen_steps[step2_gen_id]
@@ -450,6 +456,16 @@ for step1_gen_id in sorted(temporal_multigraph.keys()):
 		elif count < after_count:
 			# print('step %s after step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], after_count, count))
 			gen_before_rels[step2_gen_id][step1_gen_id] = True
+
+if MERGE_ALL_PRE_ARGS:
+	for schema_id in range(len(schemas)):
+		# for gen_id_1 in all_gen_ids:
+			# for gen_id_2 in all_gen_ids:
+		for gen_id_1 in range(len(gen_steps)):
+			for gen_id_2 in range(len(gen_steps)):
+				if gen_id_1 != gen_id_2:
+					multigraph[gen_id_1][0][gen_id_2][0].add(schema_id)
+					edges.add((gen_id_1, 0, gen_id_2, 0, schema_id))
 
 # Analyze the coref multigraph to form clusters
 coref_pairs = set()
@@ -477,7 +493,7 @@ for v in coref_vtcs:
 	found = False
 	for cc in coref_clusters:
 		for e in cc:
-			if (v, e) in coref_pairs or (e, v) in coref_pairs:
+			if (v, e) in coref_pairs or (e, v) in coref_pairs or (MERGE_ALL_PRE_ARGS and e[1] == 0 and v[1] == 0):
 				cc.add(v)
 				found = True
 				break
@@ -496,6 +512,11 @@ for cc in coref_clusters:
 	option_counts = defaultdict(int)
 	options = set()
 
+	# When tallying option frequencies, don't double-count
+	# any from the same schema, because the type really only
+	# "occurs" once, in the :Roles section of the schema.
+	seen_schema_insts = set()
+
 	# Associate every arg pair in the cluster with the
 	# new variable name
 	for e in cc:
@@ -504,19 +525,31 @@ for cc in coref_clusters:
 	for e in cc:
 		(gen_step_id, arg_idx) = e
 		instance_ids = gen_steps[gen_step_id][2]
+		instance_ungr_steps = [gr_steps[inst_id] for inst_id in instance_ids]
 		instance_gr_steps = [gr_steps[inst_id] for inst_id in instance_ids]
 
-		for instance in instance_gr_steps:
+		for i in range(len(instance_gr_steps)):
+			instance_id = instance_ids[i]
+			schema_inst_id = step_idcs_to_schema_idcs[instance_id]
+			if schema_inst_id in seen_schema_insts:
+				continue
+			else:
+				seen_schema_insts.add(schema_inst_id)
+
+			instance = instance_gr_steps[i]
+			ungr_instance = instance_ungr_steps[i]
 			if len(instance) > arg_idx:
 				for option in instance[arg_idx]:
 					option_counts[option] += 1
 
+		'''
 		for instance in instance_gr_steps:
 			if len(instance) > arg_idx:
 				for option in instance[arg_idx]:
 					num_cluster_instances = len(instance_ids)
 					option_freq = option_counts[option] * 1.0 / num_cluster_instances
-					if option_freq > 0.2:
+					if option_freq > OPTION_FREQ:
+						print('option %s was observed %d out of %d times' % (option, option_counts[option], num_cluster_instances))
 						options.add(option)
 		# If no options are frequent enough, take the highest
 		# frequency one
@@ -530,6 +563,15 @@ for cc in coref_clusters:
 						options_with_freqs.append((option, option_freq))
 			if len(options_with_freqs) > 0:
 				options.add(max(options_with_freqs, key=lambda x: x[1])[0])
+		'''
+
+	options = [x for x in option_counts.keys() if (option_counts[x] * 1.0 / len(schemas)) >= OPTION_FREQ]
+
+	if len(options) == 0:
+		if len(option_counts.keys()) > 0:
+			options = [max(option_counts.keys(), key=lambda x: option_counts[x])]
+		else:
+			options = ['ENTITY']
 
 	var_options[next_id] = sorted(list(options))
 
@@ -621,9 +663,30 @@ while len(handled_idcs) < len(gen_step_idcs):
 filtered_gen_step_idcs = [i for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) > FREQ_THRESHOLD]
 new_step_strings = [new_step_strings[i] for i in filtered_gen_step_idcs]
 
-new_steps_str = '(:Steps'
 for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
+	ns = parse_s_expr(nss)
+	for inst_idx in gen_steps[filtered_gen_step_idcs[i]][2]:
+		schema_idx = step_idcs_to_schema_idcs[inst_idx]
+		vp = verb_pred(ungr_steps[inst_idx])
+		if vp in schema_proto_maps[schema_idx]:
+			if 'PROTO' not in ns[1]:
+				ns = [ns[0], '%s_PROTO.V' % (ns[1].split('.')[0])] + ns[2:]
+				break
+	new_step_strings[i] = list_to_s_expr(ns)
+	
+
+new_steps_str = '(:Steps'
+made_steps = set()
+for i in range(len(new_step_strings)):
+	nss = new_step_strings[i]
+
+	# Don't make duplicate steps
+	if nss in made_steps:
+		continue
+	else:
+		made_steps.add(nss)
+
 	new_steps_str = new_steps_str + ' (?E%d %s)' % (i+1, nss)
 new_steps_str = new_steps_str + ')'
 
@@ -644,6 +707,7 @@ new_schema = '(epi-schema ((?x new_schema.v) ** ?e) %s %s)' % (new_roles, new_st
 # print(Schema(new_schema))
 new_schema = Schema(new_schema)
 
+'''
 for i in range(0, len(filtered_gen_step_idcs)):
 	gsi = filtered_gen_step_idcs[i]
 	for inst_idx in gen_steps[gsi][2]:
@@ -653,13 +717,14 @@ for i in range(0, len(filtered_gen_step_idcs)):
 			header = list_to_s_expr(schema_proto_maps[schema_idx][vp].header_formula)
 			proto_invoker = new_schema.get_section('steps').formulas[i].formula.formula
 			proto_invoker_verb = verb_pred(proto_invoker)
-			# if len(proto_invoker_verb) > len('PROTO') and proto_invoker_verb[:len('PROTO')] == 'PROTO':
 			if 'PROTO' in proto_invoker_verb:
 				continue
 			new_verb = '%s_PROTO.V' % (proto_invoker_verb.split('.')[0])
 			new_invoker = ELFormula([proto_invoker[0], new_verb] + proto_invoker[2:])
 			new_schema.get_section('steps').formulas[i].formula = new_invoker
-			# print('gen step %d has proto %s' % (i, header))
-			# print(str(schema_proto_maps[schema_idx][vp]))
+'''
 
 print(str(new_schema))
+
+# for step in new_schema.get_section('steps').formulas:
+	# print(str(step.formula.formula[0]))

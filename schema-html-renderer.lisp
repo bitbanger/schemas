@@ -240,6 +240,15 @@
 	(setf verbal-steps (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
 		if (and (listp sec) (equal (car sec) 'STEPS.))
 			collect sec)))))
+	(setf verbal-goals (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+		if (and (listp sec) (equal (car sec) 'GOALS.))
+			collect sec)))))
+	(setf verbal-preconds (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+		if (and (listp sec) (equal (car sec) 'PRECONDS.))
+			collect sec)))))
+	(setf verbal-postconds (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+		if (and (listp sec) (equal (car sec) 'EFFECTS.))
+			collect sec)))))
 
 	;(setf verbal-roles (cddr (car (loop for sec in (verbalize-schema schema)
 		;if (and (listp sec) (equal (car sec) 'ADDITIONAL) (equal (second sec) 'ROLES.))
@@ -280,8 +289,26 @@
 			(if (equal (section-name sec) ':Steps)
 				(setf buf (append buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
-						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
-						; (nth i verbal-steps)
+						; (gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
+						(nth i verbal-steps)
+					)))))
+			(if (equal (section-name sec) ':Goals)
+				(setf buf (append buf (list
+					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
+						; (gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
+						(nth i verbal-goals)
+					)))))
+			(if (equal (section-name sec) ':Preconds)
+				(setf buf (append buf (list
+					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
+						; (gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
+						(nth i verbal-preconds)
+					)))))
+			(if (equal (section-name sec) ':Postconds)
+				(setf buf (append buf (list
+					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
+						; (gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
+						(nth i verbal-postconds)
 					)))))
 
 			; Start the step div

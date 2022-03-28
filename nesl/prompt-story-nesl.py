@@ -1,6 +1,7 @@
 import os
 import random
 import subprocess
+import sys
 import time
 import xmlrpc.client
 
@@ -10,10 +11,9 @@ from extract_composites import extract_compos
 
 from collections import defaultdict
 
-PROMPT = 'cooking dinner'
-NUM_STORIES = 15
+# PROMPTS = ['picking flowers', 'going hiking', 'eating breakfast', 'waking up in the morning', 'going to the beach', 'going to the grocery store', 'buying something at a store', 'going on vacation', 'playing with a pet', 'farming', 'going to the library']
 
-US_PROMPT = '_'.join(PROMPT.split(' '))
+NUM_STORIES = 15
 
 lome_client = xmlrpc.client.ServerProxy('http://localhost:8040')
 
@@ -65,7 +65,7 @@ def gen(prompt, num):
 	# Run parse-frames.lisp to get EL schemas
 	print('\n\tconverting frames into schemas...', flush=True)
 	conversion_start = time.time()
-	lome_to_el_output = subprocess.run('sbcl --script parse-frames.lisp'.split(' '), capture_output=True, timeout=600).stdout.decode('utf-8')
+	lome_to_el_output = subprocess.run('sbcl --script parse-frames.lisp'.split(' '), capture_output=True, timeout=900).stdout.decode('utf-8')
 	with open('lome_to_el_output.txt', 'w') as f:
 		f.write(lome_to_el_output)
 
@@ -116,7 +116,7 @@ def loop_gen(prompt, total_num=15, chunk_size=5):
 		num_already = 0
 		for f in os.listdir('prompt-standalones/'):
 			try:
-				if len(f) <= len(US_PROMPT) or f[:len(US_PROMPT)] != US_PROMPT:
+				if len(f) <= len(us_prompt) or f[:len(us_prompt)] != us_prompt:
 					continue
 				num_already += 1
 			except:
@@ -129,7 +129,11 @@ def loop_gen(prompt, total_num=15, chunk_size=5):
 		print('trying to make %d more' % chunk_size)
 		gen(prompt, chunk_size)
 
-loop_gen(PROMPT, total_num=NUM_STORIES, chunk_size=10)
+# for prompt in PROMPTS:
+	# loop_gen(prompt, total_num=NUM_STORIES, chunk_size=10)
+
+prompt = sys.argv[1].replace('_', ' ')
+loop_gen(prompt, total_num=NUM_STORIES, chunk_size=10)
 
 '''
 # Append all of the new extracted schemas to nesl-compos.txt, then

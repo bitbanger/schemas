@@ -18,11 +18,45 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args
 
-FREQ_THRESHOLD = 2
-ROLE_TYPE_FREQ_THRESHOLD = 2
+FREQ_THRESHOLD = 4
+ROLE_TYPE_FREQ_THRESHOLD = 4
 OPTION_FREQ = 0.5
 
-MERGE_ALL_PRE_ARGS = True
+MERGE_ALL_PRE_ARGS = False
+# MERGE_ALL_PRE_ARGS = True
+
+ADD_PROTO_TAGS = True
+
+FLOAT_UP_PROTO_FORMULAS = True
+
+BANNED_ROLE_TYPES = {
+	'{REF}',
+	'DESTINATION',
+	'LOCATION',
+	'ENTITY',
+	'OBJECT',
+	'AGENT'
+}
+
+def rec_contains(lst, val):
+	for e in lst:
+		if e == val:
+			return True
+		elif type(e) == list:
+			if rec_contains(e, val):
+				return True
+
+	return False
+
+def rec_get_vars(lst):
+	vs = []
+	for e in lst:
+		if type(e) == str and len(e) >= 2 and e[0] == '?':
+			vs.append(e)
+		elif type(e) == list:
+			vs = vs + rec_get_vars(e)
+
+	return list(set(vs))
 
 schema_prompt = 'feeding_pets'
 if len(sys.argv) > 1:
@@ -71,10 +105,6 @@ for i in range(len(schemas)):
 	steps = schema.get_section('steps').formulas
 	for j in range(len(steps)):
 		step = steps[j].formula.formula
-		try:
-			print(grounded_prop(step, [], strip_dot_tags=False))
-		except:
-			pass
 
 		step_vec = prop_to_vec(step, schema)
 		if step_vec is None:
@@ -120,7 +150,6 @@ for n in range(MIN_CLUSTERS, MAX_CLUSTERS):
 		for i in range(len(step_vecs)):
 			grs_by_cluster[kmeans.labels_[i]].append(i)
 		cluster_maps.append(grs_by_cluster)
-		print('%d: %.2f' % (n, ch_score(step_vecs, kmeans.labels_)))
 		# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
 		ch_dists.append(kmeans.inertia_)
 		# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
@@ -566,6 +595,7 @@ for cc in coref_clusters:
 		'''
 
 	options = [x for x in option_counts.keys() if (option_counts[x] * 1.0 / len(schemas)) >= OPTION_FREQ]
+	options = [x for x in options if x not in BANNED_ROLE_TYPES]
 
 	if len(options) == 0:
 		if len(option_counts.keys()) > 0:
@@ -586,7 +616,8 @@ for gen_step in gen_steps:
 			if arg_idx == 1:
 				continue
 			for option in inst_form[arg_idx]:
-				options[arg_idx].add(option)
+				if option not in BANNED_ROLE_TYPES:
+					options[arg_idx].add(option)
 
 	new_step = []
 	for arg_idx in sorted(options.keys()):
@@ -663,6 +694,9 @@ while len(handled_idcs) < len(gen_step_idcs):
 filtered_gen_step_idcs = [i for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) > FREQ_THRESHOLD]
 new_step_strings = [new_step_strings[i] for i in filtered_gen_step_idcs]
 
+proto_float_formulas = defaultdict(list)
+proto_float_rcs = set()
+
 for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
 	ns = parse_s_expr(nss)
@@ -670,11 +704,44 @@ for i in range(len(new_step_strings)):
 		schema_idx = step_idcs_to_schema_idcs[inst_idx]
 		vp = verb_pred(ungr_steps[inst_idx])
 		if vp in schema_proto_maps[schema_idx]:
-			if 'PROTO' not in ns[1]:
+			if ADD_PROTO_TAGS and 'PROTO' not in ns[1]:
+				proto = schema_proto_maps[schema_idx][vp]
+
+				proto_header = proto.header_formula
+				mapping = dict()
+				if len(ns) != len(proto_header):
+					continue
+				for j in range(len(ns)):
+					if j == 1:
+						continue
+					proto = proto.bind_var(proto_header[j], ns[j])
+
+				for sec in ['goals', 'preconds', 'postconds']:
+					for formula in proto.get_section(sec).formulas:
+						proto_float_formulas[sec].append(formula.formula)
+						# Get constraints on the variables to float up
+						# to the roles section as well
+						formula_vars = rec_get_vars(formula.formula.formula)
+						seen_fvs = set()
+						while len(seen_fvs) < len(set(formula_vars)):
+							for fv in formula_vars:
+								if fv in seen_fvs:
+									continue
+								for rc in proto.get_section('roles').formulas:
+									if rec_contains(rc.formula.formula, fv):
+										# print('\t%s' % (rc.formula.formula))
+										proto_float_rcs.add(list_to_s_expr(rc.formula.formula))
+										for rc_var in rec_get_vars(rc.formula.formula):
+											if rc_var not in formula_vars:
+												formula_vars.append(rc_var)
+								seen_fvs.add(fv)
+					
 				ns = [ns[0], '%s_PROTO.V' % (ns[1].split('.')[0])] + ns[2:]
 				break
 	new_step_strings[i] = list_to_s_expr(ns)
-	
+
+# Render the new role constraint s-expressions back to lists
+proto_float_rcs = [parse_s_expr(x) for x in proto_float_rcs]
 
 new_steps_str = '(:Steps'
 made_steps = set()
@@ -707,24 +774,20 @@ new_schema = '(epi-schema ((?x new_schema.v) ** ?e) %s %s)' % (new_roles, new_st
 # print(Schema(new_schema))
 new_schema = Schema(new_schema)
 
-'''
-for i in range(0, len(filtered_gen_step_idcs)):
-	gsi = filtered_gen_step_idcs[i]
-	for inst_idx in gen_steps[gsi][2]:
-		vp = verb_pred(ungr_steps[inst_idx])
-		schema_idx = step_idcs_to_schema_idcs[inst_idx]
-		if vp in schema_proto_maps[schema_idx]:
-			header = list_to_s_expr(schema_proto_maps[schema_idx][vp].header_formula)
-			proto_invoker = new_schema.get_section('steps').formulas[i].formula.formula
-			proto_invoker_verb = verb_pred(proto_invoker)
-			if 'PROTO' in proto_invoker_verb:
-				continue
-			new_verb = '%s_PROTO.V' % (proto_invoker_verb.split('.')[0])
-			new_invoker = ELFormula([proto_invoker[0], new_verb] + proto_invoker[2:])
-			new_schema.get_section('steps').formulas[i].formula = new_invoker
-'''
+# Add proto formulas (preconds, postconds, goals...)
+if FLOAT_UP_PROTO_FORMULAS:
+	for sec_name in proto_float_formulas.keys():
+		for formula in proto_float_formulas[sec_name]:
 
-print(str(new_schema))
+			new_schema.get_section(sec_name).add_formula(formula)
+	for pfrc in proto_float_rcs:
+		pfrc_vars = rec_get_vars(pfrc)
+		has_banned_role_type = any([rec_contains(pfrc, '%s.N' % val) for val in BANNED_ROLE_TYPES])
+		constrained = any([rec_contains(parse_s_expr(str(new_schema.get_section('roles'))), var) for var in pfrc_vars])
+		if (not has_banned_role_type) or (not constrained):
+			new_schema.get_section('roles').add_formula(pfrc)
+
+print('(%s)' % new_schema)
 
 # for step in new_schema.get_section('steps').formulas:
 	# print(str(step.formula.formula[0]))

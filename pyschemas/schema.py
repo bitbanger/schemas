@@ -1,5 +1,14 @@
 from sexpr import parse_s_expr, list_to_s_expr as ls
 
+sec_name_id_prefixes = {
+	'preconds': '?I',
+	'postconds': '?P',
+	'steps': '?E',
+	'roles': '!R',
+	'episode-relations': '!W',
+	'goals': '?G'
+}
+
 class ELFormula:
 	def __init__(self, formula_list):
 		if type(formula_list) == str:
@@ -25,6 +34,19 @@ class Section:
 		for formula in section_list[1:]:
 			self.formulas.append(SectionFormula(formula))
 
+	def add_formula(self, formula):
+		prefix = '?Q'
+		if self.name in sec_name_id_prefixes.keys():
+			prefix = sec_name_id_prefixes[self.name]
+
+		new_num = 1
+		if len(self.formulas) > 0:
+			new_num = max([int(''.join([c for c in str(x.episode_id) if c in '0123456789'])) for x in self.formulas]) + 1
+
+		new_id = '%s%d' % (prefix, new_num)
+
+		self.formulas.append(SectionFormula([new_id, formula]))
+
 	def __str__(self):
 		buf = []
 
@@ -35,6 +57,18 @@ class Section:
 
 		return '\n'.join(buf)
 
+def rec_replace(old, new, lst):
+	new_lst = []
+	for e in lst:
+		if e == old:
+			new_lst.append(new)
+		elif type(e) == list:
+			new_lst.append(rec_replace(old, new, e))
+		else:
+			new_lst.append(e)
+
+	return new_lst
+
 class Schema:
 	def __init__(self, s_expr):
 		if type(s_expr) == str:
@@ -42,6 +76,8 @@ class Schema:
 
 		if s_expr[0].lower() != 'epi-schema':
 			return None
+
+		self.s_expr = s_expr
 
 		self.header_formula = s_expr[1][0]
 		self.header_episode = s_expr[1][2]
@@ -54,7 +90,16 @@ class Schema:
 			self.sections_by_name[sec.name.lower()] = sec
 
 	def get_section(self, sec_name):
-		return self.sections_by_name[sec_name.lower()]
+		if sec_name.lower() in self.sections_by_name:
+			return self.sections_by_name[sec_name.lower()]
+		else:
+			new_sec = Section([':%s%s' % (sec_name[0].upper(), sec_name[1:])])
+			self.sections.append(new_sec)
+			self.sections_by_name[sec_name.lower()] = new_sec
+			return new_sec
+
+	def bind_var(self, var, value):
+		return Schema(rec_replace(var, value, self.s_expr))
 
 	def __str__(self):
 		buf = []

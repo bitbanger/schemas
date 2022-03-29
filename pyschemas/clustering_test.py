@@ -18,8 +18,8 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args
 
-FREQ_THRESHOLD = 4
-ROLE_TYPE_FREQ_THRESHOLD = 4
+FREQ_THRESHOLD = 3
+VAR_FREQ_THRESHOLD = 3
 OPTION_FREQ = 0.5
 
 MERGE_ALL_PRE_ARGS = False
@@ -535,8 +535,10 @@ for v in coref_vtcs:
 # take reasonably high-frequency role types for them
 # for the roles section of the new generalized schema.
 var_options = defaultdict(list)
+weighted_var_options = defaultdict(list)
 next_id = 'A'
 arg_pairs_to_vars = dict()
+var_option_counts = defaultdict(lambda: defaultdict(int))
 for cc in coref_clusters:
 	option_counts = defaultdict(int)
 	options = set()
@@ -605,6 +607,9 @@ for cc in coref_clusters:
 
 	var_options[next_id] = sorted(list(options))
 
+	var_option_counts[next_id] = option_counts
+	print('next id is %s, options are %s, counts are %s' % (next_id, var_options, var_option_counts))
+
 	next_id = chr(ord(next_id)+1)
 
 # Reform gen_steps to have sets of variable options
@@ -648,12 +653,19 @@ for new_step_id in range(len(new_steps)):
 			# We're removing role constraints that don't contain vars
 			# used by high-frequency steps, so if this is a high-frequency
 			# step, save the var for that culling later.
-			if len(gen_steps[new_step_id][2]) > ROLE_TYPE_FREQ_THRESHOLD:
+			if len(gen_steps[new_step_id][2]) > VAR_FREQ_THRESHOLD:
 				used_vars.add(arg_pairs_to_vars[(new_step_id, arg_idx)])
 		else:
+			# This arg stands alone, but it needs a new
+			# name and a list of options across all schemas.
+			# print('standalone for %s:' % next_id)
+			for form in gen_steps[new_step_id][0]:
+					if arg_idx in range(len(form)):
+						for option in form[arg_idx]:
+							var_option_counts[next_id][option] += 1
 			var_options[next_id] = new_step[arg_idx]
 			new_step_str = new_step_str + '?%s' % next_id
-			if len(gen_steps[new_step_id][2]) > ROLE_TYPE_FREQ_THRESHOLD:
+			if len(gen_steps[new_step_id][2]) > VAR_FREQ_THRESHOLD:
 				used_vars.add(next_id)
 			next_id = chr(ord(next_id)+1)
 			# print(new_step[arg_idx], end='')
@@ -763,6 +775,7 @@ for var in var_options.keys():
 	if var not in used_vars:
 		continue
 	for option in var_options[var]:
+		print('option %s for var %s has count %d' % (option, var, var_option_counts[var][option]))
 		if option[0] == '?':
 			continue
 		new_roles = new_roles + ('(!R%d (?%s %s.N))' % (var_num, var, option))
@@ -787,7 +800,34 @@ if FLOAT_UP_PROTO_FORMULAS:
 		if (not has_banned_role_type) or (not constrained):
 			new_schema.get_section('roles').add_formula(pfrc)
 
-print('(%s)' % new_schema)
+final_var_to_role_map = defaultdict(set)
+for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
+	for formula in new_schema.get_section('roles').formulas:
+		if rec_contains(formula.formula.formula, var) and len(formula.formula.formula) == 2 and type(formula.formula.formula[1]) == str:
+			final_var_to_role_map[var].add(formula.formula.formula[1])
 
+prefix_vars = set()
+for step in new_schema.get_section('steps').formulas:
+	prefix_vars.add(step.formula.formula[0])
+
+prefix_vars_to_merge = []
+for pfv in prefix_vars:
+	if final_var_to_role_map[pfv] == {'PERSON.N'}:
+		prefix_vars_to_merge.append(pfv)
+
+new_schema_s_expr = parse_s_expr(str(new_schema))
+
+if len(prefix_vars_to_merge) > 1 and MERGE_ALL_PRE_ARGS:
+	for pfvtm in prefix_vars_to_merge[1:]:
+		new_schema_s_expr = rec_replace(pfvtm, prefix_vars_to_merge[0], new_schema_s_expr)
+new_schema = Schema(list_to_s_expr(new_schema_s_expr))
+
+print('(%s)' % new_schema)
 # for step in new_schema.get_section('steps').formulas:
 	# print(str(step.formula.formula[0]))
+
+for var in final_var_to_role_map.keys():
+	print(var)
+	for role in final_var_to_role_map[var]:
+		print('\t%s' % role)
+	print(var_option_counts[var[1:]])

@@ -822,12 +822,14 @@ for var in final_var_to_role_map.keys():
 	for option in var_option_counts[var[1:]]:
 		# print('\t%s: %d' % (option, var_option_counts[var[1:]][option]))
 		for _ in range(var_option_counts[var[1:]][option]):
-			nouns.append(option)
+			if option not in BANNED_ROLE_TYPES:
+				nouns.append(option)
 	# print(' '.join(nouns))
 	# print('\n\tGENERALIZATION: %s' % gen_nouns(' '.join(nouns), temp=0.01))
 	options = list(var_option_counts[var[1:]].keys())
-	if len(options) == 1:
-		var_gen_types[var] = '%s.N' % (options[0].upper())
+	unbanned_options = [o for o in options if o not in BANNED_ROLE_TYPES]
+	if len(unbanned_options) == 1:
+		var_gen_types[var] = '%s.N' % (unbanned_options[0].upper())
 	else:
 		var_gen_types[var] = '%s.N' % (gen_nouns(' '.join(nouns), temp=0.01).upper())
 
@@ -869,7 +871,34 @@ if len(prefix_vars_to_merge) > 1 and MERGE_ALL_PRE_ARGS:
 new_schema = Schema(list_to_s_expr(new_schema_s_expr))
 
 new_schema.dedupe()
-print('(%s)' % new_schema)
 # for step in new_schema.get_section('steps').formulas:
 	# print(str(step.formula.formula[0]))
 
+
+
+# Merge all vars with identical role constraints
+constraint_sets_to_vars = defaultdict(list)
+for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
+	print(var)
+	var_rcs = set()
+	for rc in new_schema.get_section('roles').formulas:
+		if rc.formula.formula[0] != 'NOT' and rec_contains(rc.formula.formula, var):
+			var_rcs.add(list_to_s_expr(rec_replace(var, '_', rc.formula.formula)))
+	var_rcs = sorted(list(var_rcs))
+	rc_set_key = '\t'.join(var_rcs)
+	constraint_sets_to_vars[rc_set_key].append(var)
+
+new_schema_s_expr = parse_s_expr(str(new_schema))
+for rc_set in sorted(list(constraint_sets_to_vars.keys())):
+	vs = sorted(constraint_sets_to_vars[rc_set])
+	if len(vs) < 2:
+		continue
+	print('merging %s' % ' '.join(vs))
+	first_var = vs[0]
+	for var in vs[1:]:
+		new_schema_s_expr = rec_replace(var, first_var, new_schema_s_expr)
+new_schema = Schema(list_to_s_expr(new_schema_s_expr))
+new_schema.dedupe()
+new_schema.sort_sections()
+
+print('(%s)' % new_schema)

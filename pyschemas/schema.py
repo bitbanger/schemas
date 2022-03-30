@@ -9,6 +9,14 @@ sec_name_id_prefixes = {
 	'goals': '?G'
 }
 
+section_order = [
+	'roles',
+	'steps',
+	'goals',
+	'preconds',
+	'postconds'
+]
+
 class ELFormula:
 	def __init__(self, formula_list):
 		if type(formula_list) == str:
@@ -97,6 +105,9 @@ class Schema:
 			self.sections.append(new_sec)
 			self.sections_by_name[sec_name.lower()] = new_sec
 			return new_sec
+
+	def sort_sections(self):
+		self.sections = sorted(self.sections, key=lambda x: section_order.index(x.name) if x.name in section_order else float('inf'))
 
 	def dedupe(self):
 		new_sections = []

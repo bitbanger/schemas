@@ -32,6 +32,10 @@ NOUNS: husband wife cat
 OUTLIERS: cat
 CLASS: spouse
 
+NOUNS: theater opera
+OUTLIERS: none
+CLASS: venue
+
 NOUNS: computer ladle cup playstation suit
 OUTLIERS: none
 CLASS: object
@@ -39,6 +43,10 @@ CLASS: object
 NOUNS: computer computer computer playstation playstation ladle cup suit
 OUTLIERS: ladle cup suit
 CLASS: electronics
+
+NOUNS: restaurant taqueria
+OUTLIERS: none
+CLASS: restaurant
 
 NOUNS: monitor tv display
 OUTLIERS: none

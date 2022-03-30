@@ -2,13 +2,15 @@ import numpy
 import os
 import sys
 
+from gpt_gen import gen_nouns
+
 from kneed import KneeLocator
 
 from collections import defaultdict
 
 from functools import cmp_to_key
 
-from schema import ELFormula, Schema, schema_from_file, schema_and_protos_from_file
+from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
 from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
@@ -22,7 +24,7 @@ FREQ_THRESHOLD = 3
 VAR_FREQ_THRESHOLD = 3
 OPTION_FREQ = 0.5
 
-MERGE_ALL_PRE_ARGS = False
+MERGE_ALL_PRE_ARGS = True
 # MERGE_ALL_PRE_ARGS = True
 
 ADD_PROTO_TAGS = True
@@ -162,6 +164,8 @@ xpoints = numpy.array(list(range(MIN_CLUSTERS, MAX_CLUSTERS)))
 ypoints = numpy.array(ch_dists)
 
 cnum = KneeLocator(xpoints, ypoints, curve='convex', direction='decreasing').knee
+
+print('dist: %.2f' % ypoints[cnum])
 
 '''
 for label in range(cnum+MIN_CLUSTERS):
@@ -486,7 +490,7 @@ for step1_gen_id in sorted(temporal_multigraph.keys()):
 			# print('step %s after step %s (%d to %d)' % (gen_steps[step1_gen_id][0][0], gen_steps[step2_gen_id][0][0], after_count, count))
 			gen_before_rels[step2_gen_id][step1_gen_id] = True
 
-if MERGE_ALL_PRE_ARGS:
+if MERGE_ALL_PRE_ARGS and False:
 	for schema_id in range(len(schemas)):
 		# for gen_id_1 in all_gen_ids:
 			# for gen_id_2 in all_gen_ids:
@@ -522,7 +526,8 @@ for v in coref_vtcs:
 	found = False
 	for cc in coref_clusters:
 		for e in cc:
-			if (v, e) in coref_pairs or (e, v) in coref_pairs or (MERGE_ALL_PRE_ARGS and e[1] == 0 and v[1] == 0):
+			# if (v, e) in coref_pairs or (e, v) in coref_pairs or (MERGE_ALL_PRE_ARGS and e[1] == 0 and v[1] == 0):
+			if (v, e) in coref_pairs or (e, v) in coref_pairs:
 				cc.add(v)
 				found = True
 				break
@@ -806,6 +811,44 @@ for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
 		if rec_contains(formula.formula.formula, var) and len(formula.formula.formula) == 2 and type(formula.formula.formula[1]) == str:
 			final_var_to_role_map[var].add(formula.formula.formula[1])
 
+# Use GPT-J to find generalizations for the sampled argument types
+var_gen_types = defaultdict(lambda: 'entity')
+for var in final_var_to_role_map.keys():
+	print('\n%s' % var)
+	# for role in final_var_to_role_map[var]:
+		# print('\t%s' % role)
+	print('\t%s' % var_option_counts[var[1:]])
+	nouns = []
+	for option in var_option_counts[var[1:]]:
+		# print('\t%s: %d' % (option, var_option_counts[var[1:]][option]))
+		for _ in range(var_option_counts[var[1:]][option]):
+			nouns.append(option)
+	# print(' '.join(nouns))
+	# print('\n\tGENERALIZATION: %s' % gen_nouns(' '.join(nouns), temp=0.01))
+	options = list(var_option_counts[var[1:]].keys())
+	if len(options) == 1:
+		var_gen_types[var] = '%s.N' % (options[0].upper())
+	else:
+		var_gen_types[var] = '%s.N' % (gen_nouns(' '.join(nouns), temp=0.01).upper())
+
+# Replace the old role constraints with the new ones.
+new_rcs = []
+num = 1
+for k in sorted(list(var_gen_types.keys())):
+	new_rcs.append(['!R%d' % num, [k, var_gen_types[k]]])
+	num += 1
+for rc in new_schema.get_section('roles').formulas:
+	if rc.formula.formula[0] not in var_gen_types:
+		new_rcs.append(['!R%d' % num, rc.formula.formula])
+		num += 1
+
+new_roles_sec = Section([':Roles'] + new_rcs)
+new_schema.set_section(new_roles_sec)
+
+
+# for k in sorted(list(var_gen_types.keys())):
+	# print('%s: %s' % (k, var_gen_types[k]))
+
 prefix_vars = set()
 for step in new_schema.get_section('steps').formulas:
 	prefix_vars.add(step.formula.formula[0])
@@ -814,6 +857,9 @@ prefix_vars_to_merge = []
 for pfv in prefix_vars:
 	if final_var_to_role_map[pfv] == {'PERSON.N'}:
 		prefix_vars_to_merge.append(pfv)
+	else:
+		print("can't merge %s because its roles are %s" % (pfv, final_var_to_role_map[pfv]))
+print('merging %s' % (prefix_vars_to_merge))
 
 new_schema_s_expr = parse_s_expr(str(new_schema))
 
@@ -822,12 +868,8 @@ if len(prefix_vars_to_merge) > 1 and MERGE_ALL_PRE_ARGS:
 		new_schema_s_expr = rec_replace(pfvtm, prefix_vars_to_merge[0], new_schema_s_expr)
 new_schema = Schema(list_to_s_expr(new_schema_s_expr))
 
+new_schema.dedupe()
 print('(%s)' % new_schema)
 # for step in new_schema.get_section('steps').formulas:
 	# print(str(step.formula.formula[0]))
 
-for var in final_var_to_role_map.keys():
-	print(var)
-	for role in final_var_to_role_map[var]:
-		print('\t%s' % role)
-	print(var_option_counts[var[1:]])

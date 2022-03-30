@@ -98,6 +98,34 @@ class Schema:
 			self.sections_by_name[sec_name.lower()] = new_sec
 			return new_sec
 
+	def dedupe(self):
+		new_sections = []
+		for section in self.sections:
+			id_prefix = section.formulas[0].episode_id[:2]
+			formulas = [formula.formula.formula for formula in section.formulas]
+			formulas = [ls(f) for f in formulas]
+			seen = set()
+			new_formulas = []
+			num = 1
+			for f in formulas:
+				if f in seen:
+					continue
+				seen.add(f)
+				# new_formulas.append('(%s%d %s)' % (id_prefix, num, f))
+				new_formulas.append(['%s%d' % (id_prefix, num), parse_s_expr(f)])
+				num += 1
+			# formulas = [ls(f) for f in new_formulas]
+			new_sections.append(Section([':%s'%section.name] + new_formulas))
+			# print('%s: %s' % (section.name, formulas))
+			self.sections_by_name[section.name] = new_sections[-1]
+		self.sections = new_sections
+
+	def set_section(self, section):
+		sec_name = section.name
+		self.sections = [sec for sec in self.sections if sec.name != sec_name]
+		self.sections.append(section)
+		self.sections_by_name[sec_name] = section
+
 	def bind_var(self, var, value):
 		return Schema(rec_replace(var, value, self.s_expr))
 

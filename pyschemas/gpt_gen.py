@@ -4,6 +4,7 @@ import subprocess
 import sys
 import xmlrpc.client
 
+from collections import defaultdict
 from transformers import GPT2Tokenizer
 
 STOP_WORDS = ['location', 'destination']
@@ -36,6 +37,10 @@ NOUNS: theater opera
 OUTLIERS: none
 CLASS: venue
 
+NOUNS: theater theater theater theater theater opera
+OUTLIERS: opera
+CLASS: theater
+
 NOUNS: computer ladle cup playstation suit
 OUTLIERS: none
 CLASS: object
@@ -43,6 +48,14 @@ CLASS: object
 NOUNS: computer computer computer playstation playstation ladle cup suit
 OUTLIERS: ladle cup suit
 CLASS: electronics
+
+NOUNS: guitar guitar guitar saxophone saxophone saxophone
+OUTLIERS: none
+CLASS: instrument
+
+NOUNS: guitar guitar guitar guitar guitar saxophone
+OUTLIERS: saxophone
+CLASS: guitar
 
 NOUNS: restaurant taqueria
 OUTLIERS: none
@@ -63,9 +76,25 @@ CLASS: website
 NOUNS: %s
 OUTLIERS:'''
 
-def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128):
+def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.1, singleton_threshold=0.6):
 	nouns = nouns.lower().split()
 	nouns = [n for n in nouns if n not in STOP_WORDS]
+
+	noun_counts = defaultdict(int)
+	for noun in nouns:
+		noun_counts[noun] += 1
+	if filter_threshold > 0.0:
+		new_nouns = []
+		for noun in nouns:
+			if noun_counts[noun]*1.0/len(nouns) >= filter_threshold:
+				new_nouns.append(noun)
+		nouns = new_nouns
+	if singleton_threshold > 0.0:
+		for noun in nouns:
+			if noun_counts[noun]*1.0/len(nouns) > singleton_threshold:
+				nouns = [noun]
+				break
+
 	nouns = ' '.join(nouns)
 
 	inp = PROMPT % (nouns,)

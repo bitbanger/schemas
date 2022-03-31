@@ -10,8 +10,8 @@
 
 ; (format t " --- !>~%")
 
-; (defparameter *USE-GPT* nil)
-(defparameter *USE-GPT* t)
+(defparameter *USE-GPT* nil)
+; (defparameter *USE-GPT* t)
 
 (defparameter *SCHEMA-WEBPAGE-TEMPLATE* (join-str-list *NEWLINE-STR* '(
 "<html>"

@@ -717,8 +717,10 @@ proto_float_rcs = set()
 for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
 	ns = parse_s_expr(nss)
+	print('step: %s' % nss)
 	for inst_idx in gen_steps[filtered_gen_step_idcs[i]][2]:
 		schema_idx = step_idcs_to_schema_idcs[inst_idx]
+		print('\tinst: %s' % ungr_steps[inst_idx])
 		vp = verb_pred(ungr_steps[inst_idx])
 		if vp in schema_proto_maps[schema_idx]:
 			if ADD_PROTO_TAGS and 'PROTO' not in ns[1]:
@@ -796,7 +798,6 @@ new_schema = Schema(new_schema)
 if FLOAT_UP_PROTO_FORMULAS:
 	for sec_name in proto_float_formulas.keys():
 		for formula in proto_float_formulas[sec_name]:
-
 			new_schema.get_section(sec_name).add_formula(formula)
 	for pfrc in proto_float_rcs:
 		pfrc_vars = rec_get_vars(pfrc)
@@ -804,6 +805,13 @@ if FLOAT_UP_PROTO_FORMULAS:
 		constrained = any([rec_contains(parse_s_expr(str(new_schema.get_section('roles'))), var) for var in pfrc_vars])
 		if (not has_banned_role_type) or (not constrained):
 			new_schema.get_section('roles').add_formula(pfrc)
+			if len(pfrc) == 2 and type(pfrc[1]) == str:
+				var = pfrc[0][1:]
+				noun = pfrc[1].split('.')[0]
+				var_options[var].append(noun)
+				var_option_counts[var][noun] += 1
+
+print('section here is %s' % new_schema.get_section('roles'))
 
 final_var_to_role_map = defaultdict(set)
 for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
@@ -820,18 +828,27 @@ for var in final_var_to_role_map.keys():
 	print('\t%s' % var_option_counts[var[1:]])
 	nouns = []
 	for option in var_option_counts[var[1:]]:
-		# print('\t%s: %d' % (option, var_option_counts[var[1:]][option]))
+		# Pass 1: don't include banned role types
 		for _ in range(var_option_counts[var[1:]][option]):
 			if option not in BANNED_ROLE_TYPES:
+				nouns.append(option)
+		# Pass 2: if we didn't include anything, allow them
+		if len(nouns) == 0:
+			for _ in range(var_option_counts[var[1:]][option]):
 				nouns.append(option)
 	# print(' '.join(nouns))
 	# print('\n\tGENERALIZATION: %s' % gen_nouns(' '.join(nouns), temp=0.01))
 	options = list(var_option_counts[var[1:]].keys())
 	unbanned_options = [o for o in options if o not in BANNED_ROLE_TYPES]
+	if len(unbanned_options) == 0:
+		unbanned_options = options
 	if len(unbanned_options) == 1:
 		var_gen_types[var] = '%s.N' % (unbanned_options[0].upper())
 	else:
-		var_gen_types[var] = '%s.N' % (gen_nouns(' '.join(nouns), temp=0.01).upper())
+		gen_noun = '_'.join(gen_nouns(' '.join(nouns), temp=0.01).upper().split(' '))
+		if gen_noun == 'HUMAN':
+			gen_noun = 'PERSON'
+		var_gen_types[var] = '%s.N' % (gen_noun)
 
 # Replace the old role constraints with the new ones.
 new_rcs = []

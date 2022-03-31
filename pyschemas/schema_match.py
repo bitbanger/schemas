@@ -2,7 +2,7 @@ import sys
 
 from collections import defaultdict
 from sexpr import parse_s_expr, list_to_s_expr as ls
-from schema import Schema
+from schema import Schema, rec_replace
 from schema_search import SchemaSearcher
 from el_expr import *
 
@@ -38,6 +38,21 @@ def strip_tags(word):
 
 prop_vecs = []
 props_by_vec = dict()
+
+def rec_get_vars(lst):
+	if type(lst) == str:
+		if lst[0] == '?':
+			return [lst]
+		else:
+			return []
+	vs = []
+	for e in lst:
+		if type(e) == str and len(e) >= 2 and e[0] == '?':
+			vs.append(e)
+		elif type(e) == list:
+			vs = vs + rec_get_vars(e)
+
+	return list(set(vs))
 
 def k_closest(prop_vec, prop_vecs, k):
 	dist_pairs = []
@@ -180,9 +195,24 @@ def grounded_schema_prop(prop, schema):
 	# print('\tverb: %s' % verb)
 	# print('\tpost-args: %s' % (posts,))
 
-	posts = [p for p in posts if type(p) != list]
+	# posts = [p for p in posts if type(p) != list]
+	new_posts = []
+	for p in posts:
+		if type(p) != list:
+			new_posts.append(p)
+		else:
+			vs = rec_get_vars(p)
+			if len(vs) == 1:
+				# new_posts.append(vs[0])
+				# new_posts.append(rec_replace(vs[0], role_types[vs[0]], p))
+				#rts = []
+				#for rt in role_types[vs[0]]:
+				#	rts.append(rec_replace(vs[0], rt, p))
+				#new_posts.append(rts)
+				new_posts.append(vs[0])
+	posts = new_posts
 
-	post_types = [role_types[x] for x in posts]
+	post_types = [role_types[x] if type(x) != list and x in role_types else x for x in posts]
 
 	return [pre, verb] + post_types[:2]
 

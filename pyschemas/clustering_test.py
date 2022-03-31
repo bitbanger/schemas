@@ -11,7 +11,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
-from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
 
@@ -49,16 +49,6 @@ def rec_contains(lst, val):
 				return True
 
 	return False
-
-def rec_get_vars(lst):
-	vs = []
-	for e in lst:
-		if type(e) == str and len(e) >= 2 and e[0] == '?':
-			vs.append(e)
-		elif type(e) == list:
-			vs = vs + rec_get_vars(e)
-
-	return list(set(vs))
 
 schema_prompt = 'feeding_pets'
 if len(sys.argv) > 1:
@@ -206,7 +196,7 @@ for cluster_idx in range(len(clusters)):
 	cluster = parse_s_expr(clusters[cluster_idx])
 	# print(cluster)
 	for step_idx in cluster[2]:
-		# print('adding step %s to gen step %s' % (step_idx, cluster_idx))
+		# print('adding step %s to gen step %s' % (ungr_steps[int(step_idx)], cluster_idx))
 		gen_idcs_to_step_idcs[cluster_idx].add(int(step_idx))
 
 # Map step IDs to gen cluster IDs
@@ -442,8 +432,15 @@ for schema_id in range(len(schemas)):
 					if step1_gen_id == step2_gen_id and k1 == k2:
 						continue
 
+					step1_var = rec_get_vars(step1[k1])
+					step2_var = rec_get_vars(step2[k2])
+					if len(step1_var) != 1 or len(step2_var) != 1:
+						continue
+
 					# Draw an edge for the schema between the args
-					if step1[k1] == step2[k2]:
+					# if step1[k1] == step2[k2]:
+					if step1_var == step2_var:
+						# print('linking %s and %s on vars %s and %s' % (step1[k1], step2[k2], step1_var, step2_var))
 						multigraph[step1_gen_id][k1][step2_gen_id][k2].add(schema_id)
 						edges.add((step1_gen_id, k1, step2_gen_id, k2, schema_id))
 
@@ -561,10 +558,14 @@ for cc in coref_clusters:
 	for e in cc:
 		(gen_step_id, arg_idx) = e
 		instance_ids = gen_steps[gen_step_id][2]
-		instance_ungr_steps = [gr_steps[inst_id] for inst_id in instance_ids]
+		instance_ungr_steps = [ungr_steps[inst_id] for inst_id in instance_ids]
 		instance_gr_steps = [gr_steps[inst_id] for inst_id in instance_ids]
 
 		for i in range(len(instance_gr_steps)):
+			print('-')
+			print('ungr step is %s' % (instance_ungr_steps[i]))
+			print('gr step is %s' % (instance_gr_steps[i]))
+			print('-')
 			instance_id = instance_ids[i]
 			schema_inst_id = step_idcs_to_schema_idcs[instance_id]
 			if schema_inst_id in seen_schema_insts:
@@ -577,6 +578,8 @@ for cc in coref_clusters:
 			if len(instance) > arg_idx:
 				for option in instance[arg_idx]:
 					option_counts[option] += 1
+			else:
+				print('instance %s was too short for arg %d' % (instance, arg_idx))
 
 		'''
 		for instance in instance_gr_steps:
@@ -811,7 +814,7 @@ if FLOAT_UP_PROTO_FORMULAS:
 				var_options[var].append(noun)
 				var_option_counts[var][noun] += 1
 
-print('section here is %s' % new_schema.get_section('roles'))
+# print('section here is %s' % new_schema.get_section('roles'))
 
 final_var_to_role_map = defaultdict(set)
 for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):

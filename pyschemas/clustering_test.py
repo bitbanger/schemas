@@ -11,7 +11,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
-from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, has_suff, rec_get_pred
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
 
@@ -39,6 +39,25 @@ BANNED_ROLE_TYPES = {
 	'OBJECT',
 	'AGENT'
 }
+
+def remove_advs(l):
+	if not type(l) == list:
+		return l
+
+	new_l = []
+	for e in l:
+		if is_adv(e):
+			continue
+		elif type(e) == list:
+			new_l.append(remove_advs(e))
+		else:
+			new_l.append(e)
+
+	# if len(new_l) == 1 and type(new_l[0]) == list:
+	if len(new_l) == 1:
+		return new_l[0]
+
+	return new_l
 
 def rec_contains(lst, val):
 	for e in lst:
@@ -97,6 +116,21 @@ for i in range(len(schemas)):
 	steps = schema.get_section('steps').formulas
 	for j in range(len(steps)):
 		step = steps[j].formula.formula
+		# print('step is %s' % step)
+		# print('no-adv step is %s' % remove_advs(step))
+		missing_advs = rec_get_advs(step)
+		adv_post = None
+		if len(missing_advs) == 1 and len(rec_get_vars(missing_advs[0])) == 1:
+			if type(missing_advs[0][1][0]) == str and missing_advs[0][1][0].split('.')[-1].upper() == 'P':
+				prep = missing_advs[0][1][0].split('.')[0].upper()
+				var = rec_get_vars(missing_advs[0])[0]
+				# print('removing adv %s with var %s' % (prep, rec_get_vars(missing_advs[0])[0]))
+				print('adding var %s to step %s' % (var, step))
+				if len(step) == 2 and type(step[1]) == list:
+					step = [step[0], step[1] + [var]]
+				else:
+					step.append(var)
+				steps[j].formula.formula = step
 
 		step_vec = prop_to_vec(step, schema)
 		if step_vec is None:
@@ -111,7 +145,9 @@ for i in range(len(schemas)):
 
 		schema_step_ids_to_step_idcs[i][steps[j].episode_id] = total_idx
 
+		print('grounding %s' % step)
 		gr_step = grounded_schema_prop(step, schema)
+		print('grounded step was %s' % gr_step)
 		gr_steps.append(gr_step)
 		ungr_steps.append(step)
 
@@ -254,34 +290,6 @@ multigraph = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: default
 # which schemas represents an edge A->B indicating that A
 # happened before B in that schema.
 temporal_multigraph = defaultdict(lambda: defaultdict(set))
-
-def has_suff(e, suff):
-	if type(e) == str and len(e) > len(suff)+1 and len(e.split('.')) > 1 and len(e.split('.')[-1]) >= len(suff) and e.split('.')[-1][:len(suff)].lower() == suff.lower():
-		return True
-	else:
-		return False
-
-def is_adv(e):
-	if has_suff(e, 'adv'):
-		return True
-	elif type(e) == list and len(e) > 1 and type(e[0]) == str and len(e[0]) >= 3 and e[0][:3].lower() == 'adv':
-		return True
-	else:
-		return False
-
-def remove_advs(l):
-	if not type(l) == list:
-		return l
-
-	new_l = []
-	for e in l:
-		if not is_adv(e):
-			new_l.append(e)
-
-	if len(new_l) == 1 and type(new_l[0]) == list:
-		return new_l[0]
-
-	return new_l
 
 def flatten_schema_step(step):
 	if type(step) == list and len(step) == 1 and type(step[0]) == list:
@@ -562,10 +570,6 @@ for cc in coref_clusters:
 		instance_gr_steps = [gr_steps[inst_id] for inst_id in instance_ids]
 
 		for i in range(len(instance_gr_steps)):
-			print('-')
-			print('ungr step is %s' % (instance_ungr_steps[i]))
-			print('gr step is %s' % (instance_gr_steps[i]))
-			print('-')
 			instance_id = instance_ids[i]
 			schema_inst_id = step_idcs_to_schema_idcs[instance_id]
 			if schema_inst_id in seen_schema_insts:
@@ -628,8 +632,13 @@ for gen_step in gen_steps:
 		for arg_idx in range(len(inst_form)):
 			if arg_idx == 1:
 				continue
+			# Pass 1: don't add banned role types
 			for option in inst_form[arg_idx]:
 				if option not in BANNED_ROLE_TYPES:
+					options[arg_idx].add(option)
+			# Pass 2: add them if you haven't added anything
+			if len(options[arg_idx]) == 0:
+				for option in inst_form[arg_idx]:
 					options[arg_idx].add(option)
 
 	new_step = []
@@ -717,6 +726,35 @@ new_step_strings = [new_step_strings[i] for i in filtered_gen_step_idcs]
 proto_float_formulas = defaultdict(list)
 proto_float_rcs = set()
 
+# But first, for steps where a prepositional adverbial modifier with a single
+# variable had the variable appended to the formula, remove the final
+# variable in the formula and restore the adverb
+for i in range(len(new_step_strings)):
+	nss = new_step_strings[i]
+	print('step: %s' % nss)
+	for inst_idx in gen_steps[filtered_gen_step_idcs[i]][2]:
+		adv = rec_get_advs(ungr_steps[inst_idx])
+		if len(adv) == 1:
+			adv = adv[0]
+			if len(adv) == 2 and type(adv[1]) == list and type(adv[1][0]) == str and adv[1][0].split('.')[-1].upper() == 'P':
+				adv_var = rec_get_vars(adv)
+				prep = adv[1][0].split('.')[0]
+				if len(adv_var) == 1:
+					adv_var = adv_var[0]
+					flat_inst = flatten_schema_step(ungr_steps[inst_idx])
+					if len(flat_inst) < 5 and adv_var == flat_inst[-1]:
+						nss_list = parse_s_expr(nss)
+						prep_var = nss_list[-1]
+						new_nss_list = [nss_list[0], [['ADV-A', ['%s.P' % prep, prep_var]], nss_list[1]]]
+						for j in range(2, len(flat_inst)-1):
+							new_nss_list.append(nss_list[j])
+						print('\tinst: (prep %s, var %s)' % (prep, adv_var))
+						new_step_strings[i] = list_to_s_expr(new_nss_list)
+						print('\t%s' % list_to_s_expr(new_nss_list))
+						break
+
+print(new_step_strings)
+
 for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
 	ns = parse_s_expr(nss)
@@ -726,10 +764,14 @@ for i in range(len(new_step_strings)):
 		print('\tinst: %s' % ungr_steps[inst_idx])
 		vp = verb_pred(ungr_steps[inst_idx])
 		if vp in schema_proto_maps[schema_idx]:
-			if ADD_PROTO_TAGS and 'PROTO' not in ns[1]:
+			ns1_verb = ns[1]
+			if type(ns[1]) == list:
+				ns1_verb = rec_get_pred(ns[1], lambda x: type(x) == str and x.split('.')[-1] == 'V')[0]
+			if ADD_PROTO_TAGS and 'PROTO' not in ns1_verb:
 				proto = schema_proto_maps[schema_idx][vp]
 
 				proto_header = proto.header_formula
+
 				mapping = dict()
 				if len(ns) != len(proto_header):
 					continue
@@ -758,7 +800,22 @@ for i in range(len(new_step_strings)):
 												formula_vars.append(rc_var)
 								seen_fvs.add(fv)
 					
-				ns = [ns[0], '%s_PROTO.V' % (ns[1].split('.')[0])] + ns[2:]
+				ns_verb = ns[1]
+				ns_verb_list = None
+				if type(ns_verb) == list:
+					ns_verb_list = ns_verb[::]
+					ns_verb = rec_get_pred(ns[1], pred=lambda x: type(x) == str and x.split('.')[-1] == 'V')[0]
+				ns_verb_no_tag = ns_verb.split('.')[0]
+				new_verb_name = '%s_PROTO.V' % (ns_verb_no_tag)
+				print('replacing %s with %s' % (ns_verb, new_verb_name))
+
+				# Replace the verb within the complex verb predicate, if it's complex
+				# Otherwise, just add in the new atomic verb predicate
+				if ns_verb_list is not None:
+					ns_verb_list = rec_replace(ns_verb, new_verb_name, ns_verb_list)
+					ns = [ns[0], ns_verb_list] + ns[2:]
+				else:
+					ns = [ns[0], '%s_PROTO.V' % (ns_verb_no_tag)] + ns[2:]
 				break
 	new_step_strings[i] = list_to_s_expr(ns)
 
@@ -803,16 +860,17 @@ if FLOAT_UP_PROTO_FORMULAS:
 		for formula in proto_float_formulas[sec_name]:
 			new_schema.get_section(sec_name).add_formula(formula)
 	for pfrc in proto_float_rcs:
+		print('pfrc: %s' % (pfrc,))
 		pfrc_vars = rec_get_vars(pfrc)
 		has_banned_role_type = any([rec_contains(pfrc, '%s.N' % val) for val in BANNED_ROLE_TYPES])
 		constrained = any([rec_contains(parse_s_expr(str(new_schema.get_section('roles'))), var) for var in pfrc_vars])
-		if (not has_banned_role_type) or (not constrained):
-			new_schema.get_section('roles').add_formula(pfrc)
-			if len(pfrc) == 2 and type(pfrc[1]) == str:
-				var = pfrc[0][1:]
-				noun = pfrc[1].split('.')[0]
+		if len(pfrc) == 2 and type(pfrc[1]) == str:
+			var = pfrc[0][1:]
+			noun = pfrc[1].split('.')[0]
+			if (not has_banned_role_type) or (not constrained) or (noun in var_options[var]):
+				new_schema.get_section('roles').add_formula(pfrc)
 				var_options[var].append(noun)
-				var_option_counts[var][noun] += 1
+				var_option_counts[var][noun] += len(schemas)
 
 # print('section here is %s' % new_schema.get_section('roles'))
 
@@ -830,9 +888,11 @@ for var in final_var_to_role_map.keys():
 		# print('\t%s' % role)
 	print('\t%s' % var_option_counts[var[1:]])
 	nouns = []
+	unfiltered_nouns = []
 	for option in var_option_counts[var[1:]]:
 		# Pass 1: don't include banned role types
 		for _ in range(var_option_counts[var[1:]][option]):
+			unfiltered_nouns.append(option)
 			if option not in BANNED_ROLE_TYPES:
 				nouns.append(option)
 		# Pass 2: if we didn't include anything, allow them
@@ -848,7 +908,9 @@ for var in final_var_to_role_map.keys():
 	if len(unbanned_options) == 1:
 		var_gen_types[var] = '%s.N' % (unbanned_options[0].upper())
 	else:
-		gen_noun = '_'.join(gen_nouns(' '.join(nouns), temp=0.01).upper().split(' '))
+		# Use unfiltered nouns for the GPT generalizer; it'll take
+		# care of banned words using its own policies
+		gen_noun = '_'.join(gen_nouns(' '.join(unfiltered_nouns), temp=0.01).upper().split(' '))
 		if gen_noun == 'HUMAN':
 			gen_noun = 'PERSON'
 		var_gen_types[var] = '%s.N' % (gen_noun)
@@ -897,6 +959,9 @@ new_schema.dedupe()
 
 
 # Merge all vars with identical role constraints
+# (except some things which we know like to have dupes, e.g.
+# generic types floated up from protoschemas)
+likely_dupes = ['(_ LOCATION.N)', '(_ ENTITY.N)']
 constraint_sets_to_vars = defaultdict(list)
 for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
 	print(var)
@@ -905,6 +970,15 @@ for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
 		if rc.formula.formula[0] != 'NOT' and rec_contains(rc.formula.formula, var):
 			var_rcs.add(list_to_s_expr(rec_replace(var, '_', rc.formula.formula)))
 	var_rcs = sorted(list(var_rcs))
+	skip_merge = False
+	for ld in likely_dupes:
+		print('comparing %s to %s' % (var_rcs, [ld]))
+		print('\tequal? %s' % (var_rcs == [ld]))
+		if var_rcs == [ld]:
+			skip_merge = True
+			break
+	if skip_merge:
+		continue
 	rc_set_key = '\t'.join(var_rcs)
 	constraint_sets_to_vars[rc_set_key].append(var)
 
@@ -914,6 +988,7 @@ for rc_set in sorted(list(constraint_sets_to_vars.keys())):
 	if len(vs) < 2:
 		continue
 	print('merging %s' % ' '.join(vs))
+	print('for rc set %s' % (rc_set))
 	first_var = vs[0]
 	for var in vs[1:]:
 		new_schema_s_expr = rec_replace(var, first_var, new_schema_s_expr)

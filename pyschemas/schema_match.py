@@ -39,20 +39,41 @@ def strip_tags(word):
 prop_vecs = []
 props_by_vec = dict()
 
-def rec_get_vars(lst):
-	if type(lst) == str:
-		if lst[0] == '?':
-			return [lst]
-		else:
-			return []
-	vs = []
-	for e in lst:
-		if type(e) == str and len(e) >= 2 and e[0] == '?':
-			vs.append(e)
-		elif type(e) == list:
-			vs = vs + rec_get_vars(e)
+def rec_get_pred(lst, pred=lambda x: False):
+	if pred(lst):
+		return [lst]
 
-	return list(set(vs))
+	if type(lst) != list:
+		return []
+
+	ret_lst = []
+	for e in lst:
+		if pred(e):
+			ret_lst.append(e)
+		elif type(e) == list:
+			ret_lst += rec_get_pred(e, pred=pred)
+
+	return ret_lst
+
+def has_suff(e, suff):
+	if type(e) == str and len(e) > len(suff)+1 and len(e.split('.')) > 1 and len(e.split('.')[-1]) >= len(suff) and e.split('.')[-1][:len(suff)].lower() == suff.lower():
+		return True
+	else:
+		return False
+
+def is_adv(e):
+	if has_suff(e, 'adv'):
+		return True
+	elif type(e) == list and len(e) > 1 and type(e[0]) == str and len(e[0]) >= 3 and e[0][:3].lower() == 'adv':
+		return True
+	else:
+		return False
+
+def rec_get_vars(lst):
+	return list(set(rec_get_pred(lst, pred=lambda x: type(x) == str and x[0] == '?')))
+
+def rec_get_advs(lst):
+	return rec_get_pred(lst, pred=is_adv)
 
 def k_closest(prop_vec, prop_vecs, k):
 	dist_pairs = []
@@ -213,6 +234,14 @@ def grounded_schema_prop(prop, schema):
 	posts = new_posts
 
 	post_types = [role_types[x] if type(x) != list and x in role_types else x for x in posts]
+	post_types = []
+	for x in posts:
+		if type(x) != list and x in role_types:
+			post_types.append(role_types[x])
+		elif type(x) != list and x not in role_types:
+			post_types.append(['ENTITY'])
+		else:
+			post_types.append(x)
 
 	return [pre, verb] + post_types[:2]
 

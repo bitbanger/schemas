@@ -78,22 +78,45 @@ OUTLIERS:'''
 
 def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.1, singleton_threshold=0.6):
 	nouns = nouns.lower().split()
-	nouns = [n for n in nouns if n not in STOP_WORDS]
+
+	# Remove 'entity' from nouns iff something
+	# else exists in there
+	nouns_copy = nouns[::]
+	while 'ENTITY' in nouns_copy:
+		nouns_copy.remove('ENTITY')
+	if len(nouns_copy) > 0:
+		nouns = nouns_copy
 
 	noun_counts = defaultdict(int)
 	for noun in nouns:
 		noun_counts[noun] += 1
+	# Check for "singleton" nouns (i.e., those
+	# with a >=60% frequency) *before* we remove
+	# stop words, because that essentially means
+	# the non-stop words can be removed as "noise",
+	# leaving only the stop word
+	if singleton_threshold > 0.0:
+		for noun in nouns:
+			if noun_counts[noun]*1.0/len(nouns) > singleton_threshold:
+				nouns = [noun]
+				break
+
+	new_nouns = [n for n in nouns if n not in STOP_WORDS]
+	if len(new_nouns) == 0:
+		new_nouns = nouns
+
+	# Take the noun counts again, now that stop words
+	# have been removed
+	noun_counts = defaultdict(int)
+	for noun in nouns:
+		noun_counts[noun] += 1
+
 	if filter_threshold > 0.0:
 		new_nouns = []
 		for noun in nouns:
 			if noun_counts[noun]*1.0/len(nouns) >= filter_threshold:
 				new_nouns.append(noun)
 		nouns = new_nouns
-	if singleton_threshold > 0.0:
-		for noun in nouns:
-			if noun_counts[noun]*1.0/len(nouns) > singleton_threshold:
-				nouns = [noun]
-				break
 
 	nouns = ' '.join(nouns)
 

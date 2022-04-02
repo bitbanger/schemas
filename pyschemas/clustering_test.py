@@ -21,7 +21,6 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 from el_expr import pre_arg, verb_pred, post_args
 
 FREQ_THRESHOLD = 3
-VAR_FREQ_THRESHOLD = 3
 OPTION_FREQ = 0.5
 
 MERGE_ALL_PRE_ARGS = True
@@ -125,7 +124,7 @@ for i in range(len(schemas)):
 				prep = missing_advs[0][1][0].split('.')[0].upper()
 				var = rec_get_vars(missing_advs[0])[0]
 				# print('removing adv %s with var %s' % (prep, rec_get_vars(missing_advs[0])[0]))
-				print('adding var %s to step %s' % (var, step))
+				# print('adding var %s to step %s' % (var, step))
 				if len(step) == 2 and type(step[1]) == list:
 					step = [step[0], step[1] + [var]]
 				else:
@@ -145,9 +144,9 @@ for i in range(len(schemas)):
 
 		schema_step_ids_to_step_idcs[i][steps[j].episode_id] = total_idx
 
-		print('grounding %s' % step)
+		# print('grounding %s' % step)
 		gr_step = grounded_schema_prop(step, schema)
-		print('grounded step was %s' % gr_step)
+		# print('grounded step was %s' % gr_step)
 		gr_steps.append(gr_step)
 		ungr_steps.append(step)
 
@@ -191,13 +190,13 @@ ypoints = numpy.array(ch_dists)
 
 cnum = KneeLocator(xpoints, ypoints, curve='convex', direction='decreasing').knee
 
-print('dist: %.2f' % ypoints[cnum])
+# print('dist: %.2f' % ypoints[cnum])
 
 '''
 for label in range(cnum+MIN_CLUSTERS):
-	print('cluster %d:' % (label))
+	# print('cluster %d:' % (label))
 	for gr in cluster_maps[cnum][label]:
-		print('\t%s' % gr)
+		# print('\t%s' % gr)
 '''
 
 clusters = []
@@ -583,7 +582,8 @@ for cc in coref_clusters:
 				for option in instance[arg_idx]:
 					option_counts[option] += 1
 			else:
-				print('instance %s was too short for arg %d' % (instance, arg_idx))
+				# print('instance %s was too short for arg %d' % (instance, arg_idx))
+				pass
 
 		'''
 		for instance in instance_gr_steps:
@@ -592,7 +592,7 @@ for cc in coref_clusters:
 					num_cluster_instances = len(instance_ids)
 					option_freq = option_counts[option] * 1.0 / num_cluster_instances
 					if option_freq > OPTION_FREQ:
-						print('option %s was observed %d out of %d times' % (option, option_counts[option], num_cluster_instances))
+						# print('option %s was observed %d out of %d times' % (option, option_counts[option], num_cluster_instances))
 						options.add(option)
 		# If no options are frequent enough, take the highest
 		# frequency one
@@ -620,7 +620,7 @@ for cc in coref_clusters:
 	var_options[next_id] = sorted(list(options))
 
 	var_option_counts[next_id] = option_counts
-	print('next id is %s, options are %s, counts are %s' % (next_id, var_options, var_option_counts))
+	# print('next id is %s, options are %s, counts are %s' % (next_id, var_options, var_option_counts))
 
 	next_id = chr(ord(next_id)+1)
 
@@ -670,7 +670,7 @@ for new_step_id in range(len(new_steps)):
 			# We're removing role constraints that don't contain vars
 			# used by high-frequency steps, so if this is a high-frequency
 			# step, save the var for that culling later.
-			if len(gen_steps[new_step_id][2]) > VAR_FREQ_THRESHOLD:
+			if len(gen_steps[new_step_id][2]) >= FREQ_THRESHOLD:
 				used_vars.add(arg_pairs_to_vars[(new_step_id, arg_idx)])
 		else:
 			# This arg stands alone, but it needs a new
@@ -682,7 +682,7 @@ for new_step_id in range(len(new_steps)):
 							var_option_counts[next_id][option] += 1
 			var_options[next_id] = new_step[arg_idx]
 			new_step_str = new_step_str + '?%s' % next_id
-			if len(gen_steps[new_step_id][2]) > VAR_FREQ_THRESHOLD:
+			if len(gen_steps[new_step_id][2]) >= FREQ_THRESHOLD:
 				used_vars.add(next_id)
 			next_id = chr(ord(next_id)+1)
 			# print(new_step[arg_idx], end='')
@@ -720,7 +720,7 @@ while len(handled_idcs) < len(gen_step_idcs):
 
 # Apply the topsort ordering to the new step strings, and
 # filter out gen steps that didn't have at least 3 instances
-filtered_gen_step_idcs = [i for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) > FREQ_THRESHOLD]
+filtered_gen_step_idcs = [i for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) >= FREQ_THRESHOLD]
 new_step_strings = [new_step_strings[i] for i in filtered_gen_step_idcs]
 
 proto_float_formulas = defaultdict(list)
@@ -731,7 +731,7 @@ proto_float_rcs = set()
 # variable in the formula and restore the adverb
 for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
-	print('step: %s' % nss)
+	# print('step: %s' % nss)
 	for inst_idx in gen_steps[filtered_gen_step_idcs[i]][2]:
 		adv = rec_get_advs(ungr_steps[inst_idx])
 		if len(adv) == 1:
@@ -748,20 +748,20 @@ for i in range(len(new_step_strings)):
 						new_nss_list = [nss_list[0], [['ADV-A', ['%s.P' % prep, prep_var]], nss_list[1]]]
 						for j in range(2, len(flat_inst)-1):
 							new_nss_list.append(nss_list[j])
-						print('\tinst: (prep %s, var %s)' % (prep, adv_var))
+						# print('\tinst: (prep %s, var %s)' % (prep, adv_var))
 						new_step_strings[i] = list_to_s_expr(new_nss_list)
-						print('\t%s' % list_to_s_expr(new_nss_list))
+						# print('\t%s' % list_to_s_expr(new_nss_list))
 						break
 
-print(new_step_strings)
+# print(new_step_strings)
 
 for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
 	ns = parse_s_expr(nss)
-	print('step: %s' % nss)
+	# print('step: %s' % nss)
 	for inst_idx in gen_steps[filtered_gen_step_idcs[i]][2]:
 		schema_idx = step_idcs_to_schema_idcs[inst_idx]
-		print('\tinst: %s' % ungr_steps[inst_idx])
+		# print('\tinst: %s' % ungr_steps[inst_idx])
 		vp = verb_pred(ungr_steps[inst_idx])
 		if vp in schema_proto_maps[schema_idx]:
 			ns1_verb = ns[1]
@@ -772,7 +772,23 @@ for i in range(len(new_step_strings)):
 
 				proto_header = proto.header_formula
 
-				mapping = dict()
+				# if the protoschema header and the invoker both have matching adv modifiers,
+				# unify those variables, too
+				# if len(rec_get_advs(proto_header)) == 1 and len(rec_get_advs
+				proto_header_advs = rec_get_advs(proto_header)
+				invoker_advs = rec_get_advs(ns[1])
+				if len(proto_header_advs) == 1 and len(invoker_advs) == 1:
+					# Blank out each adv modifier's var name so we can
+					# compare the rest for equality
+					proto_adv_vars = rec_get_vars(proto_header_advs[0])
+					invoker_adv_vars = rec_get_vars(invoker_advs[0])
+					if len(proto_adv_vars) == 1 and len(invoker_adv_vars) == 1:
+						blanked_proto_adv = list_to_s_expr(rec_replace(proto_adv_vars[0], '_', proto_header_advs[0]))
+						blanked_invoker_adv = list_to_s_expr(rec_replace(invoker_adv_vars[0], '_', invoker_advs[0]))
+						if blanked_proto_adv == blanked_invoker_adv:
+							# The adverb structures match! Bind the vars
+							proto = proto.bind_var(proto_adv_vars[0], invoker_adv_vars[0])
+
 				if len(ns) != len(proto_header):
 					continue
 				for j in range(len(ns)):
@@ -807,7 +823,6 @@ for i in range(len(new_step_strings)):
 					ns_verb = rec_get_pred(ns[1], pred=lambda x: type(x) == str and x.split('.')[-1] == 'V')[0]
 				ns_verb_no_tag = ns_verb.split('.')[0]
 				new_verb_name = '%s_PROTO.V' % (ns_verb_no_tag)
-				print('replacing %s with %s' % (ns_verb, new_verb_name))
 
 				# Replace the verb within the complex verb predicate, if it's complex
 				# Otherwise, just add in the new atomic verb predicate
@@ -842,7 +857,7 @@ for var in var_options.keys():
 	if var not in used_vars:
 		continue
 	for option in var_options[var]:
-		print('option %s for var %s has count %d' % (option, var, var_option_counts[var][option]))
+		# print('option %s for var %s has count %d' % (option, var, var_option_counts[var][option]))
 		if option[0] == '?':
 			continue
 		new_roles = new_roles + ('(!R%d (?%s %s.N))' % (var_num, var, option))
@@ -860,7 +875,7 @@ if FLOAT_UP_PROTO_FORMULAS:
 		for formula in proto_float_formulas[sec_name]:
 			new_schema.get_section(sec_name).add_formula(formula)
 	for pfrc in proto_float_rcs:
-		print('pfrc: %s' % (pfrc,))
+		# print('pfrc: %s' % (pfrc,))
 		pfrc_vars = rec_get_vars(pfrc)
 		has_banned_role_type = any([rec_contains(pfrc, '%s.N' % val) for val in BANNED_ROLE_TYPES])
 		constrained = any([rec_contains(parse_s_expr(str(new_schema.get_section('roles'))), var) for var in pfrc_vars])
@@ -870,7 +885,7 @@ if FLOAT_UP_PROTO_FORMULAS:
 			if (not has_banned_role_type) or (not constrained) or (noun in var_options[var]):
 				new_schema.get_section('roles').add_formula(pfrc)
 				var_options[var].append(noun)
-				var_option_counts[var][noun] += len(schemas)
+				var_option_counts[var][noun] = len(schemas)
 
 # print('section here is %s' % new_schema.get_section('roles'))
 
@@ -883,10 +898,10 @@ for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
 # Use GPT-J to find generalizations for the sampled argument types
 var_gen_types = defaultdict(lambda: 'entity')
 for var in final_var_to_role_map.keys():
-	print('\n%s' % var)
+	# print('\n%s' % var)
 	# for role in final_var_to_role_map[var]:
 		# print('\t%s' % role)
-	print('\t%s' % var_option_counts[var[1:]])
+	# print('\t%s' % var_option_counts[var[1:]])
 	nouns = []
 	unfiltered_nouns = []
 	for option in var_option_counts[var[1:]]:
@@ -910,7 +925,7 @@ for var in final_var_to_role_map.keys():
 	else:
 		# Use unfiltered nouns for the GPT generalizer; it'll take
 		# care of banned words using its own policies
-		gen_noun = '_'.join(gen_nouns(' '.join(unfiltered_nouns), temp=0.01).upper().split(' '))
+		gen_noun = '_'.join(gen_nouns(' '.join(unfiltered_nouns), temp=0.01, rep_pen=1.2).upper().split(' '))
 		if gen_noun == 'HUMAN':
 			gen_noun = 'PERSON'
 		var_gen_types[var] = '%s.N' % (gen_noun)
@@ -942,8 +957,9 @@ for pfv in prefix_vars:
 	if final_var_to_role_map[pfv] == {'PERSON.N'}:
 		prefix_vars_to_merge.append(pfv)
 	else:
-		print("can't merge %s because its roles are %s" % (pfv, final_var_to_role_map[pfv]))
-print('merging %s' % (prefix_vars_to_merge))
+		# print("can't merge %s because its roles are %s" % (pfv, final_var_to_role_map[pfv]))
+		pass
+# print('merging %s' % (prefix_vars_to_merge))
 
 new_schema_s_expr = parse_s_expr(str(new_schema))
 
@@ -964,7 +980,7 @@ new_schema.dedupe()
 likely_dupes = ['(_ LOCATION.N)', '(_ ENTITY.N)']
 constraint_sets_to_vars = defaultdict(list)
 for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
-	print(var)
+	# print(var)
 	var_rcs = set()
 	for rc in new_schema.get_section('roles').formulas:
 		if rc.formula.formula[0] != 'NOT' and rec_contains(rc.formula.formula, var):
@@ -972,8 +988,6 @@ for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
 	var_rcs = sorted(list(var_rcs))
 	skip_merge = False
 	for ld in likely_dupes:
-		print('comparing %s to %s' % (var_rcs, [ld]))
-		print('\tequal? %s' % (var_rcs == [ld]))
 		if var_rcs == [ld]:
 			skip_merge = True
 			break

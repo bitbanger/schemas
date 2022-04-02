@@ -13,7 +13,7 @@ from collections import defaultdict
 
 # PROMPTS = ['picking flowers', 'going hiking', 'eating breakfast', 'waking up in the morning', 'going to the beach', 'going to the grocery store', 'buying something at a store', 'going on vacation', 'playing with a pet', 'farming', 'going to the library']
 
-NUM_STORIES = 15
+NUM_STORIES = 20
 
 lome_client = xmlrpc.client.ServerProxy('http://localhost:8040')
 

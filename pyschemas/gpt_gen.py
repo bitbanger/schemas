@@ -7,7 +7,7 @@ import xmlrpc.client
 from collections import defaultdict
 from transformers import GPT2Tokenizer
 
-STOP_WORDS = ['location', 'destination']
+STOP_WORDS = ['location', 'destination', 'object']
 
 server = xmlrpc.client.ServerProxy('http://localhost:8000')
 
@@ -61,6 +61,14 @@ NOUNS: restaurant taqueria
 OUTLIERS: none
 CLASS: restaurant
 
+NOUNS: rabbit rabbit rabbit dog
+OUTLIERS: dog
+CLASS: rabbit
+
+NOUNS: rabbit rabbit rabbit rabbit rabbit dog cup
+OUTLIERS: dog cup
+CLASS: rabbit
+
 NOUNS: monitor tv display
 OUTLIERS: none
 CLASS: screen
@@ -76,7 +84,7 @@ CLASS: website
 NOUNS: %s
 OUTLIERS:'''
 
-def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.1, singleton_threshold=0.6):
+def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.1, singleton_threshold=0.75):
 	nouns = nouns.lower().split()
 
 	# Remove 'entity' from nouns iff something
@@ -90,20 +98,24 @@ def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.
 	noun_counts = defaultdict(int)
 	for noun in nouns:
 		noun_counts[noun] += 1
-	# Check for "singleton" nouns (i.e., those
-	# with a >=60% frequency) *before* we remove
-	# stop words, because that essentially means
-	# the non-stop words can be removed as "noise",
-	# leaving only the stop word
-	if singleton_threshold > 0.0:
-		for noun in nouns:
-			if noun_counts[noun]*1.0/len(nouns) > singleton_threshold:
-				nouns = [noun]
-				break
 
 	new_nouns = [n for n in nouns if n not in STOP_WORDS]
 	if len(new_nouns) == 0:
 		new_nouns = nouns
+	nouns = new_nouns
+	print('nouns are now %s' % nouns)
+
+	# Redo noun counts
+	noun_counts = defaultdict(int)
+	for noun in nouns:
+		noun_counts[noun] += 1
+
+	if singleton_threshold > 0.0:
+		for noun in nouns:
+			if noun_counts[noun]*1.0/len(nouns) >= singleton_threshold:
+				nouns = [noun]
+				return noun
+				break
 
 	# Take the noun counts again, now that stop words
 	# have been removed
@@ -111,12 +123,17 @@ def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.
 	for noun in nouns:
 		noun_counts[noun] += 1
 
+	'''
 	if filter_threshold > 0.0:
 		new_nouns = []
 		for noun in nouns:
 			if noun_counts[noun]*1.0/len(nouns) >= filter_threshold:
 				new_nouns.append(noun)
-		nouns = new_nouns
+		if len(new_nouns) > 0:
+			# Don't filter out nouns if nothing meets the threshold
+			nouns = new_nouns
+	'''
+		
 
 	nouns = ' '.join(nouns)
 
@@ -125,7 +142,14 @@ def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.
 
 	resp = server.gen(inp, temp, rep_pen, min(2048, len(input_ids.squeeze())+resp_length))
 
-	return resp.split('\n')[:len(inp.split('\n'))+1][-1].split(': ')[-1]
+	ret_val = resp.split('\n')[:len(inp.split('\n'))+1][-1].split(': ')[-1]
+
+	if len(ret_val.split(' ')) >= 5:
+		ret_val = ret_val.split(' ')[0]
+
+	print('generalized %s from %s' % (ret_val, nouns))
+
+	return ret_val
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Complete text with GPT')

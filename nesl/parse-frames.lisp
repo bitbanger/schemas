@@ -453,7 +453,8 @@
 		el-sents))
 
 
-	(setf new-header (gpt-schema-header composite-schema))
+	; (setf new-header (gpt-schema-header composite-schema))
+	(setf new-header nil)
 
 	(if (not (null new-header))
 		(setf composite-schema (replace-vals

@@ -72,6 +72,7 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 	# Move "nots" after the prefix arg of what they wrap
 	nots = rec_get_pred(phi, pred=lambda x: type(x) == list and len(x) == 2 and x[0] == 'NOT' and type(x[1]) == list)
 	for n in nots:
+		print('n is %s' % n)
 		# new_not = [n[1][0], ['NOT'] + n[1][1:]]
 		the_not = n[0]
 		the_prop = n[1]

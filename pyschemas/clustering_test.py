@@ -20,8 +20,8 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args
 
-FREQ_THRESHOLD = 2
-OPTION_FREQ = 0.5
+FREQ_THRESHOLD = 3
+OPTION_FREQ = 0.4
 
 MERGE_ALL_PRE_ARGS = True
 # MERGE_ALL_PRE_ARGS = True
@@ -512,6 +512,7 @@ for step1_gen_id in sorted(multigraph.keys()):
 		for step2_gen_id in sorted(multigraph[step1_gen_id][arg1_idx].keys()):
 			for arg2_idx in sorted(multigraph[step1_gen_id][arg1_idx][step2_gen_id].keys()):
 				if corefers(step1_gen_id, arg1_idx, step2_gen_id, arg2_idx):
+					# print('arg %d in step %s and arg %d in step %s' % (arg1_idx, gen_steps[step1_gen_id], arg2_idx, gen_steps[step2_gen_id]))
 					v = (step1_gen_id, arg1_idx)
 					e = (step2_gen_id, arg2_idx)
 					# print('%d in %s corefers with %d in %s' % (v[1], gen_steps[v[0]][0][0], e[1], gen_steps[e[0]][0][0]))
@@ -723,7 +724,7 @@ while len(handled_idcs) < len(gen_step_idcs):
 filtered_gen_step_idcs = [i for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) >= FREQ_THRESHOLD]
 new_step_strings = [new_step_strings[i] for i in filtered_gen_step_idcs]
 
-proto_float_formulas = defaultdict(list)
+proto_float_formulas = defaultdict(lambda: defaultdict(list))
 proto_float_rcs = set()
 
 # But first, for steps where a prepositional adverbial modifier with a single
@@ -798,7 +799,7 @@ for i in range(len(new_step_strings)):
 
 				for sec in ['goals', 'preconds', 'postconds']:
 					for formula in proto.get_section(sec).formulas:
-						proto_float_formulas[sec].append(formula.formula)
+						proto_float_formulas[i][sec].append(formula.formula)
 						# Get constraints on the variables to float up
 						# to the roles section as well
 						formula_vars = rec_get_vars(formula.formula.formula)
@@ -871,9 +872,20 @@ new_schema = Schema(new_schema)
 
 # Add proto formulas (preconds, postconds, goals...)
 if FLOAT_UP_PROTO_FORMULAS:
-	for sec_name in proto_float_formulas.keys():
-		for formula in proto_float_formulas[sec_name]:
-			new_schema.get_section(sec_name).add_formula(formula)
+	for step_id in proto_float_formulas.keys():
+		for sec_name in proto_float_formulas[step_id].keys():
+			for formula in proto_float_formulas[step_id][sec_name]:
+				new_schema.get_section(sec_name).add_formula(formula)
+				new_form_var = new_schema.get_section(sec_name).formulas[-1].episode_id
+				print('%s: new %s formula %s for step ?E%d' % (new_form_var, sec_name, formula, step_id+1))
+				ep_rel = 'DURING'
+				if sec_name == 'preconds':
+					ep_rel = 'BEFORE'
+				elif sec_name == 'postconds':
+					ep_rel = 'AFTER'
+				elif sec_name == 'goals':
+					ep_rel = 'CAUSE.V'
+				new_schema.get_section('episode-relations').add_formula(parse_s_expr('(%s %s ?E%d)' % (new_form_var, ep_rel, step_id+1)))
 	for pfrc in proto_float_rcs:
 		# print('pfrc: %s' % (pfrc,))
 		pfrc_vars = rec_get_vars(pfrc)
@@ -926,9 +938,12 @@ for var in final_var_to_role_map.keys():
 		# Use unfiltered nouns for the GPT generalizer; it'll take
 		# care of banned words using its own policies
 		gen_noun = '_'.join(gen_nouns(' '.join(unfiltered_nouns), temp=0.01, rep_pen=1.2).upper().split(' '))
+		# print('%s from %s' % (gen_noun, ' '.join(unfiltered_nouns)))
 		if gen_noun == 'HUMAN':
 			gen_noun = 'PERSON'
 		if gen_noun == 'HUMAN_BEING':
+			gen_noun = 'PERSON'
+		if gen_noun == 'GENDER':
 			gen_noun = 'PERSON'
 		var_gen_types[var] = '%s.N' % (gen_noun)
 

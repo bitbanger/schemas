@@ -20,7 +20,7 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args
 
-FREQ_THRESHOLD = 3
+FREQ_THRESHOLD = 2
 OPTION_FREQ = 0.5
 
 MERGE_ALL_PRE_ARGS = True
@@ -928,6 +928,8 @@ for var in final_var_to_role_map.keys():
 		gen_noun = '_'.join(gen_nouns(' '.join(unfiltered_nouns), temp=0.01, rep_pen=1.2).upper().split(' '))
 		if gen_noun == 'HUMAN':
 			gen_noun = 'PERSON'
+		if gen_noun == 'HUMAN_BEING':
+			gen_noun = 'PERSON'
 		var_gen_types[var] = '%s.N' % (gen_noun)
 
 # Replace the old role constraints with the new ones.
@@ -1001,8 +1003,8 @@ for rc_set in sorted(list(constraint_sets_to_vars.keys())):
 	vs = sorted(constraint_sets_to_vars[rc_set])
 	if len(vs) < 2:
 		continue
-	print('merging %s' % ' '.join(vs))
-	print('for rc set %s' % (rc_set))
+	# print('merging %s' % ' '.join(vs))
+	# print('for rc set %s' % (rc_set))
 	first_var = vs[0]
 	for var in vs[1:]:
 		new_schema_s_expr = rec_replace(var, first_var, new_schema_s_expr)
@@ -1010,4 +1012,5 @@ new_schema = Schema(list_to_s_expr(new_schema_s_expr))
 new_schema.dedupe()
 new_schema.sort_sections()
 
-print('(%s)' % new_schema)
+# print('(%s)' % new_schema)
+print('%s' % new_schema)

@@ -66,12 +66,27 @@ class Section:
 		return '\n'.join(buf)
 
 def rec_replace(old, new, lst):
+	if lst == old:
+		return new
+
 	new_lst = []
 	for e in lst:
 		if e == old:
 			new_lst.append(new)
 		elif type(e) == list:
 			new_lst.append(rec_replace(old, new, e))
+		else:
+			new_lst.append(e)
+
+	return new_lst
+
+def rec_remove(target, lst):
+	new_lst = []
+	for e in lst:
+		if e == target:
+			continue
+		elif type(e) == list:
+			new_lst.append(rec_remove(target, e))
 		else:
 			new_lst.append(e)
 

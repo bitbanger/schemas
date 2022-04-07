@@ -33,15 +33,21 @@ def vec(w):
 	else:
 		return numpy.asarray(w2v_client.vector(w))
 
+def is_abstraction(e):
+	return type(e) == list and len(e) > 1 and type(e[0]) == str and e[0].upper() in ['KA', 'KE', 'THAT', 'THT', 'TO']
+
 def strip_tags(word):
 	return word.split('.')[0]
 
 prop_vecs = []
 props_by_vec = dict()
 
-def rec_get_pred(lst, pred=lambda x: False):
+def rec_get_pred(lst, pred=lambda x: False, dismiss_pred=lambda x: False):
 	if pred(lst):
 		return [lst]
+
+	if dismiss_pred(lst):
+		return []
 
 	if type(lst) != list:
 		return []
@@ -51,7 +57,7 @@ def rec_get_pred(lst, pred=lambda x: False):
 		if pred(e):
 			ret_lst.append(e)
 		elif type(e) == list:
-			ret_lst += rec_get_pred(e, pred=pred)
+			ret_lst += rec_get_pred(e, pred=pred, dismiss_pred=dismiss_pred)
 
 	return ret_lst
 
@@ -72,8 +78,11 @@ def is_adv(e):
 def rec_get_vars(lst):
 	return list(set(rec_get_pred(lst, pred=lambda x: type(x) == str and x[0] == '?')))
 
-def rec_get_advs(lst):
-	return rec_get_pred(lst, pred=is_adv)
+def rec_get_advs(lst, inside_abstractions=True):
+	if inside_abstractions:
+		return rec_get_pred(lst, pred=is_adv)
+	else:
+		return rec_get_pred(lst, pred=is_adv, dismiss_pred=is_abstraction)
 
 def k_closest(prop_vec, prop_vecs, k):
 	dist_pairs = []

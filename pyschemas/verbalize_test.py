@@ -3,12 +3,15 @@ import sys
 from collections import defaultdict
 
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace, rec_remove
-from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, has_suff, rec_get_pred
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, has_suff, rec_get_pred, is_abstraction
 from el_expr import pre_arg, verb_pred, post_args
 from sexpr import parse_s_expr, list_to_s_expr
 
-def remove_advs(l):
+def remove_advs(l, inside_abstractions=False):
 	if not type(l) == list:
+		return l
+
+	if is_abstraction(l) and not inside_abstractions:
 		return l
 
 	new_l = []
@@ -99,8 +102,8 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 		# phi = rec_remove(ka, phi)
 
 	# Separate out advs
-	advs = rec_get_advs(phi)
-	phi = remove_advs(phi)
+	advs = rec_get_advs(phi, inside_abstractions=depth>0)
+	phi = remove_advs(phi, inside_abstractions=depth>0)
 
 	# Split out tags
 	old_phi = phi
@@ -114,23 +117,26 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 
 	# white = (odd and not parent_odd)
 	white = (odd and parent_odd)
+	white = True
 	tr_bg = '#ffffff' if white else '#dddddd'
+
+	data_class = 'data' if depth==0 else 'inner_data'
 
 	print('<tr style="background-color: %s">' % (tr_bg))
 
 	if not skip_actor:
-		print('<td class="data">%s</td>' % (phi[0]))
+		print('<td class="%s">%s</td>' % (data_class, phi[0]))
 
 	if type(phi[1]) == list:
-		print('<td class="data">%s</td>' % (' '.join(phi[1])))
+		print('<td class="%s">%s</td>' % (data_class, ' '.join(phi[1])))
 	else:
-		print('<td class="data">%s</td>' % phi[1])
+		print('<td class="%s">%s</td>' % (data_class, phi[1]))
 
 	# for arg in phi[2:]:
 	if len(phi) > 2:
 		if old_phi[2] in kas or (type(old_phi[2]) == list and old_phi[2][0] == 'TO'):
 			if not odd:
-				print('<td style="background-color: #dddddd; border: 2px black dotted;">')
+				print('<td style="background-color: #eeeeee; border: 2px black dotted;">')
 			else:
 				print('<td style="border: 2px black dotted;">')
 			print('<table>')
@@ -140,7 +146,7 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 			print('</td>')
 		elif old_phi[2][0] == 'THAT':
 			if not odd:
-				print('<td style="background-color: #dddddd; border: 2px black dotted;">')
+				print('<td style="background-color: #eeeeee; border: 2px black dotted;">')
 			else:
 				print('<td style="border: 2px black dotted;">')
 			print('<table>')
@@ -149,9 +155,9 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 			print('</table>')
 			print('</td>')
 		elif type(phi[2]) == list:
-			print('<td class="data">%s</td>' % ' '.join(flatten_list(phi[2])))
+			print('<td class="%s">%s</td>' % (data_class, ' '.join(flatten_list(phi[2]))))
 		else:
-			print('<td class="data">%s</td>' % phi[2])
+			print('<td class="%s">%s</td>' % (data_class, phi[2]))
 	else:
 		print('<td>---</td>')
 	if len(phi) > 3:
@@ -173,7 +179,7 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 		print('<td>---</td>')
 
 	if len(advs) > 0:
-		print('<td class="data">%s</td>' % ' '.join(rec_strip(advs[0][1])))
+		print('<td class="%s">%s</td>' % (data_class, ' '.join(rec_strip(advs[0][1]))))
 	else:
 		print('<td>---</td>')
 
@@ -191,12 +197,16 @@ tr:nth-child(even) {
 td {
 	width: 0px;
 	white-space: nowrap;
-}
-td:nth-child(odd) {
 	border: 1px #bbbbbb solid;
 }
+td:nth-child(odd) {
+}
 .data {
-	color: #ee0000;
+	color: #00aa00;
+	font-weight: bold;
+}
+.inner_data {
+	color: #0000ee;
 	font-weight: bold;
 }
 </style>''')
@@ -207,7 +217,7 @@ for section in [sch.get_section(name) for name in ['steps', 'goals', 'preconds']
 	for i in range(len(section.formulas)):
 		formula = section.formulas[i]
 		phi = formula.formula.formula
-		print('<table style="border: 1px black solid; padding-bottom: 10px;">')
+		print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd;">')
 		print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
 		# handle_formula(phi, odd=(i%2!=0))
 		handle_formula(phi, odd=False)

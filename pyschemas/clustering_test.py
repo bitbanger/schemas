@@ -20,8 +20,8 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args
 
-FREQ_THRESHOLD = 3
-OPTION_FREQ = 0.4
+FREQ_THRESHOLD = 4
+OPTION_FREQ = 0.5
 
 MERGE_ALL_PRE_ARGS = True
 # MERGE_ALL_PRE_ARGS = True
@@ -71,6 +71,8 @@ def rec_contains(lst, val):
 schema_prompt = 'feeding_pets'
 if len(sys.argv) > 1:
 	schema_prompt = sys.argv[1].strip()
+
+print(schema_prompt)
 
 schemas = []
 schema_proto_maps = []
@@ -754,7 +756,7 @@ for i in range(len(new_step_strings)):
 						# print('\t%s' % list_to_s_expr(new_nss_list))
 						break
 
-# print(new_step_strings)
+# print('nss here is: %s' % new_step_strings)
 
 for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
@@ -799,6 +801,7 @@ for i in range(len(new_step_strings)):
 
 				for sec in ['goals', 'preconds', 'postconds']:
 					for formula in proto.get_section(sec).formulas:
+						# print('step %d is %s when we add proto formula %s to it' % (i, new_step_strings[i], formula.formula))
 						proto_float_formulas[i][sec].append(formula.formula)
 						# Get constraints on the variables to float up
 						# to the roles section as well
@@ -844,13 +847,15 @@ for i in range(len(new_step_strings)):
 	nss = new_step_strings[i]
 
 	# Don't make duplicate steps
-	if nss in made_steps:
+	if False and nss in made_steps:
 		continue
 	else:
 		made_steps.add(nss)
 
 	new_steps_str = new_steps_str + ' (?E%d %s)' % (i+1, nss)
 new_steps_str = new_steps_str + ')'
+
+# print('and later nss here is: %s' % new_steps_str)
 
 new_roles = '(:Roles '
 var_num = 1
@@ -875,9 +880,11 @@ if FLOAT_UP_PROTO_FORMULAS:
 	for step_id in proto_float_formulas.keys():
 		for sec_name in proto_float_formulas[step_id].keys():
 			for formula in proto_float_formulas[step_id][sec_name]:
+				# print('step_id is %d when we pull out added %s formula %s' % (step_id, sec_name, formula))
 				new_schema.get_section(sec_name).add_formula(formula)
+				# print('section is now %s' % new_schema.get_section(sec_name))
 				new_form_var = new_schema.get_section(sec_name).formulas[-1].episode_id
-				print('%s: new %s formula %s for step ?E%d' % (new_form_var, sec_name, formula, step_id+1))
+				# print('%s: new %s formula %s for step ?E%d' % (new_form_var, sec_name, formula, step_id+1))
 				ep_rel = 'DURING'
 				if sec_name == 'preconds':
 					ep_rel = 'BEFORE'
@@ -899,7 +906,8 @@ if FLOAT_UP_PROTO_FORMULAS:
 				var_options[var].append(noun)
 				var_option_counts[var][noun] = len(schemas)
 
-# print('section here is %s' % new_schema.get_section('roles'))
+# print('section here is %s' % new_schema.get_section('steps'))
+# print('section here is %s' % new_schema.get_section('goals'))
 
 final_var_to_role_map = defaultdict(set)
 for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
@@ -938,6 +946,8 @@ for var in final_var_to_role_map.keys():
 		# Use unfiltered nouns for the GPT generalizer; it'll take
 		# care of banned words using its own policies
 		gen_noun = '_'.join(gen_nouns(' '.join(unfiltered_nouns), temp=0.01, rep_pen=1.2).upper().split(' '))
+		if '<|ENDOFTEXT|>' in gen_noun:
+			gen_noun = gen_noun.replace('<|ENDOFTEXT|>', '')
 		# print('%s from %s' % (gen_noun, ' '.join(unfiltered_nouns)))
 		if gen_noun == 'HUMAN':
 			gen_noun = 'PERSON'
@@ -985,7 +995,11 @@ if len(prefix_vars_to_merge) > 1 and MERGE_ALL_PRE_ARGS:
 		new_schema_s_expr = rec_replace(pfvtm, prefix_vars_to_merge[0], new_schema_s_expr)
 new_schema = Schema(list_to_s_expr(new_schema_s_expr))
 
+# print(str(new_schema))
+
 new_schema.dedupe()
+
+# print(str(new_schema))
 # for step in new_schema.get_section('steps').formulas:
 	# print(str(step.formula.formula[0]))
 

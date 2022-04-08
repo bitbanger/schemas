@@ -42,6 +42,7 @@
 		)
 		((?l2 goal)
 			(adv to.p)
+			(post-arg (1 of any))
 			(goal (if not event))
 			path
 		)

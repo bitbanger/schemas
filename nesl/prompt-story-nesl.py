@@ -13,6 +13,9 @@ from collections import defaultdict
 
 # PROMPTS = ['picking flowers', 'going hiking', 'eating breakfast', 'waking up in the morning', 'going to the beach', 'going to the grocery store', 'buying something at a store', 'going on vacation', 'playing with a pet', 'farming', 'going to the library']
 
+# TEMP = 0.3
+TEMP = 0.4
+
 NUM_STORIES = 20
 
 lome_client = xmlrpc.client.ServerProxy('http://localhost:8040')
@@ -49,7 +52,7 @@ def gen(prompt, num):
 	story_gen_start = time.time()
 	print('\tgenerating %d %s...' % (num, 'stories' if num != 1 else 'story'), flush=True)
 	for i in range(num):
-		story = make_topical_stories(prompt)[0]
+		story = make_topical_stories(prompt, temp=TEMP)[0]
 		story_txts.append(story)
 		print('%d / %d' % (i+1, num), flush=True)
 	print('\tdone (%s)' % (fmt_time(story_gen_start, time.time())), flush=True)

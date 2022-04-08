@@ -14,7 +14,8 @@ section_order = [
 	'steps',
 	'goals',
 	'preconds',
-	'postconds'
+	'postconds',
+	'episode-relations'
 ]
 
 class ELFormula:
@@ -126,25 +127,97 @@ class Schema:
 
 	def dedupe(self):
 		new_sections = []
+		episode_rename_map = dict()
+		removed = set()
 		for section in self.sections:
+			if section.name not in ['steps', 'roles']:
+				new_sections.append(section)
+				continue
 			id_prefix = section.formulas[0].episode_id[:2]
 			formulas = [formula.formula.formula for formula in section.formulas]
 			formulas = [ls(f) for f in formulas]
 			seen = set()
 			new_formulas = []
 			num = 1
+			old_f_num = 0
 			for f in formulas:
+				old_f_num += 1
 				if f in seen:
+					if section.name == 'steps':
+						removed.add('%s%d' % (id_prefix, old_f_num))
 					continue
 				seen.add(f)
 				# new_formulas.append('(%s%d %s)' % (id_prefix, num, f))
 				new_formulas.append(['%s%d' % (id_prefix, num), parse_s_expr(f)])
+				if old_f_num != num:
+					episode_rename_map['%s%d' % (id_prefix, old_f_num)] = '%s%d' % (id_prefix, num)
 				num += 1
 			# formulas = [ls(f) for f in new_formulas]
 			new_sections.append(Section([':%s'%section.name] + new_formulas))
 			# print('%s: %s' % (section.name, formulas))
 			self.sections_by_name[section.name] = new_sections[-1]
 		self.sections = new_sections
+
+		# First, remove all ep rels that reference the step numbers of removed steps
+		new_ep_rels = Section([':Episode-relations'])
+		for er in self.get_section('episode-relations').formulas:
+			er = er.formula.formula
+			if er[2] in removed:
+				continue
+			if er[2] in episode_rename_map.keys():
+				er[2] = episode_rename_map[er[2]]
+			new_ep_rels.add_formula(ls(er))
+		self.set_section(new_ep_rels)
+
+		# Next, remove all goal/precond/postcond formulas
+		# that only referred to duplicate, removed steps
+		forms_in_ep_rels = set([e.formula.formula[0] for e in self.get_section('episode-relations').formulas])
+		for section in self.sections:
+			if section.name not in ['goals', 'preconds', 'postconds']:
+				continue
+			id_prefix = section.formulas[0].episode_id[:2]
+			renamed = dict()
+			new_sec = Section([':%s%s' % (section.name[0].upper(), section.name[1:])])
+			added = 0
+			for fi in range(len(section.formulas)):
+				formula = section.formulas[fi]
+				if formula.episode_id in forms_in_ep_rels:
+					added += 1
+					new_sec.add_formula(formula.formula)
+					renamed[formula.episode_id] = '%s%d' % (id_prefix, added)
+
+			self.set_section(new_sec)
+
+			# Also, rename references to the kept ones ep-rels section
+			new_ep_rels = Section([':Episode-relations'])
+			for er in self.get_section('episode-relations').formulas:
+				er = er.formula.formula
+				if er[0] in renamed.keys():
+					er[0] = renamed[er[0]]
+				new_ep_rels.add_formula(ls(er))
+			self.set_section(new_ep_rels)
+
+
+		# Next, for all formulas that have been re-numbered, update the numbers
+		'''
+		new_ep_rels = parse_s_expr(str(self.get_section('episode-relations')))
+		undo_tmp = []
+		for k in episode_rename_map.keys():
+			if k[0] != '?':
+				continue
+			new_ep_rels = rec_replace(k, 'tmp_%s' % episode_rename_map[k], new_ep_rels)
+			undo_tmp.append('tmp_%s' % episode_rename_map[k])
+			# print('replacing %s with %s' % (k, 'tmp_%s' % episode_rename_map[k]))
+		for u in undo_tmp:
+			new_ep_rels = rec_replace(u, u.split('_')[-1], new_ep_rels)
+			# print('replacing %s with %s' % (u, u.split('_')[-1]))
+		'''
+
+		# print('old ep rels: %s' % self.get_section('episode-relations'))
+		# print('new ep rels: %s' % ls(new_ep_rels))
+
+		# self.sections_by_name['episode-relations'] = Section(new_ep_rels)
+		# self.set_section(Section(new_ep_rels))
 
 	def set_section(self, section):
 		sec_name = section.name

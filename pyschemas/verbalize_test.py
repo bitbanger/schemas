@@ -7,6 +7,11 @@ from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_g
 from el_expr import pre_arg, verb_pred, post_args
 from sexpr import parse_s_expr, list_to_s_expr
 
+PRINT_GOALS = True
+PRINT_PRECONDS = True
+PRINT_POSTCONDS = True
+PRINT_STEPS = True
+
 def remove_advs(l, inside_abstractions=False):
 	if not type(l) == list:
 		return l
@@ -56,6 +61,9 @@ def flatten_list(l):
 
 txt = sys.stdin.read().strip()
 
+sch_name = ' '.join(txt.split('\n')[0].strip().split('_'))
+txt = '\n'.join(txt.split('\n')[1:])
+
 sch = Schema(txt)
 
 role_types = defaultdict(lambda: 'ENTITY.N')
@@ -64,7 +72,7 @@ for formula in sch.get_section('roles').formulas:
 	if len(phi) == 2 and type(phi[0]) == str and type(phi[1]) == str:
 		role_types[phi[0]] = phi[1]
 
-def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
+def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False, rei=''):
 	phi = rec_replace('KA', 'TO', phi)
 	phi = rec_remove('K', phi)
 	phi = rec_replace('ENTITY', 'SOMETHING', phi)
@@ -72,26 +80,30 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 	# Move "nots" after the prefix arg of what they wrap
 	nots = rec_get_pred(phi, pred=lambda x: type(x) == list and len(x) == 2 and x[0] == 'NOT' and type(x[1]) == list)
 	for n in nots:
-		print('n is %s' % n)
 		# new_not = [n[1][0], ['NOT'] + n[1][1:]]
 		the_not = n[0]
 		the_prop = n[1]
 		the_actor = the_prop[0]
 		the_pred = the_prop[1]
+		if the_actor[0] != '?':
+			the_pred = the_prop
+			the_actor = None
 		the_post_args = []
 		if type(the_pred) == list:
 			the_post_args = the_pred[1:]
 			the_pred = the_pred[0]
 		the_pred = ['NOT', the_pred]
-		if type(n[1][1][0]) == list:
-			new_not = [n[1][0], [['NOT', n[1][1][0]]] +  n[1][1:][0][1:]]
-		else:
-			new_not = [n[1][0], ['NOT', n[1][1]]]
 		# new_not = [the_actor] + the_pred + the_post_args
 		if len(the_post_args) > 0:
-			new_not = [the_actor, [the_pred, the_post_args]]
+			if the_actor is not None:
+				new_not = [the_actor, [the_pred, the_post_args]]
+			else:
+				new_not = [the_pred, the_post_args]
 		else:
-			new_not = [the_actor, the_pred]
+			if the_actor is not None:
+				new_not = [the_actor, the_pred]
+			else:
+				new_not = [the_pred]
 		phi = rec_replace(n, new_not, phi)
 
 	for var in role_types.keys():
@@ -125,6 +137,9 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 
 	print('<tr style="background-color: %s">' % (tr_bg))
 
+	if rei != '':
+		print('<td class="%s">%s</td>' % (data_class, rei))
+
 	if not skip_actor:
 		print('<td class="%s">%s</td>' % (data_class, phi[0]))
 
@@ -141,8 +156,8 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 			else:
 				print('<td style="border: 2px black dotted;">')
 			print('<table>')
-			print('<tr style="text-align: left;"><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
-			handle_formula(old_phi[2], skip_actor=True, depth=depth+1, parent_odd=not odd)
+			print('<tr style="text-align: left;"><th>rei</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+			handle_formula(old_phi[2], skip_actor=True, depth=depth+1, parent_odd=not odd, rei='TO')
 			print('</table>')
 			print('</td>')
 		elif old_phi[2][0] == 'THAT':
@@ -151,8 +166,8 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 			else:
 				print('<td style="border: 2px black dotted;">')
 			print('<table>')
-			print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
-			handle_formula(old_phi[2][1:], depth=depth+1, parent_odd=not odd)
+			print('<tr style="text-align: left;"><th>rei</th><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+			handle_formula(old_phi[2][1:], depth=depth+1, parent_odd=not odd, rei='THAT')
 			print('</table>')
 			print('</td>')
 		elif type(phi[2]) == list:
@@ -168,14 +183,14 @@ def handle_formula(phi, depth=0, odd=True, skip_actor=False, parent_odd=False):
 			else:
 				print('<td>')
 			print('<table>')
-			print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
-			handle_formula(old_phi[3])
+			print('<tr style="text-align: left;"><th>rei</th><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+			handle_formula(old_phi[3], rei='TO')
 			print('</table>')
 		if type(phi[3]) == list:
-			print('<td>%s</td>' % ' '.join(flatten_list(phi[3])))
-			print('</td>')
+			print('<td class="%s">%s</td>' % (data_class, ' '.join(flatten_list(phi[3]))))
+			# print('</td>')
 		else:
-			print('<td>%s</td>' % phi[3])
+			print('<td class="%s">%s</td>' % (data_class, phi[3]))
 	else:
 		print('<td>---</td>')
 
@@ -191,6 +206,7 @@ print('<head>')
 print('''<style>
 table {
 	border-spacing: 5px;
+	margin-bottom: 20px;
 }
 tr:nth-child(even) {
 	background-color: #dddddd;
@@ -203,7 +219,7 @@ td {
 td:nth-child(odd) {
 }
 .data {
-	color: #00aa00;
+	color: #009900;
 	font-weight: bold;
 }
 .inner_data {
@@ -213,15 +229,160 @@ td:nth-child(odd) {
 </style>''')
 print('</head>')
 print('<body>')
-for section in [sch.get_section(name) for name in ['steps', 'goals', 'preconds']]:
-	print('<h2>%s</h2>' % (section.name.upper()))
+# for section in [sch.get_section(name) for name in ['steps', 'goals', 'preconds']]:
+total_goal_num = 0
+total_precond_num = 0
+total_step_num = 0
+total_postcond_num = 0
+for section in [sch.get_section(name) for name in ['steps']]:
+	# print('<h2>%s</h2>' % (section.name.upper()))
 	for i in range(len(section.formulas)):
 		formula = section.formulas[i]
+		step_id = formula.episode_id
 		phi = formula.formula.formula
-		print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd;">')
-		print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
-		# handle_formula(phi, odd=(i%2!=0))
-		handle_formula(phi, odd=False)
-		print('</table>')
+
+		# Get all ep-rels that relate to our step
+		want_eps = set()
+		for er in sch.get_section('episode-relations').formulas:
+			er = er.formula.formula
+			if er[2] == step_id:
+				want_eps.add(er[0])
+
+
+		relevant_formulas = defaultdict(list)
+
+		# Find all eps related to our step
+		for sec_name2 in ['goals', 'preconds', 'postconds']:
+			section2 = sch.get_section(sec_name2)
+			for formula2 in section2.formulas:
+				if formula2.episode_id in want_eps:
+					relevant_formulas[sec_name2].append(formula2.formula.formula)
+
+		if PRINT_STEPS:
+			total_step_num += 1
+			print('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(0, 0, 255, 0.1);">')
+			print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
+			print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+			# handle_formula(phi, odd=(i%2!=0))
+			handle_formula(phi, odd=False)
+			print('</table>')
+
+			print('<h2 style="padding: 5px; border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">often occurs in the situation <span style="font-style: italic; color: rgb(210,0,0);">%s</span></h2>' % sch_name)
+
+			print('<hr />')
+
+			print('<div style="display: flex;">')
+			print('<form>')
+			labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+			for k in range(1, 6):
+				label = labels[k-1]
+				print('<label for="step-%d-%d" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="step-%d-eval" value="%d" id="step-%d-%d"></label>' % (total_step_num, k, label, total_step_num, k, total_step_num, k))
+				# print('<label for="inference-%d">%d</label>' % (k, k))
+			print('</form>')
+			print('</div>')
+
+			print('</div>')
+			print('<br />'*3)
+		if PRINT_GOALS and len(relevant_formulas['goals']) > 0:
+			for j in range(len(relevant_formulas['goals'])):
+				goal = relevant_formulas['goals'][j]
+				total_goal_num += 1
+				print('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(0, 0, 255, 0.1);">')
+
+
+				print('<h2 style="padding: 5px; border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">in the situation <span style="font-style: italic; color: rgb(210,0,0);">%s</span>...</h2>' % sch_name)
+
+				print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
+				print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+				handle_formula(goal)
+				print('</table>')
+				print('<h2 style="border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">... motivates ...</h2>')
+				print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
+				print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+				# handle_formula(phi, odd=(i%2!=0))
+				handle_formula(phi, odd=False)
+				print('</table>')
+
+				print('<hr />')
+
+				print('<div style="display: flex;">')
+				print('<form>')
+				labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+				for k in range(1, 6):
+					label = labels[k-1]
+					print('<label for="goal-%d-%d" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="goal-%d-eval" value="%d" id="goal-%d-%d"></label>' % (total_goal_num, k, label, total_goal_num, k, total_goal_num, k))
+					# print('<label for="goal-%d">%d</label>' % (k, k))
+				print('</form>')
+				print('</div>')
+
+
+				print('</div>')
+				print('<br />'*3)
+		if PRINT_PRECONDS and len(relevant_formulas['preconds']) > 0:
+			for precond in relevant_formulas['preconds']:
+				total_precond_num += 1
+				print('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(255, 0, 0, 0.1);">')
+
+				print('<h2 style="padding: 5px; border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">in the situation <span style="font-style: italic; color: rgb(210,0,0);">%s</span>...</h2>' % sch_name)
+
+				print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
+				print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+				handle_formula(precond)
+				print('</table>')
+				print('<h2 style="border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">... is true before ...</h2>')
+				print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
+				print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+				# handle_formula(phi, odd=(i%2!=0))
+				handle_formula(phi, odd=False)
+				print('</table>')
+
+				print('<hr />')
+
+				print('<div style="display: flex;">')
+				print('<form>')
+				labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+				for k in range(1, 6):
+					label = labels[k-1]
+					print('<label for="precond-%d-%d" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="precond-%d-eval" value="%d" id="precond-%d-%d"></label>' % (total_precond_num, k, label, total_precond_num, k, total_precond_num, k))
+					# print('<label for="precond-%d">%d</label>' % (k, k))
+				print('</form>')
+				print('</div>')
+
+
+				print('</div>')
+				print('<br />'*3)
+		if PRINT_POSTCONDS and len(relevant_formulas['postconds']) > 0:
+			for postcond in relevant_formulas['postconds']:
+				total_postcond_num += 1
+				print('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(0, 255, 0, 0.1);">')
+
+				print('<h2 style="padding: 5px; border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">in the situation <span style="font-style: italic; color: rgb(210,0,0);">%s</span>...</h2>' % sch_name)
+
+				print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
+				print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+				handle_formula(postcond)
+				print('</table>')
+				print('<h2 style="border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">... is true after ...</h2>')
+				print('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
+				print('<tr style="text-align: left;"><th>actor</th><th>action</th><th>arg0</th><th>arg1</th><th>adv</th></tr>')
+				# handle_formula(phi, odd=(i%2!=0))
+				handle_formula(phi, odd=False)
+				print('</table>')
+
+				print('<hr />')
+
+
+				print('<div style="display: flex;">')
+				print('<form>')
+				labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+				for k in range(1, 6):
+					label = labels[k-1]
+					print('<label for="postcond-%d-%d" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="postcond-%d-eval" value="%d" id="postcond-%d-%d"></label>' % (total_postcond_num, k, label, total_postcond_num, k, total_postcond_num, k))
+					# print('<label for="postcond-%d">%d</label>' % (k, k))
+				print('</form>')
+				print('</div>')
+
+				print('</div>')
+				print('<br />'*3)
 print('</body>')
 print('</html>')

@@ -7,7 +7,7 @@ import xmlrpc.client
 from collections import defaultdict
 from transformers import GPT2Tokenizer
 
-STOP_WORDS = ['{ref}', 'location', 'destination', 'object']
+STOP_WORDS = ['{ref}', 'location', 'destination', 'object', 'entity']
 
 server = xmlrpc.client.ServerProxy('http://localhost:8000')
 
@@ -142,7 +142,7 @@ def gen_nouns(nouns, temp=0.2, rep_pen=1.1, resp_length=128, filter_threshold=0.
 
 	resp = server.gen(inp, temp, rep_pen, min(2048, len(input_ids.squeeze())+resp_length))
 
-	ret_val = resp.split('\n')[:len(inp.split('\n'))+1][-1].split(': ')[-1]
+	ret_val = resp.split('\n')[:len(inp.split('\n'))+1][-1].split(': ')[-1].replace('<|ENDOFTEXT|>', '')
 
 	if len(ret_val.split(' ')) >= 5:
 		ret_val = ret_val.split(' ')[0]

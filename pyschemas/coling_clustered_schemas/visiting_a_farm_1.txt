@@ -1,0 +1,68 @@
+visiting_a_farm
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B FOOD.N))
+		(!R3 (?C FARMER.N))
+		(!R4 (?J CURRENCY.N))
+		(!R5 (?K FARM.N))
+		(!R6 (?L ENTITY.N))
+		(!R7 (?O MAMMAL.N))
+		(!R8 (?T PIG.N))
+	)
+
+	(:Steps
+		(?E1 (?C ((ADV-A (FROM.P ?J)) SELL.V) ?B))
+		(?E2 (?A ((ADV-A (FROM.P ?L)) VISIT_PROTO.V) ?K))
+		(?E3 (?A SEE_PROTO.V ?T))
+		(?E4 (?C HAVE_PROTO.V ?B))
+		(?E5 (?A PET.V ?O))
+		(?E6 (?A SEE_PROTO.V ?O))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA ((ADV-A (AT.P ?K)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?A (AT.P ?L)))
+		(?I2 (NOT (?A (AT.P ?K))))
+		(?I3 (?A (AT.P ?L)))
+		(?I4 (?T (AT.P ?L)))
+		(?I5 (?T (NEAR.P ?A)))
+		(?I6 (?A (AT.P ?L)))
+		(?I7 (?O (AT.P ?L)))
+		(?I8 (?O (NEAR.P ?A)))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?A (AT.P ?L))))
+		(?P2 (?A (AT.P ?K)))
+		(?P3 (?A (KNOW.V (THAT (?T (AT.P ?L))))))
+		(?P4 (?A (KNOW.V (THAT (?T (NEAR.P ?A))))))
+		(?P5 (?T (NEAR.P ?A)))
+		(?P6 (?A (KNOW.V (THAT (?O (AT.P ?L))))))
+		(?P7 (?A (KNOW.V (THAT (?O (NEAR.P ?A))))))
+		(?P8 (?O (NEAR.P ?A)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E2))
+		(!W2 (?I1 BEFORE ?E2))
+		(!W3 (?I2 BEFORE ?E2))
+		(!W4 (?P1 AFTER ?E2))
+		(!W5 (?P2 AFTER ?E2))
+		(!W6 (?I3 BEFORE ?E3))
+		(!W7 (?I4 BEFORE ?E3))
+		(!W8 (?I5 BEFORE ?E3))
+		(!W9 (?P3 AFTER ?E3))
+		(!W10 (?P4 AFTER ?E3))
+		(!W11 (?P5 AFTER ?E3))
+		(!W12 (?I6 BEFORE ?E6))
+		(!W13 (?I7 BEFORE ?E6))
+		(!W14 (?I8 BEFORE ?E6))
+		(!W15 (?P6 AFTER ?E6))
+		(!W16 (?P7 AFTER ?E6))
+		(!W17 (?P8 AFTER ?E6))
+	)
+)

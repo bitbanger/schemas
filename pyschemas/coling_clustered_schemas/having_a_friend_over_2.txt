@@ -1,0 +1,68 @@
+having_a_friend_over
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?C FOOD.N))
+		(!R3 (?D GAME.N))
+		(!R4 (?E PARENT.N))
+		(!R5 (?I INFORMATION.N))
+		(!R6 (?L MOM.N))
+		(!R7 (?L1 LOCATION.N))
+	)
+
+	(:Steps
+		(?E1 (?A WATCH_PROTO.V ?A))
+		(?E2 (?A ((ADV-A (FOR.P ?A)) TALK.V)))
+		(?E3 (?A EAT_PROTO.V ?C))
+		(?E4 (?A ((ADV-A (WITH.P ?E)) PLAY_PROTO.V) ?D))
+		(?E5 (?A BRING_PROTO.V ?C ?I))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (THAT (?A (KNOW.V ?I))))))
+		(?G2 (?A (WANT.V (THAT (NOT (?A HUNGRY.A))))))
+		(?G3 (?A (WANT.V (THAT (?C ((ADV-A (AT.P ?I)) BE.V))))))
+	)
+
+	(:Preconds
+		(?I1 (?A (CAN.MD (SEE.V ?A))))
+		(?I2 (?A POSSESS.V ?C))
+		(?I3 (?A HUNGRY.A))
+		(?I4 (?A (AT.P ?L)))
+		(?I5 (?D (AT.P ?L)))
+		(?I6 (?D (NEAR.P ?A)))
+		(?I7 (?C ((ADV-A (AT.P ?L1)) BE.V)))
+		(?I8 (?A (POSSESS.V ?C)))
+	)
+
+	(:Postconds
+		(?P1 (?A (KNOW.V ?I)))
+		(?P2 (NOT (?A (POSSESS.V ?C))))
+		(?P3 (NOT (?A HUNGRY.A)))
+		(?P4 (?A (KNOW.V (THAT (?D (AT.P ?L))))))
+		(?P5 (?A (KNOW.V (THAT (?D (NEAR.P ?A))))))
+		(?P6 (?D (NEAR.P ?A)))
+		(?P7 (?C ((ADV-A (AT.P ?I)) BE.V)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?P1 AFTER ?E1))
+		(!W4 (?G2 CAUSE.V ?E3))
+		(!W5 (?I2 BEFORE ?E3))
+		(!W6 (?I3 BEFORE ?E3))
+		(!W7 (?P2 AFTER ?E3))
+		(!W8 (?P3 AFTER ?E3))
+		(!W9 (?I4 BEFORE ?E4))
+		(!W10 (?I5 BEFORE ?E4))
+		(!W11 (?I6 BEFORE ?E4))
+		(!W12 (?P4 AFTER ?E4))
+		(!W13 (?P5 AFTER ?E4))
+		(!W14 (?P6 AFTER ?E4))
+		(!W15 (?G3 CAUSE.V ?E5))
+		(!W16 (?I7 BEFORE ?E5))
+		(!W17 (?I8 BEFORE ?E5))
+		(!W18 (?P7 AFTER ?E5))
+	)
+)

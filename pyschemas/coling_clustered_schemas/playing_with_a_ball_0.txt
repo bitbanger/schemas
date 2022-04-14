@@ -1,0 +1,54 @@
+playing_with_a_ball
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?C BALL.N))
+		(!R3 (?G ACTION.N))
+		(!R4 (?H HANDWEAR.N))
+		(!R5 (?I AIR.N))
+		(!R6 (?L SON.N))
+		(!R7 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (INTO.P ?I)) THROW.V) ?C))
+		(?E2 (?A CATCH.V ?C))
+		(?E3 (?A PLAY_PROTO.V))
+		(?E4 (?A ((ADV-A (TO.P ?A)) THROW.V) ?C))
+		(?E5 (?A ((ADV-A (TO.P ?L)) THROW.V) ?C))
+		(?E6 (?A TRY_PROTO.V ?G))
+		(?E7 (?A ((ADV-A (WITH.P ?C)) PLAY_PROTO.V)))
+		(?E8 (?A ((ADV-A (WITH.P ?H)) CATCH.V) ?C))
+		(?E9 (?A ((ADV-A (FOR.P ?C)) MISS.V)))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G2 (?A (WANT.V (KA (DO.V ?G)))))
+		(?G3 (?A (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+	)
+
+	(:Preconds
+		(?I1 (?A POSSESS.V ?T))
+		(?I2 (NOT (?A (KNOW.V (THAT (?A (CAN.MD (DO.V ?G))))))))
+		(?I3 (NOT (?A (KNOW.V (THAT (NOT (?A (CAN.MD (DO.V ?G)))))))))
+		(?I4 (?A POSSESS.V ?T))
+	)
+
+	(:Postconds
+		(?P1 (?A EXPERIENCE.V (K PLEASURE.N)))
+		(?P2 (?A EXPERIENCE.V (K PLEASURE.N)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E3))
+		(!W2 (?I1 BEFORE ?E3))
+		(!W3 (?P1 AFTER ?E3))
+		(!W4 (?G2 CAUSE.V ?E6))
+		(!W5 (?I2 BEFORE ?E6))
+		(!W6 (?I3 BEFORE ?E6))
+		(!W7 (?G3 CAUSE.V ?E7))
+		(!W8 (?I4 BEFORE ?E7))
+		(!W9 (?P2 AFTER ?E7))
+	)
+)

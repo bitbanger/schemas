@@ -1,0 +1,42 @@
+making_friends
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?C PERSON.N))
+		(!R2 (?K GAME.N))
+		(!R3 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?C ((ADV-A (WITH.P ?C)) PLAY_PROTO.V)))
+		(?E2 (?C PLAY_PROTO.V))
+		(?E3 (?C ((ADV-A (WITH.P ?C)) PLAY.V) ?K))
+		(?E4 (?C LIKE_PROTO.V ?C))
+		(?E5 (?C MEET.V ?C))
+	)
+
+	(:Goals
+		(?G1 (?C (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G2 (?C (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+	)
+
+	(:Preconds
+		(?I1 (?C POSSESS.V ?T))
+		(?I2 (?C POSSESS.V ?T))
+	)
+
+	(:Postconds
+		(?P1 (?C EXPERIENCE.V (K PLEASURE.N)))
+		(?P2 (?C EXPERIENCE.V (K PLEASURE.N)))
+		(?P3 (?C (WANT.V (KA (POSSESS.V ?C)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?P1 AFTER ?E1))
+		(!W4 (?G2 CAUSE.V ?E2))
+		(!W5 (?I2 BEFORE ?E2))
+		(!W6 (?P2 AFTER ?E2))
+		(!W7 (?P3 AFTER ?E4))
+	)
+)

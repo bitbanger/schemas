@@ -1,0 +1,25 @@
+having_a_wedding
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A EVENT.N))
+		(!R2 (?B PERSON.N))
+		(!R3 (?D WEDDING_PARTY.N))
+		(!R4 (?E COLOR.N))
+		(!R5 (?F ADJECTIVE.N))
+		(!R6 (?N FAMILY.N))
+		(!R7 (?O ENTITY.N))
+		(!R8 (?R CLOTHES.N))
+	)
+
+	(:Steps
+		(?E1 (?B LOOK.V ?F))
+		(?E2 (?B MARRY.V ?B))
+		(?E3 (?D WEAR_PROTO.V ?E))
+		(?E4 (?B WEAR_PROTO.V ?E))
+		(?E5 (?N ((ADV-A (TO.P ?O)) COME.V)))
+		(?E6 (?B WEAR_PROTO.V ?R))
+	)
+
+	(:Episode-relations
+	)
+)

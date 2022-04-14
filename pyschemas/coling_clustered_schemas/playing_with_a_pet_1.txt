@@ -1,0 +1,54 @@
+playing_with_a_pet
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A MAMMAL.N))
+		(!R2 (?E PERSON.N))
+		(!R3 (?C CAT.N))
+		(!R4 (?D BALL.N))
+		(!R5 (?H TOY.N))
+		(!R6 (?S CATCH.N))
+		(!R7 (?W HUMAN_BODY_PART.N))
+	)
+
+	(:Steps
+		(?E1 (?E ((ADV-A (WITH.P ?C)) PLAY_PROTO.V)))
+		(?E2 (?E ((ADV-A (WITH.P ?A)) PLAY_PROTO.V)))
+		(?E3 (?E ((ADV-A (FOR.P ?A)) THROW.V) ?D))
+		(?E4 (?A PLAY_PROTO.V))
+		(?E5 (?A LIKE_PROTO.V ?H))
+		(?E6 (?E ((ADV-A (WITH.P ?H)) PLAY.V) ?S))
+		(?E7 (?E SCRATCH.V ?W))
+	)
+
+	(:Goals
+		(?G1 (?E (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G2 (?E (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G3 (?A (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+	)
+
+	(:Preconds
+		(?I1 (?E POSSESS.V ?H))
+		(?I2 (?E POSSESS.V ?H))
+		(?I3 (?A POSSESS.V ?H))
+	)
+
+	(:Postconds
+		(?P1 (?E EXPERIENCE.V (K PLEASURE.N)))
+		(?P2 (?E EXPERIENCE.V (K PLEASURE.N)))
+		(?P3 (?A EXPERIENCE.V (K PLEASURE.N)))
+		(?P4 (?A (WANT.V (KA (POSSESS.V ?H)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?P1 AFTER ?E1))
+		(!W4 (?G2 CAUSE.V ?E2))
+		(!W5 (?I2 BEFORE ?E2))
+		(!W6 (?P2 AFTER ?E2))
+		(!W7 (?G3 CAUSE.V ?E4))
+		(!W8 (?I3 BEFORE ?E4))
+		(!W9 (?P3 AFTER ?E4))
+		(!W10 (?P4 AFTER ?E5))
+	)
+)

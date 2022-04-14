@@ -1,0 +1,31 @@
+losing_someone_you_love
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?C PARENT.N))
+		(!R3 (?K ENTITY.N))
+	)
+
+	(:Steps
+		(?E1 (?A LOSE_PROTO.V ?A))
+		(?E2 (?A MISS.V ?A))
+		(?E3 (?A MISS.V ?C))
+		(?E4 (?C DIE.V ?K))
+		(?E5 (?A CRY_PROTO.V))
+	)
+
+	(:Preconds
+		(?I1 (?A (POSSESS.V ?A)))
+		(?I2 (?A SAD.A))
+	)
+
+	(:Postconds
+		(?P1 (?A (NOT (POSSESS.V ?A))))
+	)
+
+	(:Episode-relations
+		(!W1 (?I1 BEFORE ?E1))
+		(!W2 (?P1 AFTER ?E1))
+		(!W3 (?I2 BEFORE ?E5))
+	)
+)

@@ -1,0 +1,48 @@
+throwing_things_away
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A MAN.N))
+		(!R2 (?C PERSON.N))
+		(!R3 (?F TRASH.N))
+		(!R4 (?I WASTE_MANAGEMENT.N))
+		(!R5 (?U GARBAGE.N))
+		(!R6 (?[ ARTICLE.N))
+		(!R7 (?\ CONTAINER.N))
+		(!R8 (?d CLOTH.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (INTO.P ?U)) THROW.V) ?U))
+		(?E2 (?C THROW_AWAY.V ?d))
+		(?E3 (?C THROW_AWAY.V ?F))
+		(?E4 (?C ((ADV-A (IN.P ?I)) PUT_PROTO.V) ?F))
+		(?E5 (?C PICK_UP.V ?F))
+		(?E6 (?C PUT_PROTO.V ?[ ?\))
+	)
+
+	(:Goals
+		(?G1 (?C (WANT.V (THAT (?F (IN.P ?I))))))
+		(?G2 (?C (WANT.V (THAT (?[ (AT.P ?\))))))
+	)
+
+	(:Preconds
+		(?I1 (NOT (?F (IN.P ?I))))
+		(?I2 (?C (POSSESS.V ?[)))
+		(?I3 (?[ (NOT (AT.P ?\))))
+	)
+
+	(:Postconds
+		(?P1 (?F (IN.P ?I)))
+		(?P2 (?[ (AT.P ?\)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E4))
+		(!W2 (?I1 BEFORE ?E4))
+		(!W3 (?P1 AFTER ?E4))
+		(!W4 (?G2 CAUSE.V ?E6))
+		(!W5 (?I2 BEFORE ?E6))
+		(!W6 (?I3 BEFORE ?E6))
+		(!W7 (?P2 AFTER ?E6))
+	)
+)

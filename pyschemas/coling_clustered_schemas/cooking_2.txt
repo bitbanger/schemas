@@ -1,0 +1,53 @@
+cooking
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?C MEAL.N))
+		(!R3 (?D FOOD.N))
+		(!R4 (?E COOKING_UTENSIL.N))
+		(!R5 (?J FAMILY.N))
+		(!R6 (?N SPAGHETTI.N))
+	)
+
+	(:Steps
+		(?E1 (?A LIKE_PROTO.V ?D))
+		(?E2 (?A ((ADV-A (FOR.P ?D)) COOK.V)))
+		(?E3 (?A MAKE_PROTO.V ?D))
+		(?E4 (?A PUT_PROTO.V ?C ?E))
+		(?E5 (?A SERVE.V ?D ?N))
+		(?E6 (?A ADD.V ?D))
+		(?E7 (?A ((ADV-A (FOR.P ?J)) COOK.V) ?D))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (THAT (?D EXIST.V)))))
+		(?G2 (?A (WANT.V (KA (POSSESS.V ?D)))))
+		(?G3 (?A (WANT.V (THAT (?C (AT.P ?E))))))
+	)
+
+	(:Preconds
+		(?I1 (NOT (?D EXIST.V)))
+		(?I2 (?A (POSSESS.V ?C)))
+		(?I3 (?C (NOT (AT.P ?E))))
+	)
+
+	(:Postconds
+		(?P1 (?A (WANT.V (KA (POSSESS.V ?D)))))
+		(?P2 (?D EXIST.V))
+		(?P3 (?A (POSSESS.V ?D)))
+		(?P4 (?C (AT.P ?E)))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E1))
+		(!W2 (?G1 CAUSE.V ?E3))
+		(!W3 (?G2 CAUSE.V ?E3))
+		(!W4 (?I1 BEFORE ?E3))
+		(!W5 (?P2 AFTER ?E3))
+		(!W6 (?P3 AFTER ?E3))
+		(!W7 (?G3 CAUSE.V ?E4))
+		(!W8 (?I2 BEFORE ?E4))
+		(!W9 (?I3 BEFORE ?E4))
+		(!W10 (?P4 AFTER ?E4))
+	)
+)

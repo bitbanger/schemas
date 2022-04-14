@@ -1,0 +1,55 @@
+calling_the_radio
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?B DJ.N))
+		(!R2 (?D PERSON.N))
+		(!R3 (?E SONG.N))
+		(!R4 (?G ACTION.N))
+		(!R5 (?I MUSIC.N))
+		(!R6 (?O RADIO.N))
+		(!R7 (?Q WEATHER.N))
+		(!R8 (?R MEDIA.N))
+	)
+
+	(:Steps
+		(?E1 (?D ((ADV-A (FOR.P ?I)) CALL.V)))
+		(?E2 (?B PLAY.V ?E))
+		(?E3 (?D CALL.V ?O))
+		(?E4 (?D ((ADV-A (TO.P ?I)) LISTEN.V)))
+		(?E5 (?D ((ADV-A (TO.P ?B)) TALK.V)))
+		(?E6 (?D ((ADV-A (ABOUT.P ?Q)) TELL_PROTO.V) ?G))
+		(?E7 (?D ((ADV-A (TO.P ?R)) LISTEN.V)))
+		(?E8 (?D LIKE_PROTO.V ?E))
+		(?E9 (?D ASK_PROTO.V ?D ?G))
+	)
+
+	(:Goals
+		(?G1 (?D (WANT.V ?D ?G)))
+		(?G2 (?D (WANT.V (THAT (?D (DO.V ?G))))))
+	)
+
+	(:Preconds
+		(?I1 (?D (AT.P ?I)))
+		(?I2 (?G (AT.P ?I)))
+		(?I3 (?G (NEAR.P ?D)))
+	)
+
+	(:Postconds
+		(?P1 (?D (KNOW.V (THAT (?G (AT.P ?I))))))
+		(?P2 (?D (KNOW.V (THAT (?G (NEAR.P ?D))))))
+		(?P3 (?G (NEAR.P ?D)))
+		(?P4 (?D (WANT.V (KA (POSSESS.V ?E)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?I1 BEFORE ?E6))
+		(!W2 (?I2 BEFORE ?E6))
+		(!W3 (?I3 BEFORE ?E6))
+		(!W4 (?P1 AFTER ?E6))
+		(!W5 (?P2 AFTER ?E6))
+		(!W6 (?P3 AFTER ?E6))
+		(!W7 (?P4 AFTER ?E8))
+		(!W8 (?G1 CAUSE.V ?E9))
+		(!W9 (?G2 CAUSE.V ?E9))
+	)
+)

@@ -1,0 +1,49 @@
+shopping
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B FOOTWEAR.N))
+		(!R3 (?C CLOTHES.N))
+		(!R4 (?D FOOD.N))
+		(!R5 (?E SHOPPER.N))
+		(!R6 (?H FAMILY.N))
+		(!R7 (?L SHOPPING_CENTER.N))
+		(!R8 (?M ENTITY.N))
+		(!R9 (?P CLOTHING.N))
+		(!R10 (?T APPAREL.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (FOR.P ?H)) BUY.V) ?D))
+		(?E2 (?A ((ADV-A (FROM.P ?M)) GO_PROTO.V) ?L))
+		(?E3 (?A ((ADV-A (FOR.P ?P)) SHOP.V)))
+		(?E4 (?E BUY.V ?T))
+		(?E5 (?A BUY.V ?B))
+		(?E6 (?A BUY.V ?D))
+		(?E7 (?A LIKE_PROTO.V ?C))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA ((ADV-A (AT.P ?L)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?A (AT.P ?M)))
+		(?I2 (NOT (?A (AT.P ?L))))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?A (AT.P ?M))))
+		(?P2 (?A (AT.P ?L)))
+		(?P3 (?A (WANT.V (KA (POSSESS.V ?C)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E2))
+		(!W2 (?I1 BEFORE ?E2))
+		(!W3 (?I2 BEFORE ?E2))
+		(!W4 (?P1 AFTER ?E2))
+		(!W5 (?P2 AFTER ?E2))
+		(!W6 (?P3 AFTER ?E7))
+	)
+)

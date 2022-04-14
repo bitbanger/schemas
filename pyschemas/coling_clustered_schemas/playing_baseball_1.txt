@@ -1,0 +1,58 @@
+playing_baseball
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A SPORT.N))
+		(!R2 (?C HOME.N))
+		(!R3 (?G DESTINATION.N))
+		(!R4 (?H ENTITY.N))
+		(!R5 (?J CATCH.N))
+		(!R6 (?K TEAM.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (FROM.P ?H)) RUN_PROTO.V) ?G))
+		(?E2 (?A LIKE_PROTO.V ?A))
+		(?E3 (?A PLAY.V ?J))
+		(?E4 (?A WIN.V ?A))
+		(?E5 (?A HAVE_PROTO.V ?A))
+		(?E6 (?A ((ADV-A (ON.P ?K)) BE.V)))
+		(?E7 (?A HIT.V ?C))
+		(?E8 (?A MAKE_PROTO.V ?A))
+		(?E9 (?C RUN.V))
+		(?E10 (?A HIT.V ?A))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA ((ADV-A (AT.P ?G)) BE.V)))))
+		(?G2 (?A (WANT.V (THAT (?A EXIST.V)))))
+		(?G3 (?A (WANT.V (KA (POSSESS.V ?A)))))
+	)
+
+	(:Preconds
+		(?I1 (?A (AT.P ?H)))
+		(?I2 (NOT (?A (AT.P ?G))))
+		(?I3 (NOT (?A EXIST.V)))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?A (AT.P ?H))))
+		(?P2 (?A (AT.P ?G)))
+		(?P3 (?A (WANT.V (KA (POSSESS.V ?A)))))
+		(?P4 (?A EXIST.V))
+		(?P5 (?A (POSSESS.V ?A)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?I2 BEFORE ?E1))
+		(!W4 (?P1 AFTER ?E1))
+		(!W5 (?P2 AFTER ?E1))
+		(!W6 (?P3 AFTER ?E2))
+		(!W7 (?G2 CAUSE.V ?E8))
+		(!W8 (?G3 CAUSE.V ?E8))
+		(!W9 (?I3 BEFORE ?E8))
+		(!W10 (?P4 AFTER ?E8))
+		(!W11 (?P5 AFTER ?E8))
+	)
+)

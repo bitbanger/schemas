@@ -1,0 +1,66 @@
+playing_in_the_snow
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?L PERSON.N))
+		(!R2 (?C HILL.N))
+		(!R3 (?E SNOW.N))
+		(!R4 (?J WEATHER.N))
+		(!R5 (?K LOCATION.N))
+		(!R6 (?M WET.N))
+		(!R7 (?N ENTITY.N))
+		(!R8 (?O ENTITY.N))
+		(!R9 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?L ((ADV-A (IN.P ?J)) PLAY_PROTO.V)))
+		(?E2 (?L GET.V ?M ?N))
+		(?E3 (?L ((ADV-A (IN.P ?L)) LIKE_PROTO.V) ?L))
+		(?E4 (?L ((ADV-A (IN.P ?E)) PLAY_PROTO.V)))
+		(?E5 (?L ((ADV-A (FROM.P ?C)) SLIDE_PROTO.V) ?C))
+		(?E6 (?L ((ADV-A (ON.P ?K)) FALL.V)))
+		(?E7 (?L ((ADV-A (ON.P ?O)) PLAY_PROTO.V)))
+	)
+
+	(:Goals
+		(?G1 (?L (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G2 (?L (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G3 (?L (WANT.V (KA ((ADV-A (AT.P ?C)) BE.V)))))
+		(?G4 (?L (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+	)
+
+	(:Preconds
+		(?I1 (?L POSSESS.V ?T))
+		(?I2 (?L POSSESS.V ?T))
+		(?I3 (?L (AT.P ?C)))
+		(?I4 (NOT (?L (AT.P ?C))))
+		(?I5 (?L POSSESS.V ?T))
+	)
+
+	(:Postconds
+		(?P1 (?L EXPERIENCE.V (K PLEASURE.N)))
+		(?P2 (?L (WANT.V (KA (POSSESS.V ?L)))))
+		(?P3 (?L EXPERIENCE.V (K PLEASURE.N)))
+		(?P4 (NOT (?L (AT.P ?C))))
+		(?P5 (?L (AT.P ?C)))
+		(?P6 (?L EXPERIENCE.V (K PLEASURE.N)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?P1 AFTER ?E1))
+		(!W4 (?P2 AFTER ?E3))
+		(!W5 (?G2 CAUSE.V ?E4))
+		(!W6 (?I2 BEFORE ?E4))
+		(!W7 (?P3 AFTER ?E4))
+		(!W8 (?G3 CAUSE.V ?E5))
+		(!W9 (?I3 BEFORE ?E5))
+		(!W10 (?I4 BEFORE ?E5))
+		(!W11 (?P4 AFTER ?E5))
+		(!W12 (?P5 AFTER ?E5))
+		(!W13 (?G4 CAUSE.V ?E7))
+		(!W14 (?I5 BEFORE ?E7))
+		(!W15 (?P6 AFTER ?E7))
+	)
+)

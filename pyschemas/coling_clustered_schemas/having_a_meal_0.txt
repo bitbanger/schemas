@@ -1,0 +1,61 @@
+having_a_meal
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B FOOD.N))
+		(!R3 (?F MEAL.N))
+		(!R4 (?P CONE.N))
+	)
+
+	(:Steps
+		(?E1 (?A EAT_PROTO.V ?B))
+		(?E2 (?A EAT.V ?B ?P))
+		(?E3 (?A EAT_PROTO.V ?F))
+		(?E4 (?A LIKE_PROTO.V ?B))
+		(?E5 (?A HAVE_PROTO.V ?B))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (THAT (NOT (?A HUNGRY.A))))))
+		(?G2 (?A (WANT.V (THAT (NOT (?A HUNGRY.A))))))
+		(?G3 (?A (WANT.V (THAT (NOT (?A HUNGRY.A))))))
+	)
+
+	(:Preconds
+		(?I1 (?A POSSESS.V ?B))
+		(?I2 (?A HUNGRY.A))
+		(?I3 (?A POSSESS.V ?F))
+		(?I4 (?A HUNGRY.A))
+		(?I5 (?A POSSESS.V ?B))
+		(?I6 (?A HUNGRY.A))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?A (POSSESS.V ?B))))
+		(?P2 (NOT (?A HUNGRY.A)))
+		(?P3 (NOT (?A (POSSESS.V ?F))))
+		(?P4 (NOT (?A HUNGRY.A)))
+		(?P5 (?A (WANT.V (KA (POSSESS.V ?B)))))
+		(?P6 (NOT (?A (POSSESS.V ?B))))
+		(?P7 (NOT (?A HUNGRY.A)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?I2 BEFORE ?E1))
+		(!W4 (?P1 AFTER ?E1))
+		(!W5 (?P2 AFTER ?E1))
+		(!W6 (?G2 CAUSE.V ?E3))
+		(!W7 (?I3 BEFORE ?E3))
+		(!W8 (?I4 BEFORE ?E3))
+		(!W9 (?P3 AFTER ?E3))
+		(!W10 (?P4 AFTER ?E3))
+		(!W11 (?P5 AFTER ?E4))
+		(!W12 (?G3 CAUSE.V ?E5))
+		(!W13 (?I5 BEFORE ?E5))
+		(!W14 (?I6 BEFORE ?E5))
+		(!W15 (?P6 AFTER ?E5))
+		(!W16 (?P7 AFTER ?E5))
+	)
+)

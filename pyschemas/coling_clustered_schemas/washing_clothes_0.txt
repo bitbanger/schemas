@@ -1,0 +1,64 @@
+washing_clothes
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?C APPAREL.N))
+		(!R2 (?F PERSON.N))
+		(!R3 (?I HOUSEHOLD_ITEM.N))
+		(!R4 (?M BUILDING.N))
+		(!R5 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?F WASH_PROTO.V ?C))
+		(?E2 (?F HANG_PROTO.V ?C ?I))
+		(?E3 (?F LIKE_PROTO.V ?C))
+		(?E4 (?F ((ADV-A (IN.P ?M)) PLAY_PROTO.V)))
+		(?E5 (?F PUT_PROTO.V ?C ?I))
+	)
+
+	(:Goals
+		(?G1 (?F (WANT.V (THAT (NOT (?C DIRTY.A))))))
+		(?G2 (?F (WANT.V (THAT (?C (AT.P ?I))))))
+		(?G3 (?F (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G4 (?F (WANT.V (THAT (?C (AT.P ?I))))))
+	)
+
+	(:Preconds
+		(?I1 (?C DIRTY.A))
+		(?I2 (NOT (?C CLEAN.A)))
+		(?I3 (?F (POSSESS.V ?C)))
+		(?I4 (?C (NOT (AT.P ?I))))
+		(?I5 (?F POSSESS.V ?T))
+		(?I6 (?F (POSSESS.V ?C)))
+		(?I7 (?C (NOT (AT.P ?I))))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?C DIRTY.A)))
+		(?P2 (?C CLEAN.A))
+		(?P3 (?C (AT.P ?I)))
+		(?P4 (?F (WANT.V (KA (POSSESS.V ?C)))))
+		(?P5 (?F EXPERIENCE.V (K PLEASURE.N)))
+		(?P6 (?C (AT.P ?I)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?I2 BEFORE ?E1))
+		(!W4 (?P1 AFTER ?E1))
+		(!W5 (?P2 AFTER ?E1))
+		(!W6 (?G2 CAUSE.V ?E2))
+		(!W7 (?I3 BEFORE ?E2))
+		(!W8 (?I4 BEFORE ?E2))
+		(!W9 (?P3 AFTER ?E2))
+		(!W10 (?P4 AFTER ?E3))
+		(!W11 (?G3 CAUSE.V ?E4))
+		(!W12 (?I5 BEFORE ?E4))
+		(!W13 (?P5 AFTER ?E4))
+		(!W14 (?G4 CAUSE.V ?E5))
+		(!W15 (?I6 BEFORE ?E5))
+		(!W16 (?I7 BEFORE ?E5))
+		(!W17 (?P6 AFTER ?E5))
+	)
+)

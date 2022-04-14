@@ -1,0 +1,58 @@
+writing_music
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A FRIEND.N))
+		(!R2 (?B SONG.N))
+		(!R3 (?C PERSON.N))
+		(!R4 (?I PAPER.N))
+		(!R5 (?J INSTRUMENT.N))
+		(!R6 (?L KID.N))
+		(!R7 (?Q MUSIC.N))
+		(!R8 (?R GUITAR.N))
+		(!R9 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?C ((ADV-A (ON.P ?I)) WRITE.V) ?B))
+		(?E2 (?C WRITE.V ?B))
+		(?E3 (?C ((ADV-A (FOR.P ?A)) SING.V) ?B))
+		(?E4 (?C LIKE_PROTO.V ?B))
+		(?E5 (?C ((ADV-A (ON.P ?R)) PLAY.V) ?Q))
+		(?E6 (?C PLAY_PROTO.V ?B))
+		(?E7 (?C ((ADV-A (FOR.P ?Q)) PRACTICE.V)))
+		(?E8 (?C SING.V ?B))
+		(?E9 (?C ((ADV-A (FOR.P ?J)) PLAY_PROTO.V)))
+	)
+
+	(:Goals
+		(?G1 (?C (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+	)
+
+	(:Preconds
+		(?I1 (?C (AT.P ?L)))
+		(?I2 (?B (AT.P ?L)))
+		(?I3 (?B (NEAR.P ?C)))
+		(?I4 (?C POSSESS.V ?T))
+	)
+
+	(:Postconds
+		(?P1 (?C (WANT.V (KA (POSSESS.V ?B)))))
+		(?P2 (?C (KNOW.V (THAT (?B (AT.P ?L))))))
+		(?P3 (?C (KNOW.V (THAT (?B (NEAR.P ?C))))))
+		(?P4 (?B (NEAR.P ?C)))
+		(?P5 (?C EXPERIENCE.V (K PLEASURE.N)))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E4))
+		(!W2 (?I1 BEFORE ?E6))
+		(!W3 (?I2 BEFORE ?E6))
+		(!W4 (?I3 BEFORE ?E6))
+		(!W5 (?P2 AFTER ?E6))
+		(!W6 (?P3 AFTER ?E6))
+		(!W7 (?P4 AFTER ?E6))
+		(!W8 (?G1 CAUSE.V ?E9))
+		(!W9 (?I4 BEFORE ?E9))
+		(!W10 (?P5 AFTER ?E9))
+	)
+)

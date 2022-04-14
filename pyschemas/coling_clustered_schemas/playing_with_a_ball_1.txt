@@ -1,0 +1,53 @@
+playing_with_a_ball
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B BALL.N))
+		(!R3 (?D BOY.N))
+		(!R4 (?G HANDWEAR.N))
+		(!R5 (?J SON.N))
+		(!R6 (?K HOUR.N))
+		(!R7 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?A PLAY_PROTO.V))
+		(?E2 (?A ((ADV-A (TO.P ?A)) THROW.V) ?B))
+		(?E3 (?A ((ADV-A (TO.P ?J)) THROW.V) ?B))
+		(?E4 (?A ((ADV-A (FOR.P ?K)) PLAY_PROTO.V) ?B))
+		(?E5 (?A ((ADV-A (WITH.P ?G)) CATCH.V) ?B))
+		(?E6 (?A ((ADV-A (FOR.P ?B)) MISS.V)))
+		(?E7 (?A THROW.V ?B))
+		(?E8 (?D CATCH.V ?B))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+	)
+
+	(:Preconds
+		(?I1 (?A POSSESS.V ?T))
+		(?I2 (?A (AT.P ?B)))
+		(?I3 (?B (AT.P ?B)))
+		(?I4 (?B (NEAR.P ?A)))
+	)
+
+	(:Postconds
+		(?P1 (?A EXPERIENCE.V (K PLEASURE.N)))
+		(?P2 (?A (KNOW.V (THAT (?B (AT.P ?B))))))
+		(?P3 (?A (KNOW.V (THAT (?B (NEAR.P ?A))))))
+		(?P4 (?B (NEAR.P ?A)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?P1 AFTER ?E1))
+		(!W4 (?I2 BEFORE ?E4))
+		(!W5 (?I3 BEFORE ?E4))
+		(!W6 (?I4 BEFORE ?E4))
+		(!W7 (?P2 AFTER ?E4))
+		(!W8 (?P3 AFTER ?E4))
+		(!W9 (?P4 AFTER ?E4))
+	)
+)

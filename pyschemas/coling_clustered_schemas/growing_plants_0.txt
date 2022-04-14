@@ -1,0 +1,45 @@
+growing_plants
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?D PERSON.N))
+		(!R2 (?C PLANT.N))
+		(!R3 (?E VEGETATION.N))
+		(!R4 (?I POT.N))
+		(!R5 (?M CROP.N))
+		(!R6 (?N CONTAINER.N))
+		(!R7 (?Y GARDEN.N))
+		(!R8 (?_ SEED.N))
+	)
+
+	(:Steps
+		(?E1 (?D ((ADV-A (IN.P ?N)) PUT_PROTO.V) ?M))
+		(?E2 (?D WATER.V ?E))
+		(?E3 (?D ((ADV-A (FOR.P ?E)) WATCH.V)))
+		(?E4 (?D LOVE_PROTO.V ?C))
+		(?E5 (?C ((ADV-A (INTO.P ?C)) GROW.V)))
+		(?E6 (?_ ((ADV-A (INTO.P ?C)) GROW.V)))
+		(?E7 (?D ((ADV-A (IN.P ?I)) PLANT.V) ?E))
+		(?E8 (?D ((ADV-A (INTO.P ?E)) GROW.V)))
+		(?E9 (?D HAVE_PROTO.V ?Y))
+	)
+
+	(:Goals
+		(?G1 (?D (WANT.V (THAT (?M (IN.P ?N))))))
+	)
+
+	(:Preconds
+		(?I1 (NOT (?M (IN.P ?N))))
+	)
+
+	(:Postconds
+		(?P1 (?M (IN.P ?N)))
+		(?P2 (?D (WANT.V (KA (POSSESS.V ?C)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?P1 AFTER ?E1))
+		(!W4 (?P2 AFTER ?E4))
+	)
+)

@@ -1,0 +1,36 @@
+learning_an_instrument
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?C SOUND.N))
+		(!R3 (?N FRIEND.N))
+		(!R4 (?O TIME.N))
+		(!R5 (?P MUSICAL_INSTRUMENT.N))
+		(!R6 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (FOR.P ?C)) PLAY_PROTO.V)))
+		(?E2 (?A ((ADV-A (IN_FRONT_OF.P ?N)) PLAY.V) ?C))
+		(?E3 (?A ((ADV-A (ON.P ?P)) PRACTICE.V)))
+		(?E4 (?A ((ADV-A (FOR.P ?O)) PRACTICE.V)))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+	)
+
+	(:Preconds
+		(?I1 (?A POSSESS.V ?T))
+	)
+
+	(:Postconds
+		(?P1 (?A EXPERIENCE.V (K PLEASURE.N)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?P1 AFTER ?E1))
+	)
+)

@@ -1,0 +1,58 @@
+meeting_someone
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?B PERSON.N))
+		(!R2 (?G LOCATION.N))
+		(!R3 (?H SCHOOL.N))
+		(!R4 (?M ENTITY.N))
+		(!R5 (?P LOCATION.N))
+		(!R6 (?S BOY.N))
+		(!R7 (?T ENTITY.N))
+	)
+
+	(:Steps
+		(?E1 (?B ((ADV-A (AT.P ?G)) MEET.V) ?B))
+		(?E2 (?B ((ADV-A (AT.P ?H)) MEET.V) ?B))
+		(?E3 (?B ((ADV-A (FROM.P ?M)) GO_PROTO.V) ?B))
+		(?E4 (?B ((ADV-A (ON.P ?B)) MEET.V)))
+		(?E5 (?B ((ADV-A (ON.P ?P)) MEET.V) ?B))
+		(?E6 (?B ((ADV-A (FROM.P ?T)) WALK_PROTO.V) ?S))
+		(?E7 (?B ((ADV-A (FOR.P ?B)) ASK.V) ?B))
+		(?E8 (?B LIKE_PROTO.V ?B))
+		(?E9 (?B ((ADV-A (TO.P ?B)) TALK.V)))
+	)
+
+	(:Goals
+		(?G1 (?B (WANT.V (KA ((ADV-A (AT.P ?B)) BE.V)))))
+		(?G2 (?B (WANT.V (KA ((ADV-A (AT.P ?S)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?B (AT.P ?M)))
+		(?I2 (NOT (?B (AT.P ?B))))
+		(?I3 (?B (AT.P ?T)))
+		(?I4 (NOT (?B (AT.P ?S))))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?B (AT.P ?M))))
+		(?P2 (?B (AT.P ?B)))
+		(?P3 (NOT (?B (AT.P ?T))))
+		(?P4 (?B (AT.P ?S)))
+		(?P5 (?B (WANT.V (KA (POSSESS.V ?B)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E3))
+		(!W2 (?I1 BEFORE ?E3))
+		(!W3 (?I2 BEFORE ?E3))
+		(!W4 (?P1 AFTER ?E3))
+		(!W5 (?P2 AFTER ?E3))
+		(!W6 (?G2 CAUSE.V ?E6))
+		(!W7 (?I3 BEFORE ?E6))
+		(!W8 (?I4 BEFORE ?E6))
+		(!W9 (?P3 AFTER ?E6))
+		(!W10 (?P4 AFTER ?E6))
+		(!W11 (?P5 AFTER ?E8))
+	)
+)

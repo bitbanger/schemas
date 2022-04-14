@@ -1,0 +1,30 @@
+performing_music
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?D MUSIC.N))
+		(!R3 (?E SOUND.N))
+		(!R4 (?P SONG.N))
+		(!R5 (?Q TV.N))
+		(!R6 (?S PEOPLE.N))
+		(!R7 (?T PARENT.N))
+		(!R8 (?U FRIEND.N))
+	)
+
+	(:Steps
+		(?E1 (?A PLAY.V ?D))
+		(?E2 (?A ((ADV-A (FOR.P ?D)) PRACTICE.V)))
+		(?E3 (?A ((ADV-A (IN.P ?Q)) SING.V)))
+		(?E4 (?A ((ADV-A (FOR.P ?T)) SING.V)))
+		(?E5 (?A ((ADV-A (FOR.P ?U)) SING.V)))
+		(?E6 (?A LIKE_PROTO.V ?E))
+	)
+
+	(:Postconds
+		(?P1 (?A (WANT.V (KA (POSSESS.V ?E)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E6))
+	)
+)

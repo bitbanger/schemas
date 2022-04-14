@@ -1,0 +1,31 @@
+singing
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?D SONG.N))
+		(!R3 (?I MUSICAL_PERFORMANCE.N))
+		(!R4 (?O LOCATION.N))
+		(!R5 (?P CHOIR.N))
+		(!R6 (?Q CHURCH.N))
+		(!R7 (?S FRIEND.N))
+		(!R8 (?T PARTY.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (IN_FRONT_OF.P ?O)) SING.V)))
+		(?E2 (?A ((ADV-A (IN.P ?Q)) SING.V)))
+		(?E3 (?A SING.V ?D))
+		(?E4 (?A ((ADV-A (FOR.P ?S)) SING.V)))
+		(?E5 (?A ((ADV-A (AT.P ?T)) SING.V) ?D))
+		(?E6 (?A LIKE_PROTO.V ?I))
+		(?E7 (?A ((ADV-A (AT.P ?P)) SING.V)))
+	)
+
+	(:Postconds
+		(?P1 (?A (WANT.V (KA (POSSESS.V ?I)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E6))
+	)
+)

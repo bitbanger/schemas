@@ -1,0 +1,50 @@
+mailing_a_letter
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B DOCUMENT.N))
+		(!R3 (?C LETTER.N))
+		(!R4 (?D ENVELOPE.N))
+		(!R5 (?F LOCATION.N))
+		(!R6 (?G STAMP.N))
+		(!R7 (?J PAPER.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (ON.P ?J)) WRITE.V) ?A))
+		(?E2 (?A PUT_PROTO.V ?C ?D))
+		(?E3 (?A ((ADV-A (TO.P ?F)) MAIL.V) ?C))
+		(?E4 (?A PUT_PROTO.V ?G ?D))
+		(?E5 (?A ((ADV-A (ON.P ?D)) WRITE.V)))
+		(?E6 (?A MAIL.V ?A))
+		(?E7 (?B ((ADV-A (FROM.P ?A)) BE.V)))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (THAT (?C (AT.P ?D))))))
+		(?G2 (?A (WANT.V (THAT (?G (AT.P ?D))))))
+	)
+
+	(:Preconds
+		(?I1 (?A (POSSESS.V ?C)))
+		(?I2 (?C (NOT (AT.P ?D))))
+		(?I3 (?A (POSSESS.V ?G)))
+		(?I4 (?G (NOT (AT.P ?D))))
+	)
+
+	(:Postconds
+		(?P1 (?C (AT.P ?D)))
+		(?P2 (?G (AT.P ?D)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E2))
+		(!W2 (?I1 BEFORE ?E2))
+		(!W3 (?I2 BEFORE ?E2))
+		(!W4 (?P1 AFTER ?E2))
+		(!W5 (?G2 CAUSE.V ?E4))
+		(!W6 (?I3 BEFORE ?E4))
+		(!W7 (?I4 BEFORE ?E4))
+		(!W8 (?P2 AFTER ?E4))
+	)
+)

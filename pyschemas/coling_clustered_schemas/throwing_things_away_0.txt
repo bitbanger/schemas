@@ -1,0 +1,36 @@
+throwing_things_away
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?C PERSON.N))
+		(!R2 (?E GARBAGE.N))
+		(!R3 (?F MAN.N))
+		(!R4 (?G WASTE_MANAGEMENT.N))
+		(!R5 (?c CLOTH.N))
+	)
+
+	(:Steps
+		(?E1 (?F ((ADV-A (INTO.P ?E)) THROW.V) ?E))
+		(?E2 (?C THROW_AWAY.V ?c))
+		(?E3 (?C THROW_AWAY.V ?E))
+		(?E4 (?C ((ADV-A (IN.P ?G)) PUT_PROTO.V) ?E))
+		(?E5 (?C PICK_UP.V ?E))
+	)
+
+	(:Goals
+		(?G1 (?C (WANT.V (THAT (?E (IN.P ?G))))))
+	)
+
+	(:Preconds
+		(?I1 (NOT (?E (IN.P ?G))))
+	)
+
+	(:Postconds
+		(?P1 (?E (IN.P ?G)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E4))
+		(!W2 (?I1 BEFORE ?E4))
+		(!W3 (?P1 AFTER ?E4))
+	)
+)

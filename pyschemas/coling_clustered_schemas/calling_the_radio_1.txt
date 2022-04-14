@@ -1,0 +1,37 @@
+calling_the_radio
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?D PERSON.N))
+		(!R2 (?B DJ.N))
+		(!R3 (?E ACTION.N))
+		(!R4 (?F MUSIC.N))
+		(!R5 (?I SONG.N))
+		(!R6 (?K RADIO.N))
+		(!R7 (?P MEDIA.N))
+	)
+
+	(:Steps
+		(?E1 (?D ((ADV-A (FOR.P ?F)) CALL.V)))
+		(?E2 (?B PLAY.V ?F))
+		(?E3 (?D CALL.V ?K))
+		(?E4 (?D ((ADV-A (TO.P ?P)) LISTEN.V)))
+		(?E5 (?D ((ADV-A (TO.P ?B)) TALK.V)))
+		(?E6 (?D LIKE_PROTO.V ?I))
+		(?E7 (?D ASK_PROTO.V ?D ?E))
+	)
+
+	(:Goals
+		(?G1 (?D (WANT.V ?D ?E)))
+		(?G2 (?D (WANT.V (THAT (?D (DO.V ?E))))))
+	)
+
+	(:Postconds
+		(?P1 (?D (WANT.V (KA (POSSESS.V ?I)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E6))
+		(!W2 (?G1 CAUSE.V ?E7))
+		(!W3 (?G2 CAUSE.V ?E7))
+	)
+)

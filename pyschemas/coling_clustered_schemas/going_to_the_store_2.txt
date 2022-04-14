@@ -1,0 +1,67 @@
+going_to_the_store
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?A LOCATION.N))
+		(!R3 (?C PLACE.N))
+		(!R4 (?D GAS.N))
+		(!R5 (?E FOOD.N))
+		(!R6 (?F ITEM.N))
+		(!R7 (?G WINTER.N))
+		(!R8 (?H MILK.N))
+		(!R9 (?J ENTITY.N))
+		(!R10 (?K BREAD.N))
+		(!R11 (?O EGG.N))
+		(!R12 (?P BUSINESS.N))
+		(!R13 (?Q ENTITY.N))
+		(!R14 (?Y DINNER.N))
+	)
+
+	(:Steps
+		(?E1 (?A BUY.V ?K))
+		(?E2 (?A BUY.V ?E))
+		(?E3 (?A ((ADV-A (FROM.P ?Q)) GO_PROTO.V) ?P))
+		(?E4 (?A ((ADV-A (FOR.P ?Y)) BUY.V) ?E))
+		(?E5 (?A LIKE_PROTO.V ?C))
+		(?E6 (?A ((ADV-A (FOR.P ?D)) PAY.V)))
+		(?E7 (?A ((ADV-A (FOR.P ?G)) BUY.V) ?F))
+		(?E8 (?A ((ADV-A (AT.P ?A)) BUY.V) ?E))
+		(?E9 (?A BUY.V ?H))
+		(?E10 (?A ((ADV-A (FROM.P ?J)) GO_PROTO.V) ?E))
+		(?E11 (?A BUY.V ?O))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA ((ADV-A (AT.P ?P)) BE.V)))))
+		(?G2 (?A (WANT.V (KA ((ADV-A (AT.P ?E)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?A (AT.P ?Q)))
+		(?I2 (NOT (?A (AT.P ?P))))
+		(?I3 (?A (AT.P ?J)))
+		(?I4 (NOT (?A (AT.P ?E))))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?A (AT.P ?Q))))
+		(?P2 (?A (AT.P ?P)))
+		(?P3 (?A (WANT.V (KA (POSSESS.V ?C)))))
+		(?P4 (NOT (?A (AT.P ?J))))
+		(?P5 (?A (AT.P ?E)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E3))
+		(!W2 (?I1 BEFORE ?E3))
+		(!W3 (?I2 BEFORE ?E3))
+		(!W4 (?P1 AFTER ?E3))
+		(!W5 (?P2 AFTER ?E3))
+		(!W6 (?P3 AFTER ?E5))
+		(!W7 (?G2 CAUSE.V ?E10))
+		(!W8 (?I3 BEFORE ?E10))
+		(!W9 (?I4 BEFORE ?E10))
+		(!W10 (?P4 AFTER ?E10))
+		(!W11 (?P5 AFTER ?E10))
+	)
+)

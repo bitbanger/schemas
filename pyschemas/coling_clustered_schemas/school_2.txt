@@ -1,0 +1,66 @@
+school
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?C SCHOOL.N))
+		(!R3 (?G MEAL.N))
+		(!R4 (?H ENTITY.N))
+		(!R5 (?I NOUN.N))
+		(!R6 (?J EDUCATION.N))
+		(!R7 (?K FRIEND.N))
+		(!R8 (?R TEACHER.N))
+		(!R9 (?S LOT.N))
+		(!R10 (?T TOY.N))
+	)
+
+	(:Steps
+		(?E1 (?A LEARN.V ?I))
+		(?E2 (?A LIKE_PROTO.V ?J))
+		(?E3 (?A ((ADV-A (WITH.P ?K)) PLAY_PROTO.V)))
+		(?E4 (?A ((ADV-A (FOR.P ?A)) STUDY.V)))
+		(?E5 (?A ((ADV-A (FOR.P ?C)) STUDY.V)))
+		(?E6 (?R GIVE.V ?A ?S))
+		(?E7 (?A EAT_PROTO.V ?G))
+		(?E8 (?A ((ADV-A (FROM.P ?H)) GO_PROTO.V) ?C))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA (EXPERIENCE.V (K PLEASURE.N))))))
+		(?G2 (?A (WANT.V (THAT (NOT (?A HUNGRY.A))))))
+		(?G3 (?A (WANT.V (KA ((ADV-A (AT.P ?C)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?A POSSESS.V ?T))
+		(?I2 (?A POSSESS.V ?G))
+		(?I3 (?A HUNGRY.A))
+		(?I4 (?A (AT.P ?H)))
+		(?I5 (NOT (?A (AT.P ?C))))
+	)
+
+	(:Postconds
+		(?P1 (?A (WANT.V (KA (POSSESS.V ?J)))))
+		(?P2 (?A EXPERIENCE.V (K PLEASURE.N)))
+		(?P3 (NOT (?A (POSSESS.V ?G))))
+		(?P4 (NOT (?A HUNGRY.A)))
+		(?P5 (NOT (?A (AT.P ?H))))
+		(?P6 (?A (AT.P ?C)))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E2))
+		(!W2 (?G1 CAUSE.V ?E3))
+		(!W3 (?I1 BEFORE ?E3))
+		(!W4 (?P2 AFTER ?E3))
+		(!W5 (?G2 CAUSE.V ?E7))
+		(!W6 (?I2 BEFORE ?E7))
+		(!W7 (?I3 BEFORE ?E7))
+		(!W8 (?P3 AFTER ?E7))
+		(!W9 (?P4 AFTER ?E7))
+		(!W10 (?G3 CAUSE.V ?E8))
+		(!W11 (?I4 BEFORE ?E8))
+		(!W12 (?I5 BEFORE ?E8))
+		(!W13 (?P5 AFTER ?E8))
+		(!W14 (?P6 AFTER ?E8))
+	)
+)

@@ -1,0 +1,50 @@
+getting_into_an_accident
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A CAR.N))
+		(!R2 (?B VEHICLE.N))
+		(!R3 (?D PERSON.N))
+		(!R4 (?H BODY_PART.N))
+		(!R5 (?I LOCATION.N))
+		(!R6 (?J ENTITY.N))
+		(!R7 (?L TREE.N))
+		(!R8 (?L1 LOCATION.N))
+	)
+
+	(:Steps
+		(?E1 (?A ((ADV-A (OVER.P ?H)) RUN.V)))
+		(?E2 (?D ((ADV-A (FROM.P ?J)) COME_PROTO.V) ?I))
+		(?E3 (?B ((ADV-A (INTO.P ?L)) CRASH.V)))
+		(?E4 (?D TAKE_PROTO.V ?B ?B))
+	)
+
+	(:Goals
+		(?G1 (?D (WANT.V (KA ((ADV-A (AT.P ?I)) BE.V)))))
+		(?G2 (?D (WANT.V (THAT (?B ((ADV-A (AT.P ?B)) BE.V))))))
+	)
+
+	(:Preconds
+		(?I1 (?D (AT.P ?J)))
+		(?I2 (NOT (?D (AT.P ?I))))
+		(?I3 (?B ((ADV-A (AT.P ?L1)) BE.V)))
+		(?I4 (?D (POSSESS.V ?B)))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?D (AT.P ?J))))
+		(?P2 (?D (AT.P ?I)))
+		(?P3 (?B ((ADV-A (AT.P ?B)) BE.V)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E2))
+		(!W2 (?I1 BEFORE ?E2))
+		(!W3 (?I2 BEFORE ?E2))
+		(!W4 (?P1 AFTER ?E2))
+		(!W5 (?P2 AFTER ?E2))
+		(!W6 (?G2 CAUSE.V ?E4))
+		(!W7 (?I3 BEFORE ?E4))
+		(!W8 (?I4 BEFORE ?E4))
+		(!W9 (?P3 AFTER ?E4))
+	)
+)

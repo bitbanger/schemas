@@ -1,0 +1,61 @@
+feeding_a_baby
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B CONTAINER.N))
+		(!R3 (?C PARENT.N))
+		(!R4 (?E BEVERAGE.N))
+		(!R5 (?C PERSON.N))
+		(!R6 (?H FOOD.N))
+	)
+
+	(:Steps
+		(?E1 (?A LIKE_PROTO.V ?E))
+		(?E2 (?C PUT_PROTO.V ?E ?B))
+		(?E3 (?C FED.V ?A))
+		(?E4 (?A PUT_PROTO.V ?H ?B))
+		(?E5 (?A CRY_PROTO.V ?E))
+		(?E6 (?A DRANK_PROTO.V ?H))
+		(?E7 (?C HOLD.V ?B))
+	)
+
+	(:Goals
+		(?G1 (?C (WANT.V (THAT (?E (AT.P ?B))))))
+		(?G2 (?A (WANT.V (THAT (?H (AT.P ?B))))))
+		(?G3 (?A (WANT.V (THAT (NOT (?A HUNGRY.A))))))
+	)
+
+	(:Preconds
+		(?I1 (?C (POSSESS.V ?E)))
+		(?I2 (?E (NOT (AT.P ?B))))
+		(?I3 (?A (POSSESS.V ?H)))
+		(?I4 (?H (NOT (AT.P ?B))))
+		(?I5 (?A POSSESS.V ?H))
+		(?I6 (?A HUNGRY.A))
+	)
+
+	(:Postconds
+		(?P1 (?A (WANT.V (KA (POSSESS.V ?E)))))
+		(?P2 (?E (AT.P ?B)))
+		(?P3 (?H (AT.P ?B)))
+		(?P4 (NOT (?A (POSSESS.V ?H))))
+		(?P5 (NOT (?A HUNGRY.A)))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E1))
+		(!W2 (?G1 CAUSE.V ?E2))
+		(!W3 (?I1 BEFORE ?E2))
+		(!W4 (?I2 BEFORE ?E2))
+		(!W5 (?P2 AFTER ?E2))
+		(!W6 (?G2 CAUSE.V ?E4))
+		(!W7 (?I3 BEFORE ?E4))
+		(!W8 (?I4 BEFORE ?E4))
+		(!W9 (?P3 AFTER ?E4))
+		(!W10 (?G3 CAUSE.V ?E6))
+		(!W11 (?I5 BEFORE ?E6))
+		(!W12 (?I6 BEFORE ?E6))
+		(!W13 (?P4 AFTER ?E6))
+		(!W14 (?P5 AFTER ?E6))
+	)
+)

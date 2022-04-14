@@ -1,0 +1,60 @@
+being_scared
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A WOMAN.N))
+		(!R2 (?B ENTITY.N))
+		(!R3 (?C CREATURE.N))
+		(!R4 (?I DESTINATION.N))
+		(!R5 (?L LIGHT.N))
+	)
+
+	(:Steps
+		(?E1 (?A SEE_PROTO.V ?C))
+		(?E2 (?A ((ADV-A (FROM.P ?B)) WALK_PROTO.V) ?I))
+		(?E3 (?A ((ADV-A (FROM.P ?C)) RUN_PROTO.V) ?I))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (KA ((ADV-A (AT.P ?I)) BE.V)))))
+		(?G2 (?A (WANT.V (KA ((ADV-A (AT.P ?I)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?A (AT.P ?L)))
+		(?I2 (?C (AT.P ?L)))
+		(?I3 (?C (NEAR.P ?A)))
+		(?I4 (?A (AT.P ?B)))
+		(?I5 (NOT (?A (AT.P ?I))))
+		(?I6 (?A (AT.P ?C)))
+		(?I7 (NOT (?A (AT.P ?I))))
+	)
+
+	(:Postconds
+		(?P1 (?A (KNOW.V (THAT (?C (AT.P ?L))))))
+		(?P2 (?A (KNOW.V (THAT (?C (NEAR.P ?A))))))
+		(?P3 (?C (NEAR.P ?A)))
+		(?P4 (NOT (?A (AT.P ?B))))
+		(?P5 (?A (AT.P ?I)))
+		(?P6 (NOT (?A (AT.P ?C))))
+		(?P7 (?A (AT.P ?I)))
+	)
+
+	(:Episode-relations
+		(!W1 (?I1 BEFORE ?E1))
+		(!W2 (?I2 BEFORE ?E1))
+		(!W3 (?I3 BEFORE ?E1))
+		(!W4 (?P1 AFTER ?E1))
+		(!W5 (?P2 AFTER ?E1))
+		(!W6 (?P3 AFTER ?E1))
+		(!W7 (?G1 CAUSE.V ?E2))
+		(!W8 (?I4 BEFORE ?E2))
+		(!W9 (?I5 BEFORE ?E2))
+		(!W10 (?P4 AFTER ?E2))
+		(!W11 (?P5 AFTER ?E2))
+		(!W12 (?G2 CAUSE.V ?E3))
+		(!W13 (?I6 BEFORE ?E3))
+		(!W14 (?I7 BEFORE ?E3))
+		(!W15 (?P6 AFTER ?E3))
+		(!W16 (?P7 AFTER ?E3))
+	)
+)

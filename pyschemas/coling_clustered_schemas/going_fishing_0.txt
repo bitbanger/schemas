@@ -1,0 +1,66 @@
+going_fishing
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?B SEAFOOD.N))
+		(!R2 (?G PERSON.N))
+		(!R3 (?K FOOD.N))
+		(!R4 (?L SUPPER.N))
+		(!R5 (?M LOT.N))
+	)
+
+	(:Steps
+		(?E1 (?G ((ADV-A (FOR.P ?K)) COOK.V) ?B))
+		(?E2 (?G CLEAN_PROTO.V ?B))
+		(?E3 (?G COOK.V ?B))
+		(?E4 (?G EAT_PROTO.V ?B))
+		(?E5 (?G GO.V))
+		(?E6 (?G CATCH_PROTO.V ?B))
+		(?E7 (?G CATCH.V ?M))
+	)
+
+	(:Goals
+		(?G1 (?G (WANT.V (THAT (NOT (?B DIRTY.A))))))
+		(?G2 (?G (WANT.V (THAT (NOT (?G HUNGRY.A))))))
+	)
+
+	(:Preconds
+		(?I1 (?B DIRTY.A))
+		(?I2 (NOT (?B CLEAN.A)))
+		(?I3 (?G POSSESS.V ?B))
+		(?I4 (?G HUNGRY.A))
+		(?I5 (?G (AT.P ?L)))
+		(?I6 (?B (AT.P ?L)))
+		(?I7 (?G ((ADV-A (FOR.P ?B)) SEARCH.V)))
+		(?I8 (NOT (?G (KNOW.V (THAT (?B (AT.P ?L)))))))
+		(?I9 (NOT (?G (POSSESS.V ?B))))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?B DIRTY.A)))
+		(?P2 (?B CLEAN.A))
+		(?P3 (NOT (?G (POSSESS.V ?B))))
+		(?P4 (NOT (?G HUNGRY.A)))
+		(?P5 (?G (KNOW.V (THAT (?B (AT.P ?L))))))
+		(?P6 (?G (POSSESS.V ?B)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E2))
+		(!W2 (?I1 BEFORE ?E2))
+		(!W3 (?I2 BEFORE ?E2))
+		(!W4 (?P1 AFTER ?E2))
+		(!W5 (?P2 AFTER ?E2))
+		(!W6 (?G2 CAUSE.V ?E4))
+		(!W7 (?I3 BEFORE ?E4))
+		(!W8 (?I4 BEFORE ?E4))
+		(!W9 (?P3 AFTER ?E4))
+		(!W10 (?P4 AFTER ?E4))
+		(!W11 (?I5 BEFORE ?E6))
+		(!W12 (?I6 BEFORE ?E6))
+		(!W13 (?I7 BEFORE ?E6))
+		(!W14 (?I8 BEFORE ?E6))
+		(!W15 (?I9 BEFORE ?E6))
+		(!W16 (?P5 AFTER ?E6))
+		(!W17 (?P6 AFTER ?E6))
+	)
+)

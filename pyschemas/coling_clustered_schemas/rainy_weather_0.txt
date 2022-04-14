@@ -1,0 +1,57 @@
+rainy_weather
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?B WEATHER.N))
+		(!R2 (?B PERSON.N))
+		(!R3 (?C ENTITY.N))
+		(!R4 (?D WEATHER.N))
+		(!R5 (?F MAN.N))
+		(!R6 (?H FISHING.N))
+		(!R7 (?N RAIN.N))
+		(!R8 (?P NOON.N))
+		(!R9 (?Q DESTINATION.N))
+		(!R10 (?R ENTITY.N))
+	)
+
+	(:Steps
+		(?E1 (?F ((ADV-A (FROM.P ?C)) WALK_PROTO.V) ?N))
+		(?E2 (?D ((ADV-A (AT.P ?P)) STOP.V)))
+		(?E3 (?B ((ADV-A (FROM.P ?R)) COME_PROTO.V) ?Q))
+		(?E4 (?B LIKE_PROTO.V ?D))
+		(?E5 (?B PLAY.V ?H))
+	)
+
+	(:Goals
+		(?G1 (?F (WANT.V (KA ((ADV-A (AT.P ?N)) BE.V)))))
+		(?G2 (?B (WANT.V (KA ((ADV-A (AT.P ?Q)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?F (AT.P ?C)))
+		(?I2 (NOT (?F (AT.P ?N))))
+		(?I3 (?B (AT.P ?R)))
+		(?I4 (NOT (?B (AT.P ?Q))))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?F (AT.P ?C))))
+		(?P2 (?F (AT.P ?N)))
+		(?P3 (NOT (?B (AT.P ?R))))
+		(?P4 (?B (AT.P ?Q)))
+		(?P5 (?B (WANT.V (KA (POSSESS.V ?D)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?I2 BEFORE ?E1))
+		(!W4 (?P1 AFTER ?E1))
+		(!W5 (?P2 AFTER ?E1))
+		(!W6 (?G2 CAUSE.V ?E3))
+		(!W7 (?I3 BEFORE ?E3))
+		(!W8 (?I4 BEFORE ?E3))
+		(!W9 (?P3 AFTER ?E3))
+		(!W10 (?P4 AFTER ?E3))
+		(!W11 (?P5 AFTER ?E4))
+	)
+)

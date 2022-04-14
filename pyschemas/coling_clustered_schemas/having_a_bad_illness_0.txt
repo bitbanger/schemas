@@ -1,0 +1,23 @@
+having_a_bad_illness
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?B ILLNESS.N))
+		(!R2 (?B DISEASE.N))
+		(!R3 (?F BOY.N))
+		(!R4 (?L FEVER.N))
+		(!R5 (?N EMOTION.N))
+		(!R6 (?P SPORT.N))
+		(!R7 (?Q GAME.N))
+	)
+
+	(:Steps
+		(?E1 (?F NAME.V))
+		(?E2 (?B FEEL.V ?N))
+		(?E3 (?B ((ADV-A ({DURING}.P ?B)) HAVE.V)))
+		(?E4 (?B MISS.V ?P ?Q))
+		(?E5 (?B HAVE.V ?L))
+	)
+
+	(:Episode-relations
+	)
+)

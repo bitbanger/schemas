@@ -1,0 +1,41 @@
+getting_into_an_accident
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?B PERSON.N))
+		(!R2 (?C CAR.N))
+		(!R3 (?D VEHICLE.N))
+		(!R4 (?G SCENE.N))
+		(!R5 (?H ENTITY.N))
+		(!R6 (?M TREE.N))
+		(!R7 (?Q FOOT.N))
+	)
+
+	(:Steps
+		(?E1 (?C ((ADV-A (OVER.P ?B)) RUN.V)))
+		(?E2 (?C ((ADV-A (OVER.P ?Q)) RUN.V)))
+		(?E3 (?B ((ADV-A (FROM.P ?H)) COME_PROTO.V) ?G))
+		(?E4 (?D ((ADV-A (INTO.P ?M)) CRASH.V)))
+	)
+
+	(:Goals
+		(?G1 (?B (WANT.V (KA ((ADV-A (AT.P ?G)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?B (AT.P ?H)))
+		(?I2 (NOT (?B (AT.P ?G))))
+	)
+
+	(:Postconds
+		(?P1 (NOT (?B (AT.P ?H))))
+		(?P2 (?B (AT.P ?G)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E3))
+		(!W2 (?I1 BEFORE ?E3))
+		(!W3 (?I2 BEFORE ?E3))
+		(!W4 (?P1 AFTER ?E3))
+		(!W5 (?P2 AFTER ?E3))
+	)
+)

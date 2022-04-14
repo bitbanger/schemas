@@ -1,0 +1,63 @@
+having_a_cabin
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B BUILDING.N))
+		(!R3 (?D CABIN.N))
+		(!R4 (?E LOCATION.N))
+		(!R5 (?F FOOD.N))
+		(!R6 (?G COOKING_UTENSIL.N))
+		(!R7 (?H ENTITY.N))
+		(!R8 (?J FURNITURE.N))
+		(!R9 (?K WOOD.N))
+		(!R10 (?L LOCATION.N))
+	)
+
+	(:Steps
+		(?E1 (?A HAVE_PROTO.V ?B))
+		(?E2 (?A LIKE_PROTO.V ?B))
+		(?E3 (?A PUT_PROTO.V ?B ?B))
+		(?E4 (?A ((ADV-A (IN.P ?J)) SLEEP.V)))
+		(?E5 (?A LIKE_PROTO.V ?K))
+		(?E6 (?A LIVE_PROTO.V ?L))
+		(?E7 (?A ((ADV-A (FOR.P ?A)) BUILD.V) ?B))
+		(?E8 (?A CAMP_PROTO.V ?E))
+		(?E9 (?A ((ADV-A (IN.P ?G)) COOK.V) ?F))
+		(?E10 (?A LIVE_PROTO.V ?D))
+		(?E11 (?A ((ADV-A (FROM.P ?H)) GO_PROTO.V) ?B))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (THAT (?B (AT.P ?B))))))
+		(?G2 (?A (WANT.V (KA ((ADV-A (AT.P ?B)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?A (POSSESS.V ?B)))
+		(?I2 (?B (NOT (AT.P ?B))))
+		(?I3 (?A (AT.P ?H)))
+		(?I4 (NOT (?A (AT.P ?B))))
+	)
+
+	(:Postconds
+		(?P1 (?A (WANT.V (KA (POSSESS.V ?B)))))
+		(?P2 (?B (AT.P ?B)))
+		(?P3 (?A (WANT.V (KA (POSSESS.V ?K)))))
+		(?P4 (NOT (?A (AT.P ?H))))
+		(?P5 (?A (AT.P ?B)))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E2))
+		(!W2 (?G1 CAUSE.V ?E3))
+		(!W3 (?I1 BEFORE ?E3))
+		(!W4 (?I2 BEFORE ?E3))
+		(!W5 (?P2 AFTER ?E3))
+		(!W6 (?P3 AFTER ?E5))
+		(!W7 (?G2 CAUSE.V ?E11))
+		(!W8 (?I3 BEFORE ?E11))
+		(!W9 (?I4 BEFORE ?E11))
+		(!W10 (?P4 AFTER ?E11))
+		(!W11 (?P5 AFTER ?E11))
+	)
+)

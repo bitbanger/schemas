@@ -1,0 +1,51 @@
+cooking
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B FOOD.N))
+		(!R3 (?E FAMILY.N))
+		(!R4 (?F COOKING.N))
+	)
+
+	(:Steps
+		(?E1 (?A LIKE_PROTO.V ?B))
+		(?E2 (?A ((ADV-A (FOR.P ?E)) COOK.V)))
+		(?E3 (?A MAKE_PROTO.V ?B))
+		(?E4 (?A PUT_PROTO.V ?B ?F))
+		(?E5 (?A SERVE.V ?B))
+		(?E6 (?A ADD.V ?B))
+		(?E7 (?A ((ADV-A (FOR.P ?E)) COOK.V) ?A))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (THAT (?B EXIST.V)))))
+		(?G2 (?A (WANT.V (KA (POSSESS.V ?B)))))
+		(?G3 (?A (WANT.V (THAT (?B (AT.P ?F))))))
+	)
+
+	(:Preconds
+		(?I1 (NOT (?B EXIST.V)))
+		(?I2 (?A (POSSESS.V ?B)))
+		(?I3 (?B (NOT (AT.P ?F))))
+	)
+
+	(:Postconds
+		(?P1 (?A (WANT.V (KA (POSSESS.V ?B)))))
+		(?P2 (?B EXIST.V))
+		(?P3 (?A (POSSESS.V ?B)))
+		(?P4 (?B (AT.P ?F)))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E1))
+		(!W2 (?G1 CAUSE.V ?E3))
+		(!W3 (?G2 CAUSE.V ?E3))
+		(!W4 (?I1 BEFORE ?E3))
+		(!W5 (?P2 AFTER ?E3))
+		(!W6 (?P3 AFTER ?E3))
+		(!W7 (?G3 CAUSE.V ?E4))
+		(!W8 (?I2 BEFORE ?E4))
+		(!W9 (?I3 BEFORE ?E4))
+		(!W10 (?P4 AFTER ?E4))
+	)
+)

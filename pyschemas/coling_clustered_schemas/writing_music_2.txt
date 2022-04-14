@@ -1,0 +1,48 @@
+writing_music
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?B PERSON.N))
+		(!R2 (?C SONG.N))
+		(!R3 (?D MUSIC.N))
+		(!R4 (?G FRIEND.N))
+		(!R5 (?H MUSICIAN.N))
+		(!R6 (?I PAPER.N))
+		(!R7 (?K INSTRUMENT.N))
+		(!R8 (?P GUITAR.N))
+	)
+
+	(:Steps
+		(?E1 (?H ((ADV-A (ON.P ?I)) WRITE.V) ?C))
+		(?E2 (?B WRITE.V ?C))
+		(?E3 (?B ((ADV-A (FOR.P ?G)) SING.V) ?C))
+		(?E4 (?B LIKE_PROTO.V ?C))
+		(?E5 (?B ((ADV-A (ON.P ?P)) PLAY.V) ?D))
+		(?E6 (?B ((ADV-A (FOR.P ?D)) PRACTICE.V)))
+		(?E7 (?B ((ADV-A (ON.P ?K)) PLAY.V) ?D))
+		(?E8 (?B ((ADV-A (TO.P ?G)) SING.V) ?C))
+		(?E9 (?B ((ADV-A (FOR.P ?G)) PLAY_PROTO.V) ?C))
+	)
+
+	(:Preconds
+		(?I1 (?B (AT.P ?G)))
+		(?I2 (?C (AT.P ?G)))
+		(?I3 (?C (NEAR.P ?B)))
+	)
+
+	(:Postconds
+		(?P1 (?B (WANT.V (KA (POSSESS.V ?C)))))
+		(?P2 (?B (KNOW.V (THAT (?C (AT.P ?G))))))
+		(?P3 (?B (KNOW.V (THAT (?C (NEAR.P ?B))))))
+		(?P4 (?C (NEAR.P ?B)))
+	)
+
+	(:Episode-relations
+		(!W1 (?P1 AFTER ?E4))
+		(!W2 (?I1 BEFORE ?E9))
+		(!W3 (?I2 BEFORE ?E9))
+		(!W4 (?I3 BEFORE ?E9))
+		(!W5 (?P2 AFTER ?E9))
+		(!W6 (?P3 AFTER ?E9))
+		(!W7 (?P4 AFTER ?E9))
+	)
+)

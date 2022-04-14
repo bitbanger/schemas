@@ -1,0 +1,62 @@
+seeing_a_movie
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?A PERSON.N))
+		(!R2 (?B MOVIE.N))
+		(!R3 (?G FILM.N))
+		(!R4 (?I INFORMATION.N))
+		(!R5 (?P NOISE.N))
+	)
+
+	(:Steps
+		(?E1 (?A SEE_PROTO.V ?G))
+		(?E2 (?A CRY_PROTO.V ?P))
+		(?E3 (?A SEE_PROTO.V ?B))
+		(?E4 (?A WATCH_PROTO.V ?B))
+		(?E5 (?A LIKE_PROTO.V ?B))
+	)
+
+	(:Goals
+		(?G1 (?A (WANT.V (THAT (?A (KNOW.V ?I))))))
+	)
+
+	(:Preconds
+		(?I1 (?A (AT.P ?G)))
+		(?I2 (?G (AT.P ?G)))
+		(?I3 (?G (NEAR.P ?A)))
+		(?I4 (?A (AT.P ?G)))
+		(?I5 (?B (AT.P ?G)))
+		(?I6 (?B (NEAR.P ?A)))
+		(?I7 (?A (CAN.MD (SEE.V ?B))))
+	)
+
+	(:Postconds
+		(?P1 (?A (KNOW.V (THAT (?G (AT.P ?G))))))
+		(?P2 (?A (KNOW.V (THAT (?G (NEAR.P ?A))))))
+		(?P3 (?G (NEAR.P ?A)))
+		(?P4 (?A (KNOW.V (THAT (?B (AT.P ?G))))))
+		(?P5 (?A (KNOW.V (THAT (?B (NEAR.P ?A))))))
+		(?P6 (?B (NEAR.P ?A)))
+		(?P7 (?B (KNOW.V ?I)))
+		(?P8 (?A (WANT.V (KA (POSSESS.V ?B)))))
+	)
+
+	(:Episode-relations
+		(!W1 (?I1 BEFORE ?E1))
+		(!W2 (?I2 BEFORE ?E1))
+		(!W3 (?I3 BEFORE ?E1))
+		(!W4 (?P1 AFTER ?E1))
+		(!W5 (?P2 AFTER ?E1))
+		(!W6 (?P3 AFTER ?E1))
+		(!W7 (?I4 BEFORE ?E3))
+		(!W8 (?I5 BEFORE ?E3))
+		(!W9 (?I6 BEFORE ?E3))
+		(!W10 (?P4 AFTER ?E3))
+		(!W11 (?P5 AFTER ?E3))
+		(!W12 (?P6 AFTER ?E3))
+		(!W13 (?G1 CAUSE.V ?E4))
+		(!W14 (?I7 BEFORE ?E4))
+		(!W15 (?P7 AFTER ?E4))
+		(!W16 (?P8 AFTER ?E5))
+	)
+)

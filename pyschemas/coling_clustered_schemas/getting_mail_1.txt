@@ -1,0 +1,62 @@
+getting_mail
+(epi-schema ((?x new_schema.v) ** ?e)
+	(:Roles
+		(!R1 (?C MAIL_CARRIER.N))
+		(!R2 (?B PERSON.N))
+		(!R3 (?C PERSON.N))
+		(!R4 (?C MAILING.N))
+		(!R5 (?F LETTER.N))
+		(!R6 (?G HOUSE.N))
+		(!R7 (?H ENTITY.N))
+		(!R8 (?L1 LOCATION.N))
+		(!R9 (?W FURNITURE.N))
+		(!R10 (?Y CURRENCY.N))
+		(!R11 (?Z BELL.N))
+	)
+
+	(:Steps
+		(?E1 (?C PUT_PROTO.V ?F ?W))
+		(?E2 (?C SEND.V ?Y))
+		(?E3 (?C BRING_PROTO.V ?F ?B))
+		(?E4 (?C RING.V ?Z))
+		(?E5 (?C ((ADV-A (FROM.P ?H)) COME_PROTO.V) ?G))
+	)
+
+	(:Goals
+		(?G1 (?C (WANT.V (THAT (?F (AT.P ?W))))))
+		(?G2 (?C (WANT.V (THAT (?F ((ADV-A (AT.P ?B)) BE.V))))))
+		(?G3 (?C (WANT.V (KA ((ADV-A (AT.P ?G)) BE.V)))))
+	)
+
+	(:Preconds
+		(?I1 (?C (POSSESS.V ?F)))
+		(?I2 (?F (NOT (AT.P ?W))))
+		(?I3 (?F ((ADV-A (AT.P ?L1)) BE.V)))
+		(?I4 (?C (POSSESS.V ?F)))
+		(?I5 (?C (AT.P ?H)))
+		(?I6 (NOT (?C (AT.P ?G))))
+	)
+
+	(:Postconds
+		(?P1 (?F (AT.P ?W)))
+		(?P2 (?F ((ADV-A (AT.P ?B)) BE.V)))
+		(?P3 (NOT (?C (AT.P ?H))))
+		(?P4 (?C (AT.P ?G)))
+	)
+
+	(:Episode-relations
+		(!W1 (?G1 CAUSE.V ?E1))
+		(!W2 (?I1 BEFORE ?E1))
+		(!W3 (?I2 BEFORE ?E1))
+		(!W4 (?P1 AFTER ?E1))
+		(!W5 (?G2 CAUSE.V ?E3))
+		(!W6 (?I3 BEFORE ?E3))
+		(!W7 (?I4 BEFORE ?E3))
+		(!W8 (?P2 AFTER ?E3))
+		(!W9 (?G3 CAUSE.V ?E5))
+		(!W10 (?I5 BEFORE ?E5))
+		(!W11 (?I6 BEFORE ?E5))
+		(!W12 (?P3 AFTER ?E5))
+		(!W13 (?P4 AFTER ?E5))
+	)
+)

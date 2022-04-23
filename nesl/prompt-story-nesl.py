@@ -16,7 +16,8 @@ from collections import defaultdict
 # TEMP = 0.3
 TEMP = 0.4
 
-NUM_STORIES = 20
+NUM_STORIES = 18
+CHUNK_SIZE = 10
 
 lome_client = xmlrpc.client.ServerProxy('http://localhost:8040')
 
@@ -126,6 +127,7 @@ def loop_gen(prompt, total_num=15, chunk_size=5):
 				continue
 		need_to_make = total_num - num_already
 		if need_to_make <= 0:
+			print('\tdone')
 			break
 		print('made %d out of %d' % (num_already, total_num))
 
@@ -136,7 +138,8 @@ def loop_gen(prompt, total_num=15, chunk_size=5):
 	# loop_gen(prompt, total_num=NUM_STORIES, chunk_size=10)
 
 prompt = sys.argv[1].replace('_', ' ')
-loop_gen(prompt, total_num=NUM_STORIES, chunk_size=10)
+print('making schema for %s' % prompt)
+loop_gen(prompt, total_num=NUM_STORIES, chunk_size=CHUNK_SIZE)
 
 '''
 # Append all of the new extracted schemas to nesl-compos.txt, then

@@ -20,6 +20,10 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args
 
+# DIR = 'tmp-with-protos'
+DIR = 'howto-protos'
+
+MAX_SAMPLES = 15
 FREQ_THRESHOLD = 4
 OPTION_FREQ = 0.5
 
@@ -76,11 +80,15 @@ print(schema_prompt)
 
 schemas = []
 schema_proto_maps = []
-for f in os.listdir('tmp-with-protos/'):
+num_samples = 0
+for f in os.listdir(DIR + '/'):
 	if len(f) <= len(schema_prompt) or f[:len(schema_prompt)] != schema_prompt:
 		continue
+	if num_samples >= MAX_SAMPLES:
+		break
+	num_samples += 1
 	# schemas.append(schema_from_file('tmp-standalones/%s' % f))
-	(compo, proto_pairs) = schema_and_protos_from_file('tmp-with-protos/%s' % f)
+	(compo, proto_pairs) = schema_and_protos_from_file('%s/%s' % (DIR, f))
 	schemas.append(compo)
 
 	proto_map = dict()
@@ -901,6 +909,10 @@ if FLOAT_UP_PROTO_FORMULAS:
 		if len(pfrc) == 2 and type(pfrc[1]) == str:
 			var = pfrc[0][1:]
 			noun = pfrc[1].split('.')[0]
+			if type(var) == list:
+				print('var is %s' % var)
+				print('pfrc is %s' % pfrc)
+				quit()
 			if (not has_banned_role_type) or (not constrained) or (noun in var_options[var]):
 				new_schema.get_section('roles').add_formula(pfrc)
 				var_options[var].append(noun)

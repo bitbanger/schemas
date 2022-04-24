@@ -10,6 +10,51 @@ server = xmlrpc.client.ServerProxy('http://localhost:8000')
 
 tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
 
+HOWTO_PROMPT = r'''
+Events that are likely to occur in a "going to the library" situation:
+
+The person goes to the library.
+The person wants to find a book.
+The person searches for the book.
+The person asks the librarian where the book is.
+The person finds the book.
+The person reads the book.
+The person takes the book home.
+The person returns the book to the library.
+
+--------
+Events that are likely to occur in a "going fishing" situation:
+
+The person is on a boat.
+The person is at a body of water.
+The person has a rod.
+The person catches fish with the rod.
+The person cleans the fish.
+The person eats the fish.
+
+--------
+Events that are likely to occur in a "washing clothes" situation:
+
+The person puts their clothes in a washing machine.
+The person puts detergent in the washing machine.
+The person turns the washing machine on.
+The person takes the clothes out of the washing machine.
+The person dries their clothes.
+
+--------
+Events that are likely to occur in a "going to school" situation:
+
+A child goes to school.
+A teacher teaches the child a lesson.
+The teacher gives the child homework.
+The child eats lunch.
+The child learns something.
+The child plays with their friends.
+The child goes home.
+
+--------
+Events that are likely to occur in a "%s" situation:'''
+
 PROMPT = r'''Story:
 
 Tom loved playing baseball.
@@ -209,8 +254,10 @@ The teacher gave him a good grade.
 
 Stories about %s:'''
 
-def make_topical_stories(topic, rep_pen=1.1, temp=0.3, resp_length=128):
+def make_topical_stories(topic, rep_pen=1.1, temp=0.3, resp_length=128, howto=False):
 	prompt = TOPIC_PROMPT % topic.strip()
+	if howto:
+		prompt = HOWTO_PROMPT % topic.strip()
 
 	input_ids = tokenizer(prompt, return_tensors='pt').input_ids
 
@@ -287,6 +334,6 @@ if __name__ == '__main__':
 			(new_story, topic) = make_similar_story(story, rep_pen=args.rep_pen, temp=args.temp, resp_length=args.resp_length, return_topic=True)
 			print(new_story, flush=True)
 		else:
-			stories = make_topical_stories(args.topic, rep_pen=args.rep_pen, temp=args.temp, resp_length=args.resp_length)
+			stories = make_topical_stories(args.topic, rep_pen=args.rep_pen, temp=args.temp, resp_length=args.resp_length, howto=True)
 			print(stories[0], flush=True)
 			

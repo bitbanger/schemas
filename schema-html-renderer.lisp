@@ -10,8 +10,14 @@
 
 ; (format t " --- !>~%")
 
-(defparameter *USE-GPT* nil)
-; (defparameter *USE-GPT* t)
+; (defparameter *USE-GPT* nil)
+(defparameter *USE-GPT* t)
+
+(defparameter *ALLOWED-SECTIONS* '(
+	:Roles
+	:Steps
+	:Goals
+))
 
 (defparameter *SCHEMA-WEBPAGE-TEMPLATE* (join-str-list *NEWLINE-STR* '(
 "<html>"
@@ -243,15 +249,24 @@
 	(setf verbal-steps (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
 		if (and (listp sec) (equal (car sec) 'STEPS.))
 			collect sec)))))
-	(setf verbal-goals (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
-		if (and (listp sec) (equal (car sec) 'GOALS.))
-			collect sec)))))
-	(setf verbal-preconds (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
-		if (and (listp sec) (equal (car sec) 'PRECONDS.))
-			collect sec)))))
-	(setf verbal-postconds (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
-		if (and (listp sec) (equal (car sec) 'EFFECTS.))
-			collect sec)))))
+	(setf verbal-goals nil)
+	(handler-case
+		(setf verbal-goals (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+			if (and (listp sec) (equal (car sec) 'GOALS.))
+				collect sec)))))
+		(error () nil))
+	(setf verbal-preconds nil)
+	(handler-case
+		(setf verbal-preconds (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+			if (and (listp sec) (equal (car sec) 'PRECONDS.))
+				collect sec)))))
+		(error () nil))
+	(setf verbal-preconds nil)
+	(handler-case
+		(setf verbal-postconds (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+			if (and (listp sec) (equal (car sec) 'EFFECTS.))
+				collect sec)))))
+		(error () nil))
 
 	;(setf verbal-roles (cddr (car (loop for sec in (verbalize-schema schema)
 		;if (and (listp sec) (equal (car sec) 'ADDITIONAL) (equal (second sec) 'ROLES.))
@@ -275,9 +290,11 @@
 	(setf buf (append buf (list
 		(format nil "<span class='fluent-id'>~a</span>" (third (schema-header schema))))))
 
-	(loop for sec in (nonmeta-sections schema) do (block sec
+	(loop for sec in (nonmeta-sections schema) do (block sec-block
+		(if (not (contains *ALLOWED-SECTIONS* (section-name sec)))
+			(return-from sec-block))
 		(if (equal (section-name sec) ':Episode-relations)
-			(return-from sec))
+			(return-from sec-block))
 
 		(setf fluent (equal (section-type sec) 'FLUENT))
 		(setf css-class (if fluent "fluent-id" "nonfluent-id"))
@@ -289,28 +306,28 @@
 				;(format nil "<p style='margin-left: 80px;'><span class='~a'>~a</span>" css-class (car phi-pair)))))
 
 			; Add the verbalization
-			(if (equal (section-name sec) ':Steps)
+			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Steps))
 				(setf buf (append buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*
 						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
 						(nth i verbal-steps))
 					)))))
-			(if (equal (section-name sec) ':Goals)
+			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Goals))
 				(setf buf (append buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*
 						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-goals))))
 						(nth i verbal-goals))
 					)))))
-			(if (equal (section-name sec) ':Preconds)
+			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Preconds))
 				(setf buf (append buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*
 						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-preconds))))
 						(nth i verbal-preconds))
 					)))))
-			(if (equal (section-name sec) ':Postconds)
+			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Postconds))
 				(setf buf (append buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*

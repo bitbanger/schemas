@@ -4,4 +4,8 @@
 
 (ll-load "schema-html-renderer.lisp")
 
-(format t "~a~%" (schema-webpage-html (read)))
+(setf sch (read))
+(if (equal (car sch) 'EPI-SCHEMA)
+	(setf sch (list sch)))
+
+(format t "~a~%" (schema-webpage-html sch))

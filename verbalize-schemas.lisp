@@ -1300,16 +1300,78 @@
 )
 )
 
+(defun verbalize-goals (schema)
+(block outer
+	(setf verbal-steps (mapcar #'cdr (cdr (car (loop for sec in (verbalize-schema schema)
+		if (and (listp sec) (equal (car sec) 'GOALS.))
+			collect sec)))))
+
+	(return-from outer verbal-steps)
+)
+)
+
 (defun stringify-verbalization (verbalization)
 	(join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) verbalization))
 )
 
+(defun gpt-verbalize-schema (schema)
+(block outer
+	(setf len-vb (verbalize-schema schema))
+
+	(setf gpt-vbs (list))
+
+	(loop for sec-name in '(STEPS. GOALS. PRECONDS. POSTCONDS.)
+	do (block inner
+		(setf verbal-forms (mapcar #'cdr (cdr (car (loop for sec in len-vb
+			if (and (listp sec) (equal (car sec) sec-name))
+				collect sec)))))
+
+		(setf this-sec-gpt-vbs
+			(mapcar #'gpt-reverbalize
+				(mapcar #'stringify-verbalization verbal-forms)))
+
+		(setf gpt-vbs (append gpt-vbs (list (list sec-name this-sec-gpt-vbs))))
+	)
+	)
+
+	(return-from outer gpt-vbs)
+)
+)
+
 (defun gpt-reverbalize (verbalized-sent)
-	(car (run-proc-with-stdin "/home/lane/miniconda3/bin/python"
+(block outer
+	(setf res (car (run-proc-with-stdin "/home/lane/miniconda3/bin/python"
 		(list "/home/lane/Code/schemas/gpt-reverbalizer.py" verbalized-sent)
-		nil))
+		nil)))
+
+	(setf res (car (split-str res "<|endoftext|>")))
+
+	(return-from outer res)
+)
 )
 
 (defun gpt-verbalize-steps (schema)
-	(mapcar #'gpt-reverbalize (mapcar #'stringify-verbalization (verbalize-steps schema)))
+	(loop for st in (mapcar #'gpt-reverbalize (mapcar #'stringify-verbalization (verbalize-steps schema)))
+		for ep-name in (mapcar #'car (section-formulas (get-section schema ':Steps)))
+			collect (list ep-name st))
+)
+
+(defun gpt-verbalize-goals (schema)
+(block outer
+	(setf goals (loop for goal in (mapcar #'gpt-reverbalize (mapcar #'stringify-verbalization (verbalize-goals schema)))
+		for ep-name in (mapcar #'car (section-formulas (get-section schema ':Goals)))
+			collect (list ep-name goal)))
+
+	(setf new-goals (list))
+	(loop for g in goals do (block inner
+		(setf ep-rels (loop for ep-rel in (section-formulas (get-section schema ':Episode-relations))
+			if (equal (car (second ep-rel)) (car g))
+				collect (list (third (second ep-rel)) (second g))))
+		(if (equal (length ep-rels) 0)
+			(return-from inner))
+		(setf new-goals (append new-goals (list (car ep-rels))))
+	))
+
+	(return-from outer new-goals)
+)
 )

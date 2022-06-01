@@ -4,10 +4,12 @@ from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2-large')
 model = AutoModelForCausalLM.from_pretrained('./gpt-reverbalizer-model').eval().to('cuda:0')
 
+TEMP = 0
+
 def reverbalize(s):
 	inp = tokenizer(s + ' <SEP>', return_tensors='pt').input_ids.to('cuda:0')
 
-	outp = tokenizer.batch_decode(model.generate(inp, max_length=128, pad_token_id=50256))[0]
+	outp = tokenizer.batch_decode(model.generate(inp, max_length=128, pad_token_id=50256, temp=TEMP))[0]
 
 	outp = outp.split('<END>')[0]
 	outp = outp.split('<SEP>')[1]

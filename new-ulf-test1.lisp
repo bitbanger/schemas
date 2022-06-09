@@ -15,11 +15,11 @@
 
 (defparameter *PRINT-OUTPUT* t)
 
-(defparameter *USE-DEBUG-STORIES* t)
+(defparameter *USE-DEBUG-STORIES* nil)
 
 (defparameter *SHUFFLE-STORIES* t)
 
-(defparameter *HANDLE-ERRORS* nil)
+(defparameter *HANDLE-ERRORS* t)
 
 (defparameter *PRINT-VALID-SENTS* t)
 
@@ -27,8 +27,9 @@
 
 (defparameter *FILTER-INVISIBLE-PREDS* t)
 
-(defparameter *STORY-START* 0)
-(defparameter *STORY-LIMIT* 150)
+(defparameter *STORY-START* 151)
+(defparameter *STORY-LIMIT* 50)
+; (defparameter *STORY-LIMIT* 3)
 
 ; (setf stories *MCGUFFEY*)
 ; (setf stories *ROC*)
@@ -58,6 +59,8 @@
 (if (not (null *STORY-LIMIT*))
 	(setf stories (subseq stories *STORY-START* (min (length stories) (+ *STORY-START* *STORY-LIMIT*))))
 )
+
+(format t "~s~%" (length stories))
 
 (ldefun invisible? (wff)
 (let ((pred (prop-pred wff)))

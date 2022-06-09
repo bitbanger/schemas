@@ -82,7 +82,7 @@ def gen(prompt, num):
 	i = 0
 	# get the biggest standalone schema number and start there
 	standalone_nums = []
-	for f in os.listdir('howto-standalones/'):
+	for f in os.listdir('emnlp-howto-standalones/'):
 		try:
 			if len(f) <= len(us_prompt) or f[:len(us_prompt)] != us_prompt:
 				continue
@@ -97,9 +97,9 @@ def gen(prompt, num):
 		if len(compo.strip()) < 10:
 			continue
 		standalone_txts.append('(%s)' % compo)
-		with open('howto-standalones/%s_%d.txt' % ('_'.join(prompt.split(' ')), i), 'w') as f:
+		with open('emnlp-howto-standalones/%s_%d.txt' % ('_'.join(prompt.split(' ')), i), 'w') as f:
 			f.write('(%s)' % compo)
-		with open('howto-protos/%s_%d.txt' % ('_'.join(prompt.split(' ')), i), 'w') as f:
+		with open('emnlp-howto-protos/%s_%d.txt' % ('_'.join(prompt.split(' ')), i), 'w') as f:
 			f.write('(%s (' % compo)
 			for proto in protos:
 				f.write('%s' % proto)
@@ -118,7 +118,7 @@ def loop_gen(prompt, total_num=15, chunk_size=5):
 	while True:
 		# Find out how many stories we need to generate
 		num_already = 0
-		for f in os.listdir('howto-standalones/'):
+		for f in os.listdir('emnlp-howto-standalones/'):
 			try:
 				if len(f) <= len(us_prompt) or f[:len(us_prompt)] != us_prompt:
 					continue

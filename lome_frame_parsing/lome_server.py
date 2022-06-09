@@ -27,6 +27,7 @@ ORIG_DIR = 'lome-server-orig'
 
 class LOMEParser:
 	def __init__(self):
+		self.current_stories = None
 		self.frame_lispifier = lispify_comm_frames.FrameLispifier()
 
 	def clear_dirs(self):
@@ -63,7 +64,20 @@ class LOMEParser:
 		with open(tok_filename, 'w') as f:
 			f.write(self.tokenize_story(story))
 
-	def lispify_frames(self, stories):
+	def load_new_stories(self, stories):
+		if stories == self.current_stories:
+			return
+		self.current_stories = stories
+
+		self.clear_dirs()
+		for i in range(len(stories)):
+			self.write_story(stories[i], i)
+
+		self.run_lome()
+
+	def get_comm_files(self, stories):
+		self.load_new_stories(stories)
+
 		comms = []
 		orig_txts = stories
 
@@ -72,16 +86,14 @@ class LOMEParser:
 
 		pairs = [(comms[i], orig_txts[i]) for i in range(len(comms))]
 
+		return pairs
+
+	def lispify_frames(self, stories):
+		pairs = self.get_comm_files(stories)
+
 		return self.frame_lispifier.lispify_multiple_frames(pairs)
 
 	def parse_story_frames(self, stories):
-		self.clear_dirs()
-
-		for i in range(len(stories)):
-			self.write_story(stories[i], i)
-
-		self.run_lome()
-
 		lisp = self.lispify_frames(stories)
 
 		return lisp
@@ -93,11 +105,15 @@ if __name__ == '__main__':
 	with SimpleXMLRPCServer(('localhost', 8040), requestHandler=RequestHandler) as server:
 		lome_parser = LOMEParser()
 
+		def get_comm_files(stories):
+			return lome_parser.get_comm_files(stories)
+
 		def parse_story_frames(stories):
 			return lome_parser.parse_story_frames(stories)
 
 		server.register_introspection_functions()
 
+		server.register_function(get_comm_files)
 		server.register_function(parse_story_frames)
 
 		print('LOME server started')

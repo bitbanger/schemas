@@ -316,7 +316,7 @@ def grounded_schema_prop_to_vec(gr_prop):
 	if len(post_vecs) == 1:
 		post_vecs.append(numpy.zeros(300))
 
-	print('veccing up %s, %s, %s' % (pre, verb, posts))
+	# print('veccing up %s, %s, %s' % (pre, verb, posts))
 
 	return numpy.concatenate([pre_vec, verb_vec] + post_vecs)
 

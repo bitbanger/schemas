@@ -9,7 +9,7 @@ from scipy.spatial.distance import cosine
 from sexpr import list_to_s_expr, parse_s_expr
 from similar_stories import make_topical_stories
 
-TOPIC = 'farming'
+TOPIC = 'casino'
 
 '''
 John loved to farm.
@@ -97,6 +97,42 @@ def get_step(schema, step_id):
 			return steps[j]
 	return None
 
+def k_best_steps(gr_step, k=3):
+	in_vec = grounded_schema_prop_to_vec(gr_step)
+
+	score_pairs = []
+	for i in range(len(schema_names)):
+		schema_name = schema_names[i]
+		schema = schemas[i]
+		step_ids_and_vecs = schema_name_to_steps[schema_name]
+		for (step_id, step_vec) in step_ids_and_vecs:
+			step = get_step(schema, step_id)
+			schema_gr_step = grounded_schema_prop(step.formula.formula, schema)
+	
+			# The distance between PERSON and a more
+			# specialized subject noun can throw things
+			# off a lot, so if we don't have a parsed specialized
+			# type, we'll ignore the subject noun.
+			score = None
+			if gr_step[0] == ['PERSON'] and schema_gr_step[0] != ['PERSON']:
+				score = cosine(in_vec[300:], step_vec[300:])
+			else:
+				# score = cosine(in_vec, step_vec)
+				score = cosine(in_vec[300:], step_vec[300:])
+			# print('score for %s and %s is %.2f' % (gr_step, (schema_name, schema_gr_step), score))
+			score_pairs.append(((score, schema, step_id, step, schema_name), score))
+
+	score_pairs = sorted(score_pairs, key=lambda x: x[1])
+	score_pairs = score_pairs[:k]
+	return_pairs = []
+	for (tup, score) in score_pairs:
+		new_tup = (tup[-1], tup[2], grounded_schema_prop(tup[-2].formula.formula, tup[1]))
+		return_pairs.append((new_tup, score))
+
+	return return_pairs
+
+	# return (best_schema_name, best_step_id, grounded_schema_prop(best_step.formula.formula, best_schema))
+
 # find_best_step returns the schema and step with the closest
 # match to a grounded input step
 def find_best_step(gr_step):
@@ -157,7 +193,7 @@ for f in formulas:
 	else:
 		skip_outer = False
 		for e in f.formula:
-			if type(e) == list:
+			if type(e) == list and e[0] not in ['PLUR', 'K', 'KA']:
 				skip_outer = True
 				break
 		if skip_outer:
@@ -189,7 +225,10 @@ for i in range(len(episodes)):
 	# gr_ep = [['PERSON'], 'HARVEST', ['CORN']]
 	print('gr_ep is %s' % (gr_ep,))
 	# vec = grounded_schema_prop_to_vec(gr_ep)
-	best_step = find_best_step(gr_ep)
+	# best_step = find_best_step(gr_ep)
+	best_steps = k_best_steps(gr_ep, k=5)
 	print(orig_ep)
-	print('\t%s' % (best_step,))
+	for best_step in best_steps:
+		print('\t%.2f: %s' % (best_step[1], best_step[0]))
+	# print('\t%s' % (best_step,))
 	# quit()

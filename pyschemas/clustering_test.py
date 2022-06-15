@@ -20,8 +20,8 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args, remove_advs, flatten_prop
 
-DIR = 'tmp-with-protos'
-# DIR = 'emnlp-howto-protos'
+# DIR = 'tmp-with-protos'
+DIR = 'emnlp-howto-protos'
 
 MAX_SAMPLES = 15
 FREQ_THRESHOLD = 4
@@ -61,6 +61,7 @@ print(schema_prompt)
 
 schemas = []
 schema_proto_maps = []
+schema_proto_name_maps = []
 num_samples = 0
 for f in os.listdir(DIR + '/'):
 	if len(f) <= len(schema_prompt) or f[:len(schema_prompt)] != schema_prompt:
@@ -73,12 +74,15 @@ for f in os.listdir(DIR + '/'):
 	schemas.append(compo)
 
 	proto_map = dict()
+	proto_name_map = dict()
 	for proto_pair in proto_pairs:
 		(orig_proto_name, proto) = proto_pair
 		# print('orig: %s' % orig_proto_name)
 		proto_verb = verb_pred(proto.header_formula)
 		proto_map[proto_verb] = proto
+		proto_name_map[proto_verb] = orig_proto_name
 	schema_proto_maps.append(proto_map)
+	schema_proto_name_maps.append(proto_name_map)
 
 '''
 schemas = []
@@ -723,10 +727,12 @@ for i in range(len(new_step_strings)):
 		vp = verb_pred(ungr_steps[inst_idx])
 		if vp in schema_proto_maps[schema_idx]:
 			ns1_verb = ns[1]
+			orig_proto_name = None
 			if type(ns[1]) == list:
 				ns1_verb = rec_get_pred(ns[1], lambda x: type(x) == str and x.split('.')[-1] == 'V')[0]
 			if ADD_PROTO_TAGS and 'PROTO' not in ns1_verb:
 				proto = schema_proto_maps[schema_idx][vp]
+				orig_proto_name = schema_proto_name_maps[schema_idx][vp]
 
 				proto_header = proto.header_formula
 
@@ -780,6 +786,10 @@ for i in range(len(new_step_strings)):
 				if type(ns_verb) == list:
 					ns_verb_list = ns_verb[::]
 					ns_verb = rec_get_pred(ns[1], pred=lambda x: type(x) == str and x.split('.')[-1] == 'V')[0]
+				if ns_verb_list is not None:
+					ns_verb_list = rec_replace(ns_verb, orig_proto_name, ns_verb_list)
+				ns_verb = orig_proto_name
+				# print('set %s to %s' % (ns_verb, orig_proto_name))
 				ns_verb_no_tag = ns_verb.split('.')[0]
 				new_verb_name = '%s_PROTO.V' % (ns_verb_no_tag)
 

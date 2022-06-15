@@ -33,6 +33,9 @@ def strip_advs(prop):
 	else:
 		return prop
 
+def is_starry(prop):
+	return (len(prop) == 3) and (prop[1] == '**')
+
 def pre_arg(prop):
 	stripped = strip_advs(prop)
 	if stripped != prop:
@@ -80,3 +83,64 @@ def post_args(prop):
 		args = args + prop[2:]
 
 	return [arg for arg in args if not is_verb(arg)]
+
+def has_suff(e, suff):
+	if type(e) == str and len(e) > len(suff)+1 and len(e.split('.')) > 1 and len(e.split('.')[-1]) >= len(suff) and e.split('.')[-1][:len(suff)].lower() == suff.lower():
+		return True
+	else:
+		return False
+
+def remove_advs(l):
+	if not type(l) == list:
+		return l
+
+	new_l = []
+	for e in l:
+		if is_adv(e):
+			continue
+		elif type(e) == list:
+			new_l.append(remove_advs(e))
+		else:
+			new_l.append(e)
+
+	# if len(new_l) == 1 and type(new_l[0]) == list:
+	if len(new_l) == 1:
+		return new_l[0]
+
+	return new_l
+
+def flatten_prop(step):
+	if type(step) == list and len(step) == 1 and type(step[0]) == list:
+		return flatten_prop(step[0])
+
+	step = remove_advs(step)
+
+	pre_arg = step[0]
+	vp = remove_advs(step[1])
+	posts = step[2:]
+
+	verb_posts = []
+	verb_pred = None
+	if type(vp) == str:
+		verb_pred = vp
+	elif type(vp) == list:
+		for e in vp:
+			if has_suff(e, 'v'):
+				verb_pred = e
+			elif type(e) == list:
+				got_verb_pred = False
+				for e2 in e:
+					if has_suff(e2, 'v'):
+						got_verb_pred = True
+						verb_pred = e2
+				if not got_verb_pred:
+					verb_posts.append(e)
+			else:
+				verb_posts.append(e)
+
+	if verb_pred is None:
+		return None
+
+	verb_pred = verb_pred.split('.')[0]
+
+	return [pre_arg, verb_pred] + verb_posts + posts

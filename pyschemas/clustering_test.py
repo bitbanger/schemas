@@ -11,17 +11,17 @@ from collections import defaultdict
 from functools import cmp_to_key
 
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
-from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, has_suff, rec_get_pred
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, rec_get_pred
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
 
 from sklearn.cluster import KMeans
 from sklearn.metrics import calinski_harabasz_score as ch_score
 
-from el_expr import pre_arg, verb_pred, post_args
+from el_expr import pre_arg, verb_pred, post_args, remove_advs, flatten_prop
 
-# DIR = 'tmp-with-protos'
-DIR = 'emnlp-howto-protos'
+DIR = 'tmp-with-protos'
+# DIR = 'emnlp-howto-protos'
 
 MAX_SAMPLES = 15
 FREQ_THRESHOLD = 4
@@ -42,25 +42,6 @@ BANNED_ROLE_TYPES = {
 	'OBJECT',
 	'AGENT'
 }
-
-def remove_advs(l):
-	if not type(l) == list:
-		return l
-
-	new_l = []
-	for e in l:
-		if is_adv(e):
-			continue
-		elif type(e) == list:
-			new_l.append(remove_advs(e))
-		else:
-			new_l.append(e)
-
-	# if len(new_l) == 1 and type(new_l[0]) == list:
-	if len(new_l) == 1:
-		return new_l[0]
-
-	return new_l
 
 def rec_contains(lst, val):
 	for e in lst:
@@ -300,42 +281,6 @@ multigraph = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: default
 # happened before B in that schema.
 temporal_multigraph = defaultdict(lambda: defaultdict(set))
 
-def flatten_schema_step(step):
-	if type(step) == list and len(step) == 1 and type(step[0]) == list:
-		return flatten_schema_step(step[0])
-
-	step = remove_advs(step)
-
-	pre_arg = step[0]
-	vp = remove_advs(step[1])
-	posts = step[2:]
-
-	verb_posts = []
-	verb_pred = None
-	if type(vp) == str:
-		verb_pred = vp
-	elif type(vp) == list:
-		for e in vp:
-			if has_suff(e, 'v'):
-				verb_pred = e
-			elif type(e) == list:
-				got_verb_pred = False
-				for e2 in e:
-					if has_suff(e2, 'v'):
-						got_verb_pred = True
-						verb_pred = e2
-				if not got_verb_pred:
-					verb_posts.append(e)
-			else:
-				verb_posts.append(e)
-
-	if verb_pred is None:
-		return None
-
-	verb_pred = verb_pred.split('.')[0]
-
-	return [pre_arg, verb_pred] + verb_posts + posts
-
 # Loop over each schema, then each pair of steps,
 # then each pair of arguments.
 edges = set()
@@ -373,7 +318,7 @@ for schema_id in range(len(schemas)):
 			continue
 
 		# If the step is malformed, we'll ignore it.
-		step1 = flatten_schema_step(steps[step1_idx].formula.formula)
+		step1 = flatten_prop(steps[step1_idx].formula.formula)
 		if step1 is None:
 			continue
 
@@ -390,7 +335,7 @@ for schema_id in range(len(schemas)):
 				continue
 
 			# If the step is malformed, we'll ignore it.
-			step2 = flatten_schema_step(steps[step2_idx].formula.formula)
+			step2 = flatten_prop(steps[step2_idx].formula.formula)
 			if step2 is None:
 				continue
 
@@ -419,7 +364,7 @@ for schema_id in range(len(schemas)):
 	for i in range(len(steps)):
 		if i not in step_idcs_to_gen_idcs.keys():
 			continue
-		step1 = flatten_schema_step(steps[i].formula.formula)
+		step1 = flatten_prop(steps[i].formula.formula)
 		if step1 is None:
 			continue
 		step1_idx = schema_step_ids_to_step_idcs[schema_id][steps[i].episode_id]
@@ -429,7 +374,7 @@ for schema_id in range(len(schemas)):
 		for j in range(len(steps)):
 			if j not in step_idcs_to_gen_idcs.keys():
 				continue
-			step2 = flatten_schema_step(steps[j].formula.formula)
+			step2 = flatten_prop(steps[j].formula.formula)
 			if step2 is None:
 				continue
 			step2_idx = schema_step_ids_to_step_idcs[schema_id][steps[j].episode_id]
@@ -670,6 +615,8 @@ for new_step_id in range(len(new_steps)):
 	new_step_str = ''
 	# new_step_str = new_step_str + '(?E%d (' % (new_step_id+1)
 	new_step_str = new_step_str + '('
+	if len(gen_steps[new_step_id][2]) < FREQ_THRESHOLD:
+		print('removing gen step %s' % (gen_steps[new_step_id]))
 	for arg_idx in range(len(new_step)):
 		if arg_idx > 0:
 			new_step_str = new_step_str + ' '
@@ -752,7 +699,7 @@ for i in range(len(new_step_strings)):
 				prep = adv[1][0].split('.')[0]
 				if len(adv_var) == 1:
 					adv_var = adv_var[0]
-					flat_inst = flatten_schema_step(ungr_steps[inst_idx])
+					flat_inst = flatten_prop(ungr_steps[inst_idx])
 					if len(flat_inst) < 5 and adv_var == flat_inst[-1]:
 						nss_list = parse_s_expr(nss)
 						prep_var = nss_list[-1]
@@ -926,6 +873,24 @@ for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
 	for formula in new_schema.get_section('roles').formulas:
 		if rec_contains(formula.formula.formula, var) and len(formula.formula.formula) == 2 and type(formula.formula.formula[1]) == str:
 			final_var_to_role_map[var].add(formula.formula.formula[1])
+
+
+
+# TEST: print out steps that don't have gen clusters
+for i in range(len(schemas)):
+	schema = schemas[i]
+	steps = schema.get_section('steps').formulas
+	for j in range(len(steps)):
+		step = steps[j].formula.formula
+		step_idx = schema_step_ids_to_step_idcs[i][steps[j].episode_id]
+		if step_idx in step_idcs_to_gen_idcs:
+			# print('%d: %d' % (step_idx, step_idcs_to_gen_idcs[step_idx]))
+			pass
+		else:
+			print('cut step %d' % step_idx)
+			print('\t%s' % (gr_steps[step_idx]))
+
+
 
 # Use GPT-J to find generalizations for the sampled argument types
 var_gen_types = defaultdict(lambda: 'entity')

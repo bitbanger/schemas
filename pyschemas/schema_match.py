@@ -61,12 +61,6 @@ def rec_get_pred(lst, pred=lambda x: False, dismiss_pred=lambda x: False):
 
 	return ret_lst
 
-def has_suff(e, suff):
-	if type(e) == str and len(e) > len(suff)+1 and len(e.split('.')) > 1 and len(e.split('.')[-1]) >= len(suff) and e.split('.')[-1][:len(suff)].lower() == suff.lower():
-		return True
-	else:
-		return False
-
 def is_adv(e):
 	if has_suff(e, 'adv'):
 		return True
@@ -156,18 +150,32 @@ def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 	verb = prop[1]
 	flat_verb = []
 	got_verb = False
-	for x in verb:
-		if type(x) == str and x[-2:].upper() == ".V":
-			got_verb = True
-		if got_verb:
-			flat_verb.append(x)
-	verb = flat_verb
+	print('verb is %s' % (verb,))
+	if type(verb) == list:
+		for x in verb:
+			if type(x) == str and x[-2:].upper() == ".V":
+				got_verb = True
+			if got_verb:
+				flat_verb.append(x)
+		verb = flat_verb
+	else:
+		verb = [verb]
 
 	if type(verb) == list:
 		if len(verb) == 1:
+			print('len verb was 1')
+			print(prop)
 			prop = [prop[0], verb[0]] + prop[2:]
 		else:
+			print('len verb was not 1')
+			print(prop)
+			print(prop[0])
+			print(verb[0])
+			print(verb[1:])
+			print(prop[2:])
 			prop = [prop[0], verb[0]] + verb[1:] + prop[2:]
+
+	print('prop is currently %s' % (prop,))
 
 	inds = [prop[0]] + prop[2:]
 	inds = [x for x in inds if type(x) != list]
@@ -187,7 +195,10 @@ def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 
 	gr_prop = []
 	if prop[0] in inds:
-		gr_prop.append(list(roles[prop[0]]))
+		role_types = list(roles[prop[0]])
+		if len(role_types) == 0:
+			role_types.append('ENTITY')
+		gr_prop.append(role_types)
 	# print(prop[1])
 	if strip_dot_tags:
 		gr_prop.append(strip_tags(prop[1]))
@@ -195,7 +206,10 @@ def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 		gr_prop.append(prop[1])
 	for e in prop[2:]:
 		if e in inds:
-			gr_prop.append(list(roles[e]))
+			role_types = list(roles[e])
+			if len(role_types) == 0:
+				role_types.append('ENTITY')
+			gr_prop.append(role_types)
 
 	return gr_prop
 

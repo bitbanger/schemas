@@ -150,7 +150,7 @@ def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 	verb = prop[1]
 	flat_verb = []
 	got_verb = False
-	print('verb is %s' % (verb,))
+	# print('verb is %s' % (verb,))
 	if type(verb) == list:
 		for x in verb:
 			if type(x) == str and x[-2:].upper() == ".V":
@@ -163,19 +163,21 @@ def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 
 	if type(verb) == list:
 		if len(verb) == 1:
-			print('len verb was 1')
-			print(prop)
+			# print('len verb was 1')
+			# print(prop)
 			prop = [prop[0], verb[0]] + prop[2:]
 		else:
+			'''
 			print('len verb was not 1')
 			print(prop)
 			print(prop[0])
 			print(verb[0])
 			print(verb[1:])
 			print(prop[2:])
+			'''
 			prop = [prop[0], verb[0]] + verb[1:] + prop[2:]
 
-	print('prop is currently %s' % (prop,))
+	# print('prop is currently %s' % (prop,))
 
 	inds = [prop[0]] + prop[2:]
 	inds = [x for x in inds if type(x) != list]

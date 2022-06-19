@@ -46,6 +46,9 @@ def pre_arg(prop):
 def verb_from_pred(pred):
 	if is_verb(pred):
 		return pred
+	stripped = remove_advs(pred)
+	if stripped != pred:
+		return verb_from_pred(stripped)
 
 	for e in pred:
 		if is_verb(e):
@@ -54,14 +57,14 @@ def verb_from_pred(pred):
 			return verb_from_pred(e[1])
 
 def verb_pred(prop):
-	stripped = strip_advs(prop)
+	stripped = remove_advs(prop)
 	if stripped != prop:
 		return verb_pred(stripped)
 
 	return verb_from_pred(prop[1])
 
 def post_args(prop):
-	stripped = strip_advs(prop)
+	stripped = remove_advs(prop)
 	if stripped != prop:
 		return post_args(stripped)
 

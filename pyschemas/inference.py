@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 from collections import defaultdict
 from el_expr import is_starry, remove_advs, flatten_prop
@@ -9,7 +10,11 @@ from scipy.spatial.distance import cosine
 from sexpr import list_to_s_expr, parse_s_expr
 from similar_stories import make_topical_stories
 
-TOPIC = 'casino'
+# TOPICS = []
+# with open('/home/lane/Code/schemas/nesl/emnlp_topics.txt', 'r') as f:
+	# TOPICS = [' '.join(x.strip().split('_')) for x in f.read().strip().split('\n')]
+
+TOPIC = ' '.join(sys.argv[1].strip().split('_'))
 
 '''
 John loved to farm.
@@ -217,6 +222,11 @@ for ep in episodes:
 		# supported by the "grounding" operation
 		gr_episodes.append(None)
 
+# Map each episode to the K best matching schema formulas,
+# and their scores and parent schemas. Also, add each schema
+# in each list to a global set to choose from.
+k_best = defaultdict(list)
+seen_schemas = set()
 for i in range(len(episodes)):
 	orig_ep = episodes[i]
 	gr_ep = gr_episodes[i]
@@ -229,6 +239,31 @@ for i in range(len(episodes)):
 	best_steps = k_best_steps(gr_ep, k=5)
 	print(orig_ep)
 	for best_step in best_steps:
+		seen_schemas.add(best_step[0][0])
+		k_best[i].append(best_step)
 		print('\t%.2f: %s' % (best_step[1], best_step[0]))
 	# print('\t%s' % (best_step,))
 	# quit()
+
+# For each seen schema, find the cumulative cost
+# of mapping each step observed to that schema.
+# If there is no match to a step, treat the cost
+# as 1.0 (out of 1.0). We'll minimize the cost to
+# choose which schema is most likely to fit.
+best_cost = None
+best_schema_name = None
+for schema_name in seen_schemas:
+	cost = 0.0
+	for i in range(len(episodes)):
+		top_k = k_best[i]
+		min_cost_for_match = 1.0
+		for match in top_k:
+			if match[0][0] == schema_name:
+				if match[1] < min_cost_for_match:
+					min_cost_for_match = match[1]
+		cost += min_cost_for_match
+	if best_cost is None or cost < best_cost:
+		best_cost = cost
+		best_schema_name = schema_name
+
+print('best schema for input topic %s is %s (cost %.2f)' % (TOPIC, best_schema_name, best_cost))

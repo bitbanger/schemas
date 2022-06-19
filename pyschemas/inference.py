@@ -4,11 +4,21 @@ import sys
 
 from collections import defaultdict
 from el_expr import is_starry, remove_advs, flatten_prop
+from el_to_amr import el_to_amr
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
 from schema_match import grounded_schema_prop_to_vec, prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, rec_get_pred
 from scipy.spatial.distance import cosine
 from sexpr import list_to_s_expr, parse_s_expr
 from similar_stories import make_topical_stories
+
+def s2match(amr1, amr2):
+	with open('amr1.tmp', 'w+') as f:
+		f.write(amr1)
+	with open('amr2.tmp', 'w+') as f:
+		f.write(amr2)
+	outp = subprocess.run('s2match amr1.tmp amr2.tmp'.split(' '), capture_output=True, timeout=900, input=story.encode()).stdout.decode('utf-8').strip()
+
+	return float(outp)
 
 # TOPICS = []
 # with open('/home/lane/Code/schemas/nesl/emnlp_topics.txt', 'r') as f:
@@ -179,91 +189,186 @@ def find_best_step(gr_step):
 # print(find_best_step([['boy'], ['pray']]))
 # print(find_best_step([['waiter'], ['serve']]))
 
-formulas = parse_story(make_story(TOPIC, starting_word='John'))
-episodes = []
-context = []
-dedupe_set = set()
+def story_eps_and_ctx(formulas):
+	episodes = []
+	context = []
+	dedupe_set = set()
 
-for f in formulas:
-	if f is None or f.formula is None:
-		continue
-
-	if f in dedupe_set:
-		continue
-	dedupe_set.add(f)
-
-	if is_starry(f.formula):
-		print('ep: %s' % (f.formula))
-		episodes.append(f.formula)
-	else:
-		skip_outer = False
-		for e in f.formula:
-			if type(e) == list and e[0] not in ['PLUR', 'K', 'KA']:
-				skip_outer = True
-				break
-		if skip_outer:
+	for f in formulas:
+		if f is None or f.formula is None:
 			continue
-		print('\tctx: %s' % (f.formula))
-		context.append(f.formula)
 
-gr_episodes = []
-for ep in episodes:
-	print('grounding %s' % ep[0])
-	no_adv_ep = remove_advs(ep[0])
-	print('flattened ep: %s' % ep)
-	try:
-		gr_ep = grounded_prop(no_adv_ep, context)
-		gr_ep = rec_replace('AGENT', 'PERSON', gr_ep)
-		print('gr_ep is %s' % (gr_ep,))
-		gr_episodes.append(gr_ep)
-	except TypeError:
-		# This can be caused by non-atomic
-		# individuals, like kinds, not being
-		# supported by the "grounding" operation
-		gr_episodes.append(None)
+		if f in dedupe_set:
+			continue
+		dedupe_set.add(f)
 
-# Map each episode to the K best matching schema formulas,
-# and their scores and parent schemas. Also, add each schema
-# in each list to a global set to choose from.
-k_best = defaultdict(list)
-seen_schemas = set()
-for i in range(len(episodes)):
-	orig_ep = episodes[i]
-	gr_ep = gr_episodes[i]
-	if gr_ep is None:
-		continue
-	# gr_ep = [['PERSON'], 'HARVEST', ['CORN']]
-	print('gr_ep is %s' % (gr_ep,))
-	# vec = grounded_schema_prop_to_vec(gr_ep)
-	# best_step = find_best_step(gr_ep)
-	best_steps = k_best_steps(gr_ep, k=5)
-	print(orig_ep)
-	for best_step in best_steps:
-		seen_schemas.add(best_step[0][0])
-		k_best[i].append(best_step)
-		print('\t%.2f: %s' % (best_step[1], best_step[0]))
-	# print('\t%s' % (best_step,))
-	# quit()
+		if is_starry(f.formula):
+			episodes.append(f.formula)
+		else:
+			skip_outer = False
+			for e in f.formula:
+				if type(e) == list and e[0] not in ['PLUR', 'K', 'KA']:
+					skip_outer = True
+					break
+			if skip_outer:
+				continue
+			context.append(f.formula)
 
-# For each seen schema, find the cumulative cost
-# of mapping each step observed to that schema.
-# If there is no match to a step, treat the cost
-# as 1.0 (out of 1.0). We'll minimize the cost to
-# choose which schema is most likely to fit.
-best_cost = None
-best_schema_name = None
-for schema_name in seen_schemas:
-	cost = 0.0
+	gr_episodes = []
+	for ep in episodes:
+		no_adv_ep = remove_advs(ep[0])
+		try:
+			gr_ep = grounded_prop(no_adv_ep, context)
+			gr_ep = rec_replace('AGENT', 'PERSON', gr_ep)
+			gr_episodes.append(gr_ep)
+		except TypeError:
+			# This can be caused by non-atomic
+			# individuals, like kinds, not being
+			# supported by the "grounding" operation
+			gr_episodes.append(None)
+
+	return (episodes, gr_episodes, context)
+
+def match():
+	formulas = parse_story(make_story(TOPIC, starting_word='John'))
+	episodes = []
+	context = []
+	dedupe_set = set()
+
+	for f in formulas:
+		if f is None or f.formula is None:
+			continue
+
+		if f in dedupe_set:
+			continue
+		dedupe_set.add(f)
+
+		if is_starry(f.formula):
+			print('ep: %s' % (f.formula))
+			episodes.append(f.formula)
+		else:
+			skip_outer = False
+			for e in f.formula:
+				if type(e) == list and e[0] not in ['PLUR', 'K', 'KA']:
+					skip_outer = True
+					break
+			if skip_outer:
+				continue
+			print('\tctx: %s' % (f.formula))
+			context.append(f.formula)
+
+	gr_episodes = []
+	for ep in episodes:
+		print('grounding %s' % ep[0])
+		no_adv_ep = remove_advs(ep[0])
+		print('flattened ep: %s' % ep)
+		try:
+			gr_ep = grounded_prop(no_adv_ep, context)
+			gr_ep = rec_replace('AGENT', 'PERSON', gr_ep)
+			print('gr_ep is %s' % (gr_ep,))
+			gr_episodes.append(gr_ep)
+		except TypeError:
+			# This can be caused by non-atomic
+			# individuals, like kinds, not being
+			# supported by the "grounding" operation
+			gr_episodes.append(None)
+
+	# Map each episode to the K best matching schema formulas,
+	# and their scores and parent schemas. Also, add each schema
+	# in each list to a global set to choose from.
+	k_best = defaultdict(list)
+	seen_schemas = set()
 	for i in range(len(episodes)):
-		top_k = k_best[i]
-		min_cost_for_match = 1.0
-		for match in top_k:
-			if match[0][0] == schema_name:
-				if match[1] < min_cost_for_match:
-					min_cost_for_match = match[1]
-		cost += min_cost_for_match
-	if best_cost is None or cost < best_cost:
-		best_cost = cost
-		best_schema_name = schema_name
+		orig_ep = episodes[i]
+		gr_ep = gr_episodes[i]
+		if gr_ep is None:
+			continue
+		# gr_ep = [['PERSON'], 'HARVEST', ['CORN']]
+		print('gr_ep is %s' % (gr_ep,))
+		# vec = grounded_schema_prop_to_vec(gr_ep)
+		# best_step = find_best_step(gr_ep)
+		best_steps = k_best_steps(gr_ep, k=5)
+		print(orig_ep)
+		for best_step in best_steps:
+			seen_schemas.add(best_step[0][0])
+			k_best[i].append(best_step)
+			print('\t%.2f: %s' % (best_step[1], best_step[0]))
+		# print('\t%s' % (best_step,))
+		# quit()
 
-print('best schema for input topic %s is %s (cost %.2f)' % (TOPIC, best_schema_name, best_cost))
+	# For each seen schema, find the cumulative cost
+	# of mapping each step observed to that schema.
+	# If there is no match to a step, treat the cost
+	# as 1.0 (out of 1.0). We'll minimize the cost to
+	# choose which schema is most likely to fit.
+	best_cost = None
+	best_schema_name = None
+	for schema_name in seen_schemas:
+		cost = 0.0
+		for i in range(len(episodes)):
+			top_k = k_best[i]
+			min_cost_for_match = 1.0
+			for match in top_k:
+				if match[0][0] == schema_name:
+					if match[1] < min_cost_for_match:
+						min_cost_for_match = match[1]
+			cost += min_cost_for_match
+		if best_cost is None or cost < best_cost:
+			best_cost = cost
+			best_schema_name = schema_name
+
+	print('best schema for input topic %s is %s (cost %.2f)' % (TOPIC, best_schema_name, best_cost))
+
+
+def skolemize_step(phi, schema):
+	for rc in schema.get_section('roles').formulas:
+		rc = rc.formula.formula
+		sk = rc[1].split('.')[0] + '.SK'
+		phi = rec_replace(rc[0], sk, phi)
+
+	return phi
+
+
+# For each schema, generate a story on that topic and
+# find the best assignment of story formulas to the
+# schema, assuming we know the schema fits a priori.
+for i in range(len(schemas)):
+	name = schema_names[i]
+
+	print('\n\n-----------------')
+	print(name)
+	print('')
+
+	topic = ' '.join(name.split('_'))
+	story = make_story(topic, starting_word='John')
+	formulas = parse_story(story)
+	(episodes, gr_episodes, context) = story_eps_and_ctx(formulas)
+
+	schema = schemas[i]
+	step_ids_and_vecs = schema_name_to_steps[name]
+
+	for rc in schema.get_section('roles').formulas:
+		print('\t%s' % (rc.formula.formula))
+	print('')
+
+	for j in range(len(gr_episodes)):
+		gr_ep = gr_episodes[j]
+		if gr_ep is None:
+			continue
+
+		print('%s' % (episodes[j]))
+		ep_amr = el_to_amr(episodes[j][0])
+		# print('%s' % (gr_ep))
+
+		ep_vec = grounded_schema_prop_to_vec(gr_ep)
+
+		for (step_id, step_vec) in step_ids_and_vecs:
+			step = get_step(schema, step_id)
+			gr_step = grounded_schema_prop(step.formula.formula, schema)
+			step_amr = el_to_amr(skolemize_step(step.formula.formula, schema))
+			score = s2match(ep_amr, step_amr)
+
+			# score = cosine(ep_vec, step_vec)
+			# print('\t%.2f: %s' % (score, gr_step))
+			print('\t%.2f: %s' % (score, step.formula.formula))
+

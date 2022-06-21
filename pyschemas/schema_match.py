@@ -31,6 +31,15 @@ def vec(w):
 			return numpy.array([])
 		return vecs.mean(axis=0)
 	else:
+		if '_PROTO' in w:
+			spl = w.split('_')
+			if len(spl) == 2:
+				w = spl[0]
+			else:
+				spl = w.split('_AKA_')
+				if len(spl) == 2:
+					spl = spl.split('_')
+					w = spl[0]
 		return numpy.asarray(w2v_client.vector(w))
 
 def is_abstraction(e):
@@ -38,6 +47,16 @@ def is_abstraction(e):
 
 def strip_tags(word):
 	return word.split('.')[0]
+
+def strip_proto_marker(verb):
+	if verb[-2:].lower() == '.V':
+		verb = verb[:-2]
+	spl = verb.split('_AKA_')
+	if len(spl) > 1:
+		spl = spl[1].split('_')
+		return spl[0] + '.V'
+	else:
+		return verb.replace('_PROTO', '')
 
 prop_vecs = []
 props_by_vec = dict()
@@ -158,6 +177,8 @@ def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 			if got_verb:
 				flat_verb.append(x)
 		verb = flat_verb
+		if not got_verb:
+			return None
 	else:
 		verb = [verb]
 
@@ -175,7 +196,10 @@ def grounded_prop(prop, context_formulas, strip_dot_tags=True):
 			print(verb[1:])
 			print(prop[2:])
 			'''
-			prop = [prop[0], verb[0]] + verb[1:] + prop[2:]
+			try:
+				prop = [prop[0], verb[0]] + verb[1:] + prop[2:]
+			except:
+				print('error splitting prop %s on line 181 of schema_match.py' % (prop,))
 
 	# print('prop is currently %s' % (prop,))
 

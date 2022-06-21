@@ -106,6 +106,11 @@ class Schema:
 		self.header_formula = s_expr[1][0]
 		self.header_episode = s_expr[1][2]
 
+		# Hack to fix duplicate variable for now
+		if self.header_episode == '?e':
+			self.header_episode = '?ee'
+			self.s_expr[1][2] = '?ee'
+
 		self.sections = list()
 		self.sections_by_name = dict()
 		for section in s_expr[2:]:

@@ -24,7 +24,7 @@ from el_expr import pre_arg, verb_pred, post_args, remove_advs, flatten_prop
 DIR = 'emnlp-howto-protos'
 
 MAX_SAMPLES = 15
-FREQ_THRESHOLD = 4
+FREQ_THRESHOLD = 3
 OPTION_FREQ = 0.5
 
 MERGE_ALL_PRE_ARGS = True
@@ -787,16 +787,18 @@ for i in range(len(new_step_strings)):
 					ns_verb_list = ns_verb[::]
 					ns_verb = rec_get_pred(ns[1], pred=lambda x: type(x) == str and x.split('.')[-1] == 'V')[0]
 				if ns_verb_list is not None:
-					ns_verb_list = rec_replace(ns_verb, orig_proto_name, ns_verb_list)
-				ns_verb = orig_proto_name
+					ns_verb_list = rec_replace(ns_verb, '%s_AKA_%s.V' % (ns_verb.split('.')[0], orig_proto_name.split('.')[0]), ns_verb_list)
+				old_ns_verb = ns_verb
+				ns_verb = '%s_AKA_%s' % (ns_verb.split('.')[0], orig_proto_name.split('.')[0])
 				# print('set %s to %s' % (ns_verb, orig_proto_name))
 				ns_verb_no_tag = ns_verb.split('.')[0]
+				# ns_verb_no_tag = '%s_AKA_%s' % (ns_verb_no_tag, orig_proto_name.split('.')[0])
 				new_verb_name = '%s_PROTO.V' % (ns_verb_no_tag)
 
 				# Replace the verb within the complex verb predicate, if it's complex
 				# Otherwise, just add in the new atomic verb predicate
 				if ns_verb_list is not None:
-					ns_verb_list = rec_replace(ns_verb, new_verb_name, ns_verb_list)
+					ns_verb_list = rec_replace(old_ns_verb, new_verb_name, ns_verb_list)
 					ns = [ns[0], ns_verb_list] + ns[2:]
 				else:
 					ns = [ns[0], '%s_PROTO.V' % (ns_verb_no_tag)] + ns[2:]

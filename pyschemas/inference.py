@@ -3,6 +3,7 @@ import subprocess
 import sys
 
 from collections import defaultdict
+from el_dist import el_dist
 from el_expr import is_starry, remove_advs, flatten_prop
 from el_to_amr import el_to_amr
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
@@ -61,6 +62,9 @@ for fn in os.listdir(DIR):
 		if len(schema_lines) < 3:
 			continue
 		schema_name = schema_lines[0].strip()
+		if schema_name in schema_names:
+			# Only take the first file we find
+			continue
 		schema_names.append(schema_name)
 		schema_txt = '\n'.join(schema_lines[1:])
 		schema = Schema(schema_txt)
@@ -100,6 +104,7 @@ for i in range(len(schema_names)):
 		step_id = steps[j].episode_id
 		step_vec = step_vecs[j]
 		if step_vec is None:
+			print('None step vec on episode %s' % (steps[j].formula.formula))
 			continue
 		step_ids_and_vecs.append((step_id, step_vec))
 
@@ -328,11 +333,39 @@ def skolemize_step(phi, schema):
 
 	return phi
 
+def extract_individuals(formulas):
+	inds = defaultdict(set)
+	for phi in formulas:
+		phi = phi.formula
+		if len(phi) == 2 and type(phi[0]) == str:
+			# handle K and PLUR
+			if type(phi[1]) == list:
+				if len(phi[1]) == 2 and type(phi[1][1]) == str and phi[0] in ['K', 'PLUR']:
+					phi[1] = phi[1][1]
+				else:
+					continue
+			# make sure this isn't an episode variable
+			if '.' in phi[0] and (phi[0] != 'E' or phi[1] not in '0123456789'):
+				inds[phi[0]].add(phi[1])
+			# inds.add(phi[0])
+			
+	return inds
+
+def match_individuals_to_schema(inds, schema):
+	# schema_vars = rec_get_vars(schema.s_expr)
+	schema_vars = defaultdict(list)
+	for rc in schema.get_section('roles').formulas:
+		schema_vars[rc.formula.formula[0]].append(rc.formula.formula[1])
+
+	return schema_vars
 
 # For each schema, generate a story on that topic and
 # find the best assignment of story formulas to the
 # schema, assuming we know the schema fits a priori.
 for i in range(len(schemas)):
+	if schema_names[i] != '_'.join(TOPIC.split(' ')):
+		continue
+
 	name = schema_names[i]
 
 	print('\n\n-----------------')
@@ -340,16 +373,28 @@ for i in range(len(schemas)):
 	print('')
 
 	topic = ' '.join(name.split('_'))
-	story = make_story(topic, starting_word='John')
-	formulas = parse_story(story)
-	(episodes, gr_episodes, context) = story_eps_and_ctx(formulas)
 
 	schema = schemas[i]
+	print(schema)
 	step_ids_and_vecs = schema_name_to_steps[name]
+	print(step_ids_and_vecs)
 
 	for rc in schema.get_section('roles').formulas:
 		print('\t%s' % (rc.formula.formula))
 	print('')
+
+	print('role bindings:')
+	print(match_individuals_to_schema(None, schema))
+
+	story = make_story(topic, starting_word='John')
+	print(story)
+	formulas = parse_story(story)
+	inds = extract_individuals(formulas)
+	# print(formulas)
+	print('inds:')
+	print(inds)
+	inds = extract_individuals(formulas)
+	(episodes, gr_episodes, context) = story_eps_and_ctx(formulas)
 
 	for j in range(len(gr_episodes)):
 		gr_ep = gr_episodes[j]
@@ -366,9 +411,9 @@ for i in range(len(schemas)):
 			step = get_step(schema, step_id)
 			gr_step = grounded_schema_prop(step.formula.formula, schema)
 			step_amr = el_to_amr(skolemize_step(step.formula.formula, schema))
-			score = s2match(ep_amr, step_amr)
+			# score = s2match(ep_amr, step_amr)
+			score = el_dist(step.formula.formula, episodes[j][0])
 
 			# score = cosine(ep_vec, step_vec)
 			# print('\t%.2f: %s' % (score, gr_step))
 			print('\t%.2f: %s' % (score, step.formula.formula))
-

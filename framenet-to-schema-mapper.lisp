@@ -715,8 +715,8 @@
 		; fallback: framenet arg name
 		(if (null best-option-cands) (block do-fn-arg
 			(setf best-option-cands (car (loop for fn-arg in (fifth frame)
-				if (equal (car fn-arg) option-core)
-					do (format t "collecting ~s values ~s~%" (car fn-arg) (second fn-arg))
+				; if (equal (car fn-arg) option-core)
+					; do (format t "collecting ~s values ~s~%" (car fn-arg) (second fn-arg))
 				if (equal (car fn-arg) option-core)
 					collect (second fn-arg))))
 		))

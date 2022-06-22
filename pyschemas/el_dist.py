@@ -11,23 +11,6 @@ from schema_match import grounded_schema_prop_to_vec, prop_to_vec, grounded_sche
 from sexpr import list_to_s_expr, parse_s_expr
 from scipy.spatial.distance import cosine
 
-def elf_breakdown(prop):
-	(pre, pred) = (pre_arg(prop), prop[1])
-	flat_posts = []
-	if len(prop) > 2:
-		flat_posts = prop[2:]
-	verb = verb_from_pred(pred)
-	advs = rec_get_advs(pred)
-	post_args = []
-	stripped = remove_advs(pred)
-	if type(stripped) == list:
-		for e in stripped:
-			if e != verb:
-				post_args.append(e)
-	post_args = post_args + flat_posts
-
-	return (pre, verb, post_args, advs)
-
 # Compute the distance between two EL formulas
 # in a rule-based way. Emphasize matching verbs,
 # as protoschema normalization will have happened,

@@ -1,7 +1,7 @@
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
-from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, rec_get_pred
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, is_adv
 from sexpr import list_to_s_expr, parse_s_expr
-from el_expr import pre_arg, verb_pred, post_args
+from el_expr import pre_arg, verb_pred, post_args, rec_get_advs, rec_get_pred
 
 def schema_html(schema):
 	buf = []

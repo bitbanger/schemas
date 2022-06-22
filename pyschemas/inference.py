@@ -3,11 +3,12 @@ import subprocess
 import sys
 
 from collections import defaultdict
+from el_unify import unify
 from el_dist import el_dist
-from el_expr import is_starry, remove_advs, flatten_prop
+from el_expr import is_starry, remove_advs, flatten_prop, rec_get_advs, rec_get_pred
 from el_to_amr import el_to_amr
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
-from schema_match import grounded_schema_prop_to_vec, prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, rec_get_pred
+from schema_match import grounded_schema_prop_to_vec, prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, is_adv
 from scipy.spatial.distance import cosine
 from sexpr import list_to_s_expr, parse_s_expr
 from similar_stories import make_topical_stories
@@ -413,7 +414,14 @@ for i in range(len(schemas)):
 			step_amr = el_to_amr(skolemize_step(step.formula.formula, schema))
 			# score = s2match(ep_amr, step_amr)
 			score = el_dist(step.formula.formula, episodes[j][0])
+			unification = unify(episodes[j][0], step.formula.formula)
 
 			# score = cosine(ep_vec, step_vec)
 			# print('\t%.2f: %s' % (score, gr_step))
-			print('\t%.2f: %s' % (score, step.formula.formula))
+			# print('\t%.2f: %s' % (score, step.formula.formula))
+			# print('\t\t%s' % (unification,))
+			if unification is not None:
+				for var in unification:
+					schema = schema.bind_var(var, unification[var])
+				break
+	print(schema)

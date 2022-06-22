@@ -11,15 +11,15 @@ from collections import defaultdict
 from functools import cmp_to_key
 
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
-from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, rec_get_pred
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, is_adv
 from scipy.spatial import distance
 from sexpr import list_to_s_expr, parse_s_expr
+from el_expr import rec_get_advs, rec_get_pred
 
 from sklearn.cluster import KMeans
 from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args, remove_advs, flatten_prop
-
 # DIR = 'tmp-with-protos'
 DIR = 'emnlp-howto-protos'
 
@@ -164,6 +164,8 @@ cluster_maps = []
 MIN_CLUSTERS = 4
 MAX_CLUSTERS = 20
 
+inertia = 0
+
 for n in range(MIN_CLUSTERS, MAX_CLUSTERS):
 	try:
 		kmeans = KMeans(n_clusters=n).fit(step_vecs)
@@ -175,6 +177,7 @@ for n in range(MIN_CLUSTERS, MAX_CLUSTERS):
 		# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
 		ch_dists.append(kmeans.inertia_)
 		# ch_dists.append(ch_score(step_vecs, kmeans.labels_))
+		inertia = kmeans.inertia_
 	except:
 		break
 
@@ -614,6 +617,7 @@ for gen_step in gen_steps:
 # for the argument indices that have been scooped into coref clusters.
 new_step_strings = []
 used_vars = set()
+num_removed_gen_steps = 0
 for new_step_id in range(len(new_steps)):
 	new_step = new_steps[new_step_id]
 	new_step_str = ''
@@ -621,6 +625,7 @@ for new_step_id in range(len(new_steps)):
 	new_step_str = new_step_str + '('
 	if len(gen_steps[new_step_id][2]) < FREQ_THRESHOLD:
 		print('removing gen step %s' % (gen_steps[new_step_id]))
+		num_removed_gen_steps += 1
 	for arg_idx in range(len(new_step)):
 		if arg_idx > 0:
 			new_step_str = new_step_str + ' '
@@ -684,6 +689,8 @@ while len(handled_idcs) < len(gen_step_idcs):
 # filter out gen steps that didn't have at least 3 instances
 filtered_gen_step_idcs = [i for i in topsorted_gen_step_idcs if len(gen_steps[i][2]) >= FREQ_THRESHOLD]
 new_step_strings = [new_step_strings[i] for i in filtered_gen_step_idcs]
+
+step_freqs = [len(gen_steps[i][2]) for i in filtered_gen_step_idcs]
 
 proto_float_formulas = defaultdict(lambda: defaultdict(list))
 proto_float_rcs = set()
@@ -889,18 +896,23 @@ for var in rec_get_vars(parse_s_expr(str(new_schema.get_section('roles')))):
 
 
 # TEST: print out steps that don't have gen clusters
+num_ungenned_steps = 0
+total_steps = 0
 for i in range(len(schemas)):
 	schema = schemas[i]
 	steps = schema.get_section('steps').formulas
 	for j in range(len(steps)):
 		step = steps[j].formula.formula
 		step_idx = schema_step_ids_to_step_idcs[i][steps[j].episode_id]
+		total_steps += 1
 		if step_idx in step_idcs_to_gen_idcs:
 			# print('%d: %d' % (step_idx, step_idcs_to_gen_idcs[step_idx]))
 			pass
 		else:
-			print('cut step %d' % step_idx)
-			print('\t%s' % (gr_steps[step_idx]))
+			# print('cut step %d' % step_idx)
+			num_ungenned_steps += 1
+			# print('\t%s' % (gr_steps[step_idx]))
+			pass
 
 
 
@@ -1032,3 +1044,33 @@ new_schema.sort_sections()
 
 # print('(%s)' % new_schema)
 print('%s' % new_schema)
+print(schema_prompt)
+print('mean step support: %.2f' % (sum(step_freqs)*1.0/len(step_freqs)))
+print('num coref clusters: %d' % (len(coref_clusters)))
+cc_sizes = [len(cc) for cc in coref_clusters]
+print('mean coref cluster size: %.2f' % (sum(cc_sizes)*1.0/len(cc_sizes)))
+
+# calculate the mean number of co-occurrences with other
+# steps for each step
+# (marginalize out argument idcs, dedupe schemas)
+
+# make the marginalized multigraph
+marginal_graph = defaultdict(lambda: defaultdict(set))
+for step1_gen_id in sorted(multigraph.keys()):
+	for arg1_idx in sorted(multigraph[step1_gen_id].keys()):
+		for step2_gen_id in sorted(multigraph[step1_gen_id][arg1_idx].keys()):
+			for arg2_idx in sorted(multigraph[step1_gen_id][arg1_idx][step2_gen_id].keys()):
+				schemas = multigraph[step1_gen_id][arg1_idx][step2_gen_id][arg2_idx]
+				marginal_graph[step1_gen_id][step2_gen_id] = marginal_graph[step1_gen_id][step2_gen_id].union(schemas)
+
+# get the avg. # schemas connecting each pair of steps
+coocs = []
+for sid1 in sorted(marginal_graph.keys()):
+	for sid2 in sorted(marginal_graph[sid1].keys()):
+		if sid2 == sid1:
+			continue
+		coocs.append(len(marginal_graph[sid1][sid2]))
+print('mean edge density: %.2f' % (sum(coocs)*1.0/len(coocs)))
+print('inertia: %.2f' % inertia)
+print('num removed gen steps: %d' % num_removed_gen_steps)
+print('proportion ungenned steps: %.2f' % (num_ungenned_steps*1.0/total_steps))

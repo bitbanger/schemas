@@ -3,8 +3,8 @@ import sys
 from collections import defaultdict
 
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace, rec_remove
-from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, rec_get_advs, is_adv, rec_get_pred, is_abstraction
-from el_expr import pre_arg, verb_pred, post_args
+from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_get_vars, is_adv, is_abstraction
+from el_expr import pre_arg, verb_pred, post_args, rec_get_advs, rec_get_pred
 from sexpr import parse_s_expr, list_to_s_expr
 
 PRINT_GOALS = True

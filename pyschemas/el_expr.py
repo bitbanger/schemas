@@ -3,6 +3,30 @@
 ['?X_I', [['ADV-A', ['FROM.P', '?L1']], 'GO.5.V'], '?X_M']
 ['?X_J', [[['ADV-A', ['FOR.P', '?X_L']], 'BUY.V'], '?X_K']]
 '''
+def rec_get_pred(lst, pred=lambda x: False, dismiss_pred=lambda x: False):
+	if pred(lst):
+		return [lst]
+
+	if dismiss_pred(lst):
+		return []
+
+	if type(lst) != list:
+		return []
+
+	ret_lst = []
+	for e in lst:
+		if pred(e):
+			ret_lst.append(e)
+		elif type(e) == list:
+			ret_lst += rec_get_pred(e, pred=pred, dismiss_pred=dismiss_pred)
+
+	return ret_lst
+
+def rec_get_advs(lst, inside_abstractions=True):
+	if inside_abstractions:
+		return rec_get_pred(lst, pred=is_adv)
+	else:
+		return rec_get_pred(lst, pred=is_adv, dismiss_pred=is_abstraction)
 
 def is_verb(s):
 	return type(s) == str and len(s.split('.')) > 1 and s.split('.')[-1].lower() == 'v'
@@ -147,3 +171,20 @@ def flatten_prop(step):
 	verb_pred = verb_pred.split('.')[0]
 
 	return [pre_arg, verb_pred] + verb_posts + posts
+
+def elf_breakdown(prop):
+	(pre, pred) = (pre_arg(prop), prop[1])
+	flat_posts = []
+	if len(prop) > 2:
+		flat_posts = prop[2:]
+	verb = verb_from_pred(pred)
+	advs = rec_get_advs(pred)
+	post_args = []
+	stripped = remove_advs(pred)
+	if type(stripped) == list:
+		for e in stripped:
+			if e != verb:
+				post_args.append(e)
+	post_args = post_args + flat_posts
+
+	return (pre, verb, post_args, advs)

@@ -61,25 +61,6 @@ def strip_proto_marker(verb):
 prop_vecs = []
 props_by_vec = dict()
 
-def rec_get_pred(lst, pred=lambda x: False, dismiss_pred=lambda x: False):
-	if pred(lst):
-		return [lst]
-
-	if dismiss_pred(lst):
-		return []
-
-	if type(lst) != list:
-		return []
-
-	ret_lst = []
-	for e in lst:
-		if pred(e):
-			ret_lst.append(e)
-		elif type(e) == list:
-			ret_lst += rec_get_pred(e, pred=pred, dismiss_pred=dismiss_pred)
-
-	return ret_lst
-
 def is_adv(e):
 	if has_suff(e, 'adv'):
 		return True
@@ -90,12 +71,6 @@ def is_adv(e):
 
 def rec_get_vars(lst):
 	return list(set(rec_get_pred(lst, pred=lambda x: type(x) == str and x[0] == '?')))
-
-def rec_get_advs(lst, inside_abstractions=True):
-	if inside_abstractions:
-		return rec_get_pred(lst, pred=is_adv)
-	else:
-		return rec_get_pred(lst, pred=is_adv, dismiss_pred=is_abstraction)
 
 def k_closest(prop_vec, prop_vecs, k):
 	dist_pairs = []

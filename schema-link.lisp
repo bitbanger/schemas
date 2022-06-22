@@ -289,7 +289,7 @@
 )
 )
 
-(ldefun compose-schema (roles events schema-event-tups story-ep-rels &optional should-add-subords)
+(ldefun compose-schema (roles events schema-event-tups story-ep-rels &optional should-add-subords avoid-gen)
 (let (
 	new-schema
 )
@@ -581,7 +581,12 @@
 	; Clean the schema one last time, and generalize
 	; constants to variables now that no more changes
 	; will be made.
-	(setf new-schema (fully-clean-schema new-schema))
+	(if avoid-gen
+		; then
+		(setf new-schema (fully-clean-schema-no-gen new-schema))
+		; else
+		(setf new-schema (fully-clean-schema new-schema))
+	)
 
 	; Add the new pre- and post-conditions.
 	;(loop for pre in new-pres
@@ -675,7 +680,7 @@
 ; Construct a composite schema from a story, a set of schema/binding tuples
 ; matched from the story, and, optionally, for efficiency, a pre-parsed set
 ; of EL formulas for the story.
-(ldefun make-composite-story-schema (story schema-match-tuples &optional el-story)
+(ldefun make-composite-story-schema (story schema-match-tuples &optional el-story avoid-gen)
 (block outer
 	; Parse the story if a parse wasn't provided.
 	(if (null el-story)
@@ -727,7 +732,7 @@
 
 	; Compose a schema from the matched schemas,
 	; story events, and story constraints
-	(setf new-schema (compose-schema rcs events schemas-with-bindings ep-rels))
+	(setf new-schema (compose-schema rcs events schemas-with-bindings ep-rels nil avoid-gen))
 
 	(return-from outer new-schema)
 )

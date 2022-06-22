@@ -753,6 +753,11 @@
 )
 )
 
+(ldefun rerender-prop (prop)
+	(apply #'render-prop
+		(prop-args-pred-mods prop))
+)
+
 (ldefun render-pred (pred post-args mods)
 (block outer
 	(setf wrapped-pred pred)

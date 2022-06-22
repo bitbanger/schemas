@@ -467,7 +467,15 @@
 	; of the compo
 	(setf concrete-protos (list))
 	(loop for s in (section-formulas (get-section composite-schema ':Steps))
-		if (not (null (invoked-schema (second s) t)))
+		if (and
+			; (not (null (invoked-schema (second s) t)))
+			; To check whether it invokes a schema,
+			; we'll much more conservatively just rely
+			; on LOME to have found the protoschema
+			; for us.
+			(not (null (gethash (prop-pred (second s)) match-to-orig-proto-names)))
+			)
+			; then
 			; do (format t "~s invokes a schema~%" s))
 			do (let ((bind-pair (expand-nested-schema s composite-schema)))
 				(setf concrete-protos (append concrete-protos (list
@@ -495,7 +503,10 @@
 				; came from
 				(setf orig-proto-name (gethash header-pred match-to-orig-proto-names))
 				(setf stripped-header-pred (strip-dot-tag header-pred))
-				(setf new-proto-name (intern (format nil "~s_AKA_~s" stripped-header-pred orig-proto-name)))
+				; (format t "header pred ~s~%" header-pred)
+				; (print-ht match-to-orig-proto-names)
+				(setf stripped-orig-proto-name (strip-dot-tag orig-proto-name))
+				(setf new-proto-name (intern (format nil "~s_AKA_~s_PROTO.V" stripped-header-pred stripped-orig-proto-name)))
 				(setf header-phi (replace-vals header-pred new-proto-name header-phi))
 				; fix parens in the EL form for pyschemas
 				(setf header-phi (rerender-prop header-phi))

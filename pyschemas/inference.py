@@ -4,7 +4,7 @@ import sys
 
 from collections import defaultdict
 from el_unify import unify
-from el_dist import el_dist
+from el_dist import el_dist, proto_name_breakdown
 from el_expr import is_starry, remove_advs, flatten_prop, rec_get_advs, rec_get_pred
 from el_to_amr import el_to_amr
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
@@ -12,6 +12,8 @@ from schema_match import grounded_schema_prop_to_vec, prop_to_vec, grounded_sche
 from scipy.spatial.distance import cosine
 from sexpr import list_to_s_expr, parse_s_expr
 from similar_stories import make_topical_stories
+
+PARSE_PROTOS = True
 
 def s2match(amr1, amr2):
 	with open('amr1.tmp', 'w+') as f:
@@ -45,7 +47,8 @@ def make_story(topic, starting_word=''):
 # parse_story takes a text story on multiple lines
 # and parses it into EL formulas.
 def parse_story(story):
-	formula_txts = subprocess.run('el_parse'.split(' '), capture_output=True, timeout=900, input=story.encode()).stdout.decode('utf-8').strip().split('\n')
+	parser = 'el_lome' if PARSE_PROTOS else 'el_parse'
+	formula_txts = subprocess.run(parser.split(' '), capture_output=True, timeout=900, input=story.encode()).stdout.decode('utf-8').strip().split('\n')
 
 	formulas = [ELFormula(f) for f in formula_txts]
 
@@ -387,7 +390,11 @@ for i in range(len(schemas)):
 	print('role bindings:')
 	print(match_individuals_to_schema(None, schema))
 
-	story = make_story(topic, starting_word='John')
+	# story = make_story(topic, starting_word='John')
+	story = '''John went to jail.
+He was arrested for stealing.
+He was sent to prison.
+He served his sentence.'''
 	print(story)
 	formulas = parse_story(story)
 	inds = extract_individuals(formulas)
@@ -418,8 +425,8 @@ for i in range(len(schemas)):
 
 			# score = cosine(ep_vec, step_vec)
 			# print('\t%.2f: %s' % (score, gr_step))
-			# print('\t%.2f: %s' % (score, step.formula.formula))
-			# print('\t\t%s' % (unification,))
+			print('\t%.2f: %s' % (score, step.formula.formula))
+			print('\t\t%s' % (unification,))
 			if unification is not None:
 				for var in unification:
 					schema = schema.bind_var(var, unification[var])

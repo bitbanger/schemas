@@ -38,7 +38,7 @@ def vec(w):
 			else:
 				spl = w.split('_AKA_')
 				if len(spl) == 2:
-					spl = spl.split('_')
+					spl = spl[1].split('_')
 					w = spl[0]
 		return numpy.asarray(w2v_client.vector(w))
 

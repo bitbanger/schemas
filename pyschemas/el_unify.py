@@ -1,5 +1,5 @@
 from collections import defaultdict
-from el_dist import el_dist
+from el_dist import el_dist, proto_name_breakdown
 from el_expr import *
 from el_to_amr import el_to_amr
 from schema import ELFormula, Schema, Section, schema_from_file, schema_and_protos_from_file, rec_replace
@@ -7,20 +7,6 @@ from schema_match import grounded_schema_prop_to_vec, prop_to_vec, grounded_sche
 from el_expr import rec_get_advs, rec_get_pred
 from scipy.spatial.distance import cosine
 from sexpr import list_to_s_expr, parse_s_expr
-
-# Returns (invoker, orig_proto) verbs
-def proto_name_breakdown(proto):
-	# Remove .V tag
-	proto = proto.split('.')[0]
-
-	if '_AKA_' not in proto:
-		return (proto.replace('_PROTO', '') + '.V', None)
-
-	# Split at _AKA_
-	spl = proto.split('_AKA_')
-	(invoker, orig_proto) = (spl[0], spl[1])
-	orig_proto = orig_proto.replace('_PROTO', '')
-	return (invoker + '.V', orig_proto + '.V')
 
 def unify(prop1, prop2, context=[]):
 	(pre1, pred1, posts1, advs1) = elf_breakdown(prop1)
@@ -33,6 +19,8 @@ def unify(prop1, prop2, context=[]):
 		(pred1, orig_proto1) = proto_name_breakdown(pred1)
 	if '_PROTO' in pred2:
 		(pred2, orig_proto2) = proto_name_breakdown(pred2)
+
+	# print('comparing p1 %s, op1 %s, p2 %s, op2 %s' % (pred1, orig_proto1, pred2, orig_proto2))
 
 	# Check verb matches
 	verbs_match = False

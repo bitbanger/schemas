@@ -27,3 +27,4 @@ lome_frame_parsing/lome-server-input
 lome_frame_parsing/lome-server-output
 lome_frame_parsing/lome-server-orig
 nesl/tmp-story-frames.lisp
+*.zip

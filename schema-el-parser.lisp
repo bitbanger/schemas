@@ -23,6 +23,86 @@
 )
 )
 
+(ldefun skolem-number-and-name (sk)
+(block outer
+	(if (not (lex-skolem? sk))
+		(return-from outer nil))
+
+	; Get the number
+	(setf digits
+		(loop for c across (string sk)
+			if (is-digit? c)
+				collect (string c)))
+
+	(if (equal 0 (length digits))
+		(return-from outer nil))
+
+	(setf num (parse-integer (join-str-list "" digits)))
+
+	; Get the name
+	(setf pre (car (split-str (string sk) ".")))
+	(setf name-chars (loop for c across pre
+		if (not (is-digit? c))
+			collect (string c)))
+	(setf name (join-str-list "" name-chars))
+
+	(return-from outer (list name num))
+)
+)
+
+(ldefun skolem-number (sk)
+	(second (skolem-number-and-name sk)))
+
+(ldefun skolem-name (sk)
+	(car (skolem-number-and-name sk)))
+
+; Minimize the ID number of each Skolem constant while
+; preserving monotonicity of the current numbers for each
+; unique Skolem name.
+(ldefun renumber-skolems (parse)
+(block outer
+	(setf skolems (dedupe
+		(get-elements-pred parse #'lex-skolem?)))
+
+	(setf sk-map (make-hash-table :test #'equal))
+
+	; Index all Skolems by name
+	(loop for sk in skolems do (block s
+		(setf (gethash (skolem-name sk) sk-map)
+			(append (gethash (skolem-name sk) sk-map)
+				(list sk)))
+	))
+
+	; Sort all Skolem name clusters by number
+	(loop for k being the hash-keys of sk-map
+		do (setf (gethash k sk-map)
+			(sort (gethash k sk-map) #'<
+				:key #'skolem-number)))
+
+	; Assign new temporary names, with correct/minimal
+	; numbers, to each Skolem constant
+	(setf rename-map (make-hash-table :test #'equal))
+	(loop for k being the hash-keys of sk-map do (block m
+		(setf sks (gethash k sk-map))
+		(loop for i from 0 to (- (length sks) 1)
+			do (setf (gethash (nth i sks) rename-map)
+				(intern (format nil "TMP~a~d.SK" k i))))
+	))
+
+	; Replace all Skolem constants with their temporary
+	; renamings
+	(loop for k being the hash-keys of rename-map
+		do (setf parse (replace-vals k (gethash k rename-map) parse)))
+
+	; Remove the TMP prefix from all temporary renamings
+	(loop for k being the hash-keys of rename-map
+		do (setf parse (replace-vals (gethash k rename-map)
+			(intern (remove-prefix (string (gethash k rename-map)) "TMP")) parse)))
+
+	(return-from outer parse)
+)
+)
+
 (ldefun schema-cleanup-lisp (phi)
 (block outer
 	(setf phi-copy (copy-list phi))
@@ -231,6 +311,10 @@
 	; interfere with the cleanup procedures sometimes
 	; TODO: find out why & fix it
 	(setf final-interps (mapcar #'schema-cleanup no-idx-interps))
+
+	; Finally, minimize the Skolem constant
+	; numbers while preserving monotonicity.
+	(setf final-interps (renumber-skolems final-interps))
 
 	(setf final-eps-for-tok-nums (make-hash-table :test #'equal))
 

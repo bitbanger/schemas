@@ -86,7 +86,8 @@
 	; Strip narrative structures
 	(/
 		((SPEAKER TELL.V HEARER (THAT _!1)) [**] _!2)
-		(_!1 [**] _!2)
+		; (_!1 [**] _!2)
+		_!1
 	)
 
 	; Flatten lists of modifiers to float,

@@ -4,6 +4,8 @@
 
 (setf verbalized (verbalize-schema (car (read))))
 
+(format t "~s~%" verbalized)
+
 (loop for sec in verbalized
 	if (equal (car sec) 'STEPS.)
 		do (loop for form in (cdr sec)

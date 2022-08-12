@@ -7,16 +7,14 @@ from schema_match import prop_to_vec, grounded_schema_prop, grounded_prop, rec_g
 from el_expr import pre_arg, verb_pred, post_args, rec_get_advs, rec_get_pred
 from sexpr import parse_s_expr, list_to_s_expr
 
-PRINT_GOALS = False
-PRINT_PRECONDS = False
-PRINT_POSTCONDS = False
+PRINT_GOALS = True
+PRINT_PRECONDS = True
+PRINT_POSTCONDS = True
 PRINT_STEPS = True
 PRINT_ROLES = True
 
 PROMPT = "The statement above is a reasonably clear, entirely plausible general claim and seems neither too specific nor too general or vague to be useful:"
 BUTTON_LABELS = ['Disagree', 'Lean toward disagree', 'Maybe', 'Lean toward agree', 'Agree']
-
-seen = set()
 
 def rec_contains(lst, val):
 	for e in lst:
@@ -78,13 +76,9 @@ def flatten_list(l):
 txt = sys.stdin.read().strip()
 
 sch_name = ' '.join(txt.split('\n')[0].strip().split('_'))
-
 txt = '\n'.join(txt.split('\n')[1:])
 
-sch_txt = txt.split('\n---\n')[0]
-story_txt = txt.split('\n---\n')[1]
-
-sch = Schema(sch_txt)
+sch = Schema(txt)
 
 role_types = defaultdict(lambda: 'ENTITY.N')
 for formula in sch.get_section('roles').formulas:
@@ -308,70 +302,15 @@ for section in [sch.get_section(name) for name in ['steps']]:
 		if PRINT_STEPS:
 			eval_name = '%s-%s-%d' % ('_'.join(sch_name.split(' ')), 'steps', i)
 			fn = 'inference_study_fragments/%s.html' % (eval_name)
-
-			sch_name_und = '_'.join(sch_name.split(' '))
-			'''
-			if sch_name_und not in seen:
-				seen.add(sch_name_und)
-				with open(fn, 'w+') as f:
-					f.write(story_txt.replace('\n', '<br />'))
-					f.write('\n\n')
-			'''
-
 			total_step_num += 1
 			with open(fn, 'w') as f:
-				# Story table
-				f.write('<h3>Story:</h3>')
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(0, 255, 0, 0.1);">')
-
-				f.write('<p>%s</p>' % (story_txt.replace('\n', '<br />'),))
-				f.write('</div>')
-
-				f.write('<br />')
-				# Inference table
-				f.write('<h3>Inference:</h3>')
 				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(0, 0, 255, 0.1);">')
 				f.write('<table style="border: 1px black solid; padding-bottom: 10px; background-color: #dddddd; margin-left: auto; margin-right: auto;">')
 				f.write('<tr style="text-align: left;"><th>arg0</th><th>action</th><th>arg1</th><th>arg2</th><th>adv</th></tr>')
 				# handle_formula(phi, f, odd=(i%2!=0))
 				handle_formula(phi, f, odd=False)
 				f.write('</table>')
-				f.write('<br />')
 
-				f.write('</div>')
-
-				f.write('<h3>The meaning of the inference is <i>easy to understand</i>:</h3>')
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(255, 0, 0, 0.1);">')
-				# f.write('<form>')
-				for k in range(1, 6):
-					label = BUTTON_LABELS[k-1]
-					f.write('<label for="%s" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="%s" value="%d" id="%s"></label>' % (eval_name, label, "clarity-score", k, "clarity-score%d" % k))
-					# f.write('<label for="inference-%d">%d</label>' % (k, k))
-				# f.write('</form>')
-				f.write('</div>')
-
-				f.write('<h3>The inference is <i>plausible</i>:</h3>')
-				# f.write('<div style="display: flex;">')
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(255, 0, 0, 0.1);">')
-				# f.write('<form>')
-				for k in range(1, 6):
-					label = BUTTON_LABELS[k-1]
-					f.write('<label for="%s" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="%s" value="%d" id="%s"></label>' % (eval_name, label, "plaus-score", k, "plaus-score%d" % k))
-					# f.write('<label for="inference-%d">%d</label>' % (k, k))
-				# f.write('</form>')
-				f.write('</div>')
-
-				f.write('<h3>The inference <i>demonstrates knowledge</i> of <span style="color: rgb(200, 0, 0);">%s</span> situations:</h3>' % (sch_name))
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(255, 0, 0, 0.1);">')
-				f.write('<form>')
-				for k in range(1, 6):
-					label = BUTTON_LABELS[k-1]
-					f.write('<label for="%s" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="%s" value="%d" id="%s"></label>' % (eval_name, label, "interest-score", k, "interest-score%d" % k))
-					# f.write('<label for="inference-%d">%d</label>' % (k, k))
-				f.write('</form>')
-				f.write('</div>')
-
-				'''
 				f.write('<h2 style="padding: 5px; border: 1px black dotted; background-color: rgb(0,0,0,0.1); border-radius: 8px; padding-bottom: 10px; text-align: center;">often occurs in the situation <span style="font-style: italic; color: rgb(210,0,0);">%s</span></h2>' % sch_name)
 
 				f.write('<hr />')
@@ -386,9 +325,8 @@ for section in [sch.get_section(name) for name in ['steps']]:
 					# f.write('<label for="inference-%d">%d</label>' % (k, k))
 				f.write('</form>')
 				f.write('</div>')
-				f.write('</div>')
-				'''
 
+				f.write('</div>')
 				# f.write('<br />'*3)
 		if PRINT_GOALS and len(relevant_formulas['goals']) > 0:
 			for j in range(len(relevant_formulas['goals'])):
@@ -502,64 +440,3 @@ for section in [sch.get_section(name) for name in ['steps']]:
 					f.write('</div>')
 
 					f.write('</div>')
-	if PRINT_ROLES:
-		tups = []
-		for k in role_types:
-			if '?' in k:
-				continue
-			k_alpha = ''
-			for c in k.upper():
-				if ord(c) not in range(ord('A'), ord('Z')+1):
-					break
-				k_alpha = k_alpha + c
-			type_alpha = ''
-			for c in role_types[k].upper():
-				if ord(c) not in range(ord('A'), ord('Z')+1):
-					break
-				type_alpha = type_alpha + c
-			if k_alpha == type_alpha:
-				continue
-			tups.append((k_alpha, type_alpha))
-		if len(tups) == 0:
-			continue
-
-		for j in range(len(tups)):
-			(actor, role) = tups[j]
-			eval_name = '%s-%s-%d' % ('_'.join(sch_name.split(' ')), 'roles', j)
-			fn = 'inference_study_fragments/%s.html' % (eval_name)
-
-			with open(fn, 'w') as f:
-				# Story table
-				f.write('<h3>Story:</h3>')
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(0, 255, 0, 0.1);">')
-
-				f.write('<p>%s</p>' % (story_txt.replace('\n', '<br />'),))
-				f.write('</div>')
-
-				# Inference table
-				f.write('<h3>Inference:</h3>')
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(0, 0, 255, 0.05);">')
-				f.write('In this <span style="font-weight: bold; color: rgb(200, 0, 0);">%s</span> scenario, the entity <b>%s</b> has the role <b>%s</b>' % (sch_name, actor, role))
-
-				f.write('</div>')
-
-				f.write('<h3>The inference is <i>plausible</i>:</h3>')
-				# f.write('<div style="display: flex;">')
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(255, 0, 0, 0.1);">')
-				# f.write('<form>')
-				for k in range(1, 6):
-					label = BUTTON_LABELS[k-1]
-					f.write('<label for="%s" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="%s" value="%d" id="%s"></label>' % (eval_name, label, "plaus-score", k, "plaus-score%d" % k))
-					# f.write('<label for="inference-%d">%d</label>' % (k, k))
-				# f.write('</form>')
-				f.write('</div>')
-
-				f.write('<h3>The inference <i>demonstrates knowledge</i> of <span style="color: rgb(200, 0, 0);">%s</span> situations:</h3>' % (sch_name))
-				f.write('<div style="display: inline-block; padding: 15px; border: 3px black dotted; background-color: rgb(255, 0, 0, 0.1);">')
-				f.write('<form>')
-				for k in range(1, 6):
-					label = BUTTON_LABELS[k-1]
-					f.write('<label for="%s" style="float: left; padding: 0 1em; text-align: center;">%s <br /> <input type="radio" name="%s" value="%d" id="%s"></label>' % (eval_name, label, "interest-score", k, "interest-score%d" % k))
-					# f.write('<label for="inference-%d">%d</label>' % (k, k))
-				f.write('</form>')
-				f.write('</div>')

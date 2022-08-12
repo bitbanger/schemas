@@ -21,7 +21,7 @@ from sklearn.metrics import calinski_harabasz_score as ch_score
 
 from el_expr import pre_arg, verb_pred, post_args, remove_advs, flatten_prop
 # DIR = 'tmp-with-protos'
-DIR = 'emnlp-howto-protos'
+DIR = 'tmp-with-protos'
 
 MAX_SAMPLES = 15
 FREQ_THRESHOLD = 3

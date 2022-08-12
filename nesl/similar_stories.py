@@ -10,6 +10,10 @@ server = xmlrpc.client.ServerProxy('http://localhost:8000')
 
 tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
 
+HOWTO = False
+
+STARTING_WORD = 'John'
+
 HOWTO_PROMPT = r'''
 Events that are likely to occur in a "going to the library" situation:
 
@@ -252,7 +256,7 @@ He finished his homework and gave it back to the teacher.
 The teacher said Abhishek did a good job.
 The teacher gave him a good grade.
 
-Stories about %s:'''
+Stories about %s:''' + ('\n\n%s' % STARTING_WORD)
 
 def make_topical_stories(topic, rep_pen=1.1, temp=0.3, resp_length=128, howto=False):
 	prompt = TOPIC_PROMPT % topic.strip()
@@ -334,6 +338,6 @@ if __name__ == '__main__':
 			(new_story, topic) = make_similar_story(story, rep_pen=args.rep_pen, temp=args.temp, resp_length=args.resp_length, return_topic=True)
 			print(new_story, flush=True)
 		else:
-			stories = make_topical_stories(args.topic, rep_pen=args.rep_pen, temp=args.temp, resp_length=args.resp_length, howto=True)
-			print(stories[0], flush=True)
+			stories = make_topical_stories(args.topic, rep_pen=args.rep_pen, temp=args.temp, resp_length=args.resp_length, howto=HOWTO)
+			print(STARTING_WORD + ' ' + stories[0], flush=True)
 			

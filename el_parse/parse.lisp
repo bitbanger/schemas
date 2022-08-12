@@ -81,13 +81,13 @@
 (defun preproc-for-parse (str)
   (format nil "<s> ~a </s>" str))
 
-(defun split-str (str sep)
-	(cond
-		((null (search sep str))
-		 (list str))
-		(t (append
-				 (list (subseq str 0 (search sep str)))
-				 (split-str (subseq str (+ 1 (search sep str)) (length str)) sep)))))
+;(defun split-str (str sep)
+;	(cond
+;		((null (search sep str))
+;		 (list str))
+;		(t (append
+;				 (list (subseq str 0 (search sep str)))
+;				 (split-str (subseq str (+ 1 (search sep str)) (length str)) sep)))))
 
 (defun exec-from-command (command)
 	(car (split-str command " ")))

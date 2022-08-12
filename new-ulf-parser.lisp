@@ -284,6 +284,12 @@
 	; replacement
 	(:P !1 _*2)
 	)
+
+; Adjacent PAST *.V gets :O
+	(/
+		((!1 ~ :O) PAST (!2 lex-verb?) _*3)
+		(!1 (:O PAST !2) _*3)
+	)
 ))
 
 (setf new-ulf-rules (curry-ttt-rules new-ulf-rules))

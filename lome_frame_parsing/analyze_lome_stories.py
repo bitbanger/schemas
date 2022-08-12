@@ -15,7 +15,7 @@ seen_covered_verbs = set()
 covered_verbs = 0
 total_verbs = 0
 total_all_verbs = 0
-with open('lome_rocstory_output.txt', 'r') as f:
+with open('lome_rocstory_output_remaining_300.txt', 'r') as f:
 	take_next = False
 	verbs = []
 	parse = None
@@ -59,6 +59,7 @@ with open('lome_rocstory_output.txt', 'r') as f:
 total_verbs = len(seen_verbs)
 covered_verbs = len(seen_covered_verbs)
 
+print('total absolute verbs: %d' % total_all_verbs)
 print('total verbs: %d' % total_verbs)
 print('total verbs covered: %d' % covered_verbs)
 print('total frames counted: %d' % (sum([frame_counts[k] for k in frame_counts.keys()])))
@@ -98,15 +99,18 @@ coefs = np.dot(coefs, A.T)
 coefs = np.dot(coefs, B)
 
 print(coefs)
-
+xcoef = coefs[0]
+ycoef = coefs[1]
 
 plt.plot(x_vals, y_vals)
 
 (fig, ax) = plt.subplots()
-red_patch = mpatches.Patch(color='red', alpha=0.25, label='80% of matched verbs (65% of all verbs)')
-green_patch = mpatches.Patch(color='green', alpha=0.25, label='0.177 log(x) + -0.04')
-blue_patch = mpatches.Patch(color='blue', alpha=0.25, label='Percent of ROCstory verbs matched to frames')
+red_patch = mpatches.Patch(color='red', alpha=0.25, label='80%% of matched verbs (%d%% of all verbs)' % (80 * (covered_verbs*1.0/total_verbs)))
+green_patch = mpatches.Patch(color='green', alpha=0.25, label='%.3f log(x) + %.3f' % (xcoef, ycoef))
+blue_patch = mpatches.Patch(color='blue', alpha=0.25, label='Percent of unique verbs matched to frames')
 # green_patch = mpatches.Patch(color='green', alpha=0.25, label='50% of matched verbs')
+print(coefs[0])
+print(coefs[1])
 
 red_mask = [y <= 0.8*coverage for y in y_vals]
 # red_mask = [y >= 0.5*coverage and y <= 0.8*coverage for y in y_vals]
@@ -119,14 +123,15 @@ plt.scatter(x_vals, y_vals, s=3, color='blue', alpha=0.35)
 plt.plot(x_vals, [(coefs[0] * np.log(x) + coefs[1]) for x in x_vals], color='green', alpha=0.5)
 
 plt.xlabel('Number of FrameNet frames used')
-plt.ylabel('Percent of ROCstory verbs matched to frames')
+# plt.ylabel('Percent of unique verbs matched to frames')
 
 ax.legend(handles=[red_patch, green_patch, blue_patch])
 plt.tight_layout()
 
 plt.gca().yaxis.set_major_formatter(PercentFormatter(1))
+plt.gca().set_ylim(0, plt.gca().get_ylim()[1])
 
-plt.savefig('frames.png')
+plt.savefig('frames.pdf')
 
 print('80% frames (%d):')
 cum = 0
@@ -137,5 +142,12 @@ while cum < 0.8 * covered_verbs:
 	i += 1
 print('total: %d' % i)
 print(total_all_verbs)
+
+'''
+print('all frames:')
+for sc in sorted_counts:
+	print('\t%s' % sc[0])
+'''
+
 # for frame in [x[0] for x in sorted_counts[:51]]:
 	# print('\t%s' % frame)

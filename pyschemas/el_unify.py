@@ -49,7 +49,7 @@ def unify(prop1, prop2, context=[]):
 		for adv2 in advs2:
 			if type(adv1) != list or type(adv2) != list:
 				continue
-			print('aligning %s and %s' % (adv1, adv2))
+			# print('aligning %s and %s' % (adv1, adv2))
 			if adv1[0] != adv2[0]:
 				continue
 			if adv1[1][0] != adv2[1][0]:
@@ -62,5 +62,5 @@ def unify(prop1, prop2, context=[]):
 	# Align pre-arg no matter what
 	bound[pre2] = pre1
 
-	print('bound: %s' % bound)
+	# print('bound: %s' % bound)
 	return bound

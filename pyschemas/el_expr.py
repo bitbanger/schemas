@@ -28,6 +28,9 @@ def rec_get_advs(lst, inside_abstractions=True):
 	else:
 		return rec_get_pred(lst, pred=is_adv, dismiss_pred=is_abstraction)
 
+def is_abstraction(e):
+	return type(e) == list and len(e) > 1 and type(e[0]) == str and e[0].upper() in ['KA', 'KE', 'THAT', 'THT', 'TO']
+
 def is_verb(s):
 	return type(s) == str and len(s.split('.')) > 1 and s.split('.')[-1].lower() == 'v'
 

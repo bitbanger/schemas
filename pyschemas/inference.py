@@ -108,7 +108,7 @@ for i in range(len(schema_names)):
 		step_id = steps[j].episode_id
 		step_vec = step_vecs[j]
 		if step_vec is None:
-			print('None step vec on episode %s' % (steps[j].formula.formula))
+			# print('None step vec on episode %s' % (steps[j].formula.formula))
 			continue
 		step_ids_and_vecs.append((step_id, step_vec))
 
@@ -253,7 +253,7 @@ def match():
 		dedupe_set.add(f)
 
 		if is_starry(f.formula):
-			print('ep: %s' % (f.formula))
+			# print('ep: %s' % (f.formula))
 			episodes.append(f.formula)
 		else:
 			skip_outer = False
@@ -263,18 +263,18 @@ def match():
 					break
 			if skip_outer:
 				continue
-			print('\tctx: %s' % (f.formula))
+			# print('\tctx: %s' % (f.formula))
 			context.append(f.formula)
 
 	gr_episodes = []
 	for ep in episodes:
-		print('grounding %s' % ep[0])
+		# print('grounding %s' % ep[0])
 		no_adv_ep = remove_advs(ep[0])
-		print('flattened ep: %s' % ep)
+		# print('flattened ep: %s' % ep)
 		try:
 			gr_ep = grounded_prop(no_adv_ep, context)
 			gr_ep = rec_replace('AGENT', 'PERSON', gr_ep)
-			print('gr_ep is %s' % (gr_ep,))
+			# print('gr_ep is %s' % (gr_ep,))
 			gr_episodes.append(gr_ep)
 		except TypeError:
 			# This can be caused by non-atomic
@@ -293,15 +293,15 @@ def match():
 		if gr_ep is None:
 			continue
 		# gr_ep = [['PERSON'], 'HARVEST', ['CORN']]
-		print('gr_ep is %s' % (gr_ep,))
+		# print('gr_ep is %s' % (gr_ep,))
 		# vec = grounded_schema_prop_to_vec(gr_ep)
 		# best_step = find_best_step(gr_ep)
 		best_steps = k_best_steps(gr_ep, k=5)
-		print(orig_ep)
+		# print(orig_ep)
 		for best_step in best_steps:
 			seen_schemas.add(best_step[0][0])
 			k_best[i].append(best_step)
-			print('\t%.2f: %s' % (best_step[1], best_step[0]))
+			# print('\t%.2f: %s' % (best_step[1], best_step[0]))
 		# print('\t%s' % (best_step,))
 		# quit()
 
@@ -326,7 +326,7 @@ def match():
 			best_cost = cost
 			best_schema_name = schema_name
 
-	print('best schema for input topic %s is %s (cost %.2f)' % (TOPIC, best_schema_name, best_cost))
+	# print('best schema for input topic %s is %s (cost %.2f)' % (TOPIC, best_schema_name, best_cost))
 
 
 def skolemize_step(phi, schema):
@@ -363,72 +363,121 @@ def match_individuals_to_schema(inds, schema):
 
 	return schema_vars
 
-# For each schema, generate a story on that topic and
-# find the best assignment of story formulas to the
-# schema, assuming we know the schema fits a priori.
-for i in range(len(schemas)):
-	if schema_names[i] != '_'.join(TOPIC.split(' ')):
-		continue
-
-	name = schema_names[i]
-
-	print('\n\n-----------------')
-	print(name)
-	print('')
-
-	topic = ' '.join(name.split('_'))
-
-	schema = schemas[i]
-	print(schema)
-	step_ids_and_vecs = schema_name_to_steps[name]
-	print(step_ids_and_vecs)
-
-	for rc in schema.get_section('roles').formulas:
-		print('\t%s' % (rc.formula.formula))
-	print('')
-
-	print('role bindings:')
-	print(match_individuals_to_schema(None, schema))
-
-	# story = make_story(topic, starting_word='John')
-	story = '''John went to jail.
-He was arrested for stealing.
-He was sent to prison.
-He served his sentence.'''
-	print(story)
-	formulas = parse_story(story)
-	inds = extract_individuals(formulas)
-	# print(formulas)
-	print('inds:')
-	print(inds)
-	inds = extract_individuals(formulas)
-	(episodes, gr_episodes, context) = story_eps_and_ctx(formulas)
-
-	for j in range(len(gr_episodes)):
-		gr_ep = gr_episodes[j]
-		if gr_ep is None:
+def new_story_inference():
+	# For each schema, generate a story on that topic and
+	# find the best assignment of story formulas to the
+	# schema, assuming we know the schema fits a priori.
+	for i in range(len(schemas)):
+		if schema_names[i] != '_'.join(TOPIC.split(' ')):
 			continue
 
-		print('%s' % (episodes[j]))
-		ep_amr = el_to_amr(episodes[j][0])
-		# print('%s' % (gr_ep))
+		name = schema_names[i]
 
-		ep_vec = grounded_schema_prop_to_vec(gr_ep)
+		# print('\n\n-----------------')
+		# print(name)
+		# print('')
 
-		for (step_id, step_vec) in step_ids_and_vecs:
-			step = get_step(schema, step_id)
-			gr_step = grounded_schema_prop(step.formula.formula, schema)
-			step_amr = el_to_amr(skolemize_step(step.formula.formula, schema))
-			# score = s2match(ep_amr, step_amr)
-			score = el_dist(step.formula.formula, episodes[j][0])
-			unification = unify(episodes[j][0], step.formula.formula)
+		topic = ' '.join(name.split('_'))
 
-			# score = cosine(ep_vec, step_vec)
-			# print('\t%.2f: %s' % (score, gr_step))
-			print('\t%.2f: %s' % (score, step.formula.formula))
-			print('\t\t%s' % (unification,))
-			if unification is not None:
-				for var in unification:
-					schema = schema.bind_var(var, unification[var])
-				break
-	print(schema)
+		schema = schemas[i]
+		# print(schema)
+		step_ids_and_vecs = schema_name_to_steps[name]
+		# print(step_ids_and_vecs)
+
+		# for rc in schema.get_section('roles').formulas:
+			# print('\t%s' % (rc.formula.formula))
+		# print('')
+
+		# print('role bindings:')
+		# print(match_individuals_to_schema(None, schema))
+
+		story = make_story(topic, starting_word='John')
+
+		print('Story (English):')
+		print(story)
+		print('')
+
+		formulas = parse_story(story)
+		inds = extract_individuals(formulas)
+		# print(formulas)
+		# print('inds:')
+		# print(inds)
+		inds = extract_individuals(formulas)
+		(episodes, gr_episodes, context) = story_eps_and_ctx(formulas)
+
+		print('Story (EL):')
+		for formula in formulas:
+			print(formula)
+		print('')
+
+		for j in range(len(gr_episodes)):
+			gr_ep = gr_episodes[j]
+			if gr_ep is None:
+				continue
+
+			# print('%s' % (episodes[j]))
+			ep_amr = el_to_amr(episodes[j][0])
+			# print('%s' % (gr_ep))
+
+			ep_vec = grounded_schema_prop_to_vec(gr_ep)
+
+			for (step_id, step_vec) in step_ids_and_vecs:
+				step = get_step(schema, step_id)
+				gr_step = grounded_schema_prop(step.formula.formula, schema)
+				step_amr = el_to_amr(skolemize_step(step.formula.formula, schema))
+				# score = s2match(ep_amr, step_amr)
+				score = el_dist(step.formula.formula, episodes[j][0])
+				unification = unify(episodes[j][0], step.formula.formula)
+
+				# score = cosine(ep_vec, step_vec)
+				# print('\t%.2f: %s' % (score, gr_step))
+				# print('\t%.2f: %s' % (score, step.formula.formula))
+				# print('\t\t%s' % (unification,))
+				if unification is not None:
+					# print('bound %s' % gr_ep)
+					for var in unification:
+						schema = schema.bind_var(var, unification[var])
+					break
+		print('Filled schema:')
+		print(schema)
+		print('')
+
+if __name__ == '__main__':
+	# new_story_inference()
+
+	story_txt = None
+	with open('eg_stories/%s.txt' % TOPIC, 'r') as f:
+		story_txt = f.read().strip()
+
+	elfs = None
+
+	if TOPIC != 'casino':
+		elfs = parse_story(story_txt)
+	else:
+		parse = '''(E0.SK (HAS-DET.PR (IND SOME)))
+((JOHN.NAME (PLAY.V BLACKJACK.NAME)) ** E0.SK)
+(E0.SK (AT-ABOUT NOW0))
+(JOHN.NAME AGENT.N)
+(BLACKJACK.NAME AGENT.N)
+(JOHN.NAME AGENT.N)
+(MONEY0.SK MONEY.N)
+(E1.SK (AT-ABOUT NOW1))
+(E0 (ORIENTS E1.SK))
+((JOHN.NAME ((ADV-A (FOR.P MONEY0.SK)) PLAY.V)) ** E1.SK)
+(E1.SK (HAS-DET.PR (IND SOME)))
+(E2.SK (HAS-DET.PR (IND SOME)))
+(E1 (ORIENTS E2.SK))
+(E2.SK (AT-ABOUT NOW2))
+(JOHN.NAME AGENT.N)
+(CASINO0.SK (HAS-DET.PR (IND THE.D)))
+(E3.SK (HAS-DET.PR (IND SOME)))
+((JOHN.NAME (LEAVE.V CASINO0.SK)) ** E3.SK)
+(E2 (ORIENTS E3.SK))
+(E3.SK (AT-ABOUT NOW3))
+(CASINO0.SK CASINO.N)
+(JOHN.NAME AGENT.N)'''
+		elfs = [ELFormula(elf) for elf in parse.split('\n')]
+
+	schema = schemas[schema_names.index(TOPIC)]
+
+	

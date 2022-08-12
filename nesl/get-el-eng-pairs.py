@@ -1,6 +1,8 @@
 import os
 import subprocess
 
+OUTPUT_EL = True
+
 for fn in os.listdir('howto-standalones/'):
 	with open('howto-standalones/%s' % fn, 'r') as f:
 		txt = f.read().strip()
@@ -21,7 +23,10 @@ for fn in os.listdir('howto-standalones/'):
 			if len(steps) == len(story):
 				verbalized_steps = subprocess.run(('bash verbalize-schemas.sh howto-standalones/%s' % fn).split(' '), capture_output=True).stdout.decode('utf-8').split('\n')[1:]
 				for i in range(len(verbalized_steps)):
-					print('%s <SEP> %s <END>' % (verbalized_steps[i], story[i]))
+					if OUTPUT_EL:
+						print('%s <SEP> %s <SEP> %s <END>' % (steps[i], verbalized_steps[i], story[i]))
+					else:
+						print('%s <SEP> %s <END>' % (verbalized_steps[i], story[i]))
 			else:
 				continue
 		except KeyboardInterrupt:

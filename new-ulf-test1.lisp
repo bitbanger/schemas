@@ -27,13 +27,15 @@
 
 (defparameter *FILTER-INVISIBLE-PREDS* t)
 
+(defparameter *TEST-NO-POSTPROC* t)
+
 (defparameter *STORY-START* 151)
 (defparameter *STORY-LIMIT* 50)
 ; (defparameter *STORY-LIMIT* 3)
 
 ; (setf stories *MCGUFFEY*)
-; (setf stories *ROC*)
-(setf stories *ROC-MCGUFFEY*)
+(setf stories *ROC*)
+; (setf stories *ROC-MCGUFFEY*)
 
 (if *PRINT-OUTPUT*
 	(dbg-tag 'ulf-html)
@@ -107,7 +109,11 @@
 					(setf valid-wffs (list))
 					(setf invalid-wffs (list))
 
-					(loop for wff in el-sent
+					(setf target-sents el-sent)
+					(if *TEST-NO-POSTPROC*
+						(setf target-sents raw-el-sent))
+
+					(loop for wff in target-sents
 						if (canon-prop? wff)
 							do (setf valid-wffs (append valid-wffs (list wff)))
 						else
@@ -147,7 +153,6 @@
 					(setf sent-tree (append sent-tree (list parse-pair-tree)))
 
 					(setf sent-trees (append sent-trees (list sent-tree)))
-
 
 
 					(if (and *PRINT-VALID-SENTS* (> (length valid-wffs) 0))

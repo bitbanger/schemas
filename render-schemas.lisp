@@ -5,6 +5,8 @@
 (ll-load "schema-html-renderer.lisp")
 
 (setf sch (read))
+(if (symbolp sch)
+	(setf sch (read)))
 (if (equal (car sch) 'EPI-SCHEMA)
 	(setf sch (list sch)))
 

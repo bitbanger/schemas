@@ -111,15 +111,24 @@
 
 	(setf sent-spl (split-str one-txt-sent " "))
 
+	(dbg 'coref "sent-spl: ~s~%" sent-spl)
+	(dbg 'coref "nth: ~s~%" (nth one-idx sent-spl))
+	(dbg 'coref "fixed replace: ~s~%" (replace-first-substr "one." "one" "one of it"))
+	(dbg 'coref "replace: ~s~%" (replace-first-substr (nth one-idx sent-spl) "one" "one of it"))
 	(setf one-of-it (replace-first-substr (nth one-idx sent-spl) "one" "one of it"))
+	(dbg 'coref "One of it: ~s~%" one-of-it)
 
 	(setf one-of-it-sent (join-str-list " " (append (subseq sent-spl 0 one-idx) (list one-of-it) (subseq sent-spl (+ 1 one-idx) (length sent-spl)))))
 
+	(dbg 'coref "One-of-it-sent: ~s~%" one-of-it-sent)
 
 	(setf one-of-it-story (replace-vals one-txt-sent one-of-it-sent txt-sents))
 
 	; Run coreference.
 	(setf one-of-it-clusters (coref-pairs (join-str-list " " one-of-it-story)))
+
+	(dbg 'coref "One coref story: ~s~%" one-of-it-story)
+	(dbg 'coref "One coref results: ~s~%" one-of-it-clusters)
 
 	(dbg 'coref "Reducing idx numbers for things with tags > ~d~%" one-tag-num)
 
@@ -153,16 +162,16 @@
 (let ((det))
 (block outer
 	(setf det (loop for c in cset
-							if (has-element c 'HAS-DET.PR)
-								collect c))
+			if (has-element c 'HAS-DET.PR)
+				collect c))
 
 	(if (> (length det) 1)
 		; then
-		(format t "got ~d determiners in constraint set ~s~%" (length det) orig-one-constraints)
+		(dbg 'coref "got ~d determiners in constraint set ~s~%" (length det) cset)
 		; else
 		(if (equal (length det) 0)
 			; then
-			(format t "got no determiners in constraint set ~s~%" orig-one-constraints)
+			(dbg 'coref "got no determiners in constraint set ~s~%" cset)
 			; else
 			(setf det (car det))
 		)
@@ -314,7 +323,7 @@
 						)
 					)
 
-					; (format t "cluster ~s covers one ~s~%" clean-cluster one)
+					(dbg 'coref "cluster ~s covers one ~s~%" clean-cluster one)
 						
 				)
 			)
@@ -389,7 +398,7 @@
 
 			; (setf one-inds (append (list orig-one-ind) coref-one-inds))
 
-			; (format t "one ~s has individuals ~s~%" one one-inds)
+			(dbg 'coref "one ~s has individuals ~s~%" one coref-one-inds)
 
 			; Preprocess the story to extract constraint formulas
 			; for the individuals.
@@ -397,13 +406,21 @@
 
 			; Collect all constraint formulas for all co-referring individuals...
 			(setf coref-one-constraints (mapcar #'prop-pred-with-post-args (loop for ind in coref-one-inds
-				append (story-select-term-constraints clean-story (list (remove-idx-tag ind)))
+				; do (format t "constraints for ~s: ~s~%" ind (story-select-term-constraints clean-story (list (remove-idx-tag ind))))
+				append (loop for tc in (story-select-term-constraints clean-story (list (remove-idx-tag ind)))
+					if (equal (car tc) (remove-idx-tag ind))
+						collect tc
+				)
 			)))
+
+			(dbg 'coref "coref one constraints: ~s~%" coref-one-constraints)
 
 			; ...including itself...
 			(setf orig-one-constraint-formulas (story-select-term-constraints clean-story (list (remove-idx-tag orig-one-ind))))
 			(setf orig-one-constraints (mapcar #'prop-pred-with-post-args orig-one-constraint-formulas))
 			(setf one-constraints (append coref-one-constraints orig-one-constraints))
+
+			(dbg 'coref "one constraints: ~s~%" one-constraints)
 
 			; ...but excluding the ONE.N constraint.
 			; ...
@@ -481,7 +498,7 @@
 				; else
 				(progn
 				; TODO: actually Skolemize
-				(format t "Individual ~s needs Skolemization~%" orig-one-ind)
+				(dbg 'coref "Individual ~s needs Skolemization~%" orig-one-ind)
 				(setf el-sents (replace-vals orig-one-ind (list 'K new-one-pred) el-sents))
 				)
 			)

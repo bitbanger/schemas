@@ -309,11 +309,14 @@
 (ldefun summarize-schema (schema)
 (block outer
 	(setf sents (join-str-list *NEWLINE-STR* (schema-to-english schema)))
+	(setf sents (replace-all sents "_PROTO" ""))
 
 	(setf outp (run-proc-with-stdin
 		"/home/lane/miniconda3/bin/python3"
 		'("/home/lane/Code/gpt/summarize_story.py")
 		sents))
+
+	(format t "summary: ~s~%" (car outp))
 
 	(return-from outer (car outp))
 )
@@ -407,7 +410,7 @@
 	(if (not (null (get-elements-pred best-header #'lex-skolem?)))
 		; then
 		(progn
-		; (format t "ditching ~s~%" best-header)
+		(format t "ditching ~s~%" best-header)
 		(return-from outer nil)
 		))
 

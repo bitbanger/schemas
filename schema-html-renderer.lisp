@@ -26,10 +26,16 @@
 "</script>"
 "<style>"
 "body {"
-"    background-color: #666666;"
+"    background-color: #66666600;"
 "}"
 "p {"
 "    margin: 8px;"
+"}"
+".sec {"
+"float: left;"
+"background: #dfd8cc;"
+"border-radius: 5px;"
+"margin: 5px;"
 "}"
 ".schema {"
 "    font-family: monospace;"
@@ -281,6 +287,7 @@
 
 	(setf buf (append buf (list
 		"<div class='schema'>")))
+	(setf buf (append buf (list "<div style='float: top; margin-bottom: 20px;'>")))
 	(setf buf (append buf (list
 		"<span class='epi-schema'>Learned Schema</span>")))
 	(setf buf (append buf (list
@@ -289,8 +296,10 @@
 		"<span class='charstar'>**</span>")))
 	(setf buf (append buf (list
 		(format nil "<span class='fluent-id'>~a</span>" (third (schema-header schema))))))
+	(setf buf (append buf (list "</div>")))
 
 	(loop for sec in (nonmeta-sections schema) do (block sec-block
+		(setf sec-buf (list))
 		(if (not (contains *ALLOWED-SECTIONS* (section-name sec)))
 			(return-from sec-block))
 		(if (equal (section-name sec) ':Episode-relations)
@@ -298,37 +307,35 @@
 
 		(setf fluent (equal (section-type sec) 'FLUENT))
 		(setf css-class (if fluent "fluent-id" "nonfluent-id"))
-		(setf buf (append buf (list
+		(setf sec-buf (append sec-buf (list
 			(format nil "<p style='margin-left: 40px;'><span class='section-title'>~a</span></p>" (section-name sec)))))
 		(loop for phi-pair in (section-formulas sec)
 			for i from 0 do (block phi
-			;(setf buf (append buf (list
-				;(format nil "<p style='margin-left: 80px;'><span class='~a'>~a</span>" css-class (car phi-pair)))))
 
 			; Add the verbalization
 			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Steps))
-				(setf buf (append buf (list
+				(setf sec-buf (append sec-buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*
 						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-steps))))
 						(nth i verbal-steps))
 					)))))
 			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Goals))
-				(setf buf (append buf (list
+				(setf sec-buf (append sec-buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*
 						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-goals))))
 						(nth i verbal-goals))
 					)))))
 			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Preconds))
-				(setf buf (append buf (list
+				(setf sec-buf (append sec-buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*
 						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-preconds))))
 						(nth i verbal-preconds))
 					)))))
 			(if (and (contains *ALLOWED-SECTIONS* (section-name sec)) (equal (section-name sec) ':Postconds))
-				(setf buf (append buf (list
+				(setf sec-buf (append sec-buf (list
 					(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>"
 						(if *USE-GPT*
 						(gpt-reverbalize (join-str-list " " (mapcar (lambda (x) (format nil "~a" x)) (nth i verbal-postconds))))
@@ -336,23 +343,25 @@
 					)))))
 
 			; Start the step div
-			(setf buf (append buf (list "<div class='step'>")))
+			(setf sec-buf (append sec-buf (list "<div class='step'>")))
 
 			; Add the EL prop
-			(setf buf (append buf (list
-				; (format nil "<p style='margin-left: 80px;'><span class='el-prop'>~a</span></p>" (prop-html (second phi-pair) var-color-map)))))
+			(setf sec-buf (append sec-buf (list
 				(format nil "<p><span class='el-prop'>~a</span></p>" (prop-html (second phi-pair) var-color-map)))))
 
 			; End the step div
-			(setf buf (append buf (list "</div>")))
+			(setf sec-buf (append sec-buf (list "</div>")))
 
-			;(if (equal (section-name sec) ':Roles)
-				;(setf buf (append buf (list
-					;(format nil "<p style='padding-top: 10px; margin-left: 40px;'><span class='eng'>~a</span></p>" (nth i verbal-roles))))))
 			
 			; Add a line break
-			(setf buf (append buf (list "<br /><br />")))
+			(setf sec-buf (append sec-buf (list "<br /><br />")))
+
 		))
+
+		(setf buf (append buf (list
+			(concat-strs "<div class='sec'>"
+				(join-str-list " " sec-buf)
+				"</div>"))))
 	))
 
 	(setf buf (append buf (list
@@ -373,10 +382,10 @@
 
 (ldefun schema-webpage-html (schemas)
 	(format nil *SCHEMA-WEBPAGE-TEMPLATE*
-		(join-str-list "<br /><br />"
+		(join-str-list "" ;"<br /><br />"
 			(append
-				(list (format nil "<form method='get' action='index.html'><button type='submit'><div class='eng' style='display: inline-block;'>Return</div></button></form><br />"))
-				(list "<div style='display: flex; justify-content: space-between; flex-wrap: wrap;'>")
+				; (list (format nil "<form method='get' action='index.html'><button type='submit'><div class='eng' style='display: inline-block;'>Return</div></button></form><br />"))
+				(list "<div style='display: flex; width: fit-content; justify-content: space-between; flex-wrap: wrap;'>")
 				(mapcar #'schema-html schemas)
 				(list "</div>"))))
 )

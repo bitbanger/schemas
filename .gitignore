@@ -28,3 +28,7 @@ lome_frame_parsing/lome-server-output
 lome_frame_parsing/lome-server-orig
 nesl/tmp-story-frames.lisp
 *.zip
+coref-env
+gpt-reverbalizer-model
+new-gpt-reverbalizer-model
+tmp-story-frames.lisp
